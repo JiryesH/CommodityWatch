@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-05T14:08:17.609923+00:00",
-    "total_articles": 185,
+    "last_updated": "2026-03-05T15:07:38.836532+00:00",
+    "total_articles": 192,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,66 @@
     }
   },
   "articles": [
+    {
+      "id": "0eff4a93cb4f1d09",
+      "title": "GLOBAL ENERGY NEWS WRAP: US-Iran conflict exposes wide market vulnerabilities",
+      "description": "LONDON (ICIS)--The US-Iran conflict has exposed wide market vulnerabilities, as ICIS reports and analyses the impact across global commodities. See the topic page analysing the impact on vital...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/05/11185893/global-energy-news-wrap-us-iran-conflict-exposes-wide-market-vulnerabilities",
+      "published": "2026-03-05T14:49:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "c0a437d865f7ae51",
+      "title": "China urea softens on downstream buying resistance, weaker futures",
+      "description": "SINGAPORE (ICIS)--China’s urea spot prices decreased. Although international urea prices surged this week, the domestic market—after a period of continuous increases—has seen downstream buyers...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/05/11185892/china-urea-softens-on-downstream-buying-resistance-weaker-futures",
+      "published": "2026-03-05T14:42:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Fertilizers"
+    },
+    {
+      "id": "c3b45dd1d7fd1d08",
+      "title": "China’s domestic sulphur surges on US-Israel-Iran conflicts",
+      "description": "SINGAPORE (ICIS)--China’s domestic sulphur prices continued to rise sharply, affected by the US-Israel-Iran conflicts. No deals were heard done today, with indicative prices at ports along the...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/05/11185891/china-s-domestic-sulphur-surges-on-us-israel-iran-conflicts",
+      "published": "2026-03-05T14:39:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "4b7c32df77a01a53",
+      "title": "China’s DAP port inventories stable at 140,000 tonnes on no arrivals",
+      "description": "SINGAPORE (ICIS)--China’s diammonium phosphate (DAP) port inventories were around 140,000 tonnes on 5 March, as there are no new supplies arriving at the ports, ICIS data showed. The inventories...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/05/11185890/china-s-dap-port-inventories-stable-at-140-000-tonnes-on-no-arrivals",
+      "published": "2026-03-05T14:25:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Fertilizers"
+    },
+    {
+      "id": "4a01c68761c4522f",
+      "title": "China’s sulphur port inventories down 35,000 tonnes on more trading",
+      "description": "SINGAPORE (ICIS)--China’s sulphur port inventories fell to around 1.719 million tonnes on 5 March, because of more trading in the domestic market, ICIS data showed. This marks a decrease of 35,000...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/05/11185889/china-s-sulphur-port-inventories-down-35-000-tonnes-on-more-trading",
+      "published": "2026-03-05T14:23:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "c7f436267cd62cd0",
+      "title": "Asia PVC faces unprecedented feedstock pressures, logistical disruptions due to Iran conflict",
+      "description": "SINGAPORE (ICIS)--Asian polyvinyl chloride (PVC) producers are grappling with rising feedstock prices and disruptions created by recent events in the Middle East. PVC production costs rise...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/05/11185888/asia-pvc-faces-unprecedented-feedstock-pressures-logistical-disruptions-due-to-iran-conflict",
+      "published": "2026-03-05T14:04:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
     {
       "id": "bed4b231d077d4d5",
       "title": "China ADA suppliers maintain moratorium on quoting prices on rising feedstock costs",
@@ -379,6 +439,16 @@
       "source": "ICIS",
       "feed": "ICIS",
       "category": "Chemicals"
+    },
+    {
+      "id": "9e017033d2864df6",
+      "title": "China slashes oil product exports to ensure domestic supply: sources",
+      "description": "China has temporarily suspended issuing export permission certificates for refining oil product exports since March 4, as the country&apos;s top planner directed refiners and traders to focus on ensuring domestic supply security amid rising concerns over crude oil availability from the Middle East, seven state-owned refinery sources, two analysts and two traders told Platts, part of S&amp;P Global Energy,",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/shipping/030526-china-slashes-oil-product-exports-to-ensure-domestic-supply-sources",
+      "published": "2026-03-05T08:23:58+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Oil - Refined Products",
+      "category": "Oil - Refined Products"
     },
     {
       "id": "178de683b894211c",
@@ -1736,7 +1806,7 @@
       "published": "2026-03-04T22:44:58+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Refined Products",
-      "category": "Oil - Refined Products, Agriculture, Energy Transition",
+      "category": "Oil - Refined Products, Agriculture",
       "sentiment": {
         "label": "negative",
         "confidence": 0.5980868935585022,
@@ -3675,7 +3745,7 @@
       "published": "2026-03-04T14:17:57+00:00",
       "source": "S&P Global",
       "feed": "S&P Agriculture",
-      "category": "Agriculture, Energy Transition",
+      "category": "Agriculture",
       "sentiment": {
         "label": "negative",
         "confidence": 0.9710545539855957,
@@ -5592,7 +5662,7 @@
       "published": "2026-02-27T17:03:03+00:00",
       "source": "S&P Global",
       "feed": "S&P Electric Power",
-      "category": "Electric Power",
+      "category": "Electric Power, Energy Transition",
       "sentiment": {
         "label": "positive",
         "confidence": 0.5461378693580627,
