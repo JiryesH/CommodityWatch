@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-05T18:23:10.380329+00:00",
-    "total_articles": 227,
+    "last_updated": "2026-03-05T19:44:04.222541+00:00",
+    "total_articles": 231,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,16 @@
     }
   },
   "articles": [
+    {
+      "id": "ebd6497d874e784f",
+      "title": "Russia ready to export more crude, following February decline",
+      "description": "Russia is ready to export more crude as the war in the Middle East hampers global supply and after February showed another decrease in Russian seaborne shipments. Russian seaborne crude exports in February dropped 4% month on month to 3.4 million b/d, the third month of declines in a row, S&amp;P Global Commodities at Sea data showed. Deliveries to India fell 43% on the month to 503,000 b/d. Shipments",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/refined-products/030526-russia-ready-to-export-more-crude-following-february-decline",
+      "published": "2026-03-05T18:00:33+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Oil - Crude",
+      "category": "Oil - Crude, Oil - Refined Products"
+    },
     {
       "id": "00a1aaddb3f1332b",
       "title": "NOON SNAPSHOT - Americas Markets Summary",
@@ -131,6 +141,16 @@
       "category": "Chemicals"
     },
     {
+      "id": "4b6910d4a23a8075",
+      "title": "FACTBOX: Asia&apos;s olefins prices rise as Middle East war disrupts steam cracker operations",
+      "description": "Asia&apos;s naphtha-fed steam crackers have reduced operating rates due to naphtha feedstock supply disruptions from the Middle East, market sources said. Several steam crackers in Asia issued force majeure due to lower runs. The Middle East conflict has disrupted shipping through the Strait of Hormuz and market sources said naphtha-fed steam crackers in China would likely reduce their operations,",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/chemicals/030526-factbox-asias-olefins-prices-rise-as-middle-east-war-disrupts-steam-cracker-operations",
+      "published": "2026-03-05T17:11:19+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Oil - Refined Products",
+      "category": "Oil - Refined Products"
+    },
+    {
       "id": "bceb3584df4ae1a3",
       "title": "US natural gas futures gains capped by bearish demand amid Middle East conflict",
       "description": "Henry Hub futures gained slightly on geopolitical energy risk concerns, bearish demand March forecasts indicate mild weather for most of US Storage data shows inventories decreased to 2.2% below...",
@@ -149,6 +169,16 @@
       "source": "ICIS",
       "feed": "ICIS",
       "category": "LNG"
+    },
+    {
+      "id": "5b2807a840f045ed",
+      "title": "Iran says targeting Western-linked ships at Hormuz, denies full closure",
+      "description": "Iran has claimed it is restricting passage through the Strait of Hormuz only for vessels linked to Western nations and Israel rather than fully closing the critical energy chokepoint, as maritime traffic remained severely disrupted and regional oil exporters explored using stranded tankers for floating storage. The Islamic Revolutionary Guard Corps said vessels belonging to the US, Israel,",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/crude-oil/030526-iran-says-targeting-western-linked-ships-at-hormuz-denies-full-closure",
+      "published": "2026-03-05T17:02:12+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Oil - Refined Products",
+      "category": "Oil - Refined Products"
     },
     {
       "id": "e5761e26c655c236",
@@ -2115,8 +2145,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/agriculture/030426-saf-prices-rise-as-jet-fuel-markets-tighten-amid-middle-east-war",
       "published": "2026-03-04T22:44:58+00:00",
       "source": "S&P Global",
-      "feed": "S&P Oil - Refined Products",
-      "category": "Oil - Refined Products, Agriculture, Energy Transition",
+      "feed": "S&P Agriculture",
+      "category": "Agriculture, Energy Transition",
       "sentiment": {
         "label": "negative",
         "confidence": 0.5980868935585022,
@@ -2454,7 +2484,7 @@
       "published": "2026-03-04T19:24:53+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Fertilizers, Energy Transition"
+      "category": "Fertilizers"
     },
     {
       "id": "1dab0dc62163c249",
@@ -4235,7 +4265,7 @@
       "published": "2026-03-04T13:31:56+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude, Oil - Refined Products",
+      "category": "Oil - Crude",
       "sentiment": {
         "label": "negative",
         "confidence": 0.7301303744316101,
@@ -4701,6 +4731,16 @@
       }
     },
     {
+      "id": "260388c2fff5d3e2",
+      "title": "European ammonia production costs exceed imports as gas prices surge",
+      "description": "The cost of domestic European ammonia production has outstripped the cost of imported tons for the first time since June 2025, tracking soaring natural gas prices, data from Platts, part of S&amp;P Global Energy, showed. Platts estimated the cost of domestic ammonia production at $697/mt on March 3, while the import price was assessed by Platts at $690/mt CFR duty paid/duty free, excluding Carbon",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/agriculture/030426-european-ammonia-production-costs-exceed-imports-as-gas-prices-surge",
+      "published": "2026-03-04T11:09:28+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Fertilizers",
+      "category": "Fertilizers"
+    },
+    {
       "id": "28253abca29c5680",
       "title": "BMA warns Queensland met coal royalties render operations uncompetitive",
       "description": "BHP Billiton Mitsubishi Alliance Pty. Ltd. has warned workers in Queensland, Australia, that high royalties have rendered its metallurgical coal operations uncompetitive, according to an internal email seen by Platts, part of S&amp;P Global Energy. BHP Group Ltd.&apos;s results for the half-year period ended Dec. 31, 2025, show that, under Queensland&apos;s royalty regime, its 50-50 BMA joint venture with",
@@ -5016,8 +5056,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/crude-oil/030326-factbox-oil-prices-surge-as-energy-facilities-hit-in-middle-east-war",
       "published": "2026-03-03T19:39:50+00:00",
       "source": "S&P Global",
-      "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude, Shipping",
+      "feed": "S&P Shipping",
+      "category": "Shipping",
       "sentiment": {
         "label": "negative",
         "confidence": 0.7327628135681152,
@@ -5433,7 +5473,7 @@
       "published": "2026-03-02T22:21:00+00:00",
       "source": "S&P Global",
       "feed": "S&P Electric Power",
-      "category": "Electric Power, Natural Gas, Coal, Metals, LNG",
+      "category": "Electric Power, Natural Gas, Coal, Metals, LNG, Energy Transition",
       "sentiment": {
         "label": "positive",
         "confidence": 0.6730107069015503,
