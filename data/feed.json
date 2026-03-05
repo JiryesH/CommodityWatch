@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-05T21:02:52.542499+00:00",
-    "total_articles": 235,
+    "last_updated": "2026-03-05T21:51:38.926429+00:00",
+    "total_articles": 236,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,16 @@
     }
   },
   "articles": [
+    {
+      "id": "bde8ea2a06a6cb1f",
+      "title": "Plant status: Lion Elastomer US SBR plant has power outage",
+      "description": "HOUSTON (ICIS)--Here is a plant status report: Name: Lion Elastomers Location: Port Neches, Texas, US Product: Styrene butadiene rubber (SBR) Capacity (tonnes/year): 180,000 Event start: 4 March...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/05/11185929/plant-status-lion-elastomer-us-sbr-plant-has-power-outage",
+      "published": "2026-03-05T21:22:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals, Electric Power"
+    },
     {
       "id": "1ecc2f10057d6567",
       "title": "CRUDE SUMMARY: Crude prices climb as Middle East conflict threatens supply chains",
@@ -188,7 +198,7 @@
       "published": "2026-03-05T17:11:19+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Refined Products",
-      "category": "Oil - Refined Products, Chemicals"
+      "category": "Oil - Refined Products"
     },
     {
       "id": "bceb3584df4ae1a3",
@@ -218,7 +228,7 @@
       "published": "2026-03-05T17:02:12+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Refined Products",
-      "category": "Oil - Refined Products"
+      "category": "Oil - Refined Products, Shipping"
     },
     {
       "id": "e5761e26c655c236",
@@ -258,7 +268,7 @@
       "published": "2026-03-05T16:38:44+00:00",
       "source": "S&P Global",
       "feed": "S&P Natural Gas",
-      "category": "Natural Gas, Agriculture"
+      "category": "Natural Gas, Agriculture, Energy Transition"
     },
     {
       "id": "6982d15a27f92a20",
@@ -468,7 +478,7 @@
       "published": "2026-03-05T14:23:27+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Refined Products",
-      "category": "Oil - Refined Products, Chemicals"
+      "category": "Oil - Refined Products, Shipping"
     },
     {
       "id": "4a01c68761c4522f",
@@ -1215,8 +1225,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/agriculture/030526-australian-wheat-demand-stands-to-rise-in-southeast-asia-amid-middle-east-conflict",
       "published": "2026-03-05T07:28:20+00:00",
       "source": "S&P Global",
-      "feed": "S&P Agriculture",
-      "category": "Agriculture"
+      "feed": "S&P Shipping",
+      "category": "Shipping, Agriculture"
     },
     {
       "id": "d2b13594829a7bb7",
@@ -1579,7 +1589,7 @@
       "published": "2026-03-05T05:06:26+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude",
+      "category": "Oil - Crude, Shipping",
       "sentiment": {
         "label": "negative",
         "confidence": 0.7874425053596497,
@@ -2378,7 +2388,7 @@
       "published": "2026-03-04T20:30:24+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Fertilizers, Chemicals"
+      "category": "Fertilizers"
     },
     {
       "id": "3d5bfefc96247837",
@@ -2524,7 +2534,7 @@
       "published": "2026-03-04T19:24:53+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Fertilizers, Chemicals, Energy Transition"
+      "category": "Fertilizers, Energy Transition"
     },
     {
       "id": "1dab0dc62163c249",
@@ -4778,7 +4788,7 @@
       "published": "2026-03-04T11:09:28+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Fertilizers, Chemicals"
+      "category": "Fertilizers, Energy Transition"
     },
     {
       "id": "28253abca29c5680",
@@ -5147,8 +5157,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/chemicals/030326-factbox-some-global-polymer-trading-restarts-after-initial-war-shock",
       "published": "2026-03-03T16:33:27+00:00",
       "source": "S&P Global",
-      "feed": "S&P Shipping",
-      "category": "Shipping",
+      "feed": "S&P Chemicals",
+      "category": "Chemicals",
       "sentiment": {
         "label": "neutral",
         "confidence": 0.5731379985809326,
@@ -5185,7 +5195,7 @@
       "published": "2026-03-03T13:59:13+00:00",
       "source": "S&P Global",
       "feed": "S&P Natural Gas",
-      "category": "Natural Gas, Coal, Energy Transition",
+      "category": "Natural Gas, Coal",
       "sentiment": {
         "label": "positive",
         "confidence": 0.9157130122184753,
