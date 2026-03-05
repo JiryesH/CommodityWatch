@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-05T09:09:52.695605+00:00",
-    "total_articles": 154,
+    "last_updated": "2026-03-05T10:03:12.442750+00:00",
+    "total_articles": 158,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,46 @@
     }
   },
   "articles": [
+    {
+      "id": "36f7948218bb5a90",
+      "title": "PetroChina Dalian to restart idle refinery in late Mar",
+      "description": "SINGAPORE (ICIS)--PetroChina Dalian Petrochemical is set to restart in late March its 200,000 barrel/day refinery that stopped production in June 2025 for relocation, a source close to the company...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/05/11185808/petrochina-dalian-to-restart-idle-refinery-in-late-mar",
+      "published": "2026-03-05T09:55:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Refined Products"
+    },
+    {
+      "id": "455aa07ba30a89cc",
+      "title": "ICIS TTF Early Day assessments: 5 March 2026",
+      "description": "- The ICIS TTF Early Day spread over ICIS East Asia Index (EAX) edged down to -6.162, as some Asian countries expressed concerns over LNG inventories - ICIS - LNG tankers are diverting away from...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/05/11185806/icis-ttf-early-day-assessments-5-march-2026",
+      "published": "2026-03-05T09:48:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Natural Gas, LNG"
+    },
+    {
+      "id": "62a6ff029ad5e2eb",
+      "title": "Plant status: Japan's Crasus shuts VAM unit for turnaround",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: Crasus (formerly Resonac) Location: Oita, Kyushu, Japan Product: Vinyl acetate monomer (VAM) Capacity (tonnes/year): 175,000 Event start: 28...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/05/11185798/plant-status-japan-s-crasus-shuts-vam-unit-for-turnaround",
+      "published": "2026-03-05T09:23:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "425428f7d812a690",
+      "title": "Update to ICIS Topics: US-Iran conflict – impact on chemicals, energy markets",
+      "description": "Visit the ICIS topic page US-Iran conflict: Impact on chemical and energy markets for the latest updates and analysis. More Asia petchem producers cut cracker runs on feedstock supply woes Asia...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/05/11185796/update-to-icis-topics-us-iran-conflict-impact-on-chemicals-energy-markets",
+      "published": "2026-03-05T09:11:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
     {
       "id": "43b0ee4ac5236c4f",
       "title": "SE Asia PE market targeted by China exporters in absence of Middle East offers",
