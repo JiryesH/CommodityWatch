@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-05T08:40:39.817149+00:00",
-    "total_articles": 152,
+    "last_updated": "2026-03-05T09:09:52.695605+00:00",
+    "total_articles": 154,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,26 @@
     }
   },
   "articles": [
+    {
+      "id": "43b0ee4ac5236c4f",
+      "title": "SE Asia PE market targeted by China exporters in absence of Middle East offers",
+      "description": "SINGAPORE (ICIS)--China exporters of polyethylene (PE) have entered the fray in southeast Asia, trying to profit from a vacuum created after Middle East suppliers withdrew their offers earlier this...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/05/11185795/se-asia-pe-market-targeted-by-china-exporters-in-absence-of-middle-east-offers",
+      "published": "2026-03-05T08:48:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "56b166ecc29ca1b7",
+      "title": "S Korea’s YNCC hikes February BD contracts",
+      "description": "SINGAPORE (ICIS)--South Korea’s Yeochun NCC (YNCC) has settled its February butadiene (BD) contracts at $1,275/tonne, $124/tonne over January, a company source said. YNCC’s contracts for January...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/05/11185793/s-korea-s-yncc-hikes-february-bd-contracts",
+      "published": "2026-03-05T08:41:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
     {
       "id": "178de683b894211c",
       "title": "Middle East LAB shipping woes fuel concern among buyers",
@@ -532,7 +552,7 @@
     {
       "id": "29e21702214e75b4",
       "title": "UPDATE: Singapore's PCS declares force majeure amid Mideast supply disruptions",
-      "description": "SINGAPORE (ICIS)--The Petrochemical Corporation of Singapore (PCS) has declared a force majeure due to disruptions arising from the Middle East conflict, the company said in a note to clients on...",
+      "description": "SINGAPORE (ICIS)--Singapore's PCS has declared a force majeure due to disruptions arising from the Middle East conflict, the company said in a note to clients on Thursday. The company's raw materials...",
       "link": "https://www.icis.com/explore/resources/news/2026/03/05/11185776/update-singapore-s-pcs-declares-force-majeure-amid-mideast-supply-disruptions",
       "published": "2026-03-05T07:05:00+00:00",
       "source": "ICIS",
@@ -579,7 +599,7 @@
     {
       "id": "5a443bf1d45cf71e",
       "title": "Singapore's PCS declares force majeure on Mideast supply disruptions",
-      "description": "SINGAPORE (ICIS)--Petrochemical Corporation of Singapore (PCS) has declared a force majeure due to disruptions arising from the conflict in the Middle East, the company said in a note to clients on...",
+      "description": "SINGAPORE (ICIS)--Singapore's PCS has declared a force majeure due to disruptions arising from the conflict in the Middle East, the company said in a note to clients on Thursday. The company's raw...",
       "link": "https://www.icis.com/explore/resources/news/2026/03/05/11185773/singapore-s-pcs-declares-force-majeure-on-mideast-supply-disruptions",
       "published": "2026-03-05T06:49:00+00:00",
       "source": "ICIS",
@@ -626,7 +646,7 @@
     {
       "id": "b46ec59d7fe748c5",
       "title": "Plant status: Singapore's PCS loads down crackers, FM issued",
-      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: Petrochemical Corporation of Singapore (PCS) Location: Ayer Merbau, Singapore Product: Ethylene, propylene Capacity (tonnes/year): 1,100,000...",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: PCS Location: Ayer Merbau, Singapore Product: Ethylene, propylene Capacity (tonnes/year): 1,100,000 (ethylene), 645,000 (propylene) total across...",
       "link": "https://www.icis.com/explore/resources/news/2026/03/05/11185772/plant-status-singapore-s-pcs-loads-down-crackers-fm-issued",
       "published": "2026-03-05T06:46:00+00:00",
       "source": "ICIS",
@@ -4105,7 +4125,7 @@
       "published": "2026-03-04T06:13:28+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Refined Products",
-      "category": "Oil - Refined Products",
+      "category": "Oil - Refined Products, Chemicals",
       "sentiment": {
         "label": "positive",
         "confidence": 0.8225711584091187,
