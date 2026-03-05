@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-05T15:07:38.836532+00:00",
-    "total_articles": 192,
+    "last_updated": "2026-03-05T16:05:53.825483+00:00",
+    "total_articles": 204,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -61,6 +61,66 @@
   },
   "articles": [
     {
+      "id": "f77792106026c855",
+      "title": "UBE delays start-up of US battery chemicals plant; AI data centers support demand",
+      "description": "HOUSTON (ICIS)--Japan’s UBE Corp is delaying the start-up of its upcoming US dimethyl carbonate (DMC) and ethyl methyl carbonate (EMC) plant in Louisiana to 2027. Instead of November 2026, as...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/05/11185901/ube-delays-start-up-of-us-battery-chemicals-plant-ai-data-centers-support-demand",
+      "published": "2026-03-05T15:57:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "6f9aeb045c85440b",
+      "title": "The US LNG arb is wide open to Asia – or is it?",
+      "description": "LNG charter rates rising very fast Opportunities for those long with shipping to switch to Asia But high risk chartering at current vessel offer levels LONDON (ICIS)--Market price and LNG charter...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/05/11185899/the-us-lng-arb-is-wide-open-to-asia-or-is-it",
+      "published": "2026-03-05T15:54:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "LNG"
+    },
+    {
+      "id": "50a3a7e64ff78d22",
+      "title": "Canada light vehicle sales flat at 122,000 in February",
+      "description": "TORONTO (ICIS)--Sales of new light vehicles (autos and light trucks) in Canada were practically unchanged year on year at 122,000 units in February, according to estimates by DesRosiers Automotive...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/05/11185898/canada-light-vehicle-sales-flat-at-122-000-in-february",
+      "published": "2026-03-05T15:51:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "d3f76c6f186a940d",
+      "title": "ICIS US January PP contract prices finalize",
+      "description": "HOUSTON (ICIS)--Contract prices for US polypropylene (PP) have been...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/05/11185896/icis-us-january-pp-contract-prices-finalize",
+      "published": "2026-03-05T15:39:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "bde924fefadf0f48",
+      "title": "UK trade remedy probe begins on Chinese TiO2 imports",
+      "description": "LONDON (ICIS)--The UK has launched an investigation into whether trade remedies should be applied on Chinese rutile TIO2 imports into the country, due to alleged concerns over unfair trade practices,...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/05/11185895/uk-trade-remedy-probe-begins-on-chinese-tio2-imports",
+      "published": "2026-03-05T15:36:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "54fee85f46885f71",
+      "title": "European PVC sellers target increases as energy prices rise, Middle East crisis tightens imports",
+      "description": "LONDON (ICIS)--European polyvinyl chloride (PVC) producers have targeted significant price rises for March against a backdrop of rising energy values and tighter import availability, triggered by the...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/05/11185894/european-pvc-sellers-target-increases-as-energy-prices-rise-middle-east-crisis-tightens-imports",
+      "published": "2026-03-05T15:25:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
       "id": "0eff4a93cb4f1d09",
       "title": "GLOBAL ENERGY NEWS WRAP: US-Iran conflict exposes wide market vulnerabilities",
       "description": "LONDON (ICIS)--The US-Iran conflict has exposed wide market vulnerabilities, as ICIS reports and analyses the impact across global commodities. See the topic page analysing the impact on vital...",
@@ -99,6 +159,16 @@
       "source": "ICIS",
       "feed": "ICIS",
       "category": "Fertilizers"
+    },
+    {
+      "id": "2abb9deab915065a",
+      "title": "European and Turkish PVC prices spike on supply chain disruptions, higher production costs",
+      "description": "European and Turkish polyvinyl chloride prices have increased sharply as the Middle East conflict drives up production costs and causes shipping disruptions, with Platts price assessments gaining at least $60/mt in the week to March 4. The outbreak of war in the oil- and gas-rich region caused a surge in energy prices in Europe. As a consequence, and due to the energy-intensive nature of PVC",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/chemicals/030526-european-and-turkish-pvc-prices-spike-on-supply-chain-disruptions-higher-production-costs",
+      "published": "2026-03-05T14:23:27+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Oil - Refined Products",
+      "category": "Oil - Refined Products"
     },
     {
       "id": "4a01c68761c4522f",
@@ -379,6 +449,16 @@
       "source": "ICIS",
       "feed": "ICIS",
       "category": "Chemicals, Oil - Refined Products"
+    },
+    {
+      "id": "412495f395ee8390",
+      "title": "EU pork exporters brace for tougher 2026 as China tariffs bite, Brazil competition increases",
+      "description": "EU pork exports to destinations outside the bloc rose slightly in 2025, with China and the UK the largest buyers, but exporters entered 2026 facing fresh pressure from higher Chinese import tariffs and intensifying competition from Brazil, according to European Commission figures. The EU&apos;s 27 member states exported 4.3 million metric tons of pork and byproducts to non-EU countries in 2025 by",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/agriculture/030526-eu-pork-exporters-brace-for-tougher-2026-as-china-tariffs-bite-brazil-competition-increases",
+      "published": "2026-03-05T10:07:02+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Agriculture",
+      "category": "Agriculture"
     },
     {
       "id": "36f7948218bb5a90",
@@ -1806,7 +1886,7 @@
       "published": "2026-03-04T22:44:58+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Refined Products",
-      "category": "Oil - Refined Products, Agriculture",
+      "category": "Oil - Refined Products, Agriculture, Energy Transition",
       "sentiment": {
         "label": "negative",
         "confidence": 0.5980868935585022,
@@ -1991,6 +2071,16 @@
       }
     },
     {
+      "id": "f8f898c10ba620fc",
+      "title": "Potential gas cuts in Egypt raise concerns for urea market",
+      "description": "The Egyptian urea market faced potential government-mandated gas supply cuts to urea production, raising concerns about contract fulfillment during a quiet trading day in the country following several spot sales of granular urea the days before. &quot;Think people are saying Egypt will cancel contracts,&quot; a trader said on March 4, attributing the concern to &quot;gas issues.&quot; Sources close to Egyptian urea",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/agriculture/030426-potential-gas-cuts-in-egypt-raise-concerns-for-urea-market",
+      "published": "2026-03-04T20:30:24+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Fertilizers",
+      "category": "Fertilizers"
+    },
+    {
       "id": "3d5bfefc96247837",
       "title": "Venture Global nears CP2 Phase 2 FID",
       "description": "VG expects CP2 Phase 2 FID in the coming weeks New five-year 0.5mtpa deal with Trafigura starting Q2 2026 Arbitration updates: BP seeking over $3.7 billion in damages; Shell appeal denied HOUSTON...",
@@ -2125,6 +2215,16 @@
         "text_hash": "a6899c30b96569f3577c19d00b2904070859471f67b80176fb2b271211203fb3",
         "extracted_at": "2026-03-04T21:02:23.135318+00:00"
       }
+    },
+    {
+      "id": "bfb98ced3edeff1e",
+      "title": "Three ammonia ships stranded in Hormuz as traffic halts: CAS, shipbrokers",
+      "description": "Three ships carrying ammonia were stuck in the Western part of the Strait of Hormuz as of March 4, S&amp;P Global Commodities at Sea data shows, and ammonia shipbrokers said shipments are unlikely to resume through the region even with US guarantees of insurance and an escort. The ships in the Strait are the 25,000-metric ton Green One, the 26,000 mt Eco Oracle and the 25,000 mt Searambler, the CAS",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/agriculture/030426-three-ammonia-ships-stranded-in-hormuz-as-traffic-halts-cas-shipbrokers",
+      "published": "2026-03-04T19:24:53+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Fertilizers",
+      "category": "Fertilizers, Energy Transition"
     },
     {
       "id": "1dab0dc62163c249",
@@ -3745,7 +3845,7 @@
       "published": "2026-03-04T14:17:57+00:00",
       "source": "S&P Global",
       "feed": "S&P Agriculture",
-      "category": "Agriculture",
+      "category": "Agriculture, Energy Transition",
       "sentiment": {
         "label": "negative",
         "confidence": 0.9710545539855957,
@@ -4414,6 +4514,16 @@
       }
     },
     {
+      "id": "d35d9a20655257d2",
+      "title": "China to maintain phosphate export suspension despite Middle East war: sources",
+      "description": "China is unlikely to relax its phosphate fertilizer export suspension, despite the war in the Middle East, with multiple traders and producers saying on March 3-4 that the policy is tied to domestic priorities rather than short-term geopolitical developments. Officials from the Chinese National Development and Reform Commission said in December that the country will halt phosphate fertilizer",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/agriculture/030426-china-to-maintain-phosphate-export-suspension-despite-middle-east-war-sources",
+      "published": "2026-03-04T10:49:00+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Fertilizers",
+      "category": "Fertilizers"
+    },
+    {
       "id": "fee8e3620597f426",
       "title": "Buyers turn to India for refined products amid Persian Gulf disruption",
       "description": "The ongoing war in the Middle East has nearly halted oil shipments from the Persian Gulf, prompting refined product buyers to look elsewhere, and has brought West Coast India into focus, multiple market participants said March 4. Several distillate cargoes were covered overnight for loading from Sikka port on India&apos;s west coast, and more such deals were in the offing, according to charterers,",
@@ -4504,8 +4614,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/chemicals/030426-asian-mtbe-prices-hit-near-2-year-high-on-middle-east-feedstock-supply-uncertainty",
       "published": "2026-03-04T06:13:28+00:00",
       "source": "S&P Global",
-      "feed": "S&P Oil - Refined Products",
-      "category": "Oil - Refined Products, Chemicals",
+      "feed": "S&P Chemicals",
+      "category": "Chemicals",
       "sentiment": {
         "label": "positive",
         "confidence": 0.8225711584091187,
@@ -4953,7 +5063,7 @@
       "published": "2026-03-03T07:17:04+00:00",
       "source": "S&P Global",
       "feed": "S&P Shipping",
-      "category": "Shipping, Agriculture",
+      "category": "Shipping",
       "sentiment": {
         "label": "negative",
         "confidence": 0.9475045204162598,
@@ -5093,7 +5203,7 @@
       "published": "2026-03-02T22:21:00+00:00",
       "source": "S&P Global",
       "feed": "S&P Electric Power",
-      "category": "Electric Power, Natural Gas, Coal, Metals, LNG, Energy Transition",
+      "category": "Electric Power, Natural Gas, Coal, Metals, LNG",
       "sentiment": {
         "label": "positive",
         "confidence": 0.6730107069015503,
@@ -5244,6 +5354,16 @@
         "text_hash": "5afdee1c40008ebf6b737e64a72d763672a59837c1b466dfcd07faba443b01a8",
         "extracted_at": "2026-03-04T21:02:23.135318+00:00"
       }
+    },
+    {
+      "id": "e0cd5fb9fdb34807",
+      "title": "Middle East conflict sparks supply chain anxiety across Asian fertilizer markets",
+      "description": "Asia-based fertilizer market participants have been anxiously watching the escalating conflict in the Middle East, with widespread expectation that prices will firm up amid significant supply chain disruptions. The primary concern is the security of passage through the Strait of Hormuz, a critical artery for global trade, sources said March 2. According to a Singapore-based shipbroker, the",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/agriculture/030226-middle-east-conflict-sparks-supply-chain-anxiety-across-asian-fertilizer-markets",
+      "published": "2026-03-02T16:20:03+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Fertilizers",
+      "category": "Fertilizers"
     },
     {
       "id": "905eca2b2277bd47",
@@ -5662,7 +5782,7 @@
       "published": "2026-02-27T17:03:03+00:00",
       "source": "S&P Global",
       "feed": "S&P Electric Power",
-      "category": "Electric Power, Energy Transition",
+      "category": "Electric Power",
       "sentiment": {
         "label": "positive",
         "confidence": 0.5461378693580627,
