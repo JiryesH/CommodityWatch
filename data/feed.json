@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-05T11:49:16.817372+00:00",
-    "total_articles": 168,
+    "last_updated": "2026-03-05T13:12:10.678882+00:00",
+    "total_articles": 183,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,156 @@
     }
   },
   "articles": [
+    {
+      "id": "f0f134d4ca4849de",
+      "title": "Plant status: China's Shenma Group begins ADA unit turnaround",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: Shenma Group Location: Pingdingshan, China Product: Adipic acid (ADA) Capacity (tonnes/year): 150,000 Event start: 2 March Event finish: Unknown...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/05/11185883/plant-status-china-s-shenma-group-begins-ada-unit-turnaround",
+      "published": "2026-03-05T12:59:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "4edd9ebf72f90d48",
+      "title": "Operator NAM to offer full capacity at Dutch Grijpskerk gas storage site",
+      "description": "LONDON(ICIS)—Netherlands-based operator NAM said on 4 March it is offering the full bundled capacity of the underground gas store to third-party participants for the storage year 2026/27. Due to...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/05/11185882/operator-nam-to-offer-full-capacity-at-dutch-grijpskerk-gas-storage-site",
+      "published": "2026-03-05T12:56:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "af44d98fc0c9a289",
+      "title": "GAS ALERT: CZGS sells out inverse gas storage auction at nearly double starting price",
+      "description": "LONDON (ICIS)-- Czech gas storage operator CZGS allocated nearly double the capacity it offered in an inverse storage auction held on Thursday morning at nearly double the starting price. Inverse...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/05/11185881/gas-alert-czgs-sells-out-inverse-gas-storage-auction-at-nearly-double-starting-price",
+      "published": "2026-03-05T12:50:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "5da517f96ce3b4aa",
+      "title": "GAS ALERT: Serbia plans to ramp up Azerbaijani gas imports to 1.4bcm by 2030",
+      "description": "LONDON (ICIS)---Serbia’s assistant energy minister Sasa Kokovic said the country is in talks to ramp up Azerbaijani gas imports to 1.4 billion cubic meters (bcm) by 2030, during the 12th...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/05/11185880/gas-alert-serbia-plans-to-ramp-up-azerbaijani-gas-imports-to-1-4bcm-by-2030",
+      "published": "2026-03-05T12:46:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "75ddfeb479310a6b",
+      "title": "Australia's Pilbara Ports and Yara Pilbara partner on low-carbon ammonia bunkering hub",
+      "description": "LONDON (ICIS)--Pilbara Ports has signed a memorandum of understanding (MOU) with Yara Pilbara for the development of a low-carbon ammonia bunkering hub, the Western Australian port authority said on...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/05/11185879/australia-s-pilbara-ports-and-yara-pilbara-partner-on-low-carbon-ammonia-bunkering-hub",
+      "published": "2026-03-05T12:46:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Energy Transition"
+    },
+    {
+      "id": "918088b2f950e3c3",
+      "title": "Plant status: Singapore's Aster to cut cracker runs amid feedstock concerns - sources",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: Aster Chemicals and Energy Location: Pulau Bukom, Singapore Products: Ethylene, propylene Capacity (tonnes/year): 1,150,000 ethylene, 500,000...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/05/11185876/plant-status-singapore-s-aster-to-cut-cracker-runs-amid-feedstock-concerns-sources",
+      "published": "2026-03-05T12:29:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "50da0c6affc05c8d",
+      "title": "South Korea’s LOTTE Fine Chemical completes world’s first commercial import of green ammonia",
+      "description": "LONDON (ICIS)--LOTTE Fine Chemical has successfully completed the world’s first commercial import of green ammonia. LOTTE imported green ammonia from Chinese green technology company Envision...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/05/11185875/south-korea-s-lotte-fine-chemical-completes-world-s-first-commercial-import-of-green-ammonia",
+      "published": "2026-03-05T12:24:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Energy Transition"
+    },
+    {
+      "id": "549ac57465e56119",
+      "title": "MOVES: Mexico’s Orbia names Cristian Capellino as CFO",
+      "description": "SAO PAULO (ICIS)--Orbia has appointed Cristian Capellino as CFO, effective 15 March, as James Kelly retires after five years at the helm of the Mexican chemicals producer’s finances. Kelly is to...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/05/11185874/moves-mexico-s-orbia-names-cristian-capellino-as-cfo",
+      "published": "2026-03-05T12:23:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "4e08e1de93350661",
+      "title": "Close link with feedstocks boosts European refinery solvents prices amid Middle East crisis",
+      "description": "LONDON (ICIS)--Surging feedstock costs in the wake of the Middle East crisis are pushing up truck numbers on the European refinery solvents markets, with some supply restraints within Europe also...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/05/11185873/close-link-with-feedstocks-boosts-european-refinery-solvents-prices-amid-middle-east-crisis",
+      "published": "2026-03-05T12:19:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Refined Products"
+    },
+    {
+      "id": "1463a42c6f443e02",
+      "title": "Plant status: Malaysia's PRefChem cuts cracker runs on issue in complex",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: Pengerang Refining and Petrochemical (PRefChem) Location: Pengerang, Malaysia Product: Ethylene, propylene Capacity (tonnes/year): 1,200,000...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/05/11185868/plant-status-malaysia-s-prefchem-cuts-cracker-runs-on-issue-in-complex",
+      "published": "2026-03-05T12:02:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals, Oil - Refined Products"
+    },
+    {
+      "id": "b19dc9b03c994e14",
+      "title": "NOON SNAPSHOT - Europe Markets Summary",
+      "description": "CRUDE: Climbs as Iran launches wave of missiles against Israel, heightening supply disruption fears. NAPHTHA: Firms tracking gains in crude values. BENZENE: Rallies with crude, higher US benzene...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/05/11185865/noon-snapshot-europe-markets-summary",
+      "published": "2026-03-05T12:00:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals, Oil - Refined Products"
+    },
+    {
+      "id": "7e20fea1bd693099",
+      "title": "Plant status: S Korea's GS Caltex to cut cracker runs amid mounting feedstock concerns",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: GS Caltex Location: Yeosu, South Korea Product: Ethylene, propylene Capacity (tonnes/year): 900,000 (ethylene), 470,000 (propylene) Event start:...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/05/11185867/plant-status-s-korea-s-gs-caltex-to-cut-cracker-runs-amid-mounting-feedstock-concerns",
+      "published": "2026-03-05T11:56:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "ac7e7e3821dfb84e",
+      "title": "Asia VCM producers face feedstock pressures, but buyers remain on sidelines",
+      "description": "SINGAPORE (ICIS)--Asia’s vinyl chloride monomer (VCM) producers are facing severe feedstock pressures as a result of rising ethylene prices and naphtha shortages as a result of the Iran conflict....",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/05/11185862/asia-vcm-producers-face-feedstock-pressures-but-buyers-remain-on-sidelines",
+      "published": "2026-03-05T11:48:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals, Oil - Refined Products"
+    },
+    {
+      "id": "7e703cf6d97e76f1",
+      "title": "LNG NEWS WRAP: US-Iran conflict sends shockwaves across LNG, gas, shipping",
+      "description": "LONDON (ICIS)--ICIS continues to cover the ongoing US-Iran conflict, as the Qatari LNG shutdown redefines global flows, prices and shipping dynamics. For further analysis, see the topic...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/05/11185861/lng-news-wrap-us-iran-conflict-sends-shockwaves-across-lng-gas-shipping",
+      "published": "2026-03-05T11:46:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "LNG"
+    },
+    {
+      "id": "de71432909bf8241",
+      "title": "EDC exports from the Middle East likely to be disrupted",
+      "description": "SINGAPORE (ICIS)--Ethylene dichloride (EDC) spot exports from the Middle East are likely to be disrupted as a result of vessels avoiding the Strait of Hormuz amid the Iran conflict. Middle Eastern...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/05/11185856/edc-exports-from-the-middle-east-likely-to-be-disrupted",
+      "published": "2026-03-05T11:42:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
     {
       "id": "8d05a8fffd648d17",
       "title": "Plant status: Qatar’s Seef shuts LAB on upstream units’ closures",
@@ -4265,7 +4415,7 @@
       "published": "2026-03-04T06:13:28+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Refined Products",
-      "category": "Oil - Refined Products",
+      "category": "Oil - Refined Products, Chemicals",
       "sentiment": {
         "label": "positive",
         "confidence": 0.8225711584091187,
