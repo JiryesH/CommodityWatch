@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-05T13:12:10.678882+00:00",
-    "total_articles": 183,
+    "last_updated": "2026-03-05T14:08:17.609923+00:00",
+    "total_articles": 185,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,26 @@
     }
   },
   "articles": [
+    {
+      "id": "bed4b231d077d4d5",
+      "title": "China ADA suppliers maintain moratorium on quoting prices on rising feedstock costs",
+      "description": "SINGAPORE (ICIS)--Chinese adipic acid (ADA) suppliers are sticking to a moratorium on quoting prices, feeling the pressure from the daily rising feedstock costs. Effective 5 March, Sinopec's...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/05/11185886/china-ada-suppliers-maintain-moratorium-on-quoting-prices-on-rising-feedstock-costs",
+      "published": "2026-03-05T13:41:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "42fbbfabd42fbf9e",
+      "title": "INSIGHT: Europe, China TIO2 more susceptible to cost increases due to Middle East conflict",
+      "description": "LONDON (ICIS)--Heightened cost inflation due to the war in the Middle East could provide added price upside pressure for titanium dioxide (TiO2) in Europe in Q2, amid severe and prolonged margin...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/05/11185884/insight-europe-china-tio2-more-susceptible-to-cost-increases-due-to-middle-east-conflict",
+      "published": "2026-03-05T13:13:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Metals"
+    },
     {
       "id": "f0f134d4ca4849de",
       "title": "Plant status: China's Shenma Group begins ADA unit turnaround",
