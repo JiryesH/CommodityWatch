@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-05T10:03:12.442750+00:00",
-    "total_articles": 158,
+    "last_updated": "2026-03-05T11:02:08.216689+00:00",
+    "total_articles": 165,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,66 @@
     }
   },
   "articles": [
+    {
+      "id": "871f2b493e9b6b65",
+      "title": "Plant status: Thailand’s PTTGC shuts LDPE line for maintenance",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: PTT Global Chemical (PTTGC) Location: Map Ta Phut, Thailand Products: Low density polyethylene (LDPE) Capacity (tonnes/year): 380,000 Event...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/05/11185827/plant-status-thailand-s-pttgc-shuts-ldpe-line-for-maintenance",
+      "published": "2026-03-05T10:39:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals, Fertilizers"
+    },
+    {
+      "id": "5fcc7a385ba08066",
+      "title": "Geopolitical tensions lift Asia PME outlook as overseas buyers explore biofuels",
+      "description": "SINGAPORE (ICIS)--Prices in southeast Asia’s palm methyl ester (PME) biodiesel market strengthened in the week ending 5 March as escalating Middle East tensions supported crude oil prices and...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/05/11185826/geopolitical-tensions-lift-asia-pme-outlook-as-overseas-buyers-explore-biofuels",
+      "published": "2026-03-05T10:38:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Energy Transition, Oil - Crude"
+    },
+    {
+      "id": "49604978a80992e5",
+      "title": "Plant status: South Korea’s Lotte Chem cuts glycol ethers run rate to 70%",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: Lotte Chemical Location: Daesan, South Korea Product: Glycol ethers Capacity (tonnes/year): 50,000 Event start: March 2026 Event finish: March...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/05/11185819/plant-status-south-korea-s-lotte-chem-cuts-glycol-ethers-run-rate-to-70",
+      "published": "2026-03-05T10:27:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "6a1b7a082eb3780e",
+      "title": "Orlen declares FM on LDPE at Plock, following damage to oil column",
+      "description": "LONDON (ICIS)--Here is a plant status report: Name: Orlen Location: Plock, Poland Product: Polyethylene (PE) Capacity (tonnes/year): Low density polyethylene (LDPE) 100,000 Event start: estimate 1...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/05/11185817/orlen-declares-fm-on-ldpe-at-plock-following-damage-to-oil-column",
+      "published": "2026-03-05T10:22:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "9b393262f308e1a6",
+      "title": "Asia toluene bid-offers rally higher, supply disruption fears shake up demand",
+      "description": "SINGAPORE (ICIS)--Asia toluene export prices extended gains on mounting tensions in the Middle East, which are fueling worries over prolonged supply disruptions. Offers for April loading cargoes were...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/05/11185814/asia-toluene-bid-offers-rally-higher-supply-disruption-fears-shake-up-demand",
+      "published": "2026-03-05T10:14:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "e32558af95e8c3a4",
+      "title": "EVENING SNAPSHOT - Asia Markets Summary",
+      "description": "CRUDE: Higher on supply disruption concerns created by the US-Iran conflict and the subsequent closure of the Strait of Hormuz. NAPHTHA (CFR JAPAN): Up on crude, lack of supplies. BENZENE (FOB...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/05/11185812/evening-snapshot-asia-markets-summary",
+      "published": "2026-03-05T10:12:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals, Oil - Refined Products"
+    },
     {
       "id": "36f7948218bb5a90",
       "title": "PetroChina Dalian to restart idle refinery in late Mar",
@@ -497,6 +557,16 @@
         "text_hash": "b36bc61867b3f5b1107c681138889393db1a3a821b8aecc75e40bdc235486ef4",
         "extracted_at": "2026-03-05T07:40:26.212700+00:00"
       }
+    },
+    {
+      "id": "23ecd43aaff4a1de",
+      "title": "Australian wheat demand stands to rise in Southeast Asia amid Middle East conflict",
+      "description": "Regional demand for Australian wheat stands to benefit from the Middle East conflict as Australia&apos;s proximity to Southeast Asia, coupled with ample exportable supply, presents less risky options for buyers seeking to avoid longer and more expensive voyages or shipments passing through the Middle East, multiple Australian and Asian wheat traders said this week. The escalation in the Middle East",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/agriculture/030526-australian-wheat-demand-stands-to-rise-in-southeast-asia-amid-middle-east-conflict",
+      "published": "2026-03-05T07:28:20+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Agriculture",
+      "category": "Agriculture"
     },
     {
       "id": "d2b13594829a7bb7",
@@ -1466,7 +1536,7 @@
       "published": "2026-03-04T22:44:58+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Refined Products",
-      "category": "Oil - Refined Products, Agriculture, Energy Transition",
+      "category": "Oil - Refined Products, Agriculture",
       "sentiment": {
         "label": "negative",
         "confidence": 0.5980868935585022,
@@ -3405,7 +3475,7 @@
       "published": "2026-03-04T14:17:57+00:00",
       "source": "S&P Global",
       "feed": "S&P Agriculture",
-      "category": "Agriculture, Energy Transition",
+      "category": "Agriculture",
       "sentiment": {
         "label": "negative",
         "confidence": 0.9710545539855957,
@@ -4165,7 +4235,7 @@
       "published": "2026-03-04T06:13:28+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Refined Products",
-      "category": "Oil - Refined Products, Chemicals",
+      "category": "Oil - Refined Products",
       "sentiment": {
         "label": "positive",
         "confidence": 0.8225711584091187,
@@ -4871,8 +4941,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/agriculture/030226-asian-biofuels-prices-rise-as-middle-east-tensions-stoke-supply-concerns",
       "published": "2026-03-02T16:29:47+00:00",
       "source": "S&P Global",
-      "feed": "S&P Agriculture",
-      "category": "Agriculture",
+      "feed": "S&P Energy Transition",
+      "category": "Energy Transition",
       "sentiment": {
         "label": "negative",
         "confidence": 0.6104215979576111,
@@ -5322,7 +5392,7 @@
       "published": "2026-02-27T17:03:03+00:00",
       "source": "S&P Global",
       "feed": "S&P Electric Power",
-      "category": "Electric Power",
+      "category": "Electric Power, Energy Transition",
       "sentiment": {
         "label": "positive",
         "confidence": 0.5461378693580627,
