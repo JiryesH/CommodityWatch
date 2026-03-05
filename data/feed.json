@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-05T21:51:38.926429+00:00",
-    "total_articles": 236,
+    "last_updated": "2026-03-05T22:38:02.807945+00:00",
+    "total_articles": 237,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,16 @@
     }
   },
   "articles": [
+    {
+      "id": "327532c1edc3ed59",
+      "title": "NYMEX: US gas futures rise following increased storage withdrawal",
+      "description": "US natural gas futures rose on 5 March by nearly 3% following an increased storage withdrawal that brought total gas stocks lower from the five-year average The April ’26 front-month contract...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/05/11185930/nymex-us-gas-futures-rise-following-increased-storage-withdrawal",
+      "published": "2026-03-05T21:51:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Natural Gas"
+    },
     {
       "id": "bde8ea2a06a6cb1f",
       "title": "Plant status: Lion Elastomer US SBR plant has power outage",
@@ -198,7 +208,7 @@
       "published": "2026-03-05T17:11:19+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Refined Products",
-      "category": "Oil - Refined Products"
+      "category": "Oil - Refined Products, Chemicals"
     },
     {
       "id": "bceb3584df4ae1a3",
@@ -478,7 +488,7 @@
       "published": "2026-03-05T14:23:27+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Refined Products",
-      "category": "Oil - Refined Products, Shipping"
+      "category": "Oil - Refined Products, Chemicals, Shipping"
     },
     {
       "id": "4a01c68761c4522f",
@@ -2388,7 +2398,7 @@
       "published": "2026-03-04T20:30:24+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Fertilizers"
+      "category": "Fertilizers, Chemicals"
     },
     {
       "id": "3d5bfefc96247837",
@@ -2534,7 +2544,7 @@
       "published": "2026-03-04T19:24:53+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Fertilizers, Energy Transition"
+      "category": "Fertilizers, Chemicals, Energy Transition"
     },
     {
       "id": "1dab0dc62163c249",
@@ -4788,7 +4798,7 @@
       "published": "2026-03-04T11:09:28+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Fertilizers, Energy Transition"
+      "category": "Fertilizers, Chemicals, Energy Transition"
     },
     {
       "id": "28253abca29c5680",
