@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-06T14:58:28.979891+00:00",
-    "total_articles": 331,
+    "last_updated": "2026-03-06T15:50:01.657185+00:00",
+    "total_articles": 337,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,56 @@
     }
   },
   "articles": [
+    {
+      "id": "e192cb2f7e4f3b25",
+      "title": "Europe styrene March Blended Formula Index firms on spot gains",
+      "description": "LONDON (ICIS)--The Europe styrene March Blended Formula Index was assessed this week at an increase of €42/tonne from February, despite lower cash costs, as higher spot prices provided support. The...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186417/europe-styrene-march-blended-formula-index-firms-on-spot-gains",
+      "published": "2026-03-06T15:33:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "af810dd7eebedb23",
+      "title": "GAS ALERT: Bidirectional capacity between Hungary and Romania to rise from 1 April 2026",
+      "description": "LONDON (ICIS)---Romania and Hungary will boost bidirectional technical gas capacity at the Csanadpalota interconnection point from 1 April, Hungarian transmission system operator (TSO) FGSZ announced...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186416/gas-alert-bidirectional-capacity-between-hungary-and-romania-to-rise-from-1-april-2026",
+      "published": "2026-03-06T15:25:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "67880ec902a39091",
+      "title": "Europe polyol producer outlines fresh increases amid Middle East conflict developments",
+      "description": "LONDON (ICIS)--A European polyol producer on 5 March announced a price increase of low three digits for all polyether polyols grades sold in Europe. The initiative is tied to evolving dynamics in the...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186413/europe-polyol-producer-outlines-fresh-increases-amid-middle-east-conflict-developments",
+      "published": "2026-03-06T15:12:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "a9e97d03cb182b7d",
+      "title": "GAS ALERT: CZGS to hold another inverse storage auction after strong interest so far this year",
+      "description": "LONDON (ICIS)-- Czech gas storage operator CZGS will hold another auction for its inverse product on 10 March, following strong demand in similar auctions earlier this year. Inverse products allocate...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186411/gas-alert-czgs-to-hold-another-inverse-storage-auction-after-strong-interest-so-far-this-year",
+      "published": "2026-03-06T15:02:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "95fa9f20e29f4564",
+      "title": "QatarEnergy seeks LNG tanker sublet offers as charter rates soar",
+      "description": "QatarEnergy plans to sublet two LNG tankers LNG shipping rates have continued to soar Tonnage availability could rise as other owners seek sublet options LONDON (ICIS)--Middle East producer...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186405/qatarenergy-seeks-lng-tanker-sublet-offers-as-charter-rates-soar",
+      "published": "2026-03-06T14:52:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Shipping, LNG"
+    },
     {
       "id": "d4172126d109b7e7",
       "title": "US economy unexpectedly loses jobs, unemployment rate rises to 4.4%",
@@ -185,6 +235,16 @@
       "title": "INEOS Inovyn declares force majeure on PVC on Middle East crisis, applies energy surcharge",
       "description": "LONDON (ICIS)--European polyvinyl chloride (PVC) producer INEOS Inovyn has declared force majeure on PVC because of the crisis in the Middle East, according to a company source. The force majeure was...",
       "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186390/ineos-inovyn-declares-force-majeure-on-pvc-on-middle-east-crisis-applies-energy-surcharge",
+      "published": "2026-03-06T13:57:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "3b00b12dcff5009b",
+      "title": "Corrected: INEOS Inovyn declares force majeure on PVC for export customers on Middle East crisis, applies energy surcharge",
+      "description": "Correction: In the ICIS news story headlined \"INEOS Inovyn declares force majeure on PVC on Middle East crisis, applies energy surcharge\", dated March 2026, please read ...declares force majeure on...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186390/corrected-ineos-inovyn-declares-force-majeure-on-pvc-for-export-customers-on-middle-east-crisis-applies-energy-surcharge",
       "published": "2026-03-06T13:57:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
@@ -427,8 +487,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/agriculture/030626-european-ammonia-import-price-reaches-three-year-high-as-production-costs-soar",
       "published": "2026-03-06T11:17:35+00:00",
       "source": "S&P Global",
-      "feed": "S&P Chemicals",
-      "category": "Chemicals, Energy Transition"
+      "feed": "S&P Fertilizers",
+      "category": "Fertilizers, Chemicals, Energy Transition"
     },
     {
       "id": "112bdbf3edd24ccc",
