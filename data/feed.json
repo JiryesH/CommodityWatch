@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-06T19:10:35.149351+00:00",
-    "total_articles": 370,
+    "last_updated": "2026-03-06T19:49:13.943433+00:00",
+    "total_articles": 374,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,36 @@
     }
   },
   "articles": [
+    {
+      "id": "228abeec7a355d5e",
+      "title": "Middle East methanol plants not damaged in war, so far – Methanex CEO",
+      "description": "TORONTO (ICIS)--While shipping in the Middle East has been disrupted, so far none of the region’s methanol plants have been damaged by the US-Iran war that began on 28 February, Rich Sumner, CEO of...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186456/middle-east-methanol-plants-not-damaged-in-war-so-far-methanex-ceo",
+      "published": "2026-03-06T19:38:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "9070fcae6fb9cee6",
+      "title": "Europe methanol spot prices climb 11%, hitting January 2025 highs",
+      "description": "LONDON (ICIS)-- European methanol spot prices surged to January 2025 highs following the outbreak of the Middle East conflict and the closure of the Strait of Hormuz. Iranian methanol production...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186455/europe-methanol-spot-prices-climb-11-hitting-january-2025-highs",
+      "published": "2026-03-06T19:30:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "16c06d1628d2d8c8",
+      "title": "Africa PE prices up on Strait of Hormuz closure, damages on upstream operations in the Persian Gulf",
+      "description": "LONDON (ICIS)--Africa's polyethylene (PE) spot prices firmed low to mid triple digits in the first four days after the US and Israel's offensives on Iran irrupted on Sunday last week. Although offers...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186454/africa-pe-prices-up-on-strait-of-hormuz-closure-damages-on-upstream-operations-in-the-persian-gulf",
+      "published": "2026-03-06T19:21:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
     {
       "id": "b35304eae2e3207e",
       "title": "Gains in Asia base oils come into view, with India's short-lived cushion set to fade",
@@ -161,6 +191,16 @@
       "category": "Chemicals, LNG"
     },
     {
+      "id": "54bf6f3d0b387a71",
+      "title": "MONTHLY ASIA CHICKEN WRAP: Japanese boneless leg shortage deepens in Feb as Brazil, Thailand falter",
+      "description": "North Asia chicken leg prices climbed further by 6% in February, driven by Japan&apos;s low boneless leg inventories and tight supply from exporters. CFR North Asia chicken leg prices climbed from $2,945/metric ton Jan. 27 to $3,125/mt Feb. 27, reflecting a 6% month-over-month increase, according to price assessment data from Platts, part of S&amp;P Global Energy. Japan: Persistent shortages, high prices",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/agriculture/030626-monthly-asia-chicken-wrap-japanese-boneless-leg-shortage-deepens-in-feb-as-brazil-thailand-falter",
+      "published": "2026-03-06T17:31:17+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Agriculture",
+      "category": "Agriculture"
+    },
+    {
       "id": "ece4a10f60c2e14f",
       "title": "WEEKLY POWER OUTLOOK: US-Iran conflict to remain key driver, but warmer weather may pressure spot",
       "description": "Low German wind forecast in early week 11 likely counteracted by high temperatures and solar output French nuclear availability set to remain stable above the five-year average Hungarian spot power...",
@@ -208,7 +248,7 @@
       "published": "2026-03-06T17:02:13+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude, Oil - Refined Products, Fertilizers, Chemicals, LNG"
+      "category": "Oil - Crude, Oil - Refined Products, Fertilizers, Chemicals, Shipping, Agriculture, LNG"
     },
     {
       "id": "778db0fcc1ad63da",
@@ -582,8 +622,8 @@
     },
     {
       "id": "dbfed88682e222a3",
-      "title": "Palm oil prices rise 4% as higher energy costs lift biofuel margins",
-      "description": "A rise in crude oil prices due to the war in the Middle East has pushed palm oil prices up 3.7% day over day, along with the highest daily traded volume of contracts, according to exchange data and market analysts March 6. The rise in crude palm oil prices was attributed to the sharp fall in the spread between palm oil and gas oil prices, an indicator of margins for biofuel makers. The benchmark",
+      "title": "Palm oil prices rise 4% as higher energy costs lift biofuel spread margins",
+      "description": "A rise in crude oil prices due to the war in the Middle East has pushed palm oil prices up 3.7% day over day, along with the highest daily traded volume of contracts, exchange data and market analysts said March 6. The rise in crude palm oil prices was attributed to the sharp fall in the spread between palm oil and gasoil prices, an indicator of margins for biofuel makers. The benchmark palm oil",
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/agriculture/030626-palm-oil-prices-rise-4-as-higher-energy-costs-lift-biofuel-margins",
       "published": "2026-03-06T13:46:24+00:00",
       "source": "S&P Global",
@@ -1798,7 +1838,7 @@
       "published": "2026-03-05T14:23:27+00:00",
       "source": "S&P Global",
       "feed": "S&P Chemicals",
-      "category": "Chemicals, Shipping"
+      "category": "Chemicals"
     },
     {
       "id": "4a01c68761c4522f",
@@ -3525,8 +3565,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/agriculture/030426-saf-prices-rise-as-jet-fuel-markets-tighten-amid-middle-east-war",
       "published": "2026-03-04T22:44:58+00:00",
       "source": "S&P Global",
-      "feed": "S&P Agriculture",
-      "category": "Agriculture, Energy Transition",
+      "feed": "S&P Energy Transition",
+      "category": "Energy Transition",
       "sentiment": {
         "label": "negative",
         "confidence": 0.5980868935585022,
