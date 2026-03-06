@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-06T07:53:18.916567+00:00",
-    "total_articles": 267,
+    "last_updated": "2026-03-06T08:45:36.289452+00:00",
+    "total_articles": 275,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,86 @@
     }
   },
   "articles": [
+    {
+      "id": "ae9c71e6e95cef40",
+      "title": "Asia MDI faces upward pressure amid spate of price hikes, feedstock concerns",
+      "description": "SINGAPORE (ICIS)--Asian methylene diphenyl diisocyanate (MDI) prices are facing upward pressure amid supply shocks stemming from the escalating US-Iran conflict in the Middle East. Several producers...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186280/asia-mdi-faces-upward-pressure-amid-spate-of-price-hikes-feedstock-concerns",
+      "published": "2026-03-06T08:29:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "4d2079d131932d4a",
+      "title": "East China DEG inventories rise on more arrivals",
+      "description": "SINGAPORE (ICIS)--Diethylene glycol (DEG) inventories at Jiangsu in east China increased by around 22% from last Friday, as cargo arrivals increased, outpacing consumption. The total inventories are...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186279/east-china-deg-inventories-rise-on-more-arrivals",
+      "published": "2026-03-06T08:11:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "3a2a8176c8c2eac9",
+      "title": "China local OX prices up further by CNY200/tonne",
+      "description": "SINGAPORE (ICIS)--China orthoxylene (OX) prices in the domestic market were higher by yuan (CNY) 200/tonne to CNY7,200/tonne ex-warehouse (EXWH), indicating an increase of CNY800/tonne compared with...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186278/china-local-ox-prices-up-further-by-cny200-tonne",
+      "published": "2026-03-06T08:06:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "0c60c92f106e2ed7",
+      "title": "UPDATE: Singapore's Aster declares force majeure on feedstock supply disruptions - spokesperson",
+      "description": "SINGAPORE (ICIS)--Aster Chemicals and Energy has declared force majeure on supplies in Singapore, citing disruption to feedstock shipments, the company said on Friday. \"Aster has declared force...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186277/update-singapore-s-aster-declares-force-majeure-on-feedstock-supply-disruptions-spokesperson",
+      "published": "2026-03-06T08:01:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "0fd9c9b1d8bffa75",
+      "title": "SE Asia PP up on regional crunch; converters keen to secure cargo",
+      "description": "SINGAPORE (ICIS)--Southeast Asia polypropylene (PP) prices are on a strong upswing following the escalation of US and Israel-led geopolitical tensions in the Middle East. As a result, some Middle...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186276/se-asia-pp-up-on-regional-crunch-converters-keen-to-secure-cargo",
+      "published": "2026-03-06T08:00:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "a192ab41de7b0b5a",
+      "title": "Taiwan, Thailand rPET feedstock most competitive in Asia",
+      "description": "SINGAPORE (ICIS)--Key recycling markets Taiwan and Thailand continue to enjoy the most competitively-priced post-consumer bottle bales for recycled polyethylene terephthalate (rPET) among their...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186275/taiwan-thailand-rpet-feedstock-most-competitive-in-asia",
+      "published": "2026-03-06T07:57:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "50202b5e5286363b",
+      "title": "Singapore's Aster declares force majeure on Mideast feedstock supply disruptions",
+      "description": "SINGAPORE (ICIS)--Aster Chemicals and Energy has declared force majeure on supplies in Singapore, citing disruption to feedstock shipments, the company said on Friday. \"Aster has declared force...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186273/singapore-s-aster-declares-force-majeure-on-mideast-feedstock-supply-disruptions",
+      "published": "2026-03-06T07:46:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "936b161da98ea573",
+      "title": "Plant status: Singapore's Aster to cut cracker runs further, FM issued",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: Aster Chemicals and Energy Location: Pulau Bukom, Singapore Products: Ethylene, propylene Capacity (tonnes/year): 1,150,000 ethylene, 500,000...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186272/plant-status-singapore-s-aster-to-cut-cracker-runs-further-fm-issued",
+      "published": "2026-03-06T07:45:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
     {
       "id": "7037e11347205739",
       "title": "India PP output may tighten as government prioritizes LPG production",
