@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-06T19:49:13.943433+00:00",
-    "total_articles": 374,
+    "last_updated": "2026-03-06T20:38:07.355847+00:00",
+    "total_articles": 379,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,56 @@
     }
   },
   "articles": [
+    {
+      "id": "177220e3dfc1a8eb",
+      "title": "CRUDE SUMMARY: Crude’s weekly price rise highest since 2022, further gains likely next week",
+      "description": "Brent M1-M7 spread widening as tight market conditions intensify Heavily backwardated market could tease barrels out of inventory if countries sense short conflict Gulf storage nearing full capacity,...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186461/crude-summary-crude-s-weekly-price-rise-highest-since-2022-further-gains-likely-next-week",
+      "published": "2026-03-06T20:31:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Crude"
+    },
+    {
+      "id": "029db39ab40ae61e",
+      "title": "New Venezuela natgas could support Methanex’s Trinidad plants - CEO",
+      "description": "TORONTO (ICIS)--Potential new Venezuelan natural gas developments could support Methanex’s methanol plants in Trinidad, the company’s CEO said on Friday. “There are announcements about fields...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186460/new-venezuela-natgas-could-support-methanex-s-trinidad-plants-ceo",
+      "published": "2026-03-06T20:24:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Natural Gas, Chemicals"
+    },
+    {
+      "id": "1324807c7933138e",
+      "title": "Europe toluene March contract hits 19-month high",
+      "description": "LONDON (ICIS)--The Europe toluene March contract price was assessed this week increasing by $132/tonne from February. The March contract price was assessed at $960/tonne on a FOB (free on board) NWE...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186459/europe-toluene-march-contract-hits-19-month-high",
+      "published": "2026-03-06T20:16:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "e59b12a2267e67dc",
+      "title": "European PX, OX spot prices jump on Asia supply disruptions, rising feedstock costs",
+      "description": "LONDON (ICIS)--European paraxylene (PX) and orthoxylene (OX) spot prices soared this week on the back of surging upstream costs and lower operating rates in Asia, as producers there grapple with...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186458/european-px-ox-spot-prices-jump-on-asia-supply-disruptions-rising-feedstock-costs",
+      "published": "2026-03-06T20:10:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "1d9e66c11e5e131e",
+      "title": "Mideast ex-tank UAE base oils surge with conflict-driven supply disruptions",
+      "description": "SINGAPORE (ICIS) – Ex‑tank prices in the UAE surged as supply channels tightened following the effective closure of the Strait of Hormuz when the US–Iran conflict broke out. With no fresh...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186457/mideast-ex-tank-uae-base-oils-surge-with-conflict-driven-supply-disruptions",
+      "published": "2026-03-06T19:41:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Refined Products"
+    },
     {
       "id": "228abeec7a355d5e",
       "title": "Middle East methanol plants not damaged in war, so far – Methanex CEO",
