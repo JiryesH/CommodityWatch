@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-06T17:39:26.599822+00:00",
-    "total_articles": 363,
+    "last_updated": "2026-03-06T18:24:05.827646+00:00",
+    "total_articles": 368,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,56 @@
     }
   },
   "articles": [
+    {
+      "id": "a784ca0d38e55653",
+      "title": "ICIS POWER INSIGHT WEEK 10 NEWS IN BRIEF",
+      "description": "This news summary was generated via Ask ICIS LONDON (ICIS)--Please find below a short summary of the key power stories ICIS published in week 10. FBMC WEEKLY: Limited day-ahead price reaction to...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186451/icis-power-insight-week-10-news-in-brief",
+      "published": "2026-03-06T18:01:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Electric Power"
+    },
+    {
+      "id": "673fbf6e782b3e0b",
+      "title": "NOON SNAPSHOT - Americas Markets Summary",
+      "description": "CRUDE: Extended recent gains as the market shows supply concerns. Importing countries begin to look for alternative sources of supplies. A wide arbitrage makes US export economics attractive....",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186449/noon-snapshot-americas-markets-summary",
+      "published": "2026-03-06T18:00:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Crude"
+    },
+    {
+      "id": "61a7dd4daf314d17",
+      "title": "European acetone spot truck prices climb on ongoing tightness",
+      "description": "LONDON (ICIS)--Spot acetone truck prices rose this week on the European market. The market remains snug - with some players perceiving it as even tighter this week. Prices increased through the week,...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186450/european-acetone-spot-truck-prices-climb-on-ongoing-tightness",
+      "published": "2026-03-06T18:00:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "d5c6f704efcfef3c",
+      "title": "ICIS GAS INSIGHT WEEK 10 NEWS IN BRIEF",
+      "description": "This news summary was generated via Ask ICIS LONDON (ICIS)--Please find below a short summary of the key gas stories ICIS published in week 10. EU to discuss gas supply security, energy prices as...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186448/icis-gas-insight-week-10-news-in-brief",
+      "published": "2026-03-06T17:54:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "d0feaae67f74017a",
+      "title": "Styrene players warn of overheating risk as Europe spot prices surge",
+      "description": "LONDON (ICIS)--Market players at a key industry event in Rome cautioned that the latest upswing in Europe styrene spot prices had been rapid, and that the downstream market could defer purchasing. A...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186447/styrene-players-warn-of-overheating-risk-as-europe-spot-prices-surge",
+      "published": "2026-03-06T17:51:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
     {
       "id": "543030c921c3c8b3",
       "title": "Romania clinches €150m EU aid to expand battery capacity",
@@ -137,8 +187,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/crude-oil/030626-infographic-middle-east-war-jolts-commodities-markets",
       "published": "2026-03-06T17:02:13+00:00",
       "source": "S&P Global",
-      "feed": "S&P Oil - Refined Products",
-      "category": "Oil - Refined Products, Fertilizers"
+      "feed": "S&P Oil - Crude",
+      "category": "Oil - Crude, Oil - Refined Products, Fertilizers, Chemicals, LNG"
     },
     {
       "id": "778db0fcc1ad63da",
@@ -3658,7 +3708,7 @@
       "published": "2026-03-04T20:30:24+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Fertilizers, Chemicals"
+      "category": "Fertilizers"
     },
     {
       "id": "3d5bfefc96247837",
