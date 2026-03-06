@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-06T11:52:40.586980+00:00",
-    "total_articles": 296,
+    "last_updated": "2026-03-06T13:07:08.688061+00:00",
+    "total_articles": 309,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,136 @@
     }
   },
   "articles": [
+    {
+      "id": "b7d4ddf3cf591c00",
+      "title": "Plant status: China’s ZPC to shut VAM unit in April",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: Zhejiang Petroleum & Chemical (ZPC) Location: Zhoushan, China Products: Vinyl acetate monomer (VAM) Capacity (tonnes/year): 300,000 Event...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186379/plant-status-china-s-zpc-to-shut-vam-unit-in-april",
+      "published": "2026-03-06T12:53:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals, Oil - Crude"
+    },
+    {
+      "id": "24fda22ed491ffd0",
+      "title": "INSIGHT: China benzene hits new highs in 2026 on Middle East conflict, volatility deepens",
+      "description": "SINGAPORE (ICIS)--China’s benzene market showed a geopolitically driven surge this week, with prices reaching new highs on crude gains. Sentiment continued to outweigh fundamentals, and buying...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186378/insight-china-benzene-hits-new-highs-in-2026-on-middle-east-conflict-volatility-deepens",
+      "published": "2026-03-06T12:53:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals, Oil - Crude"
+    },
+    {
+      "id": "e5d563df3d370ec6",
+      "title": "Butane surge lifts Asia MA outlook amid freight disruptions",
+      "description": "SINGAPORE (ICIS)--Asia’s maleic anhydride (MA) market strengthened during the week as tightening feedstock supply and freight disruptions supported firmer regional sentiment. In China, domestic MA...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186377/butane-surge-lifts-asia-ma-outlook-amid-freight-disruptions",
+      "published": "2026-03-06T12:52:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Refined Products"
+    },
+    {
+      "id": "d1311790fd83f31f",
+      "title": "CRUDE: Low OECD strategic inventories represent missed opportunity to reduce prices",
+      "description": "LONDON (ICIS)--The release of Organisation for Economic Co-operation and Development (OECD) government-held crude inventories could reduce oil prices in the wake of the current Middle East crisis....",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186376/crude-low-oecd-strategic-inventories-represent-missed-opportunity-to-reduce-prices",
+      "published": "2026-03-06T12:51:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Crude"
+    },
+    {
+      "id": "0888881dee65eb56",
+      "title": "INSIGHT: Middle East conflict casts shadow over Q2 methanol, derivatives outlook",
+      "description": "LONDON (ICIS)--After a challenging 2025, with record high methanol prices leading to demand destruction for various downstream markets, players had looked to 2026 with hopes of stable consumption...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186375/insight-middle-east-conflict-casts-shadow-over-q2-methanol-derivatives-outlook",
+      "published": "2026-03-06T12:48:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "3b591511bb2a0475",
+      "title": "EU changes comments deadline on final disclosure of Chinese ADD investigation again",
+      "description": "LONDON (ICIS)--The European Commission has again changed the deadline for comments on the final disclosure of its antidumping investigation into China-origin adipic acid (ADA). This is the fifth...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186374/eu-changes-comments-deadline-on-final-disclosure-of-chinese-add-investigation-again",
+      "published": "2026-03-06T12:45:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "03a4399cd15e795b",
+      "title": "OPINION: Iran war shock strengthens case for German strategic gas reserve",
+      "description": "This article reflects the personal views of the author and is not necessarily an expression of ICIS's position. Gulf disruption strengthens the case for a German strategic gas reserve Remote...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186373/opinion-iran-war-shock-strengthens-case-for-german-strategic-gas-reserve",
+      "published": "2026-03-06T12:37:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "77199ab75451e2ce",
+      "title": "Feedstock surge lifts Asia PA outlook amid freight volatility",
+      "description": "SINGAPORE (ICIS)--Asia’s phthalic anhydride (PA) market firmed during the week as rising feedstock costs and freight volatility supported higher offers across the region. In China, stronger crude...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186372/feedstock-surge-lifts-asia-pa-outlook-amid-freight-volatility",
+      "published": "2026-03-06T12:36:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals, Oil - Crude"
+    },
+    {
+      "id": "7eb4b893ee7443c1",
+      "title": "Thailand's Rayong Olefins declares FM on supplies",
+      "description": "SINGAPORE (ICIS)--Thailand's Rayong Olefins has declared force majeure (FM) on petrochemical supplies citing challenges with feedstock and logistics due to the ongoing conflict between US-Israel and...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186370/thailand-s-rayong-olefins-declares-fm-on-supplies",
+      "published": "2026-03-06T12:29:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "5f3342fa33438db6",
+      "title": "INSIGHT: China base oils prices soar on Middle East conflict, imported supplies may face shortage",
+      "description": "SINGAPROE (ICIS)--Ongoing conflict between the US, Israel and Iran has kept the Middle East in turmoil. Coupled with the ongoing closure of the Strait of Hormuz, Middle East crude oil and base oil...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186369/insight-china-base-oils-prices-soar-on-middle-east-conflict-imported-supplies-may-face-shortage",
+      "published": "2026-03-06T12:29:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Crude, Oil - Refined Products"
+    },
+    {
+      "id": "28f9e5699b56c8af",
+      "title": "Plant status: INEOS Oxide declares force majeure for ethyl acetate production at Hull, UK",
+      "description": "LONDON (ICIS)--Here is a plant status report: Name: INEOS Oxide Location: Hull, UK Product: Ethyl acetate (etac) Capacity (tonnes/year): 335,000 Event start: 4 March Event finish: April Reason:...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186367/plant-status-ineos-oxide-declares-force-majeure-for-ethyl-acetate-production-at-hull-uk",
+      "published": "2026-03-06T12:22:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "3c65e98d365cf6d0",
+      "title": "Plant status: China’s PetroChina Guangxi cuts cracker runs",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: Guangxi PC & RF Location: Qinzhou, China Product: Ethylene, propylene Capacity (tonnes/year): 1.2 million for ethylene, 616,000 for...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186361/plant-status-china-s-petrochina-guangxi-cuts-cracker-runs",
+      "published": "2026-03-06T12:00:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "8e9d89cd09bbee33",
+      "title": "NOON SNAPSHOT - Europe Markets Summary",
+      "description": "CRUDE: Gulf conflict sets prices on track for largest weekly rise since 2022's Russian invasion of Ukraine. NAPHTHA: Firms up with rallying crude, steady crack spread. BENZENE: Surges with crude;...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186357/noon-snapshot-europe-markets-summary",
+      "published": "2026-03-06T12:00:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals, Oil - Refined Products"
+    },
     {
       "id": "57d25c57de920eae",
       "title": "Asia weekly VAM assessment",
@@ -847,8 +977,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/agriculture/030526-dutch-ere-biotickets-trigger-strong-biomethane-gains",
       "published": "2026-03-05T16:38:44+00:00",
       "source": "S&P Global",
-      "feed": "S&P Agriculture",
-      "category": "Agriculture, Energy Transition"
+      "feed": "S&P Natural Gas",
+      "category": "Natural Gas, Agriculture, Energy Transition"
     },
     {
       "id": "6982d15a27f92a20",
@@ -6200,8 +6330,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/lng/030226-nwe-lng-swings-to-premium-over-ttf-as-markets-rally-on-middle-east-conflict",
       "published": "2026-03-02T19:22:48+00:00",
       "source": "S&P Global",
-      "feed": "S&P Natural Gas",
-      "category": "Natural Gas, LNG",
+      "feed": "S&P LNG",
+      "category": "LNG",
       "sentiment": {
         "label": "positive",
         "confidence": 0.6419748067855835,
