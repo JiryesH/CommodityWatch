@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-06T05:02:58.416498+00:00",
-    "total_articles": 251,
+    "last_updated": "2026-03-06T06:00:56.314944+00:00",
+    "total_articles": 254,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,26 @@
     }
   },
   "articles": [
+    {
+      "id": "da9ad95198ba7aba",
+      "title": "Sinopec raises east China phenol offers by CNY400/tonne",
+      "description": "SINGAPORE (ICIS)--Major Chinese producer Sinopec increased its domestic offers for phenol in east China on 6 March, a company source said on Friday. The company has increased its offers for phenol by...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186246/sinopec-raises-east-china-phenol-offers-by-cny400-tonne",
+      "published": "2026-03-06T05:54:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "49b9f5e56cc1f8a0",
+      "title": "Plant status: Dairen Chem Singapore cuts VAM run rate, declares FM",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: Dairen Chemical Location: Jurong Island, Singapore Product: Vinyl acetate monomer (VAM) Capacity (tonnes/year): 350,000 Event start: 6 March...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186244/plant-status-dairen-chem-singapore-cuts-vam-run-rate-declares-fm",
+      "published": "2026-03-06T05:13:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
     {
       "id": "20f57876ca305fca",
       "title": "NOON SNAPSHOT - Asia Markets Summary",
@@ -149,6 +169,16 @@
       "source": "ICIS",
       "feed": "ICIS",
       "category": "Chemicals"
+    },
+    {
+      "id": "673dab0d55a703dd",
+      "title": "US issues 30-day waiver to allow sale of already loaded Russian oil to India",
+      "description": "The US Treasury Department on March 5 issued a 30-day waiver to allow the sale and delivery of sanctioned Russian oil that has already been loaded on vessels to India, a move that could prevent a nearâ&#x20ac;&#x2018;term supply disruption stemming from geopolitical tensions in the Middle East. &quot;To enable oil to keep flowing into the global market, the Treasury Department is issuing a temporary 30-day waiver to",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/crude-oil/030626-us-issues-30-day-waiver-to-allow-sale-of-already-loaded-russian-oil-to-india",
+      "published": "2026-03-06T01:13:17+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Oil - Crude",
+      "category": "Oil - Crude, Shipping"
     },
     {
       "id": "d8347bf88e896700",
@@ -1739,7 +1769,7 @@
       "published": "2026-03-05T05:06:26+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude, Shipping",
+      "category": "Oil - Crude",
       "sentiment": {
         "label": "negative",
         "confidence": 0.7874425053596497,
