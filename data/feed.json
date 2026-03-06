@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-06T22:01:59.632445+00:00",
-    "total_articles": 386,
+    "last_updated": "2026-03-06T22:48:53.965636+00:00",
+    "total_articles": 388,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,26 @@
     }
   },
   "articles": [
+    {
+      "id": "ec5be42aad274ca7",
+      "title": "Asia-US container rates rise on Middle East conflict; global bunker prices surge with crude",
+      "description": "HOUSTON (ICIS)--Rates for shipping containers from east Asia and China to the US were mostly higher this week as the conflict in the Middle East wages on, while surging crude oil prices amid the...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186655/asia-us-container-rates-rise-on-middle-east-conflict-global-bunker-prices-surge-with-crude",
+      "published": "2026-03-06T22:39:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Crude"
+    },
+    {
+      "id": "9f7b6ef37033124b",
+      "title": "US phenol price increases emerge separately amid US-Iran conflict",
+      "description": "HOUSTON (ICIS)--US phenol price increases have emerged separately this week, according to market sources and customer letters seen by ICIS. The following price increases are being sought separately:...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186469/us-phenol-price-increases-emerge-separately-amid-us-iran-conflict",
+      "published": "2026-03-06T21:57:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
     {
       "id": "7e00a6729b10d9ed",
       "title": "Multiple US acetone price increases emerge separately amid US-Iran conflict",
