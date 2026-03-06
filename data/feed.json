@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-06T23:32:44.898127+00:00",
-    "total_articles": 388,
+    "last_updated": "2026-03-06T23:59:32.751264+00:00",
+    "total_articles": 389,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,16 @@
     }
   },
   "articles": [
+    {
+      "id": "174d6e3bdb771d1e",
+      "title": "EVENING SNAPSHOT - Americas Markets Summary",
+      "description": "CRUDE: Up for the sixth consecutive session and on the week. Both benchmarks penetrated the psychological $90/barrel barrier in search of a top. Middle East military conflict disrupting supplies....",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186660/evening-snapshot-americas-markets-summary",
+      "published": "2026-03-06T23:30:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Crude"
+    },
     {
       "id": "ec5be42aad274ca7",
       "title": "Asia-US container rates rise on Middle East conflict; global bunker prices surge with crude",
