@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-06T06:00:56.314944+00:00",
-    "total_articles": 254,
+    "last_updated": "2026-03-06T07:08:48.802101+00:00",
+    "total_articles": 260,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,66 @@
     }
   },
   "articles": [
+    {
+      "id": "2af831e40bcdd87b",
+      "title": "Singapore's Aster declares force majeure on SM - sources",
+      "description": "SINGAPORE (ICIS)--Singapore's Aster Chemicals and Energy declared on Friday a force majeure on styrene monomer (SM), market sources said. Detailed production plan has yet to be announced under the...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186260/singapore-s-aster-declares-force-majeure-on-sm-sources",
+      "published": "2026-03-06T06:55:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "7f1bb5fcf8d20b8e",
+      "title": "India PE, PP major producer announces price hikes amid Hormuz disruption concerns",
+      "description": "MUMBAI (ICIS)--A major Indian polyethylene (PE) and polypropylene (PP) producer has announced steep hikes in list prices across all grades, effective 6 March 2026. Prices for high density...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186258/india-pe-pp-major-producer-announces-price-hikes-amid-hormuz-disruption-concerns",
+      "published": "2026-03-06T06:33:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "96bc0cda6c19a131",
+      "title": "Plant status: China’s Fujian Zhongjiang Petrochemical shuts PP unit",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: Zhongjiang PC Location: Fuqing, China Product: Polypropylene (PP) Capacity (tonnes/year): 350,000 Event start: 2 March Event finish: Unknown...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186257/plant-status-china-s-fujian-zhongjiang-petrochemical-shuts-pp-unit",
+      "published": "2026-03-06T06:24:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "0d32015cb82da3fd",
+      "title": "Asia glycerine demand rises on strong downstream ECH amid US-Iran conflict",
+      "description": "SINGAPORE (ICIS)--Asia’s glycerine market is seeing a spike in offers as buyers seek to lock in April and May shipments, given the uncertainties amid an escalating conflict in the Middle East. Spot...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186255/asia-glycerine-demand-rises-on-strong-downstream-ech-amid-us-iran-conflict",
+      "published": "2026-03-06T06:20:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "08190f6108b99ca3",
+      "title": "Vietnam PP prices rise sharply amid supply concerns due to Middle East conflict",
+      "description": "SINGAPORE (ICIS)--Spot prices of polypropylene (PP) in Vietnam rose sharply amid increasing concerns about cargo availability as a result of the escalating tensions in the Middle East. Some...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11186247/vietnam-pp-prices-rise-sharply-amid-supply-concerns-due-to-middle-east-conflict",
+      "published": "2026-03-06T06:05:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "0e851a49dc4d852d",
+      "title": "Italian PSV gas liquidity on track to hit record high in Q1 '26",
+      "description": "PSV liquidity up year on year in February Geopolitical uncertainty could drive high trading activity in March following US-Israel strikes on Iran Front month and Q2 likely to be most-traded...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/06/11185924/italian-psv-gas-liquidity-on-track-to-hit-record-high-in-q1-26",
+      "published": "2026-03-06T06:00:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
     {
       "id": "da9ad95198ba7aba",
       "title": "Sinopec raises east China phenol offers by CNY400/tonne",
