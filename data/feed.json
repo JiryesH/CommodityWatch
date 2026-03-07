@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-07T15:33:58.018568+00:00",
-    "total_articles": 394,
+    "last_updated": "2026-03-07T15:57:01.804999+00:00",
+    "total_articles": 397,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,36 @@
     }
   },
   "articles": [
+    {
+      "id": "3c6d0a24f582dd70",
+      "title": "Plant status: Indonesia's LCI lowers cracker runs amid naphtha supply disruptions",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: Lotte Chemical Indonesia (LCI) Location: Cilegon, Indonesia Products: Ethylene, propylene Capacity (tonnes/year): 1 million (ethylene), 520,000...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/07/11186672/plant-status-indonesia-s-lci-lowers-cracker-runs-amid-naphtha-supply-disruptions",
+      "published": "2026-03-07T15:36:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals, Oil - Refined Products"
+    },
+    {
+      "id": "ddba9b0796792cd3",
+      "title": "Plant status: Thailand's PTTGC mulls restart of cracker from turnaround in April",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: PTT Global Chemical (PTTGC) Location: Map Ta Phut, Thailand Product: Ethylene, propylene Capacity (tonnes/year): 500,000 (ethylene), 260,000...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/07/11186671/plant-status-thailand-s-pttgc-mulls-restart-of-cracker-from-turnaround-in-april",
+      "published": "2026-03-07T15:34:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals, Fertilizers"
+    },
+    {
+      "id": "91321a81f497125a",
+      "title": "Plant status: India's IOC shuts cracker on technical issue - sources",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: Indian Oil Corp Location: Panipat, India Product: Ethylene, propylene Capacity (tonnes/year): 947,000 (ethylene), 465,000 (propylene) Event...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/07/11186670/plant-status-india-s-ioc-shuts-cracker-on-technical-issue-sources",
+      "published": "2026-03-07T15:29:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
     {
       "id": "120712a018445bde",
       "title": "Plant status: India's OPaL lowers cracker op rate on LNG supply disruption",
