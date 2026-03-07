@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-06T23:59:32.751264+00:00",
-    "total_articles": 389,
+    "last_updated": "2026-03-07T02:40:46.594023+00:00",
+    "total_articles": 392,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,16 @@
     }
   },
   "articles": [
+    {
+      "id": "58471d4d6ce656ce",
+      "title": "Plant status: S Korea’s LG Chem shuts Yeosu NB latex units for maintenance",
+      "description": "SINGAPORE (ICIS) – Here is a plant status report: Name: LG Chem Location: Yeosu, South Korea Product: NB Copolymers (acrylonitrile butadiene latex) Capacity (tonnes/year): 127,000 (two lines) Event...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/07/11186664/plant-status-s-korea-s-lg-chem-shuts-yeosu-nb-latex-units-for-maintenance",
+      "published": "2026-03-07T01:08:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
     {
       "id": "174d6e3bdb771d1e",
       "title": "EVENING SNAPSHOT - Americas Markets Summary",
@@ -1041,6 +1051,16 @@
       "category": "Chemicals"
     },
     {
+      "id": "34dd8f0e12f48181",
+      "title": "FACTBOX: Middle East war raises farm-to-fork food inflation risks on fuel, freight, fertilizer disruptions",
+      "description": "The Middle East war is raising the risk of food inflation following the upward trajectory of fuel, freight and fertilizer markets, as concerns grow that farm-to-fork price transmission will deepen throughout 2026 due to disrupted trade flows and energy-intensive inputs at multiyear highs. The Philippine Department of Agriculture said March 3 it was closely monitoring the conflict&apos;s impact on food",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/agriculture/030626-factbox-middle-east-war-raises-farm-to-fork-food-inflation-risks-on-fuel-freight-fertilizer-disruptions",
+      "published": "2026-03-06T10:53:21+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Fertilizers",
+      "category": "Fertilizers, Agriculture, Energy Transition"
+    },
+    {
       "id": "09318d6783e6566e",
       "title": "Europe plasticizers spot prices firm as Middle East conflict lifts feedstock and energy costs",
       "description": "LONDON (ICIS)--European plasticizer spot prices firmed this week following a surge in feedstock and energy costs linked to the latest disruptions in the Middle East. The dioctyl terephthalate (DOTP)...",
@@ -1511,6 +1531,16 @@
       "category": "Oil - Crude, Shipping"
     },
     {
+      "id": "c5d3c92e847f0b7f",
+      "title": "FACTBOX: Middle East uncertainty causes significant increases in chemical markets",
+      "description": "Several US chemical markets reached pricing levels not seen since last year, aligning themselves to the upward trend worldwide caused by the geopolitical uncertainty stemming from the war in the Middle East. Participants continued to increase the risk premium associated with the current situation, following steep reactions in the upstream crude oil sector. Disruptions in the Strait of Hormuz, the",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/chemicals/030626-factbox-middle-east-uncertainty-causes-significant-increases-in-chemical-markets",
+      "published": "2026-03-06T00:29:23+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Oil - Refined Products",
+      "category": "Oil - Refined Products"
+    },
+    {
       "id": "d8347bf88e896700",
       "title": "EVENING SNAPSHOT - Americas Markets Summary",
       "description": "CRUDE: Surged, with WTI outpacing its North Sea counterpart, both in search of a top. The disruption of global supplies by the Middle East conflict for an unknown period prevents selling. GASOLINE:...",
@@ -1658,7 +1688,7 @@
       "published": "2026-03-05T17:33:47+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude, Oil - Refined Products, Shipping"
+      "category": "Oil - Crude, Shipping"
     },
     {
       "id": "a10b6006831f48b9",
