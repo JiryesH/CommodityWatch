@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-08T11:55:33.778677+00:00",
-    "total_articles": 399,
+    "last_updated": "2026-03-08T13:01:09.341474+00:00",
+    "total_articles": 400,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -1601,6 +1601,16 @@
       "category": "Oil - Crude, Shipping"
     },
     {
+      "id": "c13658efc72ed80e",
+      "title": "USGC jet rises to 44-month high, rare New York premium on export demand",
+      "description": "US jet fuel prices rose again on March 5, including the Gulf Coast benchmark to a 44-month high and the first premium to New York Harbor barrels since Feb. 24, 2023, as prompt export demand to Europe builds. The Middle East war pushed spot prices for benchmark US Gulf Coast pipeline jet up 18.3% March 5 to $4.1243/gal, highs unseen since June 2022 records after Russia&apos;s invasion of Ukraine. The US",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/refined-products/030626-usgc-jet-rises-to-44-month-high-rare-new-york-premium-on-export-demand",
+      "published": "2026-03-06T00:44:10+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Oil - Refined Products",
+      "category": "Oil - Refined Products"
+    },
+    {
       "id": "c5d3c92e847f0b7f",
       "title": "FACTBOX: Middle East uncertainty causes significant increases in chemical markets",
       "description": "Several US chemical markets reached pricing levels not seen since last year, aligning themselves to the upward trend worldwide caused by the geopolitical uncertainty stemming from the war in the Middle East. Participants continued to increase the risk premium associated with the current situation, following steep reactions in the upstream crude oil sector. Disruptions in the Strait of Hormuz, the",
@@ -1718,7 +1728,7 @@
       "published": "2026-03-05T18:00:33+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude, Oil - Refined Products"
+      "category": "Oil - Crude"
     },
     {
       "id": "00a1aaddb3f1332b",
