@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-08T21:56:16.784124+00:00",
-    "total_articles": 400,
+    "last_updated": "2026-03-08T22:32:47.872890+00:00",
+    "total_articles": 401,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,16 @@
     }
   },
   "articles": [
+    {
+      "id": "e39b3ebd1b3109f4",
+      "title": "What to watch this week - ICIS calendar highlights",
+      "description": "Crude and petrochemicals players can expect this week another jump in prices as Strait of Hormuz disruptions persist, with the Brent-WTI spread widening and a potential 10 million barrel/day global...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/08/11186661/what-to-watch-this-week-icis-calendar-highlights",
+      "published": "2026-03-08T22:00:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals, Oil - Crude"
+    },
     {
       "id": "3c6d0a24f582dd70",
       "title": "Plant status: Indonesia's LCI lowers cracker runs amid naphtha supply disruptions",
