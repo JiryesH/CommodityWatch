@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-07T23:48:40.950540+00:00",
-    "total_articles": 397,
+    "last_updated": "2026-03-08T02:36:47.064258+00:00",
+    "total_articles": 399,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -458,7 +458,7 @@
       "published": "2026-03-06T17:02:13+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude, Oil - Refined Products, Fertilizers, Chemicals, Shipping, Agriculture, LNG"
+      "category": "Oil - Crude, Oil - Refined Products, Fertilizers, Chemicals, Metals, Shipping, Agriculture, LNG"
     },
     {
       "id": "778db0fcc1ad63da",
@@ -669,6 +669,16 @@
       "source": "ICIS",
       "feed": "ICIS",
       "category": "General"
+    },
+    {
+      "id": "fac8b8bd8d884b9c",
+      "title": "Aluminum smelter restarts to offset Middle East shortfalls, but gas prices pose risks",
+      "description": "The aluminum market is assessing whether restarting idled smelters and building new capacity would be enough to offset supply shortfalls from the Middle East amid challenging fuel prices and the region&apos;s share exceeding 20% in certain markets. &quot;The Middle East accounts for 9% of global primary aluminum production, but in the ex-China market, the Gulf Cooperation Council&apos;s share is huge,&quot; Anoop M.",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/metals/030626-aluminum-smelter-restarts-to-offset-middle-east-shortfalls-but-gas-prices-pose-risks",
+      "published": "2026-03-06T14:58:14+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Metals",
+      "category": "Metals"
     },
     {
       "id": "95fa9f20e29f4564",
@@ -1469,6 +1479,16 @@
       "source": "ICIS",
       "feed": "ICIS",
       "category": "Chemicals"
+    },
+    {
+      "id": "4b60f5ce0f672444",
+      "title": "China policy signals boost to energy storage, lithium demand outlook",
+      "description": "China&apos;s policy signals supporting energy storage deployment during the country&apos;s annual &quot;Two Sessions&quot; event are expected to fuel long-term growth in the sector and lift demand for lithium, China-based market sources said March 5-6. The &quot;Two Sessions&quot; refer to the annual meetings of China&apos;s top legislative and political advisory bodies: the National People&apos;s Congress (NPC) and the Chinese People&apos;s",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/metals/030626-china-policy-signals-boost-to-energy-storage-lithium-demand-outlook",
+      "published": "2026-03-06T05:53:56+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Metals",
+      "category": "Metals"
     },
     {
       "id": "49b9f5e56cc1f8a0",
@@ -7133,7 +7153,7 @@
       "published": "2026-03-02T22:21:00+00:00",
       "source": "S&P Global",
       "feed": "S&P Electric Power",
-      "category": "Electric Power, Natural Gas, Coal, Metals, LNG",
+      "category": "Electric Power, Natural Gas, Coal, LNG",
       "sentiment": {
         "label": "positive",
         "confidence": 0.6730107069015503,
