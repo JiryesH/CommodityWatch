@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "last_updated": "2026-03-08T09:02:18.964113+00:00",
+    "last_updated": "2026-03-08T09:45:40.583648+00:00",
     "total_articles": 399,
     "feeds_fetched": 13,
     "feeds_failed": 0,
@@ -458,7 +458,7 @@
       "published": "2026-03-06T17:02:13+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude, Oil - Refined Products, Fertilizers, Chemicals, Shipping, Agriculture, LNG"
+      "category": "Oil - Crude, Oil - Refined Products, Fertilizers, Chemicals, Metals, Shipping, Agriculture, LNG"
     },
     {
       "id": "778db0fcc1ad63da",
@@ -1118,7 +1118,7 @@
       "published": "2026-03-06T10:53:21+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Fertilizers, Shipping, Agriculture, Energy Transition"
+      "category": "Fertilizers, Chemicals, Shipping, Agriculture, Energy Transition"
     },
     {
       "id": "09318d6783e6566e",
@@ -1608,7 +1608,7 @@
       "published": "2026-03-06T00:29:23+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Refined Products",
-      "category": "Oil - Refined Products"
+      "category": "Oil - Refined Products, Chemicals"
     },
     {
       "id": "d8347bf88e896700",
@@ -2128,7 +2128,7 @@
       "published": "2026-03-05T13:17:22+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Fertilizers, Chemicals, Energy Transition"
+      "category": "Fertilizers, Energy Transition"
     },
     {
       "id": "42fbbfabd42fbf9e",
@@ -7153,7 +7153,7 @@
       "published": "2026-03-02T22:21:00+00:00",
       "source": "S&P Global",
       "feed": "S&P Electric Power",
-      "category": "Electric Power, Natural Gas, Coal, Metals, LNG",
+      "category": "Electric Power, Natural Gas, Coal, LNG",
       "sentiment": {
         "label": "positive",
         "confidence": 0.6730107069015503,
