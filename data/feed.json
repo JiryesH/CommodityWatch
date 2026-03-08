@@ -1,13 +1,13 @@
 {
   "metadata": {
-    "last_updated": "2026-03-08T18:49:16.203873+00:00",
+    "last_updated": "2026-03-08T19:28:12.965011+00:00",
     "total_articles": 400,
-    "feeds_fetched": 13,
-    "feeds_failed": 0,
+    "feeds_fetched": 12,
+    "feeds_failed": 1,
     "feed_details": {
       "ICIS": {
-        "status": "ok",
-        "count": 30
+        "status": "failed",
+        "count": 0
       },
       "S&P Oil - Crude": {
         "status": "ok",
