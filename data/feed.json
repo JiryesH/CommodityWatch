@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "last_updated": "2026-03-08T02:36:47.064258+00:00",
+    "last_updated": "2026-03-08T04:26:13.172016+00:00",
     "total_articles": 399,
     "feeds_fetched": 13,
     "feeds_failed": 0,
@@ -458,7 +458,7 @@
       "published": "2026-03-06T17:02:13+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude, Oil - Refined Products, Fertilizers, Chemicals, Metals, Shipping, Agriculture, LNG"
+      "category": "Oil - Crude, Oil - Refined Products, Fertilizers, Chemicals, Shipping, Agriculture, LNG"
     },
     {
       "id": "778db0fcc1ad63da",
@@ -7153,7 +7153,7 @@
       "published": "2026-03-02T22:21:00+00:00",
       "source": "S&P Global",
       "feed": "S&P Electric Power",
-      "category": "Electric Power, Natural Gas, Coal, LNG",
+      "category": "Electric Power, Natural Gas, Coal, Metals, LNG",
       "sentiment": {
         "label": "positive",
         "confidence": 0.6730107069015503,
