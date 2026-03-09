@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-09T17:25:35.214156+00:00",
-    "total_articles": 506,
+    "last_updated": "2026-03-09T18:08:23.771608+00:00",
+    "total_articles": 512,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,66 @@
     }
   },
   "articles": [
+    {
+      "id": "1cf4a83995d686db",
+      "title": "US-Iran war could pressure European wholesale gas market liquidity",
+      "description": "US–Iran war turmoil could see sharp drop in European gas liquidity. Volatility and soaring hedging costs push traders to retreat Rebound hinges on calmer geopolitics, market stabilisation LONDON...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186880/us-iran-war-could-pressure-european-wholesale-gas-market-liquidity",
+      "published": "2026-03-09T18:01:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "8d20ee0c81a73aff",
+      "title": "Some Russian LNG will swing from Europe to Asia in the “near future\" - Novak",
+      "description": "Novak says Russian LNG to Europe could be swung to Asia in “near future” Insufficient length in Novatek tanker fleet for more exports to Asia Timeline and logistics unclear LONDON (ICIS)--Russia...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186879/some-russian-lng-will-swing-from-europe-to-asia-in-the-near-future-novak",
+      "published": "2026-03-09T18:00:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Shipping, LNG"
+    },
+    {
+      "id": "1e2267fcd7d4ce84",
+      "title": "Europe MEG spot prices firm; March contract stalls on feedstock surge amid Middle East conflict",
+      "description": "LONDON (ICIS)--European monoethylene glycol (MEG) spot prices have increased in early March. Concerns over the US-Iran conflict are mounting as feedstock costs jump higher this week. MEG spot prices...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186878/europe-meg-spot-prices-firm-march-contract-stalls-on-feedstock-surge-amid-middle-east-conflict",
+      "published": "2026-03-09T17:50:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "0f29751b8f893473",
+      "title": "Intra-Europe chemical tanker spot rates soar on US-Iran war impact",
+      "description": "LONDON (ICIS)--The week ending 6 March brought chaos and strong upward pressure to spot chemical tanker markets, resulting in all ICIS assessed intra-European spot freight rates rising sharply from...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186877/intra-europe-chemical-tanker-spot-rates-soar-on-us-iran-war-impact",
+      "published": "2026-03-09T17:37:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Shipping"
+    },
+    {
+      "id": "019efd6b1cbdc8da",
+      "title": "EVENING SNAPSHOT - Europe Markets Summary",
+      "description": "CRUDE: Up but lower than this morning's peak. Iran appoints Ali Khamenei's son as new supreme leader. NAPHTHA: Rallies on crude despite falling NWE crack spread. BENZENE: Pares gains on market...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186873/evening-snapshot-europe-markets-summary",
+      "published": "2026-03-09T17:30:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals, Oil - Refined Products"
+    },
+    {
+      "id": "2f8df403d582bd13",
+      "title": "Update to ICIS Topics: Macroeconomics and Impact on Chemicals",
+      "description": "Visit Macroeconomics: Impact on Chemicals for this latest update on US retail sales, light vehicle sales and nonfarm payrolls in the Summary section. Key sections of this Topic Page include:...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186876/update-to-icis-topics-macroeconomics-and-impact-on-chemicals",
+      "published": "2026-03-09T17:26:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
     {
       "id": "a7967da13c4e9a00",
       "title": "Plant status: Orlen declares FM at Plock, Poland cracker - sources",
@@ -1498,7 +1558,7 @@
       "published": "2026-03-06T17:02:13+00:00",
       "source": "S&P Global",
       "feed": "S&P Metals",
-      "category": "Metals, Shipping, Agriculture"
+      "category": "Metals, Shipping, Agriculture, LNG"
     },
     {
       "id": "778db0fcc1ad63da",
@@ -2158,7 +2218,7 @@
       "published": "2026-03-06T10:53:21+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Fertilizers, Chemicals, Shipping, Agriculture, Energy Transition"
+      "category": "Fertilizers, Chemicals, Agriculture, Energy Transition"
     },
     {
       "id": "09318d6783e6566e",
@@ -2817,8 +2877,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/crude-oil/030526-factbox-fresh-attacks-hit-shipping-energy-operations-in-the-middle-east",
       "published": "2026-03-05T17:33:47+00:00",
       "source": "S&P Global",
-      "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude"
+      "feed": "S&P Shipping",
+      "category": "Shipping"
     },
     {
       "id": "a10b6006831f48b9",
