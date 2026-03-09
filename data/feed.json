@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-09T06:03:36.637279+00:00",
-    "total_articles": 427,
+    "last_updated": "2026-03-09T07:18:35.246036+00:00",
+    "total_articles": 439,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,126 @@
     }
   },
   "articles": [
+    {
+      "id": "ad15b4f74c7f7bd4",
+      "title": "Sinopec raises east China phenol offers by CNY3,400/tonne",
+      "description": "SINGAPORE (ICIS)--Major Chinese producer Sinopec increased its domestic offers for phenol in east China on 9 March, a company source said on Monday. The company has increased its offers for phenol by...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186740/sinopec-raises-east-china-phenol-offers-by-cny3-400-tonne",
+      "published": "2026-03-09T07:11:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "6dd0aadae3e09183",
+      "title": "Plant status: S Korea’s HSB lowers run rates at Group II base oils unit",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: Hyundai Oilbank Shell Base Oil (HSB) Location: Daesan, South Korea Product: Group II base oils Capacity (tonnes/year): 1.25 million Event start:...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186737/plant-status-s-korea-s-hsb-lowers-run-rates-at-group-ii-base-oils-unit",
+      "published": "2026-03-09T07:09:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Refined Products"
+    },
+    {
+      "id": "cf63de8f424ee3ef",
+      "title": "China’s average PTA plants’ run rate increases on unit restarts",
+      "description": "SINGAPORE (ICIS)--China’s purified terephthalic acid (PTA) plants have posted a higher average operating rate despite Sinopec Yizheng Chemfibre’s maintenance, as INEOS Zhuhai and Dushan Energy...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186736/china-s-average-pta-plants-run-rate-increases-on-unit-restarts",
+      "published": "2026-03-09T07:05:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "bb75c843192ae466",
+      "title": "China’s average PX plants’ run rate falls on unit shutdown",
+      "description": "SINGAPORE (ICIS)--China’s para-xylene (PX) plants have posted a lower average operating rate, mainly as Zhejiang Petroleum & Chemical (ZPC) shut its 2.4 million tonne/year unit for maintenance...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186735/china-s-average-px-plants-run-rate-falls-on-unit-shutdown",
+      "published": "2026-03-09T07:00:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Crude, Chemicals"
+    },
+    {
+      "id": "966f72377129364b",
+      "title": "Asia MEG prices spike on surging crude, tightening supply",
+      "description": "SINGAPORE (ICIS)--Asia’s monoethylene glycol (MEG) prices are spiking further on 9 March, the first trading day of the week. Aggressive gains in crude oil prices and tightening supply continue to...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186731/asia-meg-prices-spike-on-surging-crude-tightening-supply",
+      "published": "2026-03-09T06:36:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals, Oil - Crude"
+    },
+    {
+      "id": "93c227e9bbc4859c",
+      "title": "China acetic acid run rate stable on minor operational change",
+      "description": "SINGAPORE (ICIS)--China acetic acid plants’ average run rate was largely flat as only Sinopec Great Wall gradually raised operating rate from 4 March. The average run rate stood at 85% in the week...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186729/china-acetic-acid-run-rate-stable-on-minor-operational-change",
+      "published": "2026-03-09T06:29:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "76838652b07eaadb",
+      "title": "Plant status: QatarEnergy shuts down PVC production amid conflict in Middle East",
+      "description": "MUMBAI (ICIS)--Here is a plant status report: Name: QatarEnergy Location: Mesaieed, Qatar Product: PVC Capacity (tonnes/year): 350,000 Event start: 3 March 2026 Event finish: Unknown Reason:...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186728/plant-status-qatarenergy-shuts-down-pvc-production-amid-conflict-in-middle-east",
+      "published": "2026-03-09T06:29:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "18b1afdb33c6c122",
+      "title": "ICIS Analyst View: Hormuz risk premium - from crude to critical minerals, China energy security faces three-stage shock",
+      "description": "In recent days, US and Israeli military action against Iran has reignited the Middle East tinderbox, sending a major shock through global oil and gas markets. How long the US-Israel-Iran conflict...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186727/icis-analyst-view-hormuz-risk-premium-from-crude-to-critical-minerals-china-energy-security-faces-three-stage-shock",
+      "published": "2026-03-09T06:25:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Crude"
+    },
+    {
+      "id": "006196ef6276ee42",
+      "title": "Technical Analysis: TTF, NBP, German Power, Brent, carbon, coal",
+      "description": "ICIS gas and power subscribers can receive a daily version of this Technical Analysis report as an add-on product via email at 07:00 London time. For any questions, contact...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186726/technical-analysis-ttf-nbp-german-power-brent-carbon-coal",
+      "published": "2026-03-09T06:24:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Crude, Electric Power"
+    },
+    {
+      "id": "c85bfa3c3378fafc",
+      "title": "China's average run rate of PO plants inches down to 71.4% on operational cuts",
+      "description": "SINGAPORE (ICIS)--China’s propylene oxide (PO) plants posted an average run rate at 71.4% in the week ended 6 March 2026, down by 0.3 percentage points from the last reporting period, ICIS data...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186725/china-s-average-run-rate-of-po-plants-inches-down-to-71-4-on-operational-cuts",
+      "published": "2026-03-09T06:22:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "1caa2fa04db0e466",
+      "title": "India issues new standards for green ammonia, methanol",
+      "description": "MUMBAI (ICIS)--India has notified new standards for green ammonia and green methanol as part of its efforts to accelerate production and trade of green hydrogen derivatives under the National Green...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186724/india-issues-new-standards-for-green-ammonia-methanol",
+      "published": "2026-03-09T06:20:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals, Energy Transition"
+    },
+    {
+      "id": "c32cee7570fee9c9",
+      "title": "Bangladesh rushes to secure lost April LNG supply",
+      "description": "Middle East supply disruption threatens 8 out of 11 scheduled April cargoes Three cargoes are tendered on spot basis as prices soar Domestic market faces supply pressure SINGAPORE...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186722/bangladesh-rushes-to-secure-lost-april-lng-supply",
+      "published": "2026-03-09T06:14:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "LNG"
+    },
     {
       "id": "ee731a5902a03214",
       "title": "PSV traders holding off positioning on summer products as conflict continues",
