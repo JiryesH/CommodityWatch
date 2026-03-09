@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-09T13:15:17.427467+00:00",
-    "total_articles": 476,
+    "last_updated": "2026-03-09T14:14:39.789203+00:00",
+    "total_articles": 480,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,36 @@
     }
   },
   "articles": [
+    {
+      "id": "4a493add758888af",
+      "title": "Europe PVC spot prices rise on tight import availability, higher shipping costs",
+      "description": "LONDON (ICIS)--European polyvinyl chloride (PVC) spot prices were stable to firm in the week ending 6 March, as import availability tightened and uncertainty spiked because of the crisis in the...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186850/europe-pvc-spot-prices-rise-on-tight-import-availability-higher-shipping-costs",
+      "published": "2026-03-09T14:04:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "b0a55e8ac02a68a9",
+      "title": "Colombia inflation down slightly in February; Petro’s bloc posts early wins in election year",
+      "description": "SAO PAULO (ICIS)--Colombia's annual rate of inflation stood at 5.29% in February, down from 5.35% in January, statistics office DANE said, but it is still far above the 3% target after a landmark...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186849/colombia-inflation-down-slightly-in-february-petro-s-bloc-posts-early-wins-in-election-year",
+      "published": "2026-03-09T13:52:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "ff6120aabddcb517",
+      "title": "Europe butac prices surge as Middle East conflict lifts feedstock and energy costs",
+      "description": "LONDON (ICIS)--European butyl acetate (butac) spot prices following a surge in feedstock and energy costs linked to the latest disruptions in the Middle East. Butac prices hiked to...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186848/europe-butac-prices-surge-as-middle-east-conflict-lifts-feedstock-and-energy-costs",
+      "published": "2026-03-09T13:18:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
     {
       "id": "0566513676c8b2dc",
       "title": "BLOG: Middle East turmoil highlights risks to energy and food supply",
@@ -1207,8 +1237,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/crude-oil/030626-infographic-middle-east-war-jolts-commodities-markets",
       "published": "2026-03-06T17:02:13+00:00",
       "source": "S&P Global",
-      "feed": "S&P Chemicals",
-      "category": "Chemicals, Metals, Shipping, Agriculture"
+      "feed": "S&P Metals",
+      "category": "Metals, Shipping, Agriculture, LNG"
     },
     {
       "id": "778db0fcc1ad63da",
@@ -1878,6 +1908,16 @@
       "published": "2026-03-06T10:53:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "aaf06d9557f5c230",
+      "title": "Methanol and derivative trade flows into Europe disrupted by Middle East conflict",
+      "description": "Supply chain disruption stemming from the war in the Middle East has sparked bullish sentiment across European methanol and derivative markets, driven by shifting global trade balances and shipping delays from key suppliers in the region. Methanol Trading activity in the European methanol spot market surged during the week, despite tenuous links to Middle Eastern supply. Methanol from Oman and",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/chemicals/030626-methanol-and-derivative-trade-flows-into-europe-disrupted-by-middle-east-conflict",
+      "published": "2026-03-06T10:45:55+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Chemicals",
       "category": "Chemicals"
     },
     {
@@ -7641,8 +7681,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/lng/030326-china-faces-lng-supply-test-amid-middle-east-crisis-spot-price-increase",
       "published": "2026-03-03T12:17:47+00:00",
       "source": "S&P Global",
-      "feed": "S&P LNG",
-      "category": "LNG",
+      "feed": "S&P Natural Gas",
+      "category": "Natural Gas, LNG",
       "sentiment": {
         "label": "negative",
         "confidence": 0.9168105125427246,
@@ -7923,7 +7963,7 @@
       "published": "2026-03-02T22:21:00+00:00",
       "source": "S&P Global",
       "feed": "S&P Electric Power",
-      "category": "Electric Power, Coal, LNG",
+      "category": "Electric Power, Natural Gas, Coal, LNG",
       "sentiment": {
         "label": "positive",
         "confidence": 0.6730107069015503,
