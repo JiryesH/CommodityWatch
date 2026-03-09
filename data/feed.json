@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-09T16:16:02.633092+00:00",
-    "total_articles": 495,
+    "last_updated": "2026-03-09T17:25:35.214156+00:00",
+    "total_articles": 506,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,106 @@
     }
   },
   "articles": [
+    {
+      "id": "a7967da13c4e9a00",
+      "title": "Plant status: Orlen declares FM at Plock, Poland cracker - sources",
+      "description": "LONDON (ICIS)--Here is a plant status report: Name: Orlen Location: Plock, Poland Products: Ethylene, propylene, butadiene (BD) Capacity (tonnes/year): 700,000 (ethylene), 385,000 (propylene),...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186875/plant-status-orlen-declares-fm-at-plock-poland-cracker-sources",
+      "published": "2026-03-09T17:17:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "fb7c3bec6c1bb844",
+      "title": "Global bunker prices surge by 30-35%, tracking soaring crude as US-Iran crisis persists",
+      "description": "HOUSTON (ICIS)--Global bunker fuel prices have surged by 30-35% over the past week as the US-Iran conflict and closure of the Strait of Hormuz has sent crude oil prices soaring to multiyear highs,...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186874/global-bunker-prices-surge-by-30-35-tracking-soaring-crude-as-us-iran-crisis-persists",
+      "published": "2026-03-09T17:14:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Shipping, Oil - Crude"
+    },
+    {
+      "id": "0d3bcb89c20a936c",
+      "title": "Indian government reassures farmers of adequate fertilizers stocks for upcoming kharif season",
+      "description": "LONDON (ICIS)--The Indian Department of Fertilizers has guaranteed that fertilizer inventories in the country are secure for the upcoming Kharif season. On 6 March, the Department of Fertilizers...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186872/indian-government-reassures-farmers-of-adequate-fertilizers-stocks-for-upcoming-kharif-season",
+      "published": "2026-03-09T17:12:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Fertilizers"
+    },
+    {
+      "id": "f76e96a9fe5fabd3",
+      "title": "GAS ALERT: Portugal to Spain flows restricted to zero in early April",
+      "description": "LONDON (ICIS)--On 9 March Spanish gas transmission system operator (TSO) Enagas published an urgent market message (UMM) that available capacity at the VIP Iberico interconnector for Portugal to...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186871/gas-alert-portugal-to-spain-flows-restricted-to-zero-in-early-april",
+      "published": "2026-03-09T17:07:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "48aadbc5c29cf83c",
+      "title": "Transatlantic westbound chemical tanker spot rates rise on US-Iran war, soaring fuel costs",
+      "description": "LONDON (ICIS)--Chemical tanker spot freight rates on transatlantic (TA) westbound routes rose in the week ending 6 March compared with the previous week, based on market feedback. The move in ICIS...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186870/transatlantic-westbound-chemical-tanker-spot-rates-rise-on-us-iran-war-soaring-fuel-costs",
+      "published": "2026-03-09T17:00:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Shipping"
+    },
+    {
+      "id": "bcb440899e203dae",
+      "title": "NOON SNAPSHOT - Americas Markets Summary",
+      "description": "CRUDE: Up, but extremely volatile. The Strait of Hormuz closure preventing oil tankers from navigating and some producers cutting output due to lack of storage causing prices to surge. No end in...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186868/noon-snapshot-americas-markets-summary",
+      "published": "2026-03-09T17:00:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Crude"
+    },
+    {
+      "id": "23b63758de41f90f",
+      "title": "European E&P series glycol ethers prices jump as market reacts to cost changes and new uncertainty",
+      "description": "LONDON (ICIS)--Spot prices for European E&amp;P series glycol ethers jumped in the first week of March as market participants reacted to recent surging energy and feedstock costs on the back of new...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186869/european-e-amp-p-series-glycol-ethers-prices-jump-as-market-reacts-to-cost-changes-and-new-uncertainty",
+      "published": "2026-03-09T16:52:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "7d86ab19a0567032",
+      "title": "Volatile gas markets to drive UK power front-month prices",
+      "description": "By Anna Coulson and Harvey Bassett UK power April ‘26 contracts at a premium to European counterparts Gas market volatility to remain key price driver, UK likely to import power next month ICIS...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186867/volatile-gas-markets-to-drive-uk-power-front-month-prices",
+      "published": "2026-03-09T16:46:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Electric Power"
+    },
+    {
+      "id": "f64051bba2ff539c",
+      "title": "Plant status: Cornerstone begins turnaround at US Waggaman melamine plant",
+      "description": "HOUSTON (ICIS)--Here is a plant status report: Name: Cornerstone Chemical Company Location: Waggaman, Louisiana, US Product: Melamine Capacity (tonnes/year): 80,000 Event start: 9 March Event finish:...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186865/plant-status-cornerstone-begins-turnaround-at-us-waggaman-melamine-plant",
+      "published": "2026-03-09T16:25:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "ba8962a0befe71eb",
+      "title": "MARGINS: Europe naphtha-based PE margins down sharply on soaring upstream costs",
+      "description": "LONDON (ICIS)--Margins for naphtha-based polyethylene (PE) plants in Europe fell sharply week on week as feedstock and energy costs surged amid the escalating conflict in the Middle East, hitting...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186864/margins-europe-naphtha-based-pe-margins-down-sharply-on-soaring-upstream-costs",
+      "published": "2026-03-09T16:15:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals, Oil - Refined Products"
+    },
     {
       "id": "3509fb4d5978a95a",
       "title": "German caustic soda ECU contract margins fall in week as energy prices rise",
@@ -181,6 +281,16 @@
       "category": "Chemicals"
     },
     {
+      "id": "59907470b9370535",
+      "title": "WAF products markets surge as stakeholders mull fallout from Middle East conflict",
+      "description": "West African refined product markets have seen a surge in prices across early-March, tracking bullish pricing trends throughout global markets amid conflict in the Middle East and the subsequent closure of the Strait of Hormuz. Sentiment across jet fuel, diesel and gasoline markets in the region remains uncertain amid the tense geopolitical backdrop, with STS Lome prices across each respective",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/refined-products/030926-waf-products-markets-surge-as-stakeholders-mull-fallout-from-middle-east-conflict",
+      "published": "2026-03-09T14:22:03+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Oil - Refined Products",
+      "category": "Oil - Refined Products"
+    },
+    {
       "id": "01a2c2570fefdc2f",
       "title": "INSIGHT: Middle East conflict drives global chemical spot prices to one of biggest spikes this decade",
       "description": "LONDON (ICIS)--Following the outbreak of the US-Iran conflict, key chemical spot prices across regions surged with the week-on-week increase comparable to the biggest spikes in any week over the past...",
@@ -228,7 +338,7 @@
       "published": "2026-03-09T13:11:32+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Fertilizers"
+      "category": "Fertilizers, Chemicals"
     },
     {
       "id": "0566513676c8b2dc",
@@ -1387,8 +1497,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/crude-oil/030626-infographic-middle-east-war-jolts-commodities-markets",
       "published": "2026-03-06T17:02:13+00:00",
       "source": "S&P Global",
-      "feed": "S&P Chemicals",
-      "category": "Chemicals, Metals, Shipping, Agriculture"
+      "feed": "S&P Metals",
+      "category": "Metals, Shipping, Agriculture"
     },
     {
       "id": "778db0fcc1ad63da",
