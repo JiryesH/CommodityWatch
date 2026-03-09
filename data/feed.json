@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-09T04:56:38.428223+00:00",
-    "total_articles": 420,
+    "last_updated": "2026-03-09T06:03:36.637279+00:00",
+    "total_articles": 427,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,76 @@
     }
   },
   "articles": [
+    {
+      "id": "ee731a5902a03214",
+      "title": "PSV traders holding off positioning on summer products as conflict continues",
+      "description": "By Martina Losi and Fabio Roccon PSV traders hesitant amid uncertainty over conflict duration, supply risk QatarEnergy force majeure secondary problem - trader Energy decree rollout could be...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186446/psv-traders-holding-off-positioning-on-summer-products-as-conflict-continues",
+      "published": "2026-03-09T06:00:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "6d9e2a60169b6e71",
+      "title": "China BPA average plant run rate falls to 74.7% on operational cuts",
+      "description": "SINGAPORE (ICIS)--The average run rate of China’s bisphenol A (BPA) plants was at around 74.7% in the week ended 6 March 2026, down by 1.9 percentage points from the last reporting period, ICIS...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186715/china-bpa-average-plant-run-rate-falls-to-74-7-on-operational-cuts",
+      "published": "2026-03-09T05:51:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "5b39ed85c37080a5",
+      "title": "ICIS Analyst View: Hormuz Crisis: Limited Scope for US LNG into China",
+      "description": "Tariff removal helps but won’t be decisive: A U.S. court ruling in February increases the likelihood China eases retaliatory tariffs, but administrative action in Beijing is required — and tariff...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186711/icis-analyst-view-hormuz-crisis-limited-scope-for-us-lng-into-china",
+      "published": "2026-03-09T05:31:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "LNG"
+    },
+    {
+      "id": "d43e577d14f1869b",
+      "title": "INSIGHT: Asia C2 braces for second salvo of headwinds from Mideast war",
+      "description": "SINGAPORE (ICIS)--With the Asia ethylene (C2) ship heavily rocked last week in the initial exchanges between Iran and the US-Israeli alliance, market players will likely be going into this week with...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186710/insight-asia-c2-braces-for-second-salvo-of-headwinds-from-mideast-war",
+      "published": "2026-03-09T05:30:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "8504b03c3d28dbde",
+      "title": "China’s Sinopec increases benzene list prices by CNY2,700/tonne",
+      "description": "SINGAPORE (ICIS)--China’s Sinopec has increased its domestic benzene list prices by yuan (CNY) 2,700/tonne, a company source said on 9 March. Sinopec raised its benzene list price by CNY800/tonne...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186709/china-s-sinopec-increases-benzene-list-prices-by-cny2-700-tonne",
+      "published": "2026-03-09T05:26:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "1d1fff7a50fa3078",
+      "title": "Asia Weather Agency Links",
+      "description": "SINGAPORE (ICIS)--The following links to weather websites across Asia are for reference to follow the depth and range of government updates and forecasts. The page will be published every Monday. For...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186708/asia-weather-agency-links",
+      "published": "2026-03-09T05:04:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "2221e3f3ab8962c9",
+      "title": "Santos and partner Beach approve A$357M Cooper Basin gas upgrade",
+      "description": "Project expected to deliver $600 million savings Replaces seven aging compressor stations Upgrade supports Cooper Basin output growth SINGAPORE (ICIS)--Santos Ltd and partner Beach Energy approved an...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186707/santos-and-partner-beach-approve-a-357m-cooper-basin-gas-upgrade",
+      "published": "2026-03-09T05:03:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
     {
       "id": "cb489ee4418bf78d",
       "title": "PX prices surge further to a high last seen in H1 2022",
@@ -568,7 +638,7 @@
       "published": "2026-03-06T17:34:11+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude"
+      "category": "Oil - Crude, Oil - Refined Products"
     },
     {
       "id": "12f7201ab2cc1e77",
