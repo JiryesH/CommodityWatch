@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-09T14:14:39.789203+00:00",
-    "total_articles": 480,
+    "last_updated": "2026-03-09T15:14:14.325269+00:00",
+    "total_articles": 488,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -61,6 +61,76 @@
   },
   "articles": [
     {
+      "id": "e5f68bf060414d7b",
+      "title": "Brazil fertilizer interactive trade map January-February 2026",
+      "description": "LONDON (ICIS)--Brazil’s government has released fertilizer trade figures for January-February 2026. Please select a product from the drop-down menu...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186856/brazil-fertilizer-interactive-trade-map-january-february-2026",
+      "published": "2026-03-09T15:01:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Fertilizers"
+    },
+    {
+      "id": "3f38a076a8146cf7",
+      "title": "Americas top stories: weekly summary",
+      "description": "HOUSTON (ICIS)--Here are the top stories from ICIS News from the week ended 6 March. INSIGHT: Strait of Hormuz chokepoint to shut in Middle East chemicals and plastics exports. Can the US help close...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186663/americas-top-stories-weekly-summary",
+      "published": "2026-03-09T15:00:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals, Fertilizers"
+    },
+    {
+      "id": "be203ab656250e19",
+      "title": "INSIGHT: How the US-Iran war is reshaping polymers trade routes in the Middle East",
+      "description": "DUBAI (ICIS)--Since the start of the war between the US and Iran in the Middle East, exports from Gulf Cooperation Council (GCC)-based suppliers have become increasingly more complex, and costlier....",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186855/insight-how-the-us-iran-war-is-reshaping-polymers-trade-routes-in-the-middle-east",
+      "published": "2026-03-09T14:53:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals, Oil - Crude"
+    },
+    {
+      "id": "8ede72bfea870e69",
+      "title": "European caustic soda spot rolls over, market in wait-and-see mode",
+      "description": "LONDON (ICIS)--European caustic soda spot prices rolled over in the week ending 6 March, with sentiment much more bullish following the disruption of shipping in the Middle East, although little new...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186854/european-caustic-soda-spot-rolls-over-market-in-wait-and-see-mode",
+      "published": "2026-03-09T14:40:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "d7b59668e1ddcffa",
+      "title": "INSIGHT: Global BD prices jump on Middle East conflict; feedstock shortages in Asia",
+      "description": "LONDON (ICIS)--Global butadiene (BD) spot prices are climbing in March due to fallout from the US-Iran conflict. Rising crude prices and naphtha shortages led to a reduction in cracker operating...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186853/insight-global-bd-prices-jump-on-middle-east-conflict-feedstock-shortages-in-asia",
+      "published": "2026-03-09T14:39:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals, Oil - Refined Products"
+    },
+    {
+      "id": "ebc137c36f266b29",
+      "title": "MARGINS: Europe MEG margins plummet on war-driven surge in feedstock, energy costs",
+      "description": "LONDON (ICIS)--Margins at monoethylene glycols (MEG) plants in Europe tanked week on week as the conflict in the Middle East led to a sharp rise in feedstock and energy costs, ICIS Margin Analysis...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186852/margins-europe-meg-margins-plummet-on-war-driven-surge-in-feedstock-energy-costs",
+      "published": "2026-03-09T14:38:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "01a2c2570fefdc2f",
+      "title": "INSIGHT: Middle East conflict drives global chemical spot prices to one of biggest spikes this decade",
+      "description": "LONDON (ICIS)--Following the outbreak of the US-Iran conflict, key chemical spot prices across regions surged with the week-on-week increase comparable to the biggest spikes in any week over the past...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186851/insight-middle-east-conflict-drives-global-chemical-spot-prices-to-one-of-biggest-spikes-this-decade",
+      "published": "2026-03-09T14:17:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
       "id": "4a493add758888af",
       "title": "Europe PVC spot prices rise on tight import availability, higher shipping costs",
       "description": "LONDON (ICIS)--European polyvinyl chloride (PVC) spot prices were stable to firm in the week ending 6 March, as import availability tightened and uncertainty spiked because of the crisis in the...",
@@ -89,6 +159,16 @@
       "source": "ICIS",
       "feed": "ICIS",
       "category": "Chemicals"
+    },
+    {
+      "id": "3183ad61495e2547",
+      "title": "European nitrogen market rallies on gas price hike, Iran conflicts",
+      "description": "European urea ammonium nitrate (UAN) prices increased in early March as the Middle East conflict drove up natural gas and ammonia costs, exacerbating supply constraints from Russian sanctions and freight disruptions, resulting in a bullish market for nitrogen fertilizers across both Eastern and Western Europe. UAN 32% FOB Baltic rose $60/mt week over week to $340/mt, with sales to the US confirmed",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/agriculture/030926-european-nitrogen-market-rallies-on-gas-price-hike-iran-conflicts",
+      "published": "2026-03-09T13:11:32+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Fertilizers",
+      "category": "Fertilizers, Chemicals"
     },
     {
       "id": "0566513676c8b2dc",
@@ -227,8 +307,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/lng/030926-european-gas-price-jumps-near-eur70mwh-as-iran-war-enters-second-week",
       "published": "2026-03-09T10:34:45+00:00",
       "source": "S&P Global",
-      "feed": "S&P Natural Gas",
-      "category": "Natural Gas, LNG"
+      "feed": "S&P LNG",
+      "category": "LNG"
     },
     {
       "id": "7ed04c5f08336d52",
@@ -1238,7 +1318,7 @@
       "published": "2026-03-06T17:02:13+00:00",
       "source": "S&P Global",
       "feed": "S&P Metals",
-      "category": "Metals, Shipping, Agriculture, LNG"
+      "category": "Metals, Shipping, Agriculture"
     },
     {
       "id": "778db0fcc1ad63da",
@@ -4408,8 +4488,8 @@
       "link": "https://www.spglobal.com/energy/zh/news-research/latest-news/lng/030526-south-korea-sees-no-lng-shortages-despite-middle-east-supply-disruptions",
       "published": "2026-03-05T03:19:40+00:00",
       "source": "S&P Global",
-      "feed": "S&P Natural Gas",
-      "category": "Natural Gas, LNG"
+      "feed": "S&P LNG",
+      "category": "LNG"
     },
     {
       "id": "ef233c9ee0faa783",
