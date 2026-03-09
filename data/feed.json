@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-09T08:03:33.946569+00:00",
-    "total_articles": 443,
+    "last_updated": "2026-03-09T09:03:14.277932+00:00",
+    "total_articles": 451,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,86 @@
     }
   },
   "articles": [
+    {
+      "id": "c40c01398efbee33",
+      "title": "Europe top stories: weekly summary",
+      "description": "LONDON (ICIS)--Here are some of the top stories from ICIS Europe for the week ended 6 March. Europe naphtha market braces for tightening supply as Middle East disruption reshapes global flows...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186431/europe-top-stories-weekly-summary",
+      "published": "2026-03-09T09:00:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Refined Products"
+    },
+    {
+      "id": "4671f2ad5f1e9f80",
+      "title": "China’s average MTBE plant run rate falls to 59.8% on unit shutdown",
+      "description": "SINGAPORE (ICIS)--The average run rate of China’s methyl tertiary butyl ether (MTBE) plants dropped to 59.8% in the week ended 6 March 2026, down by 0.8 percent from the previous week, ICIS data...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186758/china-s-average-mtbe-plant-run-rate-falls-to-59-8-on-unit-shutdown",
+      "published": "2026-03-09T08:57:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "d38a9b47c30efbc3",
+      "title": "Thailand's PTTGC plants running normally despite surging oil prices",
+      "description": "SINGAPORE (ICIS)--PTT Global Chemical (PTTGC or GC) is maintaining normal plant operations despite surging crude oil and feedstock prices, the Thai producer said on Monday. PTTGC monitoring...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186757/thailand-s-pttgc-plants-running-normally-despite-surging-oil-prices",
+      "published": "2026-03-09T08:50:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Crude"
+    },
+    {
+      "id": "3734d8af67ca5dbd",
+      "title": "INSIGHT: Mideast conflict spurs wider concerns over global ammonia, food supply",
+      "description": "SINGAPORE (ICIS)--The global ammonia market is bracing for further impact from the unfolding Middle East conflict as with gas and ammonia supply from the region cut off in the wake of the conflict,...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186755/insight-mideast-conflict-spurs-wider-concerns-over-global-ammonia-food-supply",
+      "published": "2026-03-09T08:40:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Energy Transition"
+    },
+    {
+      "id": "9db8bf269aa9a030",
+      "title": "Singapore’s TPC declares force majeure due to Middle East conflict",
+      "description": "SINGAPORE (ICIS)--The Polyolefins Company (TPC) has declared force majeure because of disruption to olefins supply resulting from the conflict in the Middle East. In a letter to customers, TPC said...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186753/singapore-s-tpc-declares-force-majeure-due-to-middle-east-conflict",
+      "published": "2026-03-09T08:22:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "3c0ee842a430d982",
+      "title": "Major Indian producer raises PVC prices for third time in March",
+      "description": "MUMBAI (ICIS)--A major Indian polyvinyl chloride (PVC) producer has increased its PVC list price by rupees (Rs) 6,000/tonne, effective 7 March 2026. The revised list price is equivalent to around...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186751/major-indian-producer-raises-pvc-prices-for-third-time-in-march",
+      "published": "2026-03-09T08:13:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "339a608891968335",
+      "title": "India invokes measures to ensure gas, fertilizer availability",
+      "description": "MUMBAI (ICIS)--The Indian government invoked its emergency powers to direct private and state-owned oil refineries to divert use of propane and butane for the production of liquefied petroleum gas...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186750/india-invokes-measures-to-ensure-gas-fertilizer-availability",
+      "published": "2026-03-09T08:12:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Fertilizers, Oil - Crude"
+    },
+    {
+      "id": "587bdf5fcdc63183",
+      "title": "Plant status: China's CNOOC Ningbo Daxie shuts PX plant",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: CNOOC Ningbo Daxie Location: Ningbo, China Product: Paraxylene (PX) Capacity (tonnes/year): 1.6 million Event start: 9 March 2026 Event finish:...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186748/plant-status-china-s-cnooc-ningbo-daxie-shuts-px-plant",
+      "published": "2026-03-09T08:00:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
     {
       "id": "f13c89b1f3a7fc26",
       "title": "Plant status: Asia Polymer to overhaul Taiwan EVA units in Apr",
@@ -887,8 +967,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/crude-oil/030626-infographic-middle-east-war-jolts-commodities-markets",
       "published": "2026-03-06T17:02:13+00:00",
       "source": "S&P Global",
-      "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude, Oil - Refined Products, Fertilizers, Chemicals, Metals, Shipping, Agriculture, LNG"
+      "feed": "S&P Fertilizers",
+      "category": "Fertilizers, Chemicals, Metals, Shipping, Agriculture, LNG"
     },
     {
       "id": "778db0fcc1ad63da",
