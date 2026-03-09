@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-09T18:08:23.771608+00:00",
-    "total_articles": 512,
+    "last_updated": "2026-03-09T19:11:36.763329+00:00",
+    "total_articles": 517,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,46 @@
     }
   },
   "articles": [
+    {
+      "id": "325dc99a0ea8111f",
+      "title": "Europe LPG prices see triple-digit increase",
+      "description": "LONDON (ICIS)--Liquefied petroleum gas (LPG) spot prices increased last week, due to uncertainty over the Middle East conflict. The triple-digit increases were also because of the rise on crude oil...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186884/europe-lpg-prices-see-triple-digit-increase",
+      "published": "2026-03-09T18:45:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Crude, Oil - Refined Products"
+    },
+    {
+      "id": "152515d02b054c89",
+      "title": "Europe DEG, TEG spot prices climb on supply tightness",
+      "description": "LONDON (ICIS)--European diethylene glycol (DEG) spot prices climbed on the back of higher production costs and tight supply in early March. The Middle East conflict continues to cause turmoil in the...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186883/europe-deg-teg-spot-prices-climb-on-supply-tightness",
+      "published": "2026-03-09T18:17:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "b34c6b66afb707f7",
+      "title": "Update to ICIS Topics: US-Iran conflict - impact on energy, chemical markets",
+      "description": "Visit the ICIS US-Iran conflict: impact on chemicals and energy topic page for latest updates and analysis. Latest news headlines added Updates to chemicals, energy and fertilizer...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186882/update-to-icis-topics-us-iran-conflict-impact-on-energy-chemical-markets",
+      "published": "2026-03-09T18:13:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Fertilizers"
+    },
+    {
+      "id": "d3e2c09c2c6c5156",
+      "title": "FBMC WEEKLY: Weak fundamentals outweigh Middle East war for European power spot prices",
+      "description": "LONDON (ICIS)--While the Middle East conflict continues to impact power prices, the effect on Day-ahead prices in the flow-based market coupling region (FBMC) in week 11 is likely to be dampened by...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186881/fbmc-weekly-weak-fundamentals-outweigh-middle-east-war-for-european-power-spot-prices",
+      "published": "2026-03-09T18:07:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Electric Power"
+    },
     {
       "id": "1cf4a83995d686db",
       "title": "US-Iran war could pressure European wholesale gas market liquidity",
@@ -155,6 +195,16 @@
       "title": "GAS ALERT: Portugal to Spain flows restricted to zero in early April",
       "description": "LONDON (ICIS)--On 9 March Spanish gas transmission system operator (TSO) Enagas published an urgent market message (UMM) that available capacity at the VIP Iberico interconnector for Portugal to...",
       "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186871/gas-alert-portugal-to-spain-flows-restricted-to-zero-in-early-april",
+      "published": "2026-03-09T17:07:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "ebb3dc5e3a22e4d0",
+      "title": "CORRECTED: GAS ALERT: Portugal to Spain flows cut to zero in early April",
+      "description": "(Correction: The dates of the outage in the first paragraph have been amended) LONDON (ICIS)--Maintenance work will bring the Spain-Portugal VIP Iberico interconnector offline between 6-10 April,...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186871/corrected-gas-alert-portugal-to-spain-flows-cut-to-zero-in-early-april",
       "published": "2026-03-09T17:07:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
@@ -1558,7 +1608,7 @@
       "published": "2026-03-06T17:02:13+00:00",
       "source": "S&P Global",
       "feed": "S&P Metals",
-      "category": "Metals, Shipping, Agriculture, LNG"
+      "category": "Metals, Shipping, Agriculture"
     },
     {
       "id": "778db0fcc1ad63da",
@@ -2218,7 +2268,7 @@
       "published": "2026-03-06T10:53:21+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Fertilizers, Chemicals, Agriculture, Energy Transition"
+      "category": "Fertilizers, Chemicals, Shipping, Agriculture, Energy Transition"
     },
     {
       "id": "09318d6783e6566e",
