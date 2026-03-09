@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-09T15:14:14.325269+00:00",
-    "total_articles": 488,
+    "last_updated": "2026-03-09T16:16:02.633092+00:00",
+    "total_articles": 495,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,66 @@
     }
   },
   "articles": [
+    {
+      "id": "3509fb4d5978a95a",
+      "title": "German caustic soda ECU contract margins fall in week as energy prices rise",
+      "description": "LONDON (ICIS)--Average German membrane electrochemical unit (ECU) contract margins fell in the week ending 6 March. The ECU value fell, with the calculated value of chlorine lower. Average energy...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186862/german-caustic-soda-ecu-contract-margins-fall-in-week-as-energy-prices-rise",
+      "published": "2026-03-09T15:49:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "fda19342b9cd5af0",
+      "title": "INSIGHT: Five key takeaways for naphtha, LPG markets amid Hormuz risk and Asian exposure",
+      "description": "Naphtha prices continue to surge as crude and freight costs spike, leaving European values increasingly driven by upstream strength rather than the direct Middle East supply loss. Europe is far more...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186861/insight-five-key-takeaways-for-naphtha-lpg-markets-amid-hormuz-risk-and-asian-exposure",
+      "published": "2026-03-09T15:46:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Refined Products, Oil - Crude"
+    },
+    {
+      "id": "1e3a57b22de9e6eb",
+      "title": "TTF front-month falls after strong open as traders cite impact of profit-taking and oil",
+      "description": "Additional reporting by Ethan Tillcock TTF surges 32% at market open but quickly falls Traders cite profit-taking and crude as main factors Market may be pricing in long war as TTF curve flattens...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186860/ttf-front-month-falls-after-strong-open-as-traders-cite-impact-of-profit-taking-and-oil",
+      "published": "2026-03-09T15:44:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Crude, Natural Gas"
+    },
+    {
+      "id": "fbc29d29ca1f39da",
+      "title": "Asia-Europe and Europe-Asia chemical tanker spot rates rise amid US-Iran war",
+      "description": "LONDON (ICIS)--The week ending 6 March brought chaos and strong upward pressure to spot chemical tanker markets, resulting in Asia to Europe and the reverse Europe to Asia spot rates increasing,...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186859/asia-europe-and-europe-asia-chemical-tanker-spot-rates-rise-amid-us-iran-war",
+      "published": "2026-03-09T15:41:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Shipping"
+    },
+    {
+      "id": "7d9f6250d357c4af",
+      "title": "Brazil's regulator clears IG4’s Braskem stake purchase in boost to debt restructuring push",
+      "description": "SAO PAULO (ICIS)--Brazil's antitrust authority CADE has approved asset manager IG4’s acquisition of a controlling stake at Braskem, paving the way for an ongoing debt restructuring process at the...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186858/brazil-s-regulator-clears-ig4-s-braskem-stake-purchase-in-boost-to-debt-restructuring-push",
+      "published": "2026-03-09T15:33:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "f3a52e10062edf81",
+      "title": "Plant status: BAPCO declares FM on group operations in wake of refinery attack",
+      "description": "HOUSTON (ICIS)--Here is a plant status report: Name: Bahrain Petroleum Company (BAPCO) Location: Sitra, Bahrain Product: Group III base oil Capacity (tonnes): 379,797 Event start: 9 March 2026...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186857/plant-status-bapco-declares-fm-on-group-operations-in-wake-of-refinery-attack",
+      "published": "2026-03-09T15:31:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Crude, Oil - Refined Products"
+    },
     {
       "id": "e5f68bf060414d7b",
       "title": "Brazil fertilizer interactive trade map January-February 2026",
@@ -168,7 +228,7 @@
       "published": "2026-03-09T13:11:32+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Fertilizers, Chemicals"
+      "category": "Fertilizers"
     },
     {
       "id": "0566513676c8b2dc",
@@ -229,6 +289,16 @@
       "source": "ICIS",
       "feed": "ICIS",
       "category": "Oil - Refined Products, Oil - Crude"
+    },
+    {
+      "id": "ffa7503ae97b03a5",
+      "title": "European wind output hits 20-week low; solar rebounds amid early spring spell",
+      "description": "European weekly wind power output fell almost 50% week-over-week in the seven days to March 9, while solar output rose about 20% to the highest since September amid an early spell of spring weather across large parts of the Continent, system data analyzed by Platts showed March 9. Wind generated about 8.1 TWh, the lowest weekly output since mid-October, according to preliminary daily data by",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/electric-power/030926-european-wind-output-hits-20-week-low-solar-rebounds-amid-early-spring-spell",
+      "published": "2026-03-09T11:58:30+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Coal",
+      "category": "Coal"
     },
     {
       "id": "fdcd00f4e178ffbc",
@@ -1317,8 +1387,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/crude-oil/030626-infographic-middle-east-war-jolts-commodities-markets",
       "published": "2026-03-06T17:02:13+00:00",
       "source": "S&P Global",
-      "feed": "S&P Metals",
-      "category": "Metals, Shipping, Agriculture"
+      "feed": "S&P Chemicals",
+      "category": "Chemicals, Metals, Shipping, Agriculture"
     },
     {
       "id": "778db0fcc1ad63da",
