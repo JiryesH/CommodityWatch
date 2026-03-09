@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-09T02:53:53.879628+00:00",
-    "total_articles": 406,
+    "last_updated": "2026-03-09T04:56:38.428223+00:00",
+    "total_articles": 420,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,136 @@
     }
   },
   "articles": [
+    {
+      "id": "cb489ee4418bf78d",
+      "title": "PX prices surge further to a high last seen in H1 2022",
+      "description": "SINGAPORE (ICIS)--Asian paraxylene (PX) market saw steep increases, while prices for both PX and downstream purified terephthalic acid (PTA) hit the upper limit in the Chinese futures market. Both...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186705/px-prices-surge-further-to-a-high-last-seen-in-h1-2022",
+      "published": "2026-03-09T04:49:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "a263be39a225c1a5",
+      "title": "Surge in PP/PE prices in Pakistan amid intensifying war in the Middle East",
+      "description": "DUBAI (ICIS)--Polypropylene (PP) and polyethylene (PE) prices rose significantly during the week ended 6 March 2026, amid the ongoing regional war, a closure of the Strait of Hormuz, and crude oil...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186704/surge-in-pp-pe-prices-in-pakistan-amid-intensifying-war-in-the-middle-east",
+      "published": "2026-03-09T04:41:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals, Oil - Crude"
+    },
+    {
+      "id": "edcf0ea72c7dd882",
+      "title": "India’s Reliance raises MEG H1 Mar contract nomination",
+      "description": "SINGAPORE (ICIS)--India’s Reliance Industries has raised its monoethylene glycol (MEG) contract price nomination for 7 March to 15 March 2026 by $70/tonne to $540/tonne, a company source said. The...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186703/india-s-reliance-raises-meg-h1-mar-contract-nomination",
+      "published": "2026-03-09T04:28:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "6f044426a17caba8",
+      "title": "Plant status: China’s CNOOC and Shell Petrochemicals shuts MTBE plant",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: CNOOC and Shell Petrochemicals (CSPC) Location: Huizhou, Guangdong, China Product: Methyl tertiary butyl ether (MTBE) Capacity (tonnes/year):...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186702/plant-status-china-s-cnooc-and-shell-petrochemicals-shuts-mtbe-plant",
+      "published": "2026-03-09T04:23:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "cbe3395fe26cfcfc",
+      "title": "Plant status: China’s Maoming Shihua restarts MTBE plant",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: Maoming Petrochemical Shihua Location: Maoming, Guangdong, China Product: Methyl tertiary butyl ether (MTBE) Capacity (tonnes/year): 170,000...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186701/plant-status-china-s-maoming-shihua-restarts-mtbe-plant",
+      "published": "2026-03-09T04:13:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "0a9738256c401c75",
+      "title": "UPDATE: China’s Wanhua declares force majeure amid Mideast crisis",
+      "description": "SINGAPORE (ICIS)--China’s Wanhua Chemical, the world’s biggest isocyanates producer, has declared a force majeure effective 7 March. In a notice to clients in the Middle East, the company cited...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186700/update-china-s-wanhua-declares-force-majeure-amid-mideast-crisis",
+      "published": "2026-03-09T04:07:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "537a5c6d84e4a39b",
+      "title": "NOON SNAPSHOT - Asia Markets Summary",
+      "description": "CRUDE: Higher as escalating Iran war fuel supply fears following the effective closure of the Strait of Hormuz. BENZENE (FOB KOREA): Up on crude gains. TOLUENE (FOB KOREA): Up on gains in crude oil....",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186699/noon-snapshot-asia-markets-summary",
+      "published": "2026-03-09T04:06:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Crude, Chemicals"
+    },
+    {
+      "id": "efb8c9169811bebb",
+      "title": "Sinopec raises east China propylene list prices last weekend by CNY1,200/tonne",
+      "description": "SINGAPORE (ICIS)--China’s petrochemical giant Sinopec raised its propylene list prices in east China to yuan (CNY) 8,800/tonne on 7 March and further to CNY8,900/tonne on 8 March, up by...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186697/sinopec-raises-east-china-propylene-list-prices-last-weekend-by-cny1-200-tonne",
+      "published": "2026-03-09T03:53:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "ce6ca9a7684e51e2",
+      "title": "China methanol futures trade halted as prices surge 14%",
+      "description": "SINGAPORE (ICIS)--China methanol futures surged by 14% on Monday on oil price spike amid continuing Middle East conflict, triggering a temporary trading halt as the daily limit on price movement was...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186695/china-methanol-futures-trade-halted-as-prices-surge-14",
+      "published": "2026-03-09T03:41:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "9b67e082a0192ea1",
+      "title": "Asia bourses slump; China petrochemical futures spike on oil surge",
+      "description": "SINGAPORE (ICIS)--Asia’s stock markets slumped on Monday morning as oil prices surged above the $100/barrel mark amid escalating Middle East hostilities which triggered output cuts across energy...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186693/asia-bourses-slump-china-petrochemical-futures-spike-on-oil-surge",
+      "published": "2026-03-09T03:28:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Crude"
+    },
+    {
+      "id": "6ac2c4e074bd125d",
+      "title": "S Korea isomer MX prices up for fifth consecutive session amid Middle East crisis",
+      "description": "SINGAPORE (ICIS)--Isomer grade mixed xylenes (MX) from South Korea saw significant price increase on 6 March for a fifth consecutive session, driven up by steep gains in upstream values amid the...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186690/s-korea-isomer-mx-prices-up-for-fifth-consecutive-session-amid-middle-east-crisis",
+      "published": "2026-03-09T03:20:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "9de1ae59a26f7d68",
+      "title": "UPDATE: Oil surges past $100/barrel as Mideast conflict continues",
+      "description": "SINGAPORE (ICIS)--Oil prices surged past $100/barrel for the first time since July 2022 on Monday, as intensifying hostilities in the Middle East led to more production cuts at major oil producers in...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186685/update-oil-surges-past-100-barrel-as-mideast-conflict-continues",
+      "published": "2026-03-09T03:07:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Crude"
+    },
+    {
+      "id": "816818ae331ecb5f",
+      "title": "Plant status: Kuwait Aromatics shuts PX unit",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: Kuwait Aromatics Location: Shuaiba, Kuwait Product: Paraxylene (PX) Capacity (tonnes/year): 870,000 Event start: 9 March 2026 Event finish:...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186683/plant-status-kuwait-aromatics-shuts-px-unit",
+      "published": "2026-03-09T02:51:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
     {
       "id": "320d699eaae4ffd6",
       "title": "China’ s Wanhua Chemical declares force majeure amid Mideast crisis",
@@ -429,6 +559,16 @@
       "source": "ICIS",
       "feed": "ICIS",
       "category": "General"
+    },
+    {
+      "id": "40781579eff9b06f",
+      "title": "FACTBOX: Oil futures cross $110/b as Middle East conflict hits production",
+      "description": "Crude oil futures extended gains in midmorning trading in Asia on March 9, driven by mounting supply risks as key producers cut output amid the Middle East conflict. At 11:23 am Singapore time (0323 GMT), the ICE May Brent crude futures contract rose $21.59/b (23.29%) from the previous close to $114.28/b, while the NYMEX April light sweet crude contract rose $23.25/b (25.58%) to $114.15/b over the",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/crude-oil/030626-factbox-oil-futures-cross-110b-as-middle-east-conflict-hits-production",
+      "published": "2026-03-06T17:34:11+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Oil - Crude",
+      "category": "Oil - Crude"
     },
     {
       "id": "12f7201ab2cc1e77",
