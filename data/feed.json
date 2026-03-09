@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-09T19:11:36.763329+00:00",
-    "total_articles": 517,
+    "last_updated": "2026-03-09T19:53:36.391995+00:00",
+    "total_articles": 521,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -61,6 +61,36 @@
   },
   "articles": [
     {
+      "id": "61911b57395fc387",
+      "title": "North America PP producers separately seek March, April price increases",
+      "description": "HOUSTON (ICIS)--Multiple North American polypropylene (PP) producers have separately announced price increases for March and April. The most common price increase rate is 4 cents/lb. Some increases...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186887/north-america-pp-producers-separately-seek-march-april-price-increases",
+      "published": "2026-03-09T19:37:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "80a57f2f929d6e62",
+      "title": "CRUDE SUMMARY: Crude soars to above $100/barrel threshold as Iran war enters 10th day",
+      "description": "Iran appoints new supreme leader Saudi Aramco, together with other Persian states, cut oil production G7 eyeing possibility of crude release from emergency stocks LONDON (ICIS)--Oil prices surged by...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186886/crude-summary-crude-soars-to-above-100-barrel-threshold-as-iran-war-enters-10th-day",
+      "published": "2026-03-09T19:29:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Crude"
+    },
+    {
+      "id": "12377e181b58f54b",
+      "title": "Middle East tensions drive sharp price rises in Europe’s LPG market",
+      "description": "LONDON (ICIS)--Prices in the liquefied petroleum gas (LPG) market in Europe increased as the market tries to understand the impact of the US-Iran conflict. There is tightness in both propane and...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186885/middle-east-tensions-drive-sharp-price-rises-in-europe-s-lpg-market",
+      "published": "2026-03-09T19:13:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Crude, Oil - Refined Products"
+    },
+    {
       "id": "325dc99a0ea8111f",
       "title": "Europe LPG prices see triple-digit increase",
       "description": "LONDON (ICIS)--Liquefied petroleum gas (LPG) spot prices increased last week, due to uncertainty over the Middle East conflict. The triple-digit increases were also because of the rise on crude oil...",
@@ -69,6 +99,16 @@
       "source": "ICIS",
       "feed": "ICIS",
       "category": "Oil - Crude, Oil - Refined Products"
+    },
+    {
+      "id": "27821389f7d76d5a",
+      "title": "G7 tankers gain share in Russia before US waiver for sanctioned ships",
+      "description": "A temporary US waiver has enabled sanctioned tankers to transport Russian oil, after G7-linked tanker operators increased their share in the restricted market last month. On March 5, the Office of Foreign Asset Control said Russian crude and refined products loaded by tankers before March 5 could be sold to India regardless of the ships&apos; sanctions status, if the barrels are to arrive at Indian",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/crude-oil/030926-g7-tankers-gain-share-in-russia-before-us-waiver-for-sanctioned-ships",
+      "published": "2026-03-09T18:35:11+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Oil - Crude",
+      "category": "Oil - Crude"
     },
     {
       "id": "152515d02b054c89",
@@ -517,8 +557,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/electric-power/030926-european-wind-output-hits-20-week-low-solar-rebounds-amid-early-spring-spell",
       "published": "2026-03-09T11:58:30+00:00",
       "source": "S&P Global",
-      "feed": "S&P Coal",
-      "category": "Coal"
+      "feed": "S&P Natural Gas",
+      "category": "Natural Gas"
     },
     {
       "id": "fdcd00f4e178ffbc",
@@ -597,8 +637,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/lng/030926-european-gas-price-jumps-near-eur70mwh-as-iran-war-enters-second-week",
       "published": "2026-03-09T10:34:45+00:00",
       "source": "S&P Global",
-      "feed": "S&P LNG",
-      "category": "LNG"
+      "feed": "S&P Natural Gas",
+      "category": "Natural Gas, LNG"
     },
     {
       "id": "7ed04c5f08336d52",
@@ -2757,8 +2797,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/crude-oil/030626-us-issues-30-day-waiver-to-allow-sale-of-already-loaded-russian-oil-to-india",
       "published": "2026-03-06T01:13:17+00:00",
       "source": "S&P Global",
-      "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude, Shipping"
+      "feed": "S&P Shipping",
+      "category": "Shipping"
     },
     {
       "id": "c13658efc72ed80e",
@@ -4778,8 +4818,8 @@
       "link": "https://www.spglobal.com/energy/zh/news-research/latest-news/lng/030526-south-korea-sees-no-lng-shortages-despite-middle-east-supply-disruptions",
       "published": "2026-03-05T03:19:40+00:00",
       "source": "S&P Global",
-      "feed": "S&P LNG",
-      "category": "LNG"
+      "feed": "S&P Natural Gas",
+      "category": "Natural Gas, LNG"
     },
     {
       "id": "ef233c9ee0faa783",
@@ -8004,8 +8044,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/energy-transition/030326-energy-rally-pushes-eu-carbon-higher-as-clean-dark-spread-turns-positive",
       "published": "2026-03-03T13:59:13+00:00",
       "source": "S&P Global",
-      "feed": "S&P Natural Gas",
-      "category": "Natural Gas, Coal",
+      "feed": "S&P Coal",
+      "category": "Coal",
       "sentiment": {
         "label": "positive",
         "confidence": 0.9157130122184753,
@@ -8051,8 +8091,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/lng/030326-china-faces-lng-supply-test-amid-middle-east-crisis-spot-price-increase",
       "published": "2026-03-03T12:17:47+00:00",
       "source": "S&P Global",
-      "feed": "S&P Natural Gas",
-      "category": "Natural Gas, LNG",
+      "feed": "S&P LNG",
+      "category": "LNG",
       "sentiment": {
         "label": "negative",
         "confidence": 0.9168105125427246,
@@ -8333,7 +8373,7 @@
       "published": "2026-03-02T22:21:00+00:00",
       "source": "S&P Global",
       "feed": "S&P Electric Power",
-      "category": "Electric Power, Natural Gas, Coal, LNG",
+      "category": "Electric Power, Coal, LNG",
       "sentiment": {
         "label": "positive",
         "confidence": 0.6730107069015503,
