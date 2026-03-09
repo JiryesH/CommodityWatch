@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-09T11:50:34.523865+00:00",
-    "total_articles": 465,
+    "last_updated": "2026-03-09T13:15:17.427467+00:00",
+    "total_articles": 476,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -61,6 +61,86 @@
   },
   "articles": [
     {
+      "id": "0566513676c8b2dc",
+      "title": "BLOG: Middle East turmoil highlights risks to energy and food supply",
+      "description": "LONDON (ICIS)--Click here to see the latest blog post on Chemicals & The Economy by Paul Hodges, which continues to track Iranian developments, which are now impacting fertilizer and water...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186846/blog-middle-east-turmoil-highlights-risks-to-energy-and-food-supply",
+      "published": "2026-03-09T13:01:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Fertilizers"
+    },
+    {
+      "id": "f4d725af5c274f3f",
+      "title": "Iran oil shock tests Latin America’s pre-war economic resilience - analysts",
+      "description": "SAO PAULO (ICIS)--When the war in Iran began last week, Latin America was on a relatively firm macroeconomic footing. However, the region now faces mounting pressure from a soaring oil price and the...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186845/iran-oil-shock-tests-latin-america-s-pre-war-economic-resilience-analysts",
+      "published": "2026-03-09T12:47:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "9cf1362fd3336d8d",
+      "title": "Europe acetic acid spot truck pricing widens on rebalanced supply",
+      "description": "LONDON (ICIS)--European acetic acid truck spot pricing has widened in response to disruption caused by the effective closure of the Strait of Hormuz, though it has had only a limited impact on the...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186844/europe-acetic-acid-spot-truck-pricing-widens-on-rebalanced-supply",
+      "published": "2026-03-09T12:27:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "33c41e2ad93c0742",
+      "title": "Asian synthetic rubber production under duress due to feedstock shortage and cost spike",
+      "description": "SINGAPORE (ICIS)–Still reeling after a rapid cost surge in feedstock butadiene (BD), Asian makers of derivative synthetic rubbers - from styrene butadiene rubber (SBR) to polybutadiene rubber (PBR)...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186833/asian-synthetic-rubber-production-under-duress-due-to-feedstock-shortage-and-cost-spike",
+      "published": "2026-03-09T12:04:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "11eb37be325cc332",
+      "title": "Europe VAM spot surges following Strait of Hormuz closure",
+      "description": "LONDON (ICIS)--European spot pricing for vinyl acetate monomer (VAM) has risen sharply following the effective closure of the Strait of Hormuz, while March contact talks are ongoing. VAM spot prices...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186832/europe-vam-spot-surges-following-strait-of-hormuz-closure",
+      "published": "2026-03-09T12:01:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "2baee10f7df3bf5e",
+      "title": "NOON SNAPSHOT - Europe Markets Summary",
+      "description": "CRUDE: Soared above the $100/barrel threshold as the Iran war enters the tenth day, Strait of Hormuz remains closed. NAPHTHA: Increases significantly, crack spread falls 20% to offset some of the...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186824/noon-snapshot-europe-markets-summary",
+      "published": "2026-03-09T12:00:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Refined Products, Oil - Crude"
+    },
+    {
+      "id": "fdcd00f4e178ffbc",
+      "title": "The Kuwait Styrene Company declares force majeure on SM - sources",
+      "description": "SINGAPORE (ICIS)--On 8 March, the Kuwait Styrene Company (TKSC) has declared a force majeure on styrene monomer (SM) due to the ongoing regional geopolitical situation. This has impacted the feed...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186829/the-kuwait-styrene-company-declares-force-majeure-on-sm-sources",
+      "published": "2026-03-09T11:58:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "2534ea3a2987c27f",
+      "title": "MARGINS: Europe naphtha‑based cracker margins slide to 14‑month low as upstream costs surge",
+      "description": "LONDON (ICIS)--Naphtha-based cracker contract margins in Europe fell sharply week on week as the surge in feedstock and energy costs due to the Middle East conflict weighed on profitability, ICIS...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186827/margins-europe-naphtha-based-cracker-margins-slide-to-14-month-low-as-upstream-costs-surge",
+      "published": "2026-03-09T11:51:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Refined Products"
+    },
+    {
       "id": "6e2e6fb5af699118",
       "title": "Europe etac prices surge on INEOS FM and escalating Middle East tensions",
       "description": "LONDON (ICIS)--European ethyl acetate (etac) spot prices have risen sharply following INEOS’s declaration of force majeure and the broader impact of the Middle East conflict on global trade flows,...",
@@ -99,6 +179,26 @@
       "source": "ICIS",
       "feed": "ICIS",
       "category": "Chemicals, Oil - Refined Products"
+    },
+    {
+      "id": "f2f18da01633a0e8",
+      "title": "Southeast Asia floating storage declines in Feb as Iranian barrels clear before Middle East war",
+      "description": "Floating storage of crude and condensate in Southeast Asian waters has fallen sharply from the end-2025 record, led by a draw-down of Iranian barrels, according to S&amp;P Global Commodities at Sea data. As of end-February, volumes held on tankers stationary for more than seven days in Southeast Asia declined to 49.2 million barrels, a level last seen before the buildup that began in November 2025 and",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/agriculture/030926-southeast-asia-floating-storage-declines-in-feb-as-iranian-barrels-clear-before-middle-east-war",
+      "published": "2026-03-09T10:39:12+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Oil - Crude",
+      "category": "Oil - Crude"
+    },
+    {
+      "id": "34da9da28dbef6a0",
+      "title": "European gas price jumps near Eur70/MWh as Iran war enters second week",
+      "description": "European natural gas prices surged at the start of trading March 9, with the benchmark Dutch TTF April 2026 gas contract jumping about 29% from the settle at the end of last week to just shy of Eur70/MWh as the Iran war carried into its second week, according to data from the Intercontinental Exchange. The intraday TTF price subsequently eased to around Eur60/MWh in the following hours, as of 0942",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/lng/030926-european-gas-price-jumps-near-eur70mwh-as-iran-war-enters-second-week",
+      "published": "2026-03-09T10:34:45+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Natural Gas",
+      "category": "Natural Gas, LNG"
     },
     {
       "id": "7ed04c5f08336d52",
@@ -1108,7 +1208,7 @@
       "published": "2026-03-06T17:02:13+00:00",
       "source": "S&P Global",
       "feed": "S&P Chemicals",
-      "category": "Chemicals, Metals, Shipping, Agriculture, LNG"
+      "category": "Chemicals, Metals, Shipping, Agriculture"
     },
     {
       "id": "778db0fcc1ad63da",
@@ -4256,6 +4356,16 @@
       "title": "South Korea sees no LNG shortages despite Middle East supply disruptions",
       "description": "South Korea said it sees no LNG shortages despite a production halt in Qatar and disruptions to transit through the Strait of Hormuz, as the country has sufficient stockpiles to buffer any short-term interruptions while preparing to secure alternative supplies. &quot;The country has sufficient LNG reserves for a considerable period, even if imports from Qatar are completely halted,&quot; an official at the",
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/lng/030526-south-korea-sees-no-lng-shortages-despite-middle-east-supply-disruptions",
+      "published": "2026-03-05T03:19:40+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Natural Gas",
+      "category": "Natural Gas, LNG"
+    },
+    {
+      "id": "0375e463ef3461a8",
+      "title": "",
+      "description": "",
+      "link": "https://www.spglobal.com/energy/zh/news-research/latest-news/lng/030526-south-korea-sees-no-lng-shortages-despite-middle-east-supply-disruptions",
       "published": "2026-03-05T03:19:40+00:00",
       "source": "S&P Global",
       "feed": "S&P Natural Gas",
@@ -7531,8 +7641,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/lng/030326-china-faces-lng-supply-test-amid-middle-east-crisis-spot-price-increase",
       "published": "2026-03-03T12:17:47+00:00",
       "source": "S&P Global",
-      "feed": "S&P Natural Gas",
-      "category": "Natural Gas, LNG",
+      "feed": "S&P LNG",
+      "category": "LNG",
       "sentiment": {
         "label": "negative",
         "confidence": 0.9168105125427246,
@@ -7813,7 +7923,7 @@
       "published": "2026-03-02T22:21:00+00:00",
       "source": "S&P Global",
       "feed": "S&P Electric Power",
-      "category": "Electric Power, Natural Gas, Coal, LNG",
+      "category": "Electric Power, Coal, LNG",
       "sentiment": {
         "label": "positive",
         "confidence": 0.6730107069015503,
