@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-09T21:16:50.566092+00:00",
-    "total_articles": 524,
+    "last_updated": "2026-03-09T21:55:52.399553+00:00",
+    "total_articles": 526,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,26 @@
     }
   },
   "articles": [
+    {
+      "id": "8ac017423f6e3fa7",
+      "title": "US Kronos reports higher Q4 net loss, expects higher TiO2 demand in 2026",
+      "description": "HOUSTON (ICIS)--US-based pigment producer Kronos Worldwide reported on Monday a larger Q4 net loss but expects demand in 2026 to grow year on year. Demand for titanium dioxide (TiO2) should increase...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186893/us-kronos-reports-higher-q4-net-loss-expects-higher-tio2-demand-in-2026",
+      "published": "2026-03-09T21:40:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Metals"
+    },
+    {
+      "id": "8f59072fcf51b793",
+      "title": "NYMEX: US gas futures dip on some reduced demand",
+      "description": "US natural gas futures fell on 9 March from the pre-weekend close on some bearish demand signals The April ’26 front-month contract settled at $3.12/MMBtu, down 2% from the prior settle US gas...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186890/nymex-us-gas-futures-dip-on-some-reduced-demand",
+      "published": "2026-03-09T21:27:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Natural Gas"
+    },
     {
       "id": "8ab10870793b279b",
       "title": "INSIGHT: Geopolitically driven oil price spikes since 1980 have taken 5 months to revert. Could this time be different?",
@@ -657,8 +677,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/lng/030926-european-gas-price-jumps-near-eur70mwh-as-iran-war-enters-second-week",
       "published": "2026-03-09T10:34:45+00:00",
       "source": "S&P Global",
-      "feed": "S&P Natural Gas",
-      "category": "Natural Gas, LNG"
+      "feed": "S&P LNG",
+      "category": "LNG"
     },
     {
       "id": "7ed04c5f08336d52",
@@ -4848,8 +4868,8 @@
       "link": "https://www.spglobal.com/energy/zh/news-research/latest-news/lng/030526-south-korea-sees-no-lng-shortages-despite-middle-east-supply-disruptions",
       "published": "2026-03-05T03:19:40+00:00",
       "source": "S&P Global",
-      "feed": "S&P Natural Gas",
-      "category": "Natural Gas, LNG"
+      "feed": "S&P LNG",
+      "category": "LNG"
     },
     {
       "id": "ef233c9ee0faa783",
@@ -8074,8 +8094,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/energy-transition/030326-energy-rally-pushes-eu-carbon-higher-as-clean-dark-spread-turns-positive",
       "published": "2026-03-03T13:59:13+00:00",
       "source": "S&P Global",
-      "feed": "S&P Coal",
-      "category": "Coal",
+      "feed": "S&P Natural Gas",
+      "category": "Natural Gas, Coal",
       "sentiment": {
         "label": "positive",
         "confidence": 0.9157130122184753,
@@ -8121,8 +8141,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/lng/030326-china-faces-lng-supply-test-amid-middle-east-crisis-spot-price-increase",
       "published": "2026-03-03T12:17:47+00:00",
       "source": "S&P Global",
-      "feed": "S&P LNG",
-      "category": "LNG",
+      "feed": "S&P Natural Gas",
+      "category": "Natural Gas, LNG",
       "sentiment": {
         "label": "negative",
         "confidence": 0.9168105125427246,
@@ -8403,7 +8423,7 @@
       "published": "2026-03-02T22:21:00+00:00",
       "source": "S&P Global",
       "feed": "S&P Electric Power",
-      "category": "Electric Power, Coal, LNG",
+      "category": "Electric Power, Natural Gas, Coal, LNG",
       "sentiment": {
         "label": "positive",
         "confidence": 0.6730107069015503,
