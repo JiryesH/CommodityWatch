@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-09T20:40:35.566847+00:00",
-    "total_articles": 523,
+    "last_updated": "2026-03-09T21:16:50.566092+00:00",
+    "total_articles": 524,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,16 @@
     }
   },
   "articles": [
+    {
+      "id": "8ab10870793b279b",
+      "title": "INSIGHT: Geopolitically driven oil price spikes since 1980 have taken 5 months to revert. Could this time be different?",
+      "description": "NEW YORK (ICIS)--Crude oil price spikes resulting from geopolitical turmoil in the past have taken around five months on average to revert to pre-trigger levels, according to an analysis by UBS....",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186889/insight-geopolitically-driven-oil-price-spikes-since-1980-have-taken-5-months-to-revert-could-this-time-be-different",
+      "published": "2026-03-09T20:56:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Crude"
+    },
     {
       "id": "6536792234b0fbed",
       "title": "US crude futures plunge on reports of easing Russia’s sanctions",
@@ -498,7 +508,7 @@
       "published": "2026-03-09T13:11:32+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Fertilizers"
+      "category": "Fertilizers, Chemicals"
     },
     {
       "id": "0566513676c8b2dc",
@@ -638,7 +648,7 @@
       "published": "2026-03-09T10:39:12+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude, Shipping"
+      "category": "Oil - Crude"
     },
     {
       "id": "34da9da28dbef6a0",
@@ -988,7 +998,7 @@
       "published": "2026-03-09T06:09:30+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude, Shipping"
+      "category": "Oil - Crude"
     },
     {
       "id": "ee731a5902a03214",
@@ -1068,7 +1078,7 @@
       "published": "2026-03-09T04:50:00+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude, Oil - Refined Products, Shipping"
+      "category": "Oil - Crude, Oil - Refined Products"
     },
     {
       "id": "cb489ee4418bf78d",
@@ -1657,8 +1667,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/crude-oil/030626-infographic-middle-east-war-jolts-commodities-markets",
       "published": "2026-03-06T17:02:13+00:00",
       "source": "S&P Global",
-      "feed": "S&P Chemicals",
-      "category": "Chemicals, Metals, Agriculture"
+      "feed": "S&P Metals",
+      "category": "Metals, Shipping, Agriculture"
     },
     {
       "id": "778db0fcc1ad63da",
@@ -2328,7 +2338,7 @@
       "published": "2026-03-06T10:53:21+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Fertilizers, Chemicals, Agriculture, Energy Transition"
+      "category": "Fertilizers, Chemicals, Shipping, Agriculture, Energy Transition"
     },
     {
       "id": "09318d6783e6566e",
@@ -2468,7 +2478,7 @@
       "published": "2026-03-06T08:42:32+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Refined Products",
-      "category": "Oil - Refined Products"
+      "category": "Oil - Refined Products, Shipping"
     },
     {
       "id": "68e20c755e9651c7",
@@ -8064,8 +8074,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/energy-transition/030326-energy-rally-pushes-eu-carbon-higher-as-clean-dark-spread-turns-positive",
       "published": "2026-03-03T13:59:13+00:00",
       "source": "S&P Global",
-      "feed": "S&P Natural Gas",
-      "category": "Natural Gas, Coal",
+      "feed": "S&P Coal",
+      "category": "Coal",
       "sentiment": {
         "label": "positive",
         "confidence": 0.9157130122184753,
