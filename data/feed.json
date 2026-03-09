@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-09T11:05:15.998895+00:00",
-    "total_articles": 462,
+    "last_updated": "2026-03-09T11:50:34.523865+00:00",
+    "total_articles": 465,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,36 @@
     }
   },
   "articles": [
+    {
+      "id": "6e2e6fb5af699118",
+      "title": "Europe etac prices surge on INEOS FM and escalating Middle East tensions",
+      "description": "LONDON (ICIS)--European ethyl acetate (etac) spot prices have risen sharply following INEOS’s declaration of force majeure and the broader impact of the Middle East conflict on global trade flows,...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186811/europe-etac-prices-surge-on-ineos-fm-and-escalating-middle-east-tensions",
+      "published": "2026-03-09T11:24:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "135f793f7f2e8eee",
+      "title": "Plant status: Kuwait's MEGlobal suspends No 2 MEG operation in Kuwait",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: MEGlobal Location: Shuaiba, Kuwait Product: Monoethylene glycol (MEG) Capacity (tonnes/year): 550,000 (No 2) Event start: 9 March 2026 Event...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186804/plant-status-kuwait-s-meglobal-suspends-no-2-meg-operation-in-kuwait",
+      "published": "2026-03-09T11:09:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "e7ed1119cec19fcd",
+      "title": "Asia’s EVA prices surge to two-year highs on feedstock gains while output uncertainty looms",
+      "description": "SINGAPORE (ICIS)--Asia’s ethylene vinyl acetate (EVA) market valuations surged to levels last seen around July 2024 in India while prices in China and southeast Asia are at levels last seen in...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186803/asia-s-eva-prices-surge-to-two-year-highs-on-feedstock-gains-while-output-uncertainty-looms",
+      "published": "2026-03-09T11:05:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
     {
       "id": "224e51890e85a47e",
       "title": "Plant status: Malaysia's PRefChem shuts No 1 RFCC unit",
