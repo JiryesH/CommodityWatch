@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-09T09:03:14.277932+00:00",
-    "total_articles": 451,
+    "last_updated": "2026-03-09T10:08:07.351277+00:00",
+    "total_articles": 454,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,36 @@
     }
   },
   "articles": [
+    {
+      "id": "49fee7f5c3683aa4",
+      "title": "China Feb CPI hits three-year high, PPI deflation narrows further",
+      "description": "SINGAPORE (ICIS)--China February consumer inflation rose to a three-year high while wholesale deflation narrowed as policy support helped ease overcapacity in some sectors. The consumer price index...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186771/china-feb-cpi-hits-three-year-high-ppi-deflation-narrows-further",
+      "published": "2026-03-09T09:35:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "8d3ce89c8c956ebd",
+      "title": "Major Chinese PET producers withdraw offers on sharp feedstock gains",
+      "description": "SINGAPORE (ICIS)-- Major Chinese polyethylene terephthalate (PET) producers have withdrawn the offers amid the aggressive price gains of feedstocks after the benchmark PET FOB China prices hit a...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186762/major-chinese-pet-producers-withdraw-offers-on-sharp-feedstock-gains",
+      "published": "2026-03-09T09:14:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "a72db6a3de310262",
+      "title": "Plant status: Taiwan Nan Ya restarts No 3 MEG unit, eyes run cuts",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: Nan Ya Plastics Location: Mailiao, Taiwan Products: Monoethylene glycol (MEG) Capacity (tonnes/year): 460,000 (No 3) Event start: Early January...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186761/plant-status-taiwan-nan-ya-restarts-no-3-meg-unit-eyes-run-cuts",
+      "published": "2026-03-09T09:06:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
     {
       "id": "c40c01398efbee33",
       "title": "Europe top stories: weekly summary",
@@ -967,8 +997,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/crude-oil/030626-infographic-middle-east-war-jolts-commodities-markets",
       "published": "2026-03-06T17:02:13+00:00",
       "source": "S&P Global",
-      "feed": "S&P Fertilizers",
-      "category": "Fertilizers, Chemicals, Metals, Shipping, Agriculture, LNG"
+      "feed": "S&P Chemicals",
+      "category": "Chemicals, Metals, Shipping, Agriculture, LNG"
     },
     {
       "id": "778db0fcc1ad63da",
