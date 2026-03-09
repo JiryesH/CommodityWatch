@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-09T10:08:07.351277+00:00",
-    "total_articles": 454,
+    "last_updated": "2026-03-09T11:05:15.998895+00:00",
+    "total_articles": 462,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,76 @@
     }
   },
   "articles": [
+    {
+      "id": "224e51890e85a47e",
+      "title": "Plant status: Malaysia's PRefChem shuts No 1 RFCC unit",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: Pengerang Refining and Petrochemical (PRefChem) Location: Pengerang, Malaysia Product: Propylene Capacity (tonnes/year): 325,000 Event start: 9...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186794/plant-status-malaysia-s-prefchem-shuts-no-1-rfcc-unit",
+      "published": "2026-03-09T10:49:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals, Oil - Refined Products"
+    },
+    {
+      "id": "7ed04c5f08336d52",
+      "title": "EVENING SNAPSHOT - Asia Markets Summary",
+      "description": "CRUDE: Higher as Arab Gulf producers cutback output amid growing concerns over the continued closure of the Strait of Hormuz. NAPHTHA (CFR JAPAN): Surged alongside crude, supply shortage. BENZENE...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186788/evening-snapshot-asia-markets-summary",
+      "published": "2026-03-09T10:23:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals, Oil - Refined Products"
+    },
+    {
+      "id": "53eec76d7ac283f1",
+      "title": "Plant status: QAFCO melamine plant in Doha, Qatar declares force majeure",
+      "description": "LONDON (ICIS)--Here is a plant status report: Name: Qatar Fertilizer Company (QAFCO) Location: Mesaieed, Qatar Product: Melamine Capacity (tonnes/year): 60,000 Event start: 6 March 2026 Event...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186787/plant-status-qafco-melamine-plant-in-doha-qatar-declares-force-majeure",
+      "published": "2026-03-09T10:18:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Fertilizers"
+    },
+    {
+      "id": "3c87129e9edaf417",
+      "title": "Asia fatty alcohols mid-cuts market up on feedstock PKO surge amid US-Iran war",
+      "description": "SINGAPORE (ICIS)--Asia fatty alcohols mid-cuts C12-14 spot market is seeing a spike in offers due to the surge in the feedstock palm kernel oil (PKO) and soaring crude oil prices amid the escalating...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186786/asia-fatty-alcohols-mid-cuts-market-up-on-feedstock-pko-surge-amid-us-iran-war",
+      "published": "2026-03-09T10:17:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Agriculture, Oil - Crude"
+    },
+    {
+      "id": "1b3f633f621aa453",
+      "title": "Asia toluene bid-offers soar, breaching past $1,100/tonne on crude spike",
+      "description": "SINGAPORE (ICIS)--Asia toluene spot prices rocketed as upstream crude oil prices surged past $100/barrel to levels not hit since July 2022, as Middle East hostilities intensified. Bids on a FOB (free...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186784/asia-toluene-bid-offers-soar-breaching-past-1-100-tonne-on-crude-spike",
+      "published": "2026-03-09T10:12:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Crude, Chemicals"
+    },
+    {
+      "id": "1b60a36a1c8605d0",
+      "title": "Update to ICIS Topics: US-Iran conflict - impact on chemicals and energy",
+      "description": "Visit the ICIS US-Iran conflict: impact on chemical and energy markets topic page for latest updates and analysis. Updates list of Asia chemical producers' force majeure declarations Latest...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186782/update-to-icis-topics-us-iran-conflict-impact-on-chemicals-and-energy",
+      "published": "2026-03-09T10:04:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "8a180dc2ea93c686",
+      "title": "ICIS TTF Early Day assessments: 9 March 2026",
+      "description": "- The ICIS TTF Early Day spread over ICIS East Asia Index (EAX) rose to -3.906 - ICIS - Week 11 is expected to be exceptionally mild across central and northeastern Europe, with daytime highs...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186778/icis-ttf-early-day-assessments-9-march-2026",
+      "published": "2026-03-09T10:01:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Natural Gas"
+    },
     {
       "id": "49fee7f5c3683aa4",
       "title": "China Feb CPI hits three-year high, PPI deflation narrows further",
@@ -331,6 +401,16 @@
       "category": "LNG"
     },
     {
+      "id": "fa376f39f63295c2",
+      "title": "China may resume US crude imports on supply crisis after 9-month gap: sources",
+      "description": "Chinese state-run refiners may resume US crude imports after a nine-month suspension amid the supply crisis in the Middle East, despite the additional 20% tariffs remaining in place, crude procurement strategists from two state-run refining groups, four refinery sources, and three analysts told Platts, part of S&amp;P Global Energy, on March 9. &quot;Beijing may even temporarily exempt the additional",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/shipping/030926-china-may-resume-us-crude-imports-on-supply-crisis-after-9-month-gap-sources",
+      "published": "2026-03-09T06:09:30+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Oil - Crude",
+      "category": "Oil - Crude"
+    },
+    {
       "id": "ee731a5902a03214",
       "title": "PSV traders holding off positioning on summer products as conflict continues",
       "description": "By Martina Losi and Fabio Roccon PSV traders hesitant amid uncertainty over conflict duration, supply risk QatarEnergy force majeure secondary problem - trader Energy decree rollout could be...",
@@ -399,6 +479,16 @@
       "source": "ICIS",
       "feed": "ICIS",
       "category": "General"
+    },
+    {
+      "id": "40781579eff9b06f",
+      "title": "FACTBOX: Oil futures cross $110/b as Middle East conflict hits production",
+      "description": "Crude oil futures extended gains in midmorning trading in Asia on March 9, driven by mounting supply risks as key producers cut output amid the Middle East conflict. At 11:23 am Singapore time (0323 GMT), the ICE May Brent crude futures contract rose $21.59/b (23.29%) from the previous close to $114.28/b, while the NYMEX April light sweet crude contract rose $23.25/b (25.58%) to $114.15/b over the",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/crude-oil/030626-factbox-oil-futures-cross-110b-as-middle-east-conflict-hits-production",
+      "published": "2026-03-09T04:50:00+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Oil - Crude",
+      "category": "Oil - Crude, Oil - Refined Products"
     },
     {
       "id": "cb489ee4418bf78d",
@@ -899,16 +989,6 @@
       "source": "ICIS",
       "feed": "ICIS",
       "category": "General"
-    },
-    {
-      "id": "40781579eff9b06f",
-      "title": "FACTBOX: Oil futures cross $110/b as Middle East conflict hits production",
-      "description": "Crude oil futures extended gains in midmorning trading in Asia on March 9, driven by mounting supply risks as key producers cut output amid the Middle East conflict. At 11:23 am Singapore time (0323 GMT), the ICE May Brent crude futures contract rose $21.59/b (23.29%) from the previous close to $114.28/b, while the NYMEX April light sweet crude contract rose $23.25/b (25.58%) to $114.15/b over the",
-      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/crude-oil/030626-factbox-oil-futures-cross-110b-as-middle-east-conflict-hits-production",
-      "published": "2026-03-06T17:34:11+00:00",
-      "source": "S&P Global",
-      "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude, Oil - Refined Products"
     },
     {
       "id": "12f7201ab2cc1e77",
