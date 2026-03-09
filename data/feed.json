@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-08T23:57:45.204603+00:00",
-    "total_articles": 401,
+    "last_updated": "2026-03-09T02:53:53.879628+00:00",
+    "total_articles": 406,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,56 @@
     }
   },
   "articles": [
+    {
+      "id": "320d699eaae4ffd6",
+      "title": "China’ s Wanhua Chemical declares force majeure amid Mideast crisis",
+      "description": "SINGAPORE (ICIS)--China’s major chemical producer and the biggest global isocyanates manufacturer Wanhua Chemical has declared a force majeure, effective 7 March, a company notice said. It cites...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186682/china-s-wanhua-chemical-declares-force-majeure-amid-mideast-crisis",
+      "published": "2026-03-09T02:48:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "c2b35268a8770a10",
+      "title": "ICIS Analyst View: Asian dependency on Strait of Hormuz energy flows (crude oil and LNG): which countries face the greatest risk?",
+      "description": "Executive summary Asian economies are more exposed to a Gulf oil disruption than LNG on a dependency basis. Eight Asian markets source more than 50% of crude imports from the Gulf, compared with only...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186681/icis-analyst-view-asian-dependency-on-strait-of-hormuz-energy-flows-crude-oil-and-lng-which-countries-face-the-greatest-risk",
+      "published": "2026-03-09T02:40:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Crude, LNG"
+    },
+    {
+      "id": "d817c4dbeff9e4d7",
+      "title": "Asia LAB producers struggle with escalating feedstock costs",
+      "description": "SINGAPORE (ICIS)--Linear alkyl benzene (LAB) producers in Asia are continuing to struggle with pricing cargoes amid a sharp escalation of feedstock costs over the week of 2-6 March. With the US and...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186678/asia-lab-producers-struggle-with-escalating-feedstock-costs",
+      "published": "2026-03-09T02:25:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "b62af69b24273aa7",
+      "title": "Asia top stories - weekly summary",
+      "description": "SINGAPORE (ICIS)--Here are the top stories from ICIS News Asia and the Middle East for the week ended 6 March. Asia benzene rally resumes; buyers rush to secure forward cargoes By Angeline Soh...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186291/asia-top-stories-weekly-summary",
+      "published": "2026-03-09T01:00:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "dd89d051770f8cbc",
+      "title": "Oil prices surge past $100/barrel on escalating Mideast hostilities",
+      "description": "SINGAPORE (ICIS)--Oil prices surged past $100/barrel in early trade on Monday, levels not hit since 2022, as escalating Middle East hostilities triggered production cuts, with traffic through the...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186673/oil-prices-surge-past-100-barrel-on-escalating-mideast-hostilities",
+      "published": "2026-03-09T00:19:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Crude"
+    },
     {
       "id": "e39b3ebd1b3109f4",
       "title": "What to watch this week - ICIS calendar highlights",
