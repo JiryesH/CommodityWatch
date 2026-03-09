@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-09T23:02:49.967391+00:00",
-    "total_articles": 528,
+    "last_updated": "2026-03-09T23:44:01.951928+00:00",
+    "total_articles": 530,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -61,6 +61,16 @@
   },
   "articles": [
     {
+      "id": "f69b38052f54f2a0",
+      "title": "US to remove oil sanctions on some countries until Iran situation &apos;straightens out&apos;: Trump",
+      "description": "The US will lift sanctions on oil sales by &quot;some countries&quot; until the war with Iran &quot;straightens out,&quot; US President Donald Trump said March 9. &quot;We are also waiving certain oil-related sanctions to reduce prices,&quot; Trump said, speaking at a White House press conference. &quot;We have sanctions on some countries. We&apos;re going to take sanctions off until this straightens out. When the time comes, the US",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/crude-oil/030926-us-to-remove-oil-sanctions-on-some-countries-until-iran-situation-straightens-out-trump",
+      "published": "2026-03-09T22:40:48+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Oil - Crude",
+      "category": "Oil - Crude"
+    },
+    {
       "id": "4d967d1c1b6bc617",
       "title": "EVENING SNAPSHOT - Americas Markets Summary",
       "description": "CRUDE: Up for the seventh consecutive session in response to the Iran conflict. Lost over $6.00/barrel in after-market electronic trading on reports that Washington may ease Russia's oil sanctions....",
@@ -77,8 +87,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/crude-oil/030926-hormuz-strait-traffic-tapers-amid-war-as-tankers-await-passage-cas",
       "published": "2026-03-09T21:43:52+00:00",
       "source": "S&P Global",
-      "feed": "S&P Oil - Refined Products",
-      "category": "Oil - Refined Products"
+      "feed": "S&P Oil - Crude",
+      "category": "Oil - Crude, Oil - Refined Products"
     },
     {
       "id": "8ac017423f6e3fa7",
@@ -509,6 +519,16 @@
       "source": "ICIS",
       "feed": "ICIS",
       "category": "General"
+    },
+    {
+      "id": "5022c9bc73367fed",
+      "title": "India says fertilizer stocks secure despite Middle East war",
+      "description": "The Indian Department of Fertilizers said March 6 that its fertilizer stocks were &quot;robust, secure and fully equipped to handle&quot; the country&apos;s peak demand season, despite the war in the Middle East. India was the world&apos;s single-largest urea importer in 2025, bringing in 10.2 million metric tons, of which more than 41% was sourced from the Middle East, according to S&amp;P Global Market Intelligence&apos;s",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/agriculture/030926-india-says-fertilizer-stocks-secure-despite-middle-east-war",
+      "published": "2026-03-09T14:14:47+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Fertilizers",
+      "category": "Fertilizers"
     },
     {
       "id": "4a493add758888af",
@@ -1117,8 +1137,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/crude-oil/030626-factbox-oil-futures-cross-110b-as-middle-east-conflict-hits-production",
       "published": "2026-03-09T04:50:00+00:00",
       "source": "S&P Global",
-      "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude, Oil - Refined Products"
+      "feed": "S&P Oil - Refined Products",
+      "category": "Oil - Refined Products"
     },
     {
       "id": "cb489ee4418bf78d",
