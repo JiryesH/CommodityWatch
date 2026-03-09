@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-09T21:55:52.399553+00:00",
-    "total_articles": 526,
+    "last_updated": "2026-03-09T22:36:20.170162+00:00",
+    "total_articles": 527,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,16 @@
     }
   },
   "articles": [
+    {
+      "id": "4d967d1c1b6bc617",
+      "title": "EVENING SNAPSHOT - Americas Markets Summary",
+      "description": "CRUDE: Up for the seventh consecutive session in response to the Iran conflict. Lost over $6.00/barrel in after-market electronic trading on reports that Washington may ease Russia's oil sanctions....",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/09/11186894/evening-snapshot-americas-markets-summary",
+      "published": "2026-03-09T22:30:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Crude"
+    },
     {
       "id": "8ac017423f6e3fa7",
       "title": "US Kronos reports higher Q4 net loss, expects higher TiO2 demand in 2026",
@@ -598,7 +608,7 @@
       "published": "2026-03-09T11:58:30+00:00",
       "source": "S&P Global",
       "feed": "S&P Natural Gas",
-      "category": "Natural Gas"
+      "category": "Natural Gas, Coal"
     },
     {
       "id": "fdcd00f4e178ffbc",
@@ -677,8 +687,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/lng/030926-european-gas-price-jumps-near-eur70mwh-as-iran-war-enters-second-week",
       "published": "2026-03-09T10:34:45+00:00",
       "source": "S&P Global",
-      "feed": "S&P LNG",
-      "category": "LNG"
+      "feed": "S&P Natural Gas",
+      "category": "Natural Gas, LNG"
     },
     {
       "id": "7ed04c5f08336d52",
@@ -4868,8 +4878,8 @@
       "link": "https://www.spglobal.com/energy/zh/news-research/latest-news/lng/030526-south-korea-sees-no-lng-shortages-despite-middle-east-supply-disruptions",
       "published": "2026-03-05T03:19:40+00:00",
       "source": "S&P Global",
-      "feed": "S&P LNG",
-      "category": "LNG"
+      "feed": "S&P Natural Gas",
+      "category": "Natural Gas, LNG"
     },
     {
       "id": "ef233c9ee0faa783",
@@ -8094,8 +8104,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/energy-transition/030326-energy-rally-pushes-eu-carbon-higher-as-clean-dark-spread-turns-positive",
       "published": "2026-03-03T13:59:13+00:00",
       "source": "S&P Global",
-      "feed": "S&P Natural Gas",
-      "category": "Natural Gas, Coal",
+      "feed": "S&P Coal",
+      "category": "Coal",
       "sentiment": {
         "label": "positive",
         "confidence": 0.9157130122184753,
@@ -8141,8 +8151,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/lng/030326-china-faces-lng-supply-test-amid-middle-east-crisis-spot-price-increase",
       "published": "2026-03-03T12:17:47+00:00",
       "source": "S&P Global",
-      "feed": "S&P Natural Gas",
-      "category": "Natural Gas, LNG",
+      "feed": "S&P LNG",
+      "category": "LNG",
       "sentiment": {
         "label": "negative",
         "confidence": 0.9168105125427246,
@@ -8423,7 +8433,7 @@
       "published": "2026-03-02T22:21:00+00:00",
       "source": "S&P Global",
       "feed": "S&P Electric Power",
-      "category": "Electric Power, Natural Gas, Coal, LNG",
+      "category": "Electric Power, Coal, LNG",
       "sentiment": {
         "label": "positive",
         "confidence": 0.6730107069015503,
