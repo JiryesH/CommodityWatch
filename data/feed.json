@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-10T23:43:18.934153+00:00",
-    "total_articles": 2077,
+    "last_updated": "2026-03-10T23:59:30.819520+00:00",
+    "total_articles": 2078,
     "feeds_fetched": 15,
     "feeds_failed": 0,
     "feed_details": {
@@ -105,10 +105,10 @@
       "classifier_fallback_used": 0
     },
     "dedupe": {
-      "new": 3,
-      "updated": 121,
-      "merged": 26,
-      "incoming_merged": 26,
+      "new": 1,
+      "updated": 124,
+      "merged": 25,
+      "incoming_merged": 25,
       "existing_merged": 0
     }
   },
@@ -615,6 +615,19 @@
         "text_hash": "cdd21667456e709be4c18fc344d7f8827f39cff197036eae19e1c82585fbf713",
         "extracted_at": "2026-03-10T17:07:51.927441+00:00"
       }
+    },
+    {
+      "id": "af552b2957477c6a",
+      "title": "Global jet benchmarks spike, break records on Middle East supply crunch",
+      "description": "Elevated global jet fuel benchmarks broke records while outpacing increases in other refined product prices as shipments from the Middle East stall since the US war with Iran started on Feb. 28, and buyers scramble for alternative supply. Jet CIF NWE differentials broke three all-time records on March 3, 4 and 5, where it priced at a $350/metric ton premium to the March ICE low sulfur gasoil",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/refined-products/031026-global-jet-benchmarks-spike-break-records-on-middle-east-supply-crunch",
+      "published": "2026-03-10T16:52:56+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Oil - Refined Products",
+      "category": "Oil - Refined Products",
+      "categories": [
+        "Oil - Refined Products"
+      ]
     },
     {
       "id": "80ae690a55f4bb74",
