@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-10T19:59:35.263684+00:00",
-    "total_articles": 2066,
+    "last_updated": "2026-03-10T20:46:37.328712+00:00",
+    "total_articles": 2067,
     "feeds_fetched": 15,
     "feeds_failed": 0,
     "feed_details": {
@@ -105,14 +105,27 @@
       "classifier_fallback_used": 0
     },
     "dedupe": {
-      "new": 2,
-      "updated": 124,
-      "merged": 24,
-      "incoming_merged": 24,
+      "new": 1,
+      "updated": 129,
+      "merged": 20,
+      "incoming_merged": 20,
       "existing_merged": 0
     }
   },
   "articles": [
+    {
+      "id": "70611a1bf24baf59",
+      "title": "US chemicals may gain short-term edge from oil price shock but ratings upgrades not in play - Fitch",
+      "description": "NEW YORK (ICIS)--US chemical producers stand to gain a competitive advantage from the Iran war oil price shock, but demand destruction looms as a risk, said credit ratings agency Fitch Ratings. US...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187346/us-chemicals-may-gain-short-term-edge-from-oil-price-shock-but-ratings-upgrades-not-in-play-fitch",
+      "published": "2026-03-10T20:20:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
     {
       "id": "fa3f42a85aad1731",
       "title": "Lundin, BHP’s Vicuña project targets 395,000 tpy of copper concentrate from Argentina",
@@ -28206,9 +28219,10 @@
       "link": "https://www.spglobal.com/energy/zh/news-research/latest-news/lng/030526-south-korea-sees-no-lng-shortages-despite-middle-east-supply-disruptions",
       "published": "2026-03-05T03:19:40+00:00",
       "source": "S&P Global",
-      "feed": "S&P LNG",
-      "category": "LNG",
+      "feed": "S&P Natural Gas",
+      "category": "Natural Gas",
       "categories": [
+        "Natural Gas",
         "LNG"
       ]
     },
