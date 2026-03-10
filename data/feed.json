@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-10T21:34:23.709725+00:00",
-    "total_articles": 2071,
+    "last_updated": "2026-03-10T21:58:59.317616+00:00",
+    "total_articles": 2072,
     "feeds_fetched": 15,
     "feeds_failed": 0,
     "feed_details": {
@@ -105,14 +105,27 @@
       "classifier_fallback_used": 0
     },
     "dedupe": {
-      "new": 4,
-      "updated": 124,
-      "merged": 22,
-      "incoming_merged": 22,
+      "new": 1,
+      "updated": 125,
+      "merged": 24,
+      "incoming_merged": 24,
       "existing_merged": 0
     }
   },
   "articles": [
+    {
+      "id": "94794b2a896ed24a",
+      "title": "March WASDE lacking any significant change for US row crops",
+      "description": "HOUSTON (ICIS)--The USDA of Agriculture (USDA) presented no significant changes for the major US rows crops within their March World Agricultural Supply and Demand Estimate (WASDE) report. The agency...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187351/march-wasde-lacking-any-significant-change-for-us-row-crops",
+      "published": "2026-03-10T21:35:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
     {
       "id": "48582f49242979e5",
       "title": "Stargate stall shows ERCOT's planning problem",
