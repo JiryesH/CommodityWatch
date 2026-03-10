@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-10T09:52:14.804560+00:00",
-    "total_articles": 572,
+    "last_updated": "2026-03-10T10:49:00.134882+00:00",
+    "total_articles": 582,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,106 @@
     }
   },
   "articles": [
+    {
+      "id": "42ca98cd7bc10eb3",
+      "title": "Plant status: Taiwan’s CGPC PVC op rates lowered due to feedstock limitation",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: China General Plastics Corporation (CGPC) Location: Lin Yuan, Taiwan Products: Polyvinyl chloride (PVC) Capacity (tonnes/year): 220,000 Event...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187246/plant-status-taiwan-s-cgpc-pvc-op-rates-lowered-due-to-feedstock-limitation",
+      "published": "2026-03-10T10:44:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "91a735dce38f4743",
+      "title": "China exports in Jan-Feb surge 21.8% on year; imports up 19.8%",
+      "description": "SINGAPORE (ICIS)--China’s total exports reached $656.58 billion in January-February, up 21.8% year on year, according to preliminary data released on 10 March by China’s General Administration of...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187245/china-exports-in-jan-feb-surge-21-8-on-year-imports-up-19-8",
+      "published": "2026-03-10T10:38:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "caf672d609b2ff9f",
+      "title": "Plant status: Taiwan VCM lowers operating rates due to feedstock disruption",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: Taiwan VCM Location: Lin Yuan, Taiwan Products: Vinyl chloride monomer (VCM) Capacity (tonnes/year): 450,000 (All lines) Event start: March...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187243/plant-status-taiwan-vcm-lowers-operating-rates-due-to-feedstock-disruption",
+      "published": "2026-03-10T10:27:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "8cd544f4ce1b9f75",
+      "title": "China's Tangshan Zhonghao declares force majeure on ADA",
+      "description": "SINGAPORE (ICIS)--China's Tangshan Zhonghao has declared force majeure on its adipic acid (ADA) products, effective from 10 March. This action is attributed to constrained feedstock supply and...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187241/china-s-tangshan-zhonghao-declares-force-majeure-on-ada",
+      "published": "2026-03-10T10:26:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "641a5a022099b6c9",
+      "title": "Europe MEG Mar contract at €35/tonne hike on feedstock cost pressure",
+      "description": "LONDON (ICIS)--Europe’s monoethylene glycol (MEG) March contract has been fully confirmed at €740/tonne, an increase of €35/tonne from February. The Europe ethylene (C2) contract reference...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187237/europe-meg-mar-contract-at-35-tonne-hike-on-feedstock-cost-pressure",
+      "published": "2026-03-10T10:17:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "0c5c4887665494b8",
+      "title": "EVENING SNAPSHOT - Asia Markets Summary",
+      "description": "CRUDE: Lower after US President Donald Trump indicated Iran war may end soon and oil sanctions may ease. NAPHTHA (CFR JAPAN): Down tracking crude losses. BENZENE (FOB KOREA): Down alongside crude....",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187235/evening-snapshot-asia-markets-summary",
+      "published": "2026-03-10T10:13:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals, Oil - Refined Products"
+    },
+    {
+      "id": "250adc788d306c1c",
+      "title": "ICIS TTF Early Day assessments: 10 March 2026",
+      "description": "- TTF Early Day dived 14.3% on Tuesday's opening, as the discount to the EAX widened to $5.72/MMBtu for April front month amid oil prices dropping from 9 March highs on US President Donald Trump's...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187231/icis-ttf-early-day-assessments-10-march-2026",
+      "published": "2026-03-10T10:08:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Crude, Natural Gas"
+    },
+    {
+      "id": "05468055431a1e52",
+      "title": "Asia PVC carbide-based producers skirt naphtha shocks but uptake mixed",
+      "description": "SINGAPORE (ICIS)--Carbide-based polyvinyl chloride (PVC) producers in Asia are not directly affected by the recent supply shocks for feedstocks ethylene (C2) and naphtha. Nevertheless, acceptance...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187230/asia-pvc-carbide-based-producers-skirt-naphtha-shocks-but-uptake-mixed",
+      "published": "2026-03-10T10:07:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals, Oil - Refined Products"
+    },
+    {
+      "id": "5a41b0e37c52220d",
+      "title": "China BPA prices surge to highest level not seen in more than three years",
+      "description": "SINGAPORE (ICIS)--China’s domestic bisphenol A (BPA) prices rose sharply on the surging feedstock benzene and phenol/acetone values amid tensions in the Middle East. Domestic prices jumped by over...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187224/china-bpa-prices-surge-to-highest-level-not-seen-in-more-than-three-years",
+      "published": "2026-03-10T09:57:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "08f4102574dd486f",
+      "title": "Plant status: Indonesia’s Sulfindo declares force majeure, citing feedstock disruptions",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: Sulfindo Adiusaha Location: Bojonegara, Indonesia Products: Caustic soda, ethylene dichloride (EDC), vinyl chloride monomer (VCM), polyvinyl...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187223/plant-status-indonesia-s-sulfindo-declares-force-majeure-citing-feedstock-disruptions",
+      "published": "2026-03-10T09:56:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
     {
       "id": "a96c8f40664574db",
       "title": "Plant status: Taiwan’s Nan Ya Plastics stops BDO production",
@@ -508,7 +608,7 @@
       "published": "2026-03-09T20:29:24+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude, Natural Gas, LNG"
+      "category": "Oil - Crude, LNG"
     },
     {
       "id": "6536792234b0fbed",
@@ -1047,8 +1147,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/electric-power/030926-european-wind-output-hits-20-week-low-solar-rebounds-amid-early-spring-spell",
       "published": "2026-03-09T11:58:30+00:00",
       "source": "S&P Global",
-      "feed": "S&P Natural Gas",
-      "category": "Natural Gas, Coal"
+      "feed": "S&P Coal",
+      "category": "Coal"
     },
     {
       "id": "fdcd00f4e178ffbc",
@@ -1127,8 +1227,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/lng/030926-european-gas-price-jumps-near-eur70mwh-as-iran-war-enters-second-week",
       "published": "2026-03-09T10:34:45+00:00",
       "source": "S&P Global",
-      "feed": "S&P Natural Gas",
-      "category": "Natural Gas, LNG"
+      "feed": "S&P LNG",
+      "category": "LNG"
     },
     {
       "id": "7ed04c5f08336d52",
@@ -2148,7 +2248,7 @@
       "published": "2026-03-06T17:02:13+00:00",
       "source": "S&P Global",
       "feed": "S&P Metals",
-      "category": "Metals"
+      "category": "Metals, Shipping"
     },
     {
       "id": "778db0fcc1ad63da",
@@ -2818,7 +2918,7 @@
       "published": "2026-03-06T10:53:21+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Fertilizers, Chemicals, Agriculture, Energy Transition"
+      "category": "Fertilizers, Chemicals, Shipping, Agriculture, Energy Transition"
     },
     {
       "id": "09318d6783e6566e",
@@ -2957,8 +3057,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/shipping/030626-tanker-charterers-cancel-voyages-defer-deals-owners-seek-routes-outside-gulf",
       "published": "2026-03-06T08:42:32+00:00",
       "source": "S&P Global",
-      "feed": "S&P Oil - Refined Products",
-      "category": "Oil - Refined Products, Shipping"
+      "feed": "S&P Shipping",
+      "category": "Shipping"
     },
     {
       "id": "68e20c755e9651c7",
@@ -8554,8 +8654,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/energy-transition/030326-energy-rally-pushes-eu-carbon-higher-as-clean-dark-spread-turns-positive",
       "published": "2026-03-03T13:59:13+00:00",
       "source": "S&P Global",
-      "feed": "S&P Coal",
-      "category": "Coal",
+      "feed": "S&P Natural Gas",
+      "category": "Natural Gas, Coal",
       "sentiment": {
         "label": "positive",
         "confidence": 0.9157130122184753,
@@ -8601,8 +8701,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/lng/030326-china-faces-lng-supply-test-amid-middle-east-crisis-spot-price-increase",
       "published": "2026-03-03T12:17:47+00:00",
       "source": "S&P Global",
-      "feed": "S&P LNG",
-      "category": "LNG",
+      "feed": "S&P Natural Gas",
+      "category": "Natural Gas, LNG",
       "sentiment": {
         "label": "negative",
         "confidence": 0.9168105125427246,
@@ -8883,7 +8983,7 @@
       "published": "2026-03-02T22:21:00+00:00",
       "source": "S&P Global",
       "feed": "S&P Electric Power",
-      "category": "Electric Power, Coal",
+      "category": "Electric Power, Natural Gas, Coal",
       "sentiment": {
         "label": "positive",
         "confidence": 0.6730107069015503,
