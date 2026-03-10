@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-10T10:49:00.134882+00:00",
-    "total_articles": 582,
+    "last_updated": "2026-03-10T11:37:06.679932+00:00",
+    "total_articles": 586,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,46 @@
     }
   },
   "articles": [
+    {
+      "id": "33ea2c48daada702",
+      "title": "INTERACTIVE: Energy facilities and shipping hit in the Middle East war",
+      "description": "Iran has targeted energy infrastructure across the Middle East in response to attacks by the US and Israel launched Feb. 28. Here are some of the key oil, gas, shipping and chemicals assets affected by direct strikes and elevated security risks.",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/crude-oil/030926-interactive-energy-facilities-and-shipping-hit-in-the-middle-east-war",
+      "published": "2026-03-10T11:56:00+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Chemicals",
+      "category": "Chemicals"
+    },
+    {
+      "id": "926de52b5b5d873e",
+      "title": "Europe PE spot sees triple digit hikes, with offers expected to climb",
+      "description": "LONDON(ICIS)--European polyethylene (PE) spot prices have risen significantly across all grades, following the fallout of Israeli and US attacks on Iran. Further price rises are possible, although...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187264/europe-pe-spot-sees-triple-digit-hikes-with-offers-expected-to-climb",
+      "published": "2026-03-10T11:16:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "239adce8c9598b86",
+      "title": "Global ethane supply and demand to rise through to 2030",
+      "description": "LONDON (ICIS)--The supply and demand of ethane are both expected to increase between now and 2030, according to the ICIS Supply and Demand database. This is because feedstock optimization will become...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187254/global-ethane-supply-and-demand-to-rise-through-to-2030",
+      "published": "2026-03-10T10:55:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "179897af037b0dda",
+      "title": "Asia polyester prices highest since 2022 on feedstock rally despite buying resistance",
+      "description": "SINGAPORE (ICIS)--Asia’s polyester export prices have soared to peak levels since 2022 on the back of a rally in feedstock markets, although this has incurred strong buying resistance from most...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187251/asia-polyester-prices-highest-since-2022-on-feedstock-rally-despite-buying-resistance",
+      "published": "2026-03-10T10:54:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
     {
       "id": "42ca98cd7bc10eb3",
       "title": "Plant status: Taiwan’s CGPC PVC op rates lowered due to feedstock limitation",
@@ -288,7 +328,7 @@
       "published": "2026-03-10T07:11:56+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Refined Products",
-      "category": "Oil - Refined Products"
+      "category": "Oil - Refined Products, Chemicals"
     },
     {
       "id": "3cc942d81b690347",
@@ -608,7 +648,7 @@
       "published": "2026-03-09T20:29:24+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude, LNG"
+      "category": "Oil - Crude, Natural Gas, LNG"
     },
     {
       "id": "6536792234b0fbed",
@@ -1038,7 +1078,7 @@
       "published": "2026-03-09T14:14:47+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Fertilizers"
+      "category": "Fertilizers, Chemicals"
     },
     {
       "id": "4a493add758888af",
@@ -1147,8 +1187,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/electric-power/030926-european-wind-output-hits-20-week-low-solar-rebounds-amid-early-spring-spell",
       "published": "2026-03-09T11:58:30+00:00",
       "source": "S&P Global",
-      "feed": "S&P Coal",
-      "category": "Coal"
+      "feed": "S&P Natural Gas",
+      "category": "Natural Gas, Coal"
     },
     {
       "id": "fdcd00f4e178ffbc",
@@ -1227,8 +1267,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/lng/030926-european-gas-price-jumps-near-eur70mwh-as-iran-war-enters-second-week",
       "published": "2026-03-09T10:34:45+00:00",
       "source": "S&P Global",
-      "feed": "S&P LNG",
-      "category": "LNG"
+      "feed": "S&P Natural Gas",
+      "category": "Natural Gas, LNG"
     },
     {
       "id": "7ed04c5f08336d52",
@@ -2248,7 +2288,7 @@
       "published": "2026-03-06T17:02:13+00:00",
       "source": "S&P Global",
       "feed": "S&P Metals",
-      "category": "Metals, Shipping"
+      "category": "Metals"
     },
     {
       "id": "778db0fcc1ad63da",
@@ -2918,7 +2958,7 @@
       "published": "2026-03-06T10:53:21+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Fertilizers, Chemicals, Shipping, Agriculture, Energy Transition"
+      "category": "Fertilizers, Agriculture, Energy Transition"
     },
     {
       "id": "09318d6783e6566e",
@@ -8654,8 +8694,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/energy-transition/030326-energy-rally-pushes-eu-carbon-higher-as-clean-dark-spread-turns-positive",
       "published": "2026-03-03T13:59:13+00:00",
       "source": "S&P Global",
-      "feed": "S&P Natural Gas",
-      "category": "Natural Gas, Coal",
+      "feed": "S&P Coal",
+      "category": "Coal",
       "sentiment": {
         "label": "positive",
         "confidence": 0.9157130122184753,
@@ -8701,8 +8741,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/lng/030326-china-faces-lng-supply-test-amid-middle-east-crisis-spot-price-increase",
       "published": "2026-03-03T12:17:47+00:00",
       "source": "S&P Global",
-      "feed": "S&P Natural Gas",
-      "category": "Natural Gas, LNG",
+      "feed": "S&P LNG",
+      "category": "LNG",
       "sentiment": {
         "label": "negative",
         "confidence": 0.9168105125427246,
@@ -8983,7 +9023,7 @@
       "published": "2026-03-02T22:21:00+00:00",
       "source": "S&P Global",
       "feed": "S&P Electric Power",
-      "category": "Electric Power, Natural Gas, Coal",
+      "category": "Electric Power, Coal",
       "sentiment": {
         "label": "positive",
         "confidence": 0.6730107069015503,
