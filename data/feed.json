@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-10T04:45:47.348544+00:00",
-    "total_articles": 545,
+    "last_updated": "2026-03-10T05:51:00.513643+00:00",
+    "total_articles": 552,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,76 @@
     }
   },
   "articles": [
+    {
+      "id": "ed1cad62940ff1f6",
+      "title": "Taiwan’s FPCC declares force majeure amid feedstock supply disruption",
+      "description": "SINGAPORE (ICIS)--Formosa Petrochemical Corp (FPCC) has declared force majeure for its olefins division amid disruption to naphtha supply resulting from the escalating conflict in the Middle East,...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187183/taiwan-s-fpcc-declares-force-majeure-amid-feedstock-supply-disruption",
+      "published": "2026-03-10T05:46:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Refined Products"
+    },
+    {
+      "id": "aa152b7792bae4ef",
+      "title": "India’s AIL plans integrated project for specialty chemical intermediate",
+      "description": "MUMBAI (ICIS)--Indian specialty chemicals producer Aarti Industries Ltd (AIL) plans to set up a backward integration facility for the production of feedstock for a specialty chemical intermediate at...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187182/india-s-ail-plans-integrated-project-for-specialty-chemical-intermediate",
+      "published": "2026-03-10T05:40:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "df0b8d9b05612d36",
+      "title": "India’s Supreme Petrochem restarts ABS plant at 65% capacity",
+      "description": "MUMBAI (ICIS)--Here is a plant status report: Name: Supreme Petrochem Ltd Location: Nagothane, Maharashtra, India Product: mass Acrylonitrile Butadiene Styrene (mABS) Capacity (tonnes/year): 70,000...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187180/india-s-supreme-petrochem-restarts-abs-plant-at-65-capacity",
+      "published": "2026-03-10T05:34:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "cc6330c591e05951",
+      "title": "Pakistan unveils measures to curb fuel use as prices surge amid Middle East war",
+      "description": "Pakistan unveiled a series of measures on March 9 to reduce the use of transportation fuels as it steps up efforts to cope with supply disruptions and high prices resulting from the Middle East conflict. Prime Minister Shehbaz Sharif said in a televised address that offices would operate four days a week -- except for banks -- while 50% of staff in both the public and private sectors would work",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/crude-oil/031026-pakistan-unveils-measures-to-curb-fuel-use-as-prices-surge-amid-middle-east-war",
+      "published": "2026-03-10T05:28:43+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Oil - Crude",
+      "category": "Oil - Crude, Oil - Refined Products"
+    },
+    {
+      "id": "7ebbabf49a3103a6",
+      "title": "India urges refiners to maximize LPG output, prioritize household sector",
+      "description": "The Indian government has directed oil refiners to boost LPG output and ensure supplies to the household sector, as the ongoing Middle East war has made it necessary to adjust refinery production, oil ministry officials said March 9. Refiners have been instructed to maximize and ensure production of propane and butane streams to produce LPG, the officials added. &quot;All public sector oil marketing",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/crude-oil/031026-india-urges-refiners-to-maximize-lpg-output-prioritize-household-sector",
+      "published": "2026-03-10T05:27:15+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Oil - Refined Products",
+      "category": "Oil - Refined Products"
+    },
+    {
+      "id": "d25dc4746fca82be",
+      "title": "ICIS Analyst View: From Digital to Physical (Part I) - The Agentic Paradigm Shift and the New Structural Power Bottleck",
+      "description": "Executive Summary: The shift from digital agentic AI to physical embodied intelligence is hitting a structural wall. While market valuations (e.g., IDC’s $77B projection1) are driven by “labor...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187178/icis-analyst-view-from-digital-to-physical-part-i-the-agentic-paradigm-shift-and-the-new-structural-power-bottleck",
+      "published": "2026-03-10T04:52:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Electric Power"
+    },
+    {
+      "id": "d6108ff6a28ff4b4",
+      "title": "Asia MEG prices plunge following crude decline",
+      "description": "SINGAPORE (ICIS)--Asia’s monoethylene glycol (MEG) prices plunged on Tuesday after hitting the peak since 2022 in line with the correction in crude market. Oil ‌prices plummeted on Tuesday as US...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187177/asia-meg-prices-plunge-following-crude-decline",
+      "published": "2026-03-10T04:42:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals, Oil - Crude"
+    },
     {
       "id": "0e7a5af10def06df",
       "title": "Plant status: China’s Fujian Gulei shuts cracker for maintenance",
@@ -498,7 +568,7 @@
       "published": "2026-03-09T16:35:58+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Refined Products",
-      "category": "Oil - Refined Products, Agriculture"
+      "category": "Oil - Refined Products"
     },
     {
       "id": "f64051bba2ff539c",
@@ -668,7 +738,7 @@
       "published": "2026-03-09T14:14:47+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Fertilizers"
+      "category": "Fertilizers, Chemicals"
     },
     {
       "id": "4a493add758888af",
@@ -847,8 +917,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/agriculture/030926-southeast-asia-floating-storage-declines-in-feb-as-iranian-barrels-clear-before-middle-east-war",
       "published": "2026-03-09T10:39:12+00:00",
       "source": "S&P Global",
-      "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude, Shipping"
+      "feed": "S&P Shipping",
+      "category": "Shipping"
     },
     {
       "id": "34da9da28dbef6a0",
@@ -858,7 +928,7 @@
       "published": "2026-03-09T10:34:45+00:00",
       "source": "S&P Global",
       "feed": "S&P Natural Gas",
-      "category": "Natural Gas, LNG"
+      "category": "Natural Gas"
     },
     {
       "id": "7ed04c5f08336d52",
@@ -1277,8 +1347,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/crude-oil/030626-factbox-oil-futures-cross-110b-as-middle-east-conflict-hits-production",
       "published": "2026-03-09T04:50:00+00:00",
       "source": "S&P Global",
-      "feed": "S&P Oil - Refined Products",
-      "category": "Oil - Refined Products, Shipping"
+      "feed": "S&P Shipping",
+      "category": "Shipping"
     },
     {
       "id": "cb489ee4418bf78d",
@@ -1878,7 +1948,7 @@
       "published": "2026-03-06T17:02:13+00:00",
       "source": "S&P Global",
       "feed": "S&P Metals",
-      "category": "Metals"
+      "category": "Metals, Agriculture, LNG"
     },
     {
       "id": "778db0fcc1ad63da",
@@ -5059,7 +5129,7 @@
       "published": "2026-03-05T03:19:40+00:00",
       "source": "S&P Global",
       "feed": "S&P Natural Gas",
-      "category": "Natural Gas, LNG"
+      "category": "Natural Gas"
     },
     {
       "id": "ef233c9ee0faa783",
@@ -8284,8 +8354,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/energy-transition/030326-energy-rally-pushes-eu-carbon-higher-as-clean-dark-spread-turns-positive",
       "published": "2026-03-03T13:59:13+00:00",
       "source": "S&P Global",
-      "feed": "S&P Coal",
-      "category": "Coal",
+      "feed": "S&P Natural Gas",
+      "category": "Natural Gas, Coal",
       "sentiment": {
         "label": "positive",
         "confidence": 0.9157130122184753,
