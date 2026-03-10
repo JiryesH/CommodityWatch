@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-10T06:58:04.373174+00:00",
-    "total_articles": 559,
+    "last_updated": "2026-03-10T07:48:12.096004+00:00",
+    "total_articles": 563,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,46 @@
     }
   },
   "articles": [
+    {
+      "id": "e2e41a186e0431c0",
+      "title": "Plant status: China's Tianjin Bohai delays PDH restart",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: Tianjin Bohai Chemical Group Location: Tianjin, China Product: Propylene Capacity (tonnes/year): 600,000 Event start: 13 October 2025 Event...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187200/plant-status-china-s-tianjin-bohai-delays-pdh-restart",
+      "published": "2026-03-10T07:27:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "8fb06c5c33b08a7e",
+      "title": "S Arabia's Petro Rabigh 2025 loss narrows as restructuring continues",
+      "description": "SINGAPORE (ICIS)--Rabigh Refining and Petrochemical Co's (Petro Rabigh) capital reorganization will continue this year following a narrowing of its full-year 2025 net loss to Saudi riyal (SR) 3.9...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187201/s-arabia-s-petro-rabigh-2025-loss-narrows-as-restructuring-continues",
+      "published": "2026-03-10T07:27:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Refined Products"
+    },
+    {
+      "id": "5a25f86998e89a61",
+      "title": "Singapore's Aster declares force majeure on MPG",
+      "description": "SINGAPORE (ICIS)--Singapore's Aster Chemicals and Energy declared on 6 March a force majeure on Monopropylene Glycol (MPG), according to market sources. This decision was made due to disruptions in...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187195/singapore-s-aster-declares-force-majeure-on-mpg",
+      "published": "2026-03-10T07:16:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "ecef4fd6d876d80b",
+      "title": "Asia&apos;s LSFO cash premium at record high as Middle East war triggers supply woes",
+      "description": "Asia&apos;s low sulfur fuel oil cash differentials surged to an all-time high as the US-Israel war with Iran cut Middle East supplies, prompted Asian refiners to trim production, and led countries to hold back near-term exports to safeguard their oil reserves. Platts assessed the cash differential for Singapore marine fuel 0.5%S cargo over the Mean of Platts Singapore marine fuel 0.5%S assessment at a",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/refined-products/031026-asias-lsfo-cash-premium-at-record-high-as-middle-east-war-triggers-supply-woes",
+      "published": "2026-03-10T07:11:56+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Oil - Refined Products",
+      "category": "Oil - Refined Products"
+    },
     {
       "id": "3cc942d81b690347",
       "title": "Plant status: China's Sinochem Quanzhou EVA unit shifts to LDPE after restart",
@@ -378,7 +418,7 @@
       "published": "2026-03-09T20:29:24+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude"
+      "category": "Oil - Crude, LNG"
     },
     {
       "id": "6536792234b0fbed",
@@ -637,8 +677,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/agriculture/030926-biofuel-complex-rocked-by-volatility-in-underlying-fossil-markets",
       "published": "2026-03-09T16:35:58+00:00",
       "source": "S&P Global",
-      "feed": "S&P Oil - Refined Products",
-      "category": "Oil - Refined Products, Agriculture"
+      "feed": "S&P Agriculture",
+      "category": "Agriculture"
     },
     {
       "id": "f64051bba2ff539c",
@@ -998,7 +1038,7 @@
       "published": "2026-03-09T10:34:45+00:00",
       "source": "S&P Global",
       "feed": "S&P Natural Gas",
-      "category": "Natural Gas"
+      "category": "Natural Gas, LNG"
     },
     {
       "id": "7ed04c5f08336d52",
@@ -2018,7 +2058,7 @@
       "published": "2026-03-06T17:02:13+00:00",
       "source": "S&P Global",
       "feed": "S&P Metals",
-      "category": "Metals, LNG"
+      "category": "Metals"
     },
     {
       "id": "778db0fcc1ad63da",
@@ -5199,7 +5239,7 @@
       "published": "2026-03-05T03:19:40+00:00",
       "source": "S&P Global",
       "feed": "S&P Natural Gas",
-      "category": "Natural Gas"
+      "category": "Natural Gas, LNG"
     },
     {
       "id": "ef233c9ee0faa783",
@@ -8471,8 +8511,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/lng/030326-china-faces-lng-supply-test-amid-middle-east-crisis-spot-price-increase",
       "published": "2026-03-03T12:17:47+00:00",
       "source": "S&P Global",
-      "feed": "S&P Natural Gas",
-      "category": "Natural Gas, LNG",
+      "feed": "S&P LNG",
+      "category": "LNG",
       "sentiment": {
         "label": "negative",
         "confidence": 0.9168105125427246,
@@ -8753,7 +8793,7 @@
       "published": "2026-03-02T22:21:00+00:00",
       "source": "S&P Global",
       "feed": "S&P Electric Power",
-      "category": "Electric Power, Natural Gas, Coal, LNG",
+      "category": "Electric Power, Coal",
       "sentiment": {
         "label": "positive",
         "confidence": 0.6730107069015503,
