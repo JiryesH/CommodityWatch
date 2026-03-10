@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-10T13:38:51.395598+00:00",
-    "total_articles": 601,
+    "last_updated": "2026-03-10T14:32:05.978819+00:00",
+    "total_articles": 604,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,36 @@
     }
   },
   "articles": [
+    {
+      "id": "5ad34d064c35f1f7",
+      "title": "GAS ALERT: Storengy UK to auction British gas storage capacity across 2026-2027 in March",
+      "description": "LONDON (ICIS)--British gas storage operator Storengy UK has announced that capacity auctions for the storage year running from 1 May 2026-1 May 2027 (SY26/27) will take place on 24 March. Capacity...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187308/gas-alert-storengy-uk-to-auction-british-gas-storage-capacity-across-2026-2027-in-march",
+      "published": "2026-03-10T13:53:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "2727fda59e711b58",
+      "title": "PODCAST: War proves vulnerability of global supply chains",
+      "description": "BARCELONA (ICIS)--With Asian chemical producers forced to cut operating rates through a lack of Middle East feedstocks, it is time for industry leaders everywhere to move to a more regional business...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187307/podcast-war-proves-vulnerability-of-global-supply-chains",
+      "published": "2026-03-10T13:53:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "5f88af39ec53067b",
+      "title": "Plant status: INEOS BDO plant in Germany set to restart in Q2 2026",
+      "description": "LONDON (ICIS)--Here is a plant status report: Name: INEOS Location: Marl, Germany Product: Butanediol (BDO) Capacity (tonnes/year): 100,000 Event start: Mid Q1 2025 Event finish: Early Q2 2026...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187306/plant-status-ineos-bdo-plant-in-germany-set-to-restart-in-q2-2026",
+      "published": "2026-03-10T13:46:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
     {
       "id": "7f8662cf4652fe5a",
       "title": "GAS ALERT: Norwegian gas discovery to boost Poland’s supply from first half of 2026",
@@ -188,7 +218,7 @@
       "published": "2026-03-10T11:56:00+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude, Chemicals"
+      "category": "Oil - Crude, Chemicals, LNG"
     },
     {
       "id": "0b433e8489175717",
@@ -728,7 +758,7 @@
       "published": "2026-03-09T22:40:48+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude, Shipping"
+      "category": "Oil - Crude"
     },
     {
       "id": "4d967d1c1b6bc617",
@@ -748,7 +778,7 @@
       "published": "2026-03-09T21:43:52+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude, Oil - Refined Products, Shipping"
+      "category": "Oil - Crude, Oil - Refined Products"
     },
     {
       "id": "8ac017423f6e3fa7",
@@ -788,7 +818,7 @@
       "published": "2026-03-09T20:29:24+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude, LNG"
+      "category": "Oil - Crude, Natural Gas, LNG"
     },
     {
       "id": "6536792234b0fbed",
@@ -808,7 +838,7 @@
       "published": "2026-03-09T20:02:02+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Refined Products",
-      "category": "Oil - Refined Products, Shipping"
+      "category": "Oil - Refined Products"
     },
     {
       "id": "61911b57395fc387",
@@ -1058,7 +1088,7 @@
       "published": "2026-03-09T16:35:58+00:00",
       "source": "S&P Global",
       "feed": "S&P Agriculture",
-      "category": "Agriculture"
+      "category": "Agriculture, Energy Transition"
     },
     {
       "id": "f64051bba2ff539c",
@@ -1228,7 +1258,7 @@
       "published": "2026-03-09T14:14:47+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Fertilizers, Chemicals"
+      "category": "Fertilizers, Chemicals, Energy Transition"
     },
     {
       "id": "4a493add758888af",
@@ -1268,7 +1298,7 @@
       "published": "2026-03-09T13:11:32+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Fertilizers, Chemicals"
+      "category": "Fertilizers, Chemicals, Energy Transition"
     },
     {
       "id": "0566513676c8b2dc",
@@ -1337,8 +1367,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/electric-power/030926-european-wind-output-hits-20-week-low-solar-rebounds-amid-early-spring-spell",
       "published": "2026-03-09T11:58:30+00:00",
       "source": "S&P Global",
-      "feed": "S&P Coal",
-      "category": "Coal"
+      "feed": "S&P Natural Gas",
+      "category": "Natural Gas, Coal, Energy Transition"
     },
     {
       "id": "fdcd00f4e178ffbc",
@@ -1417,8 +1447,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/lng/030926-european-gas-price-jumps-near-eur70mwh-as-iran-war-enters-second-week",
       "published": "2026-03-09T10:34:45+00:00",
       "source": "S&P Global",
-      "feed": "S&P LNG",
-      "category": "LNG"
+      "feed": "S&P Natural Gas",
+      "category": "Natural Gas, LNG"
     },
     {
       "id": "7ed04c5f08336d52",
@@ -3068,7 +3098,7 @@
       "published": "2026-03-06T11:17:35+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Fertilizers, Chemicals, Energy Transition"
+      "category": "Fertilizers, Chemicals"
     },
     {
       "id": "112bdbf3edd24ccc",
@@ -3108,7 +3138,7 @@
       "published": "2026-03-06T10:53:21+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Fertilizers, Agriculture, Energy Transition"
+      "category": "Fertilizers, Agriculture"
     },
     {
       "id": "09318d6783e6566e",
@@ -3888,7 +3918,7 @@
       "published": "2026-03-05T16:38:44+00:00",
       "source": "S&P Global",
       "feed": "S&P Natural Gas",
-      "category": "Natural Gas, Agriculture, Energy Transition"
+      "category": "Natural Gas, Agriculture"
     },
     {
       "id": "6982d15a27f92a20",
@@ -4138,7 +4168,7 @@
       "published": "2026-03-05T13:17:22+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Fertilizers, Energy Transition"
+      "category": "Fertilizers"
     },
     {
       "id": "42fbbfabd42fbf9e",
@@ -8844,8 +8874,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/energy-transition/030326-energy-rally-pushes-eu-carbon-higher-as-clean-dark-spread-turns-positive",
       "published": "2026-03-03T13:59:13+00:00",
       "source": "S&P Global",
-      "feed": "S&P Natural Gas",
-      "category": "Natural Gas, Coal",
+      "feed": "S&P Coal",
+      "category": "Coal",
       "sentiment": {
         "label": "positive",
         "confidence": 0.9157130122184753,
@@ -9173,7 +9203,7 @@
       "published": "2026-03-02T22:21:00+00:00",
       "source": "S&P Global",
       "feed": "S&P Electric Power",
-      "category": "Electric Power, Natural Gas, Coal",
+      "category": "Electric Power, Coal",
       "sentiment": {
         "label": "positive",
         "confidence": 0.6730107069015503,
