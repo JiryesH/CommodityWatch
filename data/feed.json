@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-10T19:24:43.220544+00:00",
-    "total_articles": 2064,
+    "last_updated": "2026-03-10T19:59:35.263684+00:00",
+    "total_articles": 2066,
     "feeds_fetched": 15,
     "feeds_failed": 0,
     "feed_details": {
@@ -105,14 +105,40 @@
       "classifier_fallback_used": 0
     },
     "dedupe": {
-      "new": 8,
-      "updated": 122,
-      "merged": 20,
-      "incoming_merged": 20,
+      "new": 2,
+      "updated": 124,
+      "merged": 24,
+      "incoming_merged": 24,
       "existing_merged": 0
     }
   },
   "articles": [
+    {
+      "id": "fa3f42a85aad1731",
+      "title": "Lundin, BHP’s Vicuña project targets 395,000 tpy of copper concentrate from Argentina",
+      "description": "<p>Lundin Mining and BHP published a preliminary economic assessment on February 16 for their Vicuña joint venture, projecting average annual copper production of 395,000 tonnes over the first 25 years of operation as Argentina’s copper concentrate pipeline continues to build. PSJ Cobre Mendocino separately confirmed on February 14 that its feasibility study was under way.</p> <p>The post <a href=\"https://www.fastmarkets.com/insights/bhp-vicuna-project-targets-395000-tpy-of-copper-concentrate-argentina/\">Lundin, BHP’s Vicuña project targets 395,000 tpy of copper concentrate from Argentina</a> appeared first on <a href=\"https://www.fastmarkets.com\">Fastmarkets</a>.</p>",
+      "link": "https://www.fastmarkets.com/insights/bhp-vicuna-project-targets-395000-tpy-of-copper-concentrate-argentina/",
+      "published": "2026-03-10T19:43:06+00:00",
+      "source": "Fastmarkets",
+      "feed": "Fastmarkets",
+      "category": "Metals",
+      "categories": [
+        "Metals"
+      ]
+    },
+    {
+      "id": "6e718ad38369f83f",
+      "title": "CRUDE SUMMARY: Crude pares gains after Monday’s short-lived price spike",
+      "description": "Oil dips back from $100/barrel with optimism that war will end soon ICIS analysis warns that regional conflict likely to persist even if war ends Possible return of Russian seaborne crude to ease...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187345/crude-summary-crude-pares-gains-after-monday-s-short-lived-price-spike",
+      "published": "2026-03-10T19:40:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Crude",
+      "categories": [
+        "Oil - Crude"
+      ]
+    },
     {
       "id": "5dc4024e0bf9ba4b",
       "title": "Chinese lead smelters cautious on concentrates purchases amid silver price volatility",
