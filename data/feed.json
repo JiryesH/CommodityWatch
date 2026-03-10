@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-10T11:37:06.679932+00:00",
-    "total_articles": 586,
+    "last_updated": "2026-03-10T12:02:26.572221+00:00",
+    "total_articles": 590,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -61,13 +61,43 @@
   },
   "articles": [
     {
+      "id": "c1c3c687d33ec06b",
+      "title": "NOON SNAPSHOT - Europe Markets Summary",
+      "description": "CRUDE: Corrects lower on hopes that the Iran war will end soon following statements from President Trump. NAPHTHA: Tracks crude lower as cracks deepen into negative territory. BENZENE: Retreats with...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187289/noon-snapshot-europe-markets-summary",
+      "published": "2026-03-10T12:00:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals, Oil - Refined Products"
+    },
+    {
       "id": "33ea2c48daada702",
       "title": "INTERACTIVE: Energy facilities and shipping hit in the Middle East war",
       "description": "Iran has targeted energy infrastructure across the Middle East in response to attacks by the US and Israel launched Feb. 28. Here are some of the key oil, gas, shipping and chemicals assets affected by direct strikes and elevated security risks.",
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/crude-oil/030926-interactive-energy-facilities-and-shipping-hit-in-the-middle-east-war",
       "published": "2026-03-10T11:56:00+00:00",
       "source": "S&P Global",
-      "feed": "S&P Chemicals",
+      "feed": "S&P Oil - Crude",
+      "category": "Oil - Crude, Chemicals"
+    },
+    {
+      "id": "0b433e8489175717",
+      "title": "East China benzene inventories drop as consumption exceeds arrivals",
+      "description": "SINGAPORE (ICIS)--Benzene inventories at shore tanks along eastern China decreased to 314,000 tonnes on 10 March, according to ICIS data, as consumption outpaced arrivals. Inventories at local ports...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187287/east-china-benzene-inventories-drop-as-consumption-exceeds-arrivals",
+      "published": "2026-03-10T11:53:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "2d149da77da6e99a",
+      "title": "INSIGHT: Once seen as a threat, China is now the unlikely saviour of SE Asia's PP supply crunch",
+      "description": "SINGAPORE (ICIS)--As polypropylene (PP) buyers in southeast Asia scramble to find cargoes to fulfil immediate production needs after seeing their contract allocations cut and previous unshipped...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187281/insight-once-seen-as-a-threat-china-is-now-the-unlikely-saviour-of-se-asia-s-pp-supply-crunch",
+      "published": "2026-03-10T11:41:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
       "category": "Chemicals"
     },
     {
@@ -588,7 +618,7 @@
       "published": "2026-03-09T22:40:48+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude"
+      "category": "Oil - Crude, Shipping"
     },
     {
       "id": "4d967d1c1b6bc617",
@@ -608,7 +638,7 @@
       "published": "2026-03-09T21:43:52+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude, Oil - Refined Products"
+      "category": "Oil - Crude, Oil - Refined Products, Shipping"
     },
     {
       "id": "8ac017423f6e3fa7",
@@ -668,7 +698,7 @@
       "published": "2026-03-09T20:02:02+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Refined Products",
-      "category": "Oil - Refined Products"
+      "category": "Oil - Refined Products, Shipping"
     },
     {
       "id": "61911b57395fc387",
@@ -701,6 +731,16 @@
       "category": "Oil - Crude, Oil - Refined Products"
     },
     {
+      "id": "5791d06972d535dc",
+      "title": "US POWER TRACKER: Midcontinent April power rises despite mild forecasts, weak gas",
+      "description": "April on-peak power in the Midcontinent Independent System Operator footprint has surged, despite mild weather forecasts and continued weakness in natural gas. Industry observers differ on the causes for the strength of power forwards. The Platts M2MS Power Forward curves March 6 had April on-peak power at five geographically dispersed locations averaging around $42.75/megawatt-hour, up about 5.8%",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/electric-power/030926-us-power-tracker-midcontinent-april-power-rises-despite-mild-forecasts-weak-gas",
+      "published": "2026-03-09T18:56:03+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Energy Transition",
+      "category": "Energy Transition"
+    },
+    {
       "id": "325dc99a0ea8111f",
       "title": "Europe LPG prices see triple-digit increase",
       "description": "LONDON (ICIS)--Liquefied petroleum gas (LPG) spot prices increased last week, due to uncertainty over the Middle East conflict. The triple-digit increases were also because of the rise on crude oil...",
@@ -717,8 +757,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/crude-oil/030926-g7-tankers-gain-share-in-russia-before-us-waiver-for-sanctioned-ships",
       "published": "2026-03-09T18:35:11+00:00",
       "source": "S&P Global",
-      "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude"
+      "feed": "S&P Shipping",
+      "category": "Shipping"
     },
     {
       "id": "152515d02b054c89",
@@ -908,7 +948,7 @@
       "published": "2026-03-09T16:35:58+00:00",
       "source": "S&P Global",
       "feed": "S&P Agriculture",
-      "category": "Agriculture"
+      "category": "Agriculture, Energy Transition"
     },
     {
       "id": "f64051bba2ff539c",
@@ -1078,7 +1118,7 @@
       "published": "2026-03-09T14:14:47+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Fertilizers, Chemicals"
+      "category": "Fertilizers, Chemicals, Energy Transition"
     },
     {
       "id": "4a493add758888af",
@@ -1118,7 +1158,7 @@
       "published": "2026-03-09T13:11:32+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Fertilizers, Chemicals"
+      "category": "Fertilizers, Chemicals, Energy Transition"
     },
     {
       "id": "0566513676c8b2dc",
@@ -1188,7 +1228,7 @@
       "published": "2026-03-09T11:58:30+00:00",
       "source": "S&P Global",
       "feed": "S&P Natural Gas",
-      "category": "Natural Gas, Coal"
+      "category": "Natural Gas, Coal, Energy Transition"
     },
     {
       "id": "fdcd00f4e178ffbc",
@@ -2918,7 +2958,7 @@
       "published": "2026-03-06T11:17:35+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Fertilizers, Chemicals, Energy Transition"
+      "category": "Fertilizers, Chemicals"
     },
     {
       "id": "112bdbf3edd24ccc",
@@ -2958,7 +2998,7 @@
       "published": "2026-03-06T10:53:21+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Fertilizers, Agriculture, Energy Transition"
+      "category": "Fertilizers, Agriculture"
     },
     {
       "id": "09318d6783e6566e",
@@ -3738,7 +3778,7 @@
       "published": "2026-03-05T16:38:44+00:00",
       "source": "S&P Global",
       "feed": "S&P Natural Gas",
-      "category": "Natural Gas, Agriculture, Energy Transition"
+      "category": "Natural Gas, Agriculture"
     },
     {
       "id": "6982d15a27f92a20",
@@ -3988,7 +4028,7 @@
       "published": "2026-03-05T13:17:22+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Fertilizers, Energy Transition"
+      "category": "Fertilizers"
     },
     {
       "id": "42fbbfabd42fbf9e",
