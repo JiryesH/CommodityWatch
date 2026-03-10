@@ -1,0 +1,686 @@
+{
+  "mode": "title",
+  "sample_size": 84,
+  "scored_articles": 84,
+  "skipped_country_articles": 0,
+  "skipped_entity_articles": 0,
+  "country_metrics": {
+    "tp": 76,
+    "fp": 0,
+    "fn": 3,
+    "precision": 1.0,
+    "recall": 0.962,
+    "f1": 0.9806
+  },
+  "entity_metrics": {
+    "text_only_exact": {
+      "tp": 125,
+      "fp": 11,
+      "fn": 23,
+      "precision": 0.9191,
+      "recall": 0.8446,
+      "f1": 0.8803
+    },
+    "text_plus_label_exact": {
+      "tp": 111,
+      "fp": 25,
+      "fn": 37,
+      "precision": 0.8162,
+      "recall": 0.75,
+      "f1": 0.7817
+    },
+    "text_only_relaxed": {
+      "tp": 126,
+      "fp": 10,
+      "fn": 22,
+      "precision": 0.9265,
+      "recall": 0.8514,
+      "f1": 0.8873
+    }
+  },
+  "country_error_counts": {
+    "missed_country_present_in_title": 3
+  },
+  "entity_error_counts": {
+    "entity_label_confusion": 28,
+    "missed_entity": 23,
+    "low_value_or_extra_entity": 11
+  },
+  "error_examples": {
+    "entity_label_confusion": [
+      {
+        "id": "e1726382f53e7b4c",
+        "title": "Sinopec raises east China phenol offers by CNY400/tonne",
+        "value": "Sinopec|ORG",
+        "predicted_entities": [
+          [
+            "China",
+            "GPE"
+          ],
+          [
+            "Sinopec",
+            "PERSON"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "China",
+            "GPE"
+          ],
+          [
+            "Sinopec",
+            "ORG"
+          ]
+        ]
+      },
+      {
+        "id": "e1726382f53e7b4c",
+        "title": "Sinopec raises east China phenol offers by CNY400/tonne",
+        "value": "Sinopec|PERSON",
+        "predicted_entities": [
+          [
+            "China",
+            "GPE"
+          ],
+          [
+            "Sinopec",
+            "PERSON"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "China",
+            "GPE"
+          ],
+          [
+            "Sinopec",
+            "ORG"
+          ]
+        ]
+      },
+      {
+        "id": "d45ef8f9a7eafb1a",
+        "title": "US private firms on parade for Trump’s Venezuela push",
+        "value": "Trump|PERSON",
+        "predicted_entities": [
+          [
+            "Trump",
+            "ORG"
+          ],
+          [
+            "US",
+            "GPE"
+          ],
+          [
+            "Venezuela",
+            "GPE"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "Trump",
+            "PERSON"
+          ],
+          [
+            "US",
+            "GPE"
+          ],
+          [
+            "Venezuela",
+            "GPE"
+          ]
+        ]
+      },
+      {
+        "id": "d45ef8f9a7eafb1a",
+        "title": "US private firms on parade for Trump’s Venezuela push",
+        "value": "Trump|ORG",
+        "predicted_entities": [
+          [
+            "Trump",
+            "ORG"
+          ],
+          [
+            "US",
+            "GPE"
+          ],
+          [
+            "Venezuela",
+            "GPE"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "Trump",
+            "PERSON"
+          ],
+          [
+            "US",
+            "GPE"
+          ],
+          [
+            "Venezuela",
+            "GPE"
+          ]
+        ]
+      },
+      {
+        "id": "e9c32a2cf33b0047",
+        "title": "US claims capture of Maduro after Venezuela strikes",
+        "value": "Maduro|PERSON",
+        "predicted_entities": [
+          [
+            "Maduro",
+            "GPE"
+          ],
+          [
+            "US",
+            "GPE"
+          ],
+          [
+            "Venezuela",
+            "GPE"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "Maduro",
+            "PERSON"
+          ],
+          [
+            "US",
+            "GPE"
+          ],
+          [
+            "Venezuela",
+            "GPE"
+          ]
+        ]
+      },
+      {
+        "id": "e9c32a2cf33b0047",
+        "title": "US claims capture of Maduro after Venezuela strikes",
+        "value": "Maduro|GPE",
+        "predicted_entities": [
+          [
+            "Maduro",
+            "GPE"
+          ],
+          [
+            "US",
+            "GPE"
+          ],
+          [
+            "Venezuela",
+            "GPE"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "Maduro",
+            "PERSON"
+          ],
+          [
+            "US",
+            "GPE"
+          ],
+          [
+            "Venezuela",
+            "GPE"
+          ]
+        ]
+      },
+      {
+        "id": "cfaaaf85082bb2eb",
+        "title": "Valero, Marathon seek US tariff refunds",
+        "value": "Valero|ORG",
+        "predicted_entities": [
+          [
+            "Marathon",
+            "ORG"
+          ],
+          [
+            "US",
+            "GPE"
+          ],
+          [
+            "Valero",
+            "PRODUCT"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "Marathon",
+            "ORG"
+          ],
+          [
+            "US",
+            "GPE"
+          ],
+          [
+            "Valero",
+            "ORG"
+          ]
+        ]
+      },
+      {
+        "id": "cfaaaf85082bb2eb",
+        "title": "Valero, Marathon seek US tariff refunds",
+        "value": "Valero|PRODUCT",
+        "predicted_entities": [
+          [
+            "Marathon",
+            "ORG"
+          ],
+          [
+            "US",
+            "GPE"
+          ],
+          [
+            "Valero",
+            "PRODUCT"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "Marathon",
+            "ORG"
+          ],
+          [
+            "US",
+            "GPE"
+          ],
+          [
+            "Valero",
+            "ORG"
+          ]
+        ]
+      }
+    ],
+    "missed_entity": [
+      {
+        "id": "af167c56545f6ae0",
+        "title": "Zimbabwe imposes immediate ban on exports of raw minerals, lithium concentrates",
+        "value": "Ministry of Mines and Mining Development|ORG",
+        "predicted_entities": [
+          [
+            "Zimbabwe",
+            "GPE"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "Ministry of Mines and Mining Development",
+            "ORG"
+          ],
+          [
+            "Zimbabwe",
+            "GPE"
+          ]
+        ]
+      },
+      {
+        "id": "b940c10d3334b185",
+        "title": "Indian LPG stocks limited as Iran conflict broadens",
+        "value": "Indian|NORP",
+        "predicted_entities": [
+          [
+            "Indian LPG stocks",
+            "ORG"
+          ],
+          [
+            "Iran",
+            "GPE"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "Indian",
+            "NORP"
+          ],
+          [
+            "Iran",
+            "GPE"
+          ]
+        ]
+      },
+      {
+        "id": "a50f0a4055cd12fa",
+        "title": "US E15 group floats fewer biofuel mandate waivers",
+        "value": "US E15 group|ORG",
+        "predicted_entities": [
+          [
+            "US E15",
+            "ORG"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "US E15 group",
+            "ORG"
+          ]
+        ]
+      },
+      {
+        "id": "9f34fd5bb7ae9d73",
+        "title": "UAE Fujairah bunker market braced for impact",
+        "value": "Fujairah|GPE",
+        "predicted_entities": [
+          [
+            "UAE Fujairah",
+            "ORG"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "Fujairah",
+            "GPE"
+          ],
+          [
+            "UAE",
+            "GPE"
+          ]
+        ]
+      },
+      {
+        "id": "9f34fd5bb7ae9d73",
+        "title": "UAE Fujairah bunker market braced for impact",
+        "value": "UAE|GPE",
+        "predicted_entities": [
+          [
+            "UAE Fujairah",
+            "ORG"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "Fujairah",
+            "GPE"
+          ],
+          [
+            "UAE",
+            "GPE"
+          ]
+        ]
+      },
+      {
+        "id": "c42e259a700ef165",
+        "title": "Malaysia's Fathopes defers FID on biofuels plant",
+        "value": "Fathopes|ORG",
+        "predicted_entities": [
+          [
+            "Malaysia",
+            "GPE"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "Fathopes",
+            "ORG"
+          ],
+          [
+            "Malaysia",
+            "GPE"
+          ]
+        ]
+      },
+      {
+        "id": "603c20d792e11805",
+        "title": "Plant status: ADNOC refinery No 2 shut on incident - sources",
+        "value": "ADNOC|ORG",
+        "predicted_entities": [
+          [
+            "No 2",
+            "WORK_OF_ART"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "ADNOC",
+            "ORG"
+          ]
+        ]
+      },
+      {
+        "id": "5ad34d064c35f1f7",
+        "title": "GAS ALERT: Storengy UK to auction British gas storage capacity across 2026-2027 in March",
+        "value": "Storengy UK|ORG",
+        "predicted_entities": [
+          [
+            "British",
+            "NORP"
+          ],
+          [
+            "UK",
+            "GPE"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "British",
+            "NORP"
+          ],
+          [
+            "Storengy UK",
+            "ORG"
+          ],
+          [
+            "UK",
+            "GPE"
+          ]
+        ]
+      }
+    ],
+    "low_value_or_extra_entity": [
+      {
+        "id": "b940c10d3334b185",
+        "title": "Indian LPG stocks limited as Iran conflict broadens",
+        "value": "Indian LPG stocks|ORG",
+        "predicted_entities": [
+          [
+            "Indian LPG stocks",
+            "ORG"
+          ],
+          [
+            "Iran",
+            "GPE"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "Indian",
+            "NORP"
+          ],
+          [
+            "Iran",
+            "GPE"
+          ]
+        ]
+      },
+      {
+        "id": "51b2e3f29825008f",
+        "title": "China’s Shanghai SECCO sharply raises ACN weekly price on surging costs",
+        "value": "ACN|ORG",
+        "predicted_entities": [
+          [
+            "ACN",
+            "ORG"
+          ],
+          [
+            "China",
+            "GPE"
+          ],
+          [
+            "Shanghai SECCO",
+            "ORG"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "China",
+            "GPE"
+          ],
+          [
+            "Shanghai SECCO",
+            "ORG"
+          ]
+        ]
+      },
+      {
+        "id": "a50f0a4055cd12fa",
+        "title": "US E15 group floats fewer biofuel mandate waivers",
+        "value": "US E15|ORG",
+        "predicted_entities": [
+          [
+            "US E15",
+            "ORG"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "US E15 group",
+            "ORG"
+          ]
+        ]
+      },
+      {
+        "id": "9f34fd5bb7ae9d73",
+        "title": "UAE Fujairah bunker market braced for impact",
+        "value": "UAE Fujairah|ORG",
+        "predicted_entities": [
+          [
+            "UAE Fujairah",
+            "ORG"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "Fujairah",
+            "GPE"
+          ],
+          [
+            "UAE",
+            "GPE"
+          ]
+        ]
+      },
+      {
+        "id": "603c20d792e11805",
+        "title": "Plant status: ADNOC refinery No 2 shut on incident - sources",
+        "value": "No 2|WORK_OF_ART",
+        "predicted_entities": [
+          [
+            "No 2",
+            "WORK_OF_ART"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "ADNOC",
+            "ORG"
+          ]
+        ]
+      },
+      {
+        "id": "1e2267fcd7d4ce84",
+        "title": "Europe MEG spot prices firm; March contract stalls on feedstock surge amid Middle East conflict",
+        "value": "Europe MEG|PERSON",
+        "predicted_entities": [
+          [
+            "Europe MEG",
+            "PERSON"
+          ],
+          [
+            "Middle East",
+            "LOC"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "Europe",
+            "LOC"
+          ],
+          [
+            "Middle East",
+            "LOC"
+          ]
+        ]
+      },
+      {
+        "id": "4b6910d4a23a8075",
+        "title": "FACTBOX: Asia&apos;s olefins prices rise as Middle East war disrupts steam cracker operations",
+        "value": "FACTBOX|ORG",
+        "predicted_entities": [
+          [
+            "FACTBOX",
+            "ORG"
+          ],
+          [
+            "Middle East",
+            "LOC"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "Asia",
+            "LOC"
+          ],
+          [
+            "Middle East",
+            "LOC"
+          ]
+        ]
+      },
+      {
+        "id": "7613ace8ff7d6b9f",
+        "title": "Export prices for S Korea isomer MX surge for fourth consecutive session on oil hikes",
+        "value": "MX|ORG",
+        "predicted_entities": [
+          [
+            "MX",
+            "ORG"
+          ],
+          [
+            "S Korea",
+            "GPE"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "S Korea",
+            "GPE"
+          ]
+        ]
+      }
+    ],
+    "missed_country_present_in_title": [
+      {
+        "id": "c0517cca48f16dd9",
+        "title": "Alaska North Slope crude hits record high: Correction",
+        "value": "United States",
+        "predicted_countries": [],
+        "expected_countries": [
+          "United States"
+        ]
+      },
+      {
+        "id": "439701fe348227e7",
+        "title": "Woodside achieves first ammonia output at Texas plant",
+        "value": "United States",
+        "predicted_countries": [],
+        "expected_countries": [
+          "United States"
+        ]
+      },
+      {
+        "id": "e83ccbe758a79098",
+        "title": "East China MEG inventories rise further due to limited recovery in offtakes",
+        "value": "China",
+        "predicted_countries": [],
+        "expected_countries": [
+          "China"
+        ]
+      }
+    ]
+  }
+}

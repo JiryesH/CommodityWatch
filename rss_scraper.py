@@ -72,10 +72,13 @@ except ImportError:
     class SentimentConfig:  # type: ignore[no-redef]
         enabled: bool = False
         model_name: str = "ProsusAI/finbert"
+        model_backend: str = "finbert"
         batch_size: int = 32
         max_length: int = 128
         use_description: bool = False
         force_rescore: bool = False
+        pipeline_mode: str = "commodity_v1"
+        context_mode: str = "auto"
 
     class FinBERTScorer:  # type: ignore[no-redef]
         def __init__(self, config): pass
@@ -982,7 +985,9 @@ def run_once(
                 "enabled": True,
                 "model": sentiment_config.model_name,
                 "input_mode": (
-                    "title+description" if sentiment_config.use_description else "title"
+                    sentiment_config.requested_context_mode()
+                    if hasattr(sentiment_config, "requested_context_mode")
+                    else ("title+description" if sentiment_config.use_description else "title")
                 ),
                 "error": str(e),
             }
@@ -1156,6 +1161,11 @@ def main():
         help="HuggingFace model to use for sentiment (default: ProsusAI/finbert)",
     )
     parser.add_argument(
+        "--sentiment-backend",
+        default="finbert",
+        help="Sentiment backend to use (default: finbert)",
+    )
+    parser.add_argument(
         "--sentiment-batch-size",
         type=int,
         default=32,
@@ -1171,6 +1181,18 @@ def main():
         "--sentiment-use-description",
         action="store_true",
         help="Score title + description instead of title only",
+    )
+    parser.add_argument(
+        "--sentiment-pipeline-mode",
+        choices=["baseline", "commodity_v1"],
+        default="commodity_v1",
+        help="Sentiment pipeline mode (default: commodity_v1)",
+    )
+    parser.add_argument(
+        "--sentiment-context-mode",
+        choices=["auto", "title", "title+description"],
+        default="auto",
+        help="Sentiment context mode (default: auto)",
     )
     parser.add_argument(
         "--sentiment-force-rescore",
@@ -1219,10 +1241,13 @@ def main():
     sentiment_config = SentimentConfig(
         enabled=args.sentiment,
         model_name=args.sentiment_model,
+        model_backend=args.sentiment_backend,
         batch_size=args.sentiment_batch_size,
         max_length=args.sentiment_max_length,
         use_description=args.sentiment_use_description,
         force_rescore=args.sentiment_force_rescore,
+        pipeline_mode=args.sentiment_pipeline_mode,
+        context_mode=args.sentiment_context_mode,
     )
     ner_config = NERConfig(
         enabled=args.ner,

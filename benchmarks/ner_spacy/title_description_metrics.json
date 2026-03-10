@@ -1,0 +1,1138 @@
+{
+  "mode": "title_description",
+  "sample_size": 84,
+  "scored_articles": 84,
+  "skipped_country_articles": 0,
+  "skipped_entity_articles": 0,
+  "country_metrics": {
+    "tp": 77,
+    "fp": 25,
+    "fn": 17,
+    "precision": 0.7549,
+    "recall": 0.8191,
+    "f1": 0.7857
+  },
+  "entity_metrics": {
+    "text_only_exact": {
+      "tp": 143,
+      "fp": 179,
+      "fn": 29,
+      "precision": 0.4441,
+      "recall": 0.8314,
+      "f1": 0.5789
+    },
+    "text_plus_label_exact": {
+      "tp": 128,
+      "fp": 197,
+      "fn": 44,
+      "precision": 0.3938,
+      "recall": 0.7442,
+      "f1": 0.5151
+    },
+    "text_only_relaxed": {
+      "tp": 147,
+      "fp": 168,
+      "fn": 25,
+      "precision": 0.4667,
+      "recall": 0.8547,
+      "f1": 0.6037
+    }
+  },
+  "country_error_counts": {
+    "false_country_prediction": 25,
+    "missed_country_present_in_title": 14,
+    "missed_country_only_in_description": 2,
+    "missed_country_contextual_or_demonym": 1
+  },
+  "entity_error_counts": {
+    "low_value_or_extra_entity": 181,
+    "entity_label_confusion": 31,
+    "missed_entity": 29
+  },
+  "error_examples": {
+    "false_country_prediction": [
+      {
+        "id": "e1726382f53e7b4c",
+        "title": "Sinopec raises east China phenol offers by CNY400/tonne",
+        "value": "Singapore",
+        "predicted_countries": [
+          "China",
+          "Singapore"
+        ],
+        "expected_countries": [
+          "China"
+        ]
+      },
+      {
+        "id": "9fd228a2e5537566",
+        "title": "China crude imports increase a sharp 15.8% in Jan-Feb",
+        "value": "Singapore",
+        "predicted_countries": [
+          "China",
+          "Singapore"
+        ],
+        "expected_countries": [
+          "China"
+        ]
+      },
+      {
+        "id": "d541d8e3f259e12b",
+        "title": "What the US-Iran conflict means for polycarbonate in Europe",
+        "value": "United Kingdom",
+        "predicted_countries": [
+          "Iran",
+          "United Kingdom",
+          "United States"
+        ],
+        "expected_countries": [
+          "Iran",
+          "United States"
+        ]
+      },
+      {
+        "id": "0d32015cb82da3fd",
+        "title": "Asia glycerine demand rises on strong downstream ECH amid US-Iran conflict",
+        "value": "Singapore",
+        "predicted_countries": [
+          "Iran",
+          "Singapore",
+          "United States"
+        ],
+        "expected_countries": [
+          "Iran",
+          "United States"
+        ]
+      },
+      {
+        "id": "e9735955648fbf35",
+        "title": "BASF plans maintenance stoppage on AA, acrylate esters at Ludwigshafen, Germany",
+        "value": "United Kingdom",
+        "predicted_countries": [
+          "Germany",
+          "United Kingdom"
+        ],
+        "expected_countries": [
+          "Germany"
+        ]
+      },
+      {
+        "id": "603c20d792e11805",
+        "title": "Plant status: ADNOC refinery No 2 shut on incident - sources",
+        "value": "Singapore",
+        "predicted_countries": [
+          "Singapore"
+        ],
+        "expected_countries": [
+          "United Arab Emirates"
+        ]
+      },
+      {
+        "id": "ad15b4f74c7f7bd4",
+        "title": "Sinopec raises east China phenol offers by CNY3,400/tonne",
+        "value": "Singapore",
+        "predicted_countries": [
+          "China",
+          "Singapore"
+        ],
+        "expected_countries": [
+          "China"
+        ]
+      },
+      {
+        "id": "af9c34955bf0314a",
+        "title": "CBAM suspension for ferts would be 'surprising': Yara",
+        "value": "Venezuela",
+        "predicted_countries": [
+          "Venezuela"
+        ],
+        "expected_countries": []
+      }
+    ],
+    "entity_label_confusion": [
+      {
+        "id": "e1726382f53e7b4c",
+        "title": "Sinopec raises east China phenol offers by CNY400/tonne",
+        "value": "Sinopec|ORG",
+        "predicted_entities": [
+          [
+            "5 March",
+            "DATE"
+          ],
+          [
+            "CNY400/tonne",
+            "QUANTITY"
+          ],
+          [
+            "China",
+            "GPE"
+          ],
+          [
+            "Chinese",
+            "NORP"
+          ],
+          [
+            "SINGAPORE",
+            "GPE"
+          ],
+          [
+            "Sinopec",
+            "PERSON"
+          ],
+          [
+            "Thursday",
+            "DATE"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "China",
+            "GPE"
+          ],
+          [
+            "Sinopec",
+            "ORG"
+          ]
+        ]
+      },
+      {
+        "id": "e1726382f53e7b4c",
+        "title": "Sinopec raises east China phenol offers by CNY400/tonne",
+        "value": "Sinopec|PERSON",
+        "predicted_entities": [
+          [
+            "5 March",
+            "DATE"
+          ],
+          [
+            "CNY400/tonne",
+            "QUANTITY"
+          ],
+          [
+            "China",
+            "GPE"
+          ],
+          [
+            "Chinese",
+            "NORP"
+          ],
+          [
+            "SINGAPORE",
+            "GPE"
+          ],
+          [
+            "Sinopec",
+            "PERSON"
+          ],
+          [
+            "Thursday",
+            "DATE"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "China",
+            "GPE"
+          ],
+          [
+            "Sinopec",
+            "ORG"
+          ]
+        ]
+      },
+      {
+        "id": "d45ef8f9a7eafb1a",
+        "title": "US private firms on parade for Trump’s Venezuela push",
+        "value": "Trump|PERSON",
+        "predicted_entities": [
+          [
+            "Trump",
+            "ORG"
+          ],
+          [
+            "US",
+            "GPE"
+          ],
+          [
+            "Venezuela",
+            "GPE"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "Trump",
+            "PERSON"
+          ],
+          [
+            "US",
+            "GPE"
+          ],
+          [
+            "Venezuela",
+            "GPE"
+          ]
+        ]
+      },
+      {
+        "id": "d45ef8f9a7eafb1a",
+        "title": "US private firms on parade for Trump’s Venezuela push",
+        "value": "Trump|ORG",
+        "predicted_entities": [
+          [
+            "Trump",
+            "ORG"
+          ],
+          [
+            "US",
+            "GPE"
+          ],
+          [
+            "Venezuela",
+            "GPE"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "Trump",
+            "PERSON"
+          ],
+          [
+            "US",
+            "GPE"
+          ],
+          [
+            "Venezuela",
+            "GPE"
+          ]
+        ]
+      },
+      {
+        "id": "e9c32a2cf33b0047",
+        "title": "US claims capture of Maduro after Venezuela strikes",
+        "value": "Maduro|PERSON",
+        "predicted_entities": [
+          [
+            "Maduro",
+            "GPE"
+          ],
+          [
+            "US",
+            "GPE"
+          ],
+          [
+            "Venezuela",
+            "GPE"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "Maduro",
+            "PERSON"
+          ],
+          [
+            "US",
+            "GPE"
+          ],
+          [
+            "Venezuela",
+            "GPE"
+          ]
+        ]
+      },
+      {
+        "id": "e9c32a2cf33b0047",
+        "title": "US claims capture of Maduro after Venezuela strikes",
+        "value": "Maduro|GPE",
+        "predicted_entities": [
+          [
+            "Maduro",
+            "GPE"
+          ],
+          [
+            "US",
+            "GPE"
+          ],
+          [
+            "Venezuela",
+            "GPE"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "Maduro",
+            "PERSON"
+          ],
+          [
+            "US",
+            "GPE"
+          ],
+          [
+            "Venezuela",
+            "GPE"
+          ]
+        ]
+      },
+      {
+        "id": "cfaaaf85082bb2eb",
+        "title": "Valero, Marathon seek US tariff refunds",
+        "value": "Valero|ORG",
+        "predicted_entities": [
+          [
+            "Marathon",
+            "ORG"
+          ],
+          [
+            "US",
+            "GPE"
+          ],
+          [
+            "Valero",
+            "PRODUCT"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "Marathon",
+            "ORG"
+          ],
+          [
+            "US",
+            "GPE"
+          ],
+          [
+            "Valero",
+            "ORG"
+          ]
+        ]
+      },
+      {
+        "id": "cfaaaf85082bb2eb",
+        "title": "Valero, Marathon seek US tariff refunds",
+        "value": "Valero|PRODUCT",
+        "predicted_entities": [
+          [
+            "Marathon",
+            "ORG"
+          ],
+          [
+            "US",
+            "GPE"
+          ],
+          [
+            "Valero",
+            "PRODUCT"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "Marathon",
+            "ORG"
+          ],
+          [
+            "US",
+            "GPE"
+          ],
+          [
+            "Valero",
+            "ORG"
+          ]
+        ]
+      }
+    ],
+    "low_value_or_extra_entity": [
+      {
+        "id": "e1726382f53e7b4c",
+        "title": "Sinopec raises east China phenol offers by CNY400/tonne",
+        "value": "5 March|DATE",
+        "predicted_entities": [
+          [
+            "5 March",
+            "DATE"
+          ],
+          [
+            "CNY400/tonne",
+            "QUANTITY"
+          ],
+          [
+            "China",
+            "GPE"
+          ],
+          [
+            "Chinese",
+            "NORP"
+          ],
+          [
+            "SINGAPORE",
+            "GPE"
+          ],
+          [
+            "Sinopec",
+            "PERSON"
+          ],
+          [
+            "Thursday",
+            "DATE"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "China",
+            "GPE"
+          ],
+          [
+            "Sinopec",
+            "ORG"
+          ]
+        ]
+      },
+      {
+        "id": "e1726382f53e7b4c",
+        "title": "Sinopec raises east China phenol offers by CNY400/tonne",
+        "value": "CNY400/tonne|QUANTITY",
+        "predicted_entities": [
+          [
+            "5 March",
+            "DATE"
+          ],
+          [
+            "CNY400/tonne",
+            "QUANTITY"
+          ],
+          [
+            "China",
+            "GPE"
+          ],
+          [
+            "Chinese",
+            "NORP"
+          ],
+          [
+            "SINGAPORE",
+            "GPE"
+          ],
+          [
+            "Sinopec",
+            "PERSON"
+          ],
+          [
+            "Thursday",
+            "DATE"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "China",
+            "GPE"
+          ],
+          [
+            "Sinopec",
+            "ORG"
+          ]
+        ]
+      },
+      {
+        "id": "e1726382f53e7b4c",
+        "title": "Sinopec raises east China phenol offers by CNY400/tonne",
+        "value": "Chinese|NORP",
+        "predicted_entities": [
+          [
+            "5 March",
+            "DATE"
+          ],
+          [
+            "CNY400/tonne",
+            "QUANTITY"
+          ],
+          [
+            "China",
+            "GPE"
+          ],
+          [
+            "Chinese",
+            "NORP"
+          ],
+          [
+            "SINGAPORE",
+            "GPE"
+          ],
+          [
+            "Sinopec",
+            "PERSON"
+          ],
+          [
+            "Thursday",
+            "DATE"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "China",
+            "GPE"
+          ],
+          [
+            "Sinopec",
+            "ORG"
+          ]
+        ]
+      },
+      {
+        "id": "e1726382f53e7b4c",
+        "title": "Sinopec raises east China phenol offers by CNY400/tonne",
+        "value": "SINGAPORE|GPE",
+        "predicted_entities": [
+          [
+            "5 March",
+            "DATE"
+          ],
+          [
+            "CNY400/tonne",
+            "QUANTITY"
+          ],
+          [
+            "China",
+            "GPE"
+          ],
+          [
+            "Chinese",
+            "NORP"
+          ],
+          [
+            "SINGAPORE",
+            "GPE"
+          ],
+          [
+            "Sinopec",
+            "PERSON"
+          ],
+          [
+            "Thursday",
+            "DATE"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "China",
+            "GPE"
+          ],
+          [
+            "Sinopec",
+            "ORG"
+          ]
+        ]
+      },
+      {
+        "id": "e1726382f53e7b4c",
+        "title": "Sinopec raises east China phenol offers by CNY400/tonne",
+        "value": "Thursday|DATE",
+        "predicted_entities": [
+          [
+            "5 March",
+            "DATE"
+          ],
+          [
+            "CNY400/tonne",
+            "QUANTITY"
+          ],
+          [
+            "China",
+            "GPE"
+          ],
+          [
+            "Chinese",
+            "NORP"
+          ],
+          [
+            "SINGAPORE",
+            "GPE"
+          ],
+          [
+            "Sinopec",
+            "PERSON"
+          ],
+          [
+            "Thursday",
+            "DATE"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "China",
+            "GPE"
+          ],
+          [
+            "Sinopec",
+            "ORG"
+          ]
+        ]
+      },
+      {
+        "id": "af167c56545f6ae0",
+        "title": "Zimbabwe imposes immediate ban on exports of raw minerals, lithium concentrates",
+        "value": "Wednesday February 25|DATE",
+        "predicted_entities": [
+          [
+            "Wednesday February 25",
+            "DATE"
+          ],
+          [
+            "Zimbabwe",
+            "GPE"
+          ],
+          [
+            "first",
+            "ORDINAL"
+          ],
+          [
+            "the Ministry of Mines and Mining Development",
+            "ORG"
+          ],
+          [
+            "zimbabwe",
+            "GPE"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "Ministry of Mines and Mining Development",
+            "ORG"
+          ],
+          [
+            "Zimbabwe",
+            "GPE"
+          ]
+        ]
+      },
+      {
+        "id": "af167c56545f6ae0",
+        "title": "Zimbabwe imposes immediate ban on exports of raw minerals, lithium concentrates",
+        "value": "first|ORDINAL",
+        "predicted_entities": [
+          [
+            "Wednesday February 25",
+            "DATE"
+          ],
+          [
+            "Zimbabwe",
+            "GPE"
+          ],
+          [
+            "first",
+            "ORDINAL"
+          ],
+          [
+            "the Ministry of Mines and Mining Development",
+            "ORG"
+          ],
+          [
+            "zimbabwe",
+            "GPE"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "Ministry of Mines and Mining Development",
+            "ORG"
+          ],
+          [
+            "Zimbabwe",
+            "GPE"
+          ]
+        ]
+      },
+      {
+        "id": "af167c56545f6ae0",
+        "title": "Zimbabwe imposes immediate ban on exports of raw minerals, lithium concentrates",
+        "value": "the Ministry of Mines and Mining Development|ORG",
+        "predicted_entities": [
+          [
+            "Wednesday February 25",
+            "DATE"
+          ],
+          [
+            "Zimbabwe",
+            "GPE"
+          ],
+          [
+            "first",
+            "ORDINAL"
+          ],
+          [
+            "the Ministry of Mines and Mining Development",
+            "ORG"
+          ],
+          [
+            "zimbabwe",
+            "GPE"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "Ministry of Mines and Mining Development",
+            "ORG"
+          ],
+          [
+            "Zimbabwe",
+            "GPE"
+          ]
+        ]
+      }
+    ],
+    "missed_entity": [
+      {
+        "id": "af167c56545f6ae0",
+        "title": "Zimbabwe imposes immediate ban on exports of raw minerals, lithium concentrates",
+        "value": "Ministry of Mines and Mining Development|ORG",
+        "predicted_entities": [
+          [
+            "Wednesday February 25",
+            "DATE"
+          ],
+          [
+            "Zimbabwe",
+            "GPE"
+          ],
+          [
+            "first",
+            "ORDINAL"
+          ],
+          [
+            "the Ministry of Mines and Mining Development",
+            "ORG"
+          ],
+          [
+            "zimbabwe",
+            "GPE"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "Ministry of Mines and Mining Development",
+            "ORG"
+          ],
+          [
+            "Zimbabwe",
+            "GPE"
+          ]
+        ]
+      },
+      {
+        "id": "b940c10d3334b185",
+        "title": "Indian LPG stocks limited as Iran conflict broadens",
+        "value": "Indian|NORP",
+        "predicted_entities": [
+          [
+            "Indian LPG stocks",
+            "ORG"
+          ],
+          [
+            "Iran",
+            "GPE"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "Indian",
+            "NORP"
+          ],
+          [
+            "Iran",
+            "GPE"
+          ]
+        ]
+      },
+      {
+        "id": "a50f0a4055cd12fa",
+        "title": "US E15 group floats fewer biofuel mandate waivers",
+        "value": "US E15 group|ORG",
+        "predicted_entities": [
+          [
+            "US E15",
+            "ORG"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "US E15 group",
+            "ORG"
+          ]
+        ]
+      },
+      {
+        "id": "9f34fd5bb7ae9d73",
+        "title": "UAE Fujairah bunker market braced for impact",
+        "value": "Fujairah|GPE",
+        "predicted_entities": [
+          [
+            "UAE Fujairah",
+            "ORG"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "Fujairah",
+            "GPE"
+          ],
+          [
+            "UAE",
+            "GPE"
+          ]
+        ]
+      },
+      {
+        "id": "9f34fd5bb7ae9d73",
+        "title": "UAE Fujairah bunker market braced for impact",
+        "value": "UAE|GPE",
+        "predicted_entities": [
+          [
+            "UAE Fujairah",
+            "ORG"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "Fujairah",
+            "GPE"
+          ],
+          [
+            "UAE",
+            "GPE"
+          ]
+        ]
+      },
+      {
+        "id": "c42e259a700ef165",
+        "title": "Malaysia's Fathopes defers FID on biofuels plant",
+        "value": "Fathopes|ORG",
+        "predicted_entities": [
+          [
+            "Malaysia",
+            "GPE"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "Fathopes",
+            "ORG"
+          ],
+          [
+            "Malaysia",
+            "GPE"
+          ]
+        ]
+      },
+      {
+        "id": "0d32015cb82da3fd",
+        "title": "Asia glycerine demand rises on strong downstream ECH amid US-Iran conflict",
+        "value": "Middle East|LOC",
+        "predicted_entities": [
+          [
+            "April",
+            "DATE"
+          ],
+          [
+            "Asia",
+            "LOC"
+          ],
+          [
+            "ICIS)--Asia",
+            "LOC"
+          ],
+          [
+            "Iran",
+            "GPE"
+          ],
+          [
+            "May",
+            "DATE"
+          ],
+          [
+            "SINGAPORE",
+            "GPE"
+          ],
+          [
+            "US",
+            "GPE"
+          ],
+          [
+            "the Middle East",
+            "LOC"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "Asia",
+            "LOC"
+          ],
+          [
+            "Iran",
+            "GPE"
+          ],
+          [
+            "Middle East",
+            "LOC"
+          ],
+          [
+            "US",
+            "GPE"
+          ]
+        ]
+      },
+      {
+        "id": "603c20d792e11805",
+        "title": "Plant status: ADNOC refinery No 2 shut on incident - sources",
+        "value": "ADNOC|ORG",
+        "predicted_entities": [
+          [
+            "Abu Dhabi",
+            "GPE"
+          ],
+          [
+            "ICIS)--Here",
+            "ORG"
+          ],
+          [
+            "No 2",
+            "WORK_OF_ART"
+          ],
+          [
+            "Refining Location: Ruwais",
+            "ORG"
+          ],
+          [
+            "SINGAPORE",
+            "GPE"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "ADNOC",
+            "ORG"
+          ],
+          [
+            "Ruwais",
+            "GPE"
+          ],
+          [
+            "United Arab Emirates",
+            "GPE"
+          ]
+        ]
+      }
+    ],
+    "missed_country_present_in_title": [
+      {
+        "id": "b940c10d3334b185",
+        "title": "Indian LPG stocks limited as Iran conflict broadens",
+        "value": "India",
+        "predicted_countries": [
+          "Iran"
+        ],
+        "expected_countries": [
+          "India",
+          "Iran"
+        ]
+      },
+      {
+        "id": "a50f0a4055cd12fa",
+        "title": "US E15 group floats fewer biofuel mandate waivers",
+        "value": "United States",
+        "predicted_countries": [],
+        "expected_countries": [
+          "United States"
+        ]
+      },
+      {
+        "id": "9f34fd5bb7ae9d73",
+        "title": "UAE Fujairah bunker market braced for impact",
+        "value": "United Arab Emirates",
+        "predicted_countries": [],
+        "expected_countries": [
+          "United Arab Emirates"
+        ]
+      },
+      {
+        "id": "ae38e3dc2d825848",
+        "title": "Aramco shuts Ras Tanura refinery after drone strike",
+        "value": "Saudi Arabia",
+        "predicted_countries": [],
+        "expected_countries": [
+          "Saudi Arabia"
+        ]
+      },
+      {
+        "id": "0a3becb254330ee9",
+        "title": "Another vessel attacked off Fujairah: UKMTO",
+        "value": "United Arab Emirates",
+        "predicted_countries": [],
+        "expected_countries": [
+          "United Arab Emirates"
+        ]
+      },
+      {
+        "id": "ed777cfab6d35905",
+        "title": "Viewpoint: Rising Guyanese crude flows open new markets",
+        "value": "Guyana",
+        "predicted_countries": [],
+        "expected_countries": [
+          "Guyana"
+        ]
+      },
+      {
+        "id": "d3ae2be1c174db2b",
+        "title": "Viewpoint: Indonesian coal policy clouds market outlook",
+        "value": "Indonesia",
+        "predicted_countries": [],
+        "expected_countries": [
+          "Indonesia"
+        ]
+      },
+      {
+        "id": "6e192f69a56e2fd4",
+        "title": "French urea imports surge in 2H 2025",
+        "value": "France",
+        "predicted_countries": [],
+        "expected_countries": [
+          "France"
+        ]
+      }
+    ],
+    "missed_country_only_in_description": [
+      {
+        "id": "603c20d792e11805",
+        "title": "Plant status: ADNOC refinery No 2 shut on incident - sources",
+        "value": "United Arab Emirates",
+        "predicted_countries": [
+          "Singapore"
+        ],
+        "expected_countries": [
+          "United Arab Emirates"
+        ]
+      },
+      {
+        "id": "733e136b8043e682",
+        "title": "IEA raises 2023 oil demand and supply growth estimates",
+        "value": "China",
+        "predicted_countries": [],
+        "expected_countries": [
+          "China"
+        ]
+      }
+    ],
+    "missed_country_contextual_or_demonym": [
+      {
+        "id": "1a4b3b39febdd0cc",
+        "title": "Series of attacks in Mideast conflict expected to squeeze Group III base oils supply",
+        "value": "United Arab Emirates",
+        "predicted_countries": [
+          "Bahrain",
+          "Qatar",
+          "Singapore"
+        ],
+        "expected_countries": [
+          "Bahrain",
+          "Qatar",
+          "United Arab Emirates"
+        ]
+      }
+    ]
+  }
+}

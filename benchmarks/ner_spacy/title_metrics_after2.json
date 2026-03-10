@@ -1,0 +1,526 @@
+{
+  "mode": "title",
+  "sample_size": 84,
+  "scored_articles": 84,
+  "skipped_country_articles": 0,
+  "skipped_entity_articles": 0,
+  "country_metrics": {
+    "tp": 79,
+    "fp": 0,
+    "fn": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0
+  },
+  "entity_metrics": {
+    "text_only_exact": {
+      "tp": 132,
+      "fp": 8,
+      "fn": 16,
+      "precision": 0.9429,
+      "recall": 0.8919,
+      "f1": 0.9167
+    },
+    "text_plus_label_exact": {
+      "tp": 130,
+      "fp": 10,
+      "fn": 18,
+      "precision": 0.9286,
+      "recall": 0.8784,
+      "f1": 0.9028
+    },
+    "text_only_relaxed": {
+      "tp": 134,
+      "fp": 6,
+      "fn": 14,
+      "precision": 0.9571,
+      "recall": 0.9054,
+      "f1": 0.9306
+    }
+  },
+  "country_error_counts": {},
+  "entity_error_counts": {
+    "missed_entity": 16,
+    "low_value_or_extra_entity": 8,
+    "entity_label_confusion": 4
+  },
+  "error_examples": {
+    "missed_entity": [
+      {
+        "id": "af167c56545f6ae0",
+        "title": "Zimbabwe imposes immediate ban on exports of raw minerals, lithium concentrates",
+        "value": "Ministry of Mines and Mining Development|ORG",
+        "predicted_entities": [
+          [
+            "Zimbabwe",
+            "GPE"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "Ministry of Mines and Mining Development",
+            "ORG"
+          ],
+          [
+            "Zimbabwe",
+            "GPE"
+          ]
+        ]
+      },
+      {
+        "id": "b940c10d3334b185",
+        "title": "Indian LPG stocks limited as Iran conflict broadens",
+        "value": "Indian|NORP",
+        "predicted_entities": [
+          [
+            "Indian LPG stocks",
+            "ORG"
+          ],
+          [
+            "Iran",
+            "GPE"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "Indian",
+            "NORP"
+          ],
+          [
+            "Iran",
+            "GPE"
+          ]
+        ]
+      },
+      {
+        "id": "c42e259a700ef165",
+        "title": "Malaysia's Fathopes defers FID on biofuels plant",
+        "value": "Fathopes|ORG",
+        "predicted_entities": [
+          [
+            "Malaysia",
+            "GPE"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "Fathopes",
+            "ORG"
+          ],
+          [
+            "Malaysia",
+            "GPE"
+          ]
+        ]
+      },
+      {
+        "id": "603c20d792e11805",
+        "title": "Plant status: ADNOC refinery No 2 shut on incident - sources",
+        "value": "ADNOC|ORG",
+        "predicted_entities": [],
+        "expected_entities": [
+          [
+            "ADNOC",
+            "ORG"
+          ]
+        ]
+      },
+      {
+        "id": "5ad34d064c35f1f7",
+        "title": "GAS ALERT: Storengy UK to auction British gas storage capacity across 2026-2027 in March",
+        "value": "Storengy UK|ORG",
+        "predicted_entities": [
+          [
+            "British",
+            "NORP"
+          ],
+          [
+            "UK",
+            "GPE"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "British",
+            "NORP"
+          ],
+          [
+            "Storengy UK",
+            "ORG"
+          ],
+          [
+            "UK",
+            "GPE"
+          ]
+        ]
+      },
+      {
+        "id": "12cafb5ef3c1076f",
+        "title": "Opec+ waiting for Venezuela clarity",
+        "value": "Opec+|ORG",
+        "predicted_entities": [
+          [
+            "OPEC+",
+            "ORG"
+          ],
+          [
+            "Venezuela",
+            "GPE"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "Opec+",
+            "ORG"
+          ],
+          [
+            "Venezuela",
+            "GPE"
+          ]
+        ]
+      },
+      {
+        "id": "0a3becb254330ee9",
+        "title": "Another vessel attacked off Fujairah: UKMTO",
+        "value": "UKMTO|ORG",
+        "predicted_entities": [
+          [
+            "Fujairah",
+            "GPE"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "Fujairah",
+            "GPE"
+          ],
+          [
+            "UKMTO",
+            "ORG"
+          ]
+        ]
+      },
+      {
+        "id": "51adf164dc538e3a",
+        "title": "Hormuz halt forces Opec+ producers to curb crude output",
+        "value": "Opec+|ORG",
+        "predicted_entities": [
+          [
+            "Hormuz",
+            "LOC"
+          ],
+          [
+            "OPEC+",
+            "ORG"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "Hormuz",
+            "LOC"
+          ],
+          [
+            "Opec+",
+            "ORG"
+          ]
+        ]
+      }
+    ],
+    "low_value_or_extra_entity": [
+      {
+        "id": "b940c10d3334b185",
+        "title": "Indian LPG stocks limited as Iran conflict broadens",
+        "value": "Indian LPG stocks|ORG",
+        "predicted_entities": [
+          [
+            "Indian LPG stocks",
+            "ORG"
+          ],
+          [
+            "Iran",
+            "GPE"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "Indian",
+            "NORP"
+          ],
+          [
+            "Iran",
+            "GPE"
+          ]
+        ]
+      },
+      {
+        "id": "51b2e3f29825008f",
+        "title": "China’s Shanghai SECCO sharply raises ACN weekly price on surging costs",
+        "value": "ACN|ORG",
+        "predicted_entities": [
+          [
+            "ACN",
+            "ORG"
+          ],
+          [
+            "China",
+            "GPE"
+          ],
+          [
+            "Shanghai SECCO",
+            "ORG"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "China",
+            "GPE"
+          ],
+          [
+            "Shanghai SECCO",
+            "ORG"
+          ]
+        ]
+      },
+      {
+        "id": "12cafb5ef3c1076f",
+        "title": "Opec+ waiting for Venezuela clarity",
+        "value": "OPEC+|ORG",
+        "predicted_entities": [
+          [
+            "OPEC+",
+            "ORG"
+          ],
+          [
+            "Venezuela",
+            "GPE"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "Opec+",
+            "ORG"
+          ],
+          [
+            "Venezuela",
+            "GPE"
+          ]
+        ]
+      },
+      {
+        "id": "51adf164dc538e3a",
+        "title": "Hormuz halt forces Opec+ producers to curb crude output",
+        "value": "OPEC+|ORG",
+        "predicted_entities": [
+          [
+            "Hormuz",
+            "LOC"
+          ],
+          [
+            "OPEC+",
+            "ORG"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "Hormuz",
+            "LOC"
+          ],
+          [
+            "Opec+",
+            "ORG"
+          ]
+        ]
+      },
+      {
+        "id": "4b6910d4a23a8075",
+        "title": "FACTBOX: Asia&apos;s olefins prices rise as Middle East war disrupts steam cracker operations",
+        "value": "FACTBOX|ORG",
+        "predicted_entities": [
+          [
+            "FACTBOX",
+            "ORG"
+          ],
+          [
+            "Middle East",
+            "LOC"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "Asia",
+            "LOC"
+          ],
+          [
+            "Middle East",
+            "LOC"
+          ]
+        ]
+      },
+      {
+        "id": "7613ace8ff7d6b9f",
+        "title": "Export prices for S Korea isomer MX surge for fourth consecutive session on oil hikes",
+        "value": "MX|ORG",
+        "predicted_entities": [
+          [
+            "MX",
+            "ORG"
+          ],
+          [
+            "S Korea",
+            "GPE"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "S Korea",
+            "GPE"
+          ]
+        ]
+      },
+      {
+        "id": "20fbca12e1c19116",
+        "title": "Lake Charles LNG terminates some offtake contracts",
+        "value": "Lake Charles|GPE",
+        "predicted_entities": [
+          [
+            "Lake Charles",
+            "GPE"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "Lake Charles LNG",
+            "FAC"
+          ]
+        ]
+      },
+      {
+        "id": "038fb54667409fd5",
+        "title": "Trinseo notified of New York Stock Exchange de-listing plans",
+        "value": "New York Stock Exchange de|ORG",
+        "predicted_entities": [
+          [
+            "New York Stock Exchange de",
+            "ORG"
+          ],
+          [
+            "Trinseo",
+            "ORG"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "New York Stock Exchange",
+            "ORG"
+          ],
+          [
+            "Trinseo",
+            "ORG"
+          ]
+        ]
+      }
+    ],
+    "entity_label_confusion": [
+      {
+        "id": "c46ea90dbc833438",
+        "title": "Cabinda refinery still in testing, no supply yet",
+        "value": "Cabinda|GPE",
+        "predicted_entities": [
+          [
+            "Cabinda",
+            "ORG"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "Cabinda",
+            "GPE"
+          ]
+        ]
+      },
+      {
+        "id": "c46ea90dbc833438",
+        "title": "Cabinda refinery still in testing, no supply yet",
+        "value": "Cabinda|ORG",
+        "predicted_entities": [
+          [
+            "Cabinda",
+            "ORG"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "Cabinda",
+            "GPE"
+          ]
+        ]
+      },
+      {
+        "id": "8867ebc5b68f8912",
+        "title": "Australia’s Mayfair agrees to acquire Phosphate Hill operations in boost to local fertilizer production",
+        "value": "Phosphate Hill|FAC",
+        "predicted_entities": [
+          [
+            "Australia",
+            "GPE"
+          ],
+          [
+            "Mayfair",
+            "ORG"
+          ],
+          [
+            "Phosphate Hill",
+            "ORG"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "Australia",
+            "GPE"
+          ],
+          [
+            "Mayfair",
+            "ORG"
+          ],
+          [
+            "Phosphate Hill",
+            "FAC"
+          ]
+        ]
+      },
+      {
+        "id": "8867ebc5b68f8912",
+        "title": "Australia’s Mayfair agrees to acquire Phosphate Hill operations in boost to local fertilizer production",
+        "value": "Phosphate Hill|ORG",
+        "predicted_entities": [
+          [
+            "Australia",
+            "GPE"
+          ],
+          [
+            "Mayfair",
+            "ORG"
+          ],
+          [
+            "Phosphate Hill",
+            "ORG"
+          ]
+        ],
+        "expected_entities": [
+          [
+            "Australia",
+            "GPE"
+          ],
+          [
+            "Mayfair",
+            "ORG"
+          ],
+          [
+            "Phosphate Hill",
+            "FAC"
+          ]
+        ]
+      }
+    ]
+  }
+}

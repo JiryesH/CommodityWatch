@@ -1,0 +1,1451 @@
+{
+  "sample_size": 120,
+  "canonical_categories": [
+    "Oil - Crude",
+    "Oil - Refined Products",
+    "Natural Gas",
+    "LNG",
+    "Coal",
+    "Electric Power",
+    "Energy Transition",
+    "Chemicals",
+    "Metals",
+    "Agriculture",
+    "Fertilizers",
+    "Shipping",
+    "General"
+  ],
+  "evaluations": {
+    "classify_title": {
+      "predictor": "classify_categories",
+      "mode": "title",
+      "sample_size": 120,
+      "exact_match_accuracy": 0.9,
+      "primary_category_accuracy": 0.9167,
+      "per_category": {
+        "Oil - Crude": {
+          "tp": 11,
+          "fp": 0,
+          "fn": 1,
+          "precision": 1.0,
+          "recall": 0.9167,
+          "f1": 0.9565,
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.0833
+        },
+        "Oil - Refined Products": {
+          "tp": 14,
+          "fp": 0,
+          "fn": 2,
+          "precision": 1.0,
+          "recall": 0.875,
+          "f1": 0.9333,
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.125
+        },
+        "Natural Gas": {
+          "tp": 8,
+          "fp": 0,
+          "fn": 1,
+          "precision": 1.0,
+          "recall": 0.8889,
+          "f1": 0.9412,
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.1111
+        },
+        "LNG": {
+          "tp": 6,
+          "fp": 0,
+          "fn": 1,
+          "precision": 1.0,
+          "recall": 0.8571,
+          "f1": 0.9231,
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.1429
+        },
+        "Coal": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.0
+        },
+        "Electric Power": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.0
+        },
+        "Energy Transition": {
+          "tp": 10,
+          "fp": 1,
+          "fn": 1,
+          "precision": 0.9091,
+          "recall": 0.9091,
+          "f1": 0.9091,
+          "false_positive_rate": 0.0092,
+          "false_negative_rate": 0.0909
+        },
+        "Chemicals": {
+          "tp": 21,
+          "fp": 0,
+          "fn": 1,
+          "precision": 1.0,
+          "recall": 0.9545,
+          "f1": 0.9767,
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.0455
+        },
+        "Metals": {
+          "tp": 8,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.0
+        },
+        "Agriculture": {
+          "tp": 3,
+          "fp": 0,
+          "fn": 1,
+          "precision": 1.0,
+          "recall": 0.75,
+          "f1": 0.8571,
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.25
+        },
+        "Fertilizers": {
+          "tp": 8,
+          "fp": 0,
+          "fn": 2,
+          "precision": 1.0,
+          "recall": 0.8,
+          "f1": 0.8889,
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.2
+        },
+        "Shipping": {
+          "tp": 10,
+          "fp": 1,
+          "fn": 1,
+          "precision": 0.9091,
+          "recall": 0.9091,
+          "f1": 0.9091,
+          "false_positive_rate": 0.0092,
+          "false_negative_rate": 0.0909
+        },
+        "General": {
+          "tp": 19,
+          "fp": 6,
+          "fn": 0,
+          "precision": 0.76,
+          "recall": 1.0,
+          "f1": 0.8636,
+          "false_positive_rate": 0.0594,
+          "false_negative_rate": 0.0
+        }
+      },
+      "macro_f1": 0.9353,
+      "general_rate": 0.2083,
+      "general_precision": 0.76,
+      "general_recall": 1.0,
+      "two_category_rate": 0.0667,
+      "multilabel_article_recall": 0.6364,
+      "second_category_recall": 0.6364,
+      "truncated_before_cap_rate": 0.0,
+      "primary_order_accuracy_when_set_correct": 0.5714,
+      "used_classifier_rate": 1.0,
+      "no_match_rate": 0.2083,
+      "error_bucket_counts": {
+        "wrongly_classified_as_general": 6,
+        "missed_valid_second_category": 4,
+        "single_label_misclassification": 1,
+        "other_misclassification": 1
+      },
+      "error_examples": {
+        "single_label_misclassification": [
+          {
+            "id": "d62ffd75f1e67f7a",
+            "source": "ICIS",
+            "feed": "ICIS",
+            "title": "Gas to remain in Germany’s residential demand mix amid proposed heating law reset",
+            "description": "Additional reporting by Eduardo Escajadillo Germany plans to scrap its heating mandate and let households keep choosing gas/oil Residential gas demand is likely to stay stable, as decarbonization...",
+            "predicted_categories": [
+              "Energy Transition"
+            ],
+            "expected_categories": [
+              "Natural Gas"
+            ],
+            "predicted_primary": "Energy Transition",
+            "expected_primary": "Natural Gas"
+          }
+        ],
+        "wrongly_classified_as_general": [
+          {
+            "id": "ddba9b0796792cd3",
+            "source": "ICIS",
+            "feed": "ICIS",
+            "title": "Plant status: Thailand's PTTGC mulls restart of cracker from turnaround in April",
+            "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: PTT Global Chemical (PTTGC) Location: Map Ta Phut, Thailand Product: Ethylene, propylene Capacity (tonnes/year): 500,000 (ethylene), 260,000...",
+            "predicted_categories": [
+              "General"
+            ],
+            "expected_categories": [
+              "Chemicals"
+            ],
+            "predicted_primary": "General",
+            "expected_primary": "Chemicals"
+          },
+          {
+            "id": "0d3bcb89c20a936c",
+            "source": "ICIS",
+            "feed": "ICIS",
+            "title": "Indian government reassures farmers of adequate fertilizers stocks for upcoming kharif season",
+            "description": "LONDON (ICIS)--The Indian Department of Fertilizers has guaranteed that fertilizer inventories in the country are secure for the upcoming Kharif season. On 6 March, the Department of Fertilizers...",
+            "predicted_categories": [
+              "General"
+            ],
+            "expected_categories": [
+              "Fertilizers"
+            ],
+            "predicted_primary": "General",
+            "expected_primary": "Fertilizers"
+          },
+          {
+            "id": "f0f3188ac10f0fdf",
+            "source": "S&P Global",
+            "feed": "S&P Energy Transition",
+            "title": "SE Asia REDD+ prices rise on supply crunch as new issuances loom large",
+            "description": "Persistent supply bottlenecks in Southeast Asia&apos;s REDD+ market have left buyers awaiting long-anticipated fresh issuances that could ease prices in the medium term, several traders told Platts, part of S&amp;P Global Energy. Primarily, the scarcity of credits from Indonesia&apos;s Katingan Mentaya, widely considered the region&apos;s flagship nature-based avoidance project, has raised prices for all existing",
+            "predicted_categories": [
+              "General"
+            ],
+            "expected_categories": [
+              "Energy Transition"
+            ],
+            "predicted_primary": "General",
+            "expected_primary": "Energy Transition"
+          },
+          {
+            "id": "07dc2cf5a2730a6e",
+            "source": "S&P Global",
+            "feed": "S&P Shipping",
+            "title": "Marine insurers seek solutions as Gulf shipping threats evolve",
+            "description": "Marine insurers are exploring new ways to revive seaborne trades in the Persian Gulf as threats shift from the weapons of past tanker wars to drones and modern missiles even as US offers to backstop war-risk insurance meets a cautious response. More than 10 ships have been targeted in the Strait of Hormuz and surrounding waters since the US-Iran war broke out Feb. 28, leading to crew casualties",
+            "predicted_categories": [
+              "General"
+            ],
+            "expected_categories": [
+              "Shipping"
+            ],
+            "predicted_primary": "General",
+            "expected_primary": "Shipping"
+          },
+          {
+            "id": "ecef4fd6d876d80b",
+            "source": "S&P Global",
+            "feed": "S&P Shipping",
+            "title": "Asia&apos;s LSFO cash premium at record high as Middle East war triggers supply woes",
+            "description": "Asia&apos;s low sulfur fuel oil cash differentials surged to an all-time high as the US-Israel war with Iran cut Middle East supplies, prompted Asian refiners to trim production, and led countries to hold back near-term exports to safeguard their oil reserves. Platts assessed the cash differential for Singapore marine fuel 0.5%S cargo over the Mean of Platts Singapore marine fuel 0.5%S assessment at a",
+            "predicted_categories": [
+              "General"
+            ],
+            "expected_categories": [
+              "Oil - Refined Products"
+            ],
+            "predicted_primary": "General",
+            "expected_primary": "Oil - Refined Products"
+          },
+          {
+            "id": "59907470b9370535",
+            "source": "S&P Global",
+            "feed": "S&P Oil - Refined Products",
+            "title": "WAF products markets surge as stakeholders mull fallout from Middle East conflict",
+            "description": "West African refined product markets have seen a surge in prices across early-March, tracking bullish pricing trends throughout global markets amid conflict in the Middle East and the subsequent closure of the Strait of Hormuz. Sentiment across jet fuel, diesel and gasoline markets in the region remains uncertain amid the tense geopolitical backdrop, with STS Lome prices across each respective",
+            "predicted_categories": [
+              "General"
+            ],
+            "expected_categories": [
+              "Oil - Refined Products"
+            ],
+            "predicted_primary": "General",
+            "expected_primary": "Oil - Refined Products"
+          }
+        ],
+        "other_misclassification": [
+          {
+            "id": "be203ab656250e19",
+            "source": "ICIS",
+            "feed": "ICIS",
+            "title": "INSIGHT: How the US-Iran war is reshaping polymers trade routes in the Middle East",
+            "description": "DUBAI (ICIS)--Since the start of the war between the US and Iran in the Middle East, exports from Gulf Cooperation Council (GCC)-based suppliers have become increasingly more complex, and costlier....",
+            "predicted_categories": [
+              "Chemicals",
+              "Shipping"
+            ],
+            "expected_categories": [
+              "Chemicals"
+            ],
+            "predicted_primary": "Chemicals",
+            "expected_primary": "Chemicals"
+          }
+        ],
+        "missed_valid_second_category": [
+          {
+            "id": "b50d5317dfcfcdd8",
+            "source": "Argus Media",
+            "feed": "Argus NewsAll",
+            "title": "LNG share of alternative bunker fuel market grows",
+            "description": "",
+            "predicted_categories": [
+              "Shipping"
+            ],
+            "expected_categories": [
+              "Shipping",
+              "LNG"
+            ],
+            "predicted_primary": "Shipping",
+            "expected_primary": "Shipping"
+          },
+          {
+            "id": "b690d8456615c3d3",
+            "source": "S&P Global",
+            "feed": "S&P Fertilizers",
+            "title": "Ammonia producers take lead on global blue hydrogen development",
+            "description": "The oil and gas industry believed that producing hydrogen and its derivatives could fill new markets for low-emission fuel. But fertilizer companies are competing for the same limited customer base â&#x20ac;&#x201d; and so far, with greater success, according to industry watchers. In 2025, ExxonMobil paused spending on a proposed carbon capture-enabled hydrogen and ammonia plant at its Baytown refinery in Texas.",
+            "predicted_categories": [
+              "Energy Transition"
+            ],
+            "expected_categories": [
+              "Energy Transition",
+              "Fertilizers"
+            ],
+            "predicted_primary": "Energy Transition",
+            "expected_primary": "Energy Transition"
+          },
+          {
+            "id": "27821389f7d76d5a",
+            "source": "S&P Global",
+            "feed": "S&P Shipping",
+            "title": "G7 tankers gain share in Russia before US waiver for sanctioned ships",
+            "description": "A temporary US waiver has enabled sanctioned tankers to transport Russian oil, after G7-linked tanker operators increased their share in the restricted market last month. On March 5, the Office of Foreign Asset Control said Russian crude and refined products loaded by tankers before March 5 could be sold to India regardless of the ships&apos; sanctions status, if the barrels are to arrive at Indian",
+            "predicted_categories": [
+              "Shipping"
+            ],
+            "expected_categories": [
+              "Shipping",
+              "Oil - Crude"
+            ],
+            "predicted_primary": "Shipping",
+            "expected_primary": "Shipping"
+          },
+          {
+            "id": "053481f6d687000c",
+            "source": "S&P Global",
+            "feed": "S&P Energy Transition",
+            "title": "Praj Industries sees protein, SAF as dual growth drivers for global ethanol producers",
+            "description": "India&apos;s bioenergy company, Praj Industries, is positioning protein co-products as a key driver of future revenue growth for grain-based ethanol producers globally, Atul Mulay, president of corporate strategy, told Platts, part of S&amp;P Global Energy, in an exclusive interview. &quot;Globally, distillers are increasingly integrating protein-rich co-products for applications in animal feed as well as human",
+            "predicted_categories": [
+              "Energy Transition"
+            ],
+            "expected_categories": [
+              "Energy Transition",
+              "Agriculture"
+            ],
+            "predicted_primary": "Energy Transition",
+            "expected_primary": "Energy Transition"
+          }
+        ]
+      }
+    },
+    "classify_title_description": {
+      "predictor": "classify_categories",
+      "mode": "title_description",
+      "sample_size": 120,
+      "exact_match_accuracy": 0.9583,
+      "primary_category_accuracy": 0.9417,
+      "per_category": {
+        "Oil - Crude": {
+          "tp": 12,
+          "fp": 0,
+          "fn": 1,
+          "precision": 1.0,
+          "recall": 0.9231,
+          "f1": 0.96,
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.0769
+        },
+        "Oil - Refined Products": {
+          "tp": 16,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.0
+        },
+        "Natural Gas": {
+          "tp": 9,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.0
+        },
+        "LNG": {
+          "tp": 6,
+          "fp": 0,
+          "fn": 1,
+          "precision": 1.0,
+          "recall": 0.8571,
+          "f1": 0.9231,
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.1429
+        },
+        "Coal": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.0
+        },
+        "Electric Power": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.0
+        },
+        "Energy Transition": {
+          "tp": 11,
+          "fp": 0,
+          "fn": 1,
+          "precision": 1.0,
+          "recall": 0.9167,
+          "f1": 0.9565,
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.0833
+        },
+        "Chemicals": {
+          "tp": 22,
+          "fp": 0,
+          "fn": 1,
+          "precision": 1.0,
+          "recall": 0.9565,
+          "f1": 0.9778,
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.0435
+        },
+        "Metals": {
+          "tp": 8,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.0
+        },
+        "Agriculture": {
+          "tp": 4,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.0
+        },
+        "Fertilizers": {
+          "tp": 10,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.0
+        },
+        "Shipping": {
+          "tp": 12,
+          "fp": 0,
+          "fn": 2,
+          "precision": 1.0,
+          "recall": 0.8571,
+          "f1": 0.9231,
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.1429
+        },
+        "General": {
+          "tp": 18,
+          "fp": 3,
+          "fn": 0,
+          "precision": 0.8571,
+          "recall": 1.0,
+          "f1": 0.9231,
+          "false_positive_rate": 0.0294,
+          "false_negative_rate": 0.0
+        }
+      },
+      "macro_f1": 0.9741,
+      "general_rate": 0.175,
+      "general_precision": 0.8571,
+      "general_recall": 1.0,
+      "two_category_rate": 0.1083,
+      "multilabel_article_recall": 0.8125,
+      "second_category_recall": 0.875,
+      "truncated_before_cap_rate": 0.0167,
+      "primary_order_accuracy_when_set_correct": 0.7692,
+      "used_classifier_rate": 1.0,
+      "no_match_rate": 0.175,
+      "error_bucket_counts": {
+        "wrongly_classified_as_general": 3,
+        "missed_valid_second_category": 2
+      },
+      "error_examples": {
+        "missed_valid_second_category": [
+          {
+            "id": "508c0228c336d855",
+            "source": "ICIS",
+            "feed": "ICIS",
+            "title": "Plant status: S Korea's S-Oil commences No 2 RFCC planned turnaround on 6 Mar",
+            "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: S-Oil Corp Location: Onsan, South Korea Product: Propylene Capacity (tonnes/year): 705,000 Event start: 6 March 2026 Event finish: H2 April 2026...",
+            "predicted_categories": [
+              "Oil - Refined Products"
+            ],
+            "expected_categories": [
+              "Chemicals",
+              "Oil - Refined Products"
+            ],
+            "predicted_primary": "Oil - Refined Products",
+            "expected_primary": "Chemicals"
+          },
+          {
+            "id": "b50d5317dfcfcdd8",
+            "source": "Argus Media",
+            "feed": "Argus NewsAll",
+            "title": "LNG share of alternative bunker fuel market grows",
+            "description": "",
+            "predicted_categories": [
+              "Shipping"
+            ],
+            "expected_categories": [
+              "Shipping",
+              "LNG"
+            ],
+            "predicted_primary": "Shipping",
+            "expected_primary": "Shipping"
+          }
+        ],
+        "wrongly_classified_as_general": [
+          {
+            "id": "3d560e6728ef2d38",
+            "source": "S&P Global",
+            "feed": "S&P Shipping",
+            "title": "FACTBOX: Fresh attacks hit shipping, energy operations in the Middle East",
+            "description": "Oil producers and exporters in the Middle East continue to face severe restrictions on shipping through the Strait of Hormuz and ongoing attacks on energy infrastructure. &quot;The scale and duration of a price spike will depend on how much oil is kept off the market â&#x20ac;&#x201d; and for how long â&#x20ac;&#x201d; due to danger in the strait, higher shipping insurance rates or damaged Gulf infrastructure,&quot; analysts at S&amp;P Global",
+            "predicted_categories": [
+              "General"
+            ],
+            "expected_categories": [
+              "Shipping",
+              "Oil - Crude"
+            ],
+            "predicted_primary": "General",
+            "expected_primary": "Shipping"
+          },
+          {
+            "id": "f0f3188ac10f0fdf",
+            "source": "S&P Global",
+            "feed": "S&P Energy Transition",
+            "title": "SE Asia REDD+ prices rise on supply crunch as new issuances loom large",
+            "description": "Persistent supply bottlenecks in Southeast Asia&apos;s REDD+ market have left buyers awaiting long-anticipated fresh issuances that could ease prices in the medium term, several traders told Platts, part of S&amp;P Global Energy. Primarily, the scarcity of credits from Indonesia&apos;s Katingan Mentaya, widely considered the region&apos;s flagship nature-based avoidance project, has raised prices for all existing",
+            "predicted_categories": [
+              "General"
+            ],
+            "expected_categories": [
+              "Energy Transition"
+            ],
+            "predicted_primary": "General",
+            "expected_primary": "Energy Transition"
+          },
+          {
+            "id": "07dc2cf5a2730a6e",
+            "source": "S&P Global",
+            "feed": "S&P Shipping",
+            "title": "Marine insurers seek solutions as Gulf shipping threats evolve",
+            "description": "Marine insurers are exploring new ways to revive seaborne trades in the Persian Gulf as threats shift from the weapons of past tanker wars to drones and modern missiles even as US offers to backstop war-risk insurance meets a cautious response. More than 10 ships have been targeted in the Strait of Hormuz and surrounding waters since the US-Iran war broke out Feb. 28, leading to crew casualties",
+            "predicted_categories": [
+              "General"
+            ],
+            "expected_categories": [
+              "Shipping"
+            ],
+            "predicted_primary": "General",
+            "expected_primary": "Shipping"
+          }
+        ]
+      }
+    },
+    "normalize_source_payload": {
+      "predictor": "normalize_article_categories",
+      "mode": "title_description",
+      "sample_size": 120,
+      "exact_match_accuracy": 0.95,
+      "primary_category_accuracy": 0.9417,
+      "per_category": {
+        "Oil - Crude": {
+          "tp": 12,
+          "fp": 0,
+          "fn": 1,
+          "precision": 1.0,
+          "recall": 0.9231,
+          "f1": 0.96,
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.0769
+        },
+        "Oil - Refined Products": {
+          "tp": 15,
+          "fp": 0,
+          "fn": 1,
+          "precision": 1.0,
+          "recall": 0.9375,
+          "f1": 0.9677,
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.0625
+        },
+        "Natural Gas": {
+          "tp": 9,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.0
+        },
+        "LNG": {
+          "tp": 6,
+          "fp": 0,
+          "fn": 1,
+          "precision": 1.0,
+          "recall": 0.8571,
+          "f1": 0.9231,
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.1429
+        },
+        "Coal": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.0
+        },
+        "Electric Power": {
+          "tp": 1,
+          "fp": 1,
+          "fn": 0,
+          "precision": 0.5,
+          "recall": 1.0,
+          "f1": 0.6667,
+          "false_positive_rate": 0.0084,
+          "false_negative_rate": 0.0
+        },
+        "Energy Transition": {
+          "tp": 11,
+          "fp": 0,
+          "fn": 1,
+          "precision": 1.0,
+          "recall": 0.9167,
+          "f1": 0.9565,
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.0833
+        },
+        "Chemicals": {
+          "tp": 22,
+          "fp": 0,
+          "fn": 1,
+          "precision": 1.0,
+          "recall": 0.9565,
+          "f1": 0.9778,
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.0435
+        },
+        "Metals": {
+          "tp": 8,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.0
+        },
+        "Agriculture": {
+          "tp": 4,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.0
+        },
+        "Fertilizers": {
+          "tp": 10,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.0
+        },
+        "Shipping": {
+          "tp": 14,
+          "fp": 2,
+          "fn": 0,
+          "precision": 0.875,
+          "recall": 1.0,
+          "f1": 0.9333,
+          "false_positive_rate": 0.0189,
+          "false_negative_rate": 0.0
+        },
+        "General": {
+          "tp": 17,
+          "fp": 0,
+          "fn": 1,
+          "precision": 1.0,
+          "recall": 0.9444,
+          "f1": 0.9714,
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.0556
+        }
+      },
+      "macro_f1": 0.9505,
+      "general_rate": 0.1417,
+      "general_precision": 1.0,
+      "general_recall": 0.9444,
+      "two_category_rate": 0.1083,
+      "multilabel_article_recall": 0.8125,
+      "second_category_recall": 0.875,
+      "truncated_before_cap_rate": 0.0167,
+      "primary_order_accuracy_when_set_correct": 0.7692,
+      "used_classifier_rate": 0.7417,
+      "no_match_rate": 0.0,
+      "error_bucket_counts": {
+        "missed_valid_second_category": 3,
+        "single_label_misclassification": 2,
+        "should_have_been_general": 1
+      },
+      "error_examples": {
+        "missed_valid_second_category": [
+          {
+            "id": "508c0228c336d855",
+            "source": "ICIS",
+            "feed": "ICIS",
+            "title": "Plant status: S Korea's S-Oil commences No 2 RFCC planned turnaround on 6 Mar",
+            "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: S-Oil Corp Location: Onsan, South Korea Product: Propylene Capacity (tonnes/year): 705,000 Event start: 6 March 2026 Event finish: H2 April 2026...",
+            "predicted_categories": [
+              "Oil - Refined Products"
+            ],
+            "expected_categories": [
+              "Chemicals",
+              "Oil - Refined Products"
+            ],
+            "predicted_primary": "Oil - Refined Products",
+            "expected_primary": "Chemicals"
+          },
+          {
+            "id": "b50d5317dfcfcdd8",
+            "source": "Argus Media",
+            "feed": "Argus NewsAll",
+            "title": "LNG share of alternative bunker fuel market grows",
+            "description": "",
+            "predicted_categories": [
+              "Shipping"
+            ],
+            "expected_categories": [
+              "Shipping",
+              "LNG"
+            ],
+            "predicted_primary": "Shipping",
+            "expected_primary": "Shipping"
+          },
+          {
+            "id": "3d560e6728ef2d38",
+            "source": "S&P Global",
+            "feed": "S&P Shipping",
+            "title": "FACTBOX: Fresh attacks hit shipping, energy operations in the Middle East",
+            "description": "Oil producers and exporters in the Middle East continue to face severe restrictions on shipping through the Strait of Hormuz and ongoing attacks on energy infrastructure. &quot;The scale and duration of a price spike will depend on how much oil is kept off the market â&#x20ac;&#x201d; and for how long â&#x20ac;&#x201d; due to danger in the strait, higher shipping insurance rates or damaged Gulf infrastructure,&quot; analysts at S&amp;P Global",
+            "predicted_categories": [
+              "Shipping"
+            ],
+            "expected_categories": [
+              "Shipping",
+              "Oil - Crude"
+            ],
+            "predicted_primary": "Shipping",
+            "expected_primary": "Shipping"
+          }
+        ],
+        "should_have_been_general": [
+          {
+            "id": "33ea2c48daada702",
+            "source": "S&P Global",
+            "feed": "S&P Shipping",
+            "title": "INTERACTIVE: Energy facilities and shipping hit in the Middle East war",
+            "description": "Iran has targeted energy infrastructure across the Middle East in response to attacks by the US and Israel launched Feb. 28. Here are some of the key oil, gas, shipping and chemicals assets affected by direct strikes and elevated security risks.",
+            "predicted_categories": [
+              "Shipping"
+            ],
+            "expected_categories": [
+              "General"
+            ],
+            "predicted_primary": "Shipping",
+            "expected_primary": "General"
+          }
+        ],
+        "single_label_misclassification": [
+          {
+            "id": "7eff3c5f030a6633",
+            "source": "S&P Global",
+            "feed": "S&P Electric Power",
+            "title": "FEATURE: Hyperscalers continue to dominate corporate renewables contracts in 2025",
+            "description": "Hyperscalers continued to significantly outpace other industries in clean energy investments in 2025, but are expanding beyond traditional renewable energy contracts as the artificial intelligence race drives rising electricity demand. In 2025, Amazon.com Inc., Google LLC, Meta Platforms Inc. and Microsoft Corp. signed a combined 16,777 megawatts of corporate renewables contracts, roughly 80% of",
+            "predicted_categories": [
+              "Electric Power"
+            ],
+            "expected_categories": [
+              "Energy Transition"
+            ],
+            "predicted_primary": "Electric Power",
+            "expected_primary": "Energy Transition"
+          },
+          {
+            "id": "ecef4fd6d876d80b",
+            "source": "S&P Global",
+            "feed": "S&P Shipping",
+            "title": "Asia&apos;s LSFO cash premium at record high as Middle East war triggers supply woes",
+            "description": "Asia&apos;s low sulfur fuel oil cash differentials surged to an all-time high as the US-Israel war with Iran cut Middle East supplies, prompted Asian refiners to trim production, and led countries to hold back near-term exports to safeguard their oil reserves. Platts assessed the cash differential for Singapore marine fuel 0.5%S cargo over the Mean of Platts Singapore marine fuel 0.5%S assessment at a",
+            "predicted_categories": [
+              "Shipping"
+            ],
+            "expected_categories": [
+              "Oil - Refined Products"
+            ],
+            "predicted_primary": "Shipping",
+            "expected_primary": "Oil - Refined Products"
+          }
+        ]
+      },
+      "token_contract_stats": {
+        "token_total": 120,
+        "canonical_passthrough": 120,
+        "legacy_rewrites": 0,
+        "unknown_token_total": 0,
+        "unknown_tokens": {},
+        "rewrite_counts": {}
+      }
+    },
+    "normalize_current_payload": {
+      "predictor": "normalize_article_categories",
+      "mode": "title_description",
+      "sample_size": 120,
+      "exact_match_accuracy": 0.8667,
+      "primary_category_accuracy": 0.9083,
+      "per_category": {
+        "Oil - Crude": {
+          "tp": 13,
+          "fp": 4,
+          "fn": 0,
+          "precision": 0.7647,
+          "recall": 1.0,
+          "f1": 0.8667,
+          "false_positive_rate": 0.0374,
+          "false_negative_rate": 0.0
+        },
+        "Oil - Refined Products": {
+          "tp": 14,
+          "fp": 5,
+          "fn": 2,
+          "precision": 0.7368,
+          "recall": 0.875,
+          "f1": 0.8,
+          "false_positive_rate": 0.0481,
+          "false_negative_rate": 0.125
+        },
+        "Natural Gas": {
+          "tp": 9,
+          "fp": 1,
+          "fn": 0,
+          "precision": 0.9,
+          "recall": 1.0,
+          "f1": 0.9474,
+          "false_positive_rate": 0.009,
+          "false_negative_rate": 0.0
+        },
+        "LNG": {
+          "tp": 7,
+          "fp": 2,
+          "fn": 0,
+          "precision": 0.7778,
+          "recall": 1.0,
+          "f1": 0.875,
+          "false_positive_rate": 0.0177,
+          "false_negative_rate": 0.0
+        },
+        "Coal": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.0
+        },
+        "Electric Power": {
+          "tp": 1,
+          "fp": 1,
+          "fn": 0,
+          "precision": 0.5,
+          "recall": 1.0,
+          "f1": 0.6667,
+          "false_positive_rate": 0.0084,
+          "false_negative_rate": 0.0
+        },
+        "Energy Transition": {
+          "tp": 11,
+          "fp": 2,
+          "fn": 1,
+          "precision": 0.8462,
+          "recall": 0.9167,
+          "f1": 0.88,
+          "false_positive_rate": 0.0185,
+          "false_negative_rate": 0.0833
+        },
+        "Chemicals": {
+          "tp": 22,
+          "fp": 0,
+          "fn": 1,
+          "precision": 1.0,
+          "recall": 0.9565,
+          "f1": 0.9778,
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.0435
+        },
+        "Metals": {
+          "tp": 8,
+          "fp": 1,
+          "fn": 0,
+          "precision": 0.8889,
+          "recall": 1.0,
+          "f1": 0.9412,
+          "false_positive_rate": 0.0089,
+          "false_negative_rate": 0.0
+        },
+        "Agriculture": {
+          "tp": 4,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "false_positive_rate": 0.0,
+          "false_negative_rate": 0.0
+        },
+        "Fertilizers": {
+          "tp": 10,
+          "fp": 1,
+          "fn": 0,
+          "precision": 0.9091,
+          "recall": 1.0,
+          "f1": 0.9524,
+          "false_positive_rate": 0.0091,
+          "false_negative_rate": 0.0
+        },
+        "Shipping": {
+          "tp": 13,
+          "fp": 1,
+          "fn": 1,
+          "precision": 0.9286,
+          "recall": 0.9286,
+          "f1": 0.9286,
+          "false_positive_rate": 0.0094,
+          "false_negative_rate": 0.0714
+        },
+        "General": {
+          "tp": 14,
+          "fp": 1,
+          "fn": 4,
+          "precision": 0.9333,
+          "recall": 0.7778,
+          "f1": 0.8485,
+          "false_positive_rate": 0.0098,
+          "false_negative_rate": 0.2222
+        }
+      },
+      "macro_f1": 0.8988,
+      "general_rate": 0.125,
+      "general_precision": 0.9333,
+      "general_recall": 0.7778,
+      "two_category_rate": 0.2167,
+      "multilabel_article_recall": 0.875,
+      "second_category_recall": 0.9375,
+      "truncated_before_cap_rate": 0.0,
+      "primary_order_accuracy_when_set_correct": 0.7857,
+      "used_classifier_rate": 0.5,
+      "no_match_rate": 0.0,
+      "error_bucket_counts": {
+        "other_misclassification": 8,
+        "should_have_been_general": 4,
+        "missed_valid_second_category": 1,
+        "single_label_misclassification": 1,
+        "wrong_dual_label_combination": 1,
+        "wrongly_classified_as_general": 1
+      },
+      "error_examples": {
+        "other_misclassification": [
+          {
+            "id": "cdcb6e1c4991f3b2",
+            "source": "ICIS",
+            "feed": "ICIS",
+            "title": "Africa PP prices up on closure of Strait of Hormuz and damage to oil and LNG operations",
+            "description": "LONDON (ICIS)--Africa polypropylene (PP) homopolymer raffia values gained 12.7-14.5% and PP copolymer prices rose by 12.8-15.8% this week in Africa. The markets saw first offers and deals concluded...",
+            "predicted_categories": [
+              "Chemicals",
+              "LNG"
+            ],
+            "expected_categories": [
+              "Chemicals"
+            ],
+            "predicted_primary": "Chemicals",
+            "expected_primary": "Chemicals"
+          },
+          {
+            "id": "d7b59668e1ddcffa",
+            "source": "ICIS",
+            "feed": "ICIS",
+            "title": "INSIGHT: Global BD prices jump on Middle East conflict; feedstock shortages in Asia",
+            "description": "LONDON (ICIS)--Global butadiene (BD) spot prices are climbing in March due to fallout from the US-Iran conflict. Rising crude prices and naphtha shortages led to a reduction in cracker operating...",
+            "predicted_categories": [
+              "Oil - Crude",
+              "Oil - Refined Products"
+            ],
+            "expected_categories": [
+              "Chemicals"
+            ],
+            "predicted_primary": "Oil - Crude",
+            "expected_primary": "Chemicals"
+          },
+          {
+            "id": "af40498813635bd3",
+            "source": "ICIS",
+            "feed": "ICIS",
+            "title": "Plant status: Saudi's Petro Rabigh cuts phenol/acetone plant runs on feedstock shortage",
+            "description": "SHANGHAI (ICIS)--Here is a plant status report: Name: Rabigh Refining and Petrochemical Company (Petro Rabigh) Location: Rabigh, Saudi Arabia Product: Phenol, acetone Capacity (tonnes/year): 270,000...",
+            "predicted_categories": [
+              "Chemicals",
+              "Oil - Refined Products"
+            ],
+            "expected_categories": [
+              "Chemicals"
+            ],
+            "predicted_primary": "Chemicals",
+            "expected_primary": "Chemicals"
+          },
+          {
+            "id": "033ac4f691a2d950",
+            "source": "ICIS",
+            "feed": "ICIS",
+            "title": "QatarEnergy declares force majeure after halting LNG production",
+            "description": "LONDON (ICIS)--QatarEnergy, one of the world’s largest liquefied natural gas (LNG) producers, has declared force majeure on shipments following a halt to production on Monday after attacks on the...",
+            "predicted_categories": [
+              "LNG",
+              "Natural Gas"
+            ],
+            "expected_categories": [
+              "LNG"
+            ],
+            "predicted_primary": "LNG",
+            "expected_primary": "LNG"
+          },
+          {
+            "id": "54bf6f3d0b387a71",
+            "source": "S&P Global",
+            "feed": "S&P Agriculture",
+            "title": "MONTHLY ASIA CHICKEN WRAP: Japanese boneless leg shortage deepens in Feb as Brazil, Thailand falter",
+            "description": "North Asia chicken leg prices climbed further by 6% in February, driven by Japan&apos;s low boneless leg inventories and tight supply from exporters. CFR North Asia chicken leg prices climbed from $2,945/metric ton Jan. 27 to $3,125/mt Feb. 27, reflecting a 6% month-over-month increase, according to price assessment data from Platts, part of S&amp;P Global Energy. Japan: Persistent shortages, high prices",
+            "predicted_categories": [
+              "Agriculture",
+              "Energy Transition"
+            ],
+            "expected_categories": [
+              "Agriculture"
+            ],
+            "predicted_primary": "Agriculture",
+            "expected_primary": "Agriculture"
+          },
+          {
+            "id": "7eff3c5f030a6633",
+            "source": "S&P Global",
+            "feed": "S&P Electric Power",
+            "title": "FEATURE: Hyperscalers continue to dominate corporate renewables contracts in 2025",
+            "description": "Hyperscalers continued to significantly outpace other industries in clean energy investments in 2025, but are expanding beyond traditional renewable energy contracts as the artificial intelligence race drives rising electricity demand. In 2025, Amazon.com Inc., Google LLC, Meta Platforms Inc. and Microsoft Corp. signed a combined 16,777 megawatts of corporate renewables contracts, roughly 80% of",
+            "predicted_categories": [
+              "Energy Transition",
+              "Electric Power"
+            ],
+            "expected_categories": [
+              "Energy Transition"
+            ],
+            "predicted_primary": "Energy Transition",
+            "expected_primary": "Energy Transition"
+          },
+          {
+            "id": "082f420d91259504",
+            "source": "S&P Global",
+            "feed": "S&P Chemicals",
+            "title": "Asian butadiene rises $45/mt to 11-month high amid Middle East conflict",
+            "description": "Asian butadiene market rose $45/mt day over day March 3, driven by tight supply concerns from the Middle East as well as Asian regions amid intensifying US-Iran conflict, market sources said. Platts, part of S&amp;P Global Energy, assessed CFR China butadiene price up $45/mt day over day at $1,320/mt March 3, the highest since April 7, 2025, when the price was assessed at $1,340/mt. Platts assessed",
+            "predicted_categories": [
+              "Chemicals",
+              "Energy Transition"
+            ],
+            "expected_categories": [
+              "Chemicals"
+            ],
+            "predicted_primary": "Chemicals",
+            "expected_primary": "Chemicals"
+          },
+          {
+            "id": "2479c67d082ad3cf",
+            "source": "S&P Global",
+            "feed": "S&P Blog",
+            "title": "ET Highlights: Ammonia producers lead blue hydrogen, US states sue over hydrogen hubs, Japanâ&#x20ac;&#x2122;s NEDO backs Kawasakiâ&#x20ac;&#x2122;s liquid hydrogen projects",
+            "description": "Energy transition highlights: Our editors and analysts bring you the biggest stories from the industry this week, from renewables to storage to carbon prices.",
+            "predicted_categories": [
+              "Energy Transition",
+              "Metals"
+            ],
+            "expected_categories": [
+              "Energy Transition"
+            ],
+            "predicted_primary": "Energy Transition",
+            "expected_primary": "Energy Transition"
+          }
+        ],
+        "missed_valid_second_category": [
+          {
+            "id": "508c0228c336d855",
+            "source": "ICIS",
+            "feed": "ICIS",
+            "title": "Plant status: S Korea's S-Oil commences No 2 RFCC planned turnaround on 6 Mar",
+            "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: S-Oil Corp Location: Onsan, South Korea Product: Propylene Capacity (tonnes/year): 705,000 Event start: 6 March 2026 Event finish: H2 April 2026...",
+            "predicted_categories": [
+              "Chemicals"
+            ],
+            "expected_categories": [
+              "Chemicals",
+              "Oil - Refined Products"
+            ],
+            "predicted_primary": "Chemicals",
+            "expected_primary": "Chemicals"
+          }
+        ],
+        "should_have_been_general": [
+          {
+            "id": "0c5c4887665494b8",
+            "source": "ICIS",
+            "feed": "ICIS",
+            "title": "EVENING SNAPSHOT - Asia Markets Summary",
+            "description": "CRUDE: Lower after US President Donald Trump indicated Iran war may end soon and oil sanctions may ease. NAPHTHA (CFR JAPAN): Down tracking crude losses. BENZENE (FOB KOREA): Down alongside crude....",
+            "predicted_categories": [
+              "Oil - Crude",
+              "Oil - Refined Products"
+            ],
+            "expected_categories": [
+              "General"
+            ],
+            "predicted_primary": "Oil - Crude",
+            "expected_primary": "General"
+          },
+          {
+            "id": "019efd6b1cbdc8da",
+            "source": "ICIS",
+            "feed": "ICIS",
+            "title": "EVENING SNAPSHOT - Europe Markets Summary",
+            "description": "CRUDE: Up but lower than this morning's peak. Iran appoints Ali Khamenei's son as new supreme leader. NAPHTHA: Rallies on crude despite falling NWE crack spread. BENZENE: Pares gains on market...",
+            "predicted_categories": [
+              "Oil - Crude",
+              "Oil - Refined Products"
+            ],
+            "expected_categories": [
+              "General"
+            ],
+            "predicted_primary": "Oil - Crude",
+            "expected_primary": "General"
+          },
+          {
+            "id": "33ea2c48daada702",
+            "source": "S&P Global",
+            "feed": "S&P Shipping",
+            "title": "INTERACTIVE: Energy facilities and shipping hit in the Middle East war",
+            "description": "Iran has targeted energy infrastructure across the Middle East in response to attacks by the US and Israel launched Feb. 28. Here are some of the key oil, gas, shipping and chemicals assets affected by direct strikes and elevated security risks.",
+            "predicted_categories": [
+              "LNG",
+              "Shipping"
+            ],
+            "expected_categories": [
+              "General"
+            ],
+            "predicted_primary": "LNG",
+            "expected_primary": "General"
+          },
+          {
+            "id": "6e40965d59e5829d",
+            "source": "Fastmarkets",
+            "feed": "Fastmarkets",
+            "title": "Forging uncertainty: How miners can turn market turbulence into strategic advantage",
+            "description": "<p>Navigating market volatility with data-driven strategies for resilient mining operations </p> <p>The post <a href=\"https://www.fastmarkets.com/insights/mining-risk-management/\">Forging uncertainty: How miners can turn market turbulence into strategic advantage</a> appeared first on <a href=\"https://www.fastmarkets.com\">Fastmarkets</a>.</p>",
+            "predicted_categories": [
+              "Fertilizers"
+            ],
+            "expected_categories": [
+              "General"
+            ],
+            "predicted_primary": "Fertilizers",
+            "expected_primary": "General"
+          }
+        ],
+        "single_label_misclassification": [
+          {
+            "id": "6faa63774014902b",
+            "source": "Argus Media",
+            "feed": "Argus NewsAll",
+            "title": "India's crude throughput remains stable in January",
+            "description": "",
+            "predicted_categories": [
+              "Oil - Crude"
+            ],
+            "expected_categories": [
+              "Oil - Refined Products"
+            ],
+            "predicted_primary": "Oil - Crude",
+            "expected_primary": "Oil - Refined Products"
+          }
+        ],
+        "wrong_dual_label_combination": [
+          {
+            "id": "3d560e6728ef2d38",
+            "source": "S&P Global",
+            "feed": "S&P Shipping",
+            "title": "FACTBOX: Fresh attacks hit shipping, energy operations in the Middle East",
+            "description": "Oil producers and exporters in the Middle East continue to face severe restrictions on shipping through the Strait of Hormuz and ongoing attacks on energy infrastructure. &quot;The scale and duration of a price spike will depend on how much oil is kept off the market â&#x20ac;&#x201d; and for how long â&#x20ac;&#x201d; due to danger in the strait, higher shipping insurance rates or damaged Gulf infrastructure,&quot; analysts at S&amp;P Global",
+            "predicted_categories": [
+              "Oil - Crude",
+              "Oil - Refined Products"
+            ],
+            "expected_categories": [
+              "Shipping",
+              "Oil - Crude"
+            ],
+            "predicted_primary": "Oil - Crude",
+            "expected_primary": "Shipping"
+          }
+        ],
+        "wrongly_classified_as_general": [
+          {
+            "id": "f0f3188ac10f0fdf",
+            "source": "S&P Global",
+            "feed": "S&P Energy Transition",
+            "title": "SE Asia REDD+ prices rise on supply crunch as new issuances loom large",
+            "description": "Persistent supply bottlenecks in Southeast Asia&apos;s REDD+ market have left buyers awaiting long-anticipated fresh issuances that could ease prices in the medium term, several traders told Platts, part of S&amp;P Global Energy. Primarily, the scarcity of credits from Indonesia&apos;s Katingan Mentaya, widely considered the region&apos;s flagship nature-based avoidance project, has raised prices for all existing",
+            "predicted_categories": [
+              "General"
+            ],
+            "expected_categories": [
+              "Energy Transition"
+            ],
+            "predicted_primary": "General",
+            "expected_primary": "Energy Transition"
+          }
+        ]
+      },
+      "token_contract_stats": {
+        "token_total": 153,
+        "canonical_passthrough": 153,
+        "legacy_rewrites": 0,
+        "unknown_token_total": 0,
+        "unknown_tokens": {},
+        "rewrite_counts": {}
+      }
+    }
+  },
+  "breakdowns": {
+    "classify_title_description_by_source": {
+      "Argus Media": {
+        "sample_size": 48,
+        "exact_match_accuracy": 0.9792,
+        "primary_category_accuracy": 1.0,
+        "macro_f1": 0.7538,
+        "general_rate": 0.1667,
+        "two_category_rate": 0.0
+      },
+      "ICIS": {
+        "sample_size": 40,
+        "exact_match_accuracy": 0.975,
+        "primary_category_accuracy": 0.9,
+        "macro_f1": 0.8444,
+        "general_rate": 0.15,
+        "two_category_rate": 0.175
+      },
+      "S&P Global": {
+        "sample_size": 26,
+        "exact_match_accuracy": 0.8846,
+        "primary_category_accuracy": 0.8846,
+        "macro_f1": 0.6761,
+        "general_rate": 0.1538,
+        "two_category_rate": 0.1923
+      },
+      "Fastmarkets": {
+        "sample_size": 6,
+        "exact_match_accuracy": 1.0,
+        "primary_category_accuracy": 1.0,
+        "macro_f1": 0.2308,
+        "general_rate": 0.5,
+        "two_category_rate": 0.1667
+      }
+    },
+    "classify_title_description_by_primary_family": {
+      "chemicals_fertilizers": {
+        "sample_size": 32,
+        "exact_match_accuracy": 0.9688,
+        "primary_category_accuracy": 0.9375,
+        "macro_f1": 0.3829,
+        "general_rate": 0.0,
+        "two_category_rate": 0.0938
+      },
+      "oil": {
+        "sample_size": 25,
+        "exact_match_accuracy": 1.0,
+        "primary_category_accuracy": 0.96,
+        "macro_f1": 0.3077,
+        "general_rate": 0.0,
+        "two_category_rate": 0.12
+      },
+      "general_non_specific": {
+        "sample_size": 18,
+        "exact_match_accuracy": 1.0,
+        "primary_category_accuracy": 1.0,
+        "macro_f1": 0.0769,
+        "general_rate": 1.0,
+        "two_category_rate": 0.0
+      },
+      "gas_lng": {
+        "sample_size": 12,
+        "exact_match_accuracy": 1.0,
+        "primary_category_accuracy": 1.0,
+        "macro_f1": 0.2308,
+        "general_rate": 0.0,
+        "two_category_rate": 0.0833
+      },
+      "energy_transition": {
+        "sample_size": 11,
+        "exact_match_accuracy": 0.9091,
+        "primary_category_accuracy": 0.9091,
+        "macro_f1": 0.2271,
+        "general_rate": 0.0909,
+        "two_category_rate": 0.1818
+      },
+      "shipping": {
+        "sample_size": 10,
+        "exact_match_accuracy": 0.7,
+        "primary_category_accuracy": 0.7,
+        "macro_f1": 0.1709,
+        "general_rate": 0.2,
+        "two_category_rate": 0.2
+      },
+      "metals": {
+        "sample_size": 8,
+        "exact_match_accuracy": 1.0,
+        "primary_category_accuracy": 1.0,
+        "macro_f1": 0.1538,
+        "general_rate": 0.0,
+        "two_category_rate": 0.125
+      },
+      "agriculture": {
+        "sample_size": 3,
+        "exact_match_accuracy": 1.0,
+        "primary_category_accuracy": 1.0,
+        "macro_f1": 0.0769,
+        "general_rate": 0.0,
+        "two_category_rate": 0.0
+      },
+      "power": {
+        "sample_size": 1,
+        "exact_match_accuracy": 1.0,
+        "primary_category_accuracy": 1.0,
+        "macro_f1": 0.1538,
+        "general_rate": 0.0,
+        "two_category_rate": 1.0
+      }
+    },
+    "normalize_source_payload_by_source": {
+      "Argus Media": {
+        "sample_size": 48,
+        "exact_match_accuracy": 0.9792,
+        "primary_category_accuracy": 1.0,
+        "macro_f1": 0.7538,
+        "general_rate": 0.1667,
+        "two_category_rate": 0.0
+      },
+      "ICIS": {
+        "sample_size": 40,
+        "exact_match_accuracy": 0.975,
+        "primary_category_accuracy": 0.9,
+        "macro_f1": 0.8444,
+        "general_rate": 0.15,
+        "two_category_rate": 0.175
+      },
+      "S&P Global": {
+        "sample_size": 26,
+        "exact_match_accuracy": 0.8462,
+        "primary_category_accuracy": 0.8846,
+        "macro_f1": 0.6486,
+        "general_rate": 0.0,
+        "two_category_rate": 0.1923
+      },
+      "Fastmarkets": {
+        "sample_size": 6,
+        "exact_match_accuracy": 1.0,
+        "primary_category_accuracy": 1.0,
+        "macro_f1": 0.2308,
+        "general_rate": 0.5,
+        "two_category_rate": 0.1667
+      }
+    }
+  }
+}

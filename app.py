@@ -97,10 +97,13 @@ def build_sentiment_config(payload: dict[str, Any], enabled: bool) -> SentimentC
     return SentimentConfig(
         enabled=enabled,
         model_name=str(payload.get("sentiment_model", "ProsusAI/finbert")),
+        model_backend=str(payload.get("sentiment_backend", "finbert")),
         batch_size=to_int(payload.get("sentiment_batch_size"), 32),
         max_length=to_int(payload.get("sentiment_max_length"), 128),
         use_description=to_bool(payload.get("sentiment_use_description"), False),
         force_rescore=to_bool(payload.get("sentiment_force_rescore"), False),
+        pipeline_mode=str(payload.get("sentiment_pipeline_mode", "commodity_v1")),
+        context_mode=str(payload.get("sentiment_context_mode", "auto")),
     )
 
 
@@ -171,10 +174,13 @@ def run_sentiment_job(payload: dict[str, Any]) -> dict[str, Any]:
     config = SentimentConfig(
         enabled=True,
         model_name=str(payload.get("model", "ProsusAI/finbert")),
+        model_backend=str(payload.get("backend", "finbert")),
         batch_size=to_int(payload.get("batch_size"), 32),
         max_length=to_int(payload.get("max_length"), 128),
         use_description=to_bool(payload.get("use_description"), False),
         force_rescore=to_bool(payload.get("force_rescore"), False),
+        pipeline_mode=str(payload.get("pipeline_mode", "commodity_v1")),
+        context_mode=str(payload.get("context_mode", "auto")),
     )
 
     scorer = FinBERTScorer(config)
