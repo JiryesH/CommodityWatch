@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-10T05:51:00.513643+00:00",
-    "total_articles": 552,
+    "last_updated": "2026-03-10T06:58:04.373174+00:00",
+    "total_articles": 559,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,76 @@
     }
   },
   "articles": [
+    {
+      "id": "3cc942d81b690347",
+      "title": "Plant status: China's Sinochem Quanzhou EVA unit shifts to LDPE after restart",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: Sinochem Quanzhou Petrochemical Location: Quanzhou, Fujian, China Product: Ethylene vinyl acetate (EVA) Capacity (tonnes/year): 100,000 Event...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187194/plant-status-china-s-sinochem-quanzhou-eva-unit-shifts-to-ldpe-after-restart",
+      "published": "2026-03-10T06:39:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "713471840e9c435f",
+      "title": "Plant status: China's Yisheng declares FM on PET supply",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: Yisheng Petrochemical Location: Yangpu and Dalian, China Product: Polyethylene terephthalate (PET) Capacity (tonnes/year): 5.45 million in total...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187193/plant-status-china-s-yisheng-declares-fm-on-pet-supply",
+      "published": "2026-03-10T06:38:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "dc495a6270c0fbd0",
+      "title": "Saudi Aramco Q4 net income falls on higher operating costs, lower revenue",
+      "description": "SINGAPORE (ICIS)--Saudi Aramco’s net income in the fourth quarter of 2025 fell 20.5% year on year to Saudi riyal (SR) 66.6 billion ($17.7 billion) amid higher operating costs and lower revenue. in...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187192/saudi-aramco-q4-net-income-falls-on-higher-operating-costs-lower-revenue",
+      "published": "2026-03-10T06:25:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "38e77402ca79d805",
+      "title": "INSIGHT: Asia C2 market focus shifts to feedstock risk on Hormuz disruptions",
+      "description": "SINGAPORE (ICIS)--Disruptions to vessel traffic through the Strait of Hormuz are rapidly elevating supply risks across Asia’s ethylene (C2) value chain. As geopolitical tensions in the Middle East...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187189/insight-asia-c2-market-focus-shifts-to-feedstock-risk-on-hormuz-disruptions",
+      "published": "2026-03-10T06:19:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "de5b0754c80ad265",
+      "title": "Plant status: Taiwan's CPDC announces force majeure on ACN supply",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: China Petrochemical Development Corp (CPDC) Location: Kaohsiung, Taiwan Product: Acrylonitrile (ACN) Capacity (tonnes/year): 240,000 (two units)...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187186/plant-status-taiwan-s-cpdc-announces-force-majeure-on-acn-supply",
+      "published": "2026-03-10T05:57:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "510e4381264df78a",
+      "title": "Solvent MX S Korea export prices hike on isomer MX gains, strained supply",
+      "description": "SINGAPORE (ICIS)--Solvent grade mixed xylenes (MX) export prices from South Korea saw significant upswing in the week ended 6 March, playing catch-up with its isomer grade counterpart on the back of...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187185/solvent-mx-s-korea-export-prices-hike-on-isomer-mx-gains-strained-supply",
+      "published": "2026-03-10T05:49:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "bb0f11d9f5750abe",
+      "title": "Japan's ENEOS Corp declares force majeure on PX amid Mideast crisis",
+      "description": "SINGAPORE (ICIS)--Japan's ENEOS Crop has declared force majeure on paraxylene (PX) amid the regional conflict in the Middle East, sources familiar with the matter said on Tuesday. According to ICIS...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187184/japan-s-eneos-corp-declares-force-majeure-on-px-amid-mideast-crisis",
+      "published": "2026-03-10T05:48:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
     {
       "id": "ed1cad62940ff1f6",
       "title": "Taiwan’s FPCC declares force majeure amid feedstock supply disruption",
@@ -568,7 +638,7 @@
       "published": "2026-03-09T16:35:58+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Refined Products",
-      "category": "Oil - Refined Products"
+      "category": "Oil - Refined Products, Agriculture"
     },
     {
       "id": "f64051bba2ff539c",
@@ -738,7 +808,7 @@
       "published": "2026-03-09T14:14:47+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Fertilizers, Chemicals"
+      "category": "Fertilizers"
     },
     {
       "id": "4a493add758888af",
@@ -847,8 +917,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/electric-power/030926-european-wind-output-hits-20-week-low-solar-rebounds-amid-early-spring-spell",
       "published": "2026-03-09T11:58:30+00:00",
       "source": "S&P Global",
-      "feed": "S&P Natural Gas",
-      "category": "Natural Gas, Coal"
+      "feed": "S&P Coal",
+      "category": "Coal"
     },
     {
       "id": "fdcd00f4e178ffbc",
@@ -1948,7 +2018,7 @@
       "published": "2026-03-06T17:02:13+00:00",
       "source": "S&P Global",
       "feed": "S&P Metals",
-      "category": "Metals, Agriculture, LNG"
+      "category": "Metals, LNG"
     },
     {
       "id": "778db0fcc1ad63da",
@@ -8401,8 +8471,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/lng/030326-china-faces-lng-supply-test-amid-middle-east-crisis-spot-price-increase",
       "published": "2026-03-03T12:17:47+00:00",
       "source": "S&P Global",
-      "feed": "S&P LNG",
-      "category": "LNG",
+      "feed": "S&P Natural Gas",
+      "category": "Natural Gas, LNG",
       "sentiment": {
         "label": "negative",
         "confidence": 0.9168105125427246,
@@ -8683,7 +8753,7 @@
       "published": "2026-03-02T22:21:00+00:00",
       "source": "S&P Global",
       "feed": "S&P Electric Power",
-      "category": "Electric Power, Coal, LNG",
+      "category": "Electric Power, Natural Gas, Coal, LNG",
       "sentiment": {
         "label": "positive",
         "confidence": 0.6730107069015503,
