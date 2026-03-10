@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-10T07:48:12.096004+00:00",
-    "total_articles": 563,
+    "last_updated": "2026-03-10T08:52:14.401937+00:00",
+    "total_articles": 569,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,66 @@
     }
   },
   "articles": [
+    {
+      "id": "b2b0e7ccde368d98",
+      "title": "Local China OX prices decline on overnight upstream losses",
+      "description": "SINGAPORE (ICIS)--China domestic orthoxylene (OX) prices were adjusted down by Chinese yuan (CNY) 3,000/tonne day on day to CNY7,700/tonne EXWH (ex-warehouse), following the overnight losses in the...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187210/local-china-ox-prices-decline-on-overnight-upstream-losses",
+      "published": "2026-03-10T08:46:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "dd11c35ff5478cff",
+      "title": "Singapore's Aster declares force majeure on PO",
+      "description": "SINGAPORE (ICIS)--Singapore's Aster Chemicals and Energy declared on 6 March a force majeure on propylene oxide (PO), according to market sources. This decision was made due to disruptions in the...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187209/singapore-s-aster-declares-force-majeure-on-po",
+      "published": "2026-03-10T08:23:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "995a47e2f169cfdb",
+      "title": "Plant status: China’s Tianjin LG Bohai declares force majeure on production",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: Tianjin LG Bohai Location: Tianjin and Dagu, China Products: Caustic soda, ethylene dichloride (EDC), vinyl chloride monomer (VCM), polyvinyl...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187208/plant-status-china-s-tianjin-lg-bohai-declares-force-majeure-on-production",
+      "published": "2026-03-10T08:15:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "9fd228a2e5537566",
+      "title": "China crude imports increase a sharp 15.8% in Jan-Feb",
+      "description": "SINGAPORE (ICIS)--China’s crude imports in the first two months rose by a high 15.8% on year to 96.9 million tonnes, official data showed on Tuesday. Imports in February stood at 48 million tonnes,...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187207/china-crude-imports-increase-a-sharp-15-8-in-jan-feb",
+      "published": "2026-03-10T08:08:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Crude"
+    },
+    {
+      "id": "bd83989b2bd537c6",
+      "title": "Asia LAB producers face operating uncertainties as upstream, feedstock supply in doubt",
+      "description": "SINGAPORE (ICIS)--Producers of linear alkylbenzene (LAB) face operational uncertainty at their plants as supply of fuel and feedstock normal paraffins (NP) have become strained after the start of the...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187206/asia-lab-producers-face-operating-uncertainties-as-upstream-feedstock-supply-in-doubt",
+      "published": "2026-03-10T07:56:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "85888b74ece064ec",
+      "title": "SE Asia PE domestic prices see sharp spikes due to import shortages",
+      "description": "SINGAPORE (ICIS)--Domestic prices of locally-available polyethylene (PE) cargoes across southeast Asia have jumped sharply due to the absence of any imported material since the start of the latest...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187202/se-asia-pe-domestic-prices-see-sharp-spikes-due-to-import-shortages",
+      "published": "2026-03-10T07:48:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
     {
       "id": "e2e41a186e0431c0",
       "title": "Plant status: China's Tianjin Bohai delays PDH restart",
@@ -358,7 +418,7 @@
       "published": "2026-03-09T22:40:48+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude"
+      "category": "Oil - Crude, Shipping"
     },
     {
       "id": "4d967d1c1b6bc617",
@@ -378,7 +438,7 @@
       "published": "2026-03-09T21:43:52+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude, Oil - Refined Products"
+      "category": "Oil - Crude, Oil - Refined Products, Shipping"
     },
     {
       "id": "8ac017423f6e3fa7",
@@ -418,7 +478,7 @@
       "published": "2026-03-09T20:29:24+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude, LNG"
+      "category": "Oil - Crude, Natural Gas, LNG"
     },
     {
       "id": "6536792234b0fbed",
@@ -438,7 +498,7 @@
       "published": "2026-03-09T20:02:02+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Refined Products",
-      "category": "Oil - Refined Products"
+      "category": "Oil - Refined Products, Shipping"
     },
     {
       "id": "61911b57395fc387",
@@ -488,7 +548,7 @@
       "published": "2026-03-09T18:35:11+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude"
+      "category": "Oil - Crude, Shipping"
     },
     {
       "id": "152515d02b054c89",
@@ -957,8 +1017,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/electric-power/030926-european-wind-output-hits-20-week-low-solar-rebounds-amid-early-spring-spell",
       "published": "2026-03-09T11:58:30+00:00",
       "source": "S&P Global",
-      "feed": "S&P Coal",
-      "category": "Coal"
+      "feed": "S&P Natural Gas",
+      "category": "Natural Gas, Coal"
     },
     {
       "id": "fdcd00f4e178ffbc",
@@ -5238,8 +5298,8 @@
       "link": "https://www.spglobal.com/energy/zh/news-research/latest-news/lng/030526-south-korea-sees-no-lng-shortages-despite-middle-east-supply-disruptions",
       "published": "2026-03-05T03:19:40+00:00",
       "source": "S&P Global",
-      "feed": "S&P Natural Gas",
-      "category": "Natural Gas, LNG"
+      "feed": "S&P LNG",
+      "category": "LNG"
     },
     {
       "id": "ef233c9ee0faa783",
@@ -8464,8 +8524,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/energy-transition/030326-energy-rally-pushes-eu-carbon-higher-as-clean-dark-spread-turns-positive",
       "published": "2026-03-03T13:59:13+00:00",
       "source": "S&P Global",
-      "feed": "S&P Natural Gas",
-      "category": "Natural Gas, Coal",
+      "feed": "S&P Coal",
+      "category": "Coal",
       "sentiment": {
         "label": "positive",
         "confidence": 0.9157130122184753,
