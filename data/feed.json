@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-10T12:02:26.572221+00:00",
-    "total_articles": 590,
+    "last_updated": "2026-03-10T13:38:51.395598+00:00",
+    "total_articles": 601,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,116 @@
     }
   },
   "articles": [
+    {
+      "id": "7f8662cf4652fe5a",
+      "title": "GAS ALERT: Norwegian gas discovery to boost Poland’s supply from first half of 2026",
+      "description": "LONDON (ICIS)---Poland’s Orlen upstream subsidiary, ORLEN Upstream Norway, and its partners have discovered a new gas deposit in the North Sea, the company announced on 10 March. This will boost...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187305/gas-alert-norwegian-gas-discovery-to-boost-poland-s-supply-from-first-half-of-2026",
+      "published": "2026-03-10T13:22:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "41122c2035259318",
+      "title": "US small business optimism drops in February, capital spending falls",
+      "description": "HOUSTON (ICIS)--US small business optimism fell slightly in February but business owners felt less uncertain about the near-term outlook, the National Federation of Independent Business (NFIB) said...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187303/us-small-business-optimism-drops-in-february-capital-spending-falls",
+      "published": "2026-03-10T13:12:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "589460d6cba90d7e",
+      "title": "Plant status: India’s Deepak Phenolics issue force majeure notice on feedstock supply",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: Deepak Phenolics Location: Dahej, Gujarat, India Product: Phenol, acetone Capacity (tonnes/year): 330,000 (phenol); 203,000 (acetone) Event...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187302/plant-status-india-s-deepak-phenolics-issue-force-majeure-notice-on-feedstock-supply",
+      "published": "2026-03-10T12:55:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "3423d6902eb6fd89",
+      "title": "Plant status: China’s ZPC slightly cuts cracker operating rate",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: Zhejiang Petroleum and Chemical (ZPC) Location: Zhejiang, China Product: Ethylene, propylene Capacity (tonnes/year): 1.6 million*3 for ethylene,...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187301/plant-status-china-s-zpc-slightly-cuts-cracker-operating-rate",
+      "published": "2026-03-10T12:51:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals, Oil - Crude"
+    },
+    {
+      "id": "5a71bf73ec224fae",
+      "title": "Plant status: Saudi Arabia's Sadara declares FM on ethanolamines at Al Jubail",
+      "description": "LONDON (ICIS)--Here is a plant status report: Name: Sadara Chemical Company Location: Al Jubail, Saudi Arabia Product: Ethanolamines Capacity (tonnes/year): 180,000 Event start: 9 March Event finish:...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187298/plant-status-saudi-arabia-s-sadara-declares-fm-on-ethanolamines-at-al-jubail",
+      "published": "2026-03-10T12:36:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "502a3236361e1546",
+      "title": "Plant status: Saudi Arabia's Sadara declares FM on glycol ethers at Al Jubail",
+      "description": "LONDON (ICIS)--Here is a plant status report: Name: Sadara Chemical Company Location: Al Jubail, Saudi Arabia Product: Glycol ethers Capacity (tonnes/year): 200,000 Event start: 9 March Event finish:...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187297/plant-status-saudi-arabia-s-sadara-declares-fm-on-glycol-ethers-at-al-jubail",
+      "published": "2026-03-10T12:34:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "291d9a8863853879",
+      "title": "China’s Sinopec decreases benzene list prices by CNY3,000/tonne",
+      "description": "SINGAPORE (ICIS)--China’s Sinopec has decreased its domestic benzene list prices by yuan (CNY) 3000/tonne, a company source said on 10 March. Its benzene prices were adjusted to CNY8,000/tonne...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187296/china-s-sinopec-decreases-benzene-list-prices-by-cny3-000-tonne",
+      "published": "2026-03-10T12:29:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "568adc222a823918",
+      "title": "Sinopec reduces east China phenol offers by CNY1,000/tonne",
+      "description": "SINGAPORE (ICIS)--Major Chinese producer Sinopec decreased its domestic offers for phenol in east China on 10 March, a company source said on Tuesday. The company has decreased its offers for phenol...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187295/sinopec-reduces-east-china-phenol-offers-by-cny1-000-tonne",
+      "published": "2026-03-10T12:20:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "150c2dcb904da5ba",
+      "title": "Brazil MAP imports collapse as Russia tightens grip on market",
+      "description": "LONDON (ICIS)--Imports of monoammonium phosphate (MAP) into Brazil collapsed to just 334,647 tonnes in January-February 2026, down from 449,116 tonnes a year earlier. Liquidity was considered to be a...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187294/brazil-map-imports-collapse-as-russia-tightens-grip-on-market",
+      "published": "2026-03-10T12:17:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Fertilizers"
+    },
+    {
+      "id": "b3064bf14e390491",
+      "title": "INSIGHT: Supply tightness fears rock Asia MEG market; downstream output cuts to eventually cap gains",
+      "description": "SINGAPORE (ICIS)--Asia’s monoethylene glycol (MEG) market is expected to stay firm as the stronger crude and the escalating supply tightness may fuel the rally, but the gains are likely to be...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187293/insight-supply-tightness-fears-rock-asia-meg-market-downstream-output-cuts-to-eventually-cap-gains",
+      "published": "2026-03-10T12:10:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals, Oil - Crude"
+    },
+    {
+      "id": "e30f0606aa93bf41",
+      "title": "Europe PP price spike on sudden global shortage, more upwards pressure to come",
+      "description": "LONDON (ICIS)--European polypropylene (PP) spot prices have spiked as the market reacted to the conflict in the Middle East. Triple-digit hikes were pushed through with PP being particularly...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187292/europe-pp-price-spike-on-sudden-global-shortage-more-upwards-pressure-to-come",
+      "published": "2026-03-10T12:01:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
     {
       "id": "c1c3c687d33ec06b",
       "title": "NOON SNAPSHOT - Europe Markets Summary",
@@ -678,7 +788,7 @@
       "published": "2026-03-09T20:29:24+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude, Natural Gas, LNG"
+      "category": "Oil - Crude, LNG"
     },
     {
       "id": "6536792234b0fbed",
@@ -948,7 +1058,7 @@
       "published": "2026-03-09T16:35:58+00:00",
       "source": "S&P Global",
       "feed": "S&P Agriculture",
-      "category": "Agriculture, Energy Transition"
+      "category": "Agriculture"
     },
     {
       "id": "f64051bba2ff539c",
@@ -1118,7 +1228,7 @@
       "published": "2026-03-09T14:14:47+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Fertilizers, Chemicals, Energy Transition"
+      "category": "Fertilizers, Chemicals"
     },
     {
       "id": "4a493add758888af",
@@ -1158,7 +1268,7 @@
       "published": "2026-03-09T13:11:32+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Fertilizers, Chemicals, Energy Transition"
+      "category": "Fertilizers, Chemicals"
     },
     {
       "id": "0566513676c8b2dc",
@@ -1227,8 +1337,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/electric-power/030926-european-wind-output-hits-20-week-low-solar-rebounds-amid-early-spring-spell",
       "published": "2026-03-09T11:58:30+00:00",
       "source": "S&P Global",
-      "feed": "S&P Natural Gas",
-      "category": "Natural Gas, Coal, Energy Transition"
+      "feed": "S&P Coal",
+      "category": "Coal"
     },
     {
       "id": "fdcd00f4e178ffbc",
@@ -1307,8 +1417,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/lng/030926-european-gas-price-jumps-near-eur70mwh-as-iran-war-enters-second-week",
       "published": "2026-03-09T10:34:45+00:00",
       "source": "S&P Global",
-      "feed": "S&P Natural Gas",
-      "category": "Natural Gas, LNG"
+      "feed": "S&P LNG",
+      "category": "LNG"
     },
     {
       "id": "7ed04c5f08336d52",
@@ -2958,7 +3068,7 @@
       "published": "2026-03-06T11:17:35+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Fertilizers, Chemicals"
+      "category": "Fertilizers, Chemicals, Energy Transition"
     },
     {
       "id": "112bdbf3edd24ccc",
@@ -2998,7 +3108,7 @@
       "published": "2026-03-06T10:53:21+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Fertilizers, Agriculture"
+      "category": "Fertilizers, Agriculture, Energy Transition"
     },
     {
       "id": "09318d6783e6566e",
@@ -3778,7 +3888,7 @@
       "published": "2026-03-05T16:38:44+00:00",
       "source": "S&P Global",
       "feed": "S&P Natural Gas",
-      "category": "Natural Gas, Agriculture"
+      "category": "Natural Gas, Agriculture, Energy Transition"
     },
     {
       "id": "6982d15a27f92a20",
@@ -4028,7 +4138,7 @@
       "published": "2026-03-05T13:17:22+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Fertilizers"
+      "category": "Fertilizers, Energy Transition"
     },
     {
       "id": "42fbbfabd42fbf9e",
@@ -8734,8 +8844,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/energy-transition/030326-energy-rally-pushes-eu-carbon-higher-as-clean-dark-spread-turns-positive",
       "published": "2026-03-03T13:59:13+00:00",
       "source": "S&P Global",
-      "feed": "S&P Coal",
-      "category": "Coal",
+      "feed": "S&P Natural Gas",
+      "category": "Natural Gas, Coal",
       "sentiment": {
         "label": "positive",
         "confidence": 0.9157130122184753,
@@ -8781,8 +8891,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/lng/030326-china-faces-lng-supply-test-amid-middle-east-crisis-spot-price-increase",
       "published": "2026-03-03T12:17:47+00:00",
       "source": "S&P Global",
-      "feed": "S&P LNG",
-      "category": "LNG",
+      "feed": "S&P Natural Gas",
+      "category": "Natural Gas, LNG",
       "sentiment": {
         "label": "negative",
         "confidence": 0.9168105125427246,
@@ -9063,7 +9173,7 @@
       "published": "2026-03-02T22:21:00+00:00",
       "source": "S&P Global",
       "feed": "S&P Electric Power",
-      "category": "Electric Power, Coal",
+      "category": "Electric Power, Natural Gas, Coal",
       "sentiment": {
         "label": "positive",
         "confidence": 0.6730107069015503,
