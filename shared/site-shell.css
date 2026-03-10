@@ -1,0 +1,78 @@
+.site-nav-main {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  min-width: 0;
+}
+
+.site-tabs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.site-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.site-tab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 30px;
+  padding: 0 12px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  color: rgba(255, 255, 255, 0.72);
+  background: rgba(255, 255, 255, 0.04);
+  text-decoration: none;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  transition: border-color 150ms ease, background-color 150ms ease, color 150ms ease;
+}
+
+.site-tab:hover {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.site-tab[aria-current="page"] {
+  color: var(--color-primary, #0f1923);
+  border-color: transparent;
+  background: var(--color-amber, #e8a020);
+}
+
+.site-tab:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.72);
+  outline-offset: 2px;
+}
+
+@media (max-width: 880px) {
+  .site-nav-main {
+    gap: 14px;
+  }
+
+  .site-tab {
+    padding: 0 10px;
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 640px) {
+  .site-nav-main {
+    width: 100%;
+    min-width: 0;
+    gap: 12px;
+  }
+
+  .site-tabs {
+    flex: 1 1 auto;
+  }
+}

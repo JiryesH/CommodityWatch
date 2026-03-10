@@ -10,8 +10,6 @@ This module can be:
 from __future__ import annotations
 
 import argparse
-import hashlib
-import json
 import logging
 import re
 import time
@@ -19,6 +17,13 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable, Optional
+
+from enrichment_utils import build_enrichment_text, enrichment_text_hash
+from feed_io import (
+    ensure_feed_metadata,
+    load_feed_json as load_feed,
+    save_feed_json as save_feed,
+)
 
 try:
     import spacy
@@ -43,18 +48,11 @@ class NERConfig:
 
 
 def build_ner_text(article: dict[str, Any], use_description: bool) -> str:
-    title = " ".join((article.get("title") or "").split())
-    if not use_description:
-        return title
-
-    description = " ".join((article.get("description") or "").split())
-    if not description:
-        return title
-    return f"{title}. {description}"
+    return build_enrichment_text(article, use_description)
 
 
 def ner_text_hash(text: str) -> str:
-    return hashlib.sha256(text.encode("utf-8")).hexdigest()
+    return enrichment_text_hash(text)
 
 
 def unique_in_order(items: list[tuple[str, str]]) -> list[tuple[str, str]]:
@@ -321,17 +319,6 @@ def log_ner_rollup(
         log.info("  %s: %s", country, count)
 
 
-def load_feed(path: Path) -> dict[str, Any]:
-    with path.open("r", encoding="utf-8") as f:
-        return json.load(f)
-
-
-def save_feed(path: Path, data: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
-
-
 def main() -> None:
     parser = argparse.ArgumentParser(
         description="Run incremental spaCy NER extraction on feed JSON."
@@ -379,10 +366,7 @@ def main() -> None:
     extractor = SpacyNERExtractor(config)
     stats = extractor.extract_incremental(articles)
 
-    metadata = data.get("metadata")
-    if not isinstance(metadata, dict):
-        metadata = {}
-        data["metadata"] = metadata
+    metadata = ensure_feed_metadata(data)
     metadata["ner"] = stats
 
     save_feed(Path(args.output), data)

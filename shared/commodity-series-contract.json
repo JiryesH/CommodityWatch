@@ -1,0 +1,53 @@
+{
+  "series": {
+    "crude_oil_brent": { "group": "energy", "supports_related_headlines": true },
+    "crude_oil_wti": { "group": "energy", "supports_related_headlines": true },
+    "crude_oil_dubai": { "group": "energy", "supports_related_headlines": true },
+    "natural_gas_henry_hub": { "group": "energy", "supports_related_headlines": true },
+    "natural_gas_ttf": { "group": "energy", "supports_related_headlines": true },
+    "lng_asia_japan_import_proxy": { "group": "energy", "supports_related_headlines": true },
+    "thermal_coal_newcastle": { "group": "energy", "supports_related_headlines": true },
+    "rbob_gasoline_spot_proxy": { "group": "energy", "supports_related_headlines": true },
+    "heating_oil_no2_nyharbor": { "group": "energy", "supports_related_headlines": true },
+    "rubber_rss3_monthly": { "group": "energy", "supports_related_headlines": true },
+    "gold_worldbank_monthly": { "group": "metals", "supports_related_headlines": true },
+    "silver_worldbank_monthly": { "group": "metals", "supports_related_headlines": true },
+    "copper_worldbank_monthly": { "group": "metals", "supports_related_headlines": true },
+    "aluminium_worldbank_monthly": { "group": "metals", "supports_related_headlines": true },
+    "platinum_worldbank_monthly": { "group": "metals", "supports_related_headlines": true },
+    "palladium_imf_monthly": { "group": "metals", "supports_related_headlines": true },
+    "nickel_worldbank_monthly": { "group": "metals", "supports_related_headlines": true },
+    "zinc_worldbank_monthly": { "group": "metals", "supports_related_headlines": true },
+    "lead_worldbank_monthly": { "group": "metals", "supports_related_headlines": false },
+    "iron_ore_62pct_china_monthly": { "group": "metals", "supports_related_headlines": true },
+    "lithium_metal_imf_monthly": { "group": "metals", "supports_related_headlines": true },
+    "cobalt_imf_monthly": { "group": "metals", "supports_related_headlines": true },
+    "wheat_global_monthly_proxy": { "group": "agri", "supports_related_headlines": true },
+    "corn_global_monthly_proxy": { "group": "agri", "supports_related_headlines": true },
+    "soybeans_global_monthly_proxy": { "group": "agri", "supports_related_headlines": true },
+    "soybean_oil_global_monthly_proxy": { "group": "agri", "supports_related_headlines": true },
+    "palm_oil_monthly_proxy": { "group": "agri", "supports_related_headlines": true },
+    "rice_thai_5pct_monthly": { "group": "agri", "supports_related_headlines": true },
+    "lumber_monthly_ppi_proxy": { "group": "agri", "supports_related_headlines": true },
+    "coffee_arabica_monthly_proxy": { "group": "agri", "supports_related_headlines": true },
+    "coffee_robusta_monthly_proxy": { "group": "agri", "supports_related_headlines": true },
+    "sugar_no11_world_monthly_proxy": { "group": "agri", "supports_related_headlines": true },
+    "cotton_monthly_proxy": { "group": "agri", "supports_related_headlines": true },
+    "cocoa_monthly_proxy": { "group": "agri", "supports_related_headlines": true }
+  },
+  "grouped_cards": {
+    "crude_benchmarks": [
+      "crude_oil_brent",
+      "crude_oil_wti",
+      "crude_oil_dubai"
+    ],
+    "natural_gas_benchmarks": [
+      "natural_gas_henry_hub",
+      "natural_gas_ttf"
+    ],
+    "coffee_benchmarks": [
+      "coffee_arabica_monthly_proxy",
+      "coffee_robusta_monthly_proxy"
+    ]
+  }
+}

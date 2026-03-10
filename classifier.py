@@ -44,7 +44,7 @@ import json
 import logging
 import re
 from pathlib import Path
-from typing import Optional
+from typing import Any, Optional
 
 logger = logging.getLogger("classifier")
 
@@ -54,6 +54,39 @@ logger = logging.getLogger("classifier")
 
 TAXONOMY_PATH = Path(__file__).parent / "commodity_taxonomy.json"
 DEFAULT_FEED_PATH = Path(__file__).parent / "data" / "feed.json"
+
+# Canonical category contract (V1 scope)
+CANONICAL_CATEGORIES: tuple[str, ...] = (
+    "Oil - Crude",
+    "Oil - Refined Products",
+    "Natural Gas",
+    "LNG",
+    "Coal",
+    "Electric Power",
+    "Energy Transition",
+    "Chemicals",
+    "Metals",
+    "Agriculture",
+    "Fertilizers",
+    "Shipping",
+    "General",
+)
+
+MAX_CATEGORIES_PER_ARTICLE = 2
+
+LEGACY_CATEGORY_MAP: dict[str, str] = {
+    "oil": "Oil - Crude",
+    "blog": "General",
+    "crude": "Oil - Crude",
+    "refined products": "Oil - Refined Products",
+    "power": "Electric Power",
+    "fertilizer": "Fertilizers",
+    "fertiliser": "Fertilizers",
+}
+
+_CANONICAL_BY_LOWER = {cat.lower(): cat for cat in CANONICAL_CATEGORIES}
+_CATEGORY_PRIORITY = {cat: idx for idx, cat in enumerate(CANONICAL_CATEGORIES)}
+_CATEGORY_SPLIT_RE = re.compile(r"\s*(?:,|;|\|)\s*")
 
 # ---------------------------------------------------------------------------
 # Taxonomy → frontend filter mapping
@@ -191,6 +224,168 @@ _KeywordIndex = list[tuple[re.Pattern[str], str, int]]
 _KEYWORD_INDEX: Optional[_KeywordIndex] = None
 
 
+def iter_raw_category_tokens(raw_categories: Any) -> list[str]:
+    """Flatten category input into stripped string tokens."""
+    if raw_categories is None:
+        return []
+    if isinstance(raw_categories, str):
+        text = raw_categories.strip()
+        if not text:
+            return []
+        return [p.strip() for p in _CATEGORY_SPLIT_RE.split(text) if p.strip()]
+    if isinstance(raw_categories, (list, tuple, set)):
+        out: list[str] = []
+        for item in raw_categories:
+            out.extend(iter_raw_category_tokens(item))
+        return out
+    return iter_raw_category_tokens(str(raw_categories))
+
+
+# Backward-compatible alias for internal callers.
+_iter_raw_category_tokens = iter_raw_category_tokens
+
+
+def normalize_category_token(raw_category: str) -> Optional[str]:
+    """Map a raw category token to a canonical category label."""
+    token = " ".join(str(raw_category or "").split())
+    if not token:
+        return None
+
+    canonical = _CANONICAL_BY_LOWER.get(token.lower())
+    if canonical:
+        return canonical
+
+    return LEGACY_CATEGORY_MAP.get(token.lower())
+
+
+def normalize_categories(
+    raw_categories: Any,
+    *,
+    max_categories: Optional[int] = MAX_CATEGORIES_PER_ARTICLE,
+) -> tuple[list[str], list[str]]:
+    """
+    Normalize raw category input into canonical category labels.
+
+    Returns:
+        (normalized_categories, unknown_tokens)
+    """
+    normalized: list[str] = []
+    unknown: list[str] = []
+
+    for token in _iter_raw_category_tokens(raw_categories):
+        canonical = normalize_category_token(token)
+        if canonical is None:
+            if token not in unknown:
+                unknown.append(token)
+            continue
+        if canonical not in normalized:
+            normalized.append(canonical)
+
+    normalized.sort(key=lambda cat: _CATEGORY_PRIORITY[cat])
+    if max_categories and max_categories > 0:
+        normalized = normalized[:max_categories]
+
+    return normalized, unknown
+
+
+def merge_category_lists(
+    *raw_category_sets: Any,
+    max_categories: Optional[int] = MAX_CATEGORIES_PER_ARTICLE,
+) -> list[str]:
+    """Merge category sources into one canonical, deduplicated list."""
+    merged: list[str] = []
+    for raw in raw_category_sets:
+        normalized, _ = normalize_categories(raw, max_categories=None)
+        for cat in normalized:
+            if cat not in merged:
+                merged.append(cat)
+
+    merged.sort(key=lambda cat: _CATEGORY_PRIORITY[cat])
+    if max_categories and max_categories > 0:
+        merged = merged[:max_categories]
+    return merged
+
+
+def classify_categories(
+    title: str,
+    description: str = "",
+    *,
+    max_categories: Optional[int] = MAX_CATEGORIES_PER_ARTICLE,
+) -> list[str]:
+    """Classify article text into canonical category labels."""
+    text = f"{title} {description}"
+    index = _get_keyword_index()
+    seen_cats: set[str] = set()
+
+    for pattern, category, _ in index:
+        if category in seen_cats:
+            continue
+        if pattern.search(text):
+            seen_cats.add(category)
+            if len(seen_cats) >= len(CANONICAL_CATEGORIES):
+                break
+
+    matched = sorted(seen_cats, key=lambda cat: _CATEGORY_PRIORITY[cat])
+    if max_categories and max_categories > 0:
+        matched = matched[:max_categories]
+    return matched
+
+
+def normalize_article_categories(
+    article: dict[str, Any],
+    *,
+    classify_fallback: bool = True,
+    max_categories: Optional[int] = MAX_CATEGORIES_PER_ARTICLE,
+) -> dict[str, Any]:
+    """
+    Enforce canonical category fields on an article.
+
+    - Reads `categories` and legacy `category`
+    - Rewrites legacy labels to canonical labels
+    - Optionally classifies by title/description if no canonical category exists
+    - Writes deterministic `categories` array and `category` primary label
+    """
+    merged = merge_category_lists(
+        article.get("categories"),
+        article.get("category"),
+        max_categories=None,
+    )
+
+    _, unknown_from_categories = normalize_categories(article.get("categories"), max_categories=None)
+    _, unknown_from_category = normalize_categories(article.get("category"), max_categories=None)
+    unknown_tokens = list(dict.fromkeys(unknown_from_categories + unknown_from_category))
+
+    # "General" is a placeholder, not an informative classification.
+    # Keep trying classifier fallback when categories are empty or only General.
+    has_informative_category = any(cat != "General" for cat in merged)
+
+    used_classifier = False
+    if classify_fallback and not has_informative_category:
+        classified = classify_categories(
+            article.get("title", ""),
+            article.get("description", ""),
+            max_categories=max_categories,
+        )
+        if classified:
+            merged = classified
+            used_classifier = True
+
+    if max_categories and max_categories > 0:
+        merged = merged[:max_categories]
+
+    if not merged:
+        merged = ["General"]
+
+    article["categories"] = merged
+    article["category"] = merged[0]
+
+    return {
+        "categories": merged,
+        "unknown_tokens": unknown_tokens,
+        "used_classifier": used_classifier,
+    }
+
+
 def build_keyword_index() -> _KeywordIndex:
     """
     Build and return the keyword classification index.
@@ -303,20 +498,7 @@ def classify_category(title: str, description: str = "") -> Optional[str]:
     Returns:
         A category string, a comma-joined pair of categories, or None.
     """
-    text = f"{title} {description}"
-    index = _get_keyword_index()
-    matched: list[str] = []
-    seen_cats: set[str] = set()
-
-    for pattern, category, _ in index:
-        if category in seen_cats:
-            continue
-        if pattern.search(text):
-            seen_cats.add(category)
-            matched.append(category)
-            if len(matched) >= 2:
-                break
-
+    matched = classify_categories(title, description, max_categories=MAX_CATEGORIES_PER_ARTICLE)
     return ", ".join(matched) if matched else None
 
 
@@ -352,23 +534,42 @@ def _reclassify_feed(
     for article in articles:
         source: str = article.get("source", "")
         title: str = article.get("title", "")
-        description: str = article.get("description", "")
-        old_cat: str = article.get("category", "General")
+        old_categories = merge_category_lists(
+            article.get("categories"),
+            article.get("category"),
+            max_categories=MAX_CATEGORIES_PER_ARTICLE,
+        )
+        if not old_categories:
+            old_categories = ["General"]
 
         # Decide whether to reclassify this article
         if not all_sources and source != "ICIS":
             skipped += 1
             continue
 
-        classified = classify_category(title, description)
-        new_cat = classified if classified else "General"
+        classified = classify_categories(
+            title,
+            article.get("description", ""),
+            max_categories=MAX_CATEGORIES_PER_ARTICLE,
+        )
+        new_categories = classified if classified else ["General"]
+        new_primary = new_categories[0]
 
-        if new_cat != old_cat:
+        if new_categories != old_categories:
             if not dry_run:
-                article["category"] = new_cat
+                article["categories"] = new_categories
+                article["category"] = new_primary
             changed += 1
-            logger.debug(f'  "{title[:60]}" → {old_cat!r} ⟶ {new_cat!r}')
+            logger.debug(
+                '  "%s" → %r ⟶ %r',
+                title[:60],
+                old_categories,
+                new_categories,
+            )
         else:
+            if not dry_run:
+                article["categories"] = old_categories
+                article["category"] = old_categories[0]
             unchanged += 1
 
     total_processed = changed + unchanged

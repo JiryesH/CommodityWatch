@@ -1,7 +1,8 @@
 """
 Commodity News Feed - RSS Scraper
 ==================================
-Scrapes and normalizes RSS feeds from ICIS and S&P Global Commodity Insights,
+Scrapes and normalizes RSS feeds from ICIS, S&P Global Commodity Insights,
+and Fastmarkets,
 joining them into a single unified JSON data file for the frontend to consume.
 
 Usage:
@@ -15,8 +16,9 @@ Usage:
     python app.py --host 127.0.0.1 --port 8081  # Control API for job orchestration
 
 Requirements:
-    pip install feedparser requests curl_cffi
+    pip install feedparser requests curl_cffi beautifulsoup4
     (curl_cffi is needed to bypass Akamai bot detection on S&P Global feeds)
+    (beautifulsoup4 is needed for Argus HTML parsing)
     Optional: pip install cloudscraper  (additional fallback)
     Optional: pip install transformers torch  (for sentiment_finbert.py / --sentiment)
     Optional: pip install spacy pycountry  (for ner_spacy.py / --ner)
@@ -25,11 +27,10 @@ Requirements:
 
 import feedparser
 import requests
-import json
-import hashlib
 import os
 import sys
 import time
+import re
 import argparse
 import logging
 import threading
@@ -41,7 +42,20 @@ from datetime import datetime, timezone
 from email.utils import parsedate_to_datetime
 from pathlib import Path
 from typing import Optional, Any
-from classifier import classify_category
+from article_processing import (
+    deduplicate_articles as shared_deduplicate_articles,
+    merge_duplicate_articles as shared_merge_duplicate_articles,
+    normalize_article_published as shared_normalize_article_published,
+    sort_articles_by_date as shared_sort_articles_by_date,
+    to_utc_iso,
+)
+from classifier import (
+    CANONICAL_CATEGORIES,
+    MAX_CATEGORIES_PER_ARTICLE,
+    normalize_article_categories,
+)
+from dedupe_utils import canonical_article_dedupe_key, canonical_article_id
+from feed_io import load_feed_payload, save_feed_payload
 
 # Sentiment and NER are optional — they require heavy ML deps (torch, spaCy)
 # that are not installed in lightweight environments (e.g. GitHub Actions).
@@ -107,6 +121,14 @@ except ImportError:
     HAS_CLOUDSCRAPER = False
     _scraper_session = None
 
+# Try to import Argus scraper (BeautifulSoup dependency may be optional in some environments)
+try:
+    import argus_scraper
+    HAS_ARGUS = True
+except ImportError:
+    argus_scraper = None  # type: ignore[assignment]
+    HAS_ARGUS = False
+
 # ---------------------------------------------------------------------------
 # Configuration
 # ---------------------------------------------------------------------------
@@ -116,6 +138,13 @@ FEEDS = {
     "ICIS": {
         "url": "https://www.icis.com/rss/publicrss/",
         "source": "ICIS",
+        "category": "General",
+        "timezone_hint": "UTC",
+    },
+    # Fastmarkets
+    "Fastmarkets": {
+        "url": "https://www.fastmarkets.com/insights/category/commodity/feed",
+        "source": "Fastmarkets",
         "category": "General",
     },
     # S&P Global Energy
@@ -199,6 +228,16 @@ REQUEST_HEADERS = {
 
 REQUEST_TIMEOUT = 15  # seconds
 
+DEFAULT_ARGUS_MAX_PAGES = (
+    int(getattr(argus_scraper, "DEFAULT_MAX_PAGES", 1)) if HAS_ARGUS else 1
+)
+DEFAULT_ARGUS_TIMEOUT = (
+    int(getattr(argus_scraper, "REQUEST_TIMEOUT", 20)) if HAS_ARGUS else 20
+)
+DEFAULT_ARGUS_PAUSE = 0.2
+DEFAULT_ARGUS_INCLUDE_LEAD = False
+ARGUS_FEED_NAME = str(getattr(argus_scraper, "FEED_NAME", "Argus NewsAll"))
+
 # Output
 DATA_DIR = Path(__file__).parent / "data"
 OUTPUT_FILE = DATA_DIR / "feed.json"
@@ -218,58 +257,114 @@ logger = logging.getLogger("rss_scraper")
 # Date parsing
 # ---------------------------------------------------------------------------
 
-def parse_pub_date(raw: str) -> Optional[str]:
-    """
-    Parse various RSS date formats into a consistent ISO 8601 string (UTC).
+def _normalize_named_utc_suffix(raw: str) -> str:
+    if raw.endswith(" GMT") or raw.endswith(" UTC"):
+        return f"{raw.rsplit(' ', 1)[0]} +0000"
+    return raw
 
-    Handles:
-      - Full RFC 822:  "Wed, 04 Mar 2026 09:37:00 GMT"
-      - ICIS quirk:    "Wed, 04 Mar 2026 09:37"  (no seconds, no timezone)
-      - feedparser's time.struct_time via published_parsed
+
+def _normalize_iso_utc_suffix(raw: str) -> str:
+    if raw.endswith("Z"):
+        return f"{raw[:-1]}+00:00"
+    return raw
+
+
+def _raw_has_explicit_timezone(raw: str) -> bool:
+    token = (raw or "").strip().upper()
+    if not token:
+        return False
+    if token.endswith("Z") or token.endswith(" UTC") or token.endswith(" GMT"):
+        return True
+    return re.search(r"[+-]\d{2}:?\d{2}\b", token) is not None
+
+
+def parse_pub_date(
+    raw: str,
+    default_tz: Optional[timezone] = None,
+) -> Optional[datetime]:
+    """
+    Parse timestamp text into a timezone-aware UTC datetime.
+    Returns None if no explicit timezone/offset is available.
     """
     if not raw:
         return None
 
     raw = raw.strip()
+    if not raw:
+        return None
 
-    # Try standard RFC 822 first
+    raw = _normalize_named_utc_suffix(raw)
+
     try:
         dt = parsedate_to_datetime(raw)
-        # If no timezone info, assume UTC
-        if dt.tzinfo is None:
-            dt = dt.replace(tzinfo=timezone.utc)
-        return dt.astimezone(timezone.utc).isoformat()
+        if dt.tzinfo is None and default_tz is not None:
+            dt = dt.replace(tzinfo=default_tz)
+        if dt.tzinfo is not None:
+            return dt.astimezone(timezone.utc)
     except Exception:
         pass
 
-    # ICIS format: "Wed, 04 Mar 2026 09:37" (no seconds)
+    iso_candidate = _normalize_iso_utc_suffix(raw)
+    try:
+        dt = datetime.fromisoformat(iso_candidate)
+        if dt.tzinfo is None and default_tz is not None:
+            dt = dt.replace(tzinfo=default_tz)
+        if dt.tzinfo is not None:
+            return dt.astimezone(timezone.utc)
+    except ValueError:
+        pass
+
     for fmt in [
-        "%a, %d %b %Y %H:%M",
-        "%a, %d %b %Y %H:%M:%S",
-        "%Y-%m-%dT%H:%M:%S",
-        "%Y-%m-%dT%H:%M:%SZ",
-        "%Y-%m-%d %H:%M:%S",
+        "%a, %d %b %Y %H:%M:%S %z",
+        "%a, %d %b %Y %H:%M %z",
+        "%d %b %Y %H:%M %z",
+        "%Y-%m-%dT%H:%M:%S%z",
+        "%Y-%m-%dT%H:%M:%S.%f%z",
+        "%Y-%m-%d %H:%M:%S%z",
+        "%Y-%m-%d %H:%M:%S %z",
     ]:
         try:
-            dt = datetime.strptime(raw, fmt)
-            dt = dt.replace(tzinfo=timezone.utc)
-            return dt.isoformat()
+            dt = datetime.strptime(iso_candidate, fmt)
+            if dt.tzinfo is not None:
+                return dt.astimezone(timezone.utc)
         except ValueError:
             continue
 
-    logger.warning(f"Could not parse date: '{raw}'")
-    return raw  # Return raw string as fallback
+    if default_tz is not None:
+        for fmt in [
+            "%a, %d %b %Y %H:%M:%S",
+            "%a, %d %b %Y %H:%M",
+            "%Y-%m-%dT%H:%M:%S",
+            "%Y-%m-%d %H:%M:%S",
+        ]:
+            try:
+                dt = datetime.strptime(iso_candidate, fmt).replace(tzinfo=default_tz)
+                return dt.astimezone(timezone.utc)
+            except ValueError:
+                continue
+
+    return None
 
 
-def parse_pub_date_from_struct(struct_time) -> Optional[str]:
-    """Convert feedparser's struct_time to ISO 8601 UTC string."""
+def parse_pub_date_from_struct(struct_time) -> Optional[datetime]:
+    """Convert feedparser's struct_time to a timezone-aware UTC datetime."""
     if struct_time is None:
         return None
     try:
-        dt = datetime(*struct_time[:6], tzinfo=timezone.utc)
-        return dt.isoformat()
+        return datetime(*struct_time[:6], tzinfo=timezone.utc)
     except Exception:
         return None
+
+
+def normalize_article_published(article: dict[str, Any]) -> None:
+    shared_normalize_article_published(article, parse_pub_date=parse_pub_date)
+
+
+def feed_default_timezone(feed_config: dict[str, Any]) -> Optional[timezone]:
+    hint = str(feed_config.get("timezone_hint", "") or "").strip().upper()
+    if hint == "UTC":
+        return timezone.utc
+    return None
 
 # ---------------------------------------------------------------------------
 # Article ID generation
@@ -277,11 +372,10 @@ def parse_pub_date_from_struct(struct_time) -> Optional[str]:
 
 def generate_article_id(link: str, title: str) -> str:
     """
-    Generate a stable, unique ID for deduplication.
-    Uses the article link as primary key; falls back to title hash.
+    Generate a stable ID from the canonical dedupe key.
+    Primary key is normalized URL; title is fallback when link is absent.
     """
-    key = link if link else title
-    return hashlib.sha256(key.encode("utf-8")).hexdigest()[:16]
+    return canonical_article_id(link, title)
 
 # ---------------------------------------------------------------------------
 # HTTP fetching — multi-tier strategy for Akamai-protected sites
@@ -395,18 +489,24 @@ def fetch_url(url: str, feed_name: str) -> Optional[str]:
 # Feed fetching & parsing
 # ---------------------------------------------------------------------------
 
-def parse_feed_entries(xml_text: str, feed_name: str, feed_config: dict) -> list[dict]:
-    """Parse RSS XML into a list of normalized article dicts."""
+def parse_feed_entries(
+    xml_text: str,
+    feed_name: str,
+    feed_config: dict,
+) -> tuple[list[dict], int]:
+    """Parse RSS XML into normalized article dicts and timestamp parse errors."""
     source = feed_config["source"]
     category = feed_config["category"]
+    default_tz = feed_default_timezone(feed_config)
 
     feed = feedparser.parse(xml_text)
 
     if feed.bozo and not feed.entries:
         logger.warning(f"[{feed_name}] Feed parse error: {feed.bozo_exception}")
-        return []
+        return [], 0
 
     articles = []
+    parse_errors = 0
     for entry in feed.entries:
         title = " ".join(entry.get("title", "").split())
         link = entry.get("link", "").strip()
@@ -414,35 +514,38 @@ def parse_feed_entries(xml_text: str, feed_name: str, feed_config: dict) -> list
             entry.get("summary", entry.get("description", "")).split()
         )
 
-        raw_date = entry.get("published", entry.get("updated", ""))
-        iso_date = parse_pub_date(raw_date)
-        if iso_date is None or iso_date == raw_date:
-            iso_date = parse_pub_date_from_struct(
-                entry.get("published_parsed", entry.get("updated_parsed"))
-            ) or iso_date
+        raw_date = str(entry.get("published", entry.get("updated", "")) or "").strip()
+        published_dt = parse_pub_date(raw_date, default_tz=default_tz)
+        if published_dt is None:
+            struct_time = entry.get("published_parsed", entry.get("updated_parsed"))
+            if default_tz is not None or not raw_date or _raw_has_explicit_timezone(raw_date):
+                published_dt = parse_pub_date_from_struct(struct_time)
+        if published_dt is None and raw_date:
+            parse_errors += 1
+            logger.warning("[%s] Unparseable publish timestamp: %r", feed_name, raw_date)
 
-        # Classify ICIS articles ("General") using commodity taxonomy keywords
-        article_category = category
-        if category == "General":
-            classified = classify_category(title, description)
-            if classified:
-                article_category = classified
-
-        articles.append({
+        article = {
             "id": generate_article_id(link, title),
             "title": title,
             "description": description,
             "link": link,
-            "published": iso_date,
+            "published": to_utc_iso(published_dt),
             "source": source,
             "feed": feed_name,
-            "category": article_category,
-        })
+            "category": category,
+            "categories": [category],
+        }
+        normalize_article_categories(
+            article,
+            classify_fallback=True,
+            max_categories=MAX_CATEGORIES_PER_ARTICLE,
+        )
+        articles.append(article)
 
-    return articles
+    return articles, parse_errors
 
 
-def fetch_feed(feed_name: str, feed_config: dict) -> list[dict]:
+def fetch_feed(feed_name: str, feed_config: dict) -> tuple[list[dict], int]:
     """
     Fetch and parse a single RSS feed.
     Uses multi-tier HTTP strategy (requests → cloudscraper → curl).
@@ -458,49 +561,152 @@ def fetch_feed(feed_name: str, feed_config: dict) -> list[dict]:
             if not HAS_CURL_CFFI:
                 method_hint = " (try: pip install curl_cffi)"
             logger.warning(f"[{feed_name}] All fetch methods failed — skipping.{method_hint}")
-            return []
+            return [], 0
 
-        articles = parse_feed_entries(xml_text, feed_name, feed_config)
-        logger.info(f"[{feed_name}] Fetched {len(articles)} articles")
-        return articles
+        articles, parse_errors = parse_feed_entries(xml_text, feed_name, feed_config)
+        logger.info(
+            "[%s] Fetched %s articles (timestamp parse errors=%s)",
+            feed_name,
+            len(articles),
+            parse_errors,
+        )
+        return articles, parse_errors
 
     except Exception as e:
         logger.error(f"[{feed_name}] Unexpected error: {e}")
-        return []
+        return [], 0
+
+
+def classify_articles_in_place(articles: list[dict]) -> None:
+    """
+    Enforce canonical category contract for each article.
+    """
+    for article in articles:
+        normalize_article_categories(
+            article,
+            classify_fallback=True,
+            max_categories=MAX_CATEGORIES_PER_ARTICLE,
+        )
+
+
+def enforce_category_contract(
+    articles: list[dict],
+    *,
+    classify_fallback: bool = True,
+) -> dict[str, int]:
+    """Normalize category fields and report normalization stats."""
+    unknown_tokens = 0
+    classifier_fallback_used = 0
+
+    for article in articles:
+        result = normalize_article_categories(
+            article,
+            classify_fallback=classify_fallback,
+            max_categories=MAX_CATEGORIES_PER_ARTICLE,
+        )
+        unknown_tokens += len(result.get("unknown_tokens", []))
+        classifier_fallback_used += 1 if result.get("used_classifier") else 0
+
+    return {
+        "unknown_tokens_rewritten": unknown_tokens,
+        "classifier_fallback_used": classifier_fallback_used,
+    }
+
+
+def scrape_argus(
+    max_pages: int = DEFAULT_ARGUS_MAX_PAGES,
+    timeout: int = DEFAULT_ARGUS_TIMEOUT,
+    include_lead: bool = DEFAULT_ARGUS_INCLUDE_LEAD,
+    pause: float = DEFAULT_ARGUS_PAUSE,
+) -> tuple[list[dict], dict[str, Any]]:
+    """Fetch Argus NewsAll HTML feed and return normalized articles + per-feed stats."""
+    if not HAS_ARGUS or argus_scraper is None:
+        return [], {
+            "status": "failed",
+            "count": 0,
+            "timestamp_parse_errors": 0,
+            "error": "Argus scraper unavailable (install beautifulsoup4).",
+        }
+
+    try:
+        scraper = argus_scraper.ArgusNewsAllScraper(timeout=timeout)
+        articles, pages_scraped, total_pages_hint = scraper.scrape(
+            max_pages=max_pages,
+            include_lead=include_lead,
+            pause=pause,
+        )
+        classify_articles_in_place(articles)
+        articles = sort_by_date(deduplicate(articles))
+
+        detail: dict[str, Any] = {
+            "status": "ok" if pages_scraped > 0 else "failed",
+            "count": len(articles),
+            "pages_scraped": pages_scraped,
+            "max_pages": max_pages,
+            "timestamp_parse_errors": int(
+                getattr(scraper, "metrics", {}).get("timestamp_parse_errors", 0)
+            ),
+        }
+        if total_pages_hint is not None:
+            detail["total_pages_hint"] = total_pages_hint
+
+        if pages_scraped <= 0:
+            detail.setdefault("error", "No pages scraped from Argus")
+
+        if pages_scraped > 0:
+            logger.info("[%s] Fetched %s articles across %s page(s)", ARGUS_FEED_NAME, len(articles), pages_scraped)
+
+        return articles, detail
+    except Exception as exc:
+        logger.error("[%s] Unexpected error: %s", ARGUS_FEED_NAME, exc)
+        return [], {
+            "status": "failed",
+            "count": 0,
+            "timestamp_parse_errors": 0,
+            "error": str(exc),
+        }
 
 # ---------------------------------------------------------------------------
 # Deduplication & sorting
 # ---------------------------------------------------------------------------
 
 def deduplicate(articles: list[dict]) -> list[dict]:
-    """
-    Remove duplicate articles (same article appearing in multiple S&P feeds).
-    Keeps the first occurrence, but merges categories.
-    """
-    seen = {}
-    for article in articles:
-        aid = article["id"]
-        if aid in seen:
-            # Merge categories (e.g., article in both "Oil" and "Oil - Crude")
-            existing_cats = seen[aid]["category"]
-            new_cat = article["category"]
-            if new_cat not in existing_cats:
-                seen[aid]["category"] = f"{existing_cats}, {new_cat}"
-        else:
-            seen[aid] = article
+    deduped, _ = deduplicate_with_diagnostics(articles)
+    return deduped
 
-    return list(seen.values())
+
+def _merge_duplicate_articles(
+    existing: dict[str, Any],
+    incoming: dict[str, Any],
+) -> dict[str, Any]:
+    return shared_merge_duplicate_articles(
+        existing,
+        incoming,
+        generate_article_id=generate_article_id,
+        max_categories=MAX_CATEGORIES_PER_ARTICLE,
+    )
+
+
+def deduplicate_with_diagnostics(articles: list[dict]) -> tuple[list[dict], dict[str, int]]:
+    """Collapse duplicates by canonical dedupe key and merge categories deterministically."""
+    return shared_deduplicate_articles(
+        articles,
+        parse_pub_date=parse_pub_date,
+        generate_article_id=generate_article_id,
+        max_categories=MAX_CATEGORIES_PER_ARTICLE,
+    )
 
 
 def sort_by_date(articles: list[dict], descending: bool = True) -> list[dict]:
-    """Sort articles by published date (newest first by default)."""
-    def sort_key(a):
-        d = a.get("published")
-        if d is None:
-            return ""
-        return d
-
-    return sorted(articles, key=sort_key, reverse=descending)
+    """
+    Sort articles by parsed UTC timestamp and deterministic tie-breakers.
+    Invalid/missing timestamps are ordered after valid timestamps.
+    """
+    return shared_sort_articles_by_date(
+        articles,
+        parse_pub_date=parse_pub_date,
+        descending=descending,
+    )
 
 # ---------------------------------------------------------------------------
 # Persistence
@@ -508,13 +714,7 @@ def sort_by_date(articles: list[dict], descending: bool = True) -> list[dict]:
 
 def load_existing_feed() -> dict:
     """Load the existing feed.json if it exists."""
-    if OUTPUT_FILE.exists():
-        try:
-            with open(OUTPUT_FILE, "r", encoding="utf-8") as f:
-                return json.load(f)
-        except (json.JSONDecodeError, OSError):
-            pass
-    return {"articles": [], "metadata": {}}
+    return load_feed_payload(OUTPUT_FILE)
 
 
 def save_feed(
@@ -522,29 +722,33 @@ def save_feed(
     fetch_stats: dict,
     sentiment_stats: Optional[dict[str, Any]] = None,
     ner_stats: Optional[dict[str, Any]] = None,
+    category_stats: Optional[dict[str, int]] = None,
+    dedupe_stats: Optional[dict[str, Any]] = None,
 ):
     """Save the unified feed to JSON."""
-    DATA_DIR.mkdir(parents=True, exist_ok=True)
-
     metadata = {
         "last_updated": datetime.now(timezone.utc).isoformat(),
         "total_articles": len(articles),
         "feeds_fetched": fetch_stats.get("success", 0),
         "feeds_failed": fetch_stats.get("failed", 0),
         "feed_details": fetch_stats.get("details", {}),
+        "timestamp_parse_errors": int(fetch_stats.get("timestamp_parse_errors", 0)),
+        "canonical_categories": list(CANONICAL_CATEGORIES),
     }
     if sentiment_stats:
         metadata["sentiment"] = sentiment_stats
     if ner_stats:
         metadata["ner"] = ner_stats
+    if category_stats:
+        metadata["category_contract"] = category_stats
+    if dedupe_stats:
+        metadata["dedupe"] = dedupe_stats
 
-    output = {
-        "metadata": metadata,
-        "articles": articles,
-    }
-
-    with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
-        json.dump(output, f, indent=2, ensure_ascii=False)
+    save_feed_payload(
+        OUTPUT_FILE,
+        articles=articles,
+        metadata=metadata,
+    )
 
     logger.info(
         f"Saved {len(articles)} articles to {OUTPUT_FILE} "
@@ -556,7 +760,10 @@ def save_feed(
 # Incremental merge
 # ---------------------------------------------------------------------------
 
-def merge_with_existing(new_articles: list[dict], max_age_days: int = 7) -> list[dict]:
+def merge_with_existing(
+    new_articles: list[dict],
+    max_age_days: int = 7,
+) -> tuple[list[dict], dict[str, int]]:
     """
     Merge new articles with the existing feed.json.
     - Adds new articles that aren't already present
@@ -565,18 +772,38 @@ def merge_with_existing(new_articles: list[dict], max_age_days: int = 7) -> list
     """
     existing = load_existing_feed()
     existing_articles = existing.get("articles", [])
+    for article in existing_articles:
+        normalize_article_published(article)
+        article["id"] = generate_article_id(article.get("link", ""), article.get("title", ""))
+    enforce_category_contract(existing_articles, classify_fallback=True)
+    existing_articles, existing_dedupe = deduplicate_with_diagnostics(existing_articles)
 
-    # Build lookup of existing IDs
-    existing_by_id = {a["id"]: a for a in existing_articles}
+    # Build lookup of canonical dedupe keys (not legacy IDs).
+    existing_by_key = {
+        canonical_article_dedupe_key(article): article
+        for article in existing_articles
+        if canonical_article_dedupe_key(article)
+    }
 
     # Add genuinely new articles
     added = 0
     updated = 0
     for article in new_articles:
-        existing_article = existing_by_id.get(article["id"])
+        normalize_article_published(article)
+        normalize_article_categories(
+            article,
+            classify_fallback=True,
+            max_categories=MAX_CATEGORIES_PER_ARTICLE,
+        )
+        article["id"] = generate_article_id(article.get("link", ""), article.get("title", ""))
+
+        dedupe_key = canonical_article_dedupe_key(article)
+        if not dedupe_key:
+            continue
+        existing_article = existing_by_key.get(dedupe_key)
         if existing_article is None:
             existing_articles.append(article)
-            existing_by_id[article["id"]] = article
+            existing_by_key[dedupe_key] = article
             added += 1
             continue
 
@@ -584,15 +811,21 @@ def merge_with_existing(new_articles: list[dict], max_age_days: int = 7) -> list
         # existing enrichments until incremental scoring decides if a rescore is needed.
         prior_sentiment = existing_article.get("sentiment")
         prior_ner = existing_article.get("ner")
-        existing_article.update(article)
+        merged_article = _merge_duplicate_articles(existing_article, article)
+        existing_article.clear()
+        existing_article.update(merged_article)
         if prior_sentiment is not None:
             existing_article["sentiment"] = prior_sentiment
         if prior_ner is not None:
             existing_article["ner"] = prior_ner
+        normalize_article_categories(
+            existing_article,
+            classify_fallback=True,
+            max_categories=MAX_CATEGORIES_PER_ARTICLE,
+        )
         updated += 1
 
     # Filter out articles older than max_age_days
-    cutoff = datetime.now(timezone.utc).isoformat()
     # (For simplicity, we keep all articles — the frontend can filter by date.)
     # If you want age-based pruning, uncomment and adjust:
     #
@@ -609,42 +842,85 @@ def merge_with_existing(new_articles: list[dict], max_age_days: int = 7) -> list
         f"{len(existing_articles)} total"
     )
 
-    return sort_by_date(existing_articles)
+    enforce_category_contract(existing_articles, classify_fallback=True)
+    merged_articles, post_merge_dedupe = deduplicate_with_diagnostics(existing_articles)
+    merged_count = (
+        int(existing_dedupe.get("merged", 0))
+        + int(post_merge_dedupe.get("merged", 0))
+    )
+    merge_stats = {"new": added, "updated": updated, "merged": merged_count}
+    return sort_by_date(merged_articles), merge_stats
 
 # ---------------------------------------------------------------------------
 # Main scrape loop
 # ---------------------------------------------------------------------------
 
-def scrape_all() -> tuple[list[dict], dict]:
-    """Fetch all feeds, normalize, deduplicate, and return articles + stats."""
+def scrape_all(
+    include_rss: bool = True,
+    include_argus: bool = True,
+    argus_max_pages: int = DEFAULT_ARGUS_MAX_PAGES,
+    argus_timeout: int = DEFAULT_ARGUS_TIMEOUT,
+    argus_include_lead: bool = DEFAULT_ARGUS_INCLUDE_LEAD,
+    argus_pause: float = DEFAULT_ARGUS_PAUSE,
+) -> tuple[list[dict], dict, dict[str, int]]:
+    """Fetch all enabled sources, normalize, deduplicate, and return articles + stats."""
     all_articles = []
-    stats = {"success": 0, "failed": 0, "details": {}}
+    stats = {"success": 0, "failed": 0, "details": {}, "timestamp_parse_errors": 0}
+    configured_feeds = 0
 
-    for feed_name, feed_config in FEEDS.items():
-        articles = fetch_feed(feed_name, feed_config)
-        if articles:
-            all_articles.extend(articles)
+    if include_rss:
+        for feed_name, feed_config in FEEDS.items():
+            configured_feeds += 1
+            articles, parse_errors = fetch_feed(feed_name, feed_config)
+            stats["timestamp_parse_errors"] += parse_errors
+            if articles:
+                all_articles.extend(articles)
+                stats["success"] += 1
+                stats["details"][feed_name] = {
+                    "status": "ok",
+                    "count": len(articles),
+                    "timestamp_parse_errors": parse_errors,
+                }
+            else:
+                stats["failed"] += 1
+                stats["details"][feed_name] = {
+                    "status": "failed",
+                    "count": 0,
+                    "timestamp_parse_errors": parse_errors,
+                }
+
+    if include_argus:
+        configured_feeds += 1
+        argus_articles, argus_detail = scrape_argus(
+            max_pages=argus_max_pages,
+            timeout=argus_timeout,
+            include_lead=argus_include_lead,
+            pause=argus_pause,
+        )
+        if argus_detail.get("status") == "ok":
+            all_articles.extend(argus_articles)
             stats["success"] += 1
-            stats["details"][feed_name] = {
-                "status": "ok",
-                "count": len(articles),
-            }
         else:
             stats["failed"] += 1
-            stats["details"][feed_name] = {"status": "failed", "count": 0}
+        stats["timestamp_parse_errors"] += int(
+            argus_detail.get("timestamp_parse_errors", 0)
+        )
+        stats["details"][ARGUS_FEED_NAME] = argus_detail
 
     # Deduplicate (articles may appear in multiple S&P category feeds)
-    all_articles = deduplicate(all_articles)
+    all_articles, dedupe_stats = deduplicate_with_diagnostics(all_articles)
+    enforce_category_contract(all_articles, classify_fallback=True)
 
     # Sort newest first
     all_articles = sort_by_date(all_articles)
 
     logger.info(
         f"Scrape complete: {len(all_articles)} unique articles "
-        f"from {stats['success']}/{len(FEEDS)} feeds"
+        f"from {stats['success']}/{configured_feeds} feeds "
+        f"(merged duplicates={dedupe_stats.get('merged', 0)})"
     )
 
-    return all_articles, stats
+    return all_articles, stats, dedupe_stats
 
 
 def run_once(
@@ -652,12 +928,40 @@ def run_once(
     scorer: Optional[FinBERTScorer] = None,
     ner_config: Optional[NERConfig] = None,
     ner_extractor: Optional[SpacyNERExtractor] = None,
+    include_rss: bool = True,
+    include_argus: bool = True,
+    argus_max_pages: int = DEFAULT_ARGUS_MAX_PAGES,
+    argus_timeout: int = DEFAULT_ARGUS_TIMEOUT,
+    argus_include_lead: bool = DEFAULT_ARGUS_INCLUDE_LEAD,
+    argus_pause: float = DEFAULT_ARGUS_PAUSE,
 ):
     """Single scrape run: fetch, merge with existing, (optional) enrichments, save."""
-    new_articles, stats = scrape_all()
-    merged = merge_with_existing(new_articles)
+    new_articles, stats, scrape_dedupe_stats = scrape_all(
+        include_rss=include_rss,
+        include_argus=include_argus,
+        argus_max_pages=argus_max_pages,
+        argus_timeout=argus_timeout,
+        argus_include_lead=argus_include_lead,
+        argus_pause=argus_pause,
+    )
+    merged, merge_stats = merge_with_existing(new_articles)
     sentiment_stats = None
     ner_stats = None
+    category_stats = enforce_category_contract(merged, classify_fallback=True)
+    run_dedupe_stats = {
+        "new": int(merge_stats.get("new", 0)),
+        "updated": int(merge_stats.get("updated", 0)),
+        "merged": int(scrape_dedupe_stats.get("merged", 0))
+        + int(merge_stats.get("merged", 0)),
+        "incoming_merged": int(scrape_dedupe_stats.get("merged", 0)),
+        "existing_merged": int(merge_stats.get("merged", 0)),
+    }
+    logger.info(
+        "Dedupe diagnostics: new=%s updated=%s merged=%s",
+        run_dedupe_stats["new"],
+        run_dedupe_stats["updated"],
+        run_dedupe_stats["merged"],
+    )
 
     if sentiment_config and sentiment_config.enabled:
         try:
@@ -707,7 +1011,14 @@ def run_once(
                 "error": str(e),
             }
 
-    save_feed(merged, stats, sentiment_stats=sentiment_stats, ner_stats=ner_stats)
+    save_feed(
+        merged,
+        stats,
+        sentiment_stats=sentiment_stats,
+        ner_stats=ner_stats,
+        category_stats=category_stats,
+        dedupe_stats=run_dedupe_stats,
+    )
     return merged, stats, sentiment_stats, ner_stats
 
 
@@ -715,6 +1026,12 @@ def run_daemon(
     interval: int = 600,
     sentiment_config: Optional[SentimentConfig] = None,
     ner_config: Optional[NERConfig] = None,
+    include_rss: bool = True,
+    include_argus: bool = True,
+    argus_max_pages: int = DEFAULT_ARGUS_MAX_PAGES,
+    argus_timeout: int = DEFAULT_ARGUS_TIMEOUT,
+    argus_include_lead: bool = DEFAULT_ARGUS_INCLUDE_LEAD,
+    argus_pause: float = DEFAULT_ARGUS_PAUSE,
 ):
     """Continuous scrape loop."""
     logger.info(f"Starting daemon mode — polling every {interval}s")
@@ -732,6 +1049,12 @@ def run_daemon(
                 scorer=scorer,
                 ner_config=ner_config,
                 ner_extractor=ner_extractor,
+                include_rss=include_rss,
+                include_argus=include_argus,
+                argus_max_pages=argus_max_pages,
+                argus_timeout=argus_timeout,
+                argus_include_lead=argus_include_lead,
+                argus_pause=argus_pause,
             )
         except KeyboardInterrupt:
             logger.info("Daemon stopped by user")
@@ -788,6 +1111,39 @@ def main():
         type=int,
         default=8000,
         help="HTTP server port (default: 8000)",
+    )
+    parser.add_argument(
+        "--no-rss",
+        action="store_true",
+        help="Disable RSS sources (ICIS/S&P/Fastmarkets) for this run",
+    )
+    parser.add_argument(
+        "--no-argus",
+        action="store_true",
+        help="Disable Argus NewsAll HTML source for this run",
+    )
+    parser.add_argument(
+        "--argus-max-pages",
+        type=int,
+        default=DEFAULT_ARGUS_MAX_PAGES,
+        help=f"Maximum Argus pages to scrape per run (default: {DEFAULT_ARGUS_MAX_PAGES})",
+    )
+    parser.add_argument(
+        "--argus-timeout",
+        type=int,
+        default=DEFAULT_ARGUS_TIMEOUT,
+        help=f"Argus request timeout in seconds (default: {DEFAULT_ARGUS_TIMEOUT})",
+    )
+    parser.add_argument(
+        "--argus-pause",
+        type=float,
+        default=DEFAULT_ARGUS_PAUSE,
+        help=f"Pause between Argus requests in seconds (default: {DEFAULT_ARGUS_PAUSE})",
+    )
+    parser.add_argument(
+        "--argus-include-lead",
+        action="store_true",
+        help="Fetch Argus article pages and store lead paragraph as description",
     )
     parser.add_argument(
         "--sentiment",
@@ -855,6 +1211,11 @@ def main():
     )
     args = parser.parse_args()
 
+    include_rss = not args.no_rss
+    include_argus = not args.no_argus
+    if not include_rss and not include_argus:
+        parser.error("At least one source must be enabled (rss/argus).")
+
     sentiment_config = SentimentConfig(
         enabled=args.sentiment,
         model_name=args.sentiment_model,
@@ -890,11 +1251,23 @@ def main():
             args.interval,
             sentiment_config=sentiment_config,
             ner_config=ner_config,
+            include_rss=include_rss,
+            include_argus=include_argus,
+            argus_max_pages=args.argus_max_pages,
+            argus_timeout=args.argus_timeout,
+            argus_include_lead=args.argus_include_lead,
+            argus_pause=args.argus_pause,
         )
     else:
         articles, stats, sentiment_stats, ner_stats = run_once(
             sentiment_config=sentiment_config,
             ner_config=ner_config,
+            include_rss=include_rss,
+            include_argus=include_argus,
+            argus_max_pages=args.argus_max_pages,
+            argus_timeout=args.argus_timeout,
+            argus_include_lead=args.argus_include_lead,
+            argus_pause=args.argus_pause,
         )
         print(f"\nDone! {len(articles)} articles saved to {OUTPUT_FILE}")
         print(f"Feeds OK: {stats['success']} | Failed: {stats['failed']}")

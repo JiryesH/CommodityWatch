@@ -10,14 +10,19 @@ This module can be:
 from __future__ import annotations
 
 import argparse
-import hashlib
-import json
 import logging
 import time
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
+
+from enrichment_utils import build_enrichment_text, enrichment_text_hash
+from feed_io import (
+    ensure_feed_metadata,
+    load_feed_json as load_feed,
+    save_feed_json as save_feed,
+)
 
 try:
     import torch
@@ -75,18 +80,11 @@ def pick_sentiment_label(scores: dict[str, float]) -> tuple[str, float]:
 
 
 def build_sentiment_text(article: dict[str, Any], use_description: bool) -> str:
-    title = " ".join((article.get("title") or "").split())
-    if not use_description:
-        return title
-
-    description = " ".join((article.get("description") or "").split())
-    if not description:
-        return title
-    return f"{title}. {description}"
+    return build_enrichment_text(article, use_description)
 
 
 def sentiment_text_hash(text: str) -> str:
-    return hashlib.sha256(text.encode("utf-8")).hexdigest()
+    return enrichment_text_hash(text)
 
 
 class FinBERTScorer:
@@ -250,17 +248,6 @@ def log_sentiment_rollup(
         )
 
 
-def load_feed(path: Path) -> dict[str, Any]:
-    with path.open("r", encoding="utf-8") as f:
-        return json.load(f)
-
-
-def save_feed(path: Path, data: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
-
-
 def main() -> None:
     parser = argparse.ArgumentParser(
         description="Run incremental FinBERT sentiment scoring on feed JSON."
@@ -303,10 +290,7 @@ def main() -> None:
     scorer = FinBERTScorer(config)
     stats = scorer.score_incremental(articles)
 
-    metadata = data.get("metadata")
-    if not isinstance(metadata, dict):
-        metadata = {}
-        data["metadata"] = metadata
+    metadata = ensure_feed_metadata(data)
     metadata["sentiment"] = stats
 
     save_feed(Path(args.output), data)

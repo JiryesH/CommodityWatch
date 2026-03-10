@@ -28,7 +28,7 @@ jobs:
           key: ${{ runner.os }}-pip-core
 
       - name: Install dependencies
-        run: pip install feedparser requests curl_cffi
+        run: pip install -r requirements.txt
 
       - name: Run scraper
         run: python rss_scraper.py
