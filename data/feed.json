@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-10T23:02:32.960927+00:00",
-    "total_articles": 2074,
+    "last_updated": "2026-03-10T23:43:18.934153+00:00",
+    "total_articles": 2077,
     "feeds_fetched": 15,
     "feeds_failed": 0,
     "feed_details": {
@@ -105,14 +105,53 @@
       "classifier_fallback_used": 0
     },
     "dedupe": {
-      "new": 0,
-      "updated": 124,
+      "new": 3,
+      "updated": 121,
       "merged": 26,
       "incoming_merged": 26,
       "existing_merged": 0
     }
   },
   "articles": [
+    {
+      "id": "25808adfb9cd7b3e",
+      "title": "US-Iran war: Latest news",
+      "description": "",
+      "link": "https://www.argusmedia.com/pages/NewsBody.aspx?id=2799340&menu=yes",
+      "published": "2026-03-10T23:30:00+00:00",
+      "source": "Argus Media",
+      "feed": "Argus NewsAll",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
+    {
+      "id": "73f00717bcb3d3f1",
+      "title": "US epoxy resins digesting rapidly evolving events amid US-Iran war",
+      "description": "HOUSTON (ICIS)--US epoxy resins players are on edge as they were already navigating a complex landscape before the latest geopolitical storm. The US-Iran war has sent shockwaves through global energy...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187569/us-epoxy-resins-digesting-rapidly-evolving-events-amid-us-iran-war",
+      "published": "2026-03-10T23:23:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals",
+      "categories": [
+        "Chemicals"
+      ]
+    },
+    {
+      "id": "2da638b3e13af634",
+      "title": "Mars crude premium swings down by over $8/bl: Update",
+      "description": "",
+      "link": "https://www.argusmedia.com/pages/NewsBody.aspx?id=2799336&menu=yes",
+      "published": "2026-03-10T23:05:00+00:00",
+      "source": "Argus Media",
+      "feed": "Argus NewsAll",
+      "category": "Oil - Crude",
+      "categories": [
+        "Oil - Crude"
+      ]
+    },
     {
       "id": "b91c5bdfa76f9eb1",
       "title": "EVENING SNAPSHOT - Americas Markets Summary",
