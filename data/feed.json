@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-10T02:47:13.770020+00:00",
-    "total_articles": 537,
+    "last_updated": "2026-03-10T04:45:47.348544+00:00",
+    "total_articles": 545,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,86 @@
     }
   },
   "articles": [
+    {
+      "id": "0e7a5af10def06df",
+      "title": "Plant status: China’s Fujian Gulei shuts cracker for maintenance",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: Fujian Gulei Petrochemical Location: Zhangzhou, Fujian, China Product: Ethylene, propylene Capacity (tonnes/year): 1 million for ethylene and...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187176/plant-status-china-s-fujian-gulei-shuts-cracker-for-maintenance",
+      "published": "2026-03-10T04:21:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "05d3e7779e6cb4c0",
+      "title": "S Korea isomer MX prices surge into fresh week on concerns over supply strain",
+      "description": "SINGAPORE (ICIS)--Isomer grade mixed xylenes (MX) from South Korea skyrocketed for a sixth consecutive session in the fresh week starting 9 March, with discussion levels hiking amid supply disruption...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187174/s-korea-isomer-mx-prices-surge-into-fresh-week-on-concerns-over-supply-strain",
+      "published": "2026-03-10T04:17:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "978e249724f84583",
+      "title": "China petrochemical futures slump as oil prices tumble",
+      "description": "SINGAPORE (ICIS)--China’s petrochemical futures prices were slumping on Tuesday, weighed down by a sharp correction in upstream crude markets. At 11:00 local time (03:00 GMT), prices of major...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187173/china-petrochemical-futures-slump-as-oil-prices-tumble",
+      "published": "2026-03-10T04:16:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Crude"
+    },
+    {
+      "id": "617f669bde37d3e0",
+      "title": "NOON SNAPSHOT - Asia Markets Summary",
+      "description": "CRUDE: Lower after US President Donald Trump signaled that the Middle East war could end soon, easing supply concerns. BENZENE (FOB KOREA): Down on crude losses. TOLUENE (FOB KOREA): Down on losses...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187170/noon-snapshot-asia-markets-summary",
+      "published": "2026-03-10T04:10:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals, Oil - Crude"
+    },
+    {
+      "id": "10abb3c508df4a86",
+      "title": "Plant status: China’s Anqing Taiheng's MTBE plant remains shut",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: Anqing Taiheng Chemical Technology Location: Anqing, Anhui, China Product: Methyl tertiary butyl ether (MTBE) Capacity (tonnes/year): 400,000...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187169/plant-status-china-s-anqing-taiheng-s-mtbe-plant-remains-shut",
+      "published": "2026-03-10T04:05:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "33128d3fb8aed986",
+      "title": "Plant status: South Korea’s KPIC reduces operating rate at MEG unit",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: Korea Petrochemical Industry Co (KPIC) Location: Ulsan, South Korea Product: Monoethylene glycol (MEG) Capacity (tonnes/year): 200,000 Event...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187168/plant-status-south-korea-s-kpic-reduces-operating-rate-at-meg-unit",
+      "published": "2026-03-10T04:02:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "fe4496cdbf0259bd",
+      "title": "Plant status: China’s Ningbo Kingfa delays restart of PP Line 1",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: Ningbo Kingfa Advanced Materials Company Location: Ningbo, China Product: Polypropylene (PP) Capacity (tonnes/year): 400,000 Event start: 27...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187163/plant-status-china-s-ningbo-kingfa-delays-restart-of-pp-line-1",
+      "published": "2026-03-10T03:44:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "af40498813635bd3",
+      "title": "Plant status: Saudi's Petro Rabigh cuts phenol/acetone plant runs on feedstock shortage",
+      "description": "SHANGHAI (ICIS)--Here is a plant status report: Name: Rabigh Refining and Petrochemical Company (Petro Rabigh) Location: Rabigh, Saudi Arabia Product: Phenol, acetone Capacity (tonnes/year): 270,000...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187162/plant-status-saudi-s-petro-rabigh-cuts-phenol-acetone-plant-runs-on-feedstock-shortage",
+      "published": "2026-03-10T03:42:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Refined Products, Chemicals"
+    },
     {
       "id": "51b2e3f29825008f",
       "title": "China’s Shanghai SECCO sharply raises ACN weekly price on surging costs",
@@ -158,7 +238,7 @@
       "published": "2026-03-09T20:29:24+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude, LNG"
+      "category": "Oil - Crude"
     },
     {
       "id": "6536792234b0fbed",
@@ -8533,7 +8613,7 @@
       "published": "2026-03-02T22:21:00+00:00",
       "source": "S&P Global",
       "feed": "S&P Electric Power",
-      "category": "Electric Power, Coal",
+      "category": "Electric Power, Coal, LNG",
       "sentiment": {
         "label": "positive",
         "confidence": 0.6730107069015503,
