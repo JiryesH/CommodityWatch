@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-10T21:58:59.317616+00:00",
-    "total_articles": 2072,
+    "last_updated": "2026-03-10T22:39:52.163466+00:00",
+    "total_articles": 2074,
     "feeds_fetched": 15,
     "feeds_failed": 0,
     "feed_details": {
@@ -105,14 +105,40 @@
       "classifier_fallback_used": 0
     },
     "dedupe": {
-      "new": 1,
-      "updated": 125,
-      "merged": 24,
-      "incoming_merged": 24,
+      "new": 2,
+      "updated": 122,
+      "merged": 26,
+      "incoming_merged": 26,
       "existing_merged": 0
     }
   },
   "articles": [
+    {
+      "id": "b91c5bdfa76f9eb1",
+      "title": "EVENING SNAPSHOT - Americas Markets Summary",
+      "description": "CRUDE: Sustained early losses but bounced around in explosive volatility. In search of a comfort level as the market started pricing a shorter Iran conflict. Dips were still being bought into....",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187352/evening-snapshot-americas-markets-summary",
+      "published": "2026-03-10T22:30:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Crude",
+      "categories": [
+        "Oil - Crude"
+      ]
+    },
+    {
+      "id": "5e004e96f19e0206",
+      "title": "US MA facing volatile feedstock costs amid US-Iran war",
+      "description": "HOUSTON (ICIS)--US maleic anhydride (MA) supply/demand have not changed fundamentally so far during the US-Iran war, with the focus primarily on feedstock costs. Spot normal butane prices have...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187356/us-ma-facing-volatile-feedstock-costs-amid-us-iran-war",
+      "published": "2026-03-10T22:02:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Refined Products",
+      "categories": [
+        "Oil - Refined Products"
+      ]
+    },
     {
       "id": "94794b2a896ed24a",
       "title": "March WASDE lacking any significant change for US row crops",
