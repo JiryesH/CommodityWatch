@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-10T15:45:01.808584+00:00",
-    "total_articles": 616,
+    "last_updated": "2026-03-10T16:41:47.037672+00:00",
+    "total_articles": 621,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,56 @@
     }
   },
   "articles": [
+    {
+      "id": "23a9970a6775e8bb",
+      "title": "WEEKLY CRUDE OUTLOOK: Intensifying Middle East conflict has prices exposed to a major bounce",
+      "description": "LONDON (ICIS)--Optimistic sentiment is factoring in a short war despite the US and Israel intensifying attacks on Iran this week. However, the continued blockade of the Strait of Hormuz retains the...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187328/weekly-crude-outlook-intensifying-middle-east-conflict-has-prices-exposed-to-a-major-bounce",
+      "published": "2026-03-10T16:29:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Crude"
+    },
+    {
+      "id": "1798af8d393a1bed",
+      "title": "UPDATED: CORRECTED: Maintenance to limit flows at VIP Iberico in early April",
+      "description": "(Correction: The dates of the outage in the first paragraph have been amended Update: This story was updated on 10 March to include additional information provided by Enagas to ICIS) LONDON...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11186871/updated-corrected-maintenance-to-limit-flows-at-vip-iberico-in-early-april",
+      "published": "2026-03-10T16:07:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "5e68c2545b9f48fa",
+      "title": "Europe PA flake spot prices up on Middle East conflict uncertainty",
+      "description": "LONDON (ICIS)--European phthalic anhydride (PA) flake spot prices firmed in the week ended 6 March following higher offers reported in the market as upstream costs increased globally on the back of...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187327/europe-pa-flake-spot-prices-up-on-middle-east-conflict-uncertainty",
+      "published": "2026-03-10T15:52:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "92cf423c31b944c3",
+      "title": "Asian naphtha markets vulnerable to Middle East refinery and shipping disruptions",
+      "description": "LONDON (ICIS)--Naphtha prices are expected to increase over the coming weeks in line with higher crude oil prices and freight rates. If the Strait of Hormuz remains inaccessible due to the conflict...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187325/asian-naphtha-markets-vulnerable-to-middle-east-refinery-and-shipping-disruptions",
+      "published": "2026-03-10T15:48:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Shipping, Oil - Crude"
+    },
+    {
+      "id": "ae96018440744040",
+      "title": "EU Commission to publish first CBAM certificate price on 7 April, highlighting costs for fertilizers",
+      "description": "LONDON (ICIS)--The European Commission will publish the first Carbon Border Adjustment Mechanism (CBAM) certificate price on 7 April, setting the carbon cost that importers, including fertilizer...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187324/eu-commission-to-publish-first-cbam-certificate-price-on-7-april-highlighting-costs-for-fertilizers",
+      "published": "2026-03-10T15:42:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Fertilizers"
+    },
     {
       "id": "46ce6ebdcabefcd5",
       "title": "MCM declares sales control on US methacrylic acid",
@@ -338,7 +388,7 @@
       "published": "2026-03-10T11:56:00+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude, Chemicals, LNG"
+      "category": "Oil - Crude, Chemicals"
     },
     {
       "id": "0b433e8489175717",
@@ -878,7 +928,7 @@
       "published": "2026-03-09T22:40:48+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude"
+      "category": "Oil - Crude, Shipping"
     },
     {
       "id": "4d967d1c1b6bc617",
@@ -898,7 +948,7 @@
       "published": "2026-03-09T21:43:52+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude, Oil - Refined Products"
+      "category": "Oil - Crude, Oil - Refined Products, Shipping"
     },
     {
       "id": "8ac017423f6e3fa7",
@@ -938,7 +988,7 @@
       "published": "2026-03-09T20:29:24+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude, Natural Gas, LNG"
+      "category": "Oil - Crude, LNG"
     },
     {
       "id": "6536792234b0fbed",
@@ -958,7 +1008,7 @@
       "published": "2026-03-09T20:02:02+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Refined Products",
-      "category": "Oil - Refined Products"
+      "category": "Oil - Refined Products, Shipping"
     },
     {
       "id": "61911b57395fc387",
@@ -1208,7 +1258,7 @@
       "published": "2026-03-09T16:35:58+00:00",
       "source": "S&P Global",
       "feed": "S&P Agriculture",
-      "category": "Agriculture"
+      "category": "Agriculture, Energy Transition"
     },
     {
       "id": "f64051bba2ff539c",
@@ -1378,7 +1428,7 @@
       "published": "2026-03-09T14:14:47+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Fertilizers, Chemicals"
+      "category": "Fertilizers, Chemicals, Energy Transition"
     },
     {
       "id": "4a493add758888af",
@@ -1418,7 +1468,7 @@
       "published": "2026-03-09T13:11:32+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Fertilizers, Chemicals"
+      "category": "Fertilizers, Chemicals, Energy Transition"
     },
     {
       "id": "0566513676c8b2dc",
@@ -1488,7 +1538,7 @@
       "published": "2026-03-09T11:58:30+00:00",
       "source": "S&P Global",
       "feed": "S&P Natural Gas",
-      "category": "Natural Gas, Coal"
+      "category": "Natural Gas, Coal, Energy Transition"
     },
     {
       "id": "fdcd00f4e178ffbc",
@@ -3218,7 +3268,7 @@
       "published": "2026-03-06T11:17:35+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Fertilizers, Chemicals, Energy Transition"
+      "category": "Fertilizers, Chemicals"
     },
     {
       "id": "112bdbf3edd24ccc",
@@ -3258,7 +3308,7 @@
       "published": "2026-03-06T10:53:21+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Fertilizers, Agriculture, Energy Transition"
+      "category": "Fertilizers, Agriculture"
     },
     {
       "id": "09318d6783e6566e",
@@ -4038,7 +4088,7 @@
       "published": "2026-03-05T16:38:44+00:00",
       "source": "S&P Global",
       "feed": "S&P Natural Gas",
-      "category": "Natural Gas, Agriculture, Energy Transition"
+      "category": "Natural Gas, Agriculture"
     },
     {
       "id": "6982d15a27f92a20",
@@ -4288,7 +4338,7 @@
       "published": "2026-03-05T13:17:22+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Fertilizers, Energy Transition"
+      "category": "Fertilizers"
     },
     {
       "id": "42fbbfabd42fbf9e",
@@ -5768,8 +5818,8 @@
       "link": "https://www.spglobal.com/energy/zh/news-research/latest-news/lng/030526-south-korea-sees-no-lng-shortages-despite-middle-east-supply-disruptions",
       "published": "2026-03-05T03:19:40+00:00",
       "source": "S&P Global",
-      "feed": "S&P LNG",
-      "category": "LNG"
+      "feed": "S&P Natural Gas",
+      "category": "Natural Gas, LNG"
     },
     {
       "id": "ef233c9ee0faa783",
@@ -9041,8 +9091,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/lng/030326-china-faces-lng-supply-test-amid-middle-east-crisis-spot-price-increase",
       "published": "2026-03-03T12:17:47+00:00",
       "source": "S&P Global",
-      "feed": "S&P Natural Gas",
-      "category": "Natural Gas, LNG",
+      "feed": "S&P LNG",
+      "category": "LNG",
       "sentiment": {
         "label": "negative",
         "confidence": 0.9168105125427246,
