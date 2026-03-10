@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-10T16:41:47.037672+00:00",
-    "total_articles": 621,
+    "last_updated": "2026-03-10T17:34:12.761199+00:00",
+    "total_articles": 628,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,76 @@
     }
   },
   "articles": [
+    {
+      "id": "d642b7d15c9f474d",
+      "title": "EVENING SNAPSHOT - Europe Markets Summary",
+      "description": "CRUDE: Slumps by more than 10% on Tuesday as Trump predicts quick end to the war. NAPHTHA: Weakens on crude pullback, softer crack spreads. BENZENE: Drops on crude reversal; fresh April trade...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187336/evening-snapshot-europe-markets-summary",
+      "published": "2026-03-10T17:30:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals, Oil - Refined Products"
+    },
+    {
+      "id": "2c576c1876cd926c",
+      "title": "Plant status: PETRONAS melamine plant in Malaysia has technical issues; start-up expected by late March at earliest",
+      "description": "LONDON (ICIS)--Here is a plant status report: Name: PETRONAS Chemicals Group (PCG) Location: Gurun, Kedah, Malaysia Product: Melamine Capacity (tonnes/year): 60,000 Event start: Estimated start-up...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187338/plant-status-petronas-melamine-plant-in-malaysia-has-technical-issues-start-up-expected-by-late-march-at-earliest",
+      "published": "2026-03-10T17:23:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "a67d384f524350c8",
+      "title": "Europe MA spot prices surge on tight supply exacerbated by Middle East conflict",
+      "description": "LONDON (ICIS)--The European maleic anhydride (MA) market strengthened sharply in the week ending 6 March as tightening supply and Middle East related logistics disruption pushed spot prices to new...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187337/europe-ma-spot-prices-surge-on-tight-supply-exacerbated-by-middle-east-conflict",
+      "published": "2026-03-10T17:18:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "2d6af25859e3edb3",
+      "title": "NOON SNAPSHOT - Americas Markets Summary",
+      "description": "CRUDE: Down, as Tuesday's reversal from the highs continues. Reports that oil sanctions against Russia could be lifted and sentiment that the conflict will be short triggered the length liquidation....",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187333/noon-snapshot-americas-markets-summary",
+      "published": "2026-03-10T17:00:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Crude"
+    },
+    {
+      "id": "6f8089d2ec773ee8",
+      "title": "UK gas, power Summer-Winter '26 spread inverted amid US-Iran war",
+      "description": "Summer '26 NBP and baseload UK power prices rise above Winter ‘26 on US-Iran war Risk premium on summer contracts indicate market expects LNG disruption to end by winter Spread direction to remain...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187332/uk-gas-power-summer-winter-26-spread-inverted-amid-us-iran-war",
+      "published": "2026-03-10T16:50:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Electric Power, LNG"
+    },
+    {
+      "id": "8867ebc5b68f8912",
+      "title": "Australia’s Mayfair agrees to acquire Phosphate Hill operations in boost to local fertilizer production",
+      "description": "LONDON (ICIS)--Australia’s Mayfair Corporations Group has agreed to acquire Dyno Nobel’s Phosphate Hill fertilizer operations in northwest Queensland in a deal valued at up to Australian dollar...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187331/australia-s-mayfair-agrees-to-acquire-phosphate-hill-operations-in-boost-to-local-fertilizer-production",
+      "published": "2026-03-10T16:40:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Fertilizers"
+    },
+    {
+      "id": "2e144ea14d2a8bd2",
+      "title": "Lack of ammonia vessels exacerbated by Iran conflict",
+      "description": "LONDON (ICIS)--Vessel availability to transport ammonia continues to worsen following the US-Iran conflict. Even before the conflict started, ammonia tanker availability was tight due to a lack of...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187330/lack-of-ammonia-vessels-exacerbated-by-iran-conflict",
+      "published": "2026-03-10T16:36:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Energy Transition, Shipping"
+    },
     {
       "id": "23a9970a6775e8bb",
       "title": "WEEKLY CRUDE OUTLOOK: Intensifying Middle East conflict has prices exposed to a major bounce",
@@ -388,7 +458,7 @@
       "published": "2026-03-10T11:56:00+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude, Chemicals"
+      "category": "Oil - Crude, Natural Gas, Chemicals"
     },
     {
       "id": "0b433e8489175717",
@@ -928,7 +998,7 @@
       "published": "2026-03-09T22:40:48+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude, Shipping"
+      "category": "Oil - Crude"
     },
     {
       "id": "4d967d1c1b6bc617",
@@ -948,7 +1018,7 @@
       "published": "2026-03-09T21:43:52+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude, Oil - Refined Products, Shipping"
+      "category": "Oil - Crude, Oil - Refined Products"
     },
     {
       "id": "8ac017423f6e3fa7",
@@ -988,7 +1058,7 @@
       "published": "2026-03-09T20:29:24+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude, LNG"
+      "category": "Oil - Crude, Natural Gas, LNG"
     },
     {
       "id": "6536792234b0fbed",
@@ -1008,7 +1078,7 @@
       "published": "2026-03-09T20:02:02+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Refined Products",
-      "category": "Oil - Refined Products, Shipping"
+      "category": "Oil - Refined Products"
     },
     {
       "id": "61911b57395fc387",
@@ -1047,8 +1117,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/electric-power/030926-us-power-tracker-midcontinent-april-power-rises-despite-mild-forecasts-weak-gas",
       "published": "2026-03-09T18:56:03+00:00",
       "source": "S&P Global",
-      "feed": "S&P Energy Transition",
-      "category": "Energy Transition"
+      "feed": "S&P Natural Gas",
+      "category": "Natural Gas, Energy Transition"
     },
     {
       "id": "325dc99a0ea8111f",
@@ -4087,8 +4157,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/agriculture/030526-dutch-ere-biotickets-trigger-strong-biomethane-gains",
       "published": "2026-03-05T16:38:44+00:00",
       "source": "S&P Global",
-      "feed": "S&P Natural Gas",
-      "category": "Natural Gas, Agriculture"
+      "feed": "S&P Agriculture",
+      "category": "Agriculture"
     },
     {
       "id": "6982d15a27f92a20",
@@ -5808,8 +5878,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/lng/030526-south-korea-sees-no-lng-shortages-despite-middle-east-supply-disruptions",
       "published": "2026-03-05T03:19:40+00:00",
       "source": "S&P Global",
-      "feed": "S&P Natural Gas",
-      "category": "Natural Gas, LNG"
+      "feed": "S&P LNG",
+      "category": "LNG"
     },
     {
       "id": "0375e463ef3461a8",
@@ -5818,8 +5888,8 @@
       "link": "https://www.spglobal.com/energy/zh/news-research/latest-news/lng/030526-south-korea-sees-no-lng-shortages-despite-middle-east-supply-disruptions",
       "published": "2026-03-05T03:19:40+00:00",
       "source": "S&P Global",
-      "feed": "S&P Natural Gas",
-      "category": "Natural Gas, LNG"
+      "feed": "S&P LNG",
+      "category": "LNG"
     },
     {
       "id": "ef233c9ee0faa783",
