@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-10T00:00:11.220529+00:00",
-    "total_articles": 530,
+    "last_updated": "2026-03-10T02:47:13.770020+00:00",
+    "total_articles": 537,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,36 @@
     }
   },
   "articles": [
+    {
+      "id": "51b2e3f29825008f",
+      "title": "China’s Shanghai SECCO sharply raises ACN weekly price on surging costs",
+      "description": "SINGAPORE (ICIS)--China’s Shanghai SECCO Petrochemical has sharply raised its acrylonitrile (ACN) weekly price to yuan (CNY) 12,000/tonne ex-tank, surging by CNY4,200/tonne from the...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187156/china-s-shanghai-secco-sharply-raises-acn-weekly-price-on-surging-costs",
+      "published": "2026-03-10T02:28:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "c2dec3722e088d00",
+      "title": "Plant status: Thailand’s ROC runs aromatics unit at 80-85%",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: Rayong Olefins (ROC) Location: Map Ta Phut, Thailand Product: Benzene, toluene Capacity (tonnes/year): 185,000 (benzene); 80,000 (toluene) Event...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187155/plant-status-thailand-s-roc-runs-aromatics-unit-at-80-85",
+      "published": "2026-03-10T02:24:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals, Fertilizers"
+    },
+    {
+      "id": "89a680e4cf5cfe41",
+      "title": "Oil prices tumble after Trump says Iran war may be nearing end",
+      "description": "SINGAPORE (ICIS)--Oil prices fell in early Asian trade on Tuesday after US President Donald Trump signaled the Iran war may be nearing an end, easing concerns about prolonged disruptions to global...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187152/oil-prices-tumble-after-trump-says-iran-war-may-be-nearing-end",
+      "published": "2026-03-10T01:52:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Crude"
+    },
     {
       "id": "f69b38052f54f2a0",
       "title": "US to remove oil sanctions on some countries until Iran situation &apos;straightens out&apos;: Trump",
@@ -121,6 +151,16 @@
       "category": "Oil - Crude"
     },
     {
+      "id": "6566427ba1706ebf",
+      "title": "Putin says Russia increasing energy supplies to &apos;reliable partners&apos; amid Middle East supply concerns",
+      "description": "Russian President Vladimir Putin said March 9 that Russia is increasing oil and natural gas supplies to &quot;reliable partners,&quot; during a government meeting called to discuss global oil and gas markets. Putin referred to buyers in the Asia-Pacific region, Slovakia and Hungary as reliable, according to a transcript posted on the Kremlin website, and said that Russia is willing to work with other",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/crude-oil/030926-putin-says-russia-increasing-energy-supplies-to-reliable-partners-amid-middle-east-supply-concerns",
+      "published": "2026-03-09T20:29:24+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Oil - Crude",
+      "category": "Oil - Crude, LNG"
+    },
+    {
       "id": "6536792234b0fbed",
       "title": "US crude futures plunge on reports of easing Russia’s sanctions",
       "description": "HOUSTON (ICIS)--NYMEX WTI crude futures for April delivery plunged to $81.19/barrel in after-market electronic trading after hitting the highest level since 2022 in early trading. Reports that...",
@@ -129,6 +169,16 @@
       "source": "ICIS",
       "feed": "ICIS",
       "category": "Oil - Crude"
+    },
+    {
+      "id": "5d7cf2fe040c04a5",
+      "title": "FACTBOX: G7 holds off on oil stock release as prices hover around $100/b",
+      "description": "The G7 is &quot;not there yet&quot; on a decision to release emergency oil reserves as part of its measures to mitigate price spikes, France&apos;s finance minister said March. 9, as world leaders assess the energy fallout of the conflict in the Middle East. Platts assessed Dated Brent at $103/b on March. 9, the highest the crude benchmark has reached since August 2022. During European intraday trade, ICE Brent",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/electric-power/030926-factbox-g7-holds-off-on-oil-stock-release-as-prices-hover-around-100b",
+      "published": "2026-03-09T20:02:02+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Oil - Refined Products",
+      "category": "Oil - Refined Products"
     },
     {
       "id": "61911b57395fc387",
@@ -359,6 +409,16 @@
       "source": "ICIS",
       "feed": "ICIS",
       "category": "Electric Power"
+    },
+    {
+      "id": "bf08608080a62449",
+      "title": "Biofuel complex rocked by volatility in underlying fossil markets",
+      "description": "SAF and renewable diesel outright prices hit multi-month highs following the outbreak of war in the Middle East on Feb. 28, drivenâ&#x20ac;¯by strength in the underlying fossil contracts which they are priced against. There is often a lag betweenâ&#x20ac;¯movements in the underlying fossil contract and the corresponding adjustment to bio-premiums, European biofuel traders said. â&#x20ac;¯As of March 6, the downward momentum",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/agriculture/030926-biofuel-complex-rocked-by-volatility-in-underlying-fossil-markets",
+      "published": "2026-03-09T16:35:58+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Oil - Refined Products",
+      "category": "Oil - Refined Products, Agriculture"
     },
     {
       "id": "f64051bba2ff539c",
@@ -708,7 +768,7 @@
       "published": "2026-03-09T10:39:12+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude"
+      "category": "Oil - Crude, Shipping"
     },
     {
       "id": "34da9da28dbef6a0",
@@ -1057,8 +1117,8 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/shipping/030926-china-may-resume-us-crude-imports-on-supply-crisis-after-9-month-gap-sources",
       "published": "2026-03-09T06:09:30+00:00",
       "source": "S&P Global",
-      "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude"
+      "feed": "S&P Shipping",
+      "category": "Shipping"
     },
     {
       "id": "ee731a5902a03214",
@@ -1138,7 +1198,7 @@
       "published": "2026-03-09T04:50:00+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Refined Products",
-      "category": "Oil - Refined Products"
+      "category": "Oil - Refined Products, Shipping"
     },
     {
       "id": "cb489ee4418bf78d",
@@ -1471,6 +1531,16 @@
       "category": "Chemicals, Oil - Crude"
     },
     {
+      "id": "05ca5d5f4d8c3a6f",
+      "title": "Germany, China move ahead with pork trade regionalization despite ASF",
+      "description": "Germany and China have signed a declaration of intent to develop a regionalization agreement for African swine fever, a move that could pave the way for the resumption of German pork exports to China despite localized outbreaks of the disease. The memorandum of understanding was signed during German Chancellor Friedrich Merz&apos;s visit to China on Feb. 28, with both sides agreeing on a road map to",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/agriculture/030626-germany-china-move-ahead-with-pork-trade-regionalization-despite-asf",
+      "published": "2026-03-06T21:05:34+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Agriculture",
+      "category": "Agriculture"
+    },
+    {
       "id": "1b59fc9dfac5808e",
       "title": "US government announces $20 billion plan for maritime reinsurance in Middle East",
       "description": "HOUSTON (ICIS)--The US will provide maritime reinsurance, including war risk, for tankers transiting the Strait of Hormuz, the International Development Finance Corporation (DFC) said on Friday. The...",
@@ -1728,7 +1798,7 @@
       "published": "2026-03-06T17:02:13+00:00",
       "source": "S&P Global",
       "feed": "S&P Metals",
-      "category": "Metals, Shipping, Agriculture"
+      "category": "Metals"
     },
     {
       "id": "778db0fcc1ad63da",
@@ -2398,7 +2468,7 @@
       "published": "2026-03-06T10:53:21+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Fertilizers, Chemicals, Shipping, Agriculture, Energy Transition"
+      "category": "Fertilizers, Chemicals, Agriculture, Energy Transition"
     },
     {
       "id": "09318d6783e6566e",
@@ -8463,7 +8533,7 @@
       "published": "2026-03-02T22:21:00+00:00",
       "source": "S&P Global",
       "feed": "S&P Electric Power",
-      "category": "Electric Power, Coal, LNG",
+      "category": "Electric Power, Coal",
       "sentiment": {
         "label": "positive",
         "confidence": 0.6730107069015503,
