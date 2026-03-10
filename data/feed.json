@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-10T14:32:05.978819+00:00",
-    "total_articles": 604,
+    "last_updated": "2026-03-10T15:45:01.808584+00:00",
+    "total_articles": 616,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,126 @@
     }
   },
   "articles": [
+    {
+      "id": "46ce6ebdcabefcd5",
+      "title": "MCM declares sales control on US methacrylic acid",
+      "description": "HOUSTON (ICIS)--Mitsubishi Chemical Methacrylates (MCM) has declared sales control on the following imported products in the US, according to a customer letter seen by ICIS: Methacrylic acid (MAA)...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187323/mcm-declares-sales-control-on-us-methacrylic-acid",
+      "published": "2026-03-10T15:38:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "be5e9e60745ac881",
+      "title": "Europe etac market faces mounting concerns over supply",
+      "description": "LONDON (ICIS)--The European ethyl acetate (etac) spot market shifted rapidly from ample availability to tight supply within days as escalating Middle East tensions disrupted supply chains, altered...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187322/europe-etac-market-faces-mounting-concerns-over-supply",
+      "published": "2026-03-10T15:37:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "5d3f89c8779f8f7e",
+      "title": "Europe MTBE prices surge on higher Eurobob values due to Middle East conflict",
+      "description": "LONDON (ICIS)--The European methyl tertiary butyl ether (MTBE) market saw average prices increase dramatically in the week ending 6 March, aligning with higher Eurobob gasoline values due to the...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187321/europe-mtbe-prices-surge-on-higher-eurobob-values-due-to-middle-east-conflict",
+      "published": "2026-03-10T15:25:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals, Oil - Refined Products"
+    },
+    {
+      "id": "7cd520251ad559aa",
+      "title": "US existing home sales rise 1.7% in February",
+      "description": "HOUSTON (ICIS)--Sales of existing homes in the US rose 1.7% month on month to a seasonally adjusted annual rate of 4.09 million in February, following a decline of 8.4% in January, the National...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187320/us-existing-home-sales-rise-1-7-in-february",
+      "published": "2026-03-10T15:24:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "1a4b3b39febdd0cc",
+      "title": "Series of attacks in Mideast conflict expected to squeeze Group III base oils supply",
+      "description": "SINGAPORE (ICIS)--Mideast Group III base oils supply is expected to shrink with a series of attacks that have impacted refinery complexes in Qatar, Bahrain and the UAE. After the de facto closure of...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187319/series-of-attacks-in-mideast-conflict-expected-to-squeeze-group-iii-base-oils-supply",
+      "published": "2026-03-10T15:23:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Refined Products"
+    },
+    {
+      "id": "834ad07db20cc866",
+      "title": "LyondellBasell declares Europe polyolefins force majeure",
+      "description": "LONDON (ICIS)--LyondellBasell has declared force majeure on polyolefins sales from two of the producer’s European subsidiaries, citing the uncertainty and market volatility brought on by the...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187318/lyondellbasell-declares-europe-polyolefins-force-majeure",
+      "published": "2026-03-10T15:19:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "53b619b91f0fc55e",
+      "title": "Fertilizer production halted in Bangladesh on natural gas supply issues",
+      "description": "LONDON (ICIS)--Five out of six urea fertilizer plants in Bangladesh have halted production due to natural gas supply issues. Government-owned Ghorashal Polash Fertilizer, Chittagong Urea Fertilizer...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187317/fertilizer-production-halted-in-bangladesh-on-natural-gas-supply-issues",
+      "published": "2026-03-10T15:18:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Natural Gas, Fertilizers"
+    },
+    {
+      "id": "3976d7b1b7639066",
+      "title": "Markets rally, commodity prices fall as Trump predicts short conflict",
+      "description": "LONDON (ICIS)--Equity markets and chemicals stocks rallied on Tuesday as crude pricing whipsawed back from triple digits in the wake of US President Donald Trump projecting a short duration to the...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187316/markets-rally-commodity-prices-fall-as-trump-predicts-short-conflict",
+      "published": "2026-03-10T15:16:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Crude"
+    },
+    {
+      "id": "be4586e242c55894",
+      "title": "Energy Community contracting parties transpose REMIT type rules but implementation patchy",
+      "description": "REMIT-type regulation transposed by in electricity and gas market legislation Contracting parties struggling to produce surveillance and monitoring instruments First REMIT penalty applied by Ukraine...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187315/energy-community-contracting-parties-transpose-remit-type-rules-but-implementation-patchy",
+      "published": "2026-03-10T15:09:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Electric Power"
+    },
+    {
+      "id": "ff1c818dd80a4468",
+      "title": "Jet fuel, gasoil markets reel as Hormuz disruption triggers supply crunch, demand destruction",
+      "description": "LONDON (ICIS)--Disruptions to Middle East oil product flows following the closure of the Strait of Hormuz are triggering sharp price spikes, supply shortages and early signs of demand destruction...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187313/jet-fuel-gasoil-markets-reel-as-hormuz-disruption-triggers-supply-crunch-demand-destruction",
+      "published": "2026-03-10T14:49:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Refined Products"
+    },
+    {
+      "id": "8bcc7165b78551d1",
+      "title": "Germany chem-pharma orders and production fall in January",
+      "description": "LONDON (ICIS)--Germany’s chemical-pharmaceuticals orders fell in January, as did production, according to data from the country’s central bank and its federal statistics office. Chem-pharma order...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187312/germany-chem-pharma-orders-and-production-fall-in-january",
+      "published": "2026-03-10T14:38:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General"
+    },
+    {
+      "id": "0cb51e507e506069",
+      "title": "Turkey PE and PP spot prices surge as oil shock rips through supply chain",
+      "description": "LONDON (ICIS)--Prices in Turkey’s polyethylene (PE) and polypropylene (PP) markets are moving so fast that any quote becomes outdated almost immediately. What was true yesterday often no longer...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187310/turkey-pe-and-pp-spot-prices-surge-as-oil-shock-rips-through-supply-chain",
+      "published": "2026-03-10T14:26:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
     {
       "id": "5ad34d064c35f1f7",
       "title": "GAS ALERT: Storengy UK to auction British gas storage capacity across 2026-2027 in March",
@@ -1088,7 +1208,7 @@
       "published": "2026-03-09T16:35:58+00:00",
       "source": "S&P Global",
       "feed": "S&P Agriculture",
-      "category": "Agriculture, Energy Transition"
+      "category": "Agriculture"
     },
     {
       "id": "f64051bba2ff539c",
@@ -1258,7 +1378,7 @@
       "published": "2026-03-09T14:14:47+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Fertilizers, Chemicals, Energy Transition"
+      "category": "Fertilizers, Chemicals"
     },
     {
       "id": "4a493add758888af",
@@ -1298,7 +1418,7 @@
       "published": "2026-03-09T13:11:32+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Fertilizers, Chemicals, Energy Transition"
+      "category": "Fertilizers, Chemicals"
     },
     {
       "id": "0566513676c8b2dc",
@@ -1368,7 +1488,7 @@
       "published": "2026-03-09T11:58:30+00:00",
       "source": "S&P Global",
       "feed": "S&P Natural Gas",
-      "category": "Natural Gas, Coal, Energy Transition"
+      "category": "Natural Gas, Coal"
     },
     {
       "id": "fdcd00f4e178ffbc",
@@ -3098,7 +3218,7 @@
       "published": "2026-03-06T11:17:35+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Fertilizers, Chemicals"
+      "category": "Fertilizers, Chemicals, Energy Transition"
     },
     {
       "id": "112bdbf3edd24ccc",
@@ -3138,7 +3258,7 @@
       "published": "2026-03-06T10:53:21+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Fertilizers, Agriculture"
+      "category": "Fertilizers, Agriculture, Energy Transition"
     },
     {
       "id": "09318d6783e6566e",
@@ -3918,7 +4038,7 @@
       "published": "2026-03-05T16:38:44+00:00",
       "source": "S&P Global",
       "feed": "S&P Natural Gas",
-      "category": "Natural Gas, Agriculture"
+      "category": "Natural Gas, Agriculture, Energy Transition"
     },
     {
       "id": "6982d15a27f92a20",
@@ -4168,7 +4288,7 @@
       "published": "2026-03-05T13:17:22+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Fertilizers"
+      "category": "Fertilizers, Energy Transition"
     },
     {
       "id": "42fbbfabd42fbf9e",
