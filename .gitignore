@@ -37,3 +37,9 @@ secrets.json
 
 # Logs
 *.log
+
+# Claude Code internals (worktrees, memory, session files)
+.claude/
+
+# SQLite databases
+*.db
