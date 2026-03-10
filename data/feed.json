@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-10T08:52:14.401937+00:00",
-    "total_articles": 569,
+    "last_updated": "2026-03-10T09:52:14.804560+00:00",
+    "total_articles": 572,
     "feeds_fetched": 13,
     "feeds_failed": 0,
     "feed_details": {
@@ -60,6 +60,36 @@
     }
   },
   "articles": [
+    {
+      "id": "a96c8f40664574db",
+      "title": "Plant status: Taiwan’s Nan Ya Plastics stops BDO production",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: Nan Ya Plastics Location: Mai Liao, Taiwan Product: 1,4-butanediol (BDO) Capacity (tonnes/year): 80,000 Event start: March 2026 Event finish:...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187221/plant-status-taiwan-s-nan-ya-plastics-stops-bdo-production",
+      "published": "2026-03-10T09:46:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "c9f8f4a07fc1f85e",
+      "title": "Taiwan's Formosa Plastics Corp announces force majeure on feedstock supply issues",
+      "description": "SINGAPORE (ICIS)--Formosa Plastics Corp (FPC) has declared force majeure on its petrochemical supply due to feedstock supply disruptions, the Taiwan-based producer said on Tuesday. The company's...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187217/taiwan-s-formosa-plastics-corp-announces-force-majeure-on-feedstock-supply-issues",
+      "published": "2026-03-10T09:20:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals"
+    },
+    {
+      "id": "ffab92c133377e15",
+      "title": "Japan’s Mitsui Chemicals cuts Osaka cracker run rates on feedstock supply disruption",
+      "description": "SINGAPORE (ICIS)--Mitsui Chemicals has begun cutting run rates at its naphtha-based steam cracker at Sakai in Osaka, Japan, due to disruptions in feedstock supply following the onset of the conflict...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187215/japan-s-mitsui-chemicals-cuts-osaka-cracker-run-rates-on-feedstock-supply-disruption",
+      "published": "2026-03-10T09:13:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Refined Products"
+    },
     {
       "id": "b2b0e7ccde368d98",
       "title": "Local China OX prices decline on overnight upstream losses",
@@ -418,7 +448,7 @@
       "published": "2026-03-09T22:40:48+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude, Shipping"
+      "category": "Oil - Crude"
     },
     {
       "id": "4d967d1c1b6bc617",
@@ -438,7 +468,7 @@
       "published": "2026-03-09T21:43:52+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude, Oil - Refined Products, Shipping"
+      "category": "Oil - Crude, Oil - Refined Products"
     },
     {
       "id": "8ac017423f6e3fa7",
@@ -498,7 +528,7 @@
       "published": "2026-03-09T20:02:02+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Refined Products",
-      "category": "Oil - Refined Products, Shipping"
+      "category": "Oil - Refined Products"
     },
     {
       "id": "61911b57395fc387",
@@ -548,7 +578,7 @@
       "published": "2026-03-09T18:35:11+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude, Shipping"
+      "category": "Oil - Crude"
     },
     {
       "id": "152515d02b054c89",
