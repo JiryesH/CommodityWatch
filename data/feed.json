@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-10T20:46:37.328712+00:00",
-    "total_articles": 2067,
+    "last_updated": "2026-03-10T21:34:23.709725+00:00",
+    "total_articles": 2071,
     "feeds_fetched": 15,
     "feeds_failed": 0,
     "feed_details": {
@@ -105,14 +105,66 @@
       "classifier_fallback_used": 0
     },
     "dedupe": {
-      "new": 1,
-      "updated": 129,
-      "merged": 20,
-      "incoming_merged": 20,
+      "new": 4,
+      "updated": 124,
+      "merged": 22,
+      "incoming_merged": 22,
       "existing_merged": 0
     }
   },
   "articles": [
+    {
+      "id": "48582f49242979e5",
+      "title": "Stargate stall shows ERCOT's planning problem",
+      "description": "",
+      "link": "https://www.argusmedia.com/pages/NewsBody.aspx?id=2799256&menu=yes",
+      "published": "2026-03-10T21:11:00+00:00",
+      "source": "Argus Media",
+      "feed": "Argus NewsAll",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
+    {
+      "id": "065fb94195c863b3",
+      "title": "NYMEX: US gas futures ease as winter draws near to an end",
+      "description": "Front-month US natural gas futures lowered on 10 March on late winter seasonality and strong production The April 2026 Henry Hub contract on NYMEX settled at $3.02/MMBtu, down nearly 3.2% from the...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187348/nymex-us-gas-futures-ease-as-winter-draws-near-to-an-end",
+      "published": "2026-03-10T21:07:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Natural Gas",
+      "categories": [
+        "Natural Gas"
+      ]
+    },
+    {
+      "id": "59e240786d6c79a2",
+      "title": "US LNG NEWS WRAP: Cheniere, VG announce offtake deals while Texas LNG lines up EPC contract",
+      "description": "HOUSTON (ICIS)-- ICIS tracks key developments across the US LNG sector, as new offtake agreements and project updates continue to shape the market. NEW CONTRACTS Below is a line-up of recent offtake...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187347/us-lng-news-wrap-cheniere-vg-announce-offtake-deals-while-texas-lng-lines-up-epc-contract",
+      "published": "2026-03-10T20:54:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "LNG",
+      "categories": [
+        "LNG"
+      ]
+    },
+    {
+      "id": "6242b5b1291cb2d9",
+      "title": "Iran may be mining Hormuz: Trump",
+      "description": "",
+      "link": "https://www.argusmedia.com/pages/NewsBody.aspx?id=2799246&menu=yes",
+      "published": "2026-03-10T20:52:00+00:00",
+      "source": "Argus Media",
+      "feed": "Argus NewsAll",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
     {
       "id": "70611a1bf24baf59",
       "title": "US chemicals may gain short-term edge from oil price shock but ratings upgrades not in play - Fitch",
@@ -2417,7 +2469,7 @@
       "category": "Oil - Crude",
       "categories": [
         "Oil - Crude",
-        "LNG"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "neutral",
