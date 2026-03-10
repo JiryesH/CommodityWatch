@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-10T18:29:53.953257+00:00",
-    "total_articles": 2056,
+    "last_updated": "2026-03-10T19:24:43.220544+00:00",
+    "total_articles": 2064,
     "feeds_fetched": 15,
     "feeds_failed": 0,
     "feed_details": {
@@ -105,14 +105,119 @@
       "classifier_fallback_used": 0
     },
     "dedupe": {
-      "new": 11,
-      "updated": 115,
-      "merged": 24,
-      "incoming_merged": 24,
+      "new": 8,
+      "updated": 122,
+      "merged": 20,
+      "incoming_merged": 20,
       "existing_merged": 0
     }
   },
   "articles": [
+    {
+      "id": "5dc4024e0bf9ba4b",
+      "title": "Chinese lead smelters cautious on concentrates purchases amid silver price volatility",
+      "description": "<p>Chinese lead smelters turned more bearish on the procurement of raw materials in the week to Friday February 13, amid heightened price volatility in silver, which is often contained in lead ores as an important by-product and contributor to smelter profits, sources told Fastmarkets.</p> <p>The post <a href=\"https://www.fastmarkets.com/insights/chinese-lead-smelters-cautious-on-concentrates-purchases-amid-silver-price-volatility/\">Chinese lead smelters cautious on concentrates purchases amid silver price volatility</a> appeared first on <a href=\"https://www.fastmarkets.com\">Fastmarkets</a>.</p>",
+      "link": "https://www.fastmarkets.com/insights/chinese-lead-smelters-cautious-on-concentrates-purchases-amid-silver-price-volatility/",
+      "published": "2026-03-10T19:19:20+00:00",
+      "source": "Fastmarkets",
+      "feed": "Fastmarkets",
+      "category": "Metals",
+      "categories": [
+        "Metals"
+      ]
+    },
+    {
+      "id": "c24aa462d56874b0",
+      "title": "Mars crude premium swings down by $10/bl",
+      "description": "",
+      "link": "https://www.argusmedia.com/pages/NewsBody.aspx?id=2799214&menu=yes",
+      "published": "2026-03-10T19:19:00+00:00",
+      "source": "Argus Media",
+      "feed": "Argus NewsAll",
+      "category": "Oil - Crude",
+      "categories": [
+        "Oil - Crude"
+      ]
+    },
+    {
+      "id": "fab9dd9ce92f6f18",
+      "title": "Hormuz escort claim pushes oil futures lower: Update",
+      "description": "",
+      "link": "https://www.argusmedia.com/pages/NewsBody.aspx?id=2799213&menu=yes",
+      "published": "2026-03-10T19:18:00+00:00",
+      "source": "Argus Media",
+      "feed": "Argus NewsAll",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
+    {
+      "id": "0b6db1e37d6ca917",
+      "title": "South Africa MGO price at unprecedented high",
+      "description": "",
+      "link": "https://www.argusmedia.com/pages/NewsBody.aspx?id=2799204&menu=yes",
+      "published": "2026-03-10T19:00:00+00:00",
+      "source": "Argus Media",
+      "feed": "Argus NewsAll",
+      "category": "Oil - Refined Products",
+      "categories": [
+        "Oil - Refined Products"
+      ]
+    },
+    {
+      "id": "bf796298a906fde8",
+      "title": "Mexico inflation quickens to 4pcin Feb",
+      "description": "",
+      "link": "https://www.argusmedia.com/pages/NewsBody.aspx?id=2799203&menu=yes",
+      "published": "2026-03-10T18:58:00+00:00",
+      "source": "Argus Media",
+      "feed": "Argus NewsAll",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
+    {
+      "id": "d62ffd75f1e67f7a",
+      "title": "Gas to remain in Germany’s residential demand mix amid proposed heating law reset",
+      "description": "Additional reporting by Eduardo Escajadillo Germany plans to scrap its heating mandate and let households keep choosing gas/oil Residential gas demand is likely to stay stable, as decarbonization...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/10/11187344/gas-to-remain-in-germany-s-residential-demand-mix-amid-proposed-heating-law-reset",
+      "published": "2026-03-10T18:57:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Energy Transition",
+      "categories": [
+        "Energy Transition",
+        "Metals"
+      ]
+    },
+    {
+      "id": "4ba3ccd8c76bf5ad",
+      "title": "EIA expects WTI to average nearly $85/bl in 2Q: Update",
+      "description": "",
+      "link": "https://www.argusmedia.com/pages/NewsBody.aspx?id=2799198&menu=yes",
+      "published": "2026-03-10T18:55:00+00:00",
+      "source": "Argus Media",
+      "feed": "Argus NewsAll",
+      "category": "Oil - Crude",
+      "categories": [
+        "Oil - Crude"
+      ]
+    },
+    {
+      "id": "cf81e1825b63fd65",
+      "title": "EIA boosts US jet fuel price view on Iran war",
+      "description": "",
+      "link": "https://www.argusmedia.com/pages/NewsBody.aspx?id=2799187&menu=yes",
+      "published": "2026-03-10T18:44:00+00:00",
+      "source": "Argus Media",
+      "feed": "Argus NewsAll",
+      "category": "Oil - Refined Products",
+      "categories": [
+        "Oil - Refined Products"
+      ]
+    },
     {
       "id": "93c9cdd97e96750f",
       "title": "Italian gas curve backwardation likely to persist amid regulation uncertainties and war in Middle East",
