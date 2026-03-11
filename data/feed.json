@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-10T23:59:30.819520+00:00",
-    "total_articles": 2078,
+    "last_updated": "2026-03-11T02:46:19.981848+00:00",
+    "total_articles": 2084,
     "feeds_fetched": 15,
     "feeds_failed": 0,
     "feed_details": {
@@ -105,14 +105,66 @@
       "classifier_fallback_used": 0
     },
     "dedupe": {
-      "new": 1,
-      "updated": 124,
-      "merged": 25,
-      "incoming_merged": 25,
+      "new": 6,
+      "updated": 122,
+      "merged": 22,
+      "incoming_merged": 22,
       "existing_merged": 0
     }
   },
   "articles": [
+    {
+      "id": "ba90ca19e4fcbe6e",
+      "title": "Plant status: South Korea’s S-Oil shuts PP unit",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: S-Oil Corp. Location: Onsan, South Korea Product: Polypropylene (PP) Capacity (tonnes/year): 405,000 Event start: 6 March Event finish: Around...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187574/plant-status-south-korea-s-s-oil-shuts-pp-unit",
+      "published": "2026-03-11T02:31:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals",
+      "categories": [
+        "Chemicals"
+      ]
+    },
+    {
+      "id": "b4121eeec0dce815",
+      "title": "Plant status: S Korea's ULSAN PP restarts PP unit",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: ULSAN PP. Location: Ulsan, South Korea Product: Polypropylene (PP) Capacity (tonnes/year): 400,000 Event start: 24 February Event finish: Early...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187573/plant-status-s-korea-s-ulsan-pp-restarts-pp-unit",
+      "published": "2026-03-11T02:17:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals",
+      "categories": [
+        "Chemicals"
+      ]
+    },
+    {
+      "id": "81381242fa0b2c6d",
+      "title": "Crude prices dip on hopes IEA to release largest ever oil reserves",
+      "description": "SINGAPORE (ICIS)--Oil prices continued to fall in early Asian trade on Wednesday after Wall Street Journal (WSJ) reported that the International Energy Agency (IEA) has proposed the largest emergency...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187572/crude-prices-dip-on-hopes-iea-to-release-largest-ever-oil-reserves",
+      "published": "2026-03-11T02:12:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Crude",
+      "categories": [
+        "Oil - Crude"
+      ]
+    },
+    {
+      "id": "74c7ce7965d51b04",
+      "title": "India&apos;s Reliance to maximize LPG production at Jamnagar refinery complex",
+      "description": "India&apos;s Reliance Industries said March 10 that it was aiming to maximize production of LPG at its refining and petrochemical complex at Jamnagar to ensure plentiful supplies of the fuel in the domestic market. The move by Reliance comes a day after the Indian government directed oil refiners to boost LPG output and ensure supplies to households and some essential sectors, as the ongoing Middle",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/crude-oil/031126-indias-reliance-to-maximize-lpg-production-at-jamnagar-refinery-complex",
+      "published": "2026-03-11T00:02:06+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Oil - Refined Products",
+      "category": "Oil - Refined Products",
+      "categories": [
+        "Oil - Refined Products"
+      ]
+    },
     {
       "id": "25808adfb9cd7b3e",
       "title": "US-Iran war: Latest news",
@@ -624,8 +676,9 @@
       "published": "2026-03-10T16:52:56+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Refined Products",
-      "category": "Oil - Refined Products",
+      "category": "Oil - Crude",
       "categories": [
+        "Oil - Crude",
         "Oil - Refined Products"
       ]
     },
@@ -1037,6 +1090,19 @@
         "text_hash": "5867409a3e1324fa5cdc5b892cf30b545851d92caaf9a1466331397075980ee7",
         "extracted_at": "2026-03-10T16:21:48.442520+00:00"
       }
+    },
+    {
+      "id": "66ceb63b8a8ff0a6",
+      "title": "Fog of war clouds European energy transition outlook, exposes gas &apos;Achilles heel&apos;: experts",
+      "description": "The Middle East war is the latest wake-up call for Europe as it confronts its energy import dependency, and while early signals from policymakers point to doubling down on renewables, inflationary risks from the conflict loom, according to industry experts. France-based Societe Generale&apos;s Head of Commodity Research, Ben Hoff, said the Iran conflict had brought Europe&apos;s energy import dependency",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/energy-transition/031026-fog-of-war-clouds-european-energy-transition-outlook-exposes-gas-achilles-heel-experts",
+      "published": "2026-03-10T15:53:13+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Natural Gas",
+      "category": "Natural Gas",
+      "categories": [
+        "Natural Gas"
+      ]
     },
     {
       "id": "5e68c2545b9f48fa",
@@ -1979,6 +2045,19 @@
         "text_hash": "d7fe123811c9cc02d01d87bf84a2a8d8fe652c946370e39bd5b0cf833f75e26a",
         "extracted_at": "2026-03-10T13:20:49.394231+00:00"
       }
+    },
+    {
+      "id": "6372cc750de84854",
+      "title": "Hormuz traffic drops to three ships, with one carrying Iran crude to China",
+      "description": "Traffic through the Strait of Hormuz dropped to three ships on March 9, including the US-sanctioned VLCC CUME, which loaded Iranian crude and is bound for China, according to a March 10 report by S&amp;P Global Commodities at Sea. The CUME is managed by Harry Victor Ship Management LLC, which is linked to Iran&apos;s Trilance Petrochemical Co., according to the US sanctions list. Phone numbers listed for",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/crude-oil/031026-hormuz-traffic-drops-to-three-ships-with-one-carrying-iran-crude-to-china",
+      "published": "2026-03-10T13:11:54+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Oil - Crude",
+      "category": "Oil - Crude",
+      "categories": [
+        "Oil - Crude"
+      ]
     },
     {
       "id": "589460d6cba90d7e",
