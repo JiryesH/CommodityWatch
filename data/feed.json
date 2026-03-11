@@ -1,9 +1,9 @@
 {
   "metadata": {
-    "last_updated": "2026-03-11T16:35:46.097363+00:00",
-    "total_articles": 2175,
-    "feeds_fetched": 14,
-    "feeds_failed": 1,
+    "last_updated": "2026-03-11T17:35:53.015610+00:00",
+    "total_articles": 2183,
+    "feeds_fetched": 15,
+    "feeds_failed": 0,
     "feed_details": {
       "ICIS": {
         "status": "ok",
@@ -11,8 +11,8 @@
         "timestamp_parse_errors": 0
       },
       "Fastmarkets": {
-        "status": "failed",
-        "count": 0,
+        "status": "ok",
+        "count": 10,
         "timestamp_parse_errors": 0
       },
       "S&P Oil - Crude": {
@@ -105,14 +105,93 @@
       "classifier_fallback_used": 0
     },
     "dedupe": {
-      "new": 11,
-      "updated": 106,
-      "merged": 23,
-      "incoming_merged": 23,
+      "new": 8,
+      "updated": 117,
+      "merged": 25,
+      "incoming_merged": 25,
       "existing_merged": 0
     }
   },
   "articles": [
+    {
+      "id": "5a5a4e4e38b901f8",
+      "title": "EVENING SNAPSHOT - Europe Markets Summary",
+      "description": "CRUDE: Benchmarks up amid market doubts as to whether IEA plans to release 400 million barrels is sufficient to ease soaring prices NAPHTHA: Firms with crude, steady crack spread. BENZENE: Higher...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187713/evening-snapshot-europe-markets-summary",
+      "published": "2026-03-11T17:30:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Crude",
+      "categories": [
+        "Oil - Crude",
+        "Oil - Refined Products"
+      ]
+    },
+    {
+      "id": "4ce95c4417adb5b2",
+      "title": "Strong upward price push for EU epoxy in March due to Middle East war",
+      "description": "LONDON (ICIS)--Steep price hikes are on the table for Europe epoxy in March, in particular for spot, due to cost pressures because of the US-Israel war with Iran, while there is the risk of reduced...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187714/strong-upward-price-push-for-eu-epoxy-in-march-due-to-middle-east-war",
+      "published": "2026-03-11T17:28:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
+    {
+      "id": "bc35ae39515c6bcd",
+      "title": "Europe base oils Group III spot values climb on supply constraints deepened by Middle East disruptions",
+      "description": "LONDON (ICIS)--European base oils Group III spot prices increased significantly this week as existing tightness in the market is compounded by outages and reduced capacity in the Middle East. Spot...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187712/europe-base-oils-group-iii-spot-values-climb-on-supply-constraints-deepened-by-middle-east-disruptions",
+      "published": "2026-03-11T17:14:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Refined Products",
+      "categories": [
+        "Oil - Refined Products"
+      ]
+    },
+    {
+      "id": "b7b7d76fac1a4831",
+      "title": "Europe base oils Group I export spot prices surge on competition from gasoil",
+      "description": "LONDON (ICIS)--European base oils Group I export spot values soared this week on higher feedstock prices and competition from gasoil. Prices for SN150 increased $120/tonne on the low end and...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187711/europe-base-oils-group-i-export-spot-prices-surge-on-competition-from-gasoil",
+      "published": "2026-03-11T17:12:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Refined Products",
+      "categories": [
+        "Oil - Refined Products"
+      ]
+    },
+    {
+      "id": "35b26a3334384a99",
+      "title": "NOON SNAPSHOT - Americas Markets Summary",
+      "description": "CRUDE: Up, but off intra-day highs, after the IEA announced a large oil release from members' strategic reserves. The EIA stats revealed a build in crude stocks and a drawdown in refined fuels....",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187708/noon-snapshot-americas-markets-summary",
+      "published": "2026-03-11T17:00:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Crude",
+      "categories": [
+        "Oil - Crude"
+      ]
+    },
+    {
+      "id": "05d90b035ee282bc",
+      "title": "North America chemical rail traffic rises for fifth week",
+      "description": "HOUSTON (ICIS)--North American chemical railcar traffic rose 5.8% year on year to 49,816 loadings for the week ended 7 March, marking a fifth consecutive increase, according to freight rail...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187705/north-america-chemical-rail-traffic-rises-for-fifth-week",
+      "published": "2026-03-11T16:45:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
     {
       "id": "d9f0cd702e8273f8",
       "title": "EU to consider gas-for-power price cap among options to cut energy costs",
@@ -167,6 +246,19 @@
       ]
     },
     {
+      "id": "4b71c50c454b8c7e",
+      "title": "World’s top bauxite producer considers export curbs after supply glut leads to price slump",
+      "description": "<p>Guinea, the world's biggest bauxite producer, is considering plans to compel miners to curb exports of bauxite in a bid to halt the slump in the price of the key raw material for aluminium production, sources told Fastmarkets on Monday March 9.</p> <p>The post <a href=\"https://www.fastmarkets.com/insights/top-bauxite-producer-considers-export-curbs-after-price-slump/\">World’s top bauxite producer considers export curbs after supply glut leads to price slump</a> appeared first on <a href=\"https://www.fastmarkets.com\">Fastmarkets</a>.</p>",
+      "link": "https://www.fastmarkets.com/insights/top-bauxite-producer-considers-export-curbs-after-price-slump/",
+      "published": "2026-03-11T16:08:28+00:00",
+      "source": "Fastmarkets",
+      "feed": "Fastmarkets",
+      "category": "Metals",
+      "categories": [
+        "Metals"
+      ]
+    },
+    {
       "id": "65853c7f847181e1",
       "title": "INSIGHT: Thin liquidity, disrupted trade flows challenge base oils as prices rise amid Iran conflict",
       "description": "HOUSTON (ICIS)--Five key points this week to summarize the Iran war's impact on global base oil markets: Gasoil (diesel) strength will continue to divert refinery economics away from base oils. The...",
@@ -203,6 +295,19 @@
       "category": "General",
       "categories": [
         "General"
+      ]
+    },
+    {
+      "id": "f93beab8e4a29a0b",
+      "title": "Teck, Korea Zinc agree benchmark zinc concentrate TCs at $85 per tonne",
+      "description": "<p>Canadian miner Teck Resources and Korea Zinc have agreed to set treatment charges (TCs) for zinc concentrates at $85 per tonne this year, a slight adjustment from last year’s all-time low of $80 per tonne, four sources told Fastmarkets on Friday March 6.</p> <p>The post <a href=\"https://www.fastmarkets.com/insights/teck-korea-zinc-benchmark-zinc-concentrate-tcs-85-per-tonne/\">Teck, Korea Zinc agree benchmark zinc concentrate TCs at $85 per tonne</a> appeared first on <a href=\"https://www.fastmarkets.com\">Fastmarkets</a>.</p>",
+      "link": "https://www.fastmarkets.com/insights/teck-korea-zinc-benchmark-zinc-concentrate-tcs-85-per-tonne/",
+      "published": "2026-03-11T15:48:45+00:00",
+      "source": "Fastmarkets",
+      "feed": "Fastmarkets",
+      "category": "Metals",
+      "categories": [
+        "Metals"
       ]
     },
     {
