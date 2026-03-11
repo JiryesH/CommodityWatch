@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-11T12:02:40.586619+00:00",
-    "total_articles": 2135,
+    "last_updated": "2026-03-11T13:39:31.119137+00:00",
+    "total_articles": 2151,
     "feeds_fetched": 15,
     "feeds_failed": 0,
     "feed_details": {
@@ -105,14 +105,172 @@
       "classifier_fallback_used": 0
     },
     "dedupe": {
-      "new": 8,
-      "updated": 122,
-      "merged": 20,
-      "incoming_merged": 20,
+      "new": 16,
+      "updated": 112,
+      "merged": 22,
+      "incoming_merged": 22,
       "existing_merged": 0
     }
   },
   "articles": [
+    {
+      "id": "ad24ff3d1ddcc64e",
+      "title": "China average BDO plants' run rate down on plants maintenance",
+      "description": "SINGAPORE (ICIS)--The average run rate of butanediol (BDO) plants in China dropped due to plants maintenance at Ningxia Weiyuan and Inner Mongolia Junzheng. The average run rate stood at 54.0%, down...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187683/china-average-bdo-plants-run-rate-down-on-plants-maintenance",
+      "published": "2026-03-11T13:24:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
+    {
+      "id": "842e6c5670ed0c20",
+      "title": "Three vessels attacked near strait of Hormuz: Update 2",
+      "description": "",
+      "link": "https://www.argusmedia.com/pages/NewsBody.aspx?id=2799518&menu=yes",
+      "published": "2026-03-11T13:09:00+00:00",
+      "source": "Argus Media",
+      "feed": "Argus NewsAll",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
+    {
+      "id": "29d30bad70b26c6a",
+      "title": "Plant status: India's BPCL halts acrylic acid and butyl-A production",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: Bharat Petroleum Corporation Ltd (BPCL) Location: Kochi, India Product: Acrylic acid (AA) and butyl acrylate (butyl-A) Capacity (tonnes/year):...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187681/plant-status-india-s-bpcl-halts-acrylic-acid-and-butyl-a-production",
+      "published": "2026-03-11T13:03:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Crude",
+      "categories": [
+        "Oil - Crude",
+        "Chemicals"
+      ]
+    },
+    {
+      "id": "30da7b906cffcf00",
+      "title": "OPINION: Could Europe turn back to Russian gas amid the Middle East conflict?",
+      "description": "LONDON (ICIS)--European gas prices have surged as the Middle East war and the shutdown of Qatari LNG production have once again exposed Europe’s fragile gas balance. This has made some quarters in...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187680/opinion-could-europe-turn-back-to-russian-gas-amid-the-middle-east-conflict",
+      "published": "2026-03-11T13:01:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Natural Gas",
+      "categories": [
+        "Natural Gas",
+        "LNG"
+      ]
+    },
+    {
+      "id": "a2700a3ee96059e0",
+      "title": "Opec keeps forecasts unchanged despite supply outages",
+      "description": "",
+      "link": "https://www.argusmedia.com/pages/NewsBody.aspx?id=2799503&menu=yes",
+      "published": "2026-03-11T13:00:00+00:00",
+      "source": "Argus Media",
+      "feed": "Argus NewsAll",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
+    {
+      "id": "8c873513bc6d8dd3",
+      "title": "Plant status: China's Huizhou Zhongxin restarts No 1 phenol/acetone plant",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: Huizhou Zhongxin Chemical Location: Huizhou, south China Product: Phenol and acetone Capacity (tonnes/year): 183,000 and 118,000 respectively...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187679/plant-status-china-s-huizhou-zhongxin-restarts-no-1-phenol-acetone-plant",
+      "published": "2026-03-11T12:59:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals",
+      "categories": [
+        "Chemicals"
+      ]
+    },
+    {
+      "id": "20120f0d350c7767",
+      "title": "Mosaic Fertilizantes, Rainbow advance Brazil rare earths project following positive assessment",
+      "description": "LONDON (ICIS)--Mosaic Fertilizantes, a subsidiary of phosphates producer Mosaic, and Rainbow Rare Earths have completed a favourable preliminary economic assessment (PEA) and signed a project...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187678/mosaic-fertilizantes-rainbow-advance-brazil-rare-earths-project-following-positive-assessment",
+      "published": "2026-03-11T12:51:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
+    {
+      "id": "ea14c8a8fede3e1c",
+      "title": "Middle East war raises uncertainties for Germany’s Henkel",
+      "description": "LONDON (ICIS)--The Middle East war that began on 28 February has increased uncertainties significantly, the German adhesives and consumer brands company Henkel said in an outlook on Wednesday....",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187677/middle-east-war-raises-uncertainties-for-germany-s-henkel",
+      "published": "2026-03-11T12:51:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
+    {
+      "id": "cc505c23215bdece",
+      "title": "China urea market diverges from international trends under policy controls",
+      "description": "SINGAPORE (ICIS)--International urea prices have surged on fears of supply disruptions amid the US-Israel war with Iran. China’s domestic market, however, is expected to stay broadly stable in H2...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187673/china-urea-market-diverges-from-international-trends-under-policy-controls",
+      "published": "2026-03-11T12:19:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Fertilizers",
+      "categories": [
+        "Fertilizers"
+      ]
+    },
+    {
+      "id": "41a45dc03c12fa4d",
+      "title": "India races to secure LPG as shortages grow",
+      "description": "",
+      "link": "https://www.argusmedia.com/pages/NewsBody.aspx?id=2799476&menu=yes",
+      "published": "2026-03-11T12:14:00+00:00",
+      "source": "Argus Media",
+      "feed": "Argus NewsAll",
+      "category": "Oil - Refined Products",
+      "categories": [
+        "Oil - Refined Products"
+      ]
+    },
+    {
+      "id": "bb8b82f09f3052ea",
+      "title": "INSIGHT: Asia energy security at risk as Gulf oil supply chain fractures",
+      "description": "SINGAPORE (ICIS)--Asia’s energy security faces immediate threat from the Middle East conflict which exposes the region's uneven strategic oil reserves and leaves net energy importers doubly...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187671/insight-asia-energy-security-at-risk-as-gulf-oil-supply-chain-fractures",
+      "published": "2026-03-11T12:08:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
+    {
+      "id": "28646d7dc69bf1cc",
+      "title": "Plant status: INEOS Europe MEK unit planned turnaround underway",
+      "description": "LONDON (ICIS)--Here is a plant status report: Name: INEOS Location: Moers, Germany Product: Methyl ethyl ketone (MEK) Capacity (tonnes/year): 70,000 Event start: Week of 9 March Event finish: Week of...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187670/plant-status-ineos-europe-mek-unit-planned-turnaround-underway",
+      "published": "2026-03-11T12:00:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals",
+      "categories": [
+        "Chemicals"
+      ]
+    },
     {
       "id": "3ae4f2e8e4a9ec75",
       "title": "NOON SNAPSHOT - Europe Markets Summary",
@@ -125,6 +283,19 @@
       "categories": [
         "Oil - Crude",
         "Oil - Refined Products"
+      ]
+    },
+    {
+      "id": "f3e1391fb0ab3f2e",
+      "title": "Caustic soda, PVC outlooks come into focus: short-term tightness, long-term margin squeeze",
+      "description": "LONDON (ICIS)--The European chlor-alkali and chlor-vinyl outlook has come into focus for 2026. In the short-term, tightness. In the medium-to-long-term: margin squeezes. Caustic soda and PVC spot...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187668/caustic-soda-pvc-outlooks-come-into-focus-short-term-tightness-long-term-margin-squeeze",
+      "published": "2026-03-11T11:57:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals",
+      "categories": [
+        "Chemicals"
       ]
     },
     {
@@ -194,6 +365,20 @@
       ]
     },
     {
+      "id": "e97a3f6392c44c9e",
+      "title": "WAF crude tanker rates slide from record highs on influx of ballasters",
+      "description": "Suezmax and Very Large Crude Carrier rates for voyages loading in West Africa have tumbled since hitting multi-decade highs during the first week of the war in the Middle East, with sources pointing to increased owner interest in Atlantic cargoes following the effective closure of the Strait of Hormuz. Platts, part of S&amp;P Global Energy, assessed freight on the 130,000 metric ton WAF-UK/Continent",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/shipping/031126-waf-crude-tanker-rates-slide-from-record-highs-on-influx-of-ballasters",
+      "published": "2026-03-11T11:38:10+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Shipping",
+      "category": "Oil - Crude",
+      "categories": [
+        "Oil - Crude",
+        "Shipping"
+      ]
+    },
+    {
       "id": "afef6be80240738a",
       "title": "Plant status: China's Chongqing Huafon Chemical lowers adipic acid operations",
       "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: Chongqing Huafon Chemical Location: Chongqing, China Product: Adipic acid (ADA) Capacity (tonnes/year): 180,000 Event start: 13 March 2026 Event...",
@@ -216,6 +401,20 @@
       "feed": "ICIS",
       "category": "Oil - Refined Products",
       "categories": [
+        "Oil - Refined Products"
+      ]
+    },
+    {
+      "id": "56560eb6bdc46171",
+      "title": "15 years after Fukushima disaster, Japan confronts new energy crisis",
+      "description": "Fifteen years after the Great East Japan Earthquake struck offshore Fukushima on March 11, 2011, Japan is confronting a new energy crisis as the Middle East conflict disrupts shipping through the Strait of Hormuz, testing the resilience of its energy supply system. The magnitude-9 earthquake that struck northeastern Japan and the subsequent tsunami shut more than 18 GW of nuclear and thermal power",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/crude-oil/031126-15-years-after-fukushima-disaster-japan-confronts-new-energy-crisis",
+      "published": "2026-03-11T11:36:06+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Oil - Refined Products",
+      "category": "Oil - Crude",
+      "categories": [
+        "Oil - Crude",
         "Oil - Refined Products"
       ]
     },
@@ -558,6 +757,20 @@
       "category": "Chemicals",
       "categories": [
         "Chemicals"
+      ]
+    },
+    {
+      "id": "abb1705280660d07",
+      "title": "Asia&apos;s high sulfur fuel oil cash differentials surge to highest since IMO 2020",
+      "description": "The ongoing disruption in oil flows due to the US-Israel war with Iran has pushed Asia&apos;s benchmark high sulfur fuel oil cash differentials to their highest levels since the International Maritime Organization prohibited ships from using fuels with more than 0.5% sulfur starting January 2020, unless they were equipped with exhaust-cleaning devices known as scrubbers. The war, which has restricted",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/refined-products/031126-asias-high-sulfur-fuel-oil-cash-differentials-surge-to-highest-since-imo-2020",
+      "published": "2026-03-11T06:18:14+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Shipping",
+      "category": "Oil - Refined Products",
+      "categories": [
+        "Oil - Refined Products",
+        "Shipping"
       ]
     },
     {
@@ -1539,8 +1752,9 @@
       "published": "2026-03-10T16:24:42+00:00",
       "source": "S&P Global",
       "feed": "S&P Shipping",
-      "category": "Shipping",
+      "category": "Agriculture",
       "categories": [
+        "Agriculture",
         "Shipping"
       ]
     },
@@ -4172,7 +4386,7 @@
       "category": "Natural Gas",
       "categories": [
         "Natural Gas",
-        "Electric Power"
+        "LNG"
       ]
     },
     {
