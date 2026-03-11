@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-11T20:04:11.527102+00:00",
-    "total_articles": 2201,
+    "last_updated": "2026-03-11T20:50:54.626784+00:00",
+    "total_articles": 2207,
     "feeds_fetched": 15,
     "feeds_failed": 0,
     "feed_details": {
@@ -105,14 +105,92 @@
       "classifier_fallback_used": 0
     },
     "dedupe": {
-      "new": 3,
-      "updated": 122,
+      "new": 6,
+      "updated": 119,
       "merged": 25,
       "incoming_merged": 25,
       "existing_merged": 0
     }
   },
   "articles": [
+    {
+      "id": "981e6c057efcbcf2",
+      "title": "Congress may punt on refiner biofuel waivers: Update",
+      "description": "",
+      "link": "https://www.argusmedia.com/pages/NewsBody.aspx?id=2799844&menu=yes",
+      "published": "2026-03-11T20:36:00+00:00",
+      "source": "Argus Media",
+      "feed": "Argus NewsAll",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
+    {
+      "id": "32e4d5819d33f09b",
+      "title": "Trump to decide 'whether' to join IEA oil release",
+      "description": "",
+      "link": "https://www.argusmedia.com/pages/NewsBody.aspx?id=2799836&menu=yes",
+      "published": "2026-03-11T20:27:00+00:00",
+      "source": "Argus Media",
+      "feed": "Argus NewsAll",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
+    {
+      "id": "8c1fe10752109b3b",
+      "title": "US government selects Chubb for maritime reinsurance plan for Middle East shipping",
+      "description": "HOUSTON (ICIS)--The US International Development Finance Corporation (DFC) has selected Chubb to serve as the lead partner for DFC’s $20 billion maritime reinsurance plan designed to resume...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187733/us-government-selects-chubb-for-maritime-reinsurance-plan-for-middle-east-shipping",
+      "published": "2026-03-11T20:21:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Metals",
+      "categories": [
+        "Metals"
+      ]
+    },
+    {
+      "id": "7557c86302c9eb6c",
+      "title": "US gasoline supplies fall as refinery run rates increase",
+      "description": "HOUSTON (ICIS)--US gasoline supplies fell during the week ended 6 March, despite a rise in refinery run rates. Gasoline demand is now slightly above that of seasonal norms. Gasoline stocks decreased...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187730/us-gasoline-supplies-fall-as-refinery-run-rates-increase",
+      "published": "2026-03-11T20:11:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Refined Products",
+      "categories": [
+        "Oil - Refined Products"
+      ]
+    },
+    {
+      "id": "e8ff2df7b6b27742",
+      "title": "Brazil court to allow federal tax credits on recyclables, end sales exemption",
+      "description": "SAO PAULO (ICIS)--Brazil’s Supreme Court (STF) has finalized the modulation of a 2021 ruling on recyclables, allowing buyers to claim federal tax (PIS/Cofins) credits on purchases of recyclable...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187729/brazil-court-to-allow-federal-tax-credits-on-recyclables-end-sales-exemption",
+      "published": "2026-03-11T20:05:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
+    {
+      "id": "2eddaa24a5bee692",
+      "title": "US trade group supports STB’s action to remove barriers on reciprocal switching",
+      "description": "HOUSTON (ICIS)--The American Chemistry Council (ACC) submitted comments this week in support of the recent decision by the Surface Transportation Board (STB) to repeal a rule that governs the...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187728/us-trade-group-supports-stb-s-action-to-remove-barriers-on-reciprocal-switching",
+      "published": "2026-03-11T19:59:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
     {
       "id": "490a48653ae83eb1",
       "title": "Roehm seeks mid-March price increase for US MMA",
