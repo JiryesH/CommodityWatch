@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-11T07:01:43.142019+00:00",
-    "total_articles": 2099,
+    "last_updated": "2026-03-11T07:56:06.787693+00:00",
+    "total_articles": 2104,
     "feeds_fetched": 15,
     "feeds_failed": 0,
     "feed_details": {
@@ -105,14 +105,54 @@
       "classifier_fallback_used": 0
     },
     "dedupe": {
-      "new": 3,
-      "updated": 125,
-      "merged": 22,
-      "incoming_merged": 22,
+      "new": 5,
+      "updated": 124,
+      "merged": 21,
+      "incoming_merged": 21,
       "existing_merged": 0
     }
   },
   "articles": [
+    {
+      "id": "4fbc6f4b0fee99f3",
+      "title": "Plant status: China’s Shaanxi Yanchang Coal Yulin restarts LLDPE unit, to restart PP unit",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: Shaanxi Yanchang Coal Yulin Energy and Chemical Location: Shaanxi, China Product: Linear low density polyethylene (LLDPE); polypropylene (PP)...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187592/plant-status-china-s-shaanxi-yanchang-coal-yulin-restarts-lldpe-unit-to-restart-pp-unit",
+      "published": "2026-03-11T07:35:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Coal",
+      "categories": [
+        "Coal",
+        "Chemicals"
+      ]
+    },
+    {
+      "id": "01725d3b5262195b",
+      "title": "Germany's Wacker swings to full-year loss, expects 'slight' growth' for 2026",
+      "description": "SINGAPORE (ICIS)--German specialty chemicals firm Wacker on Wednesday said that it expects “slight” earnings growth this year after swinging to a full-year loss due to a challenging market...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187591/germany-s-wacker-swings-to-full-year-loss-expects-slight-growth-for-2026",
+      "published": "2026-03-11T07:24:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
+    {
+      "id": "91ed83fe0664532a",
+      "title": "INSIGHT: Mideast tensions sparking Asia petrochemicals' March price surge",
+      "description": "SINGAPORE (ICIS)--As the Middle East conflict enters its second week, the resulting systemic risks have triggered sharp price spikes across Asia's energy and chemicals markets in March, with further...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187590/insight-mideast-tensions-sparking-asia-petrochemicals-march-price-surge",
+      "published": "2026-03-11T07:03:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals",
+      "categories": [
+        "Chemicals"
+      ]
+    },
     {
       "id": "710e804d86d07d6f",
       "title": "S Korea 1-10 Mar PX exports down 12.3% on month",
@@ -179,6 +219,19 @@
       ]
     },
     {
+      "id": "a70fbee58f0efce2",
+      "title": "Jare, Australia's Lynas expand rare earth supply deal",
+      "description": "",
+      "link": "https://www.argusmedia.com/pages/NewsBody.aspx?id=2799354&menu=yes",
+      "published": "2026-03-11T04:58:00+00:00",
+      "source": "Argus Media",
+      "feed": "Argus NewsAll",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
+    {
       "id": "39ed113a18ec2724",
       "title": "NOON SNAPSHOT - Asia Markets Summary",
       "description": "CRUDE: Mixed in volatile trade as investors continue to weigh the impact on supply disruptions from Mideast conflict. BENZENE (FOB KOREA): Down on crude losses. TOLUENE (FOB KOREA): Down on losses...",
@@ -203,6 +256,19 @@
       "category": "Agriculture",
       "categories": [
         "Agriculture"
+      ]
+    },
+    {
+      "id": "839b0770c3925a7e",
+      "title": "Australia's Victoria state to cap fuel price rises",
+      "description": "",
+      "link": "https://www.argusmedia.com/pages/NewsBody.aspx?id=2799342&menu=yes",
+      "published": "2026-03-11T03:49:00+00:00",
+      "source": "Argus Media",
+      "feed": "Argus NewsAll",
+      "category": "General",
+      "categories": [
+        "General"
       ]
     },
     {
