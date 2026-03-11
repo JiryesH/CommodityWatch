@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-11T09:51:04.930850+00:00",
-    "total_articles": 2115,
+    "last_updated": "2026-03-11T10:48:50.862803+00:00",
+    "total_articles": 2125,
     "feeds_fetched": 15,
     "feeds_failed": 0,
     "feed_details": {
@@ -105,14 +105,132 @@
       "classifier_fallback_used": 0
     },
     "dedupe": {
-      "new": 6,
-      "updated": 121,
-      "merged": 23,
-      "incoming_merged": 23,
+      "new": 10,
+      "updated": 119,
+      "merged": 21,
+      "incoming_merged": 21,
       "existing_merged": 0
     }
   },
   "articles": [
+    {
+      "id": "e8a03fefd06047c4",
+      "title": "EVENING SNAPSHOT - Asia Markets Summary",
+      "description": "CRUDE: Higher in volatile trading amid growing concerns over supply disruption and uncertainty as to how long the Iran war will continue. NAPHTHA (CFR JAPAN): Up on crude gains. BENZENE (FOB KOREA):...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187625/evening-snapshot-asia-markets-summary",
+      "published": "2026-03-11T10:37:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Crude",
+      "categories": [
+        "Oil - Crude",
+        "Oil - Refined Products"
+      ]
+    },
+    {
+      "id": "0d87a8163979b392",
+      "title": "Update to ICIS Topics: US-Iran conflict - impact on chemicals and energy",
+      "description": "Visit the ICIS US-Iran conflict: impact on chemical and energy markets topic page for latest updates and analysis. Asia March petrochemical markets forecast from ICIS analysts Latest headlines...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187623/update-to-icis-topics-us-iran-conflict-impact-on-chemicals-and-energy",
+      "published": "2026-03-11T10:28:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
+    {
+      "id": "46a22a5f6c2a4a1b",
+      "title": "UK net zero cheaper than one fossil price shock: Report",
+      "description": "",
+      "link": "https://www.argusmedia.com/pages/NewsBody.aspx?id=2799414&menu=yes",
+      "published": "2026-03-11T10:27:00+00:00",
+      "source": "Argus Media",
+      "feed": "Argus NewsAll",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
+    {
+      "id": "b1f1e1efa6244a47",
+      "title": "East China’s SM inventory drops 8.4% on fewer arrivals",
+      "description": "SINGAPORE (ICIS)--Styrene monomer (SM) inventory level in east China decreased by 8.4% week on week, ICIS data showed on Wednesday. The total stock was at 165,400 tonnes, decreasing by 15,200 tonnes...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187621/east-china-s-sm-inventory-drops-8-4-on-fewer-arrivals",
+      "published": "2026-03-11T10:24:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals",
+      "categories": [
+        "Chemicals"
+      ]
+    },
+    {
+      "id": "2ad890c082a5d10d",
+      "title": "NWE propane swaps rebound as Hormuz risks persist",
+      "description": "",
+      "link": "https://www.argusmedia.com/pages/NewsBody.aspx?id=2799412&menu=yes",
+      "published": "2026-03-11T10:22:00+00:00",
+      "source": "Argus Media",
+      "feed": "Argus NewsAll",
+      "category": "Oil - Refined Products",
+      "categories": [
+        "Oil - Refined Products"
+      ]
+    },
+    {
+      "id": "a61a0bad1cfb658e",
+      "title": "JBF Global Europe imposes March PET surcharge amid war‑driven costs",
+      "description": "LONDON (ICIS)--JBF Global Europe has announced a temporary surcharge on polyethylene terephthalate (PET) for March 2026 in response to disruptions and severe cost inflation across the polyester...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187618/jbf-global-europe-imposes-march-pet-surcharge-amid-war-driven-costs",
+      "published": "2026-03-11T10:20:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals",
+      "categories": [
+        "Chemicals"
+      ]
+    },
+    {
+      "id": "db486ea3b18ecd5b",
+      "title": "China PX, PTA local spread narrower; downstream demand unable to catch up",
+      "description": "SINGAPORE (ICIS)--Production economics for purified terephthalic acid (PTA) in China have turned negative as a result of a spike in feedstock paraxylene (PX) costs. As shown in the chart above, the...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187617/china-px-pta-local-spread-narrower-downstream-demand-unable-to-catch-up",
+      "published": "2026-03-11T10:12:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals",
+      "categories": [
+        "Chemicals"
+      ]
+    },
+    {
+      "id": "a3a6000ad8091947",
+      "title": "UAE's Fujairah HSFO trade faces uncertain future",
+      "description": "",
+      "link": "https://www.argusmedia.com/pages/NewsBody.aspx?id=2799408&menu=yes",
+      "published": "2026-03-11T10:10:00+00:00",
+      "source": "Argus Media",
+      "feed": "Argus NewsAll",
+      "category": "Oil - Refined Products",
+      "categories": [
+        "Oil - Refined Products"
+      ]
+    },
+    {
+      "id": "64247ff13466c7b0",
+      "title": "ICIS TTF Early Day assessments: 11 March 2026",
+      "description": "- ICIS TTF Early Day gained on Wednesday morning, but its discount to EAX narrowed to $2.407/MMBtu with Asia's price drop on the day - The Hormuz Strait situation and Middle Eastern waters continue...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187610/icis-ttf-early-day-assessments-11-march-2026",
+      "published": "2026-03-11T09:53:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Natural Gas",
+      "categories": [
+        "Natural Gas"
+      ]
+    },
     {
       "id": "82c635a7dd3188f6",
       "title": "Indorama declares PET FM in Europe amid Middle East war, production issues",
@@ -1280,6 +1398,19 @@
         "text_hash": "6693b83e42d79a0e7ab865e1d3826131f7268266ad3dcffc4d8de17b626cdccd",
         "extracted_at": "2026-03-10T17:07:51.927441+00:00"
       }
+    },
+    {
+      "id": "8f6bb23b5954e88a",
+      "title": "Ocean carriers impose emergency fuel surcharges as bunker costs surge",
+      "description": "Ocean carriers are introducing emergency fuel surcharges and raising freight rates across key global trade lanes as rising bunker fuel costs and geopolitical tensions disrupt shipping services, with Indian rice exports to the Middle East facing delays, higher logistics costs and container shortages, market sources told Platts March 10. The additional charges and service disruptions are increasing",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/agriculture/031026-ocean-carriers-impose-emergency-fuel-surcharges-as-bunker-costs-surge",
+      "published": "2026-03-10T16:24:42+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Shipping",
+      "category": "Shipping",
+      "categories": [
+        "Shipping"
+      ]
     },
     {
       "id": "0cfa9ddef9fdf52a",
