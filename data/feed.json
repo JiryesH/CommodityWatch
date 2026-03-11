@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-11T10:48:50.862803+00:00",
-    "total_articles": 2125,
+    "last_updated": "2026-03-11T11:37:30.367604+00:00",
+    "total_articles": 2127,
     "feeds_fetched": 15,
     "feeds_failed": 0,
     "feed_details": {
@@ -105,14 +105,40 @@
       "classifier_fallback_used": 0
     },
     "dedupe": {
-      "new": 10,
-      "updated": 119,
+      "new": 2,
+      "updated": 127,
       "merged": 21,
       "incoming_merged": 21,
       "existing_merged": 0
     }
   },
   "articles": [
+    {
+      "id": "00f2c14d55cef8f4",
+      "title": "Plant status: Saudi Arabia’s SHARQ runs MEG units at reduced rates",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: SHARQ Location: Al Jubail, Saudi Arabia Product: Monoethylene glycol (MEG) Capacity (tonnes/year): 2.1 million (Fout units in total) Event...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187636/plant-status-saudi-arabia-s-sharq-runs-meg-units-at-reduced-rates",
+      "published": "2026-03-11T11:02:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals",
+      "categories": [
+        "Chemicals"
+      ]
+    },
+    {
+      "id": "8527b3e43faf9f52",
+      "title": "Asia MEG market resumes uptrend on more production cuts in China",
+      "description": "SINGAPORE (ICIS)--Asia’s monoethylene glycol (MEG) market resumed its uptrend on Wednesday, after plunging by over 12% the previous day, as more supply cuts in China have bolstered discussions....",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187635/asia-meg-market-resumes-uptrend-on-more-production-cuts-in-china",
+      "published": "2026-03-11T10:58:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals",
+      "categories": [
+        "Chemicals"
+      ]
+    },
     {
       "id": "e8a03fefd06047c4",
       "title": "EVENING SNAPSHOT - Asia Markets Summary",
@@ -4039,7 +4065,8 @@
       "feed": "S&P Natural Gas",
       "category": "Natural Gas",
       "categories": [
-        "Natural Gas"
+        "Natural Gas",
+        "Electric Power"
       ]
     },
     {
