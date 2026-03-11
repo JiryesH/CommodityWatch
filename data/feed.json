@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-11T02:46:19.981848+00:00",
-    "total_articles": 2084,
+    "last_updated": "2026-03-11T04:47:07.006035+00:00",
+    "total_articles": 2090,
     "feeds_fetched": 15,
     "feeds_failed": 0,
     "feed_details": {
@@ -106,13 +106,40 @@
     },
     "dedupe": {
       "new": 6,
-      "updated": 122,
-      "merged": 22,
-      "incoming_merged": 22,
+      "updated": 120,
+      "merged": 24,
+      "incoming_merged": 24,
       "existing_merged": 0
     }
   },
   "articles": [
+    {
+      "id": "39ed113a18ec2724",
+      "title": "NOON SNAPSHOT - Asia Markets Summary",
+      "description": "CRUDE: Mixed in volatile trade as investors continue to weigh the impact on supply disruptions from Mideast conflict. BENZENE (FOB KOREA): Down on crude losses. TOLUENE (FOB KOREA): Down on losses...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187581/noon-snapshot-asia-markets-summary",
+      "published": "2026-03-11T03:55:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Crude",
+      "categories": [
+        "Oil - Crude",
+        "Chemicals"
+      ]
+    },
+    {
+      "id": "65a8a82ec07bd6f7",
+      "title": "China’s Shandong Longhua declares FM to Mideast clients",
+      "description": "SINGAPORE (ICIS)--China’s Shandong Longhua New Material has declared a force majeure starting 10 March due to escalating geopolitical situation in the Middle East, according to a company statement...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187579/china-s-shandong-longhua-declares-fm-to-mideast-clients",
+      "published": "2026-03-11T03:42:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
     {
       "id": "ba90ca19e4fcbe6e",
       "title": "Plant status: South Korea’s S-Oil shuts PP unit",
@@ -154,8 +181,8 @@
     },
     {
       "id": "74c7ce7965d51b04",
-      "title": "India&apos;s Reliance to maximize LPG production at Jamnagar refinery complex",
-      "description": "India&apos;s Reliance Industries said March 10 that it was aiming to maximize production of LPG at its refining and petrochemical complex at Jamnagar to ensure plentiful supplies of the fuel in the domestic market. The move by Reliance comes a day after the Indian government directed oil refiners to boost LPG output and ensure supplies to households and some essential sectors, as the ongoing Middle",
+      "title": "India&apos;s Reliance to maximize LPG production at Jamnagar refinery",
+      "description": "India&apos;s Reliance Industries Ltd. said March 10 that it aims to maximize LPG production at its refining and petrochemical complex in Jamnagar to ensure ample supplies of the fuel in the domestic market. The move by Reliance comes a day after the Indian government directed oil refiners to boost LPG output and ensure supplies to households and key essential sectors, as the ongoing war in the Middle",
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/crude-oil/031126-indias-reliance-to-maximize-lpg-production-at-jamnagar-refinery-complex",
       "published": "2026-03-11T00:02:06+00:00",
       "source": "S&P Global",
@@ -270,6 +297,20 @@
       ]
     },
     {
+      "id": "f2c935d5bb9fe5fd",
+      "title": "Sanctions relief, reserve release could ease prices but pose risks: analysts",
+      "description": "The US can ease pressure on oil prices by expanding oil sanctions waivers or by participating in the release of international reserves, but both options have their drawbacks, analysts said on March 10. On the sanctions front, the US could expand sanctions waivers to allow India to import Russian oil that is not yet loaded on tankers, and it could allow other countries to buy sanctioned Russian oil",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/crude-oil/031026-sanctions-relief-reserve-release-could-ease-prices-but-pose-risks-analysts",
+      "published": "2026-03-10T21:05:25+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Oil - Refined Products",
+      "category": "Oil - Crude",
+      "categories": [
+        "Oil - Crude",
+        "Oil - Refined Products"
+      ]
+    },
+    {
       "id": "59e240786d6c79a2",
       "title": "US LNG NEWS WRAP: Cheniere, VG announce offtake deals while Texas LNG lines up EPC contract",
       "description": "HOUSTON (ICIS)-- ICIS tracks key developments across the US LNG sector, as new offtake agreements and project updates continue to shape the market. NEW CONTRACTS Below is a line-up of recent offtake...",
@@ -293,6 +334,19 @@
       "category": "General",
       "categories": [
         "General"
+      ]
+    },
+    {
+      "id": "2d471064eef40775",
+      "title": "Indian petrochemical producers face raw material shortages amid LPG mandate",
+      "description": "Indian petrochemical producers are bracing for potentially acute raw material shortages expected to hit downstream petrochemical plant operations following the recent announcement by the Ministry of Petroleum and Natural Gas. The Indian government ordered March 9 all oil refining companies operating in the country to maximize and ensure that propane and butane streams produced, recovered,",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/chemicals/031026-indian-petrochemical-producers-face-raw-material-shortages-amid-lpg-mandate",
+      "published": "2026-03-10T20:38:58+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Oil - Refined Products",
+      "category": "Oil - Refined Products",
+      "categories": [
+        "Oil - Refined Products"
       ]
     },
     {
@@ -556,6 +610,19 @@
       "categories": [
         "Oil - Crude",
         "Oil - Refined Products"
+      ]
+    },
+    {
+      "id": "9b9bf26fbff5c7f9",
+      "title": "First tanker to carry non-Iranian crude exits Strait of Hormuz: CAS",
+      "description": "The first tanker carrying non-Iranian crude has exited the Strait of Hormuz, according to data from S&amp;P Global Commodities at Sea. The Shenlong called at Ras Tanura, Saudi Arabia, on March 1 and then at Mumbai, India, on March 10, CAS data showed. Its draught at Mumbai was 15.8 m, up from 9.3 m at Ras Tanura, indicating it had loaded, CAS data showed. The ship&apos;s destination is unknown. The ship&apos;s",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/refined-products/031026-first-tanker-to-carry-non-iranian-crude-exits-strait-of-hormuz-cas",
+      "published": "2026-03-10T17:28:24+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Oil - Crude",
+      "category": "Oil - Crude",
+      "categories": [
+        "Oil - Crude"
       ]
     },
     {
@@ -1101,7 +1168,8 @@
       "feed": "S&P Natural Gas",
       "category": "Natural Gas",
       "categories": [
-        "Natural Gas"
+        "Natural Gas",
+        "Electric Power"
       ]
     },
     {
@@ -1469,6 +1537,20 @@
         "text_hash": "a15db3b9d1d8d4c20bc09faf56237853a414480332ca908009bd1f3836319dcb",
         "extracted_at": "2026-03-10T16:21:48.442520+00:00"
       }
+    },
+    {
+      "id": "67d4c0a3b36d363e",
+      "title": "Aramco&apos;s East-West pipeline to hit full capacity in &apos;next couple of days:&apos; CEO",
+      "description": "The 7 million b/d East-West pipeline connecting Saudi Arabia&apos;s eastern and western coasts will hit full capacity &quot;in the next couple of days,&quot; Saudi Aramco CEO Amin Nasser said March 10 on the company&apos;s third-quarter earnings call. Aramco has been shifting crude flows to the Yanbu terminal on the Red Sea as exports from its west coast are largely shut in due to disruptions to shipping through the",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/crude-oil/031026-aramcos-east-west-pipeline-to-hit-full-capacity-in-next-couple-of-days-ceo",
+      "published": "2026-03-10T15:20:00+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Oil - Refined Products",
+      "category": "Oil - Crude",
+      "categories": [
+        "Oil - Crude",
+        "Oil - Refined Products"
+      ]
     },
     {
       "id": "834ad07db20cc866",
@@ -2053,10 +2135,11 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/crude-oil/031026-hormuz-traffic-drops-to-three-ships-with-one-carrying-iran-crude-to-china",
       "published": "2026-03-10T13:11:54+00:00",
       "source": "S&P Global",
-      "feed": "S&P Oil - Crude",
+      "feed": "S&P Shipping",
       "category": "Oil - Crude",
       "categories": [
-        "Oil - Crude"
+        "Oil - Crude",
+        "Shipping"
       ]
     },
     {
