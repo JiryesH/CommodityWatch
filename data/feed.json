@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-11T13:39:31.119137+00:00",
-    "total_articles": 2151,
+    "last_updated": "2026-03-11T14:33:28.103821+00:00",
+    "total_articles": 2159,
     "feeds_fetched": 15,
     "feeds_failed": 0,
     "feed_details": {
@@ -105,14 +105,106 @@
       "classifier_fallback_used": 0
     },
     "dedupe": {
-      "new": 16,
-      "updated": 112,
-      "merged": 22,
-      "incoming_merged": 22,
+      "new": 8,
+      "updated": 121,
+      "merged": 21,
+      "incoming_merged": 21,
       "existing_merged": 0
     }
   },
   "articles": [
+    {
+      "id": "e15326ec1afae014",
+      "title": "German chemical park takes part in pilot project to test new grid fees",
+      "description": "LONDON (ICIS)--The Dormagen chemical production park near Cologne, Germany, is participating in a pilot project to develop new regulations for industrial electricity grid fees, which are a big cost...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187688/german-chemical-park-takes-part-in-pilot-project-to-test-new-grid-fees",
+      "published": "2026-03-11T14:22:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Electric Power",
+      "categories": [
+        "Electric Power"
+      ]
+    },
+    {
+      "id": "f730c5b0778fe043",
+      "title": "Tanks damaged in Omani port attack: Sources",
+      "description": "",
+      "link": "https://www.argusmedia.com/pages/NewsBody.aspx?id=2799544&menu=yes",
+      "published": "2026-03-11T14:21:00+00:00",
+      "source": "Argus Media",
+      "feed": "Argus NewsAll",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
+    {
+      "id": "d9d619eb7ee1affc",
+      "title": "US CPI inflation accelerates in February",
+      "description": "HOUSTON (ICIS)--US inflation, as measured by the consumer price index (CPI), rose 0.3% month on month in February, accelerating from a 0.2% January pace, the Bureau of Labor Statistics (BLS) reported...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187686/us-cpi-inflation-accelerates-in-february",
+      "published": "2026-03-11T14:09:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
+    {
+      "id": "32fc88c6848a3382",
+      "title": "IEA to make 400mn bl oil available from stocks",
+      "description": "",
+      "link": "https://www.argusmedia.com/pages/NewsBody.aspx?id=2799538&menu=yes",
+      "published": "2026-03-11T14:03:00+00:00",
+      "source": "Argus Media",
+      "feed": "Argus NewsAll",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
+    {
+      "id": "115699131460df07",
+      "title": "Plant status: Anwil to carry out PVC maintenance in Q2",
+      "description": "LONDON (ICIS)--Here is a plant status report: Name: Anwil Location: Wloclawek, Poland Product: Polyvinyl chloride (PVC) Capacity (tonnes/year): 340,000 Event start: Q2 Event finish: Mid-Q2 Reason:...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187685/plant-status-anwil-to-carry-out-pvc-maintenance-in-q2",
+      "published": "2026-03-11T13:56:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals",
+      "categories": [
+        "Chemicals"
+      ]
+    },
+    {
+      "id": "abb815faf7c945e9",
+      "title": "Hormuz traffic increases, at least two sanctioned ships cross strait: CAS",
+      "description": "Eight ships crossed through the Strait of Hormuz on March 10, up from three ships the day before, according to an S&amp;P Global Commodities at Sea report on March 11. Two of the ships were tankers, both sanctioned, according to the report. The US-sanctioned Marser, a Very Large Gas Carrier, moved eastbound out of the Persian Gulf, having &quot;likely loaded Iranian LPG via ship-to-ship transfer between",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/crude-oil/031126-hormuz-traffic-increases-at-least-two-sanctioned-ships-cross-strait-cas",
+      "published": "2026-03-11T13:39:21+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Shipping",
+      "category": "Shipping",
+      "categories": [
+        "Shipping"
+      ]
+    },
+    {
+      "id": "4e515486f0639321",
+      "title": "LNG shipping rates dip from highs as QatarEnergy sublets vessels",
+      "description": "LNG shipping rates ease as QatarEnergy's sublets pressure market Rates still at elevated levels, but uncertainty remains high Activity centred on US FOB production LONDON (ICIS)--LNG shipping rates...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187684/lng-shipping-rates-dip-from-highs-as-qatarenergy-sublets-vessels",
+      "published": "2026-03-11T13:38:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "LNG",
+      "categories": [
+        "LNG",
+        "Shipping"
+      ]
+    },
     {
       "id": "ad24ff3d1ddcc64e",
       "title": "China average BDO plants' run rate down on plants maintenance",
@@ -1797,6 +1889,19 @@
         "text_hash": "41e5b9845bfcdcab06819e72f85b33a1055515e354318f4a8ae12197507ecb23",
         "extracted_at": "2026-03-10T17:07:51.927441+00:00"
       }
+    },
+    {
+      "id": "4af11fde3371b429",
+      "title": "INTERVIEW: More metal to be extracted from &apos;mines on wheels&apos;: European Aluminium&apos;s director",
+      "description": "The EU government has shown greater appreciation for vehicles as &apos;mines on wheels&apos;: the new circularity legislation it has pre-agreed is meant to boost recovery of critical raw materials from vehicles at the end of their useful life , including aluminum. EU End-of-Life Vehicles Directive and the 3R Type-Approval Directive have been revised throughout. The new rules cover the vehicle&apos;s entire",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/metals/031026-interview-more-metal-to-be-extracted-from-mines-on-wheels-european-aluminiums-director",
+      "published": "2026-03-10T16:22:10+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Metals",
+      "category": "Metals",
+      "categories": [
+        "Metals"
+      ]
     },
     {
       "id": "6d7f0638bf797291",
