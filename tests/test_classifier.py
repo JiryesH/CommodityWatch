@@ -252,6 +252,145 @@ from classifier import (
             "with greater success, according to industry watchers.",
             ["Energy Transition", "Fertilizers"],
         ),
+        (
+            "Plant status: S Korea's S-Oil commences No 2 RFCC planned turnaround on 6 Mar",
+            "SINGAPORE (ICIS)--Here is a plant status report: Name: S-Oil Corp "
+            "Location: Onsan, South Korea Product: Propylene Capacity "
+            "(tonnes/year): 705,000 Event start: 6 March 2026 Event finish: "
+            "H2 April 2026...",
+            ["Chemicals", "Oil - Refined Products"],
+        ),
+        (
+            "LNG share of alternative bunker fuel market grows",
+            "",
+            ["Shipping", "LNG"],
+        ),
+        (
+            "FACTBOX: Fresh attacks hit shipping, energy operations in the Middle East",
+            "Oil producers and exporters in the Middle East continue to face severe "
+            "restrictions on shipping through the Strait of Hormuz and ongoing attacks "
+            "on energy infrastructure. The scale and duration of a price spike will "
+            "depend on how much oil is kept off the market due to danger in the "
+            "strait, higher shipping insurance rates or damaged Gulf infrastructure.",
+            ["Shipping", "Oil - Crude"],
+        ),
+        (
+            "SE Asia REDD+ prices rise on supply crunch as new issuances loom large",
+            "Persistent supply bottlenecks in Southeast Asia's REDD+ market have left "
+            "buyers awaiting long-anticipated fresh issuances that could ease prices "
+            "in the medium term.",
+            ["Energy Transition"],
+        ),
+        (
+            "Marine insurers seek solutions as Gulf shipping threats evolve",
+            "Marine insurers are exploring new ways to revive seaborne trades in the "
+            "Persian Gulf as threats shift from the weapons of past tanker wars to "
+            "drones and modern missiles. More than 10 ships have been targeted in the "
+            "Strait of Hormuz and surrounding waters.",
+            ["Shipping"],
+        ),
+        (
+            "INSIGHT: How US-Iran tension may reroute Asia polyolefin trade and where US exports fit",
+            "SINGAPORE (ICIS)--The tensions between the US and Iran have disrupted the "
+            "Middle Eastern energy and petrochemical supply chains. For Asian "
+            "polyolefin markets, the risk is more about physical supply...",
+            ["Chemicals"],
+        ),
+        (
+            "N America chemical rail traffic rises for fourth week, US up 8.6%",
+            "HOUSTON (ICIS)--North American chemical railcar traffic rose 5.3% year on "
+            "year, to 51,419 loadings for the week ended 28 February, marking a fourth "
+            "consecutive increase, according to freight rail...",
+            ["Chemicals"],
+        ),
+        (
+            "Singapore's Aster declares force majeure on MPG",
+            "SINGAPORE (ICIS)--Singapore's Aster Chemicals and Energy declared on 6 "
+            "March a force majeure on Monopropylene Glycol (MPG), according to market "
+            "sources. This decision was made due to disruptions in...",
+            ["Chemicals"],
+        ),
+        (
+            "Venture Global nears CP2 Phase 2 FID",
+            "VG expects CP2 Phase 2 FID in the coming weeks. New five-year 0.5mtpa "
+            "deal with Trafigura starting Q2 2026.",
+            ["LNG"],
+        ),
+        (
+            "PSV traders holding off positioning on summer products as conflict continues",
+            "PSV traders hesitant amid uncertainty over conflict duration, supply risk "
+            "and delayed decree rollout.",
+            ["Natural Gas"],
+        ),
+        (
+            "India sets 2026-27 budget for P, K subsidy",
+            "",
+            ["Fertilizers"],
+        ),
+        (
+            "US biofuel tax rule to benefit resellers, farmers",
+            "",
+            ["Energy Transition"],
+        ),
+        (
+            "STJ endossa Cbios, mas estoques limitam preços",
+            "",
+            ["Energy Transition"],
+        ),
+        (
+            "Viewpoint: Latam looks at domestic markets to spur H2",
+            "",
+            ["Energy Transition"],
+        ),
+        (
+            "Iran conflict disrupts agricultural commodity flows; South American soymeal washouts reported",
+            "The war between Israel, the United States and Iran is already affecting "
+            "the flow of agricultural commodities from South America to Iran, "
+            "particularly feed, with some soymeal cargoes said to have been washed "
+            "out.",
+            ["Agriculture"],
+        ),
+        (
+            "FUJAIRAH DATA: Oil products stocks rise before FOIZ fire",
+            "Oil products inventories at Fujairah in the UAE rose 1.3% in the week "
+            "ended March 2 from the previous week, according to Fujairah Oil Industry "
+            "Zone data published March 4.",
+            ["Oil - Refined Products"],
+        ),
+        (
+            "FACTBOX: Middle East uncertainty causes significant increases in chemical markets",
+            "Several US chemical markets reached pricing levels not seen since last "
+            "year, aligning themselves to the upward trend worldwide caused by the "
+            "geopolitical uncertainty stemming from the war in the Middle East. "
+            "Participants continued to increase the risk premium associated with the "
+            "current situation, following steep reactions in the upstream crude oil "
+            "sector.",
+            ["Chemicals"],
+        ),
+        (
+            "Caustic soda freight costs rise on Mideast Gulf war",
+            "",
+            ["Shipping", "Chemicals"],
+        ),
+        (
+            "War pushes crude tankers to record highs",
+            "",
+            ["Shipping", "Oil - Crude"],
+        ),
+        (
+            "Rotterdam biomarine 2025 sales fall as bio-LNG surges",
+            "",
+            ["Energy Transition", "LNG"],
+        ),
+        (
+            "Iran says targeting Western-linked ships at Hormuz, denies full closure",
+            "Iran has claimed it is restricting passage through the Strait of Hormuz "
+            "only for vessels linked to Western nations and Israel rather than fully "
+            "closing the critical energy chokepoint, as maritime traffic remained "
+            "severely disrupted and regional oil exporters explored using stranded "
+            "tankers for floating storage.",
+            ["Shipping", "Oil - Crude"],
+        ),
     ],
 )
 def test_classify_categories_regression_cases(
@@ -277,6 +416,23 @@ def test_classify_categories_regression_cases(
             "attacks by the US and Israel launched Feb. 28. Here are some of the key oil, "
             "gas, shipping and chemicals assets affected by direct strikes and elevated "
             "security risks.",
+        ),
+        (
+            "Americas top stories: weekly summary",
+            "Here are the top stories from ICIS News from the week ended 6 March. "
+            "INSIGHT: Strait of Hormuz chokepoint to shut in Middle East chemicals and "
+            "plastics exports.",
+        ),
+        (
+            "COMMODITY TRACKER: 6 charts to watch this week",
+            "Global blue hydrogen capacity expands as fertilizer companies drive "
+            "development. Meanwhile, Indian methanol and Thai rice prices decline amid "
+            "shifting market conditions.",
+        ),
+        (
+            "FACTBOX: Middle East war raises farm-to-fork food inflation risks on fuel, freight, fertilizer disruptions",
+            "The Middle East war is raising the risk of food inflation following the "
+            "upward trajectory of fuel, freight and fertilizer markets.",
         ),
     ],
 )
@@ -378,6 +534,10 @@ def test_normalize_can_augment_existing_single_label_with_strong_second_category
         ("european mdi imports rise", ["Chemicals"]),
         ("european cbam plan advances", ["Energy Transition"]),
         ("vlcc rates jump", ["Shipping"]),
+        ("asia abs demand improves", ["Chemicals"]),
+        ("asia pe demand weakens", ["Chemicals"]),
+        ("asia pp demand improves", ["Chemicals"]),
+        ("global bd supply tightens", ["Chemicals"]),
         ("asia pp prices rise", ["Chemicals"]),
         ("asia abs market rises", ["Chemicals"]),
         ("global bd prices jump", ["Chemicals"]),

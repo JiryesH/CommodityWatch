@@ -96,6 +96,19 @@ def test_operational_negative_rule_overrides_model_call() -> None:
     assert "operational_negative_override" in articles[0]["sentiment"]["pipeline"]["rules_applied"]
 
 
+def test_commission_asset_signal_stays_positive() -> None:
+    scorer, backend = build_scorer(
+        [{"positive": 0.09, "negative": 0.74, "neutral": 0.17}]
+    )
+    articles = [{"id": "a3b", "title": "Dimeca to commission central Mexico shredder"}]
+
+    scorer.score_incremental(articles)
+
+    assert len(backend.calls) == 1
+    assert articles[0]["sentiment"]["label"] == "positive"
+    assert "operational_positive_override" in articles[0]["sentiment"]["pipeline"]["rules_applied"]
+
+
 def test_selective_description_uses_description_when_title_needs_help() -> None:
     scorer, _backend = build_scorer(
         [{"positive": 0.06, "negative": 0.82, "neutral": 0.12}]
@@ -144,6 +157,100 @@ def test_two_step_pipeline_only_scores_directional_items() -> None:
     assert len(backend.calls[0]) == 1
     assert articles[0]["sentiment"]["label"] == "neutral"
     assert articles[1]["sentiment"]["label"] == "positive"
+
+
+def test_expansionary_cues_override_procedural_titles() -> None:
+    scorer, backend = build_scorer(
+        [
+            {"positive": 0.07, "negative": 0.79, "neutral": 0.14},
+            {"positive": 0.09, "negative": 0.76, "neutral": 0.15},
+        ]
+    )
+    articles = [
+        {
+            "id": "a6b",
+            "title": "TPC Group plans debottlenecking, enhancement at US BD facility",
+        },
+        {
+            "id": "a6c",
+            "title": "US refiners could see quick boost from Venezuela oil",
+        },
+    ]
+
+    scorer.score_incremental(articles)
+
+    assert len(backend.calls) == 1
+    assert articles[0]["sentiment"]["label"] == "positive"
+    assert articles[1]["sentiment"]["label"] == "positive"
+    assert "operational_positive_override" in articles[0]["sentiment"]["pipeline"]["rules_applied"]
+    assert "positive_market_cue_override" in articles[1]["sentiment"]["pipeline"]["rules_applied"]
+
+
+def test_lower_utility_tariff_cost_relief_is_positive() -> None:
+    scorer, backend = build_scorer(
+        [{"positive": 0.05, "negative": 0.83, "neutral": 0.12}]
+    )
+    articles = [
+        {"id": "a6d", "title": "Thailand floats lower 2026 green utility tariff rate"}
+    ]
+
+    scorer.score_incremental(articles)
+
+    assert len(backend.calls) == 1
+    assert articles[0]["sentiment"]["label"] == "positive"
+    assert "positive_market_cue_override" in articles[0]["sentiment"]["pipeline"]["rules_applied"]
+
+
+def test_blockage_and_strain_cues_override_neutral_bias() -> None:
+    scorer, backend = build_scorer(
+        [
+            {"positive": 0.12, "negative": 0.18, "neutral": 0.7},
+            {"positive": 0.16, "negative": 0.09, "neutral": 0.75},
+            {"positive": 0.61, "negative": 0.11, "neutral": 0.28},
+        ]
+    )
+    articles = [
+        {"id": "a6e", "title": "US says it can not pay tariff refunds quickly"},
+        {
+            "id": "a6f",
+            "title": "Putin muses on early end to Russian gas exports to Europe, will instruct government to work on idea",
+        },
+        {
+            "id": "a6g",
+            "title": "INFOGRAPHIC: EU's flagship carbon market buckling under political strain",
+            "description": (
+                "The European Commission is set to review key rules under the bloc's "
+                "EU Emissions Trading System in the third quarter of 2026."
+            ),
+        },
+    ]
+
+    scorer.score_incremental(articles)
+
+    assert len(backend.calls) == 1
+    for article in articles:
+        assert article["sentiment"]["label"] == "negative"
+        assert "negative_market_cue_override" in article["sentiment"]["pipeline"]["rules_applied"]
+    assert articles[2]["sentiment"]["pipeline"]["signals"]["positive_ops"] == []
+
+
+def test_viewpoint_and_admin_updates_gate_neutral_without_model_call() -> None:
+    scorer, backend = build_scorer([])
+    articles = [
+        {"id": "a6h", "title": "Viewpoint: Pemex fuel imports likely lower in 2026"},
+        {"id": "a6i", "title": "EU lowers CBAM benchmarks for aluminium"},
+        {"id": "a6j", "title": "Pakistan hikes retail gasoline, diesel prices"},
+    ]
+
+    stats = scorer.score_incremental(articles)
+
+    assert stats["gated_neutral"] == 3
+    assert backend.calls == []
+    assert articles[0]["sentiment"]["pipeline"]["gate_reason"] == "procedural_headline"
+    assert articles[1]["sentiment"]["pipeline"]["gate_reason"] == "factual_macro_headline"
+    assert articles[2]["sentiment"]["pipeline"]["gate_reason"] == "factual_macro_headline"
+    for article in articles:
+        assert article["sentiment"]["label"] == "neutral"
 
 
 def test_output_schema_remains_backward_compatible() -> None:

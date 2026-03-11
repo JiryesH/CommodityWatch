@@ -1,0 +1,79 @@
+{
+  "mode": "title",
+  "sample_size": 60,
+  "scored_articles": 0,
+  "skipped_country_articles": 0,
+  "skipped_entity_articles": 60,
+  "country_metrics": {
+    "tp": 55,
+    "fp": 0,
+    "fn": 3,
+    "precision": 1.0,
+    "recall": 0.9483,
+    "f1": 0.9735
+  },
+  "entity_metrics": {
+    "text_only_exact": {
+      "tp": 0,
+      "fp": 0,
+      "fn": 0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    },
+    "text_plus_label_exact": {
+      "tp": 0,
+      "fp": 0,
+      "fn": 0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    },
+    "text_only_relaxed": {
+      "tp": 0,
+      "fp": 0,
+      "fn": 0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    }
+  },
+  "country_error_counts": {
+    "missed_country_present_in_title": 3
+  },
+  "entity_error_counts": {},
+  "error_examples": {
+    "missed_country_present_in_title": [
+      {
+        "id": "4a25f70353f9f607",
+        "title": "Platts cash Dubai differential surges past $10/b premium",
+        "value": "United Arab Emirates",
+        "predicted_countries": [],
+        "expected_countries": [
+          "United Arab Emirates"
+        ]
+      },
+      {
+        "id": "2479c67d082ad3cf",
+        "title": "ET Highlights: Ammonia producers lead blue hydrogen, US states sue over hydrogen hubs, Japanâ&#x20ac;&#x2122;s NEDO backs Kawasakiâ&#x20ac;&#x2122;s liquid hydrogen projects",
+        "value": "Japan",
+        "predicted_countries": [
+          "United States"
+        ],
+        "expected_countries": [
+          "Japan",
+          "United States"
+        ]
+      },
+      {
+        "id": "dc495a6270c0fbd0",
+        "title": "Saudi Aramco Q4 net income falls on higher operating costs, lower revenue",
+        "value": "Saudi Arabia",
+        "predicted_countries": [],
+        "expected_countries": [
+          "Saudi Arabia"
+        ]
+      }
+    ]
+  }
+}

@@ -66,8 +66,18 @@ def _compile_patterns(patterns: dict[str, str]) -> dict[str, re.Pattern[str]]:
 POSITIVE_OPERATION_PATTERNS = _compile_patterns(
     {
         "restart": r"\brestart(?:s|ed|ing)?\b",
-        "commission": r"\bcommission(?:s|ed|ing)?\b",
+        "commission": (
+            r"\bto\s+commission\b|"
+            r"\bcommission(?:s|ed|ing)?\b(?:\s+\w+){0,4}\s+"
+            r"\b(?:plant|unit|facility|terminal|shredder|capacity|reactor|project|line|train|site)\b"
+        ),
         "resume": r"\bresum(?:e|es|ed|ing)\b",
+        "debottleneck": r"\bdebottleneck(?:s|ed|ing)?\b",
+        "enhancement": (
+            r"\benhancement\b(?:\s+\w+){0,4}\s+\b(?:at|of|for)\b"
+            r"(?:\s+\w+){0,4}\s+\b(?:facility|plant|unit|capacity|operations?|line|project|site)\b|"
+            r"\benhancement\b(?:\s+\w+){0,3}\s+\bcapacity\b"
+        ),
         "starts_production_or_test": (
             r"\bstarts?\b(?:\s+\w+){0,5}\s+\b(?:production|output|operations?|test|tests|co-firing)\b"
         ),
@@ -102,6 +112,11 @@ POSITIVE_MARKET_PATTERNS = _compile_patterns(
         "premiums_rise": r"\bpremiums?\b(?:\s+\w+){0,2}\s+(?:surge|surges|soar|soars|rise|rises|higher)\b",
         "shortage_deepens": r"\bshortages?\b(?:\s+\w+){0,2}\s+deepens?\b",
         "rebound": r"\brebound(?:s|ed|ing)?\b",
+        "quick_boost": r"\b(?:quick|immediate|near-term)\s+boost\b",
+        "lower_utility_tariff_rate": (
+            r"\blower(?:s|ed|ing)?\b(?:\s+\d{4})?(?:\s+\w+){0,4}\s+"
+            r"\b(?:utility|power|electricity|energy)\b(?:\s+\w+){0,2}\s+\b(?:tariff|rate)s?\b"
+        ),
         "investment_surge": r"\bsurge\b(?:\s+\w+){0,3}\s+\binvestments?\b|\bnew investments?\b",
         "record_exports": r"\brecord\b(?:\s+\w+){0,2}\s+\bexports?\b|\bexports?\b(?:\s+\w+){0,2}\s+\brecord\b",
         "no_shortage_despite": r"\bno\b(?:\s+\w+){0,4}\s+\bshortages?\b.*\bdespite\b",
@@ -119,6 +134,9 @@ NEGATIVE_MARKET_PATTERNS = _compile_patterns(
         "costlier": r"\bcostlier\b|\bmore complex\b",
         "security_risk": r"\bsecurity risks?\b|\bwar-risk\b",
         "at_risk": r"\bat risk\b",
+        "cannot_pay": r"\b(?:can\s*not|cannot|unable\s+to)\s+pay\b",
+        "buckling_under": r"\bbuckl(?:e|es|ed|ing)\b(?:\s+\w+){0,3}\s+\bunder\b",
+        "end_exports": r"\bend\b(?:\s+\w+){0,4}\s+\bexports?\b",
         "export_ban": r"\bban on exports?\b|\bimposes immediate ban\b",
         "crew_casualties": r"\bcrew casualties\b",
     }
@@ -158,6 +176,8 @@ FACTUAL_PATTERNS = _compile_patterns(
         "margin_report": r"\bmodel petchem margin\b|\bmargin at\b",
         "says_no_plans": r"\bsays no plans?\b|\bno plans to release\b",
         "expects_policy": r"\bpolicy clarity\b",
+        "cbam_benchmarks": r"\bcbam\b.*\bbenchmarks?\b|\bbenchmarks?\b.*\bcbam\b",
+        "retail_fuel_prices": r"\bretail\b.*\b(?:gasoline|diesel|fuel)\b.*\bprices?\b",
         "agency_update": r"\b(?:iea|eia)\b",
     }
 )
@@ -175,6 +195,7 @@ PROCEDURAL_PATTERNS = _compile_patterns(
         "topic_update": r"^\s*update to .* topics\b",
         "podcast": r"^\s*podcast\b",
         "q_and_a": r"^\s*q&a\b",
+        "viewpoint": r"^\s*viewpoint\b",
         "outlook": r"\boutlook\b",
     }
 )

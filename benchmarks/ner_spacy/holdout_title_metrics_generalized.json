@@ -1,0 +1,44 @@
+{
+  "mode": "title",
+  "sample_size": 60,
+  "scored_articles": 0,
+  "skipped_country_articles": 0,
+  "skipped_entity_articles": 60,
+  "country_metrics": {
+    "tp": 58,
+    "fp": 0,
+    "fn": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0
+  },
+  "entity_metrics": {
+    "text_only_exact": {
+      "tp": 0,
+      "fp": 0,
+      "fn": 0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    },
+    "text_plus_label_exact": {
+      "tp": 0,
+      "fp": 0,
+      "fn": 0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    },
+    "text_only_relaxed": {
+      "tp": 0,
+      "fp": 0,
+      "fn": 0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    }
+  },
+  "country_error_counts": {},
+  "entity_error_counts": {},
+  "error_examples": {}
+}

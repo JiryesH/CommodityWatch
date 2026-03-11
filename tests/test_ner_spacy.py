@@ -65,12 +65,26 @@ class TestCountryNormalization:
     @pytest.mark.parametrize(
         ("value", "expected"),
         [
+            ("Australian", "Australia"),
+            ("Belgian", "Belgium"),
+            ("Bilbao", "Spain"),
+            ("Chinese", "China"),
+            ("Dutch", "Netherlands"),
+            ("Emirati", "United Arab Emirates"),
+            ("Israeli", "Israel"),
             ("Indian", "India"),
             ("Guyanese", "Guyana"),
             ("French", "France"),
             ("German", "Germany"),
+            ("British", "United Kingdom"),
+            ("S Korean", "South Korea"),
+            ("Sabine Pass", "United States"),
+            ("South Korean", "South Korea"),
+            ("Swiss", "Switzerland"),
+            ("Thai", "Thailand"),
             ("Venezuelan", "Venezuela"),
             ("Indonesian", "Indonesia"),
+            ("Abu Dhabi", "United Arab Emirates"),
             ("S Korea", "South Korea"),
             ("US", "United States"),
             ("UK", "United Kingdom"),
@@ -99,9 +113,16 @@ class TestCountryNormalization:
         ("text", "expected"),
         [
             ("US E15 group floats fewer biofuel mandate waivers", ["United States"]),
+            ("In recent days, US and Israeli military action against Iran intensified", ["United States", "Israel"]),
             ("Plant status: S Korea's S-Oil commences turnaround", ["South Korea"]),
+            ("S Korean petrochemical exports slow further", ["South Korea"]),
             ("UAE's Fujairah bunker suppliers declare force majeure", ["United Arab Emirates"]),
+            ("Abu Dhabi's Adnoc raises Jan sulphur price by $25/t", ["United Arab Emirates"]),
+            ("Equinor halts Dutch CCS-H2 plans, Belgian site still on", ["Netherlands", "Belgium"]),
+            ("Swiss gas grid operator reviews auction schedule", ["Switzerland"]),
             ("Cabinda refinery still in testing, no supply yet", ["Angola"]),
+            ("Sabine Pass LNG export terminal remains offline", ["United States"]),
+            ("Bilbao refinery cuts run rates again", ["Spain"]),
             ("Lake Charles LNG terminates some offtake contracts", ["United States"]),
             ("Queensland met coal royalties hit producers", ["Australia"]),
             ("Plant status: China's ZPC slightly cuts cracker operating rate in Zhejiang", ["China"]),
@@ -115,10 +136,15 @@ class TestCountryNormalization:
         [
             ("Alaska North Slope crude hits record high: Correction", "United States"),
             ("Woodside achieves first ammonia output at Texas plant", "United States"),
+            ("Abu Dhabi's Adnoc raises Jan sulphur price by $25/t", "United Arab Emirates"),
+            ("Sabine Pass LNG terminal resumes exports", "United States"),
+            ("Bilbao refinery maintenance extends into April", "Spain"),
             (
                 "East China MEG inventories rise further due to limited recovery in offtakes",
                 "China",
             ),
+            ("SCG issues force majeure at Thai Rayong petchem complex", "Thailand"),
+            ("Swiss gas system operator revises auction schedule", "Switzerland"),
             (
                 "Macroeconomic headwinds to be felt in 2024 China Sep oil demand hits all time high on petchem boom",
                 "China",
@@ -139,10 +165,35 @@ class TestCountryNormalization:
 
     def test_false_positive_country_inputs_are_rejected(self):
         assert normalize_country_reference("Yara") is None
+        assert normalize_country_reference("American") is None
         assert normalize_country_reference("Europe") is None
         assert normalize_country_reference("Middle East") is None
         assert scan_country_hints("The conflict leaves us exposed.") == []
+        assert scan_country_hints("FluxSwiss cancels April monthly gas capacity auctions") == []
+        assert scan_country_hints("At 11:23 am Singapore time (0323 GMT), Brent was higher.") == []
         assert scan_country_hints("Virgin Islands, U.S. customs zone") == []
+
+    def test_extract_from_doc_scans_country_names_and_demonyms_from_raw_text(self):
+        extractor = SpacyNERExtractor(NERConfig())
+        doc = FakeDoc(
+            text="Chinese domestic sulphur prices rise on US-Iran war and Israeli action",
+            ents=[],
+        )
+
+        _, countries = extractor._extract_from_doc(doc)
+
+        assert countries == ["China", "United States", "Israel", "Iran"]
+
+    def test_extract_from_doc_ignores_temporal_country_mentions(self):
+        extractor = SpacyNERExtractor(NERConfig())
+        doc = FakeDoc(
+            text="At 11:23 am Singapore time (0323 GMT), Brent was higher.",
+            ents=[FakeEnt("Singapore", "GPE")],
+        )
+
+        _, countries = extractor._extract_from_doc(doc)
+
+        assert countries == []
 
 
 class TestEntityFiltering:

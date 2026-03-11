@@ -1,0 +1,174 @@
+{
+  "mode": "title_description",
+  "sample_size": 60,
+  "scored_articles": 0,
+  "skipped_country_articles": 0,
+  "skipped_entity_articles": 60,
+  "country_metrics": {
+    "tp": 59,
+    "fp": 1,
+    "fn": 11,
+    "precision": 0.9833,
+    "recall": 0.8429,
+    "f1": 0.9077
+  },
+  "entity_metrics": {
+    "text_only_exact": {
+      "tp": 0,
+      "fp": 0,
+      "fn": 0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    },
+    "text_plus_label_exact": {
+      "tp": 0,
+      "fp": 0,
+      "fn": 0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    },
+    "text_only_relaxed": {
+      "tp": 0,
+      "fp": 0,
+      "fn": 0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    }
+  },
+  "country_error_counts": {
+    "missed_country_present_in_title": 9,
+    "missed_country_contextual_or_demonym": 1,
+    "missed_country_only_in_description": 1,
+    "false_country_prediction": 1
+  },
+  "entity_error_counts": {},
+  "error_examples": {
+    "missed_country_present_in_title": [
+      {
+        "id": "45ad5a0ba25ffab5",
+        "title": "Abu Dhabi's Adnoc raises Jan sulphur price by $25/t",
+        "value": "United Arab Emirates",
+        "predicted_countries": [],
+        "expected_countries": [
+          "United Arab Emirates"
+        ]
+      },
+      {
+        "id": "f5a13bafb3204bda",
+        "title": "Slowing US EV market hits S Korean LGES' battery sales",
+        "value": "South Korea",
+        "predicted_countries": [
+          "United States"
+        ],
+        "expected_countries": [
+          "South Korea",
+          "United States"
+        ]
+      },
+      {
+        "id": "528c1283d8bef23a",
+        "title": "Equinor halts Dutch CCS-H2 plans, Belgian site still on",
+        "value": "Belgium",
+        "predicted_countries": [],
+        "expected_countries": [
+          "Belgium",
+          "Netherlands"
+        ]
+      },
+      {
+        "id": "528c1283d8bef23a",
+        "title": "Equinor halts Dutch CCS-H2 plans, Belgian site still on",
+        "value": "Netherlands",
+        "predicted_countries": [],
+        "expected_countries": [
+          "Belgium",
+          "Netherlands"
+        ]
+      },
+      {
+        "id": "8593e87fafaf5cd5",
+        "title": "Chinese domestic sulphur prices rise on US-Iran war",
+        "value": "China",
+        "predicted_countries": [
+          "Iran",
+          "United States"
+        ],
+        "expected_countries": [
+          "China",
+          "Iran",
+          "United States"
+        ]
+      },
+      {
+        "id": "680c2afb750cddc9",
+        "title": "NGPL lifts force majeure to Sabine Pass LNG",
+        "value": "United States",
+        "predicted_countries": [],
+        "expected_countries": [
+          "United States"
+        ]
+      },
+      {
+        "id": "c0ebfdf65896bddd",
+        "title": "Weather disrupts Australian copper, coal logistics",
+        "value": "Australia",
+        "predicted_countries": [],
+        "expected_countries": [
+          "Australia"
+        ]
+      },
+      {
+        "id": "c00eb4a956cade49",
+        "title": "Repsol takes FID on 100MW H2 plant at Bilbao refinery",
+        "value": "Spain",
+        "predicted_countries": [],
+        "expected_countries": [
+          "Spain"
+        ]
+      }
+    ],
+    "missed_country_contextual_or_demonym": [
+      {
+        "id": "ed997d191efc5ed3",
+        "title": "GAS ALERT: FluxSwiss cancels April monthly gas capacity auctions",
+        "value": "Switzerland",
+        "predicted_countries": [],
+        "expected_countries": [
+          "Switzerland"
+        ]
+      }
+    ],
+    "missed_country_only_in_description": [
+      {
+        "id": "c87434c2c9aa2f68",
+        "title": "INSIGHT: Hormuz risk premium - from crude to critical minerals, China energy security faces three-stage shock",
+        "value": "Israel",
+        "predicted_countries": [
+          "China",
+          "Iran",
+          "United States"
+        ],
+        "expected_countries": [
+          "China",
+          "Iran",
+          "Israel",
+          "United States"
+        ]
+      }
+    ],
+    "false_country_prediction": [
+      {
+        "id": "40781579eff9b06f",
+        "title": "FACTBOX: Oil futures cross $110/b as Middle East conflict hits production",
+        "value": "Singapore",
+        "predicted_countries": [
+          "Singapore"
+        ],
+        "expected_countries": []
+      }
+    ]
+  }
+}

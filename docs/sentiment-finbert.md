@@ -40,6 +40,8 @@ Additional metadata is written in a backward-compatible way:
 4. Commodity-aware post-processing
    - operational positives: `restart`, `commission`, `starts ... production/test`, `resume`, `boosts output`
    - operational negatives: `force majeure`, `halts`, `shuts`, `cut runs`, `stops production`, `offline`, `outage`
+   - expansion / relief cues: `debottlenecking`, facility `enhancement`, lower utility tariff / rate headlines
+   - harmful blockage cues: `cannot pay`, `buckling under`, `end ... exports`
    - market-meaning rules:
      - supply tightening / shortages / upward pressure can map to `positive`
      - supply-growth cues such as `Opec+ boosts production` can map to `negative`
@@ -52,6 +54,8 @@ Additional metadata is written in a backward-compatible way:
 
 - `title` for strong headline signals, wrappers, and mixed/factual titles
 - `title+description` when the title is weak/procedural and the description adds directional cues
+
+Procedural wrappers such as `Viewpoint:` only gate to `neutral` when the remaining headline lacks clear directional cues; directional tails such as `rebound` or `under pressure` still flow through to polarity resolution.
 
 This avoids the old global `--use-description` tradeoff where descriptions helped some rows but hurt mixed summaries and topic pages.
 

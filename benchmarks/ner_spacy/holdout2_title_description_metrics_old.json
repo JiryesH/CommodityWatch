@@ -1,0 +1,155 @@
+{
+  "mode": "title_description",
+  "sample_size": 60,
+  "scored_articles": 0,
+  "skipped_country_articles": 0,
+  "skipped_entity_articles": 60,
+  "country_metrics": {
+    "tp": 57,
+    "fp": 1,
+    "fn": 9,
+    "precision": 0.9828,
+    "recall": 0.8636,
+    "f1": 0.9194
+  },
+  "entity_metrics": {
+    "text_only_exact": {
+      "tp": 0,
+      "fp": 0,
+      "fn": 0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    },
+    "text_plus_label_exact": {
+      "tp": 0,
+      "fp": 0,
+      "fn": 0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    },
+    "text_only_relaxed": {
+      "tp": 0,
+      "fp": 0,
+      "fn": 0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    }
+  },
+  "country_error_counts": {
+    "missed_country_present_in_title": 7,
+    "missed_country_contextual_or_demonym": 2,
+    "false_country_prediction": 1
+  },
+  "entity_error_counts": {},
+  "error_examples": {
+    "missed_country_present_in_title": [
+      {
+        "id": "4a25f70353f9f607",
+        "title": "Platts cash Dubai differential surges past $10/b premium",
+        "value": "United Arab Emirates",
+        "predicted_countries": [],
+        "expected_countries": [
+          "United Arab Emirates"
+        ]
+      },
+      {
+        "id": "2479c67d082ad3cf",
+        "title": "ET Highlights: Ammonia producers lead blue hydrogen, US states sue over hydrogen hubs, Japanâ&#x20ac;&#x2122;s NEDO backs Kawasakiâ&#x20ac;&#x2122;s liquid hydrogen projects",
+        "value": "Japan",
+        "predicted_countries": [
+          "United States"
+        ],
+        "expected_countries": [
+          "Japan",
+          "United States"
+        ]
+      },
+      {
+        "id": "dc495a6270c0fbd0",
+        "title": "Saudi Aramco Q4 net income falls on higher operating costs, lower revenue",
+        "value": "Saudi Arabia",
+        "predicted_countries": [],
+        "expected_countries": [
+          "Saudi Arabia"
+        ]
+      },
+      {
+        "id": "941fa3be71cc92e7",
+        "title": "Abu Dhabi's Adnoc raises Feb sulphur price by $10/t",
+        "value": "United Arab Emirates",
+        "predicted_countries": [],
+        "expected_countries": [
+          "United Arab Emirates"
+        ]
+      },
+      {
+        "id": "9de0db8586774e52",
+        "title": "Abu Dhabi's Adnoc rolls over March sulphur price",
+        "value": "United Arab Emirates",
+        "predicted_countries": [],
+        "expected_countries": [
+          "United Arab Emirates"
+        ]
+      },
+      {
+        "id": "1761067245be631f",
+        "title": "Romanian gas demand to rise on higher power-sector use",
+        "value": "Romania",
+        "predicted_countries": [],
+        "expected_countries": [
+          "Romania"
+        ]
+      },
+      {
+        "id": "69daf763b5e9eaca",
+        "title": "Major Kazakh coal companies to increase production",
+        "value": "Kazakhstan",
+        "predicted_countries": [],
+        "expected_countries": [
+          "Kazakhstan"
+        ]
+      }
+    ],
+    "false_country_prediction": [
+      {
+        "id": "1d9e66c11e5e131e",
+        "title": "Mideast ex-tank UAE base oils surge with conflict-driven supply disruptions",
+        "value": "Singapore",
+        "predicted_countries": [
+          "Iran",
+          "Singapore",
+          "United Arab Emirates",
+          "United States"
+        ],
+        "expected_countries": [
+          "Iran",
+          "United Arab Emirates",
+          "United States"
+        ]
+      }
+    ],
+    "missed_country_contextual_or_demonym": [
+      {
+        "id": "34dd8f0e12f48181",
+        "title": "FACTBOX: Middle East war raises farm-to-fork food inflation risks on fuel, freight, fertilizer disruptions",
+        "value": "Philippines",
+        "predicted_countries": [],
+        "expected_countries": [
+          "Philippines"
+        ]
+      },
+      {
+        "id": "9e2dbaa5cf4a0d81",
+        "title": "IEA raises forecasts for 2023, 2024 global refinery runs",
+        "value": "China",
+        "predicted_countries": [],
+        "expected_countries": [
+          "China"
+        ]
+      }
+    ]
+  }
+}

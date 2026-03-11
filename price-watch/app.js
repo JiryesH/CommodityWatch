@@ -666,7 +666,6 @@ class CommodityWatchEngine {
         button.className = "filter-chip";
         button.dataset.subsector = subsector.id;
         button.setAttribute("aria-pressed", "false");
-
         const label = document.createElement("span");
         label.className = "filter-chip-label";
         label.textContent = subsector.label;

@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="../shared/filter-bar.css">
 <!--
   USAGE:
-    1. python3 rss_scraper.py          (populate data/feed.json)
+    1. python3 rss_scraper.py          (populate ignored local data/feed.local.json)
     2. python3 server.py               (serve HeadlineWatch + PriceWatch)
     3. open http://127.0.0.1:8080/
 
@@ -206,16 +206,16 @@ body {
 
 /* ── COUNTRY POPOVER (HeadlineWatch-specific) ── */
 .country-popover {
-  position: absolute;
-  top: 100%;
-  right: 28px;
+  position: fixed;
+  top: 0;
+  left: 0;
   width: min(320px, calc(100vw - 32px));
   max-height: min(360px, calc(100vh - var(--nav-height) - var(--filter-height) - 48px));
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: 6px;
   box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-  z-index: 110;
+  z-index: 125;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -251,6 +251,9 @@ body {
   overscroll-behavior: contain;
   padding: 4px 0;
   scrollbar-width: thin;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.34), rgba(255,255,255,0)),
+    var(--color-bg);
 }
 
 .country-option {
@@ -724,10 +727,6 @@ body {
     padding: 0 16px;
   }
 
-  .country-popover {
-    right: 16px;
-  }
-
   .country-chip-bar {
     padding: 6px 16px 8px;
   }
@@ -897,7 +896,7 @@ body {
   'use strict';
 
   // ─── CONFIG ─────────────────────────────────────────────────────────────
-  var FEED_URL   = '/data/feed.json';
+  var FEED_URLS  = ['/data/feed.local.json', '/data/feed.json'];
   var PAGE_SIZE  = 25;
   var POLL_MS    = 90 * 1000; // poll every 90 seconds
 
@@ -1005,6 +1004,7 @@ body {
   var navSearch   = document.getElementById('nav-search');
   var searchToggle = document.getElementById('search-toggle');
   var searchInput = document.getElementById('headline-search');
+  var filterWrapEl = document.querySelector('.filter-wrap');
   var subsectorLayer = document.getElementById('subsector-layer');
   var energyToggle = document.getElementById('energy-toggle');
   var subsectorClear = document.getElementById('subsector-clear');
@@ -1277,12 +1277,37 @@ body {
     return equal;
   }
 
+  function eventPathIncludes(event, element) {
+    if (!event || !element) return false;
+    if (typeof event.composedPath === 'function') {
+      var path = event.composedPath();
+      if (Array.isArray(path) && path.indexOf(element) !== -1) return true;
+    }
+    return element.contains(event.target);
+  }
+
+  function positionCountryPopover() {
+    if (!countryPopover || !countryToggle) return;
+    var toggleRect = countryToggle.getBoundingClientRect();
+    var viewportPadding = 16;
+    var popoverWidth = Math.min(320, window.innerWidth - (viewportPadding * 2));
+    var left = toggleRect.right - popoverWidth;
+    left = Math.max(viewportPadding, Math.min(left, window.innerWidth - popoverWidth - viewportPadding));
+
+    countryPopover.style.width = popoverWidth + 'px';
+    countryPopover.style.left = left + 'px';
+    countryPopover.style.top = (toggleRect.bottom + 10) + 'px';
+  }
+
   // ─── COUNTRY POPOVER ────────────────────────────────────────────────
 
   function setCountryPopover(open) {
     if (!countryPopover) return;
     countryPopover.hidden = !open;
     if (countryToggle) countryToggle.setAttribute('aria-expanded', String(open));
+    if (open) {
+      positionCountryPopover();
+    }
     if (open && countrySearchInput) {
       countrySearchInput.value = '';
       filterCountryList('');
@@ -1365,7 +1390,9 @@ body {
         '<span class="country-option-label">' + esc(country.label) + '</span>' +
         '<span class="country-option-count">' + count + '</span>';
       if (count > 0) {
-        btn.addEventListener('click', function () {
+        btn.addEventListener('click', function (event) {
+          event.preventDefault();
+          event.stopPropagation();
           toggleCountrySelection(country.key);
         });
       }
@@ -1609,10 +1636,10 @@ body {
         // Country toggle — handled separately
         return;
       }
-      var anyActive = cats.some(function (c) { return activeFilters.has(c); });
-      var allActive = cats.every(function (c) { return activeFilters.has(c); });
+      var anyActive = isEmpty || cats.some(function (c) { return activeFilters.has(c); });
+      var allActive = isEmpty || cats.every(function (c) { return activeFilters.has(c); });
       p.classList.toggle('is-selected', anyActive);
-      p.classList.toggle('is-partial', anyActive && !allActive);
+      p.classList.toggle('is-partial', !isEmpty && anyActive && !allActive);
       p.setAttribute('aria-pressed', anyActive ? 'true' : 'false');
     });
 
@@ -1738,13 +1765,34 @@ body {
 
   // ─── FETCH ──────────────────────────────────────────────────────────────
 
+  function fetchFeedPayload() {
+    function attempt(index) {
+      if (index >= FEED_URLS.length) {
+        return Promise.reject(new Error('No headline feed available'));
+      }
+
+      return fetch(FEED_URLS[index] + '?t=' + Date.now())
+        .then(function (r) {
+          if (r.ok) return r.json();
+          if (r.status === 404 && index < FEED_URLS.length - 1) {
+            return attempt(index + 1);
+          }
+          throw new Error('HTTP ' + r.status);
+        })
+        .catch(function (err) {
+          if (index < FEED_URLS.length - 1) {
+            return attempt(index + 1);
+          }
+          throw err;
+        });
+    }
+
+    return attempt(0);
+  }
+
   function fetchFeed(isPoll) {
     // Cache-bust so the browser doesn't serve stale JSON
-    return fetch(FEED_URL + '?t=' + Date.now())
-      .then(function (r) {
-        if (!r.ok) throw new Error('HTTP ' + r.status);
-        return r.json();
-      })
+    return fetchFeedPayload()
       .then(function (data) {
         var articles = (data.articles || []).map(function (article) {
           return normalizeArticleCategoriesInPlace(article);
@@ -1825,7 +1873,7 @@ body {
           var isCORS = err.message.toLowerCase().includes('fetch') ||
                        err.message.toLowerCase().includes('network');
           var msg = isCORS
-            ? 'Could not load <code>/data/feed.json</code>.<br>' +
+            ? 'Could not load <code>/data/feed.local.json</code> or <code>/data/feed.json</code>.<br>' +
               'Run the scraper first: <code>python3 rss_scraper.py</code><br>' +
               'Then serve via: <code>python3 server.py</code><br>' +
               'And open: <code>http://127.0.0.1:8080/</code>'
@@ -1973,11 +2021,10 @@ body {
   // Close search when clicking outside of it
   document.addEventListener('click', function (e) {
     if (navSearch && navSearch.classList.contains('open')) {
-      if (!navSearch.contains(e.target)) closeSearch();
+      if (!eventPathIncludes(e, navSearch)) closeSearch();
     }
 
-    var filterWrap = document.querySelector('.filter-wrap');
-    if (filterWrap && !filterWrap.contains(e.target)) {
+    if (filterWrapEl && !eventPathIncludes(e, filterWrapEl)) {
       if (subsectorLayer && subsectorLayer.classList.contains('open')) setSubsectorLayer(false);
       if (countryPopover && !countryPopover.hidden) setCountryPopover(false);
     }
@@ -2000,8 +2047,16 @@ body {
     toTopBtn.addEventListener('click', function () {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
-    window.addEventListener('scroll', syncToTopBtn, { passive: true });
   }
+
+  window.addEventListener('scroll', function () {
+    syncToTopBtn();
+    if (countryPopover && !countryPopover.hidden) positionCountryPopover();
+  }, { passive: true });
+
+  window.addEventListener('resize', function () {
+    if (countryPopover && !countryPopover.hidden) positionCountryPopover();
+  });
 
   // ─── INIT ────────────────────────────────────────────────────────────────
   feed.innerHTML = '<div class="feed-loading">Fetching headlines…</div>';

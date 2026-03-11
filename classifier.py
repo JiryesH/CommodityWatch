@@ -159,19 +159,78 @@ class KeywordSpec:
     notes: str = ""
 
 
+def _chemical_short_form_market_specs() -> tuple[KeywordSpec, ...]:
+    """
+    Short-form chemical aliases stay constrained to explicit market language.
+
+    Bare forms like ``pe`` or ``abs`` are too noisy, but they are reliable in
+    phrases such as ``pe demand`` or ``abs imports``.
+    """
+    context_weights: dict[str, dict[str, float]] = {
+        "abs": {
+            "demand": 1.8,
+            "imports": 1.8,
+            "market": 1.8,
+            "prices": 1.9,
+            "supply": 1.8,
+        },
+        "bd": {
+            "demand": 1.8,
+            "imports": 1.8,
+            "market": 1.8,
+            "prices": 2.0,
+            "supply": 1.8,
+        },
+        "pe": {
+            "demand": 1.9,
+            "imports": 1.8,
+            "market": 1.9,
+            "prices": 1.9,
+            "supply": 1.8,
+        },
+        "pp": {
+            "demand": 1.9,
+            "imports": 1.8,
+            "market": 1.9,
+            "prices": 1.9,
+            "supply": 1.8,
+        },
+    }
+    specs: list[KeywordSpec] = []
+    for short_form, contexts in context_weights.items():
+        for context, weight in contexts.items():
+            specs.append(
+                KeywordSpec(
+                    f"{short_form} {context}",
+                    "Chemicals",
+                    weight=weight,
+                    notes="short-form market context",
+                )
+            )
+    return tuple(specs)
+
+
 _SUPPLEMENT_KEYWORDS: tuple[KeywordSpec, ...] = (
     # Oil - Crude
     KeywordSpec("crude oil", "Oil - Crude", weight=1.35),
     KeywordSpec("crude", "Oil - Crude", weight=0.9),
     KeywordSpec("oil prices", "Oil - Crude", weight=0.75, notes="background"),
+    KeywordSpec("oil sanctions", "Oil - Crude", weight=1.8),
+    KeywordSpec("oil stock release", "Oil - Crude", weight=2.0),
+    KeywordSpec("emergency oil reserves", "Oil - Crude", weight=1.9),
     KeywordSpec("opec", "Oil - Crude", weight=1.8),
     KeywordSpec("opec+", "Oil - Crude", weight=2.0),
     KeywordSpec("condensate", "Oil - Crude", weight=1.7),
+    KeywordSpec("crude tankers", "Oil - Crude", weight=1.4),
+    KeywordSpec("crude tanker", "Oil - Crude", weight=1.4),
     KeywordSpec("trans mountain", "Oil - Crude", weight=2.0),
     KeywordSpec("dubai crude", "Oil - Crude", weight=1.7),
     KeywordSpec("dubai benchmark", "Oil - Crude", weight=1.5),
     # Oil - Refined Products
     KeywordSpec("refined products", "Oil - Refined Products", weight=1.35),
+    KeywordSpec("oil products", "Oil - Refined Products", weight=1.6),
+    KeywordSpec("oil products stocks", "Oil - Refined Products", weight=1.9),
+    KeywordSpec("oil products inventories", "Oil - Refined Products", weight=1.9),
     KeywordSpec("refinery", "Oil - Refined Products", weight=1.1),
     KeywordSpec("refining", "Oil - Refined Products", weight=1.0),
     KeywordSpec("refining margins", "Oil - Refined Products", weight=1.7),
@@ -202,10 +261,16 @@ _SUPPLEMENT_KEYWORDS: tuple[KeywordSpec, ...] = (
     KeywordSpec("injection season", "Natural Gas", weight=2.0),
     KeywordSpec("gas injection", "Natural Gas", weight=1.7),
     KeywordSpec("gas supply", "Natural Gas", weight=1.5),
+    KeywordSpec("psv traders", "Natural Gas", weight=2.0),
+    KeywordSpec("psv gas", "Natural Gas", weight=2.0),
+    KeywordSpec("psv liquidity", "Natural Gas", weight=2.0),
+    KeywordSpec("psv curve", "Natural Gas", weight=1.9),
     KeywordSpec("oil and gas supply", "Natural Gas", weight=1.8),
     # LNG
     KeywordSpec("lng", "LNG", weight=1.3),
     KeywordSpec("liquefied natural gas", "LNG", weight=1.5),
+    KeywordSpec("cp2", "LNG", weight=2.1),
+    KeywordSpec("phase 2 fid", "LNG", weight=2.0),
     KeywordSpec("lng shortage", "LNG", weight=1.9),
     KeywordSpec("lng shortages", "LNG", weight=1.9),
     KeywordSpec("lng imports", "LNG", weight=1.8),
@@ -272,9 +337,20 @@ _SUPPLEMENT_KEYWORDS: tuple[KeywordSpec, ...] = (
     KeywordSpec("battery project", "Energy Transition", weight=1.9),
     KeywordSpec("battery projects", "Energy Transition", weight=1.9),
     KeywordSpec("battery storage", "Energy Transition", weight=1.9),
+    KeywordSpec("biofuel tax", "Energy Transition", weight=2.1),
+    KeywordSpec("biofuel tax rule", "Energy Transition", weight=2.2),
+    KeywordSpec("cbios", "Energy Transition", weight=2.2),
+    KeywordSpec("cbio", "Energy Transition", weight=2.0),
     KeywordSpec("corporate renewables", "Energy Transition", weight=1.9),
     KeywordSpec("renewables contracts", "Energy Transition", weight=2.0),
     KeywordSpec("saf", "Energy Transition", weight=2.3),
+    KeywordSpec("biogas", "Energy Transition", weight=1.9),
+    KeywordSpec("small hydro", "Energy Transition", weight=2.0),
+    KeywordSpec("small hydro plants", "Energy Transition", weight=2.1),
+    KeywordSpec("small hydroelectric", "Energy Transition", weight=2.0),
+    KeywordSpec("spur h2", "Energy Transition", weight=2.1),
+    KeywordSpec("bio-lng", "Energy Transition", weight=1.8),
+    KeywordSpec("biomarine", "Energy Transition", weight=1.8),
     KeywordSpec("biomethane", "Energy Transition", weight=1.8),
     KeywordSpec("biometano", "Energy Transition", weight=1.8),
     KeywordSpec("biocarbon", "Energy Transition", weight=1.9),
@@ -283,12 +359,18 @@ _SUPPLEMENT_KEYWORDS: tuple[KeywordSpec, ...] = (
     KeywordSpec("hydrogen hubs", "Energy Transition", weight=2.0),
     KeywordSpec("chemical recycling", "Energy Transition", weight=2.1),
     KeywordSpec("recycling plant", "Energy Transition", weight=1.8),
+    KeywordSpec("redd+", "Energy Transition", weight=2.2),
     KeywordSpec("heating mandate", "Energy Transition", weight=1.1),
     KeywordSpec("heating law", "Energy Transition", weight=1.1),
     # Chemicals
     KeywordSpec("petrochemicals", "Chemicals", weight=1.5),
     KeywordSpec("petrochemical supplies", "Chemicals", weight=1.7),
     KeywordSpec("olefins", "Chemicals", weight=1.9),
+    KeywordSpec("chemical markets", "Chemicals", weight=2.0),
+    KeywordSpec("chemical rail traffic", "Chemicals", weight=2.1),
+    KeywordSpec("chemical railcar traffic", "Chemicals", weight=2.1),
+    KeywordSpec("polyolefin trade", "Chemicals", weight=2.0),
+    KeywordSpec("polyolefin markets", "Chemicals", weight=1.9),
     KeywordSpec("polyolefins", "Chemicals", weight=2.0),
     KeywordSpec("polymers", "Chemicals", weight=1.8),
     KeywordSpec("polymer", "Chemicals", weight=1.35),
@@ -316,8 +398,12 @@ _SUPPLEMENT_KEYWORDS: tuple[KeywordSpec, ...] = (
     KeywordSpec("abs market", "Chemicals", weight=1.8),
     KeywordSpec("abs imports", "Chemicals", weight=1.8),
     KeywordSpec("glycol ethers", "Chemicals", weight=2.0),
+    KeywordSpec("monopropylene glycol", "Chemicals", weight=2.1),
+    KeywordSpec("force majeure on mpg", "Chemicals", weight=2.1),
     KeywordSpec("methacrylic acid", "Chemicals", weight=2.1),
     KeywordSpec("methacrylates", "Chemicals", weight=1.8),
+    KeywordSpec("product: propylene", "Chemicals", weight=1.8),
+    KeywordSpec("propylene capacity", "Chemicals", weight=1.7),
     # Metals
     KeywordSpec("al price", "Metals", weight=1.9, fields=("title",)),
     KeywordSpec("al prices", "Metals", weight=1.9, fields=("title",)),
@@ -343,6 +429,9 @@ _SUPPLEMENT_KEYWORDS: tuple[KeywordSpec, ...] = (
     # Agriculture
     KeywordSpec("soybean", "Agriculture", weight=1.4),
     KeywordSpec("soybean sales", "Agriculture", weight=1.8),
+    KeywordSpec("soymeal", "Agriculture", weight=1.8),
+    KeywordSpec("agricultural commodity flows", "Agriculture", weight=1.9),
+    KeywordSpec("agricultural commodities", "Agriculture", weight=1.5),
     KeywordSpec("barley", "Agriculture", weight=1.5),
     KeywordSpec("barley tender", "Agriculture", weight=1.9),
     KeywordSpec("protein co-products", "Agriculture", weight=1.2),
@@ -355,6 +444,9 @@ _SUPPLEMENT_KEYWORDS: tuple[KeywordSpec, ...] = (
     # Fertilizers
     KeywordSpec("fertilizer", "Fertilizers", weight=1.2),
     KeywordSpec("fertiliser", "Fertilizers", weight=1.2),
+    KeywordSpec("fertilizer production", "Fertilizers", weight=1.9),
+    KeywordSpec("p, k subsidy", "Fertilizers", weight=2.2),
+    KeywordSpec("p&k subsidy", "Fertilizers", weight=2.2),
     KeywordSpec("ammonia futures", "Fertilizers", weight=2.0),
     KeywordSpec("ammonia production", "Fertilizers", weight=1.8),
     KeywordSpec("ammonia production costs", "Fertilizers", weight=2.0),
@@ -364,10 +456,16 @@ _SUPPLEMENT_KEYWORDS: tuple[KeywordSpec, ...] = (
     KeywordSpec("sulphuric acid", "Fertilizers", weight=1.8),
     # Shipping
     KeywordSpec("shipping rates", "Shipping", weight=1.8),
+    KeywordSpec("freight costs", "Shipping", weight=1.7),
+    KeywordSpec("shipping insurance", "Shipping", weight=1.5),
+    KeywordSpec("shipping insurance rates", "Shipping", weight=1.7),
+    KeywordSpec("shipping threats", "Shipping", weight=1.8),
     KeywordSpec("freight rates", "Shipping", weight=1.8),
     KeywordSpec("tanker rates", "Shipping", weight=1.7),
     KeywordSpec("tanker", "Shipping", weight=1.15),
     KeywordSpec("tankers", "Shipping", weight=1.3),
+    KeywordSpec("crude tanker", "Shipping", weight=1.9),
+    KeywordSpec("crude tankers", "Shipping", weight=2.0),
     KeywordSpec("sanctioned tankers", "Shipping", weight=1.9),
     KeywordSpec("tanker operators", "Shipping", weight=1.8),
     KeywordSpec("sanctioned ships", "Shipping", weight=1.8),
@@ -379,6 +477,10 @@ _SUPPLEMENT_KEYWORDS: tuple[KeywordSpec, ...] = (
     KeywordSpec("trade routes", "Shipping", weight=1.1),
     KeywordSpec("shipping disruption", "Shipping", weight=1.9),
     KeywordSpec("shipping disruptions", "Shipping", weight=1.9),
+    KeywordSpec("marine insurer", "Shipping", weight=1.4),
+    KeywordSpec("marine insurers", "Shipping", weight=1.5),
+    KeywordSpec("seaborne trade", "Shipping", weight=1.5),
+    KeywordSpec("seaborne trades", "Shipping", weight=1.5),
     KeywordSpec("jebel ali", "Shipping", weight=0.4),
     KeywordSpec("khor fakkan", "Shipping", weight=0.4),
     KeywordSpec("fujairah", "Shipping", weight=0.4),
@@ -389,6 +491,8 @@ _SUPPLEMENT_KEYWORDS: tuple[KeywordSpec, ...] = (
     KeywordSpec("oil and gas supply", "Oil - Crude", weight=1.8),
     KeywordSpec("oil and gas supply outlook", "Oil - Crude", weight=2.4),
     KeywordSpec("oil security", "Oil - Crude", weight=1.8),
+    KeywordSpec("oil producers and exporters", "Oil - Crude", weight=1.8),
+    KeywordSpec("oil exporters", "Oil - Crude", weight=1.5),
     KeywordSpec("russian oil", "Oil - Crude", weight=1.5),
     KeywordSpec("upstream output", "Oil - Crude", weight=1.9),
     KeywordSpec("upstream production", "Oil - Crude", weight=1.9),
@@ -397,13 +501,19 @@ _SUPPLEMENT_KEYWORDS: tuple[KeywordSpec, ...] = (
     KeywordSpec("lpg production", "Oil - Refined Products", weight=1.9),
     KeywordSpec("rfcc", "Oil - Refined Products", weight=1.8),
     KeywordSpec("fluid catalytic cracker", "Oil - Refined Products", weight=1.9),
+    *_chemical_short_form_market_specs(),
 )
 
 _GENERAL_TITLE_PATTERNS: tuple[tuple[re.Pattern[str], str], ...] = (
     (re.compile(r"\bmarkets?\s+summary\b", re.IGNORECASE), "market summary"),
+    (re.compile(r"\bweekly summary\b", re.IGNORECASE), "weekly summary"),
+    (re.compile(r"\btop stories\b", re.IGNORECASE), "top stories"),
     (re.compile(r"\bsnapshot\b", re.IGNORECASE), "snapshot"),
     (re.compile(r"\broundup\b", re.IGNORECASE), "roundup"),
     (re.compile(r"\blatest news\b", re.IGNORECASE), "latest news"),
+    (re.compile(r"^\s*commodity tracker:", re.IGNORECASE), "commodity tracker"),
+    (re.compile(r"\bcharts?\s+to\s+watch\b", re.IGNORECASE), "charts to watch"),
+    (re.compile(r"^\s*infographic:", re.IGNORECASE), "infographic"),
     (re.compile(r"^\s*interactive:", re.IGNORECASE), "interactive"),
 )
 
@@ -415,6 +525,16 @@ _FIELD_WEIGHTS: dict[str, float] = {
 _PRIMARY_SCORE_MIN = 2.2
 _SECONDARY_SCORE_MIN = 2.8
 _SECONDARY_SCORE_RATIO = 0.55
+_BACKGROUND_SECONDARY_PRIMARY_TITLE_MIN = 8.0
+_BACKGROUND_SECONDARY_RATIO = 0.4
+_BACKGROUND_SECONDARY_SUPPRESSIONS: frozenset[tuple[str, str]] = frozenset(
+    {
+        ("Chemicals", "Oil - Crude"),
+        ("Chemicals", "Oil - Refined Products"),
+        ("Chemicals", "Natural Gas"),
+        ("Chemicals", "Electric Power"),
+    }
+)
 _SECONDARY_TITLE_ONLY_SUPPRESSION_RATIO = 1.45
 _SECONDARY_TITLE_ONLY_SUPPRESSION_CATEGORIES: frozenset[str] = frozenset(
     {
@@ -864,14 +984,24 @@ def _is_broad_general_story(
     for pattern, reason in _GENERAL_TITLE_PATTERNS:
         if not pattern.search(title):
             continue
+        if reason in {"weekly summary", "top stories", "commodity tracker", "charts to watch"}:
+            return True, reason
         if reason in {"market summary", "snapshot", "roundup", "latest news"}:
             if title_score_total < 2.0:
                 return True, reason
-        if reason == "interactive" and len(strong_categories) >= 3:
-            return True, reason
+        if reason == "infographic":
+            if "commodities markets" in lower_title or len(strong_categories) >= 2:
+                return True, reason
+        if reason == "interactive":
+            if len(strong_categories) >= 3 or title_score_total < 2.0:
+                return True, reason
 
     if "market summary" in lower_title and title_score_total < 2.0:
         return True, "market summary"
+    if lower_title.startswith("factbox:") and any(
+        term in lower_title for term in ("farm-to-fork", "food inflation")
+    ):
+        return True, "broad factbox"
 
     return False, None
 
@@ -882,6 +1012,15 @@ def _should_keep_secondary(
 ) -> bool:
     if candidate.score < _SECONDARY_SCORE_MIN:
         return False
+    if (
+        candidate.title_score == 0
+        and (primary.category, candidate.category) in _BACKGROUND_SECONDARY_SUPPRESSIONS
+        and primary.title_score >= _BACKGROUND_SECONDARY_PRIMARY_TITLE_MIN
+        and candidate.score < primary.score * _BACKGROUND_SECONDARY_RATIO
+    ):
+        return False
+    if candidate.category == "LNG" and primary.category == "Shipping":
+        return True
     if (
         candidate.category in _SECONDARY_TITLE_ONLY_SUPPRESSION_CATEGORIES
         and candidate.description_matches == 0

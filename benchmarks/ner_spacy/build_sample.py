@@ -190,7 +190,9 @@ def pick_rows(
     articles: list[dict[str, Any]],
     quotas: list[tuple[str, int]],
     seed: int,
+    excluded_ids: set[str] | None = None,
 ) -> list[SampleRow]:
+    excluded = excluded_ids or set()
     selected_ids: set[str] = set()
     selected_titles: set[tuple[str, str]] = set()
     rows: list[SampleRow] = []
@@ -202,6 +204,7 @@ def pick_rows(
             a
             for a in articles
             if label in article_tags[str(a.get("id"))]
+            and str(a.get("id")) not in excluded
             and str(a.get("id")) not in selected_ids
             and (_normalize(str(a.get("title") or "")), str(a.get("source") or "")) not in selected_titles
         ]
@@ -283,10 +286,32 @@ def main() -> None:
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--sample-size", type=int, default=DEFAULT_SAMPLE_SIZE)
     parser.add_argument("--seed", type=int, default=DEFAULT_SEED)
+    parser.add_argument(
+        "--exclude-jsonl",
+        type=Path,
+        action="append",
+        default=[],
+        help="JSONL file(s) whose article ids should be excluded from sampling.",
+    )
     args = parser.parse_args()
 
     articles = load_articles(args.input)
-    rows = pick_rows(articles, quotas_for_size(args.sample_size), args.seed)
+    excluded_ids: set[str] = set()
+    for path in args.exclude_jsonl:
+        for line in path.read_text(encoding="utf-8").splitlines():
+            if not line.strip():
+                continue
+            row = json.loads(line)
+            article_id = str(row.get("id") or "").strip()
+            if article_id:
+                excluded_ids.add(article_id)
+
+    rows = pick_rows(
+        articles,
+        quotas_for_size(args.sample_size),
+        args.seed,
+        excluded_ids=excluded_ids,
+    )
     args.output.parent.mkdir(parents=True, exist_ok=True)
     with args.output.open("w", encoding="utf-8") as handle:
         for row in rows:

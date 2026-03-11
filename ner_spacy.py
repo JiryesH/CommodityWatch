@@ -71,38 +71,99 @@ COUNTRY_EXCLUDED_KEYS = {
     "mideast",
     "strait of hormuz",
 }
-COUNTRY_HINTS: tuple[tuple[str, str, bool], ...] = (
-    ("Alaska", "United States", False),
-    ("Texas", "United States", False),
-    ("US", "United States", True),
-    ("U.S.", "United States", True),
-    ("USA", "United States", True),
-    ("UK", "United Kingdom", True),
-    ("U.K.", "United Kingdom", True),
-    ("UAE", "United Arab Emirates", True),
-    ("U.A.E.", "United Arab Emirates", True),
-    ("Britain", "United Kingdom", False),
-    ("Russia", "Russia", False),
-    ("S Korea", "South Korea", False),
-    ("S. Korea", "South Korea", False),
-    ("East China", "China", False),
-    ("Indian", "India", False),
-    ("Guyanese", "Guyana", False),
-    ("French", "France", False),
-    ("German", "Germany", False),
-    ("Venezuelan", "Venezuela", False),
-    ("Indonesian", "Indonesia", False),
-    ("Fujairah", "United Arab Emirates", False),
-    ("Ras Tanura", "Saudi Arabia", False),
-    ("Ruwais", "United Arab Emirates", False),
-    ("Cabinda", "Angola", False),
-    ("Houston", "United States", False),
-    ("Lake Charles", "United States", False),
-    ("New York", "United States", False),
-    ("Queensland", "Australia", False),
-    ("Onsan", "South Korea", False),
-    ("Zhejiang", "China", False),
+COUNTRY_ALIAS_HINTS: tuple[tuple[str, str, bool, bool], ...] = (
+    ("US", "United States", True, True),
+    ("U.S.", "United States", True, True),
+    ("USA", "United States", True, False),
+    ("UK", "United Kingdom", True, True),
+    ("U.K.", "United Kingdom", True, True),
+    ("UAE", "United Arab Emirates", True, False),
+    ("U.A.E.", "United Arab Emirates", True, False),
+    ("Britain", "United Kingdom", False, False),
+    ("S Korea", "South Korea", False, False),
+    ("S. Korea", "South Korea", False, False),
 )
+COUNTRY_DEMONYM_HINT_GROUPS: tuple[tuple[str, tuple[str, ...]], ...] = (
+    ("Angola", ("Angolan",)),
+    ("Argentina", ("Argentine", "Argentinian")),
+    ("Australia", ("Australian",)),
+    ("Austria", ("Austrian",)),
+    ("Bahrain", ("Bahraini",)),
+    ("Belgium", ("Belgian",)),
+    ("Brazil", ("Brazilian",)),
+    ("Brunei", ("Bruneian",)),
+    ("Canada", ("Canadian",)),
+    ("Chile", ("Chilean",)),
+    ("China", ("Chinese",)),
+    ("Colombia", ("Colombian",)),
+    ("Denmark", ("Danish",)),
+    ("Egypt", ("Egyptian",)),
+    ("France", ("French",)),
+    ("Germany", ("German",)),
+    ("Greece", ("Greek",)),
+    ("Guyana", ("Guyanese",)),
+    ("India", ("Indian",)),
+    ("Indonesia", ("Indonesian",)),
+    ("Iran", ("Iranian",)),
+    ("Iraq", ("Iraqi",)),
+    ("Ireland", ("Irish",)),
+    ("Israel", ("Israeli",)),
+    ("Italy", ("Italian",)),
+    ("Japan", ("Japanese",)),
+    ("Kazakhstan", ("Kazakh", "Kazakhstani")),
+    ("Kuwait", ("Kuwaiti",)),
+    ("Malaysia", ("Malaysian",)),
+    ("Mexico", ("Mexican",)),
+    ("Morocco", ("Moroccan",)),
+    ("Netherlands", ("Dutch",)),
+    ("Nigeria", ("Nigerian",)),
+    ("Norway", ("Norwegian",)),
+    ("Oman", ("Omani",)),
+    ("Pakistan", ("Pakistani",)),
+    ("Peru", ("Peruvian",)),
+    ("Philippines", ("Filipino", "Philippine")),
+    ("Poland", ("Polish",)),
+    ("Portugal", ("Portuguese",)),
+    ("Qatar", ("Qatari",)),
+    ("Romania", ("Romanian",)),
+    ("Russia", ("Russian",)),
+    ("Saudi Arabia", ("Saudi Arabian",)),
+    ("Singapore", ("Singaporean",)),
+    ("South Africa", ("South African",)),
+    ("South Korea", ("S Korean", "S. Korean", "South Korean")),
+    ("Spain", ("Spanish",)),
+    ("Sweden", ("Swedish",)),
+    ("Switzerland", ("Swiss",)),
+    ("Taiwan", ("Taiwanese",)),
+    ("Thailand", ("Thai",)),
+    ("Turkey", ("Turkish",)),
+    ("Ukraine", ("Ukrainian",)),
+    ("United Arab Emirates", ("Emirati",)),
+    ("United Kingdom", ("British",)),
+    ("Uruguay", ("Uruguayan",)),
+    ("Venezuela", ("Venezuelan",)),
+    ("Vietnam", ("Vietnamese",)),
+    ("Zimbabwe", ("Zimbabwean",)),
+)
+COUNTRY_SUBNATIONAL_PLACE_HINTS = {
+    "Abu Dhabi": "United Arab Emirates",
+    "Alaska": "United States",
+    "Bilbao": "Spain",
+    "Cabinda": "Angola",
+    "East China": "China",
+    "Fujairah": "United Arab Emirates",
+    "Houston": "United States",
+    "Lake Charles": "United States",
+    "New York": "United States",
+    "Onsan": "South Korea",
+    "Queensland": "Australia",
+    "Ras Tanura": "Saudi Arabia",
+    "Ruwais": "United Arab Emirates",
+    "Sabine Pass": "United States",
+    "Texas": "United States",
+    "Zhejiang": "China",
+}
+COUNTRY_CONTEXT_BLOCKED_FOLLOWERS = ("time",)
 HTML_TAG_RE = re.compile(r"<[^>]+>")
 STRUCTURED_FIELD_LABELS = (
     "Refining Location",
@@ -266,8 +327,41 @@ def _normalize_country_key(value: str) -> str:
     return compact.lower()
 
 
+def _build_country_demonym_hints() -> dict[str, str]:
+    hints: dict[str, str] = {}
+    for country, demonyms in COUNTRY_DEMONYM_HINT_GROUPS:
+        for demonym in demonyms:
+            hints[demonym] = country
+    return hints
+
+
+COUNTRY_DEMONYM_HINTS = _build_country_demonym_hints()
+
+
+def _iter_country_hint_entries() -> list[tuple[str, str, bool, bool]]:
+    entries = list(COUNTRY_ALIAS_HINTS)
+    entries.extend(
+        (phrase, country, False, False)
+        for phrase, country in COUNTRY_DEMONYM_HINTS.items()
+    )
+    entries.extend(
+        (phrase, country, False, False)
+        for phrase, country in COUNTRY_SUBNATIONAL_PLACE_HINTS.items()
+    )
+    return entries
+
+
+COUNTRY_HINT_ENTRIES = tuple(_iter_country_hint_entries())
+COUNTRY_CONTEXT_BLOCKED_FOLLOWER_RE = re.compile(
+    rf"^\s+(?:{'|'.join(re.escape(value) for value in COUNTRY_CONTEXT_BLOCKED_FOLLOWERS)})\b",
+    re.IGNORECASE,
+)
 COUNTRY_EXPLICIT_NORMALIZATIONS = {
-    _normalize_country_key(alias): country for alias, country, _ in COUNTRY_HINTS
+    _normalize_country_key(alias): country for alias, country, _, _ in COUNTRY_HINT_ENTRIES
+}
+COUNTRY_CONTEXT_RULES = {
+    _normalize_country_key(alias): (case_sensitive, block_comma_prefixed)
+    for alias, _, case_sensitive, block_comma_prefixed in COUNTRY_HINT_ENTRIES
 }
 COUNTRY_EXPLICIT_NORMALIZATIONS.update(
     {
@@ -287,7 +381,7 @@ def _normalize_country_candidate(value: str) -> str:
 
 def _compile_country_hint_patterns() -> list[tuple[re.Pattern[str], str, bool]]:
     patterns: list[tuple[re.Pattern[str], str, bool]] = []
-    for phrase, country, case_sensitive in COUNTRY_HINTS:
+    for phrase, country, case_sensitive, block_comma_prefixed in COUNTRY_HINT_ENTRIES:
         escaped = re.escape(phrase)
         left_boundary = r"(?<!\w)"
         flags = 0 if case_sensitive else re.IGNORECASE
@@ -298,13 +392,29 @@ def _compile_country_hint_patterns() -> list[tuple[re.Pattern[str], str, bool]]:
                     flags,
                 ),
                 country,
-                case_sensitive,
+                block_comma_prefixed,
             )
         )
     return patterns
 
 
 COUNTRY_HINT_PATTERNS = _compile_country_hint_patterns()
+
+
+def _is_blocked_country_text_match(
+    haystack: str,
+    match_start: int,
+    match_end: int,
+    *,
+    block_comma_prefixed: bool = False,
+) -> bool:
+    if block_comma_prefixed and haystack[:match_start].rstrip().endswith(","):
+        prefix = haystack[:match_start].rstrip()[:-1].strip()
+        tail = re.split(r"[.;:!?()\[\]]\s*", prefix)[-1].strip()
+        tail_words = re.findall(r"[A-Za-z][A-Za-z'.-]*", tail)
+        if 2 <= len(tail_words) <= 4 and all(word[:1].isupper() for word in tail_words):
+            return True
+    return bool(COUNTRY_CONTEXT_BLOCKED_FOLLOWER_RE.match(haystack[match_end:]))
 
 
 def scan_country_hints(text: str) -> list[str]:
@@ -315,7 +425,12 @@ def scan_country_hints(text: str) -> list[str]:
 
     for pattern, country, block_comma_prefixed in COUNTRY_HINT_PATTERNS:
         for match in pattern.finditer(haystack):
-            if block_comma_prefixed and haystack[: match.start()].rstrip().endswith(","):
+            if _is_blocked_country_text_match(
+                haystack,
+                match.start(),
+                match.end(),
+                block_comma_prefixed=block_comma_prefixed,
+            ):
                 continue
             matches.append((match.start(), country))
 
@@ -387,6 +502,8 @@ def scan_country_names(
 
     for pattern, country in patterns:
         for match in pattern.finditer(haystack):
+            if _is_blocked_country_text_match(haystack, match.start(), match.end()):
+                continue
             matches.append((match.start(), country))
 
     matches.sort(key=lambda item: item[0])
@@ -396,6 +513,34 @@ def scan_country_names(
         if country not in countries:
             countries.append(country)
     return countries
+
+
+def text_contains_country_reference(text: str, value: str) -> bool:
+    haystack = _collapse_whitespace(text)
+    candidate = _normalize_country_candidate(value)
+    if not haystack or not candidate:
+        return False
+
+    key = _normalize_country_key(candidate)
+    if key in COUNTRY_EXCLUDED_KEYS:
+        return False
+
+    case_sensitive, block_comma_prefixed = COUNTRY_CONTEXT_RULES.get(key, (False, False))
+    flags = 0 if case_sensitive else re.IGNORECASE
+    pattern = re.compile(
+        rf"(?<!\w){re.escape(candidate)}(?:['’]s)?(?!\w)",
+        flags,
+    )
+    for match in pattern.finditer(haystack):
+        if _is_blocked_country_text_match(
+            haystack,
+            match.start(),
+            match.end(),
+            block_comma_prefixed=block_comma_prefixed,
+        ):
+            continue
+        return True
+    return False
 
 
 def normalize_country_reference(
@@ -590,6 +735,8 @@ class SpacyNERExtractor:
                 continue
             normalized = normalize_country_reference(ent_text, self._country_matcher)
             if normalized and normalized not in countries:
+                if not text_contains_country_reference(text, ent_text):
+                    continue
                 countries.append(normalized)
         return countries
 

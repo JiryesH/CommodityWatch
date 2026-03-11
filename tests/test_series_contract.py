@@ -9,7 +9,14 @@ import headline_associations
 CONTRACT_PATH = (
     Path(__file__).resolve().parents[1] / "shared" / "commodity-series-contract.json"
 )
-VALID_GROUPS = {"energy", "metals", "agri"}
+EXPECTED_SECTOR_ORDER = [
+    "Energy",
+    "Metals and Mining",
+    "Agriculture",
+    "Fertilizers and Agricultural Chemicals",
+    "Livestock, Dairy, and Seafood",
+    "Forest and Wood Products",
+]
 
 
 def load_contract() -> dict:
@@ -27,13 +34,27 @@ def test_headline_rule_inventory_matches_contract() -> None:
     assert set(headline_associations.RAW_SERIES_HEADLINE_RULES) == expected
 
 
-def test_series_contract_uses_valid_groups_and_grouped_references() -> None:
+def test_series_contract_uses_valid_taxonomy_and_grouped_references() -> None:
     contract = load_contract()
+    sectors = contract["sectors"]
     known_series = set(contract["series"])
 
-    assert {metadata["group"] for metadata in contract["series"].values()} <= VALID_GROUPS
+    assert [sector["label"] for sector in sectors] == EXPECTED_SECTOR_ORDER
+    assert [sector["order"] for sector in sectors] == list(range(1, len(sectors) + 1))
 
-    for series_keys in contract["grouped_cards"].values():
-        assert series_keys
-        assert len(series_keys) == len(set(series_keys))
-        assert set(series_keys) <= known_series
+    subsector_keys = set()
+    for sector in sectors:
+        subsectors = sector["subsectors"]
+        assert [subsector["order"] for subsector in subsectors] == list(range(1, len(subsectors) + 1))
+        for subsector in subsectors:
+            subsector_keys.add((sector["id"], subsector["id"]))
+
+    for metadata in contract["series"].values():
+        assert (metadata["sectorId"], metadata["subsectorId"]) in subsector_keys
+
+    for grouped_card in contract["grouped_cards"].values():
+        assert (grouped_card["sectorId"], grouped_card["subsectorId"]) in subsector_keys
+        assert grouped_card["defaultSeriesKey"] in grouped_card["seriesKeys"]
+        assert grouped_card["seriesKeys"]
+        assert len(grouped_card["seriesKeys"]) == len(set(grouped_card["seriesKeys"]))
+        assert set(grouped_card["seriesKeys"]) <= known_series
