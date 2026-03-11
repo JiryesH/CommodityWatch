@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-11T20:50:54.626784+00:00",
-    "total_articles": 2207,
+    "last_updated": "2026-03-11T21:38:29.810039+00:00",
+    "total_articles": 2210,
     "feeds_fetched": 15,
     "feeds_failed": 0,
     "feed_details": {
@@ -105,14 +105,53 @@
       "classifier_fallback_used": 0
     },
     "dedupe": {
-      "new": 6,
-      "updated": 119,
-      "merged": 25,
-      "incoming_merged": 25,
+      "new": 3,
+      "updated": 125,
+      "merged": 22,
+      "incoming_merged": 22,
       "existing_merged": 0
     }
   },
   "articles": [
+    {
+      "id": "6b9ce10bbcae2445",
+      "title": "Soaring Asia bunker prices spur Panama demand",
+      "description": "",
+      "link": "https://www.argusmedia.com/pages/NewsBody.aspx?id=2799873&menu=yes",
+      "published": "2026-03-11T21:23:00+00:00",
+      "source": "Argus Media",
+      "feed": "Argus NewsAll",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
+    {
+      "id": "1290616722a41142",
+      "title": "Trump commits to SPR crude release: Update",
+      "description": "",
+      "link": "https://www.argusmedia.com/pages/NewsBody.aspx?id=2799870&menu=yes",
+      "published": "2026-03-11T21:18:00+00:00",
+      "source": "Argus Media",
+      "feed": "Argus NewsAll",
+      "category": "Oil - Crude",
+      "categories": [
+        "Oil - Crude"
+      ]
+    },
+    {
+      "id": "c22d25cc5c18a91a",
+      "title": "CRUDE SUMMARY: Crude prices continue to rise despite IEA move to release 400 million barrels of reserves",
+      "description": "Market rebound indicates doubts over likely impact of IEA oil stock release US and Japan to be largest contributors to inventory release OPEC’s global crude demand growth estimate likely to be...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187734/crude-summary-crude-prices-continue-to-rise-despite-iea-move-to-release-400-million-barrels-of-reserves",
+      "published": "2026-03-11T21:15:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Crude",
+      "categories": [
+        "Oil - Crude"
+      ]
+    },
     {
       "id": "981e6c057efcbcf2",
       "title": "Congress may punt on refiner biofuel waivers: Update",
