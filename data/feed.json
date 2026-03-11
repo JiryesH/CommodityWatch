@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-11T17:35:53.015610+00:00",
-    "total_articles": 2183,
+    "last_updated": "2026-03-11T18:35:01.903552+00:00",
+    "total_articles": 2191,
     "feeds_fetched": 15,
     "feeds_failed": 0,
     "feed_details": {
@@ -113,6 +113,113 @@
     }
   },
   "articles": [
+    {
+      "id": "b540af16263e6b22",
+      "title": "Brazil's Petrobras naphtha sales drop within ‘normal’ range, fertilizer output ramps up - spokesperson",
+      "description": "SAO PAULO (ICIS)--Petrobras has attributed a sharp fall in naphtha sales during Q4 and 2025 overall to routine refinery dynamics rather than any structural shift, a spokesperson for the Brazilian...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187720/brazil-s-petrobras-naphtha-sales-drop-within-normal-range-fertilizer-output-ramps-up-spokesperson",
+      "published": "2026-03-11T18:27:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Refined Products",
+      "categories": [
+        "Oil - Refined Products",
+        "Fertilizers"
+      ]
+    },
+    {
+      "id": "31c848ae9c93ea29",
+      "title": "Traffic through Hormuz remains minimal",
+      "description": "",
+      "link": "https://www.argusmedia.com/pages/NewsBody.aspx?id=2799728&menu=yes",
+      "published": "2026-03-11T18:17:00+00:00",
+      "source": "Argus Media",
+      "feed": "Argus NewsAll",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
+    {
+      "id": "4635775d8c42d858",
+      "title": "Mexico inflation up to 4.02% in February, clouding Banxico rate-cut prospects",
+      "description": "SAO PAULO (ICIS)--Mexico's annual rate of inflation accelerated to 4.02% in February, up from 3.79% in January, pushing the headline rate to the upper limit of the central bank's tolerance band and...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187719/mexico-inflation-up-to-4-02-in-february-clouding-banxico-rate-cut-prospects",
+      "published": "2026-03-11T18:03:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
+    {
+      "id": "d23dc7cbf3b0900c",
+      "title": "US-Iran war: Latest news",
+      "description": "",
+      "link": "https://www.argusmedia.com/pages/NewsBody.aspx?id=2799708&menu=yes",
+      "published": "2026-03-11T18:01:00+00:00",
+      "source": "Argus Media",
+      "feed": "Argus NewsAll",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
+    {
+      "id": "5869e3014e409bd3",
+      "title": "Update to ICIS Topics: US-Iran conflict: Impact on energy, chemical markets",
+      "description": "Visit the ICIS US-Iran conflict: Impact on energy, chemical markets topic page for latest updates and analysis. Updates latest headlines and tabs New table added of global force...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187718/update-to-icis-topics-us-iran-conflict-impact-on-energy-chemical-markets",
+      "published": "2026-03-11T17:54:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
+    {
+      "id": "777297b572c37c31",
+      "title": "Strait of Hormuz traffic remains at standstill amid new attacks on commercial vessels",
+      "description": "HOUSTON (ICIS)--Traffic of commercial vessels through the Strait of Hormuz remains at a standstill as three vessels were hit by unknown projectiles on Wednesday....",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187717/strait-of-hormuz-traffic-remains-at-standstill-amid-new-attacks-on-commercial-vessels",
+      "published": "2026-03-11T17:40:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
+    {
+      "id": "d8b6658251d40830",
+      "title": "HVO: Aufschlag zu B7-Diesel an Tankstellen sinkt weiter",
+      "description": "",
+      "link": "https://www.argusmedia.com/pages/NewsBody.aspx?id=2799685&menu=yes",
+      "published": "2026-03-11T17:38:00+00:00",
+      "source": "Argus Media",
+      "feed": "Argus NewsAll",
+      "category": "Oil - Refined Products",
+      "categories": [
+        "Oil - Refined Products",
+        "Energy Transition"
+      ]
+    },
+    {
+      "id": "24f6ca5770686198",
+      "title": "Iran war leads German power April ’26 amid mixed fundamentals",
+      "description": "German April ’26 shifts to bullish trend driven by Iran conflict Middle East developments likely to remain key driver with the market in “wait-and-see” mode - traders Stronger wind, solar key...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187715/iran-war-leads-german-power-april-26-amid-mixed-fundamentals",
+      "published": "2026-03-11T17:30:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Electric Power",
+      "categories": [
+        "Electric Power",
+        "Energy Transition"
+      ]
+    },
     {
       "id": "5a5a4e4e38b901f8",
       "title": "EVENING SNAPSHOT - Europe Markets Summary",
