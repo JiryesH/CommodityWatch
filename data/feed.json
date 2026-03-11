@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-11T04:47:07.006035+00:00",
-    "total_articles": 2090,
+    "last_updated": "2026-03-11T05:53:55.361443+00:00",
+    "total_articles": 2096,
     "feeds_fetched": 15,
     "feeds_failed": 0,
     "feed_details": {
@@ -106,13 +106,39 @@
     },
     "dedupe": {
       "new": 6,
-      "updated": 120,
-      "merged": 24,
-      "incoming_merged": 24,
+      "updated": 128,
+      "merged": 16,
+      "incoming_merged": 16,
       "existing_merged": 0
     }
   },
   "articles": [
+    {
+      "id": "3a3d0d0b764f1de9",
+      "title": "S Korea's Lotte Chem warns of potential force majeure due to Mideast conflict",
+      "description": "SINGAPORE (ICIS)--South Korea's Lotte Chemical Corp has warned of a potential force majeure announcement following military escalation in the Middle East and a blockade of the Strait of Hormuz,...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187585/s-korea-s-lotte-chem-warns-of-potential-force-majeure-due-to-mideast-conflict",
+      "published": "2026-03-11T05:45:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
+    {
+      "id": "7c9376df4474a504",
+      "title": "India’s DGFT to hold PVC minimum import price consultation on 16 March",
+      "description": "MUMBAI (ICIS)--India’s Directorate General of Foreign Trade (DGFT) has convened a stakeholder consultation meeting on 16 March to discuss a proposal to impose a minimum import price (MIP) on...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187584/india-s-dgft-to-hold-pvc-minimum-import-price-consultation-on-16-march",
+      "published": "2026-03-11T05:21:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals",
+      "categories": [
+        "Chemicals"
+      ]
+    },
     {
       "id": "39ed113a18ec2724",
       "title": "NOON SNAPSHOT - Asia Markets Summary",
@@ -125,6 +151,19 @@
       "categories": [
         "Oil - Crude",
         "Chemicals"
+      ]
+    },
+    {
+      "id": "b5247c8624a7221b",
+      "title": "Japan's beef imports to edge up in 2026: USDA",
+      "description": "",
+      "link": "https://www.argusmedia.com/pages/NewsBody.aspx?id=2799343&menu=yes",
+      "published": "2026-03-11T03:55:00+00:00",
+      "source": "Argus Media",
+      "feed": "Argus NewsAll",
+      "category": "Agriculture",
+      "categories": [
+        "Agriculture"
       ]
     },
     {
@@ -346,7 +385,8 @@
       "feed": "S&P Oil - Refined Products",
       "category": "Oil - Refined Products",
       "categories": [
-        "Oil - Refined Products"
+        "Oil - Refined Products",
+        "Chemicals"
       ]
     },
     {
@@ -2627,6 +2667,19 @@
       }
     },
     {
+      "id": "acae7710fe6af976",
+      "title": "European MMA prices rise 58% on week as Middle East war threatens supply security",
+      "description": "European methyl methacrylate spot prices increased 58.2% in the week ended March 9 driven by escalating supply concerns following the virtual closure of the Strait of Hormuz. Platts, part of S&amp;P Global Energy, assessed the three-to-30-day forward DDP NWE methyl methacrylate spot price at Eur2,216.50/metric ton March 9, up Eur362.75/mt from March 6. The supply squeeze has been worsened by already",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/chemicals/031026-european-mma-prices-rise-58-on-week-as-middle-east-war-threatens-supply-security",
+      "published": "2026-03-10T12:05:03+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Chemicals",
+      "category": "Chemicals",
+      "categories": [
+        "Chemicals"
+      ]
+    },
+    {
       "id": "e30f0606aa93bf41",
       "title": "Europe PP price spike on sudden global shortage, more upwards pressure to come",
       "description": "LONDON (ICIS)--European polypropylene (PP) spot prices have spiked as the market reacted to the conflict in the Middle East. Triple-digit hikes were pushed through with PP being particularly...",
@@ -3594,6 +3647,19 @@
         "text_hash": "defd68cb92bd3cf8fff8b7d04e3fe8a9e1e9895691caf5b52e780a7559e9725a",
         "extracted_at": "2026-03-10T09:54:06.937519+00:00"
       }
+    },
+    {
+      "id": "2672155f36fe5bf4",
+      "title": "Indian government orders redirection of natural gas to priority sectors",
+      "description": "The Indian government has ordered the redirection of all domestic gas and regasified LNG to key priority sectors, overriding existing gas sales agreements amid supply disruptions from the war in the Middle East. The government identified four priority sectors and set allocation percentages for each, as per a notification issued by the Ministry of Petroleum and Natural Gas on March 9. The",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/lng/031026-indian-government-orders-redirection-of-natural-gas-to-priority-sectors",
+      "published": "2026-03-10T09:26:34+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Natural Gas",
+      "category": "Natural Gas",
+      "categories": [
+        "Natural Gas"
+      ]
     },
     {
       "id": "c9f8f4a07fc1f85e",
@@ -6073,6 +6139,19 @@
         "text_hash": "29dda82f7f3e5b5a941c02e3ffc388afc0df3ab47efebf0cbb678c5e8ec41138",
         "extracted_at": "2026-03-09T20:41:34.665828+00:00"
       }
+    },
+    {
+      "id": "8404fd21b1d980e7",
+      "title": "European ethylene glycol prices jump on Middle East supply concerns",
+      "description": "The European ethylene glycol market has seen prices surge due to potential supply disruptions and higher feedstock and energy prices stemming from the Middle East war. The market has kept a close eye on supply disruptions from Saudi Arabia over the past week. The EU imported 10,066 metric tons of glycols from Saudi Arabia, about 34% of total imports, in December 2025, according to the latest data",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/chemicals/030926-european-ethylene-glycol-prices-jump-on-middle-east-supply-concerns",
+      "published": "2026-03-09T20:02:59+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Chemicals",
+      "category": "Chemicals",
+      "categories": [
+        "Chemicals"
+      ]
     },
     {
       "id": "5d7cf2fe040c04a5",
