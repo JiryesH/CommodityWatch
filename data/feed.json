@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "last_updated": "2026-03-11T22:43:44.539462+00:00",
+    "last_updated": "2026-03-11T23:00:54.680369+00:00",
     "total_articles": 2214,
     "feeds_fetched": 15,
     "feeds_failed": 0,
@@ -105,8 +105,8 @@
       "classifier_fallback_used": 0
     },
     "dedupe": {
-      "new": 2,
-      "updated": 125,
+      "new": 0,
+      "updated": 127,
       "merged": 23,
       "incoming_merged": 23,
       "existing_merged": 0
