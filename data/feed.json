@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-11T18:35:01.903552+00:00",
-    "total_articles": 2191,
+    "last_updated": "2026-03-11T19:31:07.272144+00:00",
+    "total_articles": 2198,
     "feeds_fetched": 15,
     "feeds_failed": 0,
     "feed_details": {
@@ -105,14 +105,92 @@
       "classifier_fallback_used": 0
     },
     "dedupe": {
-      "new": 8,
-      "updated": 117,
-      "merged": 25,
-      "incoming_merged": 25,
+      "new": 7,
+      "updated": 120,
+      "merged": 23,
+      "incoming_merged": 23,
       "existing_merged": 0
     }
   },
   "articles": [
+    {
+      "id": "bd5afa965245c02c",
+      "title": "Moldovan companies to disclose outages, capacity under REMIT‑style rules",
+      "description": "Moldovan companies required to publish information on capacity availability and outages Failure to comply could lead to hefty penalties Moldova and other Energy Community contracting parties have...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187724/moldovan-companies-to-disclose-outages-capacity-under-remit-style-rules",
+      "published": "2026-03-11T19:11:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Metals",
+      "categories": [
+        "Metals"
+      ]
+    },
+    {
+      "id": "6a944c6134fdf272",
+      "title": "Gas dominates UK 2029/2030 capacity market auction as clearing price drops",
+      "description": "UK’s T-4 capacity market auction for delivery year 2029-30 clears at £27.10/kW/year, 55% lower than last year Gas-fired generation dominates the auction Winners to supply committed capacity during...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187723/gas-dominates-uk-2029-2030-capacity-market-auction-as-clearing-price-drops",
+      "published": "2026-03-11T19:08:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
+    {
+      "id": "4a3ade5981b88acd",
+      "title": "US chlor-alkali producers insulated from energy rally",
+      "description": "",
+      "link": "https://www.argusmedia.com/pages/NewsBody.aspx?id=2799767&menu=yes",
+      "published": "2026-03-11T18:57:00+00:00",
+      "source": "Argus Media",
+      "feed": "Argus NewsAll",
+      "category": "Chemicals",
+      "categories": [
+        "Chemicals"
+      ]
+    },
+    {
+      "id": "0d4f934a1bd6a4ad",
+      "title": "Argentina chemicals output rises 7.2% in January as pharma, agro offset plastics slump",
+      "description": "SAO PAULO (ICIS)--Argentina's chemicals output rose 7.2% in January, year on year, with strong gains in pharmaceuticals and agrochemicals masking a steep contraction in plastics and synthetic rubber,...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187722/argentina-chemicals-output-rises-7-2-in-january-as-pharma-agro-offset-plastics-slump",
+      "published": "2026-03-11T18:46:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals",
+      "categories": [
+        "Chemicals"
+      ]
+    },
+    {
+      "id": "cfbfe38b88c8b892",
+      "title": "Europe refinery solvents' price pressure continues",
+      "description": "LONDON (ICIS)--European refinery solvents truck prices were driven up again this week on the back of firmer feedstocks. Upstream, volatility and high pricing is ongoing as markets react to the war in...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187721/europe-refinery-solvents-price-pressure-continues",
+      "published": "2026-03-11T18:37:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Refined Products",
+      "categories": [
+        "Oil - Refined Products"
+      ]
+    },
+    {
+      "id": "cfc829c5743fd27f",
+      "title": "US E15 panel may punt on refiner biofuel waivers",
+      "description": "",
+      "link": "https://www.argusmedia.com/pages/NewsBody.aspx?id=2799749&menu=yes",
+      "published": "2026-03-11T18:35:00+00:00",
+      "source": "Argus Media",
+      "feed": "Argus NewsAll",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
     {
       "id": "b540af16263e6b22",
       "title": "Brazil's Petrobras naphtha sales drop within ‘normal’ range, fertilizer output ramps up - spokesperson",
@@ -2974,6 +3052,19 @@
         "text_hash": "22e4c25b37d66139d9b4daeb6f9fd453e3dc57274ba58c99341d470184a4cbc0",
         "extracted_at": "2026-03-10T16:21:48.442520+00:00"
       }
+    },
+    {
+      "id": "f55bd8e02e32263f",
+      "title": "US gas prices unlikely to jump on US-Iran war",
+      "description": "",
+      "link": "https://www.argusmedia.com/pages/NewsBody.aspx?id=2799016&menu=yes",
+      "published": "2026-03-10T15:13:00+00:00",
+      "source": "Argus Media",
+      "feed": "Argus NewsAll",
+      "category": "Natural Gas",
+      "categories": [
+        "Natural Gas"
+      ]
     },
     {
       "id": "be4586e242c55894",
