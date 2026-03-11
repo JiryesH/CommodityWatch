@@ -1,9 +1,9 @@
 {
   "metadata": {
-    "last_updated": "2026-03-11T15:32:35.053539+00:00",
-    "total_articles": 2164,
-    "feeds_fetched": 15,
-    "feeds_failed": 0,
+    "last_updated": "2026-03-11T16:35:46.097363+00:00",
+    "total_articles": 2175,
+    "feeds_fetched": 14,
+    "feeds_failed": 1,
     "feed_details": {
       "ICIS": {
         "status": "ok",
@@ -11,8 +11,8 @@
         "timestamp_parse_errors": 0
       },
       "Fastmarkets": {
-        "status": "ok",
-        "count": 10,
+        "status": "failed",
+        "count": 0,
         "timestamp_parse_errors": 0
       },
       "S&P Oil - Crude": {
@@ -105,14 +105,145 @@
       "classifier_fallback_used": 0
     },
     "dedupe": {
-      "new": 5,
-      "updated": 122,
+      "new": 11,
+      "updated": 106,
       "merged": 23,
       "incoming_merged": 23,
       "existing_merged": 0
     }
   },
   "articles": [
+    {
+      "id": "d9f0cd702e8273f8",
+      "title": "EU to consider gas-for-power price cap among options to cut energy costs",
+      "description": "EU to consider gas-for-power price cap to help lower electricity prices Cap would not apply to wholesale gas market prices EU leaders will examine options at a summmit 19-20 March LONDON...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187702/eu-to-consider-gas-for-power-price-cap-among-options-to-cut-energy-costs",
+      "published": "2026-03-11T16:29:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Electric Power",
+      "categories": [
+        "Electric Power"
+      ]
+    },
+    {
+      "id": "146a97abd9f4c00b",
+      "title": "IEA to release 400mn bl oil from stocks: Update 2",
+      "description": "",
+      "link": "https://www.argusmedia.com/pages/NewsBody.aspx?id=2799627&menu=yes",
+      "published": "2026-03-11T16:21:00+00:00",
+      "source": "Argus Media",
+      "feed": "Argus NewsAll",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
+    {
+      "id": "df7a4c4b98f7c097",
+      "title": "PODCAST: LNG remains critical to Europe's security of supply despite geopolitical and regulatory risks",
+      "description": "LONDON (ICIS)--The US-Israeli led war against Iran has unleashed extreme volatility across energy markets, with natural gas prices rising as much as 70% in the first ten days of March. Traders fear...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187701/podcast-lng-remains-critical-to-europe-s-security-of-supply-despite-geopolitical-and-regulatory-risks",
+      "published": "2026-03-11T16:13:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Natural Gas",
+      "categories": [
+        "Natural Gas",
+        "LNG"
+      ]
+    },
+    {
+      "id": "153f8c05e1d79934",
+      "title": "INSIGHT: Secondary impacts of Middle East conflict could reshape Europe recycled polymer markets",
+      "description": "LONDON (ICIS)--While there has been no direct impact from the Middle East conflict on Europe recycled polymer prices to date, the secondary impacts from price movements in related markets and...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187700/insight-secondary-impacts-of-middle-east-conflict-could-reshape-europe-recycled-polymer-markets",
+      "published": "2026-03-11T16:10:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
+    {
+      "id": "65853c7f847181e1",
+      "title": "INSIGHT: Thin liquidity, disrupted trade flows challenge base oils as prices rise amid Iran conflict",
+      "description": "HOUSTON (ICIS)--Five key points this week to summarize the Iran war's impact on global base oil markets: Gasoil (diesel) strength will continue to divert refinery economics away from base oils. The...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187699/insight-thin-liquidity-disrupted-trade-flows-challenge-base-oils-as-prices-rise-amid-iran-conflict",
+      "published": "2026-03-11T16:05:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Refined Products",
+      "categories": [
+        "Oil - Refined Products"
+      ]
+    },
+    {
+      "id": "92db991c9aa88f77",
+      "title": "Investment funds close 330TWh of gross TTF positions in one week on Iran war volatility",
+      "description": "Investment funds close 330TWh of gross ICE TTF positions Volatility drives both profit-taking and stop-outs Large uptick in registered participants across all categories LONDON (ICIS)--Investment...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187698/investment-funds-close-330twh-of-gross-ttf-positions-in-one-week-on-iran-war-volatility",
+      "published": "2026-03-11T16:00:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Natural Gas",
+      "categories": [
+        "Natural Gas"
+      ]
+    },
+    {
+      "id": "aac9849a32ecb6d0",
+      "title": "US oil stocks grow, product inventories decline – EIA",
+      "description": "...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187697/us-oil-stocks-grow-product-inventories-decline-eia",
+      "published": "2026-03-11T15:56:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
+    {
+      "id": "848766bf8009049e",
+      "title": "Indorama Ventures seeking 10 cent/lb price increase on US PET",
+      "description": "HOUSTON (ICIS)--Indorama Ventures announced it is seeking a 10 cent/lb price increase on US polyethylene terephthalate (PET), effective immediately. The company attributed the ongoing Middle East...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187696/indorama-ventures-seeking-10-cent-lb-price-increase-on-us-pet",
+      "published": "2026-03-11T15:46:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals",
+      "categories": [
+        "Chemicals"
+      ]
+    },
+    {
+      "id": "f514c7088771e715",
+      "title": "IEA members to unlock 400 million crude barrels in bid for stability",
+      "description": "LONDON (ICIS)--Member countries of the International Energy Agency (IEA) agreed on Wednesday to free up 400 million barrels from collective emergency reserves in a bid to stabilize market volatility...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187695/iea-members-to-unlock-400-million-crude-barrels-in-bid-for-stability",
+      "published": "2026-03-11T15:38:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Crude",
+      "categories": [
+        "Oil - Crude"
+      ]
+    },
+    {
+      "id": "106d79c6441f0fe4",
+      "title": "GAS ALERT: GTS warns Dutch, EU gas system vulnerable to months-long supply shock; urges strategic emergency reserves",
+      "description": "FRANKFURT (ICIS)--Gasunie subsidiary Gasunie Transport Services (GTS) has published a resilience analysis warning that the Netherlands and Europe remain exposed to a months-long disruption of a major...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187694/gas-alert-gts-warns-dutch-eu-gas-system-vulnerable-to-months-long-supply-shock-urges-strategic-emergency-reserves",
+      "published": "2026-03-11T15:36:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
     {
       "id": "8080d392f9b8da8b",
       "title": "Italy to ask for immediate EU ETS suspension",
@@ -164,6 +295,20 @@
       "category": "General",
       "categories": [
         "General"
+      ]
+    },
+    {
+      "id": "bc7857055c6a29b5",
+      "title": "European jet differentials break new records as Middle East war continues",
+      "description": "The Northwest European jet fuel CIF cash premium to front-month ICE low sulfur gasoil hit a new record high March 10 as the market remained highly volatile, marked by supply concerns as the Middle East war continued, while the ICE LSGO futures contract saw some correction. At plus $355.25/metric ton, the differential was the greatest since Platts, part of S&amp;P Global Energy, started assessing ICE",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/shipping/031126-european-jet-differentials-break-new-records-as-middle-east-war-continues",
+      "published": "2026-03-11T14:56:59+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Shipping",
+      "category": "Oil - Refined Products",
+      "categories": [
+        "Oil - Refined Products",
+        "Shipping"
       ]
     },
     {
