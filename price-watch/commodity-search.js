@@ -17,38 +17,52 @@ export function normalizeCommoditySearchQuery(query) {
   return normalizeSearchValue(query);
 }
 
-export function buildCommoditySearchText(definition) {
+export function buildCommoditySeriesSearchText(definition, seriesOption) {
   const terms = new Set();
 
   addNormalizedTerm(terms, definition?.id);
   addNormalizedTerm(terms, definition?.primaryLabel);
-  addNormalizedTerm(terms, definition?.group);
-  addNormalizedTerm(terms, definition?.groupLabel);
-  addNormalizedTerm(terms, definition?.sortLabel);
-  addNormalizedTerm(terms, definition?.visual?.tile?.name);
-  addNormalizedTerm(terms, definition?.visual?.tile?.ticker);
-  addNormalizedTerm(terms, definition?.visual?.tile?.code);
-  addNormalizedTerm(terms, definition?.visual?.tile?.symbol);
+  addNormalizedTerm(terms, definition?.displayLabel);
+  addNormalizedTerm(terms, definition?.sectorId);
+  addNormalizedTerm(terms, definition?.sectorLabel);
+  addNormalizedTerm(terms, definition?.subsectorId);
+  addNormalizedTerm(terms, definition?.subsectorLabel);
+  addNormalizedTerm(terms, definition?.visualFamily);
 
-  (definition?.seriesOptions || []).forEach((seriesOption) => {
-    addNormalizedTerm(terms, seriesOption?.seriesKey);
-    addNormalizedTerm(terms, seriesOption?.optionLabel);
-    addNormalizedTerm(terms, seriesOption?.displayLabel);
-    addNormalizedTerm(terms, seriesOption?.targetConcept);
-    addNormalizedTerm(terms, seriesOption?.actualSeriesName);
-    addNormalizedTerm(terms, seriesOption?.sourceSeriesCode);
-    addNormalizedTerm(terms, seriesOption?.geography);
-  });
+  addNormalizedTerm(terms, seriesOption?.seriesKey);
+  addNormalizedTerm(terms, seriesOption?.optionLabel);
+  addNormalizedTerm(terms, seriesOption?.displayLabel);
+  addNormalizedTerm(terms, seriesOption?.targetConcept);
+  addNormalizedTerm(terms, seriesOption?.actualSeriesName);
+  addNormalizedTerm(terms, seriesOption?.sourceSeriesCode);
+  addNormalizedTerm(terms, seriesOption?.sourceName);
+  addNormalizedTerm(terms, seriesOption?.geography);
 
   return Array.from(terms).join(" ");
 }
 
-export function matchesCommoditySearch(definition, query) {
+export function buildCommoditySearchText(definition) {
+  return (definition?.seriesOptions || [])
+    .map((seriesOption) => buildCommoditySeriesSearchText(definition, seriesOption))
+    .join(" ");
+}
+
+export function getMatchingSeriesOptions(definition, query) {
   const normalizedQuery = normalizeCommoditySearchQuery(query);
+  const seriesOptions = definition?.seriesOptions || [];
+
   if (!normalizedQuery) {
-    return true;
+    return seriesOptions;
   }
 
-  const searchText = buildCommoditySearchText(definition);
-  return normalizedQuery.split(" ").every((term) => searchText.includes(term));
+  const terms = normalizedQuery.split(" ");
+
+  return seriesOptions.filter((seriesOption) => {
+    const searchText = buildCommoditySeriesSearchText(definition, seriesOption);
+    return terms.every((term) => searchText.includes(term));
+  });
+}
+
+export function matchesCommoditySearch(definition, query) {
+  return getMatchingSeriesOptions(definition, query).length > 0;
 }

@@ -1,186 +1,220 @@
-const GROUP_LABELS = {
-  energy: "Energy",
-  metals: "Metals",
-  agri: "Agriculture",
-};
+import contract from "../shared/commodity-series-contract.json" with { type: "json" };
 
 const ENERGY_ICONS = {
   oil: "assets/energy-icons/oil-droplet-fill.svg",
   naturalGas: "assets/energy-icons/natgas-fire.svg",
   lng: "assets/energy-icons/lng-database-fill.svg",
   gasoline: "assets/energy-icons/gasoline-fuel-pump-fill.svg",
-  thermalCoal: "assets/energy-icons/thermal-coal-minecart-loaded.svg",
   diesel: "assets/energy-icons/diesel-fuel-pump-diesel-fill.svg",
-  rubber: "assets/energy-icons/rubber-vinyl-fill.svg",
+  jetFuel: "assets/energy-icons/gasoline-fuel-pump-fill.svg",
+  propane: "assets/energy-icons/natgas-fire.svg",
+  thermalCoal: "assets/energy-icons/thermal-coal-minecart-loaded.svg",
+  default: "assets/energy-icons/oil-droplet-fill.svg",
 };
 
-const ENERGY_PRESETS = {
+const ENERGY_VISUAL_PRESETS = {
   crude_benchmarks: {
     family: "oil",
     code: "CRUDE",
     ticker: "BWD",
-    venue: "FRED",
     name: "Brent / WTI / Dubai",
   },
   natural_gas_benchmarks: {
     family: "naturalGas",
     code: "GAS",
     ticker: "HH/TTF",
-    venue: "FRED",
     name: "Henry Hub / TTF",
+  },
+  gasoline_benchmarks: {
+    family: "gasoline",
+    code: "GAS",
+    ticker: "RBOB",
+    name: "RBOB / USGC / NYH",
+  },
+  diesel_benchmarks: {
+    family: "diesel",
+    code: "DSL",
+    ticker: "ULSD",
+    name: "ULSD USGC / NYH",
+  },
+  coal_benchmarks: {
+    family: "thermalCoal",
+    code: "COAL",
+    ticker: "NEWC/SA",
+    name: "Newcastle / South Africa",
   },
   crude_oil_brent: {
     family: "oil",
     code: "BRENT",
     ticker: "BRN",
-    venue: "FRED",
     name: "Brent",
   },
   crude_oil_wti: {
     family: "oil",
     code: "WTI",
     ticker: "WTI",
-    venue: "FRED",
     name: "WTI",
   },
   crude_oil_dubai: {
     family: "oil",
     code: "DUBAI",
     ticker: "DUB",
-    venue: "FRED",
     name: "Dubai",
   },
   natural_gas_henry_hub: {
     family: "naturalGas",
     code: "HH",
     ticker: "NG",
-    venue: "FRED",
     name: "Henry Hub",
   },
   natural_gas_ttf: {
     family: "naturalGas",
     code: "TTF",
     ticker: "TTF",
-    venue: "FRED",
     name: "TTF Gas",
   },
   lng_asia_japan_import_proxy: {
     family: "lng",
     code: "LNG",
     ticker: "JKM",
-    venue: "FRED",
     name: "Asia LNG",
   },
   rbob_gasoline_spot_proxy: {
     family: "gasoline",
     code: "RBOB",
     ticker: "RB",
-    venue: "FRED",
-    name: "Gasoline",
+    name: "RBOB",
   },
   heating_oil_no2_nyharbor: {
     family: "diesel",
-    code: "ULSD",
+    code: "HOIL",
     ticker: "HO",
-    venue: "FRED",
-    name: "Heating Oil",
+    name: "Heating oil",
+  },
+  jet_fuel_usgc_daily: {
+    family: "jetFuel",
+    code: "JET",
+    ticker: "JET",
+    name: "Jet fuel",
+  },
+  propane_mont_belvieu_daily: {
+    family: "propane",
+    code: "LPG",
+    ticker: "MB",
+    name: "Propane",
+  },
+  ulsd_usgc_daily: {
+    family: "diesel",
+    code: "ULSD",
+    ticker: "USGC",
+    name: "ULSD USGC",
+  },
+  ulsd_nyh_daily: {
+    family: "diesel",
+    code: "ULSD",
+    ticker: "NYH",
+    name: "ULSD NYH",
+  },
+  gasoline_regular_usgc_daily: {
+    family: "gasoline",
+    code: "GAS",
+    ticker: "USGC",
+    name: "Gasoline USGC",
+  },
+  gasoline_regular_nyh_daily: {
+    family: "gasoline",
+    code: "GAS",
+    ticker: "NYH",
+    name: "Gasoline NYH",
   },
   thermal_coal_newcastle: {
     family: "thermalCoal",
     code: "COAL",
     ticker: "NEWC",
-    venue: "FRED",
-    name: "Thermal Coal",
+    name: "Newcastle",
   },
-  rubber_rss3_monthly: {
-    family: "rubber",
-    code: "RUBBER",
-    ticker: "RSS3",
-    venue: "FRED",
-    name: "Rubber",
+  coal_south_africa_monthly: {
+    family: "thermalCoal",
+    code: "COAL",
+    ticker: "SA",
+    name: "South Africa",
   },
 };
 
-const METAL_PRESETS = {
-  gold_worldbank_monthly: {
-    family: "gold",
+const METAL_TILE_PRESETS = {
+  gold: {
     symbol: "AU",
     number: "79",
     mass: "196.97",
     name: "Gold",
   },
-  silver_worldbank_monthly: {
-    family: "silver",
+  silver: {
     symbol: "AG",
     number: "47",
     mass: "107.87",
     name: "Silver",
   },
-  copper_worldbank_monthly: {
-    family: "copper",
+  copper: {
     symbol: "CU",
     number: "29",
     mass: "63.55",
     name: "Copper",
   },
-  aluminium_worldbank_monthly: {
-    family: "aluminum",
+  aluminum: {
     symbol: "AL",
     number: "13",
     mass: "26.98",
-    name: "Aluminum",
+    name: "Aluminium",
   },
-  platinum_worldbank_monthly: {
-    family: "platinum",
+  platinum: {
     symbol: "PT",
     number: "78",
     mass: "195.08",
     name: "Platinum",
   },
-  palladium_imf_monthly: {
-    family: "palladium",
+  palladium: {
     symbol: "PD",
     number: "46",
     mass: "106.42",
     name: "Palladium",
   },
-  nickel_worldbank_monthly: {
-    family: "nickel",
+  nickel: {
     symbol: "NI",
     number: "28",
     mass: "58.69",
     name: "Nickel",
   },
-  zinc_worldbank_monthly: {
-    family: "zinc",
+  zinc: {
     symbol: "ZN",
     number: "30",
     mass: "65.38",
     name: "Zinc",
   },
-  lead_worldbank_monthly: {
-    family: "lead",
+  lead: {
     symbol: "PB",
     number: "82",
     mass: "207.2",
     name: "Lead",
   },
-  iron_ore_62pct_china_monthly: {
-    family: "iron",
+  tin: {
+    symbol: "SN",
+    number: "50",
+    mass: "118.71",
+    name: "Tin",
+  },
+  iron: {
     symbol: "FE",
     number: "26",
     mass: "55.85",
-    name: "Iron Ore",
+    name: "Iron ore",
   },
-  lithium_metal_imf_monthly: {
-    family: "lithium",
+  lithium: {
     symbol: "LI",
     number: "3",
     mass: "6.94",
     name: "Lithium",
   },
-  cobalt_imf_monthly: {
-    family: "cobalt",
+  cobalt: {
     symbol: "CO",
     number: "27",
     mass: "58.93",
@@ -188,192 +222,91 @@ const METAL_PRESETS = {
   },
 };
 
-const AGRI_PRESETS = {
-  wheat_global_monthly_proxy: {
-    family: "wheat",
-    code: "WHT",
-    ticker: "WH",
-    venue: "FRED",
-    name: "Wheat",
+const MARKET_VISUAL_PRESETS = {
+  wheat_benchmarks: {
+    code: "WHEAT",
+    ticker: "GLB/US",
+    name: "Global / US SRW",
   },
-  corn_global_monthly_proxy: {
-    family: "corn",
-    code: "CRN",
-    ticker: "C",
-    venue: "FRED",
-    name: "Corn",
-  },
-  soybeans_global_monthly_proxy: {
-    family: "soybeans",
-    code: "SOY",
-    ticker: "S",
-    venue: "FRED",
-    name: "Soybeans",
-  },
-  soybean_oil_global_monthly_proxy: {
-    family: "soybeanOil",
-    code: "SYO",
-    ticker: "BO",
-    venue: "FRED",
-    name: "Soy Oil",
-  },
-  palm_oil_monthly_proxy: {
-    family: "palmOil",
-    code: "PALM",
-    ticker: "PO",
-    venue: "FRED",
-    name: "Palm Oil",
-  },
-  rice_thai_5pct_monthly: {
-    family: "rice",
+  rice_benchmarks: {
     code: "RICE",
-    ticker: "RT",
-    venue: "FRED",
-    name: "Rice",
+    ticker: "TH/VN",
+    name: "Thai / Vietnam",
   },
-  lumber_monthly_ppi_proxy: {
-    family: "lumber",
-    code: "LMBR",
-    ticker: "LBR",
-    venue: "FRED",
-    name: "Lumber",
+  sugar_benchmarks: {
+    code: "SUGAR",
+    ticker: "WLD/EU/US",
+    name: "World / EU / US",
   },
-  coffee_arabica_monthly_proxy: {
-    family: "coffee",
-    code: "ARB",
-    ticker: "KC",
-    venue: "FRED",
-    name: "Arabica",
+  coffee_benchmarks: {
+    code: "COFFEE",
+    ticker: "ARA/ROB",
+    name: "Arabica / Robusta",
   },
-  coffee_robusta_monthly_proxy: {
-    family: "coffee",
-    code: "ROB",
-    ticker: "RC",
-    venue: "FRED",
-    name: "Robusta",
+  banana_benchmarks: {
+    code: "BANANA",
+    ticker: "EU/US",
+    name: "Europe / US",
   },
-  sugar_no11_world_monthly_proxy: {
-    family: "sugar",
-    code: "SGR",
-    ticker: "SB",
-    venue: "FRED",
-    name: "Sugar",
-  },
-  cotton_monthly_proxy: {
-    family: "cotton",
-    code: "CTN",
-    ticker: "CT",
-    venue: "FRED",
-    name: "Cotton",
-  },
-  cocoa_monthly_proxy: {
-    family: "cocoa",
-    code: "COCOA",
-    ticker: "CC",
-    venue: "FRED",
-    name: "Cocoa",
+  rubber_benchmarks: {
+    code: "RUBBER",
+    ticker: "RSS/TSR",
+    name: "RSS3 / TSR20",
   },
 };
 
-const SERIES_DISPLAY_PRESETS = {
-  crude_oil_brent: { label: "Crude", optionLabel: "Brent" },
-  crude_oil_wti: { label: "Crude", optionLabel: "WTI" },
-  crude_oil_dubai: { label: "Crude", optionLabel: "Dubai" },
-  natural_gas_henry_hub: { label: "US Gas", optionLabel: "Henry Hub" },
-  natural_gas_ttf: { label: "EU Gas", optionLabel: "TTF" },
-  lng_asia_japan_import_proxy: { label: "LNG", optionLabel: "Asia LNG" },
-  thermal_coal_newcastle: { label: "Coal", optionLabel: "Coal" },
-  rbob_gasoline_spot_proxy: { label: "Gasoline", optionLabel: "RBOB" },
-  heating_oil_no2_nyharbor: { label: "Diesel", optionLabel: "Diesel" },
-  rubber_rss3_monthly: { label: "Rubber", optionLabel: "Rubber" },
-  gold_worldbank_monthly: { label: "Gold", optionLabel: "Gold" },
-  silver_worldbank_monthly: { label: "Silver", optionLabel: "Silver" },
-  copper_worldbank_monthly: { label: "Copper", optionLabel: "Copper" },
-  aluminium_worldbank_monthly: { label: "Aluminum", optionLabel: "Aluminum" },
-  platinum_worldbank_monthly: { label: "Platinum", optionLabel: "Platinum" },
-  palladium_imf_monthly: { label: "Palladium", optionLabel: "Palladium" },
-  nickel_worldbank_monthly: { label: "Nickel", optionLabel: "Nickel" },
-  zinc_worldbank_monthly: { label: "Zinc", optionLabel: "Zinc" },
-  lead_worldbank_monthly: { label: "Lead", optionLabel: "Lead" },
-  iron_ore_62pct_china_monthly: { label: "Iron Ore", optionLabel: "Iron Ore" },
-  lithium_metal_imf_monthly: { label: "Lithium", optionLabel: "Lithium" },
-  cobalt_imf_monthly: { label: "Cobalt", optionLabel: "Cobalt" },
-  wheat_global_monthly_proxy: { label: "Wheat", optionLabel: "Wheat" },
-  corn_global_monthly_proxy: { label: "Corn", optionLabel: "Corn" },
-  soybeans_global_monthly_proxy: { label: "Soybeans", optionLabel: "Soybeans" },
-  soybean_oil_global_monthly_proxy: { label: "Soy Oil", optionLabel: "Soy Oil" },
-  palm_oil_monthly_proxy: { label: "Palm Oil", optionLabel: "Palm Oil" },
-  rice_thai_5pct_monthly: { label: "Rice", optionLabel: "Rice" },
-  lumber_monthly_ppi_proxy: { label: "Lumber", optionLabel: "Lumber" },
-  coffee_arabica_monthly_proxy: { label: "Arabica Coffee", optionLabel: "Arabica" },
-  coffee_robusta_monthly_proxy: { label: "Robusta Coffee", optionLabel: "Robusta" },
-  sugar_no11_world_monthly_proxy: { label: "Sugar", optionLabel: "Sugar" },
-  cotton_monthly_proxy: { label: "Cotton", optionLabel: "Cotton" },
-  cocoa_monthly_proxy: { label: "Cocoa", optionLabel: "Cocoa" },
-};
+const SECTORS = contract.sectors
+  .map((sector) => ({
+    ...sector,
+    subsectors: sector.subsectors.map((subsector) => ({ ...subsector })),
+  }))
+  .sort((left, right) => left.order - right.order);
 
-const GROUPED_CARD_PRESETS = [
-  {
-    id: "crude_benchmarks",
-    label: "Crude",
-    group: "energy",
-    visualKey: "crude_benchmarks",
-    defaultSeriesKey: "crude_oil_brent",
-    seriesKeys: ["crude_oil_brent", "crude_oil_wti", "crude_oil_dubai"],
-    lookupPatterns: [/\bbrent\b/i, /\bwti\b|\bwest texas intermediate\b/i, /\bdubai\b|\boman\b/i],
-  },
-  {
-    id: "natural_gas_benchmarks",
-    label: "Gas",
-    group: "energy",
-    visualKey: "natural_gas_benchmarks",
-    defaultSeriesKey: "natural_gas_henry_hub",
-    seriesKeys: ["natural_gas_henry_hub", "natural_gas_ttf"],
-    lookupPatterns: [/\bhenry hub\b/i, /\bttf\b/i],
-  },
-  {
-    id: "coffee_benchmarks",
-    label: "Coffee",
-    group: "agri",
-    visualKey: "coffee_arabica_monthly_proxy",
-    defaultSeriesKey: "coffee_arabica_monthly_proxy",
-    seriesKeys: ["coffee_arabica_monthly_proxy", "coffee_robusta_monthly_proxy"],
-    lookupPatterns: [/\barabica\b/i, /\brobusta\b/i, /\bcoffee\b/i],
-  },
-];
+const SECTOR_BY_ID = new Map(SECTORS.map((sector) => [sector.id, sector]));
+const SUBSECTOR_BY_ID = new Map(
+  SECTORS.flatMap((sector) =>
+    sector.subsectors.map((subsector) => [
+      `${sector.id}:${subsector.id}`,
+      {
+        ...subsector,
+        sectorId: sector.id,
+        sectorLabel: sector.label,
+        sectorOrder: sector.order,
+      },
+    ])
+  )
+);
 
-const GROUP_ORDER = ["energy", "metals", "agri"];
-const METAL_KEYWORDS = [
-  /\bgold\b/i,
-  /\bsilver\b/i,
-  /\bcopper\b/i,
-  /\balumin(?:um|ium)\b/i,
-  /\bplatinum\b/i,
-  /\bpalladium\b/i,
-  /\bnickel\b/i,
-  /\bzinc\b/i,
-  /\blead\b/i,
-  /\biron ore\b/i,
-  /\blithium\b/i,
-  /\bcobalt\b/i,
-];
-const AGRI_KEYWORDS = [
-  /\bwheat\b/i,
-  /\bcorn\b/i,
-  /\bmaize\b/i,
-  /\bsoy(?:bean|beans)?\b/i,
-  /\bsoy(?:bean)? oil\b/i,
-  /\bpalm oil\b/i,
-  /\brace\b/i,
-  /\blumber\b/i,
-  /\bcoffee\b/i,
-  /\bsugar\b/i,
-  /\bcotton\b/i,
-  /\bcocoa\b/i,
-];
+const GROUPED_CARD_ENTRIES = Object.entries(contract.grouped_cards).sort(([, left], [, right]) => {
+  const leftPlacement = getPlacement(left.sectorId, left.subsectorId);
+  const rightPlacement = getPlacement(right.sectorId, right.subsectorId);
+  return (
+    leftPlacement.sectorOrder - rightPlacement.sectorOrder ||
+    leftPlacement.subsectorOrder - rightPlacement.subsectorOrder ||
+    left.cardOrder - right.cardOrder
+  );
+});
+
+function getPlacement(sectorId, subsectorId) {
+  const sector = SECTOR_BY_ID.get(sectorId);
+  const placement = SUBSECTOR_BY_ID.get(`${sectorId}:${subsectorId}`);
+
+  if (!sector || !placement) {
+    throw new Error(`Unknown taxonomy placement: ${sectorId}/${subsectorId}`);
+  }
+
+  return {
+    sectorId,
+    sectorLabel: sector.label,
+    sectorOrder: sector.order,
+    subsectorId,
+    subsectorLabel: placement.label,
+    subsectorOrder: placement.order,
+  };
+}
 
 function toShortCode(value) {
-  return value
+  return String(value || "")
     .replaceAll(/[^A-Za-z0-9]+/g, " ")
     .trim()
     .split(/\s+/)
@@ -383,7 +316,7 @@ function toShortCode(value) {
 }
 
 function toTicker(value) {
-  return value
+  return String(value || "")
     .replaceAll(/[^A-Za-z0-9]+/g, " ")
     .trim()
     .split(/\s+/)
@@ -395,64 +328,6 @@ function toTicker(value) {
 
 function isFiniteNumber(value) {
   return typeof value === "number" && Number.isFinite(value);
-}
-
-function buildCommodityLookupText(record) {
-  if (!record) {
-    return "";
-  }
-
-  return [
-    record.series_key,
-    record.seriesKey,
-    record.target_concept,
-    record.targetConcept,
-    record.actual_series_name,
-    record.actualSeriesName,
-    record.benchmark_series,
-    record.benchmarkSeries,
-    record.displayLabel,
-    record.optionLabel,
-  ]
-    .filter(Boolean)
-    .join(" ")
-    .toLowerCase();
-}
-
-function matchesKeywordList(lookupText, patterns) {
-  return patterns.some((pattern) => pattern.test(lookupText));
-}
-
-function deriveGroup(recordOrSeriesKey) {
-  const seriesKey =
-    typeof recordOrSeriesKey === "string"
-      ? recordOrSeriesKey
-      : recordOrSeriesKey?.series_key || recordOrSeriesKey?.seriesKey || "";
-
-  if (METAL_PRESETS[seriesKey]) {
-    return "metals";
-  }
-
-  if (AGRI_PRESETS[seriesKey]) {
-    return "agri";
-  }
-
-  if (ENERGY_PRESETS[seriesKey]) {
-    return "energy";
-  }
-
-  const lookupText =
-    typeof recordOrSeriesKey === "string" ? recordOrSeriesKey.toLowerCase() : buildCommodityLookupText(recordOrSeriesKey);
-
-  if (matchesKeywordList(lookupText, METAL_KEYWORDS)) {
-    return "metals";
-  }
-
-  if (matchesKeywordList(lookupText, AGRI_KEYWORDS)) {
-    return "agri";
-  }
-
-  return "energy";
 }
 
 function inferDecimals(unit, value) {
@@ -481,90 +356,101 @@ function inferDecimals(unit, value) {
   return 3;
 }
 
-function buildEnergyVisual(seriesKey, row) {
-  const preset = ENERGY_PRESETS[seriesKey] || {
-    family: "oil",
-    code: toShortCode(row.target_concept),
-    ticker: toTicker(row.target_concept),
-    venue: row.source_name,
-    name: row.target_concept,
+function fallbackDisplayLabel(row) {
+  return row.target_concept || row.actual_series_name || row.series_key;
+}
+
+function buildEnergyVisual(entityId, row, taxonomyConfig) {
+  const preset = ENERGY_VISUAL_PRESETS[entityId] || {
+    family: taxonomyConfig.visualFamily,
+    code: toShortCode(taxonomyConfig.shortLabel),
+    ticker: toTicker(taxonomyConfig.shortLabel),
+    name: taxonomyConfig.shortLabel,
   };
 
   return {
     type: "energyTile",
     tile: {
+      family: preset.family,
       code: preset.code,
       ticker: preset.ticker,
-      venue: preset.venue,
-      family: preset.family,
+      venue: row?.source_name || "FRED",
       name: preset.name,
-      icon: ENERGY_ICONS[preset.family] || ENERGY_ICONS.oil,
+      icon: ENERGY_ICONS[preset.family] || ENERGY_ICONS.default,
     },
   };
 }
 
-function buildMetalVisual(seriesKey, row) {
-  const preset = METAL_PRESETS[seriesKey] || {
-    family: "default",
-    symbol: toTicker(row.target_concept) || "M",
+function buildMetalVisual(taxonomyConfig) {
+  const preset = METAL_TILE_PRESETS[taxonomyConfig.visualFamily] || {
+    symbol: toTicker(taxonomyConfig.shortLabel) || "M",
     number: "--",
     mass: "--",
-    name: row.target_concept,
+    name: taxonomyConfig.shortLabel,
   };
 
   return {
     type: "periodicTile",
-    tile: preset,
+    tile: {
+      family: taxonomyConfig.visualFamily,
+      symbol: preset.symbol,
+      number: preset.number,
+      mass: preset.mass,
+      name: preset.name,
+    },
   };
 }
 
-function buildAgriVisual(seriesKey, row) {
-  const preset = AGRI_PRESETS[seriesKey] || {
-    family: "default",
-    code: toShortCode(row.target_concept),
-    ticker: toTicker(row.target_concept),
-    venue: row.source_name,
-    name: row.target_concept,
+function buildMarketVisual(entityId, row, taxonomyConfig) {
+  const preset = MARKET_VISUAL_PRESETS[entityId] || {
+    code: toShortCode(taxonomyConfig.shortLabel),
+    ticker: toTicker(taxonomyConfig.shortLabel),
+    name: taxonomyConfig.shortLabel,
   };
 
   return {
-    type: "agriTile",
-    tile: preset,
+    type: "marketTile",
+    tile: {
+      family: taxonomyConfig.visualFamily,
+      code: preset.code,
+      ticker: preset.ticker,
+      venue: row?.source_name || "FRED",
+      name: preset.name,
+    },
   };
 }
 
-function buildVisual(seriesKey, row) {
-  const group = deriveGroup({
-    series_key: seriesKey,
-    target_concept: row.target_concept,
-    actual_series_name: row.actual_series_name,
-  });
-
-  if (group === "metals") {
-    return buildMetalVisual(seriesKey, row);
+function buildVisual(entityId, row, taxonomyConfig) {
+  if (taxonomyConfig.sectorId === "energy") {
+    return buildEnergyVisual(entityId, row, taxonomyConfig);
   }
 
-  if (group === "agri") {
-    return buildAgriVisual(seriesKey, row);
+  if (taxonomyConfig.sectorId === "metals_and_mining") {
+    return buildMetalVisual(taxonomyConfig);
   }
 
-  return buildEnergyVisual(seriesKey, row);
+  return buildMarketVisual(entityId, row, taxonomyConfig);
 }
 
-function fallbackDisplayLabel(row) {
-  return row.target_concept || row.actual_series_name || row.series_key;
-}
-
-function mergeSeriesOption(row, latestRow) {
-  const preset = SERIES_DISPLAY_PRESETS[row.series_key] || {};
+function buildSeriesOption(row, latestRow, taxonomyConfig) {
+  const placement = getPlacement(taxonomyConfig.sectorId, taxonomyConfig.subsectorId);
 
   return {
     seriesKey: row.series_key,
     actualSeriesName: row.actual_series_name,
     targetConcept: row.target_concept,
-    optionLabel: preset.optionLabel || fallbackDisplayLabel(row),
-    displayLabel: preset.label || fallbackDisplayLabel(row),
-    group: deriveGroup(row),
+    optionLabel: taxonomyConfig.shortLabel,
+    displayLabel: taxonomyConfig.displayLabel || fallbackDisplayLabel(row),
+    sortLabel: taxonomyConfig.displayLabel || fallbackDisplayLabel(row),
+    sectorId: placement.sectorId,
+    sectorLabel: placement.sectorLabel,
+    sectorOrder: placement.sectorOrder,
+    subsectorId: placement.subsectorId,
+    subsectorLabel: placement.subsectorLabel,
+    subsectorOrder: placement.subsectorOrder,
+    visualFamily: taxonomyConfig.visualFamily,
+    cardOrder: taxonomyConfig.cardOrder,
+    supportsRelatedHeadlines: Boolean(taxonomyConfig.supports_related_headlines),
     sourceName: latestRow?.source_name || row.source_name,
     sourceUrl: row.source_url,
     sourceSeriesCode: latestRow?.source_series_code || row.source_series_code,
@@ -584,104 +470,116 @@ function mergeSeriesOption(row, latestRow) {
   };
 }
 
-function buildCardDefinition(config) {
+function buildDefinition(config) {
+  const placement = getPlacement(config.sectorId, config.subsectorId);
   const representativeSeries =
-    config.seriesOptions.find((series) => series.seriesKey === config.defaultSeriesKey) || config.seriesOptions[0];
+    config.seriesOptions.find((seriesOption) => seriesOption.seriesKey === config.defaultSeriesKey) || config.seriesOptions[0];
+
+  const taxonomyConfig = {
+    sectorId: placement.sectorId,
+    subsectorId: placement.subsectorId,
+    displayLabel: config.displayLabel,
+    shortLabel: config.shortLabel,
+    visualFamily: config.visualFamily,
+  };
 
   return {
     id: config.id,
-    group: config.group,
-    groupLabel: GROUP_LABELS[config.group],
-    primaryLabel: config.label,
+    primaryLabel: config.shortLabel,
+    displayLabel: config.displayLabel,
+    sortLabel: config.displayLabel,
+    isGrouped: Boolean(config.isGrouped),
     defaultSeriesKey: representativeSeries?.seriesKey || config.defaultSeriesKey || null,
     seriesOptions: config.seriesOptions,
-    visual: buildVisual(config.visualKey || representativeSeries?.seriesKey, {
-      target_concept: representativeSeries?.targetConcept || config.label,
-      source_name: representativeSeries?.sourceName || "FRED",
-    }),
-    sortLabel: config.label,
+    visual: buildVisual(config.id, representativeSeries, taxonomyConfig),
+    visualFamily: config.visualFamily,
+    sectorId: placement.sectorId,
+    sectorLabel: placement.sectorLabel,
+    sectorOrder: placement.sectorOrder,
+    subsectorId: placement.subsectorId,
+    subsectorLabel: placement.subsectorLabel,
+    subsectorOrder: placement.subsectorOrder,
+    cardOrder: config.cardOrder,
   };
 }
 
-function getGroupedPresetMatchRank(groupedPreset, seriesOption) {
-  const exactSeriesIndex = groupedPreset.seriesKeys.indexOf(seriesOption.seriesKey);
-  if (exactSeriesIndex !== -1) {
-    return exactSeriesIndex;
-  }
+export function getCommodityTaxonomy() {
+  return SECTORS.map((sector) => ({
+    ...sector,
+    subsectors: sector.subsectors.map((subsector) => ({ ...subsector })),
+  }));
+}
 
-  if (!groupedPreset.lookupPatterns?.length) {
-    return -1;
-  }
-
-  const lookupText = buildCommodityLookupText(seriesOption);
-  return groupedPreset.lookupPatterns.findIndex((pattern) => pattern.test(lookupText));
+export function getCommodityContract() {
+  return contract;
 }
 
 export function buildCommodityDefinitions(seriesRows, latestRows) {
   const latestBySeriesKey = new Map(latestRows.map((row) => [row.series_key, row]));
-  const seriesOptions = seriesRows.map((row) => mergeSeriesOption(row, latestBySeriesKey.get(row.series_key)));
-  const consumedSeriesKeys = new Set();
-  const definitions = [];
+  const optionBySeriesKey = new Map();
 
-  GROUPED_CARD_PRESETS.forEach((groupedPreset) => {
-    const groupedOptions = seriesOptions
-      .map((option) => ({
-        option,
-        matchRank: getGroupedPresetMatchRank(groupedPreset, option),
-      }))
-      .filter(({ option, matchRank }) => matchRank !== -1 && !consumedSeriesKeys.has(option.seriesKey))
-      .sort((left, right) => left.matchRank - right.matchRank)
-      .map(({ option }) => option);
+  seriesRows.forEach((row) => {
+    const taxonomyConfig = contract.series[row.series_key];
+    if (!taxonomyConfig) {
+      return;
+    }
+
+    optionBySeriesKey.set(row.series_key, buildSeriesOption(row, latestBySeriesKey.get(row.series_key), taxonomyConfig));
+  });
+
+  const definitions = [];
+  const consumedSeriesKeys = new Set();
+
+  GROUPED_CARD_ENTRIES.forEach(([cardId, groupedConfig]) => {
+    const groupedOptions = groupedConfig.seriesKeys
+      .map((seriesKey) => optionBySeriesKey.get(seriesKey))
+      .filter(Boolean);
 
     if (!groupedOptions.length) {
       return;
     }
 
-    groupedOptions.forEach((option) => consumedSeriesKeys.add(option.seriesKey));
+    groupedOptions.forEach((seriesOption) => consumedSeriesKeys.add(seriesOption.seriesKey));
     definitions.push(
-      buildCardDefinition({
-        id: groupedPreset.id,
-        label: groupedPreset.label,
-        group: groupedPreset.group,
-        visualKey: groupedPreset.visualKey,
-        defaultSeriesKey: groupedPreset.defaultSeriesKey,
+      buildDefinition({
+        id: cardId,
+        displayLabel: groupedConfig.displayLabel,
+        shortLabel: groupedConfig.shortLabel,
+        visualFamily: groupedConfig.visualFamily,
+        sectorId: groupedConfig.sectorId,
+        subsectorId: groupedConfig.subsectorId,
+        cardOrder: groupedConfig.cardOrder,
+        defaultSeriesKey: groupedConfig.defaultSeriesKey,
         seriesOptions: groupedOptions,
+        isGrouped: true,
       })
     );
   });
 
-  seriesOptions.forEach((option) => {
-    if (consumedSeriesKeys.has(option.seriesKey)) {
-      return;
-    }
+  Array.from(optionBySeriesKey.values())
+    .filter((seriesOption) => !consumedSeriesKeys.has(seriesOption.seriesKey))
+    .forEach((seriesOption) => {
+      definitions.push(
+        buildDefinition({
+          id: seriesOption.seriesKey,
+          displayLabel: seriesOption.displayLabel,
+          shortLabel: seriesOption.optionLabel,
+          visualFamily: seriesOption.visualFamily,
+          sectorId: seriesOption.sectorId,
+          subsectorId: seriesOption.subsectorId,
+          cardOrder: seriesOption.cardOrder,
+          defaultSeriesKey: seriesOption.seriesKey,
+          seriesOptions: [seriesOption],
+          isGrouped: false,
+        })
+      );
+    });
 
-    definitions.push(
-      buildCardDefinition({
-        id: option.seriesKey,
-        label: option.displayLabel,
-        group: option.group,
-        defaultSeriesKey: option.seriesKey,
-        seriesOptions: [option],
-      })
-    );
-  });
-
-  return definitions.sort((left, right) => {
-    const groupDelta = GROUP_ORDER.indexOf(left.group) - GROUP_ORDER.indexOf(right.group);
-    if (groupDelta !== 0) {
-      return groupDelta;
-    }
-
-    return left.sortLabel.localeCompare(right.sortLabel);
-  });
+  return definitions.sort(
+    (left, right) =>
+      left.sectorOrder - right.sectorOrder ||
+      left.subsectorOrder - right.subsectorOrder ||
+      left.cardOrder - right.cardOrder ||
+      left.sortLabel.localeCompare(right.sortLabel)
+  );
 }
-
-export function groupDefinitions(definitions) {
-  return {
-    energy: definitions.filter((definition) => definition.group === "energy"),
-    metals: definitions.filter((definition) => definition.group === "metals"),
-    agri: definitions.filter((definition) => definition.group === "agri"),
-  };
-}
-
-export { GROUP_LABELS };

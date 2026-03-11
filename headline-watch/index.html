@@ -6,6 +6,7 @@
 <title>Contango | HeadlineWatch</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../shared/site-shell.css">
+<link rel="stylesheet" href="../shared/filter-bar.css">
 <!--
   USAGE:
     1. python3 rss_scraper.py          (populate data/feed.json)
@@ -26,8 +27,8 @@
   --color-up:        #3A8F64;
   --color-down:      #E74C3C;
   --color-energy:    #E8A020;
-  --color-metals:    #225E99;
-  --color-agri:      #2F6E31;
+  --color-metals:    #4A90D9;
+  --color-agri:      #5BA85C;
   --nav-height:      52px;
   --filter-height:   52px;
   --feed-max:        680px;
@@ -194,8 +195,7 @@ body {
 .nav-search-toggle:focus-visible,
 .nav-bell:focus-visible,
 .filter-pill:focus-visible,
-.energy-chip:focus-visible,
-.country-chip:focus-visible,
+.filter-chip:focus-visible,
 .load-more-btn:focus-visible,
 .to-top-btn:focus-visible,
 .feed-headline a:focus-visible {
@@ -204,202 +204,162 @@ body {
   border-radius: 4px;
 }
 
-/* ── FILTER WRAP ── */
-.filter-wrap {
-  position: sticky;
-  top: var(--nav-height);
-  z-index: 90;
-  background: var(--color-bg);
+/* ── COUNTRY POPOVER (HeadlineWatch-specific) ── */
+.country-popover {
+  position: absolute;
+  top: 100%;
+  right: 28px;
+  width: min(320px, calc(100vw - 32px));
+  max-height: min(360px, calc(100vh - var(--nav-height) - var(--filter-height) - 48px));
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  z-index: 110;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.country-popover[hidden] { display: none; }
+
+.country-popover-head {
+  padding: 8px;
   border-bottom: 1px solid var(--color-border);
 }
 
-/* ── FILTER BAR ── */
-.filter-bar {
-  padding: 0 24px;
-  height: var(--filter-height);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  overflow-x: auto;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-.filter-bar::-webkit-scrollbar {
-  display: none;
-}
-
-.filter-pill {
+.country-search-input {
+  width: 100%;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background: #fff;
+  color: var(--color-primary);
   font-family: 'IBM Plex Sans', sans-serif;
   font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  text-transform: none;
-  padding: 9px 2px 8px;
-  border: none;
-  border-bottom: 2px solid transparent;
-  background: transparent;
-  color: var(--color-subtext);
-  cursor: pointer;
-  white-space: nowrap;
-  transition: color 150ms ease, border-color 150ms ease, opacity 150ms ease;
-  user-select: none;
-  line-height: 1;
+  padding: 7px 10px;
 }
 
-.filter-pill:hover {
-  color: var(--color-primary);
+.country-search-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(22,22,22,0.09);
 }
 
-/* Default active: amber (All, ICIS, energy-related, others) */
-.filter-pill.active {
-  color: var(--color-primary);
-  border-bottom-color: var(--color-amber);
-}
-
-/* Metals: steel blue when active */
-.filter-pill[data-group="metals"].active {
-  color: var(--color-metals);
-  border-bottom-color: var(--color-metals);
-}
-
-/* Agriculture + Fertilizers: green when active */
-.filter-pill[data-group="agri"].active {
-  color: var(--color-agri);
-  border-bottom-color: var(--color-agri);
-}
-
-.filter-pill[data-filter-group="energy"].partial {
-  border-bottom-color: rgba(232,160,32,0.55);
-  color: var(--color-primary);
-}
-
-/* Divider between pill groups */
-.filter-divider {
-  width: 1px;
-  height: 22px;
-  background: var(--color-border);
-  flex-shrink: 0;
-  margin: 0 2px;
-}
-
-/* Expandable energy sub-filters */
-.energy-layer {
-  max-height: 0;
-  overflow: hidden;
-  opacity: 0;
-  transform: translateY(-4px);
-  transition: max-height 220ms ease, opacity 180ms ease, transform 180ms ease, padding 220ms ease;
-  padding: 0 24px;
-  border-top: 1px solid transparent;
-}
-
-.energy-layer.open {
-  max-height: 120px;
-  opacity: 1;
-  transform: translateY(0);
-  padding: 10px 24px 12px;
-  border-top-color: var(--color-border);
-}
-
-.energy-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.energy-chip {
-  font-family: 'IBM Plex Sans', sans-serif;
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  border: none;
-  border-bottom: 2px solid transparent;
-  border-radius: 0;
-  padding: 7px 2px 6px;
-  background: transparent;
-  color: var(--color-subtext);
-  cursor: pointer;
-  transition: color 150ms ease, border-color 150ms ease;
-}
-
-.energy-chip:hover {
-  color: var(--color-primary);
-}
-
-.energy-chip.active {
-  color: var(--color-primary);
-  border-bottom-color: var(--color-amber);
-}
-
-.country-layer {
-  max-height: 0;
-  overflow: hidden;
-  opacity: 0;
-  transform: translateY(-4px);
-  transition: max-height 220ms ease, opacity 180ms ease, transform 180ms ease, padding 220ms ease;
-  padding: 0 24px;
-  border-top: 1px solid transparent;
-}
-
-.country-layer.open {
-  max-height: min(320px, calc(100vh - var(--nav-height) - var(--filter-height) - 48px));
-  opacity: 1;
-  transform: translateY(0);
-  padding: 10px 24px 12px;
-  border-top-color: var(--color-border);
-  overflow-x: hidden;
+.country-popover-list {
+  flex: 1;
   overflow-y: auto;
   overscroll-behavior: contain;
+  padding: 4px 0;
   scrollbar-width: thin;
 }
 
-.country-list {
+.country-option {
   display: flex;
-  flex-wrap: wrap;
+  align-items: center;
   gap: 8px;
-}
-
-.country-chip {
+  padding: 6px 12px;
   font-family: 'IBM Plex Sans', sans-serif;
   font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  border: none;
-  border-bottom: 2px solid transparent;
-  border-radius: 0;
-  padding: 7px 2px 6px;
-  background: transparent;
-  color: var(--color-subtext);
+  color: var(--color-primary);
   cursor: pointer;
-  transition: color 150ms ease, border-color 150ms ease;
-  white-space: nowrap;
+  transition: background 100ms ease;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
 }
 
-.country-chip:hover {
-  color: var(--color-primary);
+.country-option:hover { background: rgba(0,0,0,0.04); }
+
+.country-option-check {
+  width: 14px;
+  height: 14px;
+  border: 1.5px solid var(--color-border);
+  border-radius: 3px;
+  flex-shrink: 0;
+  transition: background 100ms ease, border-color 100ms ease;
 }
 
-.country-chip.active {
-  color: var(--color-primary);
-  border-bottom-color: var(--color-amber);
+.country-option.is-selected .country-option-check {
+  background: var(--color-amber);
+  border-color: var(--color-amber);
 }
 
-.country-chip.disabled {
-  opacity: 0.38;
-  cursor: default;
-  color: var(--color-subtext);
-  border-bottom-color: transparent;
-  pointer-events: none;
-}
+.country-option-label { flex: 1; }
 
-.country-empty {
+.country-option-count {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 10px;
   color: var(--color-subtext);
-  letter-spacing: 0.03em;
-  padding-top: 4px;
 }
+
+.country-option.is-disabled {
+  opacity: 0.38;
+  pointer-events: none;
+}
+
+/* Selected country chips bar */
+.country-chip-bar {
+  background: var(--color-bg);
+  padding: 6px 28px 8px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.country-chip-bar[hidden] { display: none; }
+
+.country-chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.country-active-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-primary);
+  background: rgba(232,160,32,0.12);
+  border: 1px solid rgba(232,160,32,0.3);
+  border-radius: 3px;
+  padding: 3px 6px 3px 8px;
+}
+
+.country-active-chip-dismiss {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-subtext);
+  font-size: 13px;
+  padding: 0 2px;
+  line-height: 1;
+}
+
+.country-active-chip-dismiss:hover { color: var(--color-primary); }
+
+.country-chip-clear {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--color-subtext);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px 4px;
+}
+
+.country-chip-clear:hover { color: var(--color-primary); }
+
+.country-badge {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--color-amber);
+  margin-left: 2px;
+}
+
+.country-badge[hidden] { display: none; }
 
 /* ── STATUS BAR ── */
 .status-bar {
@@ -764,22 +724,12 @@ body {
     padding: 0 16px;
   }
 
-  .energy-layer {
-    padding: 0 16px;
+  .country-popover {
+    right: 16px;
   }
 
-  .energy-layer.open {
-    padding: 10px 16px 12px;
-    max-height: 220px;
-  }
-
-  .country-layer {
-    padding: 0 16px;
-  }
-
-  .country-layer.open {
-    padding: 10px 16px 12px;
-    max-height: calc(100vh - var(--nav-height) - var(--filter-height) - 32px);
+  .country-chip-bar {
+    padding: 6px 16px 8px;
   }
 
   .status-bar {
@@ -883,31 +833,38 @@ body {
 
 <div class="filter-wrap">
   <div class="filter-bar" role="toolbar" aria-label="Category filter">
-    <button class="filter-pill active" data-filter="ALL">All</button>
+    <button class="filter-pill is-selected" data-sector="ALL">All</button>
     <div class="filter-divider"></div>
-    <button class="filter-pill" data-filter-group="energy" data-group="energy" id="energy-group-toggle" aria-expanded="false" aria-controls="energy-layer">Energy</button>
-    <button class="filter-pill" data-filter="Chemicals"              data-group="energy">Chemicals</button>
-    <button class="filter-pill" data-filter="Metals"                data-group="metals">Metals</button>
-    <button class="filter-pill" data-filter="Agriculture"           data-group="agri">Agriculture</button>
-    <button class="filter-pill" data-filter="Fertilizers"           data-group="agri">Fertilizers</button>
-    <button class="filter-pill" data-filter="Shipping"              data-group="other">Shipping</button>
+    <button class="filter-pill" data-sector="energy" id="energy-toggle" aria-expanded="false" aria-controls="subsector-layer">Energy</button>
+    <button class="filter-pill" data-sector="chemicals">Chemicals</button>
+    <button class="filter-pill" data-sector="metals_and_mining" title="Metals and Mining">Metals &amp; Mining</button>
+    <button class="filter-pill" data-sector="agriculture">Agriculture</button>
+    <button class="filter-pill" data-sector="fertilizers" title="Fertilizers and Agricultural Chemicals">Fertilizers</button>
+    <button class="filter-pill" data-sector="shipping">Shipping</button>
     <div class="filter-divider"></div>
-    <button class="filter-pill" data-filter-group="country" data-group="other" id="country-group-toggle" aria-expanded="false" aria-controls="country-layer">Country</button>
+    <button class="filter-pill country-toggle" id="country-toggle" aria-expanded="false" aria-controls="country-popover">Country <span class="country-badge" id="country-badge" hidden></span></button>
   </div>
-  <div class="energy-layer" id="energy-layer" aria-hidden="true">
-    <div class="energy-list" role="group" aria-label="Energy subfilters">
-      <button class="energy-chip" data-energy-filter="Oil - Crude">Crude</button>
-      <button class="energy-chip" data-energy-filter="Oil - Refined Products">Refined products</button>
-      <button class="energy-chip" data-energy-filter="Natural Gas">Natural gas</button>
-      <button class="energy-chip" data-energy-filter="LNG">LNG</button>
-      <button class="energy-chip" data-energy-filter="Coal">Coal</button>
-      <button class="energy-chip" data-energy-filter="Electric Power">Electric power</button>
-      <button class="energy-chip" data-energy-filter="Energy Transition">Energy transition</button>
+  <div class="filter-layer" id="subsector-layer" aria-hidden="true" hidden>
+    <div class="filter-chip-row" id="subsector-chips" role="group" aria-label="Energy subsectors" style="--sector-accent: var(--color-energy)">
+      <button class="filter-chip" data-subsector="Oil - Crude">Crude <span class="filter-chip-count"></span></button>
+      <button class="filter-chip" data-subsector="Oil - Refined Products">Refined <span class="filter-chip-count"></span></button>
+      <button class="filter-chip" data-subsector="Natural Gas">Nat Gas <span class="filter-chip-count"></span></button>
+      <button class="filter-chip" data-subsector="LNG">LNG <span class="filter-chip-count"></span></button>
+      <button class="filter-chip" data-subsector="Coal">Coal <span class="filter-chip-count"></span></button>
+      <button class="filter-chip" data-subsector="Electric Power">Power <span class="filter-chip-count"></span></button>
+      <button class="filter-chip" data-subsector="Energy Transition">Transition <span class="filter-chip-count"></span></button>
+      <button class="filter-layer-clear" id="subsector-clear" type="button" hidden>clear</button>
     </div>
   </div>
-  <div class="country-layer" id="country-layer" aria-hidden="true">
-    <div class="country-list" id="country-list" role="group" aria-label="Country filters"></div>
+  <div class="country-popover" id="country-popover" hidden>
+    <div class="country-popover-head">
+      <input type="search" id="country-search" class="country-search-input" placeholder="Search countries" autocomplete="off" spellcheck="false">
+    </div>
+    <div class="country-popover-list" id="country-popover-list"></div>
   </div>
+</div>
+<div class="country-chip-bar" id="country-chip-bar" hidden>
+  <div class="country-chip-list" id="country-chip-list"></div>
 </div>
 
 <div class="status-bar">
@@ -934,6 +891,7 @@ body {
   Top
 </button>
 
+<script src="../shared/filter-shell.js"></script>
 <script>
 (function () {
   'use strict';
@@ -1001,6 +959,16 @@ body {
     'Energy Transition'
   ];
 
+  // Maps data-sector values → canonical classifier categories
+  var SECTOR_MAP = {
+    'energy':             ENERGY_CATS,
+    'chemicals':          ['Chemicals'],
+    'metals_and_mining':  ['Metals'],
+    'agriculture':        ['Agriculture'],
+    'fertilizers':        ['Fertilizers'],
+    'shipping':           ['Shipping']
+  };
+
   var COUNTRY_NAME_OVERRIDES = {
     'Iran, Islamic Republic of': 'Iran',
     'Korea, Republic of': 'South Korea',
@@ -1037,13 +1005,19 @@ body {
   var navSearch   = document.getElementById('nav-search');
   var searchToggle = document.getElementById('search-toggle');
   var searchInput = document.getElementById('headline-search');
-  var energyLayer = document.getElementById('energy-layer');
-  var energyGroupToggle = document.getElementById('energy-group-toggle');
-  var countryLayer = document.getElementById('country-layer');
-  var countryList = document.getElementById('country-list');
-  var countryGroupToggle = document.getElementById('country-group-toggle');
+  var subsectorLayer = document.getElementById('subsector-layer');
+  var energyToggle = document.getElementById('energy-toggle');
+  var subsectorClear = document.getElementById('subsector-clear');
+  var countryToggle = document.getElementById('country-toggle');
+  var countryPopover = document.getElementById('country-popover');
+  var countrySearchInput = document.getElementById('country-search');
+  var countryPopoverList = document.getElementById('country-popover-list');
+  var countryBadge = document.getElementById('country-badge');
+  var countryChipBar = document.getElementById('country-chip-bar');
+  var countryChipList = document.getElementById('country-chip-list');
   var newToast   = document.getElementById('new-toast');
   var toTopBtn   = document.getElementById('to-top-btn');
+  var filterShellApi = window.ContangoFilterShell || null;
 
   // ─── UTILS ──────────────────────────────────────────────────────────────
 
@@ -1303,33 +1277,45 @@ body {
     return equal;
   }
 
-  function setCountryLayer(open) {
-    if (!countryLayer || !countryGroupToggle) return;
-    countryLayer.classList.toggle('open', open);
-    countryLayer.setAttribute('aria-hidden', open ? 'false' : 'true');
-    countryGroupToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  // ─── COUNTRY POPOVER ────────────────────────────────────────────────
+
+  function setCountryPopover(open) {
+    if (!countryPopover) return;
+    countryPopover.hidden = !open;
+    if (countryToggle) countryToggle.setAttribute('aria-expanded', String(open));
+    if (open && countrySearchInput) {
+      countrySearchInput.value = '';
+      filterCountryList('');
+      setTimeout(function () { countrySearchInput.focus(); }, 60);
+    }
+  }
+
+  function toggleCountryPopover() {
+    var isOpen = countryPopover && !countryPopover.hidden;
+    if (!isOpen) setSubsectorLayer(false);
+    setCountryPopover(!isOpen);
   }
 
   function syncCountryUi() {
-    if (countryGroupToggle) {
-      countryGroupToggle.classList.toggle('active', selectedCountries.size > 0);
+    // Update popover active states
+    if (countryPopoverList) {
+      countryPopoverList.querySelectorAll('.country-option').forEach(function (btn) {
+        var key = btn.dataset.countryKey;
+        btn.classList.toggle('is-selected', selectedCountries.has(key));
+      });
     }
-    if (!countryList) return;
-    var noCountrySelected = selectedCountries.size === 0;
-    countryList.querySelectorAll('.country-chip').forEach(function (chip) {
-      var key = chip.dataset.countryKey || '';
-      var available = chip.dataset.available !== 'false';
-      chip.classList.toggle('disabled', !available);
-      chip.disabled = !available;
 
-      if (!key) {
-        chip.classList.toggle('active', noCountrySelected);
-        chip.setAttribute('aria-pressed', noCountrySelected ? 'true' : 'false');
-      } else {
-        chip.classList.toggle('active', selectedCountries.has(key));
-        chip.setAttribute('aria-pressed', selectedCountries.has(key) ? 'true' : 'false');
-      }
-    });
+    // Update toggle button badge
+    if (countryToggle) {
+      countryToggle.classList.toggle('is-selected', selectedCountries.size > 0);
+    }
+    if (countryBadge) {
+      countryBadge.hidden = selectedCountries.size === 0;
+      countryBadge.textContent = '(' + selectedCountries.size + ')';
+    }
+
+    // Render selected chips bar
+    renderSelectedCountryChips();
   }
 
   function clearCountrySelection() {
@@ -1355,54 +1341,43 @@ body {
     setStatus(_lastMeta);
   }
 
+  var _countryData = []; // cached country list for chip label lookups
+
   function updateCountryOptions(articles) {
-    if (!countryList) return false;
+    if (!countryPopoverList) return false;
 
     var previous = new Set(selectedCountries);
     var countries = collectCountries(articles);
     var availability = buildCountryAvailability(articles);
-    countryList.innerHTML = '';
-
-    var allBtn = document.createElement('button');
-    allBtn.type = 'button';
-    allBtn.className = 'country-chip';
-    allBtn.dataset.countryKey = '';
-    allBtn.dataset.available = 'true';
-    allBtn.setAttribute('aria-pressed', 'false');
-    allBtn.textContent = 'All countries';
-    allBtn.addEventListener('click', function () { clearCountrySelection(); });
-    countryList.appendChild(allBtn);
+    _countryData = countries;
+    countryPopoverList.innerHTML = '';
 
     countries.forEach(function (country) {
-      var available = (availability.get(country.key) || 0) > 0;
+      var count = availability.get(country.key) || 0;
       var btn = document.createElement('button');
       btn.type = 'button';
-      btn.className = 'country-chip';
+      btn.className = 'country-option' +
+        (selectedCountries.has(country.key) ? ' is-selected' : '') +
+        (count === 0 ? ' is-disabled' : '');
       btn.dataset.countryKey = country.key;
-      btn.dataset.available = available ? 'true' : 'false';
-      btn.setAttribute('aria-pressed', 'false');
-      btn.textContent = country.label;
-      if (available) {
+      btn.innerHTML =
+        '<span class="country-option-check"></span>' +
+        '<span class="country-option-label">' + esc(country.label) + '</span>' +
+        '<span class="country-option-count">' + count + '</span>';
+      if (count > 0) {
         btn.addEventListener('click', function () {
           toggleCountrySelection(country.key);
         });
       }
-      countryList.appendChild(btn);
+      countryPopoverList.appendChild(btn);
     });
 
-    if (countries.length === 0) {
-      var hint = document.createElement('div');
-      hint.className = 'country-empty';
-      hint.textContent = 'Country tags will appear as NER data is processed.';
-      countryList.appendChild(hint);
-    }
-
+    // Prune selections for countries that are no longer available
     var availableKeys = new Set(
       countries
         .filter(function (c) { return (availability.get(c.key) || 0) > 0; })
         .map(function (c) { return c.key; })
     );
-
     selectedCountries.forEach(function (key) {
       if (!availableKeys.has(key)) selectedCountries.delete(key);
     });
@@ -1411,10 +1386,49 @@ body {
     return !areSetsEqual(previous, selectedCountries);
   }
 
-  function toggleCountryLayer() {
-    var open = countryLayer && countryLayer.classList.contains('open');
-    if (!open && energyLayer && energyLayer.classList.contains('open')) setEnergyLayer(false);
-    setCountryLayer(!open);
+  function filterCountryList(query) {
+    var q = (query || '').trim().toLowerCase();
+    if (!countryPopoverList) return;
+    countryPopoverList.querySelectorAll('.country-option').forEach(function (btn) {
+      var label = btn.querySelector('.country-option-label');
+      var text = (label ? label.textContent : '').toLowerCase();
+      btn.style.display = (!q || text.indexOf(q) !== -1) ? '' : 'none';
+    });
+  }
+
+  function renderSelectedCountryChips() {
+    if (!countryChipBar || !countryChipList) return;
+    countryChipBar.hidden = selectedCountries.size === 0;
+    countryChipList.innerHTML = '';
+
+    selectedCountries.forEach(function (key) {
+      // Find display label from cached data
+      var label = key;
+      for (var i = 0; i < _countryData.length; i++) {
+        if (_countryData[i].key === key) { label = _countryData[i].label; break; }
+      }
+
+      var chip = document.createElement('span');
+      chip.className = 'country-active-chip';
+      chip.innerHTML = esc(label) +
+        '<button class="country-active-chip-dismiss" type="button" aria-label="Remove ' + esc(label) + '">&times;</button>';
+      chip.querySelector('.country-active-chip-dismiss').addEventListener('click', function () {
+        selectedCountries.delete(key);
+        syncCountryUi();
+        refreshFeed();
+        setStatus(_lastMeta);
+      });
+      countryChipList.appendChild(chip);
+    });
+
+    if (selectedCountries.size > 1) {
+      var clearAll = document.createElement('button');
+      clearAll.type = 'button';
+      clearAll.className = 'country-chip-clear';
+      clearAll.textContent = 'clear all';
+      clearAll.addEventListener('click', clearCountrySelection);
+      countryChipList.appendChild(clearAll);
+    }
   }
 
   // ─── CARD ───────────────────────────────────────────────────────────────
@@ -1494,6 +1508,7 @@ body {
   function refreshFeed(options) {
     options = options || {};
     updateCountryOptions(allArticles);
+    updateSubsectorCounts();
     filteredArticles = allArticles.filter(function (a) { return matchesArticle(a); });
 
     var desiredCount = PAGE_SIZE;
@@ -1539,75 +1554,99 @@ body {
     return true;
   }
 
-  function setEnergyLayer(open) {
-    if (!energyLayer || !energyGroupToggle) return;
-    energyLayer.classList.toggle('open', open);
-    energyLayer.setAttribute('aria-hidden', open ? 'false' : 'true');
-    energyGroupToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  function setSubsectorLayer(open) {
+    if (!subsectorLayer) return;
+    if (filterShellApi && filterShellApi.setLayerOpen) {
+      filterShellApi.setLayerOpen(energyToggle, subsectorLayer, open);
+      return;
+    }
+    subsectorLayer.hidden = !open;
+    subsectorLayer.classList.toggle('open', open);
+    subsectorLayer.setAttribute('aria-hidden', String(!open));
+    if (energyToggle) energyToggle.setAttribute('aria-expanded', String(open));
   }
 
-  // Toggle a category in/out of the active set and re-render
-  function toggleCategory(cat) {
-    if (cat === 'ALL') {
+  // Toggle a sector pill: maps data-sector to classifier categories
+  function toggleSector(sectorKey) {
+    if (sectorKey === 'ALL') {
       activeFilters.clear();
-      setEnergyLayer(false);
-      setCountryLayer(false);
+      setSubsectorLayer(false);
+      setCountryPopover(false);
     } else {
-      if (activeFilters.has(cat)) {
-        activeFilters.delete(cat);
+      var cats = SECTOR_MAP[sectorKey];
+      if (!cats) return;
+      // Check if ALL categories for this sector are already active
+      var allActive = cats.every(function (c) { return activeFilters.has(c); });
+      if (allActive) {
+        cats.forEach(function (c) { activeFilters.delete(c); });
       } else {
-        activeFilters.add(cat);
+        cats.forEach(function (c) { activeFilters.add(c); });
+      }
+      // Close subsector layer if not energy-related
+      if (sectorKey !== 'energy' && !hasAnyEnergySelected()) {
+        setSubsectorLayer(false);
       }
     }
     syncPills();
     refreshFeed();
-    setStatus(_lastMeta); // update "X of Y" count in status bar
+    setStatus(_lastMeta);
   }
 
   // Sync pill active states to match activeFilters
   function syncPills() {
-    var allBtn = document.querySelector('[data-filter="ALL"]');
+    var allBtn = document.querySelector('[data-sector="ALL"]');
     var isEmpty = activeFilters.size === 0;
-    allBtn.classList.toggle('active', isEmpty);
-    allBtn.setAttribute('aria-pressed', isEmpty ? 'true' : 'false');
-    document.querySelectorAll('.filter-pill[data-filter]:not([data-filter="ALL"])').forEach(function (p) {
-      var active = activeFilters.has(p.dataset.filter);
-      p.classList.toggle('active', active);
-      p.setAttribute('aria-pressed', active ? 'true' : 'false');
-    });
-
-    var anyEnergy = hasAnyEnergySelected();
-    var allEnergy = areAllEnergySelected();
-    if (energyGroupToggle) {
-      energyGroupToggle.classList.toggle('active', anyEnergy);
-      energyGroupToggle.classList.toggle('partial', anyEnergy && !allEnergy);
+    if (allBtn) {
+      allBtn.classList.toggle('is-selected', isEmpty);
+      allBtn.setAttribute('aria-pressed', isEmpty ? 'true' : 'false');
     }
 
-    if (energyLayer) {
-      energyLayer.querySelectorAll('.energy-chip').forEach(function (chip) {
-        var active = activeFilters.has(chip.dataset.energyFilter);
-        chip.classList.toggle('active', active);
+    // Sync sector pills
+    document.querySelectorAll('.filter-pill[data-sector]:not([data-sector="ALL"])').forEach(function (p) {
+      var sectorKey = p.dataset.sector;
+      var cats = SECTOR_MAP[sectorKey];
+      if (!cats) {
+        // Country toggle — handled separately
+        return;
+      }
+      var anyActive = cats.some(function (c) { return activeFilters.has(c); });
+      var allActive = cats.every(function (c) { return activeFilters.has(c); });
+      p.classList.toggle('is-selected', anyActive);
+      p.classList.toggle('is-partial', anyActive && !allActive);
+      p.setAttribute('aria-pressed', anyActive ? 'true' : 'false');
+    });
+
+    // Sync energy subsector chips
+    if (subsectorLayer) {
+      subsectorLayer.querySelectorAll('.filter-chip').forEach(function (chip) {
+        var active = activeFilters.has(chip.dataset.subsector);
+        chip.classList.toggle('is-selected', active);
         chip.setAttribute('aria-pressed', active ? 'true' : 'false');
       });
+      // Show/hide clear button
+      if (subsectorClear) {
+        var anySubSelected = hasAnyEnergySelected() && !areAllEnergySelected();
+        subsectorClear.hidden = !anySubSelected;
+      }
     }
 
     syncCountryUi();
   }
 
   function toggleEnergyGroup() {
-    if (countryLayer && countryLayer.classList.contains('open')) setCountryLayer(false);
+    setCountryPopover(false);
 
     var anyEnergy = hasAnyEnergySelected();
-    var layerOpen = energyLayer && energyLayer.classList.contains('open');
+    var layerOpen = subsectorLayer && subsectorLayer.classList.contains('open');
 
     if (!anyEnergy) {
       ENERGY_CATS.forEach(function (cat) { activeFilters.add(cat); });
-      setEnergyLayer(true);
+      setSubsectorLayer(true);
     } else if (!layerOpen) {
-      setEnergyLayer(true);
+      setSubsectorLayer(true);
     } else {
       ENERGY_CATS.forEach(function (cat) { activeFilters.delete(cat); });
-      setEnergyLayer(false);
+      setSubsectorLayer(false);
     }
 
     syncPills();
@@ -1615,7 +1654,7 @@ body {
     setStatus(_lastMeta);
   }
 
-  function toggleEnergySubfilter(cat) {
+  function toggleSubsector(cat) {
     if (!cat) return;
     if (activeFilters.has(cat)) {
       activeFilters.delete(cat);
@@ -1623,10 +1662,23 @@ body {
       activeFilters.add(cat);
     }
 
-    if (!hasAnyEnergySelected()) setEnergyLayer(false);
+    if (!hasAnyEnergySelected()) setSubsectorLayer(false);
     syncPills();
     refreshFeed();
     setStatus(_lastMeta);
+  }
+
+  function updateSubsectorCounts() {
+    if (!subsectorLayer) return;
+    subsectorLayer.querySelectorAll('.filter-chip').forEach(function (chip) {
+      var cat = chip.dataset.subsector;
+      var count = 0;
+      for (var i = 0; i < allArticles.length; i++) {
+        if (canonicalCategoriesForArticle(allArticles[i]).indexOf(cat) !== -1) count++;
+      }
+      var badge = chip.querySelector('.filter-chip-count');
+      if (badge) badge.textContent = count;
+    });
   }
 
   // ─── STATUS LINE ────────────────────────────────────────────────────────
@@ -1709,6 +1761,7 @@ body {
               .filter(Boolean)
           );
           updateCountryOptions(allArticles);
+          updateSubsectorCounts();
           lastUpdated = meta.last_updated || '';
           feed.innerHTML = '';
           refreshFeed();
@@ -1730,6 +1783,7 @@ body {
           );
           allArticles = articles;
           var countrySelectionChanged = updateCountryOptions(allArticles);
+          updateSubsectorCounts();
 
           if (countrySelectionChanged) {
             refreshFeed({ preserveCount: true });
@@ -1837,30 +1891,48 @@ body {
 
   // ─── EVENTS ─────────────────────────────────────────────────────────────
 
-  // Filter pills
-  document.querySelectorAll('.filter-pill[data-filter]').forEach(function (pill) {
+  // Sector pills
+  document.querySelectorAll('.filter-pill[data-sector]').forEach(function (pill) {
+    var sector = pill.dataset.sector;
+    if (sector === 'energy') return; // energy toggle handled separately
+    if (pill.classList.contains('country-toggle')) return; // country handled separately
     pill.addEventListener('click', function () {
-      toggleCategory(pill.dataset.filter);
+      toggleSector(sector);
     });
   });
 
-  if (energyGroupToggle) {
-    energyGroupToggle.addEventListener('click', function () {
+  if (energyToggle) {
+    energyToggle.addEventListener('click', function () {
       toggleEnergyGroup();
     });
   }
 
-  if (countryGroupToggle) {
-    countryGroupToggle.addEventListener('click', function () {
-      toggleCountryLayer();
+  if (countryToggle) {
+    countryToggle.addEventListener('click', function () {
+      toggleCountryPopover();
     });
   }
 
-  if (energyLayer) {
-    energyLayer.querySelectorAll('.energy-chip').forEach(function (chip) {
+  if (countrySearchInput) {
+    countrySearchInput.addEventListener('input', function () {
+      filterCountryList(countrySearchInput.value);
+    });
+  }
+
+  if (subsectorLayer) {
+    subsectorLayer.querySelectorAll('.filter-chip').forEach(function (chip) {
       chip.addEventListener('click', function () {
-        toggleEnergySubfilter(chip.dataset.energyFilter);
+        toggleSubsector(chip.dataset.subsector);
       });
+    });
+  }
+
+  if (subsectorClear) {
+    subsectorClear.addEventListener('click', function () {
+      ENERGY_CATS.forEach(function (cat) { activeFilters.add(cat); });
+      syncPills();
+      refreshFeed();
+      setStatus(_lastMeta);
     });
   }
 
@@ -1906,8 +1978,8 @@ body {
 
     var filterWrap = document.querySelector('.filter-wrap');
     if (filterWrap && !filterWrap.contains(e.target)) {
-      if (energyLayer && energyLayer.classList.contains('open')) setEnergyLayer(false);
-      if (countryLayer && countryLayer.classList.contains('open')) setCountryLayer(false);
+      if (subsectorLayer && subsectorLayer.classList.contains('open')) setSubsectorLayer(false);
+      if (countryPopover && !countryPopover.hidden) setCountryPopover(false);
     }
   });
 

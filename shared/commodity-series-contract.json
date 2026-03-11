@@ -1,53 +1,942 @@
 {
+  "sectors": [
+    {
+      "id": "energy",
+      "label": "Energy",
+      "order": 1,
+      "subsectors": [
+        {
+          "id": "crude_oil_benchmarks",
+          "label": "Crude oil benchmarks",
+          "order": 1
+        },
+        {
+          "id": "natural_gas_and_lng",
+          "label": "Natural gas and LNG",
+          "order": 2
+        },
+        {
+          "id": "refined_products_and_fuels",
+          "label": "Refined products and fuels",
+          "order": 3
+        },
+        {
+          "id": "coal",
+          "label": "Coal",
+          "order": 4
+        }
+      ]
+    },
+    {
+      "id": "metals_and_mining",
+      "label": "Metals and Mining",
+      "order": 2,
+      "subsectors": [
+        {
+          "id": "precious_metals",
+          "label": "Precious metals",
+          "order": 1
+        },
+        {
+          "id": "base_metals",
+          "label": "Base metals",
+          "order": 2
+        },
+        {
+          "id": "battery_and_transition_metals",
+          "label": "Battery and transition metals",
+          "order": 3
+        },
+        {
+          "id": "bulk_raw_materials",
+          "label": "Bulk raw materials",
+          "order": 4
+        }
+      ]
+    },
+    {
+      "id": "agriculture",
+      "label": "Agriculture",
+      "order": 3,
+      "subsectors": [
+        {
+          "id": "grains_and_cereals",
+          "label": "Grains and cereals",
+          "order": 1
+        },
+        {
+          "id": "rice",
+          "label": "Rice",
+          "order": 2
+        },
+        {
+          "id": "oilseeds_meals_and_edible_oils",
+          "label": "Oilseeds, meals, and edible oils",
+          "order": 3
+        },
+        {
+          "id": "soft_commodities",
+          "label": "Soft commodities",
+          "order": 4
+        },
+        {
+          "id": "tropical_and_fruit_commodities",
+          "label": "Tropical and fruit commodities",
+          "order": 5
+        },
+        {
+          "id": "industrial_agriculture_materials",
+          "label": "Industrial agriculture materials",
+          "order": 6
+        }
+      ]
+    },
+    {
+      "id": "fertilizers_and_agricultural_chemicals",
+      "label": "Fertilizers and Agricultural Chemicals",
+      "order": 4,
+      "subsectors": [
+        {
+          "id": "phosphate_chain",
+          "label": "Phosphate chain",
+          "order": 1
+        },
+        {
+          "id": "nitrogen",
+          "label": "Nitrogen",
+          "order": 2
+        },
+        {
+          "id": "potash",
+          "label": "Potash",
+          "order": 3
+        }
+      ]
+    },
+    {
+      "id": "livestock_dairy_and_seafood",
+      "label": "Livestock, Dairy, and Seafood",
+      "order": 5,
+      "subsectors": [
+        {
+          "id": "meat_and_livestock",
+          "label": "Meat and livestock",
+          "order": 1
+        },
+        {
+          "id": "seafood_and_aquaculture",
+          "label": "Seafood and aquaculture",
+          "order": 2
+        },
+        {
+          "id": "feed_inputs",
+          "label": "Feed inputs",
+          "order": 3
+        }
+      ]
+    },
+    {
+      "id": "forest_and_wood_products",
+      "label": "Forest and Wood Products",
+      "order": 6,
+      "subsectors": [
+        {
+          "id": "wood_products",
+          "label": "Wood products",
+          "order": 1
+        }
+      ]
+    }
+  ],
   "series": {
-    "crude_oil_brent": { "group": "energy", "supports_related_headlines": true },
-    "crude_oil_wti": { "group": "energy", "supports_related_headlines": true },
-    "crude_oil_dubai": { "group": "energy", "supports_related_headlines": true },
-    "natural_gas_henry_hub": { "group": "energy", "supports_related_headlines": true },
-    "natural_gas_ttf": { "group": "energy", "supports_related_headlines": true },
-    "lng_asia_japan_import_proxy": { "group": "energy", "supports_related_headlines": true },
-    "thermal_coal_newcastle": { "group": "energy", "supports_related_headlines": true },
-    "rbob_gasoline_spot_proxy": { "group": "energy", "supports_related_headlines": true },
-    "heating_oil_no2_nyharbor": { "group": "energy", "supports_related_headlines": true },
-    "rubber_rss3_monthly": { "group": "energy", "supports_related_headlines": true },
-    "gold_worldbank_monthly": { "group": "metals", "supports_related_headlines": true },
-    "silver_worldbank_monthly": { "group": "metals", "supports_related_headlines": true },
-    "copper_worldbank_monthly": { "group": "metals", "supports_related_headlines": true },
-    "aluminium_worldbank_monthly": { "group": "metals", "supports_related_headlines": true },
-    "platinum_worldbank_monthly": { "group": "metals", "supports_related_headlines": true },
-    "palladium_imf_monthly": { "group": "metals", "supports_related_headlines": true },
-    "nickel_worldbank_monthly": { "group": "metals", "supports_related_headlines": true },
-    "zinc_worldbank_monthly": { "group": "metals", "supports_related_headlines": true },
-    "lead_worldbank_monthly": { "group": "metals", "supports_related_headlines": false },
-    "iron_ore_62pct_china_monthly": { "group": "metals", "supports_related_headlines": true },
-    "lithium_metal_imf_monthly": { "group": "metals", "supports_related_headlines": true },
-    "cobalt_imf_monthly": { "group": "metals", "supports_related_headlines": true },
-    "wheat_global_monthly_proxy": { "group": "agri", "supports_related_headlines": true },
-    "corn_global_monthly_proxy": { "group": "agri", "supports_related_headlines": true },
-    "soybeans_global_monthly_proxy": { "group": "agri", "supports_related_headlines": true },
-    "soybean_oil_global_monthly_proxy": { "group": "agri", "supports_related_headlines": true },
-    "palm_oil_monthly_proxy": { "group": "agri", "supports_related_headlines": true },
-    "rice_thai_5pct_monthly": { "group": "agri", "supports_related_headlines": true },
-    "lumber_monthly_ppi_proxy": { "group": "agri", "supports_related_headlines": true },
-    "coffee_arabica_monthly_proxy": { "group": "agri", "supports_related_headlines": true },
-    "coffee_robusta_monthly_proxy": { "group": "agri", "supports_related_headlines": true },
-    "sugar_no11_world_monthly_proxy": { "group": "agri", "supports_related_headlines": true },
-    "cotton_monthly_proxy": { "group": "agri", "supports_related_headlines": true },
-    "cocoa_monthly_proxy": { "group": "agri", "supports_related_headlines": true }
+    "crude_oil_brent": {
+      "sectorId": "energy",
+      "subsectorId": "crude_oil_benchmarks",
+      "displayLabel": "Crude oil Brent",
+      "shortLabel": "Brent",
+      "visualFamily": "oil",
+      "cardOrder": 1,
+      "supports_related_headlines": true
+    },
+    "crude_oil_wti": {
+      "sectorId": "energy",
+      "subsectorId": "crude_oil_benchmarks",
+      "displayLabel": "Crude oil WTI",
+      "shortLabel": "WTI",
+      "visualFamily": "oil",
+      "cardOrder": 2,
+      "supports_related_headlines": true
+    },
+    "crude_oil_dubai": {
+      "sectorId": "energy",
+      "subsectorId": "crude_oil_benchmarks",
+      "displayLabel": "Crude oil Dubai",
+      "shortLabel": "Dubai",
+      "visualFamily": "oil",
+      "cardOrder": 3,
+      "supports_related_headlines": true
+    },
+    "natural_gas_henry_hub": {
+      "sectorId": "energy",
+      "subsectorId": "natural_gas_and_lng",
+      "displayLabel": "Natural gas Henry Hub",
+      "shortLabel": "Henry Hub",
+      "visualFamily": "naturalGas",
+      "cardOrder": 1,
+      "supports_related_headlines": true
+    },
+    "natural_gas_ttf": {
+      "sectorId": "energy",
+      "subsectorId": "natural_gas_and_lng",
+      "displayLabel": "Natural gas TTF",
+      "shortLabel": "TTF",
+      "visualFamily": "naturalGas",
+      "cardOrder": 2,
+      "supports_related_headlines": true
+    },
+    "lng_asia_japan_import_proxy": {
+      "sectorId": "energy",
+      "subsectorId": "natural_gas_and_lng",
+      "displayLabel": "LNG Asia Japan import",
+      "shortLabel": "Asia LNG",
+      "visualFamily": "lng",
+      "cardOrder": 2,
+      "supports_related_headlines": true
+    },
+    "rbob_gasoline_spot_proxy": {
+      "sectorId": "energy",
+      "subsectorId": "refined_products_and_fuels",
+      "displayLabel": "RBOB gasoline spot",
+      "shortLabel": "RBOB",
+      "visualFamily": "gasoline",
+      "cardOrder": 1,
+      "supports_related_headlines": true
+    },
+    "heating_oil_no2_nyharbor": {
+      "sectorId": "energy",
+      "subsectorId": "refined_products_and_fuels",
+      "displayLabel": "Heating oil No. 2 NY Harbor",
+      "shortLabel": "Heating oil",
+      "visualFamily": "diesel",
+      "cardOrder": 3,
+      "supports_related_headlines": true
+    },
+    "jet_fuel_usgc_daily": {
+      "sectorId": "energy",
+      "subsectorId": "refined_products_and_fuels",
+      "displayLabel": "Jet fuel USGC",
+      "shortLabel": "Jet fuel",
+      "visualFamily": "jetFuel",
+      "cardOrder": 4,
+      "supports_related_headlines": true
+    },
+    "propane_mont_belvieu_daily": {
+      "sectorId": "energy",
+      "subsectorId": "refined_products_and_fuels",
+      "displayLabel": "Propane Mont Belvieu",
+      "shortLabel": "Propane",
+      "visualFamily": "propane",
+      "cardOrder": 5,
+      "supports_related_headlines": true
+    },
+    "ulsd_usgc_daily": {
+      "sectorId": "energy",
+      "subsectorId": "refined_products_and_fuels",
+      "displayLabel": "ULSD USGC",
+      "shortLabel": "ULSD USGC",
+      "visualFamily": "diesel",
+      "cardOrder": 5,
+      "supports_related_headlines": true
+    },
+    "ulsd_nyh_daily": {
+      "sectorId": "energy",
+      "subsectorId": "refined_products_and_fuels",
+      "displayLabel": "ULSD NYH",
+      "shortLabel": "ULSD NYH",
+      "visualFamily": "diesel",
+      "cardOrder": 6,
+      "supports_related_headlines": true
+    },
+    "gasoline_regular_usgc_daily": {
+      "sectorId": "energy",
+      "subsectorId": "refined_products_and_fuels",
+      "displayLabel": "Gasoline regular USGC",
+      "shortLabel": "Gasoline USGC",
+      "visualFamily": "gasoline",
+      "cardOrder": 7,
+      "supports_related_headlines": true
+    },
+    "gasoline_regular_nyh_daily": {
+      "sectorId": "energy",
+      "subsectorId": "refined_products_and_fuels",
+      "displayLabel": "Gasoline regular NYH",
+      "shortLabel": "Gasoline NYH",
+      "visualFamily": "gasoline",
+      "cardOrder": 8,
+      "supports_related_headlines": true
+    },
+    "thermal_coal_newcastle": {
+      "sectorId": "energy",
+      "subsectorId": "coal",
+      "displayLabel": "Thermal coal Newcastle",
+      "shortLabel": "Newcastle coal",
+      "visualFamily": "thermalCoal",
+      "cardOrder": 1,
+      "supports_related_headlines": true
+    },
+    "coal_south_africa_monthly": {
+      "sectorId": "energy",
+      "subsectorId": "coal",
+      "displayLabel": "Coal South Africa",
+      "shortLabel": "South Africa coal",
+      "visualFamily": "thermalCoal",
+      "cardOrder": 2,
+      "supports_related_headlines": true
+    },
+    "gold_worldbank_monthly": {
+      "sectorId": "metals_and_mining",
+      "subsectorId": "precious_metals",
+      "displayLabel": "Gold",
+      "shortLabel": "Gold",
+      "visualFamily": "gold",
+      "cardOrder": 1,
+      "supports_related_headlines": true
+    },
+    "silver_worldbank_monthly": {
+      "sectorId": "metals_and_mining",
+      "subsectorId": "precious_metals",
+      "displayLabel": "Silver",
+      "shortLabel": "Silver",
+      "visualFamily": "silver",
+      "cardOrder": 2,
+      "supports_related_headlines": true
+    },
+    "platinum_worldbank_monthly": {
+      "sectorId": "metals_and_mining",
+      "subsectorId": "precious_metals",
+      "displayLabel": "Platinum",
+      "shortLabel": "Platinum",
+      "visualFamily": "platinum",
+      "cardOrder": 3,
+      "supports_related_headlines": true
+    },
+    "palladium_imf_monthly": {
+      "sectorId": "metals_and_mining",
+      "subsectorId": "precious_metals",
+      "displayLabel": "Palladium",
+      "shortLabel": "Palladium",
+      "visualFamily": "palladium",
+      "cardOrder": 4,
+      "supports_related_headlines": true
+    },
+    "copper_worldbank_monthly": {
+      "sectorId": "metals_and_mining",
+      "subsectorId": "base_metals",
+      "displayLabel": "Copper",
+      "shortLabel": "Copper",
+      "visualFamily": "copper",
+      "cardOrder": 1,
+      "supports_related_headlines": true
+    },
+    "aluminium_worldbank_monthly": {
+      "sectorId": "metals_and_mining",
+      "subsectorId": "base_metals",
+      "displayLabel": "Aluminium",
+      "shortLabel": "Aluminium",
+      "visualFamily": "aluminum",
+      "cardOrder": 2,
+      "supports_related_headlines": true
+    },
+    "nickel_worldbank_monthly": {
+      "sectorId": "metals_and_mining",
+      "subsectorId": "base_metals",
+      "displayLabel": "Nickel",
+      "shortLabel": "Nickel",
+      "visualFamily": "nickel",
+      "cardOrder": 3,
+      "supports_related_headlines": true
+    },
+    "zinc_worldbank_monthly": {
+      "sectorId": "metals_and_mining",
+      "subsectorId": "base_metals",
+      "displayLabel": "Zinc",
+      "shortLabel": "Zinc",
+      "visualFamily": "zinc",
+      "cardOrder": 4,
+      "supports_related_headlines": true
+    },
+    "lead_worldbank_monthly": {
+      "sectorId": "metals_and_mining",
+      "subsectorId": "base_metals",
+      "displayLabel": "Lead",
+      "shortLabel": "Lead",
+      "visualFamily": "lead",
+      "cardOrder": 5,
+      "supports_related_headlines": false
+    },
+    "tin_monthly": {
+      "sectorId": "metals_and_mining",
+      "subsectorId": "base_metals",
+      "displayLabel": "Tin",
+      "shortLabel": "Tin",
+      "visualFamily": "tin",
+      "cardOrder": 6,
+      "supports_related_headlines": true
+    },
+    "cobalt_imf_monthly": {
+      "sectorId": "metals_and_mining",
+      "subsectorId": "battery_and_transition_metals",
+      "displayLabel": "Cobalt",
+      "shortLabel": "Cobalt",
+      "visualFamily": "cobalt",
+      "cardOrder": 1,
+      "supports_related_headlines": true
+    },
+    "lithium_metal_imf_monthly": {
+      "sectorId": "metals_and_mining",
+      "subsectorId": "battery_and_transition_metals",
+      "displayLabel": "Lithium metal",
+      "shortLabel": "Lithium",
+      "visualFamily": "lithium",
+      "cardOrder": 2,
+      "supports_related_headlines": true
+    },
+    "iron_ore_62pct_china_monthly": {
+      "sectorId": "metals_and_mining",
+      "subsectorId": "bulk_raw_materials",
+      "displayLabel": "Iron ore 62% China",
+      "shortLabel": "Iron ore",
+      "visualFamily": "iron",
+      "cardOrder": 1,
+      "supports_related_headlines": true
+    },
+    "wheat_global_monthly_proxy": {
+      "sectorId": "agriculture",
+      "subsectorId": "grains_and_cereals",
+      "displayLabel": "Wheat global",
+      "shortLabel": "Wheat global",
+      "visualFamily": "wheat",
+      "cardOrder": 1,
+      "supports_related_headlines": true
+    },
+    "wheat_us_srw_monthly": {
+      "sectorId": "agriculture",
+      "subsectorId": "grains_and_cereals",
+      "displayLabel": "Wheat US SRW",
+      "shortLabel": "Wheat US SRW",
+      "visualFamily": "wheat",
+      "cardOrder": 2,
+      "supports_related_headlines": true
+    },
+    "corn_global_monthly_proxy": {
+      "sectorId": "agriculture",
+      "subsectorId": "grains_and_cereals",
+      "displayLabel": "Corn global",
+      "shortLabel": "Corn",
+      "visualFamily": "corn",
+      "cardOrder": 2,
+      "supports_related_headlines": true
+    },
+    "barley_monthly": {
+      "sectorId": "agriculture",
+      "subsectorId": "grains_and_cereals",
+      "displayLabel": "Barley",
+      "shortLabel": "Barley",
+      "visualFamily": "barley",
+      "cardOrder": 3,
+      "supports_related_headlines": true
+    },
+    "rice_thai_5pct_monthly": {
+      "sectorId": "agriculture",
+      "subsectorId": "rice",
+      "displayLabel": "Rice Thai 5%",
+      "shortLabel": "Thai 5%",
+      "visualFamily": "rice",
+      "cardOrder": 1,
+      "supports_related_headlines": true
+    },
+    "rice_thai_25pct_monthly": {
+      "sectorId": "agriculture",
+      "subsectorId": "rice",
+      "displayLabel": "Rice Thai 25%",
+      "shortLabel": "Thai 25%",
+      "visualFamily": "rice",
+      "cardOrder": 2,
+      "supports_related_headlines": true
+    },
+    "rice_thai_a1_monthly": {
+      "sectorId": "agriculture",
+      "subsectorId": "rice",
+      "displayLabel": "Rice Thai A1",
+      "shortLabel": "Thai A1",
+      "visualFamily": "rice",
+      "cardOrder": 3,
+      "supports_related_headlines": true
+    },
+    "rice_vietnam_5pct_monthly": {
+      "sectorId": "agriculture",
+      "subsectorId": "rice",
+      "displayLabel": "Rice Vietnam 5%",
+      "shortLabel": "Vietnam 5%",
+      "visualFamily": "rice",
+      "cardOrder": 4,
+      "supports_related_headlines": true
+    },
+    "soybeans_global_monthly_proxy": {
+      "sectorId": "agriculture",
+      "subsectorId": "oilseeds_meals_and_edible_oils",
+      "displayLabel": "Soybeans global",
+      "shortLabel": "Soybeans",
+      "visualFamily": "soybeans",
+      "cardOrder": 1,
+      "supports_related_headlines": true
+    },
+    "soybean_oil_global_monthly_proxy": {
+      "sectorId": "agriculture",
+      "subsectorId": "oilseeds_meals_and_edible_oils",
+      "displayLabel": "Soybean oil global",
+      "shortLabel": "Soybean oil",
+      "visualFamily": "soybeanOil",
+      "cardOrder": 2,
+      "supports_related_headlines": true
+    },
+    "soybean_meal_monthly": {
+      "sectorId": "agriculture",
+      "subsectorId": "oilseeds_meals_and_edible_oils",
+      "displayLabel": "Soybean meal",
+      "shortLabel": "Soybean meal",
+      "visualFamily": "soybeanMeal",
+      "cardOrder": 3,
+      "supports_related_headlines": true
+    },
+    "palm_oil_monthly_proxy": {
+      "sectorId": "agriculture",
+      "subsectorId": "oilseeds_meals_and_edible_oils",
+      "displayLabel": "Palm oil",
+      "shortLabel": "Palm oil",
+      "visualFamily": "palmOil",
+      "cardOrder": 4,
+      "supports_related_headlines": true
+    },
+    "palm_kernel_oil_monthly": {
+      "sectorId": "agriculture",
+      "subsectorId": "oilseeds_meals_and_edible_oils",
+      "displayLabel": "Palm kernel oil",
+      "shortLabel": "Palm kernel oil",
+      "visualFamily": "palmKernelOil",
+      "cardOrder": 5,
+      "supports_related_headlines": true
+    },
+    "coconut_oil_monthly": {
+      "sectorId": "agriculture",
+      "subsectorId": "oilseeds_meals_and_edible_oils",
+      "displayLabel": "Coconut oil",
+      "shortLabel": "Coconut oil",
+      "visualFamily": "coconutOil",
+      "cardOrder": 6,
+      "supports_related_headlines": true
+    },
+    "rapeseed_oil_monthly": {
+      "sectorId": "agriculture",
+      "subsectorId": "oilseeds_meals_and_edible_oils",
+      "displayLabel": "Rapeseed oil",
+      "shortLabel": "Rapeseed oil",
+      "visualFamily": "rapeseedOil",
+      "cardOrder": 7,
+      "supports_related_headlines": true
+    },
+    "sunflower_oil_monthly": {
+      "sectorId": "agriculture",
+      "subsectorId": "oilseeds_meals_and_edible_oils",
+      "displayLabel": "Sunflower oil",
+      "shortLabel": "Sunflower oil",
+      "visualFamily": "sunflowerOil",
+      "cardOrder": 8,
+      "supports_related_headlines": true
+    },
+    "groundnuts_monthly": {
+      "sectorId": "agriculture",
+      "subsectorId": "oilseeds_meals_and_edible_oils",
+      "displayLabel": "Groundnuts",
+      "shortLabel": "Groundnuts",
+      "visualFamily": "groundnuts",
+      "cardOrder": 9,
+      "supports_related_headlines": true
+    },
+    "sugar_no11_world_monthly_proxy": {
+      "sectorId": "agriculture",
+      "subsectorId": "soft_commodities",
+      "displayLabel": "Sugar No. 11 world",
+      "shortLabel": "Sugar world",
+      "visualFamily": "sugar",
+      "cardOrder": 1,
+      "supports_related_headlines": true
+    },
+    "sugar_eu_monthly": {
+      "sectorId": "agriculture",
+      "subsectorId": "soft_commodities",
+      "displayLabel": "Sugar EU",
+      "shortLabel": "Sugar EU",
+      "visualFamily": "sugar",
+      "cardOrder": 2,
+      "supports_related_headlines": true
+    },
+    "sugar_us_monthly": {
+      "sectorId": "agriculture",
+      "subsectorId": "soft_commodities",
+      "displayLabel": "Sugar US",
+      "shortLabel": "Sugar US",
+      "visualFamily": "sugar",
+      "cardOrder": 3,
+      "supports_related_headlines": true
+    },
+    "coffee_arabica_monthly_proxy": {
+      "sectorId": "agriculture",
+      "subsectorId": "soft_commodities",
+      "displayLabel": "Coffee Arabica",
+      "shortLabel": "Arabica",
+      "visualFamily": "coffee",
+      "cardOrder": 4,
+      "supports_related_headlines": true
+    },
+    "coffee_robusta_monthly_proxy": {
+      "sectorId": "agriculture",
+      "subsectorId": "soft_commodities",
+      "displayLabel": "Coffee Robusta",
+      "shortLabel": "Robusta",
+      "visualFamily": "coffee",
+      "cardOrder": 5,
+      "supports_related_headlines": true
+    },
+    "cocoa_monthly_proxy": {
+      "sectorId": "agriculture",
+      "subsectorId": "soft_commodities",
+      "displayLabel": "Cocoa",
+      "shortLabel": "Cocoa",
+      "visualFamily": "cocoa",
+      "cardOrder": 3,
+      "supports_related_headlines": true
+    },
+    "cotton_monthly_proxy": {
+      "sectorId": "agriculture",
+      "subsectorId": "soft_commodities",
+      "displayLabel": "Cotton",
+      "shortLabel": "Cotton",
+      "visualFamily": "cotton",
+      "cardOrder": 4,
+      "supports_related_headlines": true
+    },
+    "bananas_europe_monthly": {
+      "sectorId": "agriculture",
+      "subsectorId": "tropical_and_fruit_commodities",
+      "displayLabel": "Bananas Europe",
+      "shortLabel": "Bananas Europe",
+      "visualFamily": "bananas",
+      "cardOrder": 1,
+      "supports_related_headlines": true
+    },
+    "bananas_us_monthly": {
+      "sectorId": "agriculture",
+      "subsectorId": "tropical_and_fruit_commodities",
+      "displayLabel": "Bananas US",
+      "shortLabel": "Bananas US",
+      "visualFamily": "bananas",
+      "cardOrder": 2,
+      "supports_related_headlines": true
+    },
+    "orange_monthly": {
+      "sectorId": "agriculture",
+      "subsectorId": "tropical_and_fruit_commodities",
+      "displayLabel": "Orange",
+      "shortLabel": "Orange",
+      "visualFamily": "citrus",
+      "cardOrder": 2,
+      "supports_related_headlines": true
+    },
+    "rubber_rss3_monthly": {
+      "sectorId": "agriculture",
+      "subsectorId": "industrial_agriculture_materials",
+      "displayLabel": "Rubber RSS3",
+      "shortLabel": "Rubber RSS3",
+      "visualFamily": "rubber",
+      "cardOrder": 1,
+      "supports_related_headlines": true
+    },
+    "rubber_tsr20_monthly": {
+      "sectorId": "agriculture",
+      "subsectorId": "industrial_agriculture_materials",
+      "displayLabel": "Rubber TSR20",
+      "shortLabel": "Rubber TSR20",
+      "visualFamily": "rubber",
+      "cardOrder": 2,
+      "supports_related_headlines": true
+    },
+    "phosphate_rock_monthly": {
+      "sectorId": "fertilizers_and_agricultural_chemicals",
+      "subsectorId": "phosphate_chain",
+      "displayLabel": "Phosphate rock",
+      "shortLabel": "Phosphate rock",
+      "visualFamily": "phosphate",
+      "cardOrder": 1,
+      "supports_related_headlines": true
+    },
+    "dap_monthly": {
+      "sectorId": "fertilizers_and_agricultural_chemicals",
+      "subsectorId": "phosphate_chain",
+      "displayLabel": "DAP",
+      "shortLabel": "DAP",
+      "visualFamily": "phosphate",
+      "cardOrder": 2,
+      "supports_related_headlines": true
+    },
+    "tsp_monthly": {
+      "sectorId": "fertilizers_and_agricultural_chemicals",
+      "subsectorId": "phosphate_chain",
+      "displayLabel": "TSP",
+      "shortLabel": "TSP",
+      "visualFamily": "phosphate",
+      "cardOrder": 3,
+      "supports_related_headlines": true
+    },
+    "urea_monthly": {
+      "sectorId": "fertilizers_and_agricultural_chemicals",
+      "subsectorId": "nitrogen",
+      "displayLabel": "Urea",
+      "shortLabel": "Urea",
+      "visualFamily": "fertilizer",
+      "cardOrder": 1,
+      "supports_related_headlines": true
+    },
+    "potassium_chloride_monthly": {
+      "sectorId": "fertilizers_and_agricultural_chemicals",
+      "subsectorId": "potash",
+      "displayLabel": "Potassium chloride",
+      "shortLabel": "Potassium chloride",
+      "visualFamily": "potash",
+      "cardOrder": 1,
+      "supports_related_headlines": true
+    },
+    "beef_monthly": {
+      "sectorId": "livestock_dairy_and_seafood",
+      "subsectorId": "meat_and_livestock",
+      "displayLabel": "Beef",
+      "shortLabel": "Beef",
+      "visualFamily": "livestock",
+      "cardOrder": 1,
+      "supports_related_headlines": true
+    },
+    "poultry_monthly": {
+      "sectorId": "livestock_dairy_and_seafood",
+      "subsectorId": "meat_and_livestock",
+      "displayLabel": "Poultry",
+      "shortLabel": "Poultry",
+      "visualFamily": "livestock",
+      "cardOrder": 2,
+      "supports_related_headlines": true
+    },
+    "lamb_monthly": {
+      "sectorId": "livestock_dairy_and_seafood",
+      "subsectorId": "meat_and_livestock",
+      "displayLabel": "Lamb",
+      "shortLabel": "Lamb",
+      "visualFamily": "livestock",
+      "cardOrder": 3,
+      "supports_related_headlines": true
+    },
+    "swine_monthly": {
+      "sectorId": "livestock_dairy_and_seafood",
+      "subsectorId": "meat_and_livestock",
+      "displayLabel": "Swine",
+      "shortLabel": "Swine",
+      "visualFamily": "livestock",
+      "cardOrder": 4,
+      "supports_related_headlines": true
+    },
+    "shrimp_monthly": {
+      "sectorId": "livestock_dairy_and_seafood",
+      "subsectorId": "seafood_and_aquaculture",
+      "displayLabel": "Shrimp",
+      "shortLabel": "Shrimp",
+      "visualFamily": "seafood",
+      "cardOrder": 1,
+      "supports_related_headlines": true
+    },
+    "salmon_monthly": {
+      "sectorId": "livestock_dairy_and_seafood",
+      "subsectorId": "seafood_and_aquaculture",
+      "displayLabel": "Salmon",
+      "shortLabel": "Salmon",
+      "visualFamily": "seafood",
+      "cardOrder": 2,
+      "supports_related_headlines": true
+    },
+    "fish_meal_monthly": {
+      "sectorId": "livestock_dairy_and_seafood",
+      "subsectorId": "feed_inputs",
+      "displayLabel": "Fish meal",
+      "shortLabel": "Fish meal",
+      "visualFamily": "feed",
+      "cardOrder": 1,
+      "supports_related_headlines": true
+    },
+    "lumber_monthly_ppi_proxy": {
+      "sectorId": "forest_and_wood_products",
+      "subsectorId": "wood_products",
+      "displayLabel": "Lumber",
+      "shortLabel": "Lumber",
+      "visualFamily": "wood",
+      "cardOrder": 1,
+      "supports_related_headlines": true
+    }
   },
   "grouped_cards": {
-    "crude_benchmarks": [
-      "crude_oil_brent",
-      "crude_oil_wti",
-      "crude_oil_dubai"
-    ],
-    "natural_gas_benchmarks": [
-      "natural_gas_henry_hub",
-      "natural_gas_ttf"
-    ],
-    "coffee_benchmarks": [
-      "coffee_arabica_monthly_proxy",
-      "coffee_robusta_monthly_proxy"
-    ]
+    "crude_benchmarks": {
+      "sectorId": "energy",
+      "subsectorId": "crude_oil_benchmarks",
+      "displayLabel": "Crude oil benchmarks",
+      "shortLabel": "Crude oil",
+      "visualFamily": "oil",
+      "cardOrder": 1,
+      "defaultSeriesKey": "crude_oil_brent",
+      "seriesKeys": [
+        "crude_oil_brent",
+        "crude_oil_wti",
+        "crude_oil_dubai"
+      ]
+    },
+    "natural_gas_benchmarks": {
+      "sectorId": "energy",
+      "subsectorId": "natural_gas_and_lng",
+      "displayLabel": "Natural gas benchmarks",
+      "shortLabel": "Natural gas",
+      "visualFamily": "naturalGas",
+      "cardOrder": 1,
+      "defaultSeriesKey": "natural_gas_henry_hub",
+      "seriesKeys": [
+        "natural_gas_henry_hub",
+        "natural_gas_ttf"
+      ]
+    },
+    "gasoline_benchmarks": {
+      "sectorId": "energy",
+      "subsectorId": "refined_products_and_fuels",
+      "displayLabel": "Gasoline benchmarks",
+      "shortLabel": "Gasoline",
+      "visualFamily": "gasoline",
+      "cardOrder": 1,
+      "defaultSeriesKey": "rbob_gasoline_spot_proxy",
+      "seriesKeys": [
+        "rbob_gasoline_spot_proxy",
+        "gasoline_regular_usgc_daily",
+        "gasoline_regular_nyh_daily"
+      ]
+    },
+    "diesel_benchmarks": {
+      "sectorId": "energy",
+      "subsectorId": "refined_products_and_fuels",
+      "displayLabel": "Diesel benchmarks",
+      "shortLabel": "Diesel",
+      "visualFamily": "diesel",
+      "cardOrder": 2,
+      "defaultSeriesKey": "ulsd_usgc_daily",
+      "seriesKeys": [
+        "ulsd_usgc_daily",
+        "ulsd_nyh_daily"
+      ]
+    },
+    "coal_benchmarks": {
+      "sectorId": "energy",
+      "subsectorId": "coal",
+      "displayLabel": "Coal benchmarks",
+      "shortLabel": "Coal",
+      "visualFamily": "thermalCoal",
+      "cardOrder": 1,
+      "defaultSeriesKey": "thermal_coal_newcastle",
+      "seriesKeys": [
+        "thermal_coal_newcastle",
+        "coal_south_africa_monthly"
+      ]
+    },
+    "wheat_benchmarks": {
+      "sectorId": "agriculture",
+      "subsectorId": "grains_and_cereals",
+      "displayLabel": "Wheat benchmarks",
+      "shortLabel": "Wheat",
+      "visualFamily": "wheat",
+      "cardOrder": 1,
+      "defaultSeriesKey": "wheat_global_monthly_proxy",
+      "seriesKeys": [
+        "wheat_global_monthly_proxy",
+        "wheat_us_srw_monthly"
+      ]
+    },
+    "rice_benchmarks": {
+      "sectorId": "agriculture",
+      "subsectorId": "rice",
+      "displayLabel": "Rice benchmarks",
+      "shortLabel": "Rice",
+      "visualFamily": "rice",
+      "cardOrder": 1,
+      "defaultSeriesKey": "rice_thai_5pct_monthly",
+      "seriesKeys": [
+        "rice_thai_5pct_monthly",
+        "rice_thai_25pct_monthly",
+        "rice_thai_a1_monthly",
+        "rice_vietnam_5pct_monthly"
+      ]
+    },
+    "sugar_benchmarks": {
+      "sectorId": "agriculture",
+      "subsectorId": "soft_commodities",
+      "displayLabel": "Sugar benchmarks",
+      "shortLabel": "Sugar",
+      "visualFamily": "sugar",
+      "cardOrder": 1,
+      "defaultSeriesKey": "sugar_no11_world_monthly_proxy",
+      "seriesKeys": [
+        "sugar_no11_world_monthly_proxy",
+        "sugar_eu_monthly",
+        "sugar_us_monthly"
+      ]
+    },
+    "coffee_benchmarks": {
+      "sectorId": "agriculture",
+      "subsectorId": "soft_commodities",
+      "displayLabel": "Coffee benchmarks",
+      "shortLabel": "Coffee",
+      "visualFamily": "coffee",
+      "cardOrder": 2,
+      "defaultSeriesKey": "coffee_arabica_monthly_proxy",
+      "seriesKeys": [
+        "coffee_arabica_monthly_proxy",
+        "coffee_robusta_monthly_proxy"
+      ]
+    },
+    "banana_benchmarks": {
+      "sectorId": "agriculture",
+      "subsectorId": "tropical_and_fruit_commodities",
+      "displayLabel": "Banana benchmarks",
+      "shortLabel": "Bananas",
+      "visualFamily": "bananas",
+      "cardOrder": 1,
+      "defaultSeriesKey": "bananas_europe_monthly",
+      "seriesKeys": [
+        "bananas_europe_monthly",
+        "bananas_us_monthly"
+      ]
+    },
+    "rubber_benchmarks": {
+      "sectorId": "agriculture",
+      "subsectorId": "industrial_agriculture_materials",
+      "displayLabel": "Rubber benchmarks",
+      "shortLabel": "Rubber",
+      "visualFamily": "rubber",
+      "cardOrder": 1,
+      "defaultSeriesKey": "rubber_rss3_monthly",
+      "seriesKeys": [
+        "rubber_rss3_monthly",
+        "rubber_tsr20_monthly"
+      ]
+    }
   }
 }

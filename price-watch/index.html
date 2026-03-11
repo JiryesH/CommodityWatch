@@ -9,6 +9,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../shared/site-shell.css" />
+    <link rel="stylesheet" href="../shared/filter-bar.css" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -61,10 +62,17 @@
     </nav>
 
     <div class="filter-wrap">
-      <div class="filter-bar" role="toolbar" aria-label="Commodity group filter">
-        <button class="filter-pill is-selected" type="button" data-group="energy" aria-pressed="true">Energy</button>
-        <button class="filter-pill is-selected" type="button" data-group="metals" aria-pressed="true">Metals</button>
-        <button class="filter-pill is-selected" type="button" data-group="agri" aria-pressed="true">Agriculture</button>
+      <div class="filter-bar" role="toolbar" aria-label="Commodity sector filter">
+        <button class="filter-pill is-selected" id="sector-reset" type="button" aria-pressed="true">All sectors</button>
+      <div class="filter-divider" aria-hidden="true"></div>
+      <div class="sector-pill-row" id="sector-pills"></div>
+      </div>
+      <div class="filter-layer" id="subsector-layer" aria-hidden="true" hidden>
+        <div class="filter-subsector-groups" id="subsector-groups"></div>
+        <button class="filter-layer-clear" id="subsector-clear" type="button" hidden>clear</button>
+      </div>
+      <div class="subsector-hint" id="subsector-hint">
+        <span class="subsector-hint-text">Select a sector to refine by subsector</span>
       </div>
     </div>
 
@@ -82,17 +90,7 @@
         <p class="catalog-empty-copy" id="catalog-empty-copy"></p>
       </section>
 
-      <section class="viz-grid-featured" id="featured-grid" aria-label="Energy visual cards"></section>
-
-      <section class="metals-section" aria-label="Periodic metal visual cards">
-        <div class="section-head">Periodic Metals</div>
-        <div class="metals-row" id="metals-grid"></div>
-      </section>
-
-      <section class="agri-section" aria-label="Agriculture and soft commodities visual cards">
-        <div class="section-head">Agriculture &amp; Softs</div>
-        <div class="agri-row" id="agri-grid"></div>
-      </section>
+      <section class="catalog-root" id="catalog-root" aria-label="Commodity price catalog"></section>
     </main>
 
     <div class="detail-overlay" id="detail-overlay" hidden>
@@ -128,6 +126,7 @@
       Top
     </button>
 
+    <script src="../shared/filter-shell.js"></script>
     <script type="module" src="app.js"></script>
   </body>
 </html>

@@ -10,7 +10,7 @@ const contract = JSON.parse(fs.readFileSync(contractPath, "utf8"));
 function buildSeriesRows() {
   return Object.keys(contract.series).map((seriesKey, index) => ({
     series_key: seriesKey,
-    target_concept: seriesKey.replaceAll("_", " "),
+    target_concept: contract.series[seriesKey].displayLabel,
     actual_series_name: `Series ${index + 1}`,
     match_type: "exact",
     source_name: "Fixture",
@@ -43,14 +43,14 @@ function buildLatestRows() {
   }));
 }
 
-test("commodity presentation matches the shared series contract", () => {
+test("commodity presentation matches the shared taxonomy contract", () => {
   const definitions = buildCommodityDefinitions(buildSeriesRows(), buildLatestRows());
   const definitionBySeriesKey = new Map();
 
   definitions.forEach((definition) => {
-    definition.seriesOptions.forEach((option) => {
-      assert.equal(definitionBySeriesKey.has(option.seriesKey), false);
-      definitionBySeriesKey.set(option.seriesKey, definition);
+    definition.seriesOptions.forEach((seriesOption) => {
+      assert.equal(definitionBySeriesKey.has(seriesOption.seriesKey), false);
+      definitionBySeriesKey.set(seriesOption.seriesKey, definition);
     });
   });
 
@@ -59,15 +59,18 @@ test("commodity presentation matches the shared series contract", () => {
   Object.entries(contract.series).forEach(([seriesKey, metadata]) => {
     const definition = definitionBySeriesKey.get(seriesKey);
     assert.ok(definition, `Missing definition for ${seriesKey}`);
-    assert.equal(definition.group, metadata.group);
+    assert.equal(definition.sectorId, metadata.sectorId);
+    assert.equal(definition.subsectorId, metadata.subsectorId);
   });
 
-  Object.entries(contract.grouped_cards).forEach(([cardId, expectedSeriesKeys]) => {
+  Object.entries(contract.grouped_cards).forEach(([cardId, groupedCard]) => {
     const definition = definitions.find((entry) => entry.id === cardId);
     assert.ok(definition, `Missing grouped card ${cardId}`);
+    assert.equal(definition.sectorId, groupedCard.sectorId);
+    assert.equal(definition.subsectorId, groupedCard.subsectorId);
     assert.deepEqual(
-      definition.seriesOptions.map((option) => option.seriesKey),
-      expectedSeriesKeys
+      definition.seriesOptions.map((seriesOption) => seriesOption.seriesKey),
+      groupedCard.seriesKeys
     );
   });
 });

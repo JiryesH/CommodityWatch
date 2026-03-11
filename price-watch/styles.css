@@ -132,75 +132,10 @@ body {
   pointer-events: auto;
 }
 
-.nav-search-toggle:focus-visible,
-.filter-pill:focus-visible {
+.nav-search-toggle:focus-visible {
   outline: 2px solid rgba(255, 255, 255, 0.72);
   outline-offset: 2px;
   border-radius: 4px;
-}
-
-.filter-wrap {
-  position: sticky;
-  top: var(--nav-height);
-  z-index: 100;
-  background: var(--color-bg);
-  border-bottom: 1px solid var(--color-border);
-}
-
-.filter-bar {
-  height: var(--filter-height);
-  padding: 0 24px;
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-
-.filter-bar::-webkit-scrollbar {
-  display: none;
-}
-
-.filter-pill {
-  font-family: "IBM Plex Sans", sans-serif;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--color-subtext);
-  appearance: none;
-  background: none;
-  border: 0;
-  white-space: nowrap;
-  border-bottom: 2px solid transparent;
-  padding: 9px 2px 8px;
-  opacity: 0.58;
-  cursor: pointer;
-  transition: opacity 180ms ease, border-color 180ms ease;
-}
-
-.filter-pill:hover {
-  color: var(--color-primary);
-}
-
-.filter-pill[data-group="energy"] {
-  color: var(--color-energy);
-}
-
-.filter-pill[data-group="metals"] {
-  color: var(--color-metals);
-}
-
-.filter-pill[data-group="agri"] {
-  color: var(--color-agri);
-}
-
-.filter-pill.is-selected {
-  opacity: 1;
-  border-bottom-color: currentColor;
-}
-
-.filter-pill:focus-visible {
-  outline: 2px solid rgba(15, 25, 35, 0.22);
-  outline-offset: 2px;
 }
 
 .headline-search {
@@ -343,37 +278,37 @@ body.detail-open .to-top-btn {
   color: var(--color-subtext);
 }
 
-/* Card grids */
-.viz-grid-featured {
+/* Catalog */
+.catalog-root {
   display: grid;
-  grid-template-columns: repeat(4, minmax(180px, 1fr));
-  gap: 12px;
+  gap: 4px;
 }
 
-.metals-section,
-.agri-section {
-  margin-top: 12px;
+.catalog-sector + .catalog-sector {
+  margin-top: 22px;
 }
 
-.section-head {
-  margin: 0 0 8px;
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--color-subtext);
+.catalog-sector-head {
+  margin: 0 0 12px;
+  padding-top: 2px;
+  border-top: 1px solid rgba(15, 25, 35, 0.08);
 }
 
-.metals-row {
+.catalog-sector-kicker {
+  margin: 0;
+  padding-top: 10px;
+  font-family: "IBM Plex Serif", serif;
+  font-size: 21px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--color-primary);
+}
+
+.catalog-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(180px, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 12px;
-}
-
-.agri-row {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(180px, 1fr));
-  gap: 12px;
+  grid-auto-flow: row dense;
 }
 
 .viz-card {
@@ -400,7 +335,7 @@ body.detail-open .to-top-btn {
 }
 
 .viz-card.metal-tile-card,
-.viz-card.agri-tile-card {
+.viz-card.market-tile-card {
   min-height: 390px;
 }
 
@@ -429,6 +364,22 @@ body.detail-open .to-top-btn {
 
 .feed-cat-dot.agri {
   background: var(--color-agri);
+}
+
+.feed-cat-dot.agriculture {
+  background: var(--color-agri);
+}
+
+.feed-cat-dot.fertilizers {
+  background: #c47b3a;
+}
+
+.feed-cat-dot.livestock {
+  background: #3d7f8d;
+}
+
+.feed-cat-dot.forest {
+  background: #8a5b3d;
 }
 
 .feed-cat-label {
@@ -867,19 +818,19 @@ body.detail-open .to-top-btn {
   animation: tileShimmer 1.2s cubic-bezier(0.19, 0.72, 0.24, 1) both;
 }
 
-/* Agriculture code tiles */
-.agri-tile-scene {
+/* Market tiles */
+.market-tile-scene {
   height: 290px;
   display: grid;
   place-items: center;
   margin-top: 4px;
 }
 
-.agri-tile {
-  --agri-ink: rgba(15, 25, 35, 0.9);
-  --agri-ink-soft: rgba(15, 25, 35, 0.74);
-  --agri-chip-bg: rgba(255, 255, 255, 0.44);
-  --agri-chip-border: rgba(15, 25, 35, 0.2);
+.market-tile {
+  --market-ink: rgba(15, 25, 35, 0.9);
+  --market-ink-soft: rgba(15, 25, 35, 0.74);
+  --market-chip-bg: rgba(255, 255, 255, 0.44);
+  --market-chip-border: rgba(15, 25, 35, 0.2);
   position: relative;
   width: min(94%, 210px);
   aspect-ratio: 1 / 1;
@@ -887,12 +838,15 @@ body.detail-open .to-top-btn {
   border: 1px solid rgba(15, 25, 35, 0.34);
   overflow: hidden;
   transition: box-shadow 240ms ease;
+  background:
+    radial-gradient(circle at 18% 14%, rgba(255, 255, 255, 0.34), transparent 43%),
+    linear-gradient(180deg, var(--market-top), var(--market-mid) 62%, var(--market-bottom));
   box-shadow:
     0 10px 16px rgba(32, 40, 50, 0.13),
     inset 0 1px 0 rgba(255, 255, 255, 0.42);
 }
 
-.agri-tile::before {
+.market-tile::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -903,90 +857,22 @@ body.detail-open .to-top-btn {
   z-index: 0;
 }
 
-.agri-tile.wheat {
-  --agri-chip-bg: rgba(248, 235, 198, 0.5);
-  background:
-    radial-gradient(circle at 18% 14%, rgba(255, 238, 184, 0.6), transparent 43%),
-    linear-gradient(180deg, #efd788, #cb9e3f 62%, #9f7524);
+.market-tile.wood,
+.market-tile.coffee,
+.market-tile.cocoa,
+.market-tile.livestock,
+.market-tile.phosphate {
+  --market-ink: rgba(31, 19, 12, 0.92);
+  --market-ink-soft: rgba(31, 19, 12, 0.74);
 }
 
-.agri-tile.corn {
-  --agri-chip-bg: rgba(251, 240, 189, 0.5);
-  background:
-    radial-gradient(circle at 18% 14%, rgba(255, 241, 176, 0.6), transparent 43%),
-    linear-gradient(180deg, #f0d36d, #c9962e 62%, #8f651b);
+.market-tile.rubber,
+.market-tile.seafood,
+.market-tile.phosphate {
+  --market-chip-bg: rgba(241, 246, 251, 0.48);
 }
 
-.agri-tile.soybeans {
-  --agri-chip-bg: rgba(233, 242, 210, 0.5);
-  background:
-    radial-gradient(circle at 18% 14%, rgba(224, 237, 178, 0.58), transparent 43%),
-    linear-gradient(180deg, #c8d69a, #92a163 62%, #617440);
-}
-
-.agri-tile.soybeanOil {
-  --agri-chip-bg: rgba(244, 236, 201, 0.54);
-  background:
-    radial-gradient(circle at 18% 14%, rgba(255, 242, 188, 0.62), transparent 43%),
-    linear-gradient(180deg, #e8d18b, #be993d 62%, #8f6f22);
-}
-
-.agri-tile.palmOil {
-  --agri-chip-bg: rgba(249, 230, 195, 0.52);
-  background:
-    radial-gradient(circle at 18% 14%, rgba(246, 216, 165, 0.58), transparent 43%),
-    linear-gradient(180deg, #ddb37d, #b9793d 62%, #7d4c25);
-}
-
-.agri-tile.rice {
-  --agri-chip-bg: rgba(248, 246, 236, 0.56);
-  background:
-    radial-gradient(circle at 18% 14%, rgba(252, 251, 241, 0.64), transparent 43%),
-    linear-gradient(180deg, #e2dbc8, #b9ab86 62%, #81724f);
-}
-
-.agri-tile.lumber {
-  --agri-chip-bg: rgba(242, 219, 194, 0.48);
-  --agri-ink: rgba(34, 20, 11, 0.92);
-  --agri-ink-soft: rgba(34, 20, 11, 0.76);
-  background:
-    radial-gradient(circle at 18% 14%, rgba(229, 190, 151, 0.56), transparent 43%),
-    linear-gradient(180deg, #c78a58, #90562e 62%, #5b341a);
-}
-
-.agri-tile.coffee {
-  --agri-chip-bg: rgba(244, 221, 194, 0.44);
-  --agri-ink: rgba(29, 18, 13, 0.92);
-  --agri-ink-soft: rgba(29, 18, 13, 0.74);
-  background:
-    radial-gradient(circle at 18% 14%, rgba(236, 202, 165, 0.56), transparent 43%),
-    linear-gradient(180deg, #d9af84, #a76d42 62%, #633d27);
-}
-
-.agri-tile.sugar {
-  --agri-chip-bg: rgba(244, 250, 255, 0.62);
-  background:
-    radial-gradient(circle at 18% 14%, rgba(243, 249, 255, 0.68), transparent 43%),
-    linear-gradient(180deg, #dbe4ef, #aebccc 62%, #75879d);
-}
-
-.agri-tile.cotton {
-  --agri-chip-bg: rgba(248, 246, 241, 0.62);
-  background:
-    radial-gradient(circle at 18% 14%, rgba(248, 247, 244, 0.66), transparent 43%),
-    linear-gradient(180deg, #e3dfd7, #bbb5aa 62%, #827b74);
-}
-
-.agri-tile.cocoa {
-  --agri-chip-bg: rgba(244, 216, 193, 0.42);
-  --agri-ink: rgba(31, 18, 12, 0.92);
-  --agri-ink-soft: rgba(31, 18, 12, 0.74);
-  background:
-    radial-gradient(circle at 18% 14%, rgba(238, 192, 154, 0.56), transparent 43%),
-    linear-gradient(180deg, #d49d6f, #a6683d 62%, #663c27);
-}
-
-.agri-tile-meta {
+.market-tile-meta {
   position: absolute;
   left: 12px;
   right: 12px;
@@ -997,33 +883,33 @@ body.detail-open .to-top-btn {
   font-family: "IBM Plex Mono", monospace;
   font-size: 10px;
   letter-spacing: 0.07em;
-  color: var(--agri-ink-soft);
+  color: var(--market-ink-soft);
   z-index: 2;
 }
 
-.agri-venue,
-.agri-ticker {
+.market-venue,
+.market-ticker {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   min-width: 38px;
   padding: 2px 6px;
   border-radius: 999px;
-  border: 1px solid var(--agri-chip-border);
-  background: var(--agri-chip-bg);
+  border: 1px solid var(--market-chip-border);
+  background: var(--market-chip-bg);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.34);
 }
 
-.agri-venue {
+.market-venue {
   font-size: 9px;
 }
 
-.agri-ticker {
+.market-ticker {
   font-size: 10px;
   font-weight: 400;
 }
 
-.agri-code {
+.market-code {
   position: absolute;
   left: 0;
   right: 0;
@@ -1033,13 +919,13 @@ body.detail-open .to-top-btn {
   font-size: clamp(34px, 5vw, 46px);
   line-height: 1;
   letter-spacing: 0.025em;
-  color: var(--agri-ink);
+  color: var(--market-ink);
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.28);
   transform: translateY(-50%);
   z-index: 2;
 }
 
-.agri-name {
+.market-name {
   position: absolute;
   left: 0;
   right: 0;
@@ -1049,7 +935,7 @@ body.detail-open .to-top-btn {
   font-size: 11px;
   letter-spacing: 0.09em;
   text-transform: uppercase;
-  color: var(--agri-ink-soft);
+  color: var(--market-ink-soft);
   z-index: 2;
 }
 
@@ -1694,22 +1580,14 @@ body.detail-open {
 
 /* Responsive */
 @media (max-width: 980px) {
-  .viz-grid-featured {
+  .catalog-grid {
     grid-template-columns: repeat(2, minmax(150px, 1fr));
   }
 
-  .metals-row {
-    grid-template-columns: repeat(2, minmax(150px, 1fr));
-  }
-
-  .agri-row {
-    grid-template-columns: repeat(2, minmax(150px, 1fr));
-  }
 }
 
 @media (max-width: 760px) {
-  .nav,
-  .filter-bar {
+  .nav {
     padding: 0 16px;
   }
 
@@ -1718,9 +1596,7 @@ body.detail-open {
     padding-top: 22px;
   }
 
-  .viz-grid-featured,
-  .metals-row,
-  .agri-row {
+  .catalog-grid {
     grid-template-columns: repeat(2, minmax(150px, 1fr));
   }
 
@@ -1776,9 +1652,7 @@ body.detail-open {
     width: calc(100vw - 32px);
   }
 
-  .viz-grid-featured,
-  .metals-row,
-  .agri-row {
+  .catalog-grid {
     grid-template-columns: 1fr;
   }
 

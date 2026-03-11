@@ -1,0 +1,306 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   shared/filter-bar.css
+   Unified filter bar component used by HeadlineWatch and PriceWatch.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ── FILTER WRAP (sticky bar below nav) ── */
+.filter-wrap {
+  position: sticky;
+  top: var(--nav-height);
+  z-index: 100;
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* ── FILTER BAR (horizontal pill row) ── */
+.filter-bar {
+  min-height: var(--filter-height);
+  padding: 0 28px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.filter-bar::-webkit-scrollbar {
+  display: none;
+}
+
+/* ── SECTOR PILL ── */
+.filter-pill {
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--color-subtext);
+  appearance: none;
+  background: none;
+  border: 0;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  padding: 11px 2px 10px;
+  opacity: 0.68;
+  cursor: pointer;
+  transition: opacity 180ms ease, color 180ms ease, border-color 180ms ease;
+  user-select: none;
+  line-height: 1;
+}
+
+.filter-pill:hover {
+  color: var(--color-primary);
+}
+
+/* "All" / "All sectors" reset pill */
+.filter-pill#sector-reset,
+.filter-pill[data-sector="ALL"] {
+  color: var(--color-primary);
+}
+
+/* Sector-colored text */
+.filter-pill[data-sector="energy"],
+.filter-pill[data-sector="chemicals"] {
+  color: var(--color-energy);
+}
+
+.filter-pill[data-sector="metals_and_mining"] {
+  color: var(--color-metals);
+}
+
+.filter-pill[data-sector="agriculture"],
+.filter-pill[data-sector="fertilizers"] {
+  color: var(--color-agri);
+}
+
+.filter-pill[data-sector="shipping"] {
+  color: var(--color-subtext);
+}
+
+.filter-pill[data-sector="fertilizers_and_agricultural_chemicals"] {
+  color: #c47b3a;
+}
+
+.filter-pill[data-sector="livestock_dairy_and_seafood"] {
+  color: #3d7f8d;
+}
+
+.filter-pill[data-sector="forest_and_wood_products"] {
+  color: #8a5b3d;
+}
+
+/* Selected / active state */
+.filter-pill.is-selected {
+  opacity: 1;
+  border-bottom-color: currentColor;
+}
+
+/* Partial state (some subsectors selected) */
+.filter-pill.is-partial {
+  opacity: 0.82;
+  border-bottom-color: currentColor;
+  border-bottom-style: dashed;
+}
+
+.filter-pill:focus-visible {
+  outline: 2px solid rgba(15, 25, 35, 0.22);
+  outline-offset: 2px;
+}
+
+/* ── SECTOR PILL ROW (dynamic pills container) ── */
+.sector-pill-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 24px;
+  min-width: max-content;
+  padding-right: 6px;
+}
+
+/* ── DIVIDER ── */
+.filter-divider {
+  width: 1px;
+  height: 22px;
+  background: var(--color-border);
+  flex-shrink: 0;
+  margin: 0 4px;
+}
+
+/* ── FILTER LAYER (expand/collapse subsector panel) ── */
+.filter-layer {
+  padding: 0 28px;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transform: translateY(-4px);
+  transition:
+    max-height 220ms ease,
+    opacity 180ms ease,
+    transform 180ms ease,
+    padding 220ms ease;
+  border-top: 1px solid transparent;
+}
+
+.filter-layer.open {
+  max-height: 440px;
+  opacity: 1;
+  transform: translateY(0);
+  padding: 14px 28px 18px;
+  border-top-color: var(--color-border);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0)),
+    var(--color-bg);
+}
+
+/* ── SUBSECTOR CHIP ROW ── */
+.filter-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+/* ── SUBSECTOR CHIP ── */
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  border: 1px solid rgba(15, 25, 35, 0.12);
+  background: rgba(255, 255, 255, 0.86);
+  color: var(--color-primary);
+  border-radius: 7px;
+  padding: 8px 10px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    color 150ms ease,
+    background 150ms ease,
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.filter-chip:hover {
+  color: var(--color-primary);
+  border-color: rgba(15, 25, 35, 0.24);
+  box-shadow: 0 2px 8px rgba(15, 25, 35, 0.05);
+}
+
+.filter-chip:focus-visible {
+  outline: 2px solid rgba(15, 25, 35, 0.22);
+  outline-offset: 2px;
+}
+
+/* Count badge */
+.filter-chip-count {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--color-subtext);
+}
+
+/* Label inside chip */
+.filter-chip-label {
+  line-height: 1.2;
+}
+
+/* Selected state — uses --sector-accent for sector-colored highlight */
+.filter-chip.is-selected {
+  color: var(--color-primary);
+  border-color: color-mix(in srgb, var(--sector-accent, var(--color-amber)) 42%, transparent);
+  background: color-mix(in srgb, var(--sector-accent, var(--color-amber)) 12%, transparent);
+}
+
+/* ── SUBSECTOR GROUP (PriceWatch multi-column layout) ── */
+.filter-subsector-groups {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px 22px;
+}
+
+.filter-subsector-group {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+}
+
+.filter-subsector-group-label {
+  margin: 0;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-subtext);
+}
+
+/* ── CLEAR LINK ── */
+.filter-layer-clear {
+  appearance: none;
+  border: 0;
+  background: none;
+  padding: 2px 4px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--color-subtext);
+  cursor: pointer;
+  white-space: nowrap;
+  margin-left: auto;
+  transition: color 150ms ease;
+}
+
+.filter-layer-clear:hover {
+  color: var(--color-primary);
+}
+
+.filter-layer-clear[hidden] {
+  display: none;
+}
+
+/* ── SUBSECTOR HINT (shown in "All sectors" state) ── */
+.subsector-hint {
+  padding: 0 28px;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 220ms ease, opacity 180ms ease, padding 220ms ease;
+}
+
+.subsector-hint.open {
+  max-height: 36px;
+  opacity: 1;
+  padding: 8px 28px 10px;
+  border-top: 1px solid var(--color-border);
+}
+
+.subsector-hint-text {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.03em;
+  color: var(--color-subtext);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+  .filter-bar {
+    gap: 12px;
+    padding: 0 16px;
+  }
+
+  .filter-layer.open {
+    padding: 10px 16px 14px;
+  }
+
+  .subsector-hint.open {
+    padding: 8px 16px 10px;
+  }
+
+  .filter-divider {
+    margin: 0 2px;
+  }
+
+  .sector-pill-row {
+    gap: 16px;
+  }
+}

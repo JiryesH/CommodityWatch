@@ -3,14 +3,13 @@ import assert from "node:assert/strict";
 
 import { buildCommodityDefinitions } from "../commodity-presentation.js";
 
-test("buildCommodityDefinitions keeps published series metadata while shortening outer card labels", () => {
+test("buildCommodityDefinitions exposes taxonomy placement and grouped card metadata", () => {
   const definitions = buildCommodityDefinitions(
     [
       {
         series_key: "lng_asia_japan_import_proxy",
         target_concept: "JKM LNG",
         actual_series_name: "Global price of LNG, Asia",
-        benchmark_series: "JKM LNG",
         match_type: "related",
         source_name: "FRED",
         source_series_code: "PNGASJPUSDM",
@@ -19,571 +18,304 @@ test("buildCommodityDefinitions keeps published series metadata while shortening
         unit: "USD per MMBtu",
         currency: "USD",
         geography: "Asia",
-        active: true,
-        notes: "Related published series",
         updated_at: "2026-03-08T10:30:00Z",
       },
-      {
-        series_key: "gold_worldbank_monthly",
-        target_concept: "Gold",
-        actual_series_name: "Gold",
-        benchmark_series: "Gold",
-        match_type: "exact",
-        source_name: "FRED",
-        source_series_code: "PGOLDUSDM",
-        source_url: "https://fred.example/gold",
-        frequency: "monthly",
-        unit: "USD per troy ounce",
-        currency: "USD",
-        geography: "Global",
-        active: true,
-        notes: "Exact published series",
-        updated_at: "2026-03-08T10:30:00Z",
-      },
-    ],
-    [
-      {
-        series_key: "lng_asia_japan_import_proxy",
-        target_concept: "JKM LNG",
-        actual_series_name: "Global price of LNG, Asia",
-        benchmark_series: "JKM LNG",
-        match_type: "related",
-        observation_date: "2026-02-01",
-        value: 10.435,
-        unit: "USD per MMBtu",
-        currency: "USD",
-        frequency: "monthly",
-        source_name: "FRED",
-        source_series_code: "PNGASJPUSDM",
-        source_url: "https://fred.example/lng",
-        geography: "Asia",
-        updated_at: "2026-03-08T10:30:00Z",
-        notes: "Related published series",
-        previous_value: 9.8,
-        delta_value: 0.635,
-        delta_pct: 6.48,
-      },
-      {
-        series_key: "gold_worldbank_monthly",
-        target_concept: "Gold",
-        actual_series_name: "Gold",
-        benchmark_series: "Gold",
-        match_type: "exact",
-        observation_date: "2026-02-01",
-        value: 2250.1,
-        unit: "USD per troy ounce",
-        currency: "USD",
-        frequency: "monthly",
-        source_name: "FRED",
-        source_series_code: "PGOLDUSDM",
-        source_url: "https://fred.example/gold",
-        geography: "Global",
-        updated_at: "2026-03-08T10:30:00Z",
-        notes: "Exact published series",
-        previous_value: 2210,
-        delta_value: 40.1,
-        delta_pct: 1.81,
-      },
-    ]
-  );
-
-  const lng = definitions.find((definition) => definition.id === "lng_asia_japan_import_proxy");
-  const gold = definitions.find((definition) => definition.id === "gold_worldbank_monthly");
-
-  assert.ok(lng);
-  assert.equal(lng.primaryLabel, "LNG");
-  assert.equal(lng.seriesOptions[0].actualSeriesName, "Global price of LNG, Asia");
-  assert.equal(lng.seriesOptions[0].targetConcept, "JKM LNG");
-  assert.equal(lng.seriesOptions[0].matchType, "related");
-  assert.equal(lng.group, "energy");
-
-  assert.ok(gold);
-  assert.equal(gold.primaryLabel, "Gold");
-  assert.equal(gold.seriesOptions[0].actualSeriesName, "Gold");
-  assert.equal(gold.group, "metals");
-});
-
-test("buildCommodityDefinitions groups crude benchmarks and places cobalt and lithium in metals", () => {
-  const definitions = buildCommodityDefinitions(
-    [
-      {
-        series_key: "crude_oil_brent",
-        target_concept: "Brent Crude Oil",
-        actual_series_name: "Crude Oil Prices: Brent - Europe",
-        match_type: "exact",
-        source_name: "FRED",
-        source_series_code: "POILBREUSDM",
-        source_url: "https://fred.example/brent",
-        frequency: "daily",
-        unit: "USD/barrel",
-        currency: "USD",
-        geography: "Europe",
-        updated_at: "2026-03-08T10:30:00Z",
-      },
-      {
-        series_key: "crude_oil_wti",
-        target_concept: "WTI Crude Oil",
-        actual_series_name: "Crude Oil Prices: West Texas Intermediate (WTI) - Cushing, Oklahoma",
-        match_type: "exact",
-        source_name: "FRED",
-        source_series_code: "DCOILWTICO",
-        source_url: "https://fred.example/wti",
-        frequency: "daily",
-        unit: "USD/barrel",
-        currency: "USD",
-        geography: "United States",
-        updated_at: "2026-03-08T10:30:00Z",
-      },
-      {
-        series_key: "crude_oil_dubai",
-        target_concept: "Dubai / Oman Crude Oil",
-        actual_series_name: "Global price of Dubai Crude",
-        match_type: "related",
-        source_name: "FRED",
-        source_series_code: "POILDUBUSDM",
-        source_url: "https://fred.example/dubai",
-        frequency: "monthly",
-        unit: "USD/barrel",
-        currency: "USD",
-        geography: "Middle East",
-        updated_at: "2026-03-08T10:30:00Z",
-      },
-      {
-        series_key: "cobalt_imf_monthly",
-        target_concept: "Cobalt",
-        actual_series_name: "Cobalt, minimum 99.80% purity, LME spot price",
-        match_type: "exact",
-        source_name: "IMF",
-        source_series_code: "PCOBLT",
-        source_url: "https://imf.example/cobalt",
-        frequency: "monthly",
-        unit: "USD/metric ton",
-        currency: "USD",
-        geography: "Global",
-        updated_at: "2026-03-08T10:30:00Z",
-      },
-      {
-        series_key: "lithium_metal_imf_monthly",
-        target_concept: "Lithium Metal",
-        actual_series_name: "Lithium Metal =99%, Battery Grade",
-        match_type: "exact",
-        source_name: "IMF",
-        source_series_code: "PLITH",
-        source_url: "https://imf.example/lithium",
-        frequency: "monthly",
-        unit: "USD/metric ton",
-        currency: "USD",
-        geography: "Global",
-        updated_at: "2026-03-08T10:30:00Z",
-      },
-    ],
-    [
-      {
-        series_key: "crude_oil_brent",
-        observation_date: "2026-03-06",
-        value: 71.23,
-        previous_value: 70.4,
-        delta_value: 0.83,
-        delta_pct: 1.18,
-        unit: "USD/barrel",
-        currency: "USD",
-        frequency: "daily",
-        source_name: "FRED",
-        source_series_code: "POILBREUSDM",
-        updated_at: "2026-03-08T10:30:00Z",
-      },
-      {
-        series_key: "crude_oil_wti",
-        observation_date: "2026-03-06",
-        value: 68.11,
-        previous_value: 67.2,
-        delta_value: 0.91,
-        delta_pct: 1.35,
-        unit: "USD/barrel",
-        currency: "USD",
-        frequency: "daily",
-        source_name: "FRED",
-        source_series_code: "DCOILWTICO",
-        updated_at: "2026-03-08T10:30:00Z",
-      },
-      {
-        series_key: "crude_oil_dubai",
-        observation_date: "2026-02-01",
-        value: 69.02,
-        previous_value: 68.1,
-        delta_value: 0.92,
-        delta_pct: 1.35,
-        unit: "USD/barrel",
-        currency: "USD",
-        frequency: "monthly",
-        source_name: "FRED",
-        source_series_code: "POILDUBUSDM",
-        updated_at: "2026-03-08T10:30:00Z",
-      },
-      {
-        series_key: "cobalt_imf_monthly",
-        observation_date: "2026-02-01",
-        value: 29874,
-        previous_value: 29100,
-        delta_value: 774,
-        delta_pct: 2.66,
-        unit: "USD/metric ton",
-        currency: "USD",
-        frequency: "monthly",
-        source_name: "IMF",
-        source_series_code: "PCOBLT",
-        updated_at: "2026-03-08T10:30:00Z",
-      },
-      {
-        series_key: "lithium_metal_imf_monthly",
-        observation_date: "2026-02-01",
-        value: 12000,
-        previous_value: 11800,
-        delta_value: 200,
-        delta_pct: 1.69,
-        unit: "USD/metric ton",
-        currency: "USD",
-        frequency: "monthly",
-        source_name: "IMF",
-        source_series_code: "PLITH",
-        updated_at: "2026-03-08T10:30:00Z",
-      },
-    ]
-  );
-
-  const crude = definitions.find((definition) => definition.id === "crude_benchmarks");
-  const cobalt = definitions.find((definition) => definition.id === "cobalt_imf_monthly");
-  const lithium = definitions.find((definition) => definition.id === "lithium_metal_imf_monthly");
-
-  assert.ok(crude);
-  assert.equal(crude.primaryLabel, "Crude");
-  assert.deepEqual(
-    crude.seriesOptions.map((series) => series.optionLabel),
-    ["Brent", "WTI", "Dubai"]
-  );
-  assert.equal(crude.group, "energy");
-
-  assert.ok(cobalt);
-  assert.equal(cobalt.group, "metals");
-  assert.equal(cobalt.primaryLabel, "Cobalt");
-
-  assert.ok(lithium);
-  assert.equal(lithium.group, "metals");
-  assert.equal(lithium.primaryLabel, "Lithium");
-});
-
-test("buildCommodityDefinitions groups Henry Hub and TTF into one gas card", () => {
-  const definitions = buildCommodityDefinitions(
-    [
       {
         series_key: "natural_gas_henry_hub",
         target_concept: "Henry Hub Natural Gas",
-        actual_series_name: "Natural Gas Spot Price at Henry Hub",
-        benchmark_series: "Henry Hub",
+        actual_series_name: "Henry Hub Natural Gas Spot Price",
         match_type: "exact",
         source_name: "FRED",
         source_series_code: "DHHNGSP",
-        source_url: "https://fred.example/henry-hub",
+        source_url: "https://fred.example/hh",
         frequency: "daily",
         unit: "USD per MMBtu",
         currency: "USD",
-        geography: "United States",
-        active: true,
-        notes: "Exact published series",
+        geography: "US",
         updated_at: "2026-03-08T10:30:00Z",
       },
       {
         series_key: "natural_gas_ttf",
         target_concept: "TTF Natural Gas",
         actual_series_name: "Dutch TTF Natural Gas Forward",
-        benchmark_series: "TTF",
-        match_type: "related",
+        match_type: "exact",
         source_name: "FRED",
-        source_series_code: "DTTFNG",
+        source_series_code: "PNGASEUUSDM",
         source_url: "https://fred.example/ttf",
-        frequency: "daily",
-        unit: "USD per MMBtu",
-        currency: "USD",
-        geography: "Europe",
-        active: true,
-        notes: "Related published series",
-        updated_at: "2026-03-08T10:30:00Z",
-      },
-      {
-        series_key: "lng_asia_japan_import_proxy",
-        target_concept: "JKM LNG",
-        actual_series_name: "Global price of LNG, Asia",
-        benchmark_series: "JKM LNG",
-        match_type: "related",
-        source_name: "FRED",
-        source_series_code: "PNGASJPUSDM",
-        source_url: "https://fred.example/lng",
         frequency: "monthly",
         unit: "USD per MMBtu",
         currency: "USD",
-        geography: "Asia",
-        active: true,
-        notes: "Related published series",
+        geography: "Europe",
+        updated_at: "2026-03-08T10:30:00Z",
+      },
+      {
+        series_key: "gold_worldbank_monthly",
+        target_concept: "Gold",
+        actual_series_name: "Gold",
+        match_type: "exact",
+        source_name: "World Bank Pink Sheet",
+        source_series_code: "GOLD",
+        source_url: "https://fred.example/gold",
+        frequency: "monthly",
+        unit: "USD per troy ounce",
+        currency: "USD",
+        geography: "Global",
+        updated_at: "2026-03-08T10:30:00Z",
+      },
+      {
+        series_key: "rbob_gasoline_spot_proxy",
+        target_concept: "RBOB Gasoline",
+        actual_series_name: "RBOB spot gasoline",
+        match_type: "exact",
+        source_name: "FRED",
+        source_series_code: "GASRB",
+        source_url: "https://fred.example/rbob",
+        frequency: "daily",
+        unit: "USD per gallon",
+        currency: "USD",
+        geography: "US",
+        updated_at: "2026-03-08T10:30:00Z",
+      },
+      {
+        series_key: "gasoline_regular_usgc_daily",
+        target_concept: "Gasoline USGC",
+        actual_series_name: "Regular gasoline US Gulf Coast",
+        match_type: "exact",
+        source_name: "Argus",
+        source_series_code: "GAS-USGC",
+        source_url: "https://argus.example/gas-usgc",
+        frequency: "daily",
+        unit: "USD per gallon",
+        currency: "USD",
+        geography: "US Gulf Coast",
+        updated_at: "2026-03-08T10:30:00Z",
+      },
+      {
+        series_key: "gasoline_regular_nyh_daily",
+        target_concept: "Gasoline NYH",
+        actual_series_name: "Regular gasoline New York Harbor",
+        match_type: "exact",
+        source_name: "Argus",
+        source_series_code: "GAS-NYH",
+        source_url: "https://argus.example/gas-nyh",
+        frequency: "daily",
+        unit: "USD per gallon",
+        currency: "USD",
+        geography: "New York Harbor",
+        updated_at: "2026-03-08T10:30:00Z",
+      },
+      {
+        series_key: "thermal_coal_newcastle",
+        target_concept: "Newcastle Coal",
+        actual_series_name: "Thermal coal Newcastle",
+        match_type: "exact",
+        source_name: "World Bank Pink Sheet",
+        source_series_code: "COAL-AUS",
+        source_url: "https://example.test/newcastle",
+        frequency: "monthly",
+        unit: "USD per metric ton",
+        currency: "USD",
+        geography: "Australia",
+        updated_at: "2026-03-08T10:30:00Z",
+      },
+      {
+        series_key: "coal_south_africa_monthly",
+        target_concept: "Coal South Africa",
+        actual_series_name: "Coal South Africa",
+        match_type: "exact",
+        source_name: "World Bank Pink Sheet",
+        source_series_code: "COAL-SA",
+        source_url: "https://example.test/coal-sa",
+        frequency: "monthly",
+        unit: "USD per metric ton",
+        currency: "USD",
+        geography: "South Africa",
         updated_at: "2026-03-08T10:30:00Z",
       },
     ],
     [
-      {
-        series_key: "natural_gas_henry_hub",
-        observation_date: "2026-03-06",
-        value: 2.14,
-        previous_value: 2.06,
-        delta_value: 0.08,
-        delta_pct: 3.88,
-        unit: "USD per MMBtu",
-        currency: "USD",
-        frequency: "daily",
-        source_name: "FRED",
-        source_series_code: "DHHNGSP",
-        updated_at: "2026-03-08T10:30:00Z",
-      },
-      {
-        series_key: "natural_gas_ttf",
-        observation_date: "2026-03-06",
-        value: 9.84,
-        previous_value: 9.51,
-        delta_value: 0.33,
-        delta_pct: 3.47,
-        unit: "USD per MMBtu",
-        currency: "USD",
-        frequency: "daily",
-        source_name: "FRED",
-        source_series_code: "DTTFNG",
-        updated_at: "2026-03-08T10:30:00Z",
-      },
-      {
-        series_key: "lng_asia_japan_import_proxy",
-        observation_date: "2026-02-01",
-        value: 10.435,
-        previous_value: 9.8,
-        delta_value: 0.635,
-        delta_pct: 6.48,
-        unit: "USD per MMBtu",
-        currency: "USD",
-        frequency: "monthly",
-        source_name: "FRED",
-        source_series_code: "PNGASJPUSDM",
-        updated_at: "2026-03-08T10:30:00Z",
-      },
+      { series_key: "lng_asia_japan_import_proxy", value: 10.435, observation_date: "2026-02-01" },
+      { series_key: "natural_gas_henry_hub", value: 2.12, observation_date: "2026-03-06" },
+      { series_key: "natural_gas_ttf", value: 9.84, observation_date: "2026-02-01" },
+      { series_key: "gold_worldbank_monthly", value: 2250.1, observation_date: "2026-02-01" },
+      { series_key: "rbob_gasoline_spot_proxy", value: 2.76, observation_date: "2026-03-06" },
+      { series_key: "gasoline_regular_usgc_daily", value: 2.51, observation_date: "2026-03-06" },
+      { series_key: "gasoline_regular_nyh_daily", value: 2.59, observation_date: "2026-03-06" },
+      { series_key: "thermal_coal_newcastle", value: 119.4, observation_date: "2026-02-01" },
+      { series_key: "coal_south_africa_monthly", value: 104.2, observation_date: "2026-02-01" },
     ]
   );
 
   const gas = definitions.find((definition) => definition.id === "natural_gas_benchmarks");
-  const asiaLng = definitions.find((definition) => definition.id === "lng_asia_japan_import_proxy");
+  const lng = definitions.find((definition) => definition.id === "lng_asia_japan_import_proxy");
+  const gold = definitions.find((definition) => definition.id === "gold_worldbank_monthly");
+  const gasoline = definitions.find((definition) => definition.id === "gasoline_benchmarks");
+  const coal = definitions.find((definition) => definition.id === "coal_benchmarks");
 
   assert.ok(gas);
-  assert.equal(gas.primaryLabel, "Gas");
-  assert.equal(gas.group, "energy");
+  assert.equal(gas.primaryLabel, "Natural gas");
+  assert.equal(gas.displayLabel, "Natural gas benchmarks");
+  assert.equal(gas.sectorId, "energy");
+  assert.equal(gas.subsectorId, "natural_gas_and_lng");
+  assert.equal(gas.sectorOrder, 1);
+  assert.equal(gas.subsectorOrder, 2);
   assert.deepEqual(
-    gas.seriesOptions.map((series) => series.optionLabel),
+    gas.seriesOptions.map((seriesOption) => seriesOption.optionLabel),
     ["Henry Hub", "TTF"]
   );
-  assert.equal(definitions.some((definition) => definition.id === "natural_gas_henry_hub"), false);
-  assert.equal(definitions.some((definition) => definition.id === "natural_gas_ttf"), false);
 
-  assert.ok(asiaLng);
-  assert.equal(asiaLng.primaryLabel, "LNG");
-});
-
-test("buildCommodityDefinitions groups Arabica and Robusta into one coffee card", () => {
-  const definitions = buildCommodityDefinitions(
-    [
-      {
-        series_key: "coffee_arabica_monthly_proxy",
-        target_concept: "Arabica Coffee",
-        actual_series_name: "Coffee, Arabica",
-        benchmark_series: "Arabica",
-        match_type: "related",
-        source_name: "FRED",
-        source_series_code: "PCOFFOTMUSDM",
-        source_url: "https://fred.example/coffee-arabica",
-        frequency: "monthly",
-        unit: "USD per kilogram",
-        currency: "USD",
-        geography: "Global",
-        active: true,
-        notes: "Related published series",
-        updated_at: "2026-03-08T10:30:00Z",
-      },
-      {
-        series_key: "coffee_robusta_monthly_proxy",
-        target_concept: "Robusta Coffee",
-        actual_series_name: "Coffee, Robusta",
-        benchmark_series: "Robusta",
-        match_type: "related",
-        source_name: "FRED",
-        source_series_code: "PROBUSDM",
-        source_url: "https://fred.example/coffee-robusta",
-        frequency: "monthly",
-        unit: "USD per kilogram",
-        currency: "USD",
-        geography: "Global",
-        active: true,
-        notes: "Related published series",
-        updated_at: "2026-03-08T10:30:00Z",
-      },
-      {
-        series_key: "cocoa_monthly_proxy",
-        target_concept: "Cocoa",
-        actual_series_name: "Cocoa price",
-        benchmark_series: "Cocoa",
-        match_type: "related",
-        source_name: "FRED",
-        source_series_code: "PCOCOUSDM",
-        source_url: "https://fred.example/cocoa",
-        frequency: "monthly",
-        unit: "USD per metric ton",
-        currency: "USD",
-        geography: "Global",
-        active: true,
-        notes: "Related published series",
-        updated_at: "2026-03-08T10:30:00Z",
-      },
-    ],
-    [
-      {
-        series_key: "coffee_arabica_monthly_proxy",
-        observation_date: "2026-02-01",
-        value: 6.24,
-        previous_value: 6.01,
-        delta_value: 0.23,
-        delta_pct: 3.83,
-        unit: "USD per kilogram",
-        currency: "USD",
-        frequency: "monthly",
-        source_name: "FRED",
-        source_series_code: "PCOFFOTMUSDM",
-        updated_at: "2026-03-08T10:30:00Z",
-      },
-      {
-        series_key: "coffee_robusta_monthly_proxy",
-        observation_date: "2026-02-01",
-        value: 4.17,
-        previous_value: 4.05,
-        delta_value: 0.12,
-        delta_pct: 2.96,
-        unit: "USD per kilogram",
-        currency: "USD",
-        frequency: "monthly",
-        source_name: "FRED",
-        source_series_code: "PROBUSDM",
-        updated_at: "2026-03-08T10:30:00Z",
-      },
-      {
-        series_key: "cocoa_monthly_proxy",
-        observation_date: "2026-02-01",
-        value: 9200,
-        previous_value: 9050,
-        delta_value: 150,
-        delta_pct: 1.66,
-        unit: "USD per metric ton",
-        currency: "USD",
-        frequency: "monthly",
-        source_name: "FRED",
-        source_series_code: "PCOCOUSDM",
-        updated_at: "2026-03-08T10:30:00Z",
-      },
-    ]
-  );
-
-  const coffee = definitions.find((definition) => definition.id === "coffee_benchmarks");
-  const cocoa = definitions.find((definition) => definition.id === "cocoa_monthly_proxy");
-
-  assert.ok(coffee);
-  assert.equal(coffee.primaryLabel, "Coffee");
-  assert.equal(coffee.group, "agri");
-  assert.deepEqual(
-    coffee.seriesOptions.map((series) => series.optionLabel),
-    ["Arabica", "Robusta"]
-  );
-  assert.equal(definitions.some((definition) => definition.id === "coffee_arabica_monthly_proxy"), false);
-  assert.equal(definitions.some((definition) => definition.id === "coffee_robusta_monthly_proxy"), false);
-
-  assert.ok(cocoa);
-  assert.equal(cocoa.primaryLabel, "Cocoa");
-});
-
-test("buildCommodityDefinitions infers metals and agriculture groups from commodity metadata when series keys change", () => {
-  const definitions = buildCommodityDefinitions(
-    [
-      {
-        series_key: "gold_spot_proxy_v2",
-        target_concept: "Gold",
-        actual_series_name: "Gold spot price",
-        benchmark_series: "Gold",
-        match_type: "related",
-        source_name: "FRED",
-        source_series_code: "PGOLDALT",
-        source_url: "https://fred.example/gold-v2",
-        frequency: "monthly",
-        unit: "USD per troy ounce",
-        currency: "USD",
-        geography: "Global",
-        active: true,
-        notes: "Renamed gold series",
-        updated_at: "2026-03-08T10:30:00Z",
-      },
-      {
-        series_key: "corn_cash_proxy_v2",
-        target_concept: "Corn",
-        actual_series_name: "Global corn cash price",
-        benchmark_series: "Corn",
-        match_type: "related",
-        source_name: "FRED",
-        source_series_code: "PCORNALT",
-        source_url: "https://fred.example/corn-v2",
-        frequency: "monthly",
-        unit: "USD per metric ton",
-        currency: "USD",
-        geography: "Global",
-        active: true,
-        notes: "Renamed corn series",
-        updated_at: "2026-03-08T10:30:00Z",
-      },
-    ],
-    [
-      {
-        series_key: "gold_spot_proxy_v2",
-        observation_date: "2026-02-01",
-        value: 2250.1,
-        previous_value: 2210,
-        delta_value: 40.1,
-        delta_pct: 1.81,
-        unit: "USD per troy ounce",
-        currency: "USD",
-        frequency: "monthly",
-        source_name: "FRED",
-        source_series_code: "PGOLDALT",
-        updated_at: "2026-03-08T10:30:00Z",
-      },
-      {
-        series_key: "corn_cash_proxy_v2",
-        observation_date: "2026-02-01",
-        value: 183.4,
-        previous_value: 179.8,
-        delta_value: 3.6,
-        delta_pct: 2.0,
-        unit: "USD per metric ton",
-        currency: "USD",
-        frequency: "monthly",
-        source_name: "FRED",
-        source_series_code: "PCORNALT",
-        updated_at: "2026-03-08T10:30:00Z",
-      },
-    ]
-  );
-
-  const gold = definitions.find((definition) => definition.id === "gold_spot_proxy_v2");
-  const corn = definitions.find((definition) => definition.id === "corn_cash_proxy_v2");
+  assert.ok(lng);
+  assert.equal(lng.primaryLabel, "Asia LNG");
+  assert.equal(lng.sectorId, "energy");
+  assert.equal(lng.subsectorId, "natural_gas_and_lng");
 
   assert.ok(gold);
-  assert.equal(gold.group, "metals");
+  assert.equal(gold.sectorId, "metals_and_mining");
+  assert.equal(gold.subsectorId, "precious_metals");
+  assert.equal(gold.visual.type, "periodicTile");
 
-  assert.ok(corn);
-  assert.equal(corn.group, "agri");
+  assert.ok(gasoline);
+  assert.equal(gasoline.primaryLabel, "Gasoline");
+  assert.deepEqual(
+    gasoline.seriesOptions.map((seriesOption) => seriesOption.optionLabel),
+    ["RBOB", "Gasoline USGC", "Gasoline NYH"]
+  );
+
+  assert.ok(coal);
+  assert.equal(coal.primaryLabel, "Coal");
+  assert.equal(coal.subsectorId, "coal");
+  assert.deepEqual(
+    coal.seriesOptions.map((seriesOption) => seriesOption.seriesKey),
+    ["thermal_coal_newcastle", "coal_south_africa_monthly"]
+  );
+});
+
+test("buildCommodityDefinitions honors taxonomy reclassifications and sector ordering", () => {
+  const definitions = buildCommodityDefinitions(
+    [
+      {
+        series_key: "wheat_global_monthly_proxy",
+        target_concept: "Wheat",
+        actual_series_name: "Global wheat price",
+        match_type: "exact",
+        source_name: "World Bank Pink Sheet",
+      },
+      {
+        series_key: "wheat_us_srw_monthly",
+        target_concept: "Wheat US SRW",
+        actual_series_name: "US SRW wheat",
+        match_type: "exact",
+        source_name: "World Bank Pink Sheet",
+      },
+      {
+        series_key: "rubber_rss3_monthly",
+        target_concept: "Rubber",
+        actual_series_name: "Global price of Rubber",
+        match_type: "exact",
+        source_name: "FRED",
+      },
+      {
+        series_key: "rubber_tsr20_monthly",
+        target_concept: "Rubber TSR20",
+        actual_series_name: "Global price of Rubber TSR20",
+        match_type: "exact",
+        source_name: "FRED",
+      },
+      {
+        series_key: "lumber_monthly_ppi_proxy",
+        target_concept: "Lumber",
+        actual_series_name: "Producer Price Index: Lumber",
+        match_type: "related",
+        source_name: "FRED",
+      },
+      {
+        series_key: "urea_monthly",
+        target_concept: "Urea",
+        actual_series_name: "Urea",
+        match_type: "exact",
+        source_name: "World Bank Pink Sheet",
+      },
+      {
+        series_key: "beef_monthly",
+        target_concept: "Beef",
+        actual_series_name: "Global price of Beef",
+        match_type: "exact",
+        source_name: "FRED",
+      },
+      {
+        series_key: "coffee_arabica_monthly_proxy",
+        target_concept: "Coffee",
+        actual_series_name: "Global price of Coffee, Other Mild Arabica",
+        match_type: "related",
+        source_name: "FRED",
+      },
+      {
+        series_key: "coffee_robusta_monthly_proxy",
+        target_concept: "Coffee Robusta",
+        actual_series_name: "Global price of Coffee, Robustas",
+        match_type: "related",
+        source_name: "FRED",
+      },
+    ],
+    [
+      { series_key: "wheat_global_monthly_proxy", value: 265 },
+      { series_key: "wheat_us_srw_monthly", value: 251 },
+      { series_key: "rubber_rss3_monthly", value: 2.1 },
+      { series_key: "rubber_tsr20_monthly", value: 1.86 },
+      { series_key: "lumber_monthly_ppi_proxy", value: 725 },
+      { series_key: "urea_monthly", value: 381 },
+      { series_key: "beef_monthly", value: 4.8 },
+      { series_key: "coffee_arabica_monthly_proxy", value: 2.9 },
+      { series_key: "coffee_robusta_monthly_proxy", value: 2.4 },
+    ]
+  );
+
+  assert.deepEqual(
+    definitions.map((definition) => definition.id),
+    [
+      "wheat_benchmarks",
+      "coffee_benchmarks",
+      "rubber_benchmarks",
+      "urea_monthly",
+      "beef_monthly",
+      "lumber_monthly_ppi_proxy",
+    ]
+  );
+
+  const wheat = definitions.find((definition) => definition.id === "wheat_benchmarks");
+  const rubber = definitions.find((definition) => definition.id === "rubber_benchmarks");
+  const urea = definitions.find((definition) => definition.id === "urea_monthly");
+  const beef = definitions.find((definition) => definition.id === "beef_monthly");
+  const lumber = definitions.find((definition) => definition.id === "lumber_monthly_ppi_proxy");
+  const coffee = definitions.find((definition) => definition.id === "coffee_benchmarks");
+
+  assert.equal(wheat.sectorId, "agriculture");
+  assert.equal(wheat.subsectorId, "grains_and_cereals");
+  assert.deepEqual(
+    wheat.seriesOptions.map((seriesOption) => seriesOption.seriesKey),
+    ["wheat_global_monthly_proxy", "wheat_us_srw_monthly"]
+  );
+
+  assert.equal(rubber.sectorId, "agriculture");
+  assert.equal(rubber.subsectorId, "industrial_agriculture_materials");
+  assert.deepEqual(
+    rubber.seriesOptions.map((seriesOption) => seriesOption.seriesKey),
+    ["rubber_rss3_monthly", "rubber_tsr20_monthly"]
+  );
+
+  assert.equal(urea.sectorId, "fertilizers_and_agricultural_chemicals");
+  assert.equal(urea.subsectorId, "nitrogen");
+
+  assert.equal(beef.sectorId, "livestock_dairy_and_seafood");
+  assert.equal(beef.subsectorId, "meat_and_livestock");
+
+  assert.equal(lumber.sectorId, "forest_and_wood_products");
+  assert.equal(lumber.subsectorId, "wood_products");
+  assert.equal(lumber.visual.type, "marketTile");
+
+  assert.ok(coffee.isGrouped);
+  assert.deepEqual(
+    coffee.seriesOptions.map((seriesOption) => seriesOption.seriesKey),
+    ["coffee_arabica_monthly_proxy", "coffee_robusta_monthly_proxy"]
+  );
 });

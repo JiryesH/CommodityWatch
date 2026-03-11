@@ -1,6 +1,9 @@
 import { CommodityApiClient } from "./commodities-client.js";
-import { buildCommodityDefinitions } from "./commodity-presentation.js";
-import { matchesCommoditySearch, normalizeCommoditySearchQuery } from "./commodity-search.js";
+import { buildCommodityDefinitions, getCommodityTaxonomy } from "./commodity-presentation.js";
+import {
+  getMatchingSeriesOptions,
+  normalizeCommoditySearchQuery,
+} from "./commodity-search.js";
 
 const DETAIL_TIMEFRAMES = [
   { id: "1M", label: "1M", days: 31 },
@@ -191,18 +194,34 @@ const ENERGY_TILE_THEME = {
   },
 };
 
-const AGRI_TILE_THEME = {
+const MARKET_TILE_THEME = {
   wheat: { top: "#efd788", mid: "#cb9e3f", bottom: "#9f7524" },
   corn: { top: "#f0d36d", mid: "#c9962e", bottom: "#8f651b" },
+  barley: { top: "#e8cc88", mid: "#b78e3f", bottom: "#7f5c21" },
   soybeans: { top: "#c8d69a", mid: "#92a163", bottom: "#617440" },
   soybeanOil: { top: "#e8d18b", mid: "#be993d", bottom: "#8f6f22" },
+  soybeanMeal: { top: "#d3c59f", mid: "#9f8754", bottom: "#685733" },
   palmOil: { top: "#ddb37d", mid: "#b9793d", bottom: "#7d4c25" },
+  palmKernelOil: { top: "#d7b892", mid: "#a97b4b", bottom: "#704c2a" },
+  coconutOil: { top: "#e8e0d1", mid: "#bca98a", bottom: "#7e6d56" },
+  rapeseedOil: { top: "#e1cf87", mid: "#b99c3f", bottom: "#7e6424" },
+  sunflowerOil: { top: "#efd36d", mid: "#d0a63a", bottom: "#8a641d" },
+  groundnuts: { top: "#ddbf8c", mid: "#b4854d", bottom: "#7a542c" },
   rice: { top: "#e2dbc8", mid: "#b9ab86", bottom: "#81724f" },
-  lumber: { top: "#c78a58", mid: "#90562e", bottom: "#5b341a" },
+  wood: { top: "#c78a58", mid: "#90562e", bottom: "#5b341a" },
   coffee: { top: "#d9af84", mid: "#a76d42", bottom: "#633d27" },
   sugar: { top: "#dbe4ef", mid: "#aebccc", bottom: "#75879d" },
   cotton: { top: "#e3dfd7", mid: "#bbb5aa", bottom: "#827b74" },
   cocoa: { top: "#d49d6f", mid: "#a6683d", bottom: "#663c27" },
+  bananas: { top: "#f0dc7a", mid: "#cfb042", bottom: "#8b6e1f" },
+  citrus: { top: "#f0b26c", mid: "#d97d2e", bottom: "#9b4e1c" },
+  rubber: { top: "#b9c7d6", mid: "#7a8ea3", bottom: "#425464" },
+  phosphate: { top: "#c9d2dd", mid: "#8ea0b7", bottom: "#556678" },
+  fertilizer: { top: "#d9d6c8", mid: "#aaa183", bottom: "#6d644e" },
+  potash: { top: "#d7c3b0", mid: "#ae8763", bottom: "#76553b" },
+  livestock: { top: "#d7b49b", mid: "#af7659", bottom: "#734632" },
+  seafood: { top: "#9fcadd", mid: "#5f99b8", bottom: "#335f7b" },
+  feed: { top: "#d3c08d", mid: "#a78548", bottom: "#705725" },
   default: { top: "#c6d5e2", mid: "#8aa2ba", bottom: "#55697d" },
 };
 
@@ -282,30 +301,30 @@ class PeriodicTileVisualizer {
   update() {}
 }
 
-class AgriTileVisualizer {
+class MarketTileVisualizer {
   constructor(tile) {
     this.tile = tile;
   }
 
   createScene() {
     const scene = document.createElement("div");
-    scene.className = "agri-tile-scene";
+    scene.className = "market-tile-scene";
     scene.innerHTML = `
-      <div class="agri-tile ${escapeHtml(this.tile.family)}">
-        <div class="agri-tile-meta">
-          <span class="agri-venue">${escapeHtml(this.tile.venue)}</span>
-          <span class="agri-ticker">${escapeHtml(this.tile.ticker)}</span>
+      <div class="market-tile ${escapeHtml(this.tile.family)}">
+        <div class="market-tile-meta">
+          <span class="market-venue">${escapeHtml(this.tile.venue)}</span>
+          <span class="market-ticker">${escapeHtml(this.tile.ticker)}</span>
         </div>
-        <div class="agri-code">${escapeHtml(this.tile.code)}</div>
-        <div class="agri-name">${escapeHtml(this.tile.name)}</div>
+        <div class="market-code">${escapeHtml(this.tile.code)}</div>
+        <div class="market-name">${escapeHtml(this.tile.name)}</div>
       </div>
     `;
 
-    this.tileEl = scene.querySelector(".agri-tile");
-    const theme = AGRI_TILE_THEME[this.tile.family] || AGRI_TILE_THEME.default;
-    this.tileEl.style.setProperty("--agri-top", theme.top);
-    this.tileEl.style.setProperty("--agri-mid", theme.mid);
-    this.tileEl.style.setProperty("--agri-bottom", theme.bottom);
+    this.tileEl = scene.querySelector(".market-tile");
+    const theme = MARKET_TILE_THEME[this.tile.family] || MARKET_TILE_THEME.default;
+    this.tileEl.style.setProperty("--market-top", theme.top);
+    this.tileEl.style.setProperty("--market-mid", theme.mid);
+    this.tileEl.style.setProperty("--market-bottom", theme.bottom);
     return scene;
   }
 
@@ -321,11 +340,38 @@ function createVisualizer(visualDef) {
     return new PeriodicTileVisualizer(visualDef.tile);
   }
 
-  if (visualDef.type === "agriTile") {
-    return new AgriTileVisualizer(visualDef.tile);
+  if (visualDef.type === "marketTile") {
+    return new MarketTileVisualizer(visualDef.tile);
   }
 
   throw new Error(`Unknown visualizer type: ${visualDef.type}`);
+}
+
+const COMMODITY_TAXONOMY = getCommodityTaxonomy();
+const SECTOR_ACCENTS = {
+  energy: "#e8a020",
+  metals_and_mining: "#4a90d9",
+  agriculture: "#5ba85c",
+  fertilizers_and_agricultural_chemicals: "#c47b3a",
+  livestock_dairy_and_seafood: "#3d7f8d",
+  forest_and_wood_products: "#8a5b3d",
+};
+
+const SECTOR_CLASS_NAMES = {
+  energy: "energy",
+  metals_and_mining: "metals",
+  agriculture: "agriculture",
+  fertilizers_and_agricultural_chemicals: "fertilizers",
+  livestock_dairy_and_seafood: "livestock",
+  forest_and_wood_products: "forest",
+};
+
+function getSectorAccent(sectorId) {
+  return SECTOR_ACCENTS[sectorId] || "#8aa2ba";
+}
+
+function getSectorClassName(sectorId) {
+  return SECTOR_CLASS_NAMES[sectorId] || "default";
 }
 
 class CommodityWatchEngine {
@@ -334,9 +380,11 @@ class CommodityWatchEngine {
     this.definitions = [];
     this.definitionsById = new Map();
     this.views = new Map();
+    this.sectionUi = new Map();
     this.historyCache = new Map();
     this.headlineCache = new Map();
-    this.selectedGroups = new Set(["energy", "metals", "agri"]);
+    this.selectedSectors = new Set(COMMODITY_TAXONOMY.map((sector) => sector.id));
+    this.selectedSubsectors = new Set();
     this.searchQuery = "";
     this.resizeRaf = null;
     this.detailCloseTimer = null;
@@ -356,12 +404,14 @@ class CommodityWatchEngine {
       pageShell: document.querySelector(".page-shell"),
       footer: document.querySelector(".footer"),
       toTopButton: document.getElementById("to-top-btn"),
-      featuredGrid: document.getElementById("featured-grid"),
-      metalsGrid: document.getElementById("metals-grid"),
-      agriGrid: document.getElementById("agri-grid"),
-      metalsSection: document.querySelector(".metals-section"),
-      agriSection: document.querySelector(".agri-section"),
-      groupPills: Array.from(document.querySelectorAll(".filter-pill[data-group]")),
+      catalogRoot: document.getElementById("catalog-root"),
+      allSectorsButton: document.getElementById("sector-reset"),
+      sectorPillContainer: document.getElementById("sector-pills"),
+      sectorPills: [],
+      subsectorLayer: document.getElementById("subsector-layer"),
+      subsectorClear: document.getElementById("subsector-clear"),
+      subsectorHint: document.getElementById("subsector-hint"),
+      subsectorGroups: document.getElementById("subsector-groups"),
       searchInput: document.getElementById("commodity-search"),
       statusLine: document.getElementById("status-line"),
       catalogEmpty: document.getElementById("catalog-empty"),
@@ -386,10 +436,31 @@ class CommodityWatchEngine {
   }
 
   bindGlobalEvents() {
-    this.ui.groupPills.forEach((pill) => {
-      pill.addEventListener("click", () => {
-        this.toggleGroupSelection(pill.dataset.group);
-      });
+    this.ui.allSectorsButton?.addEventListener("click", () => {
+      this.resetSectorSelection();
+    });
+
+    this.ui.sectorPillContainer?.addEventListener("click", (event) => {
+      const pill = event.target.closest("[data-sector]");
+      if (!(pill instanceof HTMLElement)) {
+        return;
+      }
+
+      this.toggleSectorSelection(pill.dataset.sector);
+    });
+
+    this.ui.subsectorGroups?.addEventListener("click", (event) => {
+      const chip = event.target.closest("[data-subsector]");
+      if (!(chip instanceof HTMLElement)) {
+        return;
+      }
+
+      this.toggleSubsectorSelection(chip.dataset.subsector);
+    });
+
+    this.ui.subsectorClear?.addEventListener("click", () => {
+      this.selectedSubsectors.clear();
+      this.applyFilters();
     });
 
     if (this.ui.searchInput) {
@@ -406,7 +477,7 @@ class CommodityWatchEngine {
 
     this.ui.searchInput?.addEventListener("input", (event) => {
       this.searchQuery = normalizeCommoditySearchQuery(event.target.value);
-      this.applyGroupFilters();
+      this.applyFilters();
     });
 
     this.ui.searchInput?.addEventListener("keydown", (event) => {
@@ -417,7 +488,7 @@ class CommodityWatchEngine {
       if (this.ui.searchInput.value) {
         this.ui.searchInput.value = "";
         this.searchQuery = "";
-        this.applyGroupFilters();
+        this.applyFilters();
         return;
       }
 
@@ -491,7 +562,7 @@ class CommodityWatchEngine {
 
     this.resetCatalog(definitions);
     this.applyLatestRows(latestRows);
-    this.applyGroupFilters();
+    this.applyFilters();
     this.renderAll();
   }
 
@@ -501,14 +572,14 @@ class CommodityWatchEngine {
     this.definitions = definitions;
     this.definitionsById = new Map(definitions.map((definition) => [definition.id, definition]));
     this.views = new Map();
+    this.sectionUi = new Map();
     this.historyCache = new Map();
     this.headlineCache = new Map();
     this.detailState.seriesByCommodity = new Map();
     this.setSearchAvailability(true);
-
-    this.ui.featuredGrid.innerHTML = "";
-    this.ui.metalsGrid.innerHTML = "";
-    this.ui.agriGrid.innerHTML = "";
+    this.ui.catalogRoot.innerHTML = "";
+    this.buildCatalogScaffold();
+    this.renderFilterControls();
 
     definitions.forEach((definition) => {
       const preferredSeriesKey = previousSeriesSelection.get(definition.id);
@@ -519,22 +590,116 @@ class CommodityWatchEngine {
       );
       this.createCard(definition);
     });
+
+    this.pruneSubsectorSelection();
+    this.syncFilterUi();
+  }
+
+  buildCatalogScaffold() {
+    COMMODITY_TAXONOMY.forEach((sector) => {
+      const section = document.createElement("section");
+      section.className = "catalog-sector";
+      section.dataset.sector = sector.id;
+
+      const sectionHead = document.createElement("div");
+      sectionHead.className = "catalog-sector-head";
+
+      const sectionKicker = document.createElement("p");
+      sectionKicker.className = "catalog-sector-kicker";
+      sectionKicker.textContent = sector.label;
+
+      const grid = document.createElement("div");
+      grid.className = "catalog-grid";
+
+      sectionHead.append(sectionKicker);
+      section.append(sectionHead, grid);
+
+      this.ui.catalogRoot.appendChild(section);
+      this.sectionUi.set(sector.id, { section, grid });
+    });
+  }
+
+  renderFilterControls() {
+    this.renderSectorControls();
+    this.renderSubsectorControls();
+  }
+
+  renderSectorControls() {
+    if (!this.ui.sectorPillContainer) {
+      return;
+    }
+
+    this.ui.sectorPillContainer.innerHTML = COMMODITY_TAXONOMY.map(
+      (sector) => `
+        <button class="filter-pill is-selected" type="button" data-sector="${escapeHtml(sector.id)}" aria-pressed="true">
+          ${escapeHtml(sector.label)}
+        </button>
+      `
+    ).join("");
+    this.ui.sectorPills = Array.from(this.ui.sectorPillContainer.querySelectorAll(".filter-pill[data-sector]"));
+  }
+
+  renderSubsectorControls() {
+    if (!this.ui.subsectorGroups) {
+      return;
+    }
+
+    this.ui.subsectorGroups.innerHTML = "";
+    const subsectorSeriesCounts = this.getSubsectorSeriesCountMap();
+
+    COMMODITY_TAXONOMY.forEach((sector) => {
+      const wrap = document.createElement("section");
+      wrap.className = "filter-subsector-group";
+      wrap.dataset.sector = sector.id;
+
+      const heading = document.createElement("p");
+      heading.className = "filter-subsector-group-label";
+      heading.textContent = sector.label;
+
+      const chipRow = document.createElement("div");
+      chipRow.className = "filter-chip-row";
+      chipRow.style.setProperty("--sector-accent", getSectorAccent(sector.id));
+
+      sector.subsectors.forEach((subsector) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "filter-chip";
+        button.dataset.subsector = subsector.id;
+        button.setAttribute("aria-pressed", "false");
+
+        const label = document.createElement("span");
+        label.className = "filter-chip-label";
+        label.textContent = subsector.label;
+
+        const count = document.createElement("span");
+        count.className = "filter-chip-count";
+        count.textContent = String(subsectorSeriesCounts.get(`${sector.id}:${subsector.id}`) || 0);
+
+        button.append(label, count);
+        chipRow.appendChild(button);
+      });
+
+      wrap.append(heading, chipRow);
+      this.ui.subsectorGroups.appendChild(wrap);
+    });
   }
 
   createCard(definition) {
     const card = document.createElement("article");
     card.className = "viz-card";
     card.dataset.commodity = definition.id;
-    card.dataset.group = definition.group;
+    card.dataset.sector = definition.sectorId;
+    card.dataset.subsector = definition.subsectorId;
+    card.style.setProperty("--sector-accent", getSectorAccent(definition.sectorId));
     card.setAttribute("role", "button");
     card.setAttribute("tabindex", "0");
     card.setAttribute("aria-haspopup", "dialog");
     card.setAttribute("aria-label", `Open ${definition.primaryLabel} details`);
 
-    if (definition.group === "metals") {
+    if (definition.visual.type === "periodicTile") {
       card.classList.add("metal-tile-card");
-    } else if (definition.group === "agri") {
-      card.classList.add("agri-tile-card");
+    } else if (definition.visual.type === "marketTile") {
+      card.classList.add("market-tile-card");
     } else {
       card.classList.add("feature-card");
     }
@@ -543,11 +708,11 @@ class CommodityWatchEngine {
     feedCat.className = "feed-cat";
 
     const dot = document.createElement("span");
-    dot.className = `feed-cat-dot ${definition.group}`;
+    dot.className = `feed-cat-dot ${getSectorClassName(definition.sectorId)}`;
 
     const feedLabel = document.createElement("span");
     feedLabel.className = "feed-cat-label";
-    feedLabel.textContent = definition.groupLabel;
+    feedLabel.textContent = definition.sectorLabel;
 
     feedCat.append(dot, feedLabel);
 
@@ -577,13 +742,8 @@ class CommodityWatchEngine {
 
     card.append(feedCat, titleEl, sceneSlot, metricRow, metaEl);
 
-    if (definition.group === "metals") {
-      this.ui.metalsGrid.appendChild(card);
-    } else if (definition.group === "agri") {
-      this.ui.agriGrid.appendChild(card);
-    } else {
-      this.ui.featuredGrid.appendChild(card);
-    }
+    const sectorUi = this.sectionUi.get(definition.sectorId);
+    sectorUi?.grid.appendChild(card);
 
     card.addEventListener("click", () => {
       this.openDetail(definition.id, card);
@@ -725,25 +885,127 @@ class CommodityWatchEngine {
     this.ui.toTopButton.classList.toggle("visible", shouldShow);
   }
 
-  toggleGroupSelection(group) {
-    if (!group) {
+  getAllSectorIds() {
+    return COMMODITY_TAXONOMY.map((sector) => sector.id);
+  }
+
+  getScopedSubsectorIds() {
+    return COMMODITY_TAXONOMY.filter((sector) => this.selectedSectors.has(sector.id)).flatMap((sector) =>
+      sector.subsectors.map((subsector) => subsector.id)
+    );
+  }
+
+  getSubsectorSeriesCountMap() {
+    return this.definitions.reduce((counts, definition) => {
+      const key = `${definition.sectorId}:${definition.subsectorId}`;
+      counts.set(key, (counts.get(key) || 0) + definition.seriesOptions.length);
+      return counts;
+    }, new Map());
+  }
+
+  resetSectorSelection() {
+    this.selectedSectors = new Set(this.getAllSectorIds());
+    this.selectedSubsectors.clear();
+    this.applyFilters();
+  }
+
+  pruneSubsectorSelection() {
+    const allowedSubsectors = new Set(this.getScopedSubsectorIds());
+    Array.from(this.selectedSubsectors).forEach((subsectorId) => {
+      if (!allowedSubsectors.has(subsectorId)) {
+        this.selectedSubsectors.delete(subsectorId);
+      }
+    });
+  }
+
+  toggleSectorSelection(sectorId) {
+    if (!sectorId) {
       return;
     }
 
-    const allGroups = this.ui.groupPills.map((pill) => pill.dataset.group).filter(Boolean);
-    const nextSelection = new Set(this.selectedGroups);
+    const allSectorIds = this.getAllSectorIds();
+    const allSelected = this.selectedSectors.size === allSectorIds.length && this.selectedSubsectors.size === 0;
+    const nextSelection = new Set(this.selectedSectors);
 
-    if (nextSelection.has(group)) {
-      nextSelection.delete(group);
-    } else {
-      nextSelection.add(group);
+    if (allSelected) {
+      this.selectedSectors = new Set([sectorId]);
+      this.pruneSubsectorSelection();
+      this.applyFilters();
+      return;
     }
 
-    this.selectedGroups = nextSelection.size ? nextSelection : new Set(allGroups);
-    this.applyGroupFilters();
+    if (nextSelection.has(sectorId)) {
+      nextSelection.delete(sectorId);
+    } else {
+      nextSelection.add(sectorId);
+    }
+
+    this.selectedSectors = nextSelection.size ? nextSelection : new Set(allSectorIds);
+    this.pruneSubsectorSelection();
+    this.applyFilters();
   }
 
-  applyGroupFilters() {
+  toggleSubsectorSelection(subsectorId) {
+    if (!subsectorId) {
+      return;
+    }
+
+    if (this.selectedSubsectors.has(subsectorId)) {
+      this.selectedSubsectors.delete(subsectorId);
+    } else {
+      this.selectedSubsectors.add(subsectorId);
+    }
+
+    this.applyFilters();
+  }
+
+  syncFilterUi() {
+    const allSectorIds = this.getAllSectorIds();
+    const allSelected = this.selectedSectors.size === allSectorIds.length && this.selectedSubsectors.size === 0;
+
+    this.ui.allSectorsButton?.classList.toggle("is-selected", allSelected);
+    this.ui.allSectorsButton?.setAttribute("aria-pressed", String(allSelected));
+
+    this.ui.sectorPills.forEach((pill) => {
+      const isSelected = this.selectedSectors.has(pill.dataset.sector);
+      pill.classList.toggle("is-selected", isSelected);
+      pill.setAttribute("aria-pressed", String(isSelected));
+    });
+
+    const showSubsectorLayer =
+      this.selectedSectors.size !== allSectorIds.length || this.selectedSubsectors.size > 0;
+
+    window.ContangoFilterShell?.setLayerOpen(null, this.ui.subsectorLayer, showSubsectorLayer);
+
+    if (this.ui.subsectorClear) {
+      this.ui.subsectorClear.hidden = this.selectedSubsectors.size === 0;
+    }
+
+    if (this.ui.subsectorHint) {
+      const showHint = !showSubsectorLayer;
+      this.ui.subsectorHint.classList.toggle("open", showHint);
+    }
+
+    const visibleSectorIds = new Set(this.selectedSectors);
+    const visibleSubsectorIds = new Set(this.getScopedSubsectorIds());
+
+    this.ui.subsectorGroups?.querySelectorAll(".filter-subsector-group").forEach((groupEl) => {
+      const sectorId = groupEl.dataset.sector;
+      const isVisible = visibleSectorIds.has(sectorId);
+      groupEl.hidden = !isVisible;
+    });
+
+    this.ui.subsectorGroups?.querySelectorAll("[data-subsector]").forEach((button) => {
+      const subsectorId = button.dataset.subsector;
+      const isVisible = visibleSubsectorIds.has(subsectorId);
+      const isSelected = this.selectedSubsectors.has(subsectorId);
+      button.hidden = !isVisible;
+      button.classList.toggle("is-selected", isSelected);
+      button.setAttribute("aria-pressed", String(isSelected));
+    });
+  }
+
+  applyFilters() {
     const setVisible = (element, visible) => {
       if (!element) {
         return;
@@ -753,48 +1015,49 @@ class CommodityWatchEngine {
       element.style.display = visible ? "" : "none";
     };
 
-    this.ui.groupPills.forEach((pill) => {
-      const isSelected = this.selectedGroups.has(pill.dataset.group);
-      pill.classList.toggle("is-selected", isSelected);
-      pill.setAttribute("aria-pressed", String(isSelected));
-    });
-
-    let visibleCount = 0;
+    this.syncFilterUi();
+    let visiblePriceCount = 0;
 
     this.views.forEach((view) => {
-      const isVisible =
-        this.selectedGroups.has(view.definition.group) && matchesCommoditySearch(view.definition, this.searchQuery);
+      const sectorMatches = this.selectedSectors.has(view.definition.sectorId);
+      const subsectorMatches =
+        this.selectedSubsectors.size === 0 || this.selectedSubsectors.has(view.definition.subsectorId);
+      const matchingSeries = getMatchingSeriesOptions(view.definition, this.searchQuery);
+      const isVisible = sectorMatches && subsectorMatches && matchingSeries.length > 0;
 
       setVisible(view.card, isVisible);
       if (isVisible) {
-        visibleCount += 1;
+        visiblePriceCount += matchingSeries.length;
       }
     });
 
-    const hasVisibleGroup = (group) =>
-      Array.from(this.views.values()).some((view) => view.definition.group === group && !view.card.hidden);
+    this.sectionUi.forEach(({ section, grid }) => {
+      const hasVisibleCards = Array.from(grid.children).some((card) => !card.hidden);
+      setVisible(section, hasVisibleCards);
+    });
 
-    setVisible(this.ui.featuredGrid, hasVisibleGroup("energy"));
-    setVisible(this.ui.metalsSection, hasVisibleGroup("metals"));
-    setVisible(this.ui.agriSection, hasVisibleGroup("agri"));
-    this.updateCatalogState(visibleCount);
+    this.updateCatalogState(visiblePriceCount);
   }
 
-  updateCatalogState(visibleCount) {
-    const totalCount = this.definitions.length;
-    const hasScopedGroups = this.selectedGroups.size !== this.ui.groupPills.length;
-    const scoped = hasScopedGroups || Boolean(this.searchQuery);
+  updateCatalogState(visiblePriceCount) {
+    const totalCount = this.definitions.reduce((sum, definition) => sum + definition.seriesOptions.length, 0);
+    const scoped =
+      this.selectedSectors.size !== this.getAllSectorIds().length ||
+      this.selectedSubsectors.size > 0 ||
+      Boolean(this.searchQuery);
 
     if (this.ui.statusLine) {
       this.ui.statusLine.textContent =
-        scoped && visibleCount !== totalCount ? `${visibleCount} of ${totalCount} prices` : `${totalCount} prices`;
+        scoped && visiblePriceCount !== totalCount
+          ? `${visiblePriceCount} of ${totalCount} prices`
+          : `${totalCount} prices`;
     }
 
     if (!this.ui.catalogEmpty || !this.ui.catalogEmptyTitle || !this.ui.catalogEmptyCopy) {
       return;
     }
 
-    if (visibleCount > 0) {
+    if (visiblePriceCount > 0) {
       this.ui.catalogEmpty.hidden = true;
       this.ui.catalogEmptyTitle.textContent = "";
       this.ui.catalogEmptyCopy.textContent = "";
@@ -1445,7 +1708,7 @@ class CommodityWatchEngine {
       return `
         <div class="detail-head">
           <div>
-            <p class="detail-kicker">${escapeHtml(definition.primaryLabel)}</p>
+            <p class="detail-kicker">${escapeHtml(`${definition.sectorLabel} · ${definition.subsectorLabel}`)}</p>
             <h3 class="detail-title">Unavailable</h3>
           </div>
         </div>
@@ -1548,7 +1811,7 @@ class CommodityWatchEngine {
 
     const headMarkup = `
       <div class="detail-head-shell">
-        <p class="detail-kicker">${escapeHtml(definition.primaryLabel)}</p>
+        <p class="detail-kicker">${escapeHtml(`${definition.sectorLabel} · ${definition.subsectorLabel}`)}</p>
         <div class="detail-head">
           <div>
           <h3 class="detail-title">${escapeHtml(activeSeries.actualSeriesName)}</h3>
@@ -1626,7 +1889,7 @@ class CommodityWatchEngine {
     if (this.ui.statusLine) {
       this.ui.statusLine.textContent = "";
     }
-    this.ui.featuredGrid.innerHTML = `
+    this.ui.catalogRoot.innerHTML = `
       <article class="viz-card viz-card-error">
         <div class="feed-cat">
           <span class="feed-cat-dot energy"></span>
@@ -1637,10 +1900,7 @@ class CommodityWatchEngine {
         <p class="card-meta">Check <code>COMMODITY_BACKEND_ROOT</code>, <code>DATABASE_URL</code>, and the published commodity views before reloading.</p>
       </article>
     `;
-    this.ui.metalsGrid.innerHTML = "";
-    this.ui.agriGrid.innerHTML = "";
-    this.ui.metalsSection.hidden = true;
-    this.ui.agriSection.hidden = true;
+    window.ContangoFilterShell?.setLayerOpen(null, this.ui.subsectorLayer, false);
     if (this.ui.catalogEmpty) {
       this.ui.catalogEmpty.hidden = true;
     }
@@ -1655,7 +1915,7 @@ class CommodityWatchEngine {
     if (this.ui.statusLine) {
       this.ui.statusLine.textContent = "";
     }
-    this.ui.featuredGrid.innerHTML = `
+    this.ui.catalogRoot.innerHTML = `
       <article class="viz-card viz-card-error">
         <div class="feed-cat">
           <span class="feed-cat-dot energy"></span>
@@ -1665,10 +1925,7 @@ class CommodityWatchEngine {
         <p class="card-meta">Populate the commodity backend and publish at least one series to use PriceWatch.</p>
       </article>
     `;
-    this.ui.metalsGrid.innerHTML = "";
-    this.ui.agriGrid.innerHTML = "";
-    this.ui.metalsSection.hidden = true;
-    this.ui.agriSection.hidden = true;
+    window.ContangoFilterShell?.setLayerOpen(null, this.ui.subsectorLayer, false);
     if (this.ui.catalogEmpty) {
       this.ui.catalogEmpty.hidden = true;
     }
@@ -2204,9 +2461,9 @@ function getCommodityTheme(definition) {
     return PERIODIC_TILE_THEME[family] || PERIODIC_TILE_THEME.default;
   }
 
-  if (definition.visual.type === "agriTile") {
+  if (definition.visual.type === "marketTile") {
     const family = definition.visual.tile.family;
-    return AGRI_TILE_THEME[family] || AGRI_TILE_THEME.default;
+    return MARKET_TILE_THEME[family] || MARKET_TILE_THEME.default;
   }
 
   return { top: "#cedbe7", mid: "#95a8bc", bottom: "#596f84" };
