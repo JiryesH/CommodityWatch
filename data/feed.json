@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-11T22:01:23.210091+00:00",
-    "total_articles": 2212,
+    "last_updated": "2026-03-11T22:43:44.539462+00:00",
+    "total_articles": 2214,
     "feeds_fetched": 15,
     "feeds_failed": 0,
     "feed_details": {
@@ -106,13 +106,39 @@
     },
     "dedupe": {
       "new": 2,
-      "updated": 123,
-      "merged": 25,
-      "incoming_merged": 25,
+      "updated": 125,
+      "merged": 23,
+      "incoming_merged": 23,
       "existing_merged": 0
     }
   },
   "articles": [
+    {
+      "id": "01a9407eb7a77d5c",
+      "title": "EVENING SNAPSHOT - Americas Markets Summary",
+      "description": "CRUDE: Sustained early gains while factoring in the IEA plan to release oil reserves. Limited impact on prices from the EIA stats showing a build in crude inventories and a drawdown in refined fuels....",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187740/evening-snapshot-americas-markets-summary",
+      "published": "2026-03-11T22:30:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Crude",
+      "categories": [
+        "Oil - Crude"
+      ]
+    },
+    {
+      "id": "dc572c4cf0200c1c",
+      "title": "Hormuz bottleneck may take ‘few weeks’ to fix: Hamm",
+      "description": "",
+      "link": "https://www.argusmedia.com/pages/NewsBody.aspx?id=2799941&menu=yes",
+      "published": "2026-03-11T22:24:00+00:00",
+      "source": "Argus Media",
+      "feed": "Argus NewsAll",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
     {
       "id": "de8cdf6ef6ad05db",
       "title": "NYMEX: US gas futures rise on natural gas production slip",
