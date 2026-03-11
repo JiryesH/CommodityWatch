@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-11T23:00:54.680369+00:00",
-    "total_articles": 2214,
+    "last_updated": "2026-03-11T23:43:12.103558+00:00",
+    "total_articles": 2216,
     "feeds_fetched": 15,
     "feeds_failed": 0,
     "feed_details": {
@@ -105,14 +105,27 @@
       "classifier_fallback_used": 0
     },
     "dedupe": {
-      "new": 0,
-      "updated": 127,
-      "merged": 23,
-      "incoming_merged": 23,
+      "new": 2,
+      "updated": 123,
+      "merged": 25,
+      "incoming_merged": 25,
       "existing_merged": 0
     }
   },
   "articles": [
+    {
+      "id": "962ad51dcb3707f5",
+      "title": "US-Iran war: Latest news",
+      "description": "",
+      "link": "https://www.argusmedia.com/pages/NewsBody.aspx?id=2799954&menu=yes",
+      "published": "2026-03-11T23:30:00+00:00",
+      "source": "Argus Media",
+      "feed": "Argus NewsAll",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
     {
       "id": "01a9407eb7a77d5c",
       "title": "EVENING SNAPSHOT - Americas Markets Summary",
@@ -1020,6 +1033,19 @@
       "category": "General",
       "categories": [
         "General"
+      ]
+    },
+    {
+      "id": "6c8ff71760d2d61e",
+      "title": "European MMA prices rise 76.6% on week on supply concerns amid Middle East war",
+      "description": "European methyl methacrylate spot prices increased 76.6% in the week to March 10, amid mounting supply concerns following the virtual closure of the Strait of Hormuz. Platts, part of S&amp;P Global Energy, assessed the three-to-30 day forward DDP NWE methyl methacrylate spot price at Eur2,500/metric ton on March 10, up Eur283.50/mt day over day and up Eur1,084.25/mt week over week, marking the highest",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/chemicals/031126-european-mma-prices-rise-766-on-week-on-supply-concerns-amid-middle-east-war",
+      "published": "2026-03-11T12:34:21+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Chemicals",
+      "category": "Chemicals",
+      "categories": [
+        "Chemicals"
       ]
     },
     {
