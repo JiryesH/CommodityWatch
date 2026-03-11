@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-11T14:33:28.103821+00:00",
-    "total_articles": 2159,
+    "last_updated": "2026-03-11T15:32:35.053539+00:00",
+    "total_articles": 2164,
     "feeds_fetched": 15,
     "feeds_failed": 0,
     "feed_details": {
@@ -105,14 +105,80 @@
       "classifier_fallback_used": 0
     },
     "dedupe": {
-      "new": 8,
-      "updated": 121,
-      "merged": 21,
-      "incoming_merged": 21,
+      "new": 5,
+      "updated": 122,
+      "merged": 23,
+      "incoming_merged": 23,
       "existing_merged": 0
     }
   },
   "articles": [
+    {
+      "id": "8080d392f9b8da8b",
+      "title": "Italy to ask for immediate EU ETS suspension",
+      "description": "",
+      "link": "https://www.argusmedia.com/pages/NewsBody.aspx?id=2799595&menu=yes",
+      "published": "2026-03-11T15:22:00+00:00",
+      "source": "Argus Media",
+      "feed": "Argus NewsAll",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
+    {
+      "id": "735bd5a3afe640f8",
+      "title": "US headline inflation holds steady at 2.4pc in Feb",
+      "description": "",
+      "link": "https://www.argusmedia.com/pages/NewsBody.aspx?id=2799592&menu=yes",
+      "published": "2026-03-11T15:21:00+00:00",
+      "source": "Argus Media",
+      "feed": "Argus NewsAll",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
+    {
+      "id": "596deecacfa21d8d",
+      "title": "Geopolitics reshapes East Asian LNG-TTF spread as traders reassess global gas risk",
+      "description": "Middle East geopolitical tensions continue to drive volatility across global gas markets, prompting traders to reassess risk premiums and LNG cargo allocation The East Asian LNG-TTF spread is...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187693/geopolitics-reshapes-east-asian-lng-ttf-spread-as-traders-reassess-global-gas-risk",
+      "published": "2026-03-11T15:08:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Natural Gas",
+      "categories": [
+        "Natural Gas",
+        "LNG"
+      ]
+    },
+    {
+      "id": "16ff257c3a9e451d",
+      "title": "IEA to make 400mn bl oil available from stocks: Update",
+      "description": "",
+      "link": "https://www.argusmedia.com/pages/NewsBody.aspx?id=2799567&menu=yes",
+      "published": "2026-03-11T14:57:00+00:00",
+      "source": "Argus Media",
+      "feed": "Argus NewsAll",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
+    {
+      "id": "0b7be668d9145bac",
+      "title": "TAP begins offering interruptible day-ahead exit capacity to Italy at Melendugno",
+      "description": "TAP offers new interruptible day-ahead exit product towards Italy Only available when all firm capacity booked out All firm capacity fully booked in recent days, yet physical flows lag LONDON...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187690/tap-begins-offering-interruptible-day-ahead-exit-capacity-to-italy-at-melendugno",
+      "published": "2026-03-11T14:49:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
     {
       "id": "e15326ec1afae014",
       "title": "German chemical park takes part in pilot project to test new grid fees",
@@ -186,9 +252,10 @@
       "published": "2026-03-11T13:39:21+00:00",
       "source": "S&P Global",
       "feed": "S&P Shipping",
-      "category": "Shipping",
+      "category": "Oil - Crude",
       "categories": [
-        "Shipping"
+        "Oil - Crude",
+        "Oil - Refined Products"
       ]
     },
     {
