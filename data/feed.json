@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-11T19:31:07.272144+00:00",
-    "total_articles": 2198,
+    "last_updated": "2026-03-11T20:04:11.527102+00:00",
+    "total_articles": 2201,
     "feeds_fetched": 15,
     "feeds_failed": 0,
     "feed_details": {
@@ -105,14 +105,40 @@
       "classifier_fallback_used": 0
     },
     "dedupe": {
-      "new": 7,
-      "updated": 120,
-      "merged": 23,
-      "incoming_merged": 23,
+      "new": 3,
+      "updated": 122,
+      "merged": 25,
+      "incoming_merged": 25,
       "existing_merged": 0
     }
   },
   "articles": [
+    {
+      "id": "490a48653ae83eb1",
+      "title": "Roehm seeks mid-March price increase for US MMA",
+      "description": "HOUSTON (ICIS)--Roehm is seeking a price increase of 23 cents/lb ($507/tonne) on its North America methyl methacrylate (MMA), effective 15 March, according to market players. The company confirmed...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187727/roehm-seeks-mid-march-price-increase-for-us-mma",
+      "published": "2026-03-11T19:50:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals",
+      "categories": [
+        "Chemicals"
+      ]
+    },
+    {
+      "id": "0101febf41c2191b",
+      "title": "Brazil, Mexico automotive output slip in February as export weakness weighs on production",
+      "description": "SAO PAULO (ICIS)--Petrochemicals-intensive automotive production fell in both Brazil and Mexico in February, year on year, as a sharp drop in exports undermined output in Latin America's two largest...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187726/brazil-mexico-automotive-output-slip-in-february-as-export-weakness-weighs-on-production",
+      "published": "2026-03-11T19:47:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals",
+      "categories": [
+        "Chemicals"
+      ]
+    },
     {
       "id": "bd5afa965245c02c",
       "title": "Moldovan companies to disclose outages, capacity under REMIT‑style rules",
@@ -289,6 +315,20 @@
       "title": "Iran war leads German power April ’26 amid mixed fundamentals",
       "description": "German April ’26 shifts to bullish trend driven by Iran conflict Middle East developments likely to remain key driver with the market in “wait-and-see” mode - traders Stronger wind, solar key...",
       "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187715/iran-war-leads-german-power-april-26-amid-mixed-fundamentals",
+      "published": "2026-03-11T17:30:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Electric Power",
+      "categories": [
+        "Electric Power",
+        "Energy Transition"
+      ]
+    },
+    {
+      "id": "3e9e2560875f78a1",
+      "title": "Iran war main German power April ’26 driver amid mixed fundamentals",
+      "description": "German April ’26 shifts to bullish trend driven by Iran conflict Middle East developments likely to remain key driver with the market in “wait-and-see” mode - traders Stronger wind, solar key...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187715/iran-war-main-german-power-april-26-driver-amid-mixed-fundamentals",
       "published": "2026-03-11T17:30:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
