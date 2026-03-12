@@ -84,6 +84,8 @@ If the commodity backend is unavailable, `HeadlineWatch` still loads and `PriceW
 - GitHub Actions writes the remote feed to the `feed-data` branch, not to `main`.
   That keeps `main` focused on code so your normal `git pull` and `git push` workflow is much safer.
 - Each scheduled run starts from the existing `feed-data` snapshot so the branch keeps its accumulated history instead of resetting to a fresh scrape.
+- GitHub Actions also runs `classifier.py`, `sentiment_finbert.py`, and `ner_spacy.py` against the `feed-data` snapshot before publishing it.
+  When you sync from `feed-data`, your local `data/feed.local.json` includes those enrichments already.
 - The tracked `data/feed.json` on `main` is now just a sample fallback when you do not have a local feed yet.
 - If you want the latest remote overnight feed in your local ignored file, run:
 

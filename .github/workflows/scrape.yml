@@ -5,6 +5,10 @@ on:
     - cron: '*/15 * * * *'   # every 15 minutes, around the clock
   workflow_dispatch:           # also allows you to trigger a run manually from GitHub
 
+concurrency:
+  group: scrape-commodity-news
+  cancel-in-progress: false
+
 permissions:
   contents: write              # needed so the workflow can push the feed branch
 
@@ -27,6 +31,14 @@ jobs:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-core
 
+      - name: Cache model downloads
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/huggingface
+            ~/.cache/torch
+          key: ${{ runner.os }}-ml-models-v1
+
       - name: Seed feed history
         run: |
           if git fetch origin feed-data:refs/remotes/origin/feed-data; then
@@ -36,10 +48,32 @@ jobs:
           fi
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: |
+          pip install -r requirements.txt
+          pip install torch --index-url https://download.pytorch.org/whl/cpu
+          pip install transformers spacy
+          python -m spacy download en_core_web_lg
 
       - name: Run scraper
         run: python rss_scraper.py --output data/feed.json
+
+      - name: Re-classify feed
+        run: python classifier.py --all --input data/feed.json --output data/feed.json
+
+      - name: Run sentiment enrichment
+        run: |
+          python sentiment_finbert.py \
+            --input data/feed.json \
+            --output data/feed.json \
+            --pipeline-mode commodity_v1 \
+            --context-mode auto
+
+      - name: Run NER enrichment
+        run: |
+          python ner_spacy.py \
+            --input data/feed.json \
+            --output data/feed.json \
+            --model en_core_web_lg
 
       - name: Publish updated feed branch
         run: |
