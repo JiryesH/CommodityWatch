@@ -83,6 +83,7 @@ If the commodity backend is unavailable, `HeadlineWatch` still loads and `PriceW
   This updates `data/feed.local.json` only.
 - GitHub Actions writes the remote feed to the `feed-data` branch, not to `main`.
   That keeps `main` focused on code so your normal `git pull` and `git push` workflow is much safer.
+- Each scheduled run starts from the existing `feed-data` snapshot so the branch keeps its accumulated history instead of resetting to a fresh scrape.
 - The tracked `data/feed.json` on `main` is now just a sample fallback when you do not have a local feed yet.
 - If you want the latest remote overnight feed in your local ignored file, run:
 

@@ -27,11 +27,19 @@ jobs:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-core
 
+      - name: Seed feed history
+        run: |
+          if git fetch origin feed-data:refs/remotes/origin/feed-data; then
+            git show origin/feed-data:data/feed.json > data/feed.json
+          else
+            echo "No feed-data branch yet; seeding from the main branch snapshot."
+          fi
+
       - name: Install dependencies
         run: pip install -r requirements.txt
 
       - name: Run scraper
-        run: python rss_scraper.py --output "${RUNNER_TEMP}/feed.json"
+        run: python rss_scraper.py --output data/feed.json
 
       - name: Publish updated feed branch
         run: |
@@ -62,7 +70,7 @@ jobs:
           fi
 
           mkdir -p data
-          cp "${RUNNER_TEMP}/feed.json" data/feed.json
+          cp "${GITHUB_WORKSPACE}/data/feed.json" data/feed.json
 
           git add data/feed.json
           git diff --cached --quiet && exit 0
