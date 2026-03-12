@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-12T06:00:33.937467+00:00",
-    "total_articles": 2237,
+    "last_updated": "2026-03-12T07:57:47.368423+00:00",
+    "total_articles": 2247,
     "feeds_fetched": 15,
     "feeds_failed": 0,
     "feed_details": {
@@ -102,17 +102,134 @@
     ],
     "category_contract": {
       "unknown_tokens_rewritten": 0,
-      "classifier_fallback_used": 0
+      "classifier_fallback_used": 82
     },
     "dedupe": {
-      "new": 5,
-      "updated": 122,
-      "merged": 23,
-      "incoming_merged": 23,
+      "new": 10,
+      "updated": 116,
+      "merged": 24,
+      "incoming_merged": 24,
       "existing_merged": 0
     }
   },
   "articles": [
+    {
+      "id": "f0b2c86d23664cab",
+      "title": "INSIGHT: Tight PX supply drives up market, demand destruction looms",
+      "description": "SINGAPORE (ICIS)--Supply tightness for paraxylene (PX) in Asia has increased sharply, and this will likely lead to demand destruction, with downstream fundamentals unable to catch up with the price...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/12/11188006/insight-tight-px-supply-drives-up-market-demand-destruction-looms",
+      "published": "2026-03-12T07:39:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals",
+      "categories": [
+        "Chemicals"
+      ]
+    },
+    {
+      "id": "cc214e76ed5f5d54",
+      "title": "China’s Sinopec increases benzene list prices by CNY400/tonne",
+      "description": "SINGAPORE (ICIS)--China’s Sinopec has increased its domestic benzene list prices by yuan (CNY) 400/tonne, a company source said on 12 March. Its benzene prices were adjusted to CNY8,400/tonne EXW...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/12/11188005/china-s-sinopec-increases-benzene-list-prices-by-cny400-tonne",
+      "published": "2026-03-12T07:28:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals",
+      "categories": [
+        "Chemicals"
+      ]
+    },
+    {
+      "id": "7a1d34e95f829e33",
+      "title": "Plant status: India’s IOCL shuts a PP unit at Paradip amid feedstock tightness",
+      "description": "MUMBAI (ICIS)--Here is a plant status report: Name: Indian Oil Corporation Limited (IOCL) Location: Paradip (Odisha), India Products: Polypropylene (PP) Capacity (tonnes/year): 340,000 Event start:...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/12/11188004/plant-status-india-s-iocl-shuts-a-pp-unit-at-paradip-amid-feedstock-tightness",
+      "published": "2026-03-12T07:25:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals",
+      "categories": [
+        "Chemicals"
+      ]
+    },
+    {
+      "id": "b1d670927eb1b888",
+      "title": "INSIGHT: PCG, PTTGC fare better than Asia peers amid Mideast conflict",
+      "description": "SINGAPORE (ICIS)--Gas-based petrochemical producers in southeast Asia, including Malaysia’s PETRONAS Chemicals Group (PCG) and Thailand’s PTT Global Chemical (PTTGC), are faring better than...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/12/11188002/insight-pcg-pttgc-fare-better-than-asia-peers-amid-mideast-conflict",
+      "published": "2026-03-12T07:06:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
+    {
+      "id": "31e3491444c220a5",
+      "title": "LNG outlook in northeast Asia during Iran war draws on contingency plans",
+      "description": "China has buffers in import diversification of gas/LNG Taiwan has managed to secure prompt LNG supplies Japan and South Korea draw on emergency plans SINGAPORE (ICIS)--Key LNG buyers in northeast...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/12/11188001/lng-outlook-in-northeast-asia-during-iran-war-draws-on-contingency-plans",
+      "published": "2026-03-12T07:04:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "LNG",
+      "categories": [
+        "LNG"
+      ]
+    },
+    {
+      "id": "aaff5cee2ec8d2cd",
+      "title": "East and south Asia LAB availability of feed impacted by fuel shortages",
+      "description": "SINGAPORE (ICIS)--The shortage of fuels caused by the outbreak of war in the Middle East in early March has impacted refineries in east and south Asia. An impasse in shipments of crude oil, liquefied...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/12/11188000/east-and-south-asia-lab-availability-of-feed-impacted-by-fuel-shortages",
+      "published": "2026-03-12T07:02:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Crude",
+      "categories": [
+        "Oil - Crude"
+      ]
+    },
+    {
+      "id": "373dfe3d638848c8",
+      "title": "Plant status: China’s Yulong Petrochemical shuts PP Line 1",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: Shandong Yulong Petrochemical Location: Longkou, China Product: Polypropylene (PP) Capacity (tonnes/year): 400,000 Event start: 11 March Event...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/12/11187996/plant-status-china-s-yulong-petrochemical-shuts-pp-line-1",
+      "published": "2026-03-12T06:33:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals",
+      "categories": [
+        "Chemicals"
+      ]
+    },
+    {
+      "id": "7e8119ca907bd4ca",
+      "title": "UPDATE: Brent crude back above $100/bbl on fears of prolonged Hormuz disruption",
+      "description": "SINGAPORE (ICIS)--Oil prices continued to spike, with Brent crude breaching $100/barrel on Thursday afternoon, as fresh concerns over Iranian attacks on commercial vessels and continued blockade of...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/12/11187995/update-brent-crude-back-above-100-bbl-on-fears-of-prolonged-hormuz-disruption",
+      "published": "2026-03-12T06:31:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Crude",
+      "categories": [
+        "Oil - Crude"
+      ]
+    },
+    {
+      "id": "bb09ad80315850f3",
+      "title": "Plant status: China's ZPC shuts No 3 PP unit for maintenance",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: Zhejiang Petroleum & Chemical (ZPC) Location: Zhoushan, Zhejiang, China Product: Polypropylene (PP) Capacity (tonnes/year): 450,000 (No 3)...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/12/11187992/plant-status-china-s-zpc-shuts-no-3-pp-unit-for-maintenance",
+      "published": "2026-03-12T06:06:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals",
+      "categories": [
+        "Chemicals"
+      ]
+    },
     {
       "id": "dd277a039e75eb46",
       "title": "Plant status: China’s BASF Zhanjiang Petrochemical cuts LLDPE runs",
@@ -124,6 +241,19 @@
       "category": "Chemicals",
       "categories": [
         "Chemicals"
+      ]
+    },
+    {
+      "id": "64b7eb71d50e8db0",
+      "title": "South Korea to release 22.46mn bl of oil from reserves",
+      "description": "",
+      "link": "https://www.argusmedia.com/pages/NewsBody.aspx?id=2799988&menu=yes",
+      "published": "2026-03-12T05:30:00+00:00",
+      "source": "Argus Media",
+      "feed": "Argus NewsAll",
+      "category": "General",
+      "categories": [
+        "General"
       ]
     },
     {
@@ -336,7 +466,8 @@
       "feed": "ICIS",
       "category": "Oil - Crude",
       "categories": [
-        "Oil - Crude"
+        "Oil - Crude",
+        "General"
       ]
     },
     {
@@ -373,9 +504,8 @@
       "published": "2026-03-11T21:44:52+00:00",
       "source": "S&P Global",
       "feed": "S&P Shipping",
-      "category": "Natural Gas",
+      "category": "LNG",
       "categories": [
-        "Natural Gas",
         "LNG"
       ]
     },
@@ -439,9 +569,9 @@
       "published": "2026-03-11T20:36:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Oil - Refined Products",
       "categories": [
-        "General"
+        "Oil - Refined Products"
       ]
     },
     {
@@ -478,9 +608,9 @@
       "published": "2026-03-11T20:21:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Metals",
+      "category": "Shipping",
       "categories": [
-        "Metals"
+        "Shipping"
       ]
     },
     {
@@ -572,7 +702,8 @@
       "feed": "ICIS",
       "category": "Metals",
       "categories": [
-        "Metals"
+        "Metals",
+        "General"
       ]
     },
     {
@@ -583,9 +714,9 @@
       "published": "2026-03-11T19:08:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ]
     },
     {
@@ -635,9 +766,9 @@
       "published": "2026-03-11T18:35:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Oil - Refined Products",
       "categories": [
-        "General"
+        "Oil - Refined Products"
       ]
     },
     {
@@ -701,9 +832,9 @@
       "published": "2026-03-11T17:54:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "General",
+      "category": "Chemicals",
       "categories": [
-        "General"
+        "Chemicals"
       ]
     },
     {
@@ -728,9 +859,9 @@
       "published": "2026-03-11T17:40:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "General",
+      "category": "Shipping",
       "categories": [
-        "General"
+        "Shipping"
       ]
     },
     {
@@ -741,10 +872,10 @@
       "published": "2026-03-11T17:38:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "Oil - Refined Products",
+      "category": "Energy Transition",
       "categories": [
-        "Oil - Refined Products",
-        "Energy Transition"
+        "Energy Transition",
+        "Oil - Refined Products"
       ]
     },
     {
@@ -849,9 +980,9 @@
       "published": "2026-03-11T16:45:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "General",
+      "category": "Chemicals",
       "categories": [
-        "General"
+        "Chemicals"
       ]
     },
     {
@@ -916,9 +1047,9 @@
       "published": "2026-03-11T16:10:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "General",
+      "category": "Chemicals",
       "categories": [
-        "General"
+        "Chemicals"
       ]
     },
     {
@@ -931,7 +1062,8 @@
       "feed": "Fastmarkets",
       "category": "Metals",
       "categories": [
-        "Metals"
+        "Metals",
+        "General"
       ]
     },
     {
@@ -1020,9 +1152,9 @@
       "published": "2026-03-11T15:36:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ]
     },
     {
@@ -1088,8 +1220,7 @@
       "feed": "S&P Shipping",
       "category": "Oil - Refined Products",
       "categories": [
-        "Oil - Refined Products",
-        "Shipping"
+        "Oil - Refined Products"
       ]
     },
     {
@@ -1192,10 +1323,10 @@
       "published": "2026-03-11T13:38:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "LNG",
+      "category": "Shipping",
       "categories": [
-        "LNG",
-        "Shipping"
+        "Shipping",
+        "LNG"
       ]
     },
     {
@@ -1219,9 +1350,9 @@
       "published": "2026-03-11T13:09:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Shipping",
       "categories": [
-        "General"
+        "Shipping"
       ]
     },
     {
@@ -1232,9 +1363,8 @@
       "published": "2026-03-11T13:03:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Oil - Crude",
+      "category": "Chemicals",
       "categories": [
-        "Oil - Crude",
         "Chemicals"
       ]
     },
@@ -1260,9 +1390,9 @@
       "published": "2026-03-11T13:00:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Oil - Crude",
       "categories": [
-        "General"
+        "Oil - Crude"
       ]
     },
     {
@@ -1417,9 +1547,9 @@
       "published": "2026-03-11T11:53:11+00:00",
       "source": "Fastmarkets",
       "feed": "Fastmarkets",
-      "category": "Oil - Refined Products",
+      "category": "Agriculture",
       "categories": [
-        "Oil - Refined Products",
+        "Agriculture",
         "Energy Transition"
       ]
     },
@@ -1431,8 +1561,9 @@
       "published": "2026-03-11T11:51:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "Electric Power",
+      "category": "Natural Gas",
       "categories": [
+        "Natural Gas",
         "Electric Power"
       ]
     },
@@ -1457,9 +1588,9 @@
       "published": "2026-03-11T11:40:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "General",
+      "category": "Fertilizers",
       "categories": [
-        "General"
+        "Fertilizers"
       ]
     },
     {
@@ -1470,10 +1601,10 @@
       "published": "2026-03-11T11:38:10+00:00",
       "source": "S&P Global",
       "feed": "S&P Shipping",
-      "category": "Oil - Crude",
+      "category": "Shipping",
       "categories": [
-        "Oil - Crude",
-        "Shipping"
+        "Shipping",
+        "Oil - Crude"
       ]
     },
     {
@@ -1694,9 +1825,9 @@
       "published": "2026-03-11T09:09:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Shipping",
       "categories": [
-        "General"
+        "Shipping"
       ]
     },
     {
@@ -1759,9 +1890,8 @@
       "published": "2026-03-11T08:42:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Oil - Crude",
+      "category": "Oil - Refined Products",
       "categories": [
-        "Oil - Crude",
         "Oil - Refined Products"
       ]
     },
@@ -1799,9 +1929,9 @@
       "published": "2026-03-11T07:38:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Shipping",
       "categories": [
-        "General"
+        "Shipping"
       ]
     },
     {
@@ -1812,10 +1942,10 @@
       "published": "2026-03-11T07:35:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Coal",
+      "category": "Chemicals",
       "categories": [
-        "Coal",
-        "Chemicals"
+        "Chemicals",
+        "Coal"
       ]
     },
     {
@@ -1881,7 +2011,7 @@
       "category": "Oil - Refined Products",
       "categories": [
         "Oil - Refined Products",
-        "Shipping"
+        "Fertilizers"
       ]
     },
     {
@@ -2168,8 +2298,7 @@
       "feed": "S&P Oil - Refined Products",
       "category": "Oil - Crude",
       "categories": [
-        "Oil - Crude",
-        "Oil - Refined Products"
+        "Oil - Crude"
       ]
     },
     {
@@ -2208,8 +2337,7 @@
       "feed": "S&P Oil - Refined Products",
       "category": "Oil - Refined Products",
       "categories": [
-        "Oil - Refined Products",
-        "Chemicals"
+        "Oil - Refined Products"
       ]
     },
     {
@@ -2324,10 +2452,10 @@
       "published": "2026-03-10T18:57:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Energy Transition",
+      "category": "Natural Gas",
       "categories": [
-        "Energy Transition",
-        "Metals"
+        "Natural Gas",
+        "Energy Transition"
       ]
     },
     {
@@ -2364,9 +2492,9 @@
       "published": "2026-03-10T18:19:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ]
     },
     {
@@ -2416,9 +2544,9 @@
       "published": "2026-03-10T18:04:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Fertilizers",
+      "category": "Chemicals",
       "categories": [
-        "Fertilizers"
+        "Chemicals"
       ]
     },
     {
@@ -2429,9 +2557,8 @@
       "published": "2026-03-10T18:04:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Oil - Crude",
+      "category": "Oil - Refined Products",
       "categories": [
-        "Oil - Crude",
         "Oil - Refined Products"
       ]
     },
@@ -2483,10 +2610,10 @@
       "published": "2026-03-10T17:28:24+00:00",
       "source": "S&P Global",
       "feed": "S&P Shipping",
-      "category": "Oil - Crude",
+      "category": "Shipping",
       "categories": [
-        "Oil - Crude",
-        "Shipping"
+        "Shipping",
+        "Oil - Crude"
       ]
     },
     {
@@ -2607,9 +2734,8 @@
       "published": "2026-03-10T16:52:56+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Refined Products",
-      "category": "Oil - Crude",
+      "category": "Oil - Refined Products",
       "categories": [
-        "Oil - Crude",
         "Oil - Refined Products"
       ]
     },
@@ -2669,10 +2795,10 @@
       "published": "2026-03-10T16:50:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Natural Gas",
+      "category": "Electric Power",
       "categories": [
-        "Natural Gas",
-        "LNG"
+        "Electric Power",
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "negative",
@@ -2780,10 +2906,10 @@
       "published": "2026-03-10T16:36:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Energy Transition",
+      "category": "Shipping",
       "categories": [
-        "Energy Transition",
-        "Shipping"
+        "Shipping",
+        "Fertilizers"
       ],
       "sentiment": {
         "label": "negative",
@@ -2863,9 +2989,8 @@
       "published": "2026-03-10T16:24:42+00:00",
       "source": "S&P Global",
       "feed": "S&P Shipping",
-      "category": "Agriculture",
+      "category": "Shipping",
       "categories": [
-        "Agriculture",
         "Shipping"
       ]
     },
@@ -2932,8 +3057,7 @@
       "feed": "Fastmarkets",
       "category": "Metals",
       "categories": [
-        "Metals",
-        "Fertilizers"
+        "Metals"
       ],
       "sentiment": {
         "label": "neutral",
@@ -3115,9 +3239,9 @@
       "published": "2026-03-10T15:48:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Oil - Crude",
+      "category": "Shipping",
       "categories": [
-        "Oil - Crude",
+        "Shipping",
         "Oil - Refined Products"
       ],
       "sentiment": {
@@ -3160,8 +3284,9 @@
       "published": "2026-03-10T15:42:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Fertilizers",
+      "category": "Energy Transition",
       "categories": [
+        "Energy Transition",
         "Fertilizers"
       ],
       "sentiment": {
@@ -3212,9 +3337,9 @@
       "published": "2026-03-10T15:38:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "General",
+      "category": "Chemicals",
       "categories": [
-        "General"
+        "Chemicals"
       ],
       "sentiment": {
         "label": "neutral",
@@ -3451,9 +3576,9 @@
       "published": "2026-03-10T15:19:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "General",
+      "category": "Chemicals",
       "categories": [
-        "General"
+        "Chemicals"
       ],
       "sentiment": {
         "label": "neutral",
@@ -3840,9 +3965,9 @@
       "published": "2026-03-10T13:53:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "positive",
@@ -3944,9 +4069,9 @@
       "published": "2026-03-10T13:22:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "positive",
@@ -4100,9 +4225,8 @@
       "published": "2026-03-10T12:51:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Oil - Crude",
+      "category": "Chemicals",
       "categories": [
-        "Oil - Crude",
         "Chemicals"
       ],
       "sentiment": {
@@ -4231,9 +4355,9 @@
       "published": "2026-03-10T12:34:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "General",
+      "category": "Chemicals",
       "categories": [
-        "General"
+        "Chemicals"
       ],
       "sentiment": {
         "label": "neutral",
@@ -4497,9 +4621,8 @@
       "published": "2026-03-10T12:10:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Oil - Crude",
+      "category": "Chemicals",
       "categories": [
-        "Oil - Crude",
         "Chemicals"
       ],
       "sentiment": {
@@ -5247,10 +5370,10 @@
       "published": "2026-03-10T10:08:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Oil - Crude",
+      "category": "Natural Gas",
       "categories": [
-        "Oil - Crude",
-        "Natural Gas"
+        "Natural Gas",
+        "Oil - Crude"
       ],
       "sentiment": {
         "label": "neutral",
@@ -5292,10 +5415,10 @@
       "published": "2026-03-10T10:07:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Oil - Refined Products",
+      "category": "Chemicals",
       "categories": [
-        "Oil - Refined Products",
-        "Chemicals"
+        "Chemicals",
+        "Oil - Refined Products"
       ],
       "sentiment": {
         "label": "positive",
@@ -5630,9 +5753,9 @@
       "published": "2026-03-10T09:10:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "neutral",
@@ -6038,9 +6161,9 @@
       "published": "2026-03-10T07:16:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "General",
+      "category": "Chemicals",
       "categories": [
-        "General"
+        "Chemicals"
       ],
       "sentiment": {
         "label": "negative",
@@ -6086,8 +6209,7 @@
       "feed": "S&P Shipping",
       "category": "Oil - Refined Products",
       "categories": [
-        "Oil - Refined Products",
-        "Chemicals"
+        "Oil - Refined Products"
       ],
       "sentiment": {
         "label": "positive",
@@ -6768,10 +6890,10 @@
       "published": "2026-03-10T04:42:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Oil - Crude",
+      "category": "Chemicals",
       "categories": [
-        "Oil - Crude",
-        "Chemicals"
+        "Chemicals",
+        "Oil - Crude"
       ],
       "sentiment": {
         "label": "negative",
@@ -7216,10 +7338,10 @@
       "published": "2026-03-10T03:42:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Oil - Refined Products",
+      "category": "Chemicals",
       "categories": [
-        "Oil - Refined Products",
-        "Chemicals"
+        "Chemicals",
+        "Oil - Refined Products"
       ],
       "sentiment": {
         "label": "neutral",
@@ -7357,8 +7479,7 @@
       "feed": "ICIS",
       "category": "Chemicals",
       "categories": [
-        "Chemicals",
-        "Fertilizers"
+        "Chemicals"
       ],
       "sentiment": {
         "label": "neutral",
@@ -7588,8 +7709,7 @@
       "feed": "S&P Shipping",
       "category": "Oil - Crude",
       "categories": [
-        "Oil - Crude",
-        "Shipping"
+        "Oil - Crude"
       ],
       "sentiment": {
         "label": "neutral",
@@ -7911,9 +8031,8 @@
       "published": "2026-03-09T20:29:24+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude",
+      "category": "Natural Gas",
       "categories": [
-        "Oil - Crude",
         "Natural Gas"
       ],
       "sentiment": {
@@ -8026,10 +8145,9 @@
       "published": "2026-03-09T20:02:02+00:00",
       "source": "S&P Global",
       "feed": "S&P Shipping",
-      "category": "Oil - Refined Products",
+      "category": "Oil - Crude",
       "categories": [
-        "Oil - Refined Products",
-        "Shipping"
+        "Oil - Crude"
       ],
       "sentiment": {
         "label": "negative",
@@ -8173,9 +8291,8 @@
       "published": "2026-03-09T19:13:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Oil - Crude",
+      "category": "Oil - Refined Products",
       "categories": [
-        "Oil - Crude",
         "Oil - Refined Products"
       ],
       "sentiment": {
@@ -8221,7 +8338,7 @@
       "category": "Natural Gas",
       "categories": [
         "Natural Gas",
-        "Coal"
+        "Electric Power"
       ],
       "sentiment": {
         "label": "negative",
@@ -8265,10 +8382,10 @@
       "published": "2026-03-09T18:45:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Oil - Crude",
+      "category": "Oil - Refined Products",
       "categories": [
-        "Oil - Crude",
-        "Oil - Refined Products"
+        "Oil - Refined Products",
+        "Oil - Crude"
       ],
       "sentiment": {
         "label": "positive",
@@ -8306,10 +8423,10 @@
       "published": "2026-03-09T18:35:11+00:00",
       "source": "S&P Global",
       "feed": "S&P Shipping",
-      "category": "Oil - Crude",
+      "category": "Shipping",
       "categories": [
-        "Oil - Crude",
-        "Shipping"
+        "Shipping",
+        "Oil - Crude"
       ],
       "sentiment": {
         "label": "positive",
@@ -8533,9 +8650,9 @@
       "published": "2026-03-09T18:01:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "negative",
@@ -8997,9 +9114,9 @@
       "published": "2026-03-09T17:07:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "negative",
@@ -9052,9 +9169,9 @@
       "published": "2026-03-09T17:07:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "neutral",
@@ -9198,9 +9315,9 @@
       "published": "2026-03-09T16:52:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "General",
+      "category": "Chemicals",
       "categories": [
-        "General"
+        "Chemicals"
       ],
       "sentiment": {
         "label": "negative",
@@ -9320,9 +9437,8 @@
       "published": "2026-03-09T16:35:58+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Refined Products",
-      "category": "Oil - Refined Products",
+      "category": "Energy Transition",
       "categories": [
-        "Oil - Refined Products",
         "Energy Transition"
       ],
       "sentiment": {
@@ -9402,10 +9518,10 @@
       "published": "2026-03-09T16:15:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Oil - Refined Products",
+      "category": "Chemicals",
       "categories": [
-        "Oil - Refined Products",
-        "Chemicals"
+        "Chemicals",
+        "Oil - Refined Products"
       ],
       "sentiment": {
         "label": "negative",
@@ -9531,10 +9647,10 @@
       "published": "2026-03-09T15:46:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Oil - Crude",
+      "category": "Oil - Refined Products",
       "categories": [
-        "Oil - Crude",
-        "Oil - Refined Products"
+        "Oil - Refined Products",
+        "Shipping"
       ],
       "sentiment": {
         "label": "positive",
@@ -9580,9 +9696,8 @@
       "published": "2026-03-09T15:44:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Oil - Crude",
+      "category": "Natural Gas",
       "categories": [
-        "Oil - Crude",
         "Natural Gas"
       ],
       "sentiment": {
@@ -9726,9 +9841,8 @@
       "published": "2026-03-09T15:31:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Oil - Crude",
+      "category": "Oil - Refined Products",
       "categories": [
-        "Oil - Crude",
         "Oil - Refined Products"
       ],
       "sentiment": {
@@ -9853,10 +9967,10 @@
       "published": "2026-03-09T14:53:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Oil - Crude",
+      "category": "Chemicals",
       "categories": [
-        "Oil - Crude",
-        "Chemicals"
+        "Chemicals",
+        "Shipping"
       ],
       "sentiment": {
         "label": "neutral",
@@ -10074,9 +10188,9 @@
       "published": "2026-03-09T14:17:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "General",
+      "category": "Chemicals",
       "categories": [
-        "General"
+        "Chemicals"
       ],
       "sentiment": {
         "label": "negative",
@@ -10122,10 +10236,9 @@
       "published": "2026-03-09T14:14:47+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Energy Transition",
+      "category": "Fertilizers",
       "categories": [
-        "Energy Transition",
-        "Chemicals"
+        "Fertilizers"
       ],
       "sentiment": {
         "label": "positive",
@@ -10348,10 +10461,10 @@
       "published": "2026-03-09T13:11:32+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Energy Transition",
+      "category": "Fertilizers",
       "categories": [
-        "Energy Transition",
-        "Chemicals"
+        "Fertilizers",
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "neutral",
@@ -10395,9 +10508,9 @@
       "published": "2026-03-09T13:06:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Fertilizers",
       "categories": [
-        "General"
+        "Fertilizers"
       ],
       "sentiment": {
         "label": "neutral",
@@ -10910,10 +11023,9 @@
       "published": "2026-03-09T11:58:30+00:00",
       "source": "S&P Global",
       "feed": "S&P Natural Gas",
-      "category": "Natural Gas",
+      "category": "Energy Transition",
       "categories": [
-        "Natural Gas",
-        "Coal"
+        "Energy Transition"
       ],
       "sentiment": {
         "label": "negative",
@@ -11367,10 +11479,10 @@
       "published": "2026-03-09T10:49:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Oil - Refined Products",
+      "category": "Chemicals",
       "categories": [
-        "Oil - Refined Products",
-        "Chemicals"
+        "Chemicals",
+        "Oil - Refined Products"
       ],
       "sentiment": {
         "label": "negative",
@@ -11473,8 +11585,7 @@
       "feed": "S&P Natural Gas",
       "category": "Natural Gas",
       "categories": [
-        "Natural Gas",
-        "LNG"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "negative",
@@ -11842,9 +11953,9 @@
       "published": "2026-03-09T09:51:08+00:00",
       "source": "Fastmarkets",
       "feed": "Fastmarkets",
-      "category": "General",
+      "category": "Agriculture",
       "categories": [
-        "General"
+        "Agriculture"
       ],
       "sentiment": {
         "label": "negative",
@@ -12181,9 +12292,9 @@
       "published": "2026-03-09T09:24:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Fertilizers",
       "categories": [
-        "General"
+        "Fertilizers"
       ],
       "sentiment": {
         "label": "positive",
@@ -12498,9 +12609,9 @@
       "published": "2026-03-09T08:40:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Energy Transition",
+      "category": "Fertilizers",
       "categories": [
-        "Energy Transition"
+        "Fertilizers"
       ],
       "sentiment": {
         "label": "positive",
@@ -12578,9 +12689,9 @@
       "published": "2026-03-09T08:22:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "General",
+      "category": "Chemicals",
       "categories": [
-        "General"
+        "Chemicals"
       ],
       "sentiment": {
         "label": "negative",
@@ -12676,9 +12787,9 @@
       "published": "2026-03-09T08:12:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Oil - Crude",
+      "category": "Fertilizers",
       "categories": [
-        "Oil - Crude",
+        "Fertilizers",
         "Oil - Refined Products"
       ],
       "sentiment": {
@@ -12955,10 +13066,10 @@
       "published": "2026-03-09T07:18:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Natural Gas",
+      "category": "Chemicals",
       "categories": [
-        "Natural Gas",
-        "Chemicals"
+        "Chemicals",
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "negative",
@@ -13188,9 +13299,8 @@
       "published": "2026-03-09T07:00:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Oil - Crude",
+      "category": "Chemicals",
       "categories": [
-        "Oil - Crude",
         "Chemicals"
       ],
       "sentiment": {
@@ -13456,10 +13566,10 @@
       "published": "2026-03-09T06:24:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Oil - Crude",
+      "category": "Natural Gas",
       "categories": [
-        "Oil - Crude",
-        "Natural Gas"
+        "Natural Gas",
+        "Coal"
       ],
       "sentiment": {
         "label": "neutral",
@@ -13559,10 +13669,10 @@
       "published": "2026-03-09T06:20:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Energy Transition",
+      "category": "Chemicals",
       "categories": [
-        "Energy Transition",
-        "Chemicals"
+        "Chemicals",
+        "Fertilizers"
       ],
       "sentiment": {
         "label": "neutral",
@@ -13703,9 +13813,9 @@
       "published": "2026-03-09T06:00:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "negative",
@@ -13976,9 +14086,9 @@
       "published": "2026-03-09T05:03:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "positive",
@@ -14173,10 +14283,10 @@
       "published": "2026-03-09T04:41:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Oil - Crude",
+      "category": "Chemicals",
       "categories": [
-        "Oil - Crude",
-        "Chemicals"
+        "Chemicals",
+        "Oil - Crude"
       ],
       "sentiment": {
         "label": "negative",
@@ -15542,10 +15652,10 @@
       "published": "2026-03-07T15:36:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Oil - Refined Products",
+      "category": "Chemicals",
       "categories": [
-        "Oil - Refined Products",
-        "Chemicals"
+        "Chemicals",
+        "Oil - Refined Products"
       ],
       "sentiment": {
         "label": "negative",
@@ -15591,8 +15701,7 @@
       "feed": "ICIS",
       "category": "Chemicals",
       "categories": [
-        "Chemicals",
-        "Fertilizers"
+        "Chemicals"
       ],
       "sentiment": {
         "label": "neutral",
@@ -16082,9 +16191,9 @@
       "published": "2026-03-06T22:44:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Oil - Refined Products",
       "categories": [
-        "General"
+        "Oil - Refined Products"
       ],
       "sentiment": {
         "label": "negative",
@@ -16732,9 +16841,9 @@
       "published": "2026-03-06T21:00:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "General",
+      "category": "Shipping",
       "categories": [
-        "General"
+        "Shipping"
       ],
       "sentiment": {
         "label": "positive",
@@ -16824,9 +16933,9 @@
       "published": "2026-03-06T20:43:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Fertilizers",
       "categories": [
-        "General"
+        "Fertilizers"
       ],
       "sentiment": {
         "label": "positive",
@@ -17730,9 +17839,9 @@
       "published": "2026-03-06T17:54:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "neutral",
@@ -17770,9 +17879,9 @@
       "published": "2026-03-06T17:54:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "negative",
@@ -18034,10 +18143,10 @@
       "published": "2026-03-06T17:33:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "LNG",
+      "category": "Chemicals",
       "categories": [
-        "LNG",
-        "Chemicals"
+        "Chemicals",
+        "LNG"
       ],
       "sentiment": {
         "label": "negative",
@@ -18083,10 +18192,10 @@
       "published": "2026-03-06T17:31:17+00:00",
       "source": "S&P Global",
       "feed": "S&P Agriculture",
-      "category": "Energy Transition",
+      "category": "Agriculture",
       "categories": [
-        "Energy Transition",
-        "Agriculture"
+        "Agriculture",
+        "Energy Transition"
       ],
       "sentiment": {
         "label": "negative",
@@ -18273,9 +18382,9 @@
       "published": "2026-03-06T17:27:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "negative",
@@ -18859,7 +18968,7 @@
       "category": "Natural Gas",
       "categories": [
         "Natural Gas",
-        "Energy Transition"
+        "Fertilizers"
       ],
       "sentiment": {
         "label": "neutral",
@@ -19194,10 +19303,10 @@
       "published": "2026-03-06T15:53:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Natural Gas",
+      "category": "Chemicals",
       "categories": [
-        "Natural Gas",
-        "Chemicals"
+        "Chemicals",
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "negative",
@@ -19235,9 +19344,9 @@
       "published": "2026-03-06T15:47:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "neutral",
@@ -19454,9 +19563,9 @@
       "published": "2026-03-06T15:25:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "positive",
@@ -19549,9 +19658,9 @@
       "published": "2026-03-06T15:02:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "positive",
@@ -19593,8 +19702,9 @@
       "published": "2026-03-06T14:58:14+00:00",
       "source": "S&P Global",
       "feed": "S&P Metals",
-      "category": "Metals",
+      "category": "Natural Gas",
       "categories": [
+        "Natural Gas",
         "Metals"
       ],
       "sentiment": {
@@ -20142,9 +20252,9 @@
       "published": "2026-03-06T14:04:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "General",
+      "category": "Chemicals",
       "categories": [
-        "General"
+        "Chemicals"
       ],
       "sentiment": {
         "label": "negative",
@@ -20268,9 +20378,9 @@
       "published": "2026-03-06T13:58:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Natural Gas",
+      "category": "Electric Power",
       "categories": [
-        "Natural Gas",
+        "Electric Power",
         "Coal"
       ],
       "sentiment": {
@@ -20399,9 +20509,9 @@
       "published": "2026-03-06T13:50:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "General",
+      "category": "Chemicals",
       "categories": [
-        "General"
+        "Chemicals"
       ],
       "sentiment": {
         "label": "negative",
@@ -20443,10 +20553,10 @@
       "published": "2026-03-06T13:46:24+00:00",
       "source": "S&P Global",
       "feed": "S&P Agriculture",
-      "category": "Oil - Crude",
+      "category": "Agriculture",
       "categories": [
-        "Oil - Crude",
-        "Oil - Refined Products"
+        "Agriculture",
+        "Oil - Crude"
       ],
       "sentiment": {
         "label": "positive",
@@ -20484,10 +20594,10 @@
       "published": "2026-03-06T13:30:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "Oil - Crude",
+      "category": "Oil - Refined Products",
       "categories": [
-        "Oil - Crude",
-        "Oil - Refined Products"
+        "Oil - Refined Products",
+        "Oil - Crude"
       ],
       "sentiment": {
         "label": "neutral",
@@ -20564,8 +20674,7 @@
       "feed": "ICIS",
       "category": "Chemicals",
       "categories": [
-        "Chemicals",
-        "Fertilizers"
+        "Chemicals"
       ],
       "sentiment": {
         "label": "neutral",
@@ -20609,9 +20718,8 @@
       "published": "2026-03-06T13:25:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Oil - Crude",
+      "category": "Chemicals",
       "categories": [
-        "Oil - Crude",
         "Chemicals"
       ],
       "sentiment": {
@@ -20706,7 +20814,8 @@
       "feed": "ICIS",
       "category": "Chemicals",
       "categories": [
-        "Chemicals"
+        "Chemicals",
+        "Oil - Refined Products"
       ],
       "sentiment": {
         "label": "neutral",
@@ -20756,9 +20865,8 @@
       "published": "2026-03-06T12:53:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Oil - Crude",
+      "category": "Chemicals",
       "categories": [
-        "Oil - Crude",
         "Chemicals"
       ],
       "sentiment": {
@@ -20807,9 +20915,8 @@
       "published": "2026-03-06T12:53:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Oil - Crude",
+      "category": "Chemicals",
       "categories": [
-        "Oil - Crude",
         "Chemicals"
       ],
       "sentiment": {
@@ -21026,9 +21133,9 @@
       "published": "2026-03-06T12:37:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "positive",
@@ -21072,9 +21179,8 @@
       "published": "2026-03-06T12:36:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Oil - Crude",
+      "category": "Chemicals",
       "categories": [
-        "Oil - Crude",
         "Chemicals"
       ],
       "sentiment": {
@@ -21165,10 +21271,10 @@
       "published": "2026-03-06T12:29:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Oil - Crude",
+      "category": "Oil - Refined Products",
       "categories": [
-        "Oil - Crude",
-        "Oil - Refined Products"
+        "Oil - Refined Products",
+        "Oil - Crude"
       ],
       "sentiment": {
         "label": "negative",
@@ -21212,9 +21318,9 @@
       "published": "2026-03-06T12:29:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "General",
+      "category": "Chemicals",
       "categories": [
-        "General"
+        "Chemicals"
       ],
       "sentiment": {
         "label": "neutral",
@@ -21573,8 +21679,7 @@
       "feed": "ICIS",
       "category": "Oil - Refined Products",
       "categories": [
-        "Oil - Refined Products",
-        "Energy Transition"
+        "Oil - Refined Products"
       ],
       "sentiment": {
         "label": "neutral",
@@ -21749,7 +21854,7 @@
       "category": "Natural Gas",
       "categories": [
         "Natural Gas",
-        "Energy Transition"
+        "Fertilizers"
       ],
       "sentiment": {
         "label": "positive",
@@ -21922,10 +22027,10 @@
       "published": "2026-03-06T11:03:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "LNG",
+      "category": "Chemicals",
       "categories": [
-        "LNG",
-        "Chemicals"
+        "Chemicals",
+        "LNG"
       ],
       "sentiment": {
         "label": "negative",
@@ -22057,9 +22162,8 @@
       "published": "2026-03-06T10:57:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "Natural Gas",
+      "category": "Energy Transition",
       "categories": [
-        "Natural Gas",
         "Energy Transition"
       ],
       "sentiment": {
@@ -22398,9 +22502,8 @@
       "published": "2026-03-06T10:08:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Oil - Crude",
+      "category": "Chemicals",
       "categories": [
-        "Oil - Crude",
         "Chemicals"
       ],
       "sentiment": {
@@ -22645,9 +22748,9 @@
       "published": "2026-03-06T09:12:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "General",
+      "category": "Chemicals",
       "categories": [
-        "General"
+        "Chemicals"
       ],
       "sentiment": {
         "label": "neutral",
@@ -22740,9 +22843,8 @@
       "published": "2026-03-06T08:42:32+00:00",
       "source": "S&P Global",
       "feed": "S&P Shipping",
-      "category": "Oil - Refined Products",
+      "category": "Shipping",
       "categories": [
-        "Oil - Refined Products",
         "Shipping"
       ],
       "sentiment": {
@@ -22824,9 +22926,9 @@
       "published": "2026-03-06T08:29:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "General",
+      "category": "Chemicals",
       "categories": [
-        "General"
+        "Chemicals"
       ],
       "sentiment": {
         "label": "negative",
@@ -23183,10 +23285,10 @@
       "published": "2026-03-06T07:36:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Oil - Crude",
+      "category": "Oil - Refined Products",
       "categories": [
-        "Oil - Crude",
-        "Oil - Refined Products"
+        "Oil - Refined Products",
+        "Chemicals"
       ],
       "sentiment": {
         "label": "negative",
@@ -23832,9 +23934,8 @@
       "published": "2026-03-06T00:29:23+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Refined Products",
-      "category": "Oil - Refined Products",
+      "category": "Chemicals",
       "categories": [
-        "Oil - Refined Products",
         "Chemicals"
       ],
       "sentiment": {
@@ -24153,7 +24254,7 @@
       "published": "2026-03-05T20:34:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Oil - Crude",
+      "category": "Oil - Refined Products",
       "sentiment": {
         "label": "negative",
         "confidence": 0.7644829750061035,
@@ -24182,6 +24283,7 @@
         "extracted_at": "2026-03-05T20:46:24.567261+00:00"
       },
       "categories": [
+        "Oil - Refined Products",
         "Oil - Crude"
       ]
     },
@@ -24193,7 +24295,7 @@
       "published": "2026-03-05T20:11:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "Oil - Crude",
+      "category": "Oil - Refined Products",
       "sentiment": {
         "label": "negative",
         "confidence": 0.9134178757667542,
@@ -24222,8 +24324,8 @@
         "extracted_at": "2026-03-05T20:15:26.790295+00:00"
       },
       "categories": [
-        "Oil - Crude",
-        "Oil - Refined Products"
+        "Oil - Refined Products",
+        "Oil - Crude"
       ]
     },
     {
@@ -24267,8 +24369,7 @@
         "extracted_at": "2026-03-05T20:25:44.238051+00:00"
       },
       "categories": [
-        "Oil - Crude",
-        "Oil - Refined Products"
+        "Oil - Crude"
       ]
     },
     {
@@ -24633,8 +24734,7 @@
       "feed": "S&P Oil - Refined Products",
       "category": "Oil - Crude",
       "categories": [
-        "Oil - Crude",
-        "Oil - Refined Products"
+        "Oil - Crude"
       ],
       "sentiment": {
         "label": "positive",
@@ -24814,7 +24914,8 @@
       "feed": "Fastmarkets",
       "category": "Metals",
       "categories": [
-        "Metals"
+        "Metals",
+        "Shipping"
       ],
       "sentiment": {
         "label": "negative",
@@ -24874,10 +24975,10 @@
       "published": "2026-03-05T17:33:47+00:00",
       "source": "S&P Global",
       "feed": "S&P Shipping",
-      "category": "Oil - Crude",
+      "category": "Shipping",
       "categories": [
-        "Oil - Crude",
-        "Oil - Refined Products"
+        "Shipping",
+        "Oil - Crude"
       ],
       "sentiment": {
         "label": "negative",
@@ -25079,7 +25180,7 @@
       "published": "2026-03-05T17:11:19+00:00",
       "source": "S&P Global",
       "feed": "S&P Chemicals",
-      "category": "Oil - Refined Products",
+      "category": "Chemicals",
       "sentiment": {
         "label": "negative",
         "confidence": 0.9099339246749878,
@@ -25112,8 +25213,8 @@
         "extracted_at": "2026-03-05T19:03:19.379818+00:00"
       },
       "categories": [
-        "Oil - Refined Products",
-        "Chemicals"
+        "Chemicals",
+        "Oil - Refined Products"
       ]
     },
     {
@@ -25298,7 +25399,7 @@
       },
       "categories": [
         "Shipping",
-        "General"
+        "Oil - Crude"
       ]
     },
     {
@@ -25349,7 +25450,7 @@
       "published": "2026-03-05T16:56:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Oil - Crude",
+      "category": "Oil - Refined Products",
       "sentiment": {
         "label": "negative",
         "confidence": 0.9235342144966125,
@@ -25382,7 +25483,6 @@
         "extracted_at": "2026-03-05T17:09:26.674554+00:00"
       },
       "categories": [
-        "Oil - Crude",
         "Oil - Refined Products"
       ]
     },
@@ -25481,7 +25581,7 @@
       "published": "2026-03-05T16:38:44+00:00",
       "source": "S&P Global",
       "feed": "S&P Natural Gas",
-      "category": "Natural Gas",
+      "category": "Energy Transition",
       "sentiment": {
         "label": "positive",
         "confidence": 0.6662446856498718,
@@ -25510,7 +25610,6 @@
         "extracted_at": "2026-03-05T16:48:41.189727+00:00"
       },
       "categories": [
-        "Natural Gas",
         "Energy Transition"
       ]
     },
@@ -25522,7 +25621,7 @@
       "published": "2026-03-05T16:35:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Oil - Crude",
+      "category": "Chemicals",
       "sentiment": {
         "label": "positive",
         "confidence": 0.916801393032074,
@@ -25555,8 +25654,8 @@
         "extracted_at": "2026-03-05T16:48:41.189727+00:00"
       },
       "categories": [
-        "Oil - Crude",
-        "Chemicals"
+        "Chemicals",
+        "Oil - Crude"
       ]
     },
     {
@@ -25617,7 +25716,7 @@
       "published": "2026-03-05T16:26:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Electric Power",
+      "category": "Energy Transition",
       "sentiment": {
         "label": "neutral",
         "confidence": 0.6739824414253235,
@@ -25662,8 +25761,8 @@
         "extracted_at": "2026-03-05T16:38:19.791355+00:00"
       },
       "categories": [
-        "Electric Power",
-        "Energy Transition"
+        "Energy Transition",
+        "Electric Power"
       ]
     },
     {
@@ -25716,9 +25815,9 @@
       "published": "2026-03-05T16:24:27+00:00",
       "source": "Fastmarkets",
       "feed": "Fastmarkets",
-      "category": "General",
+      "category": "Metals",
       "categories": [
-        "General"
+        "Metals"
       ],
       "sentiment": {
         "label": "positive",
@@ -26386,7 +26485,7 @@
       "published": "2026-03-05T14:39:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "General",
+      "category": "Fertilizers",
       "sentiment": {
         "label": "neutral",
         "confidence": 0.5047171115875244,
@@ -26432,7 +26531,7 @@
         "extracted_at": "2026-03-05T14:53:14.525804+00:00"
       },
       "categories": [
-        "General"
+        "Fertilizers"
       ]
     },
     {
@@ -26526,7 +26625,8 @@
         "extracted_at": "2026-03-05T15:45:16.905817+00:00"
       },
       "categories": [
-        "Chemicals"
+        "Chemicals",
+        "Shipping"
       ]
     },
     {
@@ -26537,7 +26637,7 @@
       "published": "2026-03-05T14:23:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "General",
+      "category": "Fertilizers",
       "sentiment": {
         "label": "negative",
         "confidence": 0.9731135964393616,
@@ -26572,7 +26672,7 @@
         "extracted_at": "2026-03-05T14:32:23.520657+00:00"
       },
       "categories": [
-        "General"
+        "Fertilizers"
       ]
     },
     {
@@ -26669,7 +26769,7 @@
       "published": "2026-03-05T13:41:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Metals",
       "sentiment": {
         "label": "neutral",
         "confidence": 0.8572297692298889,
@@ -26702,7 +26802,7 @@
         "extracted_at": "2026-03-05T13:51:04.593166+00:00"
       },
       "categories": [
-        "General"
+        "Metals"
       ]
     },
     {
@@ -26840,7 +26940,7 @@
       "published": "2026-03-05T13:17:22+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Energy Transition",
+      "category": "Fertilizers",
       "sentiment": {
         "label": "positive",
         "confidence": 0.5131375193595886,
@@ -26879,8 +26979,7 @@
         "extracted_at": "2026-03-06T00:02:29.896215+00:00"
       },
       "categories": [
-        "Energy Transition",
-        "Chemicals"
+        "Fertilizers"
       ]
     },
     {
@@ -26991,7 +27090,7 @@
       "published": "2026-03-05T12:56:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "General",
+      "category": "Natural Gas",
       "sentiment": {
         "label": "positive",
         "confidence": 0.8038144707679749,
@@ -27020,7 +27119,7 @@
         "extracted_at": "2026-03-05T13:09:47.740970+00:00"
       },
       "categories": [
-        "General"
+        "Natural Gas"
       ]
     },
     {
@@ -27031,7 +27130,7 @@
       "published": "2026-03-05T12:50:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "General",
+      "category": "Natural Gas",
       "sentiment": {
         "label": "neutral",
         "confidence": 0.6311719417572021,
@@ -27060,7 +27159,7 @@
         "extracted_at": "2026-03-05T12:59:30.869605+00:00"
       },
       "categories": [
-        "General"
+        "Natural Gas"
       ]
     },
     {
@@ -27071,7 +27170,7 @@
       "published": "2026-03-05T12:46:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "General",
+      "category": "Natural Gas",
       "sentiment": {
         "label": "positive",
         "confidence": 0.9277319312095642,
@@ -27114,7 +27213,7 @@
         "extracted_at": "2026-03-05T12:59:30.869605+00:00"
       },
       "categories": [
-        "General"
+        "Natural Gas"
       ]
     },
     {
@@ -27164,7 +27263,8 @@
         "extracted_at": "2026-03-05T12:59:30.869605+00:00"
       },
       "categories": [
-        "Energy Transition"
+        "Energy Transition",
+        "Fertilizers"
       ]
     },
     {
@@ -27313,7 +27413,7 @@
       "published": "2026-03-05T12:24:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Energy Transition",
+      "category": "Fertilizers",
       "sentiment": {
         "label": "neutral",
         "confidence": 0.522320032119751,
@@ -27350,7 +27450,7 @@
         "extracted_at": "2026-03-05T12:38:56.206275+00:00"
       },
       "categories": [
-        "Energy Transition"
+        "Fertilizers"
       ]
     },
     {
@@ -27459,7 +27559,7 @@
       "published": "2026-03-05T12:02:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Oil - Refined Products",
+      "category": "Chemicals",
       "sentiment": {
         "label": "neutral",
         "confidence": 0.8750317096710205,
@@ -27494,8 +27594,8 @@
         "extracted_at": "2026-03-05T12:07:53.870170+00:00"
       },
       "categories": [
-        "Oil - Refined Products",
-        "Chemicals"
+        "Chemicals",
+        "Oil - Refined Products"
       ]
     },
     {
@@ -27595,7 +27695,7 @@
       "published": "2026-03-05T11:48:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Oil - Refined Products",
+      "category": "Chemicals",
       "sentiment": {
         "label": "negative",
         "confidence": 0.9172606468200684,
@@ -27624,8 +27724,8 @@
         "extracted_at": "2026-03-05T11:57:38.749924+00:00"
       },
       "categories": [
-        "Oil - Refined Products",
-        "Chemicals"
+        "Chemicals",
+        "Oil - Refined Products"
       ]
     },
     {
@@ -27735,7 +27835,7 @@
       "published": "2026-03-05T11:40:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Shipping",
       "sentiment": {
         "label": "negative",
         "confidence": 0.8498193025588989,
@@ -27768,7 +27868,7 @@
         "extracted_at": "2026-03-05T11:47:21.455381+00:00"
       },
       "categories": [
-        "General"
+        "Shipping"
       ]
     },
     {
@@ -27825,7 +27925,7 @@
       "published": "2026-03-05T11:32:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Oil - Refined Products",
+      "category": "Chemicals",
       "sentiment": {
         "label": "negative",
         "confidence": 0.9676609039306641,
@@ -27849,8 +27949,8 @@
         "extracted_at": "2026-03-05T11:47:21.455381+00:00"
       },
       "categories": [
-        "Oil - Refined Products",
-        "Chemicals"
+        "Chemicals",
+        "Oil - Refined Products"
       ]
     },
     {
@@ -27861,7 +27961,7 @@
       "published": "2026-03-05T11:28:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Fertilizers",
       "sentiment": {
         "label": "neutral",
         "confidence": 0.778601348400116,
@@ -27894,7 +27994,7 @@
         "extracted_at": "2026-03-05T11:37:05.658463+00:00"
       },
       "categories": [
-        "General"
+        "Fertilizers"
       ]
     },
     {
@@ -28030,8 +28130,7 @@
         "extracted_at": "2026-03-05T10:53:50.112515+00:00"
       },
       "categories": [
-        "Chemicals",
-        "Fertilizers"
+        "Chemicals"
       ]
     },
     {
@@ -28042,7 +28141,7 @@
       "published": "2026-03-05T10:38:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Oil - Crude",
+      "category": "Energy Transition",
       "sentiment": {
         "label": "positive",
         "confidence": 0.576998770236969,
@@ -28071,8 +28170,8 @@
         "extracted_at": "2026-03-05T10:45:06.266676+00:00"
       },
       "categories": [
-        "Oil - Crude",
-        "Energy Transition"
+        "Energy Transition",
+        "Oil - Crude"
       ]
     },
     {
@@ -28083,7 +28182,7 @@
       "published": "2026-03-05T10:27:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "General",
+      "category": "Chemicals",
       "sentiment": {
         "label": "negative",
         "confidence": 0.8261687755584717,
@@ -28120,7 +28219,7 @@
         "extracted_at": "2026-03-05T10:34:55.610717+00:00"
       },
       "categories": [
-        "General"
+        "Chemicals"
       ]
     },
     {
@@ -28473,7 +28572,7 @@
       "published": "2026-03-05T09:48:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Natural Gas",
+      "category": "LNG",
       "sentiment": {
         "label": "neutral",
         "confidence": 0.9428903460502625,
@@ -28506,8 +28605,8 @@
         "extracted_at": "2026-03-05T10:34:55.610717+00:00"
       },
       "categories": [
-        "Natural Gas",
-        "LNG"
+        "LNG",
+        "Natural Gas"
       ]
     },
     {
@@ -28805,7 +28904,7 @@
       "published": "2026-03-05T08:23:58+00:00",
       "source": "S&P Global",
       "feed": "S&P Shipping",
-      "category": "Oil - Crude",
+      "category": "Oil - Refined Products",
       "sentiment": {
         "label": "negative",
         "confidence": 0.9231998324394226,
@@ -28836,8 +28935,8 @@
         "extracted_at": "2026-03-05T15:03:34.276323+00:00"
       },
       "categories": [
-        "Oil - Crude",
-        "Oil - Refined Products"
+        "Oil - Refined Products",
+        "Oil - Crude"
       ]
     },
     {
@@ -28888,7 +28987,7 @@
       "published": "2026-03-05T08:20:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Chemicals",
+      "category": "Shipping",
       "sentiment": {
         "label": "negative",
         "confidence": 0.9465504884719849,
@@ -28917,8 +29016,8 @@
         "extracted_at": "2026-03-05T08:31:15.177002+00:00"
       },
       "categories": [
-        "Chemicals",
-        "Shipping"
+        "Shipping",
+        "Chemicals"
       ]
     },
     {
@@ -29490,7 +29589,7 @@
       "published": "2026-03-05T07:16:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Oil - Crude",
+      "category": "Oil - Refined Products",
       "sentiment": {
         "label": "negative",
         "confidence": 0.9588956236839294,
@@ -29530,7 +29629,6 @@
         "extracted_at": "2026-03-05T07:29:13.880356+00:00"
       },
       "categories": [
-        "Oil - Crude",
         "Oil - Refined Products"
       ]
     },
@@ -30002,7 +30100,7 @@
       "published": "2026-03-05T05:28:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "General",
+      "category": "Oil - Refined Products",
       "sentiment": {
         "label": "negative",
         "confidence": 0.8864225149154663,
@@ -30037,7 +30135,7 @@
         "extracted_at": "2026-03-05T05:39:47.939336+00:00"
       },
       "categories": [
-        "General"
+        "Oil - Refined Products"
       ]
     },
     {
@@ -30048,7 +30146,7 @@
       "published": "2026-03-05T05:06:26+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude",
+      "category": "Oil - Refined Products",
       "sentiment": {
         "label": "negative",
         "confidence": 0.7874425053596497,
@@ -30084,8 +30182,8 @@
         "extracted_at": "2026-03-05T06:20:24.986204+00:00"
       },
       "categories": [
-        "Oil - Crude",
-        "Oil - Refined Products"
+        "Oil - Refined Products",
+        "Oil - Crude"
       ]
     },
     {
@@ -30140,7 +30238,7 @@
       "published": "2026-03-05T04:54:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Oil - Crude",
+      "category": "Chemicals",
       "sentiment": {
         "label": "positive",
         "confidence": 0.7816752195358276,
@@ -30169,7 +30267,6 @@
         "extracted_at": "2026-03-05T05:09:19.223897+00:00"
       },
       "categories": [
-        "Oil - Crude",
         "Chemicals"
       ]
     },
@@ -30483,7 +30580,7 @@
       "published": "2026-03-05T03:19:40+00:00",
       "source": "S&P Global",
       "feed": "S&P Natural Gas",
-      "category": "Natural Gas",
+      "category": "LNG",
       "sentiment": {
         "label": "positive",
         "confidence": 0.5166523456573486,
@@ -30522,7 +30619,6 @@
         "extracted_at": "2026-03-05T08:31:15.177002+00:00"
       },
       "categories": [
-        "Natural Gas",
         "LNG"
       ]
     },
@@ -30534,7 +30630,7 @@
       "published": "2026-03-05T02:47:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Shipping",
       "sentiment": {
         "label": "negative",
         "confidence": 0.917946994304657,
@@ -30565,7 +30661,7 @@
         "extracted_at": "2026-03-05T10:53:50.112515+00:00"
       },
       "categories": [
-        "General"
+        "Shipping"
       ]
     },
     {
@@ -30744,8 +30840,7 @@
         "extracted_at": "2026-03-05T18:32:17.723980+00:00"
       },
       "categories": [
-        "Oil - Refined Products",
-        "Fertilizers"
+        "Oil - Refined Products"
       ]
     },
     {
@@ -30800,7 +30895,7 @@
       "published": "2026-03-04T23:24:48+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Crude",
-      "category": "General",
+      "category": "Oil - Crude",
       "sentiment": {
         "label": "neutral",
         "confidence": 0.8606355786323547,
@@ -30837,7 +30932,8 @@
         "extracted_at": "2026-03-04T23:34:32.871422+00:00"
       },
       "categories": [
-        "General"
+        "Oil - Crude",
+        "Shipping"
       ]
     },
     {
@@ -30848,7 +30944,7 @@
       "published": "2026-03-04T23:06:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Metals",
       "sentiment": {
         "label": "neutral",
         "confidence": 0.6492881178855896,
@@ -30884,7 +30980,7 @@
         "extracted_at": "2026-03-05T10:53:50.112515+00:00"
       },
       "categories": [
-        "General"
+        "Metals"
       ]
     },
     {
@@ -30926,8 +31022,7 @@
         "extracted_at": "2026-03-05T00:15:05.716520+00:00"
       },
       "categories": [
-        "Metals",
-        "General"
+        "Metals"
       ]
     },
     {
@@ -31030,7 +31125,7 @@
       "published": "2026-03-04T22:44:58+00:00",
       "source": "S&P Global",
       "feed": "S&P Energy Transition",
-      "category": "Oil - Refined Products",
+      "category": "Energy Transition",
       "sentiment": {
         "label": "negative",
         "confidence": 0.5980868935585022,
@@ -31063,8 +31158,8 @@
         "extracted_at": "2026-03-05T04:08:25.711991+00:00"
       },
       "categories": [
-        "Oil - Refined Products",
-        "Energy Transition"
+        "Energy Transition",
+        "Oil - Refined Products"
       ]
     },
     {
@@ -31117,7 +31212,7 @@
       "published": "2026-03-04T22:12:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Shipping",
       "sentiment": {
         "label": "neutral",
         "confidence": 0.7500402927398682,
@@ -31154,7 +31249,7 @@
         "extracted_at": "2026-03-05T10:53:50.112515+00:00"
       },
       "categories": [
-        "General"
+        "Shipping"
       ]
     },
     {
@@ -31378,9 +31473,8 @@
       "published": "2026-03-04T20:33:08+00:00",
       "source": "S&P Global",
       "feed": "S&P Electric Power",
-      "category": "Electric Power",
+      "category": "Energy Transition",
       "categories": [
-        "Electric Power",
         "Energy Transition"
       ],
       "sentiment": {
@@ -31490,7 +31584,8 @@
         "extracted_at": "2026-03-05T15:56:25.390938+00:00"
       },
       "categories": [
-        "Fertilizers"
+        "Fertilizers",
+        "Natural Gas"
       ]
     },
     {
@@ -31547,7 +31642,7 @@
       "published": "2026-03-04T20:26:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "General",
+      "category": "LNG",
       "sentiment": {
         "label": "neutral",
         "confidence": 0.8991402387619019,
@@ -31580,7 +31675,7 @@
         "extracted_at": "2026-03-04T21:02:23.135318+00:00"
       },
       "categories": [
-        "General"
+        "LNG"
       ]
     },
     {
@@ -31692,7 +31787,7 @@
       "published": "2026-03-04T19:24:53+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Energy Transition",
+      "category": "Fertilizers",
       "sentiment": {
         "label": "negative",
         "confidence": 0.9593368172645569,
@@ -31729,7 +31824,6 @@
         "extracted_at": "2026-03-05T15:56:25.390938+00:00"
       },
       "categories": [
-        "Energy Transition",
         "Fertilizers"
       ]
     },
@@ -31783,7 +31877,7 @@
       "published": "2026-03-04T18:52:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "General",
+      "category": "Chemicals",
       "sentiment": {
         "label": "positive",
         "confidence": 0.9425660371780396,
@@ -31826,7 +31920,7 @@
         "extracted_at": "2026-03-04T21:02:23.135318+00:00"
       },
       "categories": [
-        "General"
+        "Chemicals"
       ]
     },
     {
@@ -32198,7 +32292,7 @@
       "published": "2026-03-04T17:28:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Natural Gas",
+      "category": "Oil - Crude",
       "sentiment": {
         "label": "neutral",
         "confidence": 0.5459840297698975,
@@ -32233,6 +32327,7 @@
         "extracted_at": "2026-03-04T21:02:23.135318+00:00"
       },
       "categories": [
+        "Oil - Crude",
         "Natural Gas"
       ]
     },
@@ -32330,7 +32425,7 @@
       "published": "2026-03-04T17:16:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "General",
+      "category": "Natural Gas",
       "sentiment": {
         "label": "negative",
         "confidence": 0.9441447257995605,
@@ -32363,7 +32458,7 @@
         "extracted_at": "2026-03-04T21:02:23.135318+00:00"
       },
       "categories": [
-        "General"
+        "Natural Gas"
       ]
     },
     {
@@ -32374,7 +32469,7 @@
       "published": "2026-03-04T17:14:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Fertilizers",
+      "category": "Energy Transition",
       "sentiment": {
         "label": "negative",
         "confidence": 0.846145510673523,
@@ -32407,6 +32502,7 @@
         "extracted_at": "2026-03-04T21:02:23.135318+00:00"
       },
       "categories": [
+        "Energy Transition",
         "Fertilizers"
       ]
     },
@@ -32563,7 +32659,7 @@
       "published": "2026-03-04T17:00:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Oil - Crude",
+      "category": "Natural Gas",
       "sentiment": {
         "label": "positive",
         "confidence": 0.8188506960868835,
@@ -32603,8 +32699,8 @@
         "extracted_at": "2026-03-04T21:02:23.135318+00:00"
       },
       "categories": [
-        "Oil - Crude",
-        "Natural Gas"
+        "Natural Gas",
+        "Oil - Crude"
       ]
     },
     {
@@ -32615,7 +32711,7 @@
       "published": "2026-03-04T16:54:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "General",
+      "category": "Natural Gas",
       "sentiment": {
         "label": "positive",
         "confidence": 0.949494481086731,
@@ -32652,7 +32748,7 @@
         "extracted_at": "2026-03-04T21:02:23.135318+00:00"
       },
       "categories": [
-        "General"
+        "Natural Gas"
       ]
     },
     {
@@ -32903,7 +32999,7 @@
       "published": "2026-03-04T16:12:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Oil - Crude",
+      "category": "Chemicals",
       "sentiment": {
         "label": "negative",
         "confidence": 0.9407492876052856,
@@ -32943,8 +33039,8 @@
         "extracted_at": "2026-03-04T21:02:23.135318+00:00"
       },
       "categories": [
-        "Oil - Crude",
-        "Chemicals"
+        "Chemicals",
+        "Shipping"
       ]
     },
     {
@@ -32955,7 +33051,7 @@
       "published": "2026-03-04T16:12:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Oil - Crude",
+      "category": "Chemicals",
       "sentiment": {
         "label": "negative",
         "confidence": 0.9381208419799805,
@@ -32995,8 +33091,8 @@
         "extracted_at": "2026-03-04T22:23:29.975194+00:00"
       },
       "categories": [
-        "Oil - Crude",
-        "Chemicals"
+        "Chemicals",
+        "Shipping"
       ]
     },
     {
@@ -33007,7 +33103,7 @@
       "published": "2026-03-04T16:08:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "General",
+      "category": "Natural Gas",
       "sentiment": {
         "label": "neutral",
         "confidence": 0.5409581661224365,
@@ -33040,7 +33136,7 @@
         "extracted_at": "2026-03-04T21:02:23.135318+00:00"
       },
       "categories": [
-        "General"
+        "Natural Gas"
       ]
     },
     {
@@ -33097,7 +33193,7 @@
       "published": "2026-03-04T16:03:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Fertilizers",
       "sentiment": {
         "label": "negative",
         "confidence": 0.5213544964790344,
@@ -33121,7 +33217,7 @@
         "extracted_at": "2026-03-05T10:53:50.112515+00:00"
       },
       "categories": [
-        "General"
+        "Fertilizers"
       ]
     },
     {
@@ -33132,7 +33228,7 @@
       "published": "2026-03-04T16:00:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "General",
+      "category": "Oil - Refined Products",
       "sentiment": {
         "label": "positive",
         "confidence": 0.6700745820999146,
@@ -33165,7 +33261,7 @@
         "extracted_at": "2026-03-04T21:02:23.135318+00:00"
       },
       "categories": [
-        "General"
+        "Oil - Refined Products"
       ]
     },
     {
@@ -33216,7 +33312,7 @@
       "published": "2026-03-04T15:53:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Natural Gas",
+      "category": "LNG",
       "sentiment": {
         "label": "positive",
         "confidence": 0.8157456517219543,
@@ -33245,8 +33341,8 @@
         "extracted_at": "2026-03-04T21:02:23.135318+00:00"
       },
       "categories": [
-        "Natural Gas",
-        "LNG"
+        "LNG",
+        "Natural Gas"
       ]
     },
     {
@@ -33257,7 +33353,7 @@
       "published": "2026-03-04T15:52:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Natural Gas",
       "sentiment": {
         "label": "neutral",
         "confidence": 0.8592665791511536,
@@ -33292,7 +33388,7 @@
         "extracted_at": "2026-03-05T10:53:50.112515+00:00"
       },
       "categories": [
-        "General"
+        "Natural Gas"
       ]
     },
     {
@@ -33641,7 +33737,7 @@
       "published": "2026-03-04T14:57:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Energy Transition",
+      "category": "Chemicals",
       "sentiment": {
         "label": "positive",
         "confidence": 0.5196322798728943,
@@ -33680,7 +33776,6 @@
         "extracted_at": "2026-03-04T21:02:23.135318+00:00"
       },
       "categories": [
-        "Energy Transition",
         "Chemicals"
       ]
     },
@@ -34000,7 +34095,7 @@
       "published": "2026-03-04T14:17:57+00:00",
       "source": "S&P Global",
       "feed": "S&P Agriculture",
-      "category": "Oil - Refined Products",
+      "category": "Energy Transition",
       "sentiment": {
         "label": "negative",
         "confidence": 0.9710545539855957,
@@ -34033,8 +34128,8 @@
         "extracted_at": "2026-03-04T21:02:23.135318+00:00"
       },
       "categories": [
-        "Oil - Refined Products",
-        "Energy Transition"
+        "Energy Transition",
+        "Oil - Refined Products"
       ]
     },
     {
@@ -34045,7 +34140,7 @@
       "published": "2026-03-04T14:10:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Natural Gas",
+      "category": "LNG",
       "sentiment": {
         "label": "negative",
         "confidence": 0.9280216097831726,
@@ -34078,8 +34173,8 @@
         "extracted_at": "2026-03-04T21:02:23.135318+00:00"
       },
       "categories": [
-        "Natural Gas",
-        "LNG"
+        "LNG",
+        "Natural Gas"
       ]
     },
     {
@@ -34444,7 +34539,7 @@
       "published": "2026-03-04T12:44:00+00:00",
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Oil - Crude",
+      "category": "Chemicals",
       "sentiment": {
         "label": "negative",
         "confidence": 0.9388695359230042,
@@ -34479,7 +34574,6 @@
         "extracted_at": "2026-03-04T21:02:23.135318+00:00"
       },
       "categories": [
-        "Oil - Crude",
         "Chemicals"
       ]
     },
@@ -34953,7 +35047,7 @@
       "published": "2026-03-04T11:31:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Shipping",
       "sentiment": {
         "label": "negative",
         "confidence": 0.8127833008766174,
@@ -34982,7 +35076,7 @@
         "extracted_at": "2026-03-05T10:53:50.112515+00:00"
       },
       "categories": [
-        "General"
+        "Shipping"
       ]
     },
     {
@@ -35040,7 +35134,7 @@
       "published": "2026-03-04T11:09:28+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Natural Gas",
+      "category": "Fertilizers",
       "sentiment": {
         "label": "neutral",
         "confidence": 0.4545805752277374,
@@ -35069,8 +35163,8 @@
         "extracted_at": "2026-03-05T18:42:34.724469+00:00"
       },
       "categories": [
-        "Natural Gas",
-        "Energy Transition"
+        "Fertilizers",
+        "Natural Gas"
       ]
     },
     {
@@ -35133,8 +35227,7 @@
       "feed": "S&P Metals",
       "category": "Coal",
       "categories": [
-        "Coal",
-        "Metals"
+        "Coal"
       ],
       "sentiment": {
         "label": "negative",
@@ -35468,7 +35561,7 @@
       "published": "2026-03-04T09:15:24+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Refined Products",
-      "category": "General",
+      "category": "Oil - Refined Products",
       "sentiment": {
         "label": "positive",
         "confidence": 0.7263978123664856,
@@ -35501,7 +35594,7 @@
         "extracted_at": "2026-03-04T21:02:23.135318+00:00"
       },
       "categories": [
-        "General"
+        "Oil - Refined Products"
       ]
     },
     {
@@ -35558,7 +35651,7 @@
       "published": "2026-03-04T09:01:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Fertilizers",
       "sentiment": {
         "label": "neutral",
         "confidence": 0.8840988874435425,
@@ -35587,7 +35680,7 @@
         "extracted_at": "2026-03-05T10:53:50.112515+00:00"
       },
       "categories": [
-        "General"
+        "Fertilizers"
       ]
     },
     {
@@ -35883,7 +35976,7 @@
       "published": "2026-03-03T23:53:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "Oil - Crude",
+      "category": "Shipping",
       "sentiment": {
         "label": "negative",
         "confidence": 0.6882303953170776,
@@ -35907,6 +36000,7 @@
         "extracted_at": "2026-03-05T10:53:50.112515+00:00"
       },
       "categories": [
+        "Shipping",
         "Oil - Crude"
       ]
     },
@@ -36101,7 +36195,7 @@
       "published": "2026-03-03T21:06:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Chemicals",
       "sentiment": {
         "label": "neutral",
         "confidence": 0.5146523714065552,
@@ -36134,7 +36228,7 @@
         "extracted_at": "2026-03-05T10:53:50.112515+00:00"
       },
       "categories": [
-        "General"
+        "Chemicals"
       ]
     },
     {
@@ -36278,7 +36372,7 @@
       "published": "2026-03-03T20:07:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "Chemicals",
+      "category": "Shipping",
       "sentiment": {
         "label": "negative",
         "confidence": 0.8857148289680481,
@@ -36307,6 +36401,7 @@
         "extracted_at": "2026-03-05T10:53:50.112515+00:00"
       },
       "categories": [
+        "Shipping",
         "Chemicals"
       ]
     },
@@ -36456,7 +36551,7 @@
       "published": "2026-03-03T19:39:50+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil - Crude",
-      "category": "Oil - Crude",
+      "category": "Shipping",
       "sentiment": {
         "label": "negative",
         "confidence": 0.7327628135681152,
@@ -36489,8 +36584,8 @@
         "extracted_at": "2026-03-04T21:02:23.135318+00:00"
       },
       "categories": [
-        "Oil - Crude",
-        "Shipping"
+        "Shipping",
+        "Oil - Crude"
       ]
     },
     {
@@ -36769,7 +36864,7 @@
       "published": "2026-03-03T17:51:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Chemicals",
       "sentiment": {
         "label": "negative",
         "confidence": 0.7314164638519287,
@@ -36802,7 +36897,7 @@
         "extracted_at": "2026-03-05T10:53:50.112515+00:00"
       },
       "categories": [
-        "General"
+        "Chemicals"
       ]
     },
     {
@@ -36813,7 +36908,7 @@
       "published": "2026-03-03T17:48:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Fertilizers",
       "sentiment": {
         "label": "positive",
         "confidence": 0.8231766223907471,
@@ -36846,7 +36941,7 @@
         "extracted_at": "2026-03-05T10:53:50.112515+00:00"
       },
       "categories": [
-        "General"
+        "Fertilizers"
       ]
     },
     {
@@ -37117,7 +37212,7 @@
       "published": "2026-03-03T16:25:50+00:00",
       "source": "Fastmarkets",
       "feed": "Fastmarkets",
-      "category": "General",
+      "category": "Metals",
       "sentiment": {
         "label": "neutral",
         "confidence": 0.9311397075653076,
@@ -37150,7 +37245,7 @@
         "extracted_at": "2026-03-05T11:16:29.948383+00:00"
       },
       "categories": [
-        "General"
+        "Metals"
       ]
     },
     {
@@ -37259,7 +37354,7 @@
       "published": "2026-03-03T14:42:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "Energy Transition",
+      "category": "Fertilizers",
       "sentiment": {
         "label": "positive",
         "confidence": 0.8549366593360901,
@@ -37292,7 +37387,7 @@
         "extracted_at": "2026-03-05T10:53:50.112515+00:00"
       },
       "categories": [
-        "Energy Transition"
+        "Fertilizers"
       ]
     },
     {
@@ -37303,7 +37398,7 @@
       "published": "2026-03-03T14:33:57+00:00",
       "source": "Fastmarkets",
       "feed": "Fastmarkets",
-      "category": "Metals",
+      "category": "Shipping",
       "sentiment": {
         "label": "positive",
         "confidence": 0.78001469373703,
@@ -37338,8 +37433,8 @@
         "extracted_at": "2026-03-05T11:16:29.948383+00:00"
       },
       "categories": [
-        "Metals",
-        "Shipping"
+        "Shipping",
+        "Metals"
       ]
     },
     {
@@ -37478,7 +37573,7 @@
       "published": "2026-03-03T13:59:13+00:00",
       "source": "S&P Global",
       "feed": "S&P Natural Gas",
-      "category": "Natural Gas",
+      "category": "LNG",
       "sentiment": {
         "label": "positive",
         "confidence": 0.9157130122184753,
@@ -37507,8 +37602,8 @@
         "extracted_at": "2026-03-04T21:02:23.135318+00:00"
       },
       "categories": [
-        "Natural Gas",
-        "LNG"
+        "LNG",
+        "Natural Gas"
       ]
     },
     {
@@ -37803,7 +37898,7 @@
       "published": "2026-03-03T12:17:47+00:00",
       "source": "S&P Global",
       "feed": "S&P Natural Gas",
-      "category": "Natural Gas",
+      "category": "LNG",
       "sentiment": {
         "label": "negative",
         "confidence": 0.9168105125427246,
@@ -37842,7 +37937,6 @@
         "extracted_at": "2026-03-04T21:02:23.135318+00:00"
       },
       "categories": [
-        "Natural Gas",
         "LNG"
       ]
     },
@@ -37854,7 +37948,7 @@
       "published": "2026-03-03T11:56:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Fertilizers",
       "sentiment": {
         "label": "neutral",
         "confidence": 0.8427181839942932,
@@ -37885,7 +37979,7 @@
         "extracted_at": "2026-03-05T10:53:50.112515+00:00"
       },
       "categories": [
-        "General"
+        "Fertilizers"
       ]
     },
     {
@@ -38029,7 +38123,7 @@
       "published": "2026-03-03T09:30:44+00:00",
       "source": "S&P Global",
       "feed": "S&P Chemicals",
-      "category": "Energy Transition",
+      "category": "Chemicals",
       "sentiment": {
         "label": "positive",
         "confidence": 0.8717175722122192,
@@ -38070,8 +38164,8 @@
         "extracted_at": "2026-03-04T21:02:23.135318+00:00"
       },
       "categories": [
-        "Energy Transition",
-        "Chemicals"
+        "Chemicals",
+        "Energy Transition"
       ]
     },
     {
@@ -38396,7 +38490,7 @@
       "published": "2026-03-03T04:01:00+00:00",
       "source": "S&P Global",
       "feed": "S&P Energy Transition",
-      "category": "General",
+      "category": "Energy Transition",
       "sentiment": {
         "label": "negative",
         "confidence": 0.7309459447860718,
@@ -38425,7 +38519,7 @@
         "extracted_at": "2026-03-04T23:44:42.410761+00:00"
       },
       "categories": [
-        "General"
+        "Energy Transition"
       ]
     },
     {
@@ -38467,8 +38561,7 @@
         "extracted_at": "2026-03-04T21:02:23.135318+00:00"
       },
       "categories": [
-        "Oil - Crude",
-        "Fertilizers"
+        "Oil - Crude"
       ]
     },
     {
@@ -39160,7 +39253,7 @@
       "published": "2026-03-02T19:22:48+00:00",
       "source": "S&P Global",
       "feed": "S&P LNG",
-      "category": "Natural Gas",
+      "category": "LNG",
       "sentiment": {
         "label": "positive",
         "confidence": 0.6419748067855835,
@@ -39193,8 +39286,8 @@
         "extracted_at": "2026-03-04T21:02:23.135318+00:00"
       },
       "categories": [
-        "Natural Gas",
-        "LNG"
+        "LNG",
+        "Natural Gas"
       ]
     },
     {
@@ -39563,7 +39656,7 @@
       "published": "2026-03-02T17:35:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Chemicals",
       "sentiment": {
         "label": "negative",
         "confidence": 0.8473926782608032,
@@ -39592,7 +39685,7 @@
         "extracted_at": "2026-03-05T10:53:50.112515+00:00"
       },
       "categories": [
-        "General"
+        "Chemicals"
       ]
     },
     {
@@ -39701,7 +39794,7 @@
       "published": "2026-03-02T17:06:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Chemicals",
       "sentiment": {
         "label": "neutral",
         "confidence": 0.49365612864494324,
@@ -39736,7 +39829,7 @@
         "extracted_at": "2026-03-05T10:53:50.112515+00:00"
       },
       "categories": [
-        "General"
+        "Chemicals"
       ]
     },
     {
@@ -40092,7 +40185,8 @@
         "extracted_at": "2026-03-04T21:02:23.135318+00:00"
       },
       "categories": [
-        "Metals"
+        "Metals",
+        "Shipping"
       ]
     },
     {
@@ -40284,7 +40378,7 @@
       "published": "2026-03-02T13:45:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Fertilizers",
       "sentiment": {
         "label": "negative",
         "confidence": 0.585968554019928,
@@ -40308,7 +40402,7 @@
         "extracted_at": "2026-03-05T10:53:50.112515+00:00"
       },
       "categories": [
-        "General"
+        "Fertilizers"
       ]
     },
     {
@@ -40405,7 +40499,7 @@
       "published": "2026-03-02T13:00:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Natural Gas",
       "sentiment": {
         "label": "negative",
         "confidence": 0.3443996012210846,
@@ -40436,7 +40530,7 @@
         "extracted_at": "2026-03-05T10:53:50.112515+00:00"
       },
       "categories": [
-        "General"
+        "Natural Gas"
       ]
     },
     {
@@ -40946,7 +41040,7 @@
       "published": "2026-03-02T10:41:36+00:00",
       "source": "S&P Global",
       "feed": "S&P Coal",
-      "category": "Coal",
+      "category": "Metals",
       "sentiment": {
         "label": "positive",
         "confidence": 0.7649968266487122,
@@ -40979,8 +41073,8 @@
         "extracted_at": "2026-03-04T21:02:23.135318+00:00"
       },
       "categories": [
-        "Coal",
-        "Metals"
+        "Metals",
+        "Shipping"
       ]
     },
     {
@@ -41212,7 +41306,7 @@
       "published": "2026-03-02T09:08:44+00:00",
       "source": "S&P Global",
       "feed": "S&P Agriculture",
-      "category": "General",
+      "category": "Agriculture",
       "sentiment": {
         "label": "negative",
         "confidence": 0.9610588550567627,
@@ -41252,7 +41346,7 @@
         "extracted_at": "2026-03-04T21:02:23.135318+00:00"
       },
       "categories": [
-        "General"
+        "Agriculture"
       ]
     },
     {
@@ -41439,7 +41533,7 @@
       "published": "2026-03-02T05:13:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Fertilizers",
       "sentiment": {
         "label": "negative",
         "confidence": 0.8986647129058838,
@@ -41474,7 +41568,7 @@
         "extracted_at": "2026-03-05T10:53:50.112515+00:00"
       },
       "categories": [
-        "General"
+        "Fertilizers"
       ]
     },
     {
@@ -41570,7 +41664,8 @@
         "extracted_at": "2026-03-05T10:53:50.112515+00:00"
       },
       "categories": [
-        "LNG"
+        "LNG",
+        "Shipping"
       ]
     },
     {
@@ -41805,7 +41900,7 @@
       "published": "2026-03-01T18:33:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Chemicals",
       "sentiment": {
         "label": "negative",
         "confidence": 0.9380629062652588,
@@ -41834,7 +41929,7 @@
         "extracted_at": "2026-03-05T10:53:50.112515+00:00"
       },
       "categories": [
-        "General"
+        "Chemicals"
       ]
     },
     {
@@ -41980,7 +42075,7 @@
       "published": "2026-03-01T13:31:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Oil - Crude",
       "sentiment": {
         "label": "positive",
         "confidence": 0.8843328356742859,
@@ -42009,7 +42104,7 @@
         "extracted_at": "2026-03-05T10:53:50.112515+00:00"
       },
       "categories": [
-        "General"
+        "Oil - Crude"
       ]
     },
     {
@@ -42150,7 +42245,7 @@
       "published": "2026-03-01T11:48:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Fertilizers",
       "sentiment": {
         "label": "neutral",
         "confidence": 0.8955792784690857,
@@ -42185,7 +42280,7 @@
         "extracted_at": "2026-03-05T10:53:50.112515+00:00"
       },
       "categories": [
-        "General"
+        "Fertilizers"
       ]
     },
     {
@@ -43147,7 +43242,7 @@
       "published": "2026-02-27T17:03:03+00:00",
       "source": "S&P Global",
       "feed": "S&P Electric Power",
-      "category": "Electric Power",
+      "category": "Energy Transition",
       "sentiment": {
         "label": "positive",
         "confidence": 0.5461378693580627,
@@ -43176,8 +43271,8 @@
         "extracted_at": "2026-03-04T21:02:23.135318+00:00"
       },
       "categories": [
-        "Electric Power",
-        "Energy Transition"
+        "Energy Transition",
+        "Electric Power"
       ]
     },
     {
@@ -43325,7 +43420,7 @@
       "published": "2026-02-27T11:28:28+00:00",
       "source": "S&P Global",
       "feed": "S&P Electric Power",
-      "category": "Electric Power",
+      "category": "Energy Transition",
       "sentiment": {
         "label": "positive",
         "confidence": 0.7945818305015564,
@@ -43368,7 +43463,6 @@
         "extracted_at": "2026-03-04T21:02:23.135318+00:00"
       },
       "categories": [
-        "Electric Power",
         "Energy Transition"
       ]
     },
@@ -43570,7 +43664,7 @@
       "published": "2026-02-26T21:45:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Oil - Refined Products",
       "sentiment": {
         "label": "neutral",
         "confidence": 0.7776888012886047,
@@ -43599,7 +43693,7 @@
         "extracted_at": "2026-03-05T10:53:50.112515+00:00"
       },
       "categories": [
-        "General"
+        "Oil - Refined Products"
       ]
     },
     {
@@ -43738,7 +43832,7 @@
       "published": "2026-02-26T16:39:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Oil - Refined Products",
       "sentiment": {
         "label": "negative",
         "confidence": 0.6048896908760071,
@@ -43773,7 +43867,7 @@
         "extracted_at": "2026-03-05T10:53:50.112515+00:00"
       },
       "categories": [
-        "General"
+        "Oil - Refined Products"
       ]
     },
     {
@@ -44454,7 +44548,7 @@
       "published": "2026-02-25T15:05:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Natural Gas",
       "sentiment": {
         "label": "neutral",
         "confidence": 0.833178699016571,
@@ -44493,7 +44587,7 @@
         "extracted_at": "2026-03-05T10:53:50.112515+00:00"
       },
       "categories": [
-        "General"
+        "Natural Gas"
       ]
     },
     {
@@ -44504,7 +44598,7 @@
       "published": "2026-02-25T14:10:32+00:00",
       "source": "S&P Global",
       "feed": "S&P Electric Power",
-      "category": "Electric Power",
+      "category": "Energy Transition",
       "sentiment": {
         "label": "neutral",
         "confidence": 0.6128395795822144,
@@ -44543,7 +44637,6 @@
         "extracted_at": "2026-03-04T21:02:23.135318+00:00"
       },
       "categories": [
-        "Electric Power",
         "Energy Transition"
       ]
     },
@@ -45272,7 +45365,7 @@
       "published": "2026-02-24T17:38:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Natural Gas",
       "sentiment": {
         "label": "neutral",
         "confidence": 0.7610487341880798,
@@ -45312,7 +45405,7 @@
         "extracted_at": "2026-03-05T10:53:50.112515+00:00"
       },
       "categories": [
-        "General"
+        "Natural Gas"
       ]
     },
     {
@@ -45631,7 +45724,7 @@
       "published": "2026-02-24T14:09:03+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Fertilizers",
+      "category": "Energy Transition",
       "sentiment": {
         "label": "positive",
         "confidence": 0.876402735710144,
@@ -45668,6 +45761,7 @@
         "extracted_at": "2026-03-04T21:02:23.135318+00:00"
       },
       "categories": [
+        "Energy Transition",
         "Fertilizers"
       ]
     },
@@ -45952,7 +46046,7 @@
       "published": "2026-02-24T09:55:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Natural Gas",
       "sentiment": {
         "label": "neutral",
         "confidence": 0.8576228618621826,
@@ -45985,7 +46079,7 @@
         "extracted_at": "2026-03-05T10:53:50.112515+00:00"
       },
       "categories": [
-        "General"
+        "Natural Gas"
       ]
     },
     {
@@ -47891,9 +47985,9 @@
       "published": "2026-02-20T10:46:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Oil - Refined Products",
       "categories": [
-        "General"
+        "Oil - Refined Products"
       ],
       "sentiment": {
         "label": "neutral",
@@ -47991,9 +48085,9 @@
       "published": "2026-02-20T07:08:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Energy Transition",
       "categories": [
-        "General"
+        "Energy Transition"
       ],
       "sentiment": {
         "label": "neutral",
@@ -48037,9 +48131,9 @@
       "published": "2026-02-20T04:58:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "positive",
@@ -48500,7 +48594,7 @@
       "published": "2026-02-19T17:02:18+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "Oil - Refined Products",
+      "category": "Energy Transition",
       "sentiment": {
         "label": "neutral",
         "confidence": 0.7610425353050232,
@@ -48524,8 +48618,8 @@
         "extracted_at": "2026-03-04T21:02:23.135318+00:00"
       },
       "categories": [
-        "Oil - Refined Products",
-        "Energy Transition"
+        "Energy Transition",
+        "Fertilizers"
       ]
     },
     {
@@ -48943,9 +49037,9 @@
       "published": "2026-02-19T05:13:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Metals",
       "categories": [
-        "General"
+        "Metals"
       ],
       "sentiment": {
         "label": "positive",
@@ -48989,9 +49083,9 @@
       "published": "2026-02-19T04:51:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "positive",
@@ -49167,9 +49261,9 @@
       "published": "2026-02-18T22:59:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "positive",
@@ -49412,9 +49506,9 @@
       "published": "2026-02-18T04:56:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "neutral",
@@ -49506,9 +49600,9 @@
       "published": "2026-02-17T21:42:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Shipping",
       "categories": [
-        "General"
+        "Shipping"
       ],
       "sentiment": {
         "label": "neutral",
@@ -49687,7 +49781,8 @@
         "extracted_at": "2026-03-04T21:02:23.135318+00:00"
       },
       "categories": [
-        "Energy Transition"
+        "Energy Transition",
+        "Fertilizers"
       ]
     },
     {
@@ -50019,9 +50114,9 @@
       "published": "2026-02-16T18:50:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "neutral",
@@ -50249,9 +50344,9 @@
       "published": "2026-02-16T16:18:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Agriculture",
       "categories": [
-        "General"
+        "Agriculture"
       ],
       "sentiment": {
         "label": "neutral",
@@ -50689,9 +50784,9 @@
       "published": "2026-02-13T22:13:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Energy Transition",
       "categories": [
-        "General"
+        "Energy Transition"
       ],
       "sentiment": {
         "label": "neutral",
@@ -51114,9 +51209,9 @@
       "published": "2026-02-13T17:12:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "negative",
@@ -51160,9 +51255,9 @@
       "published": "2026-02-13T16:56:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Chemicals",
       "categories": [
-        "General"
+        "Chemicals"
       ],
       "sentiment": {
         "label": "neutral",
@@ -51352,9 +51447,9 @@
       "published": "2026-02-13T10:52:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Energy Transition",
       "categories": [
-        "General"
+        "Energy Transition"
       ],
       "sentiment": {
         "label": "neutral",
@@ -51488,7 +51583,7 @@
       "published": "2026-02-13T09:23:11+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "General",
+      "category": "Energy Transition",
       "sentiment": {
         "label": "neutral",
         "confidence": 0.7953039407730103,
@@ -51517,7 +51612,7 @@
         "extracted_at": "2026-03-04T21:02:23.135318+00:00"
       },
       "categories": [
-        "General"
+        "Energy Transition"
       ]
     },
     {
@@ -51528,9 +51623,9 @@
       "published": "2026-02-13T05:34:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Energy Transition",
       "categories": [
-        "General"
+        "Energy Transition"
       ],
       "sentiment": {
         "label": "neutral",
@@ -51616,9 +51711,9 @@
       "published": "2026-02-12T22:08:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Metals",
       "categories": [
-        "General"
+        "Metals"
       ],
       "sentiment": {
         "label": "neutral",
@@ -51760,9 +51855,9 @@
       "published": "2026-02-12T18:10:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Oil - Refined Products",
       "categories": [
-        "General"
+        "Oil - Refined Products"
       ],
       "sentiment": {
         "label": "neutral",
@@ -51850,10 +51945,10 @@
       "published": "2026-02-12T17:14:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "Oil - Refined Products",
+      "category": "Shipping",
       "categories": [
-        "Oil - Refined Products",
-        "Shipping"
+        "Shipping",
+        "Oil - Refined Products"
       ],
       "sentiment": {
         "label": "neutral",
@@ -51984,7 +52079,7 @@
       "published": "2026-02-12T16:27:00+00:00",
       "source": "S&P Global",
       "feed": "S&P Fertilizers",
-      "category": "General",
+      "category": "Energy Transition",
       "sentiment": {
         "label": "neutral",
         "confidence": 0.9235802888870239,
@@ -52008,7 +52103,7 @@
         "extracted_at": "2026-03-04T21:02:23.135318+00:00"
       },
       "categories": [
-        "General"
+        "Energy Transition"
       ]
     },
     {
@@ -52395,9 +52490,9 @@
       "published": "2026-02-12T03:58:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Fertilizers",
       "categories": [
-        "General"
+        "Fertilizers"
       ],
       "sentiment": {
         "label": "negative",
@@ -52441,9 +52536,9 @@
       "published": "2026-02-12T03:35:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "positive",
@@ -52675,9 +52770,9 @@
       "published": "2026-02-11T21:32:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Energy Transition",
       "categories": [
-        "General"
+        "Energy Transition"
       ],
       "sentiment": {
         "label": "neutral",
@@ -52934,9 +53029,9 @@
       "published": "2026-02-11T16:58:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Energy Transition",
       "categories": [
-        "General"
+        "Energy Transition"
       ],
       "sentiment": {
         "label": "neutral",
@@ -53072,9 +53167,9 @@
       "published": "2026-02-11T15:32:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "neutral",
@@ -53172,9 +53267,9 @@
       "published": "2026-02-11T13:00:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Oil - Crude",
       "categories": [
-        "General"
+        "Oil - Crude"
       ],
       "sentiment": {
         "label": "neutral",
@@ -53586,9 +53681,9 @@
       "published": "2026-02-11T06:00:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Energy Transition",
       "categories": [
-        "General"
+        "Energy Transition"
       ],
       "sentiment": {
         "label": "negative",
@@ -53934,9 +54029,9 @@
       "published": "2026-02-10T18:07:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Oil - Crude",
       "categories": [
-        "General"
+        "Oil - Crude"
       ],
       "sentiment": {
         "label": "positive",
@@ -54357,8 +54452,7 @@
         "extracted_at": "2026-03-04T21:02:23.135318+00:00"
       },
       "categories": [
-        "Energy Transition",
-        "Fertilizers"
+        "Energy Transition"
       ]
     },
     {
@@ -55047,9 +55141,9 @@
       "published": "2026-02-09T19:17:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Agriculture",
       "categories": [
-        "General"
+        "Agriculture"
       ],
       "sentiment": {
         "label": "neutral",
@@ -56165,10 +56259,10 @@
       "published": "2026-02-06T12:38:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "Oil - Refined Products",
+      "category": "Shipping",
       "categories": [
-        "Oil - Refined Products",
-        "Shipping"
+        "Shipping",
+        "Oil - Refined Products"
       ],
       "sentiment": {
         "label": "neutral",
@@ -56354,10 +56448,10 @@
       "published": "2026-02-06T05:03:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "LNG",
+      "category": "Metals",
       "categories": [
-        "LNG",
-        "Metals"
+        "Metals",
+        "LNG"
       ],
       "sentiment": {
         "label": "negative",
@@ -56588,9 +56682,9 @@
       "published": "2026-02-05T20:47:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Energy Transition",
       "categories": [
-        "General"
+        "Energy Transition"
       ],
       "sentiment": {
         "label": "neutral",
@@ -56724,8 +56818,9 @@
       "published": "2026-02-05T17:54:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "LNG",
+      "category": "Energy Transition",
       "categories": [
+        "Energy Transition",
         "LNG"
       ],
       "sentiment": {
@@ -56856,10 +56951,10 @@
       "published": "2026-02-05T13:54:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "Oil - Crude",
+      "category": "Oil - Refined Products",
       "categories": [
-        "Oil - Crude",
-        "Oil - Refined Products"
+        "Oil - Refined Products",
+        "Oil - Crude"
       ],
       "sentiment": {
         "label": "neutral",
@@ -57025,9 +57120,9 @@
       "published": "2026-02-05T10:35:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Fertilizers",
       "categories": [
-        "General"
+        "Fertilizers"
       ],
       "sentiment": {
         "label": "neutral",
@@ -57121,9 +57216,9 @@
       "published": "2026-02-05T08:26:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Energy Transition",
       "categories": [
-        "General"
+        "Energy Transition"
       ],
       "sentiment": {
         "label": "neutral",
@@ -57758,9 +57853,8 @@
       "published": "2026-02-04T17:25:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "Energy Transition",
+      "category": "Fertilizers",
       "categories": [
-        "Energy Transition",
         "Fertilizers"
       ],
       "sentiment": {
@@ -58184,9 +58278,9 @@
       "published": "2026-02-04T03:53:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Metals",
       "categories": [
-        "General"
+        "Metals"
       ],
       "sentiment": {
         "label": "neutral",
@@ -58309,9 +58403,9 @@
       "published": "2026-02-03T22:33:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Energy Transition",
       "categories": [
-        "General"
+        "Energy Transition"
       ],
       "sentiment": {
         "label": "neutral",
@@ -59252,9 +59346,9 @@
       "published": "2026-02-03T13:45:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Energy Transition",
       "categories": [
-        "General"
+        "Energy Transition"
       ],
       "sentiment": {
         "label": "neutral",
@@ -59881,7 +59975,8 @@
       "feed": "Argus NewsAll",
       "category": "Energy Transition",
       "categories": [
-        "Energy Transition"
+        "Energy Transition",
+        "Shipping"
       ],
       "sentiment": {
         "label": "neutral",
@@ -60005,9 +60100,9 @@
       "published": "2026-02-02T15:20:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Fertilizers",
       "categories": [
-        "General"
+        "Fertilizers"
       ],
       "sentiment": {
         "label": "neutral",
@@ -60227,9 +60322,9 @@
       "published": "2026-02-02T12:05:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Fertilizers",
       "categories": [
-        "General"
+        "Fertilizers"
       ],
       "sentiment": {
         "label": "positive",
@@ -60369,9 +60464,9 @@
       "published": "2026-02-02T10:42:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Fertilizers",
       "categories": [
-        "General"
+        "Fertilizers"
       ],
       "sentiment": {
         "label": "positive",
@@ -60603,9 +60698,9 @@
       "published": "2026-02-01T14:41:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Oil - Crude",
       "categories": [
-        "General"
+        "Oil - Crude"
       ],
       "sentiment": {
         "label": "positive",
@@ -60647,9 +60742,9 @@
       "published": "2026-02-01T08:47:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Fertilizers",
       "categories": [
-        "General"
+        "Fertilizers"
       ],
       "sentiment": {
         "label": "neutral",
@@ -61495,10 +61590,10 @@
       "published": "2026-01-30T16:54:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "LNG",
+      "category": "Shipping",
       "categories": [
-        "LNG",
-        "Shipping"
+        "Shipping",
+        "LNG"
       ],
       "sentiment": {
         "label": "neutral",
@@ -61849,9 +61944,9 @@
       "published": "2026-01-30T04:33:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "positive",
@@ -62389,10 +62484,10 @@
       "published": "2026-01-29T13:28:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "Oil - Crude",
+      "category": "Chemicals",
       "categories": [
-        "Oil - Crude",
-        "Chemicals"
+        "Chemicals",
+        "Oil - Crude"
       ],
       "sentiment": {
         "label": "neutral",
@@ -62436,9 +62531,9 @@
       "published": "2026-01-29T12:50:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Fertilizers",
       "categories": [
-        "General"
+        "Fertilizers"
       ],
       "sentiment": {
         "label": "neutral",
@@ -62476,9 +62571,9 @@
       "published": "2026-01-29T12:49:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Fertilizers",
       "categories": [
-        "General"
+        "Fertilizers"
       ],
       "sentiment": {
         "label": "neutral",
@@ -62834,9 +62929,9 @@
       "published": "2026-01-28T20:18:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "positive",
@@ -63069,9 +63164,9 @@
       "published": "2026-01-28T16:09:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Fertilizers",
       "categories": [
-        "General"
+        "Fertilizers"
       ],
       "sentiment": {
         "label": "neutral",
@@ -63117,9 +63212,9 @@
       "published": "2026-01-28T13:31:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Shipping",
       "categories": [
-        "General"
+        "Shipping"
       ],
       "sentiment": {
         "label": "neutral",
@@ -63207,9 +63302,9 @@
       "published": "2026-01-28T08:57:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "neutral",
@@ -63593,9 +63688,9 @@
       "published": "2026-01-27T18:12:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Energy Transition",
       "categories": [
-        "General"
+        "Energy Transition"
       ],
       "sentiment": {
         "label": "positive",
@@ -63677,9 +63772,9 @@
       "published": "2026-01-27T17:25:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "positive",
@@ -63723,9 +63818,9 @@
       "published": "2026-01-27T16:57:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Energy Transition",
       "categories": [
-        "General"
+        "Energy Transition"
       ],
       "sentiment": {
         "label": "neutral",
@@ -65019,9 +65114,9 @@
       "published": "2026-01-23T20:57:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "negative",
@@ -65193,10 +65288,10 @@
       "published": "2026-01-23T17:26:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "Oil - Crude",
+      "category": "Oil - Refined Products",
       "categories": [
-        "Oil - Crude",
-        "Oil - Refined Products"
+        "Oil - Refined Products",
+        "Oil - Crude"
       ],
       "sentiment": {
         "label": "negative",
@@ -65544,9 +65639,9 @@
       "published": "2026-01-23T13:51:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Energy Transition",
       "categories": [
-        "General"
+        "Energy Transition"
       ],
       "sentiment": {
         "label": "neutral",
@@ -66101,10 +66196,10 @@
       "published": "2026-01-22T16:02:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "Electric Power",
+      "category": "Energy Transition",
       "categories": [
-        "Electric Power",
-        "Energy Transition"
+        "Energy Transition",
+        "Electric Power"
       ],
       "sentiment": {
         "label": "neutral",
@@ -66973,9 +67068,9 @@
       "published": "2026-01-21T17:07:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Fertilizers",
       "categories": [
-        "General"
+        "Fertilizers"
       ],
       "sentiment": {
         "label": "neutral",
@@ -67013,9 +67108,9 @@
       "published": "2026-01-21T16:49:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "negative",
@@ -67103,9 +67198,9 @@
       "published": "2026-01-21T16:27:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "negative",
@@ -69118,9 +69213,9 @@
       "published": "2026-01-19T09:01:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Energy Transition",
       "categories": [
-        "General"
+        "Energy Transition"
       ],
       "sentiment": {
         "label": "neutral",
@@ -69164,9 +69259,9 @@
       "published": "2026-01-19T04:12:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "neutral",
@@ -69835,9 +69930,9 @@
       "published": "2026-01-16T09:29:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "neutral",
@@ -70725,10 +70820,10 @@
       "published": "2026-01-15T05:47:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "Coal",
+      "category": "Metals",
       "categories": [
-        "Coal",
-        "Metals"
+        "Metals",
+        "Coal"
       ],
       "sentiment": {
         "label": "negative",
@@ -71046,9 +71141,9 @@
       "published": "2026-01-14T19:30:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Energy Transition",
       "categories": [
-        "General"
+        "Energy Transition"
       ],
       "sentiment": {
         "label": "negative",
@@ -71090,10 +71185,10 @@
       "published": "2026-01-14T19:02:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "Oil - Crude",
+      "category": "Oil - Refined Products",
       "categories": [
-        "Oil - Crude",
-        "Oil - Refined Products"
+        "Oil - Refined Products",
+        "Oil - Crude"
       ],
       "sentiment": {
         "label": "neutral",
@@ -71135,9 +71230,9 @@
       "published": "2026-01-14T18:39:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Energy Transition",
       "categories": [
-        "General"
+        "Energy Transition"
       ],
       "sentiment": {
         "label": "neutral",
@@ -71614,9 +71709,9 @@
       "published": "2026-01-14T12:59:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Oil - Crude",
       "categories": [
-        "General"
+        "Oil - Crude"
       ],
       "sentiment": {
         "label": "negative",
@@ -72174,9 +72269,9 @@
       "published": "2026-01-13T17:01:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "neutral",
@@ -72220,9 +72315,9 @@
       "published": "2026-01-13T16:27:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "negative",
@@ -72488,9 +72583,9 @@
       "published": "2026-01-13T05:06:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "neutral",
@@ -72776,9 +72871,9 @@
       "published": "2026-01-12T17:06:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Oil - Crude",
       "categories": [
-        "General"
+        "Oil - Crude"
       ],
       "sentiment": {
         "label": "neutral",
@@ -72908,9 +73003,9 @@
       "published": "2026-01-12T13:00:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Oil - Refined Products",
       "categories": [
-        "General"
+        "Oil - Refined Products"
       ],
       "sentiment": {
         "label": "positive",
@@ -73044,9 +73139,9 @@
       "published": "2026-01-12T09:43:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Energy Transition",
       "categories": [
-        "General"
+        "Energy Transition"
       ],
       "sentiment": {
         "label": "positive",
@@ -74164,9 +74259,9 @@
       "published": "2026-01-09T14:27:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Energy Transition",
       "categories": [
-        "General"
+        "Energy Transition"
       ],
       "sentiment": {
         "label": "negative",
@@ -74304,9 +74399,9 @@
       "published": "2026-01-09T07:12:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Agriculture",
       "categories": [
-        "General"
+        "Agriculture"
       ],
       "sentiment": {
         "label": "positive",
@@ -74574,9 +74669,9 @@
       "published": "2026-01-08T23:11:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "neutral",
@@ -75614,9 +75709,8 @@
       "published": "2026-01-07T18:38:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "Energy Transition",
+      "category": "Fertilizers",
       "categories": [
-        "Energy Transition",
         "Fertilizers"
       ],
       "sentiment": {
@@ -75703,10 +75797,10 @@
       "published": "2026-01-07T16:56:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "Oil - Crude",
+      "category": "Shipping",
       "categories": [
-        "Oil - Crude",
-        "Shipping"
+        "Shipping",
+        "Oil - Crude"
       ],
       "sentiment": {
         "label": "neutral",
@@ -75836,10 +75930,10 @@
       "published": "2026-01-07T14:54:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "Oil - Crude",
+      "category": "Shipping",
       "categories": [
-        "Oil - Crude",
-        "Shipping"
+        "Shipping",
+        "Oil - Crude"
       ],
       "sentiment": {
         "label": "neutral",
@@ -76835,10 +76929,10 @@
       "published": "2026-01-06T18:38:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "Oil - Crude",
+      "category": "Oil - Refined Products",
       "categories": [
-        "Oil - Crude",
-        "Oil - Refined Products"
+        "Oil - Refined Products",
+        "Oil - Crude"
       ],
       "sentiment": {
         "label": "negative",
@@ -77937,9 +78031,9 @@
       "published": "2026-01-05T17:45:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "positive",
@@ -77985,9 +78079,9 @@
       "published": "2026-01-05T17:23:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Shipping",
       "categories": [
-        "General"
+        "Shipping"
       ],
       "sentiment": {
         "label": "negative",
@@ -78588,9 +78682,9 @@
       "published": "2026-01-05T08:05:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Energy Transition",
       "categories": [
-        "General"
+        "Energy Transition"
       ],
       "sentiment": {
         "label": "neutral",
@@ -78862,9 +78956,9 @@
       "published": "2026-01-04T14:11:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Oil - Crude",
       "categories": [
-        "General"
+        "Oil - Crude"
       ],
       "sentiment": {
         "label": "positive",
@@ -79235,9 +79329,9 @@
       "published": "2026-01-02T18:49:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "Natural Gas",
+      "category": "Energy Transition",
       "categories": [
-        "Natural Gas"
+        "Energy Transition"
       ],
       "sentiment": {
         "label": "neutral",
@@ -79277,9 +79371,9 @@
       "published": "2026-01-02T18:48:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "positive",
@@ -79580,10 +79674,10 @@
       "published": "2026-01-02T15:40:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "Electric Power",
+      "category": "Energy Transition",
       "categories": [
-        "Electric Power",
-        "Energy Transition"
+        "Energy Transition",
+        "Electric Power"
       ],
       "sentiment": {
         "label": "positive",
@@ -80096,9 +80190,9 @@
       "published": "2026-01-02T11:44:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Energy Transition",
       "categories": [
-        "General"
+        "Energy Transition"
       ],
       "sentiment": {
         "label": "positive",
@@ -80366,9 +80460,9 @@
       "published": "2025-12-31T21:10:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Shipping",
       "categories": [
-        "General"
+        "Shipping"
       ],
       "sentiment": {
         "label": "negative",
@@ -80665,9 +80759,9 @@
       "published": "2025-12-31T14:00:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "neutral",
@@ -80749,9 +80843,9 @@
       "published": "2025-12-31T13:29:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Fertilizers",
       "categories": [
-        "General"
+        "Fertilizers"
       ],
       "sentiment": {
         "label": "neutral",
@@ -80883,8 +80977,9 @@
       "published": "2025-12-31T12:13:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "Oil - Refined Products",
+      "category": "Shipping",
       "categories": [
+        "Shipping",
         "Oil - Refined Products"
       ],
       "sentiment": {
@@ -81242,9 +81337,9 @@
       "published": "2025-12-30T19:28:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Energy Transition",
       "categories": [
-        "General"
+        "Energy Transition"
       ],
       "sentiment": {
         "label": "neutral",
@@ -81496,9 +81591,9 @@
       "published": "2025-12-30T17:07:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "Natural Gas",
+      "category": "Energy Transition",
       "categories": [
-        "Natural Gas"
+        "Energy Transition"
       ],
       "sentiment": {
         "label": "neutral",
@@ -81926,9 +82021,9 @@
       "published": "2025-12-30T09:21:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Energy Transition",
       "categories": [
-        "General"
+        "Energy Transition"
       ],
       "sentiment": {
         "label": "positive",
@@ -82012,9 +82107,9 @@
       "published": "2025-12-30T05:29:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "neutral",
@@ -82282,9 +82377,9 @@
       "published": "2025-12-29T19:16:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Energy Transition",
       "categories": [
-        "General"
+        "Energy Transition"
       ],
       "sentiment": {
         "label": "positive",
@@ -82542,9 +82637,9 @@
       "published": "2025-12-29T16:56:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Chemicals",
       "categories": [
-        "General"
+        "Chemicals"
       ],
       "sentiment": {
         "label": "positive",
@@ -83219,9 +83314,9 @@
       "published": "2025-12-24T17:02:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Energy Transition",
       "categories": [
-        "General"
+        "Energy Transition"
       ],
       "sentiment": {
         "label": "positive",
@@ -83853,9 +83948,9 @@
       "published": "2025-12-24T08:07:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Chemicals",
       "categories": [
-        "General"
+        "Chemicals"
       ],
       "sentiment": {
         "label": "neutral",
@@ -84079,9 +84174,9 @@
       "published": "2025-12-23T16:26:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Oil - Refined Products",
       "categories": [
-        "General"
+        "Oil - Refined Products"
       ],
       "sentiment": {
         "label": "negative",
@@ -84467,9 +84562,9 @@
       "published": "2025-12-23T15:06:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Metals",
       "categories": [
-        "General"
+        "Metals"
       ],
       "sentiment": {
         "label": "negative",
@@ -84854,9 +84949,8 @@
       "published": "2025-12-23T03:40:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "Oil - Refined Products",
+      "category": "Energy Transition",
       "categories": [
-        "Oil - Refined Products",
         "Energy Transition"
       ],
       "sentiment": {
@@ -85035,9 +85129,9 @@
       "published": "2025-12-22T17:21:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "neutral",
@@ -85585,9 +85679,9 @@
       "published": "2025-12-22T11:40:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Energy Transition",
       "categories": [
-        "General"
+        "Energy Transition"
       ],
       "sentiment": {
         "label": "neutral",
@@ -86553,9 +86647,9 @@
       "published": "2025-12-19T03:50:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "positive",
@@ -87126,8 +87220,9 @@
       "published": "2025-12-18T11:29:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "Metals",
+      "category": "Energy Transition",
       "categories": [
+        "Energy Transition",
         "Metals"
       ],
       "sentiment": {
@@ -87442,9 +87537,9 @@
       "published": "2025-12-17T18:49:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "neutral",
@@ -87648,9 +87743,9 @@
       "published": "2025-12-17T13:34:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Energy Transition",
       "categories": [
-        "General"
+        "Energy Transition"
       ],
       "sentiment": {
         "label": "positive",
@@ -87696,8 +87791,9 @@
       "published": "2025-12-17T12:37:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "Metals",
+      "category": "Energy Transition",
       "categories": [
+        "Energy Transition",
         "Metals"
       ],
       "sentiment": {
@@ -89058,9 +89154,9 @@
       "published": "2025-12-16T04:18:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "neutral",
@@ -89834,9 +89930,9 @@
       "published": "2025-12-15T08:59:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Chemicals",
       "categories": [
-        "General"
+        "Chemicals"
       ],
       "sentiment": {
         "label": "neutral",
@@ -90183,9 +90279,9 @@
       "published": "2025-12-12T18:03:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "positive",
@@ -90493,9 +90589,9 @@
       "published": "2025-12-12T03:13:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "positive",
@@ -90585,9 +90681,9 @@
       "published": "2025-12-11T21:17:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Shipping",
       "categories": [
-        "General"
+        "Shipping"
       ],
       "sentiment": {
         "label": "neutral",
@@ -90673,10 +90769,10 @@
       "published": "2025-12-11T18:26:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "Coal",
+      "category": "Metals",
       "categories": [
-        "Coal",
-        "Metals"
+        "Metals",
+        "Coal"
       ],
       "sentiment": {
         "label": "neutral",
@@ -91145,9 +91241,9 @@
       "published": "2025-12-11T13:00:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Oil - Crude",
       "categories": [
-        "General"
+        "Oil - Crude"
       ],
       "sentiment": {
         "label": "neutral",
@@ -91185,9 +91281,9 @@
       "published": "2025-12-11T11:58:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Energy Transition",
       "categories": [
-        "General"
+        "Energy Transition"
       ],
       "sentiment": {
         "label": "negative",
@@ -91360,9 +91456,9 @@
       "published": "2025-12-11T07:59:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Energy Transition",
       "categories": [
-        "General"
+        "Energy Transition"
       ],
       "sentiment": {
         "label": "positive",
@@ -91410,9 +91506,9 @@
       "published": "2025-12-11T03:29:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "negative",
@@ -91993,9 +92089,9 @@
       "published": "2025-12-10T16:28:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Energy Transition",
       "categories": [
-        "General"
+        "Energy Transition"
       ],
       "sentiment": {
         "label": "negative",
@@ -92083,8 +92179,9 @@
       "published": "2025-12-10T14:59:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "Metals",
+      "category": "Energy Transition",
       "categories": [
+        "Energy Transition",
         "Metals"
       ],
       "sentiment": {
@@ -92677,9 +92774,9 @@
       "published": "2025-12-09T19:14:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Oil - Crude",
       "categories": [
-        "General"
+        "Oil - Crude"
       ],
       "sentiment": {
         "label": "neutral",
@@ -92721,9 +92818,9 @@
       "published": "2025-12-09T18:25:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Oil - Crude",
       "categories": [
-        "General"
+        "Oil - Crude"
       ],
       "sentiment": {
         "label": "positive",
@@ -92904,9 +93001,9 @@
       "published": "2025-12-09T15:35:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Oil - Crude",
       "categories": [
-        "General"
+        "Oil - Crude"
       ],
       "sentiment": {
         "label": "positive",
@@ -93065,9 +93162,9 @@
       "published": "2025-12-09T03:48:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "positive",
@@ -93301,9 +93398,9 @@
       "published": "2025-12-08T16:32:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
+      "category": "Natural Gas",
       "categories": [
-        "General"
+        "Natural Gas"
       ],
       "sentiment": {
         "label": "neutral",
@@ -93569,10 +93666,10 @@
       "published": "2025-12-08T04:21:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "Metals",
+      "category": "Fertilizers",
       "categories": [
-        "Metals",
-        "Fertilizers"
+        "Fertilizers",
+        "Metals"
       ],
       "sentiment": {
         "label": "negative",
@@ -93788,7 +93885,7 @@
       "published": "2023-11-14T03:25:00+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil",
-      "category": "Oil - Crude",
+      "category": "Oil - Refined Products",
       "sentiment": {
         "label": "neutral",
         "confidence": 0.6896809339523315,
@@ -93823,7 +93920,6 @@
         "extracted_at": "2026-03-04T21:02:23.135318+00:00"
       },
       "categories": [
-        "Oil - Crude",
         "Oil - Refined Products"
       ]
     },
@@ -93875,7 +93971,7 @@
       "published": "2023-11-13T17:14:00+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil",
-      "category": "Oil - Crude",
+      "category": "Oil - Refined Products",
       "sentiment": {
         "label": "negative",
         "confidence": 0.9641125202178955,
@@ -93908,8 +94004,8 @@
         "extracted_at": "2026-03-04T21:02:23.135318+00:00"
       },
       "categories": [
-        "Oil - Crude",
-        "Oil - Refined Products"
+        "Oil - Refined Products",
+        "Oil - Crude"
       ]
     },
     {
@@ -93920,7 +94016,7 @@
       "published": "2023-11-13T13:35:00+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil",
-      "category": "Oil - Refined Products",
+      "category": "Energy Transition",
       "sentiment": {
         "label": "neutral",
         "confidence": 0.915630578994751,
@@ -93959,8 +94055,8 @@
         "extracted_at": "2026-03-04T21:02:23.135318+00:00"
       },
       "categories": [
-        "Oil - Refined Products",
-        "Energy Transition"
+        "Energy Transition",
+        "Oil - Refined Products"
       ]
     },
     {
@@ -93971,7 +94067,7 @@
       "published": "2023-11-13T12:12:00+00:00",
       "source": "S&P Global",
       "feed": "S&P Oil",
-      "category": "General",
+      "category": "Oil - Crude",
       "sentiment": {
         "label": "negative",
         "confidence": 0.9648364186286926,
@@ -94000,7 +94096,7 @@
         "extracted_at": "2026-03-04T21:02:23.135318+00:00"
       },
       "categories": [
-        "General"
+        "Oil - Crude"
       ]
     },
     {
@@ -94155,7 +94251,7 @@
       "published": null,
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "General",
+      "category": "Natural Gas",
       "sentiment": {
         "label": "positive",
         "confidence": 0.9437704086303711,
@@ -94188,7 +94284,7 @@
         "extracted_at": "2026-03-06T06:19:30.909883+00:00"
       },
       "categories": [
-        "General"
+        "Natural Gas"
       ]
     },
     {
@@ -94476,7 +94572,7 @@
       "published": null,
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Oil - Crude",
+      "category": "Chemicals",
       "sentiment": {
         "label": "positive",
         "confidence": 0.8914608359336853,
@@ -94509,7 +94605,6 @@
         "extracted_at": "2026-03-05T23:21:19.283771+00:00"
       },
       "categories": [
-        "Oil - Crude",
         "Chemicals"
       ]
     },
@@ -94901,7 +94996,7 @@
       "published": null,
       "source": "ICIS",
       "feed": "ICIS",
-      "category": "Electric Power",
+      "category": "Chemicals",
       "sentiment": {
         "label": "neutral",
         "confidence": 0.5648962259292603,
@@ -94930,8 +95025,8 @@
         "extracted_at": "2026-03-05T21:27:32.568525+00:00"
       },
       "categories": [
-        "Electric Power",
-        "Chemicals"
+        "Chemicals",
+        "Electric Power"
       ]
     },
     {
