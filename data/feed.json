@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-12T00:01:26.489179+00:00",
-    "total_articles": 2217,
+    "last_updated": "2026-03-12T03:12:46.902921+00:00",
+    "total_articles": 2227,
     "feeds_fetched": 15,
     "feeds_failed": 0,
     "feed_details": {
@@ -105,14 +105,81 @@
       "classifier_fallback_used": 0
     },
     "dedupe": {
-      "new": 1,
-      "updated": 125,
-      "merged": 24,
-      "incoming_merged": 24,
+      "new": 10,
+      "updated": 117,
+      "merged": 23,
+      "incoming_merged": 23,
       "existing_merged": 0
     }
   },
   "articles": [
+    {
+      "id": "648d8539e90dc00a",
+      "title": "India curtails gas supply to petrochemical plants amid LNG disruption",
+      "description": "MUMBAI (ICIS)--India has ordered curbs on natural gas supply to petrochemical producers and other industrial users as the government moves to safeguard gas availability for priority sectors following...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/12/11187974/india-curtails-gas-supply-to-petrochemical-plants-amid-lng-disruption",
+      "published": "2026-03-12T02:08:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Natural Gas",
+      "categories": [
+        "Natural Gas",
+        "LNG"
+      ]
+    },
+    {
+      "id": "146a54a175434b69",
+      "title": "Oil prices surge on fears over prolonged Mideast conflict",
+      "description": "SINGAPORE (ICIS)--Oil prices surged in early Asian trade on Thursday despite plans by G7 countries to release oil reserves, on fears of a prolonged blockade in the Strait of Hormuz following fresh...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/12/11187972/oil-prices-surge-on-fears-over-prolonged-mideast-conflict",
+      "published": "2026-03-12T01:33:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Crude",
+      "categories": [
+        "Oil - Crude"
+      ]
+    },
+    {
+      "id": "83a665a66b4425d4",
+      "title": "Plant status: S Korea’s Kumho Petchem keeps one Yeosu PBR unit shut",
+      "description": "SINGAPORE (ICIS)--Here is a plant status report: Name: Kumho Petrochemicals Location: Yeosu, South Korea Product: Polybutadiene Rubber (PBR） Capacity (tonnes/year): 170,000 Event start: H1 February...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/12/11187971/plant-status-s-korea-s-kumho-petchem-keeps-one-yeosu-pbr-unit-shut",
+      "published": "2026-03-12T01:14:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals",
+      "categories": [
+        "Chemicals"
+      ]
+    },
+    {
+      "id": "9b479681f7718c6a",
+      "title": "US to release 172mn bl from SPR: Update 2",
+      "description": "",
+      "link": "https://www.argusmedia.com/pages/NewsBody.aspx?id=2799960&menu=yes",
+      "published": "2026-03-12T00:29:00+00:00",
+      "source": "Argus Media",
+      "feed": "Argus NewsAll",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
+    {
+      "id": "02343e908cdcdeb6",
+      "title": "South Korea to release record 22.46 million barrels of oil reserves in emergency action",
+      "description": "South Korea will release a record 22.46 million barrels of strategic oil reserves to help reduce soaring international benchmark crude prices amid the conflict in the Middle East, the Ministry of Trade, Industry, and Resources announced at midnight on March 12. This decision aligns with an agreement among member countries of the International Energy Agency (IEA) for an emergency release of 400",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/crude-oil/031126-south-korea-to-release-record-2246-million-barrels-of-oil-reserves-in-emergency-action",
+      "published": "2026-03-11T23:36:25+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Oil - Refined Products",
+      "category": "Oil - Crude",
+      "categories": [
+        "Oil - Crude",
+        "Oil - Refined Products"
+      ]
+    },
     {
       "id": "962ad51dcb3707f5",
       "title": "US-Iran war: Latest news",
@@ -177,6 +244,20 @@
       "category": "Natural Gas",
       "categories": [
         "Natural Gas"
+      ]
+    },
+    {
+      "id": "7a7a972ce9274629",
+      "title": "Interbasin LNG competition results in seventh Atlantic cargo to Asia: CAS",
+      "description": "Asian LNG buyers have pulled at least seven Atlantic Basin cargoes away from Europe since the war in the Middle East began on Feb. 28, according to S&amp;P Global Commodities at Sea data, driven by a widening Northeast Asia price premium and improved netbacks for eastbound flows. Cargoes in the Atlantic Basin sold on both spot and long-term contracts appeared to divert from Europe to Asia in response",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/electric-power/031126-interbasin-lng-competition-results-in-seventh-atlantic-cargo-to-asia-cas",
+      "published": "2026-03-11T21:44:52+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Shipping",
+      "category": "Natural Gas",
+      "categories": [
+        "Natural Gas",
+        "LNG"
       ]
     },
     {
@@ -258,6 +339,19 @@
       ]
     },
     {
+      "id": "6f3c2eda3ee099c3",
+      "title": "Cyber agency staff furloughs could challenge energy sector as threats grow",
+      "description": "The US Department of Homeland Security&apos;s decision to furlough two-thirds of its cybersecurity staff could increase risks to US energy infrastructure, as defense analysts track a rise in cyberattacks targeting the operational systems of the nation&apos;s critical assets in the wake of the Iran war. The US Cybersecurity and Infrastructure Security Agency (CISA) furloughs were discussed on Capitol Hill",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/electric-power/031126-cyber-agency-staff-furloughs-could-challenge-energy-sector-as-threats-grow",
+      "published": "2026-03-11T20:21:23+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Natural Gas",
+      "category": "Natural Gas",
+      "categories": [
+        "Natural Gas"
+      ]
+    },
+    {
       "id": "8c1fe10752109b3b",
       "title": "US government selects Chubb for maritime reinsurance plan for Middle East shipping",
       "description": "HOUSTON (ICIS)--The US International Development Finance Corporation (DFC) has selected Chubb to serve as the lead partner for DFC’s $20 billion maritime reinsurance plan designed to resume...",
@@ -268,6 +362,20 @@
       "category": "Metals",
       "categories": [
         "Metals"
+      ]
+    },
+    {
+      "id": "bc690b14d8f19947",
+      "title": "Trump says oil companies should use Strait of Hormuz, touting US progress",
+      "description": "US President Donald Trump says that oil companies should use the Strait of Hormuz, arguing that the US has taken out Iran&apos;s mine ships and does not believe any mines have been laid in the area. When a reporter asked Trump March 11 if he was encouraging the CEOs of oil companies to use the Strait of Hormuz right now, Trump said, &quot;I think they should, I think they should.&quot; When asked if Iran has",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/crude-oil/031126-trump-says-oil-companies-should-use-strait-of-hormuz-touting-us-progress",
+      "published": "2026-03-11T20:16:43+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Shipping",
+      "category": "Oil - Crude",
+      "categories": [
+        "Oil - Crude",
+        "Oil - Refined Products"
       ]
     },
     {
@@ -480,6 +588,20 @@
       ]
     },
     {
+      "id": "a3335897a75ab234",
+      "title": "India secures alternative natural gas amid Hormuz disruptions: government",
+      "description": "The Indian government has been taking actions to procure natural gas from alternative suppliers and via alternative routes to offset disruptions caused by the Middle East conflict, the Press Information Bureau, the country&apos;s nodal government agency, said on March 11. &quot;Gas companies have also secured LNG cargoes from new sources, and two LNG cargoes are on their way to the country,&quot; the Indian",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/lng/031126-india-secures-alternative-natural-gas-amid-hormuz-disruptions-government",
+      "published": "2026-03-11T17:47:38+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Shipping",
+      "category": "Natural Gas",
+      "categories": [
+        "Natural Gas",
+        "LNG"
+      ]
+    },
+    {
       "id": "777297b572c37c31",
       "title": "Strait of Hormuz traffic remains at standstill amid new attacks on commercial vessels",
       "description": "HOUSTON (ICIS)--Traffic of commercial vessels through the Strait of Hormuz remains at a standstill as three vessels were hit by unknown projectiles on Wednesday....",
@@ -637,6 +759,20 @@
       "category": "General",
       "categories": [
         "General"
+      ]
+    },
+    {
+      "id": "1cda80025794ce55",
+      "title": "FACTBOX: Oil markets whipsaw as IEA announces record stock release",
+      "description": "The International Energy Agency unanimously agreed to release 400 million barrels of oil from its strategic stocks on March 11 as the war in the Middle East continues to roil crude markets and raise the prospect of severe long-term energy shortfalls. Japan led the way on the release, announcing prior to the IEA agreement that it would release crude from national and private-sector reserves to ease",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/crude-oil/031126-factbox-oil-markets-whipsaw-as-iea-announces-record-stock-release",
+      "published": "2026-03-11T16:13:50+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Shipping",
+      "category": "Oil - Crude",
+      "categories": [
+        "Oil - Crude",
+        "Oil - Refined Products"
       ]
     },
     {
