@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-11T23:43:12.103558+00:00",
-    "total_articles": 2216,
+    "last_updated": "2026-03-12T00:01:26.489179+00:00",
+    "total_articles": 2217,
     "feeds_fetched": 15,
     "feeds_failed": 0,
     "feed_details": {
@@ -105,10 +105,10 @@
       "classifier_fallback_used": 0
     },
     "dedupe": {
-      "new": 2,
-      "updated": 123,
-      "merged": 25,
-      "incoming_merged": 25,
+      "new": 1,
+      "updated": 125,
+      "merged": 24,
+      "incoming_merged": 24,
       "existing_merged": 0
     }
   },
@@ -124,6 +124,20 @@
       "category": "General",
       "categories": [
         "General"
+      ]
+    },
+    {
+      "id": "9cccd5178ff5d2c8",
+      "title": "US will tap strategic oil reserves to lower prices: Trump",
+      "description": "US President Donald Trump said on March 11 that the US will tap the Strategic Petroleum Reserve to help ease rising gasoline prices, while reiterating that the stockpile would eventually be replenished. &quot;I filled it up once, and I&apos;ll fill it up again,&quot; Trump said in an interview with Cincinnati Local 12 news. &quot;We&apos;ll reduce it a little bit, and that brings the prices down.&quot; Trump&apos;s comments",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/crude-oil/031126-us-will-tap-strategic-oil-reserves-to-lower-prices-trump",
+      "published": "2026-03-11T23:29:29+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Oil - Refined Products",
+      "category": "Oil - Crude",
+      "categories": [
+        "Oil - Crude",
+        "Oil - Refined Products"
       ]
     },
     {
