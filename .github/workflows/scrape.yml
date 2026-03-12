@@ -6,7 +6,7 @@ on:
   workflow_dispatch:           # also allows you to trigger a run manually from GitHub
 
 permissions:
-  contents: write              # needed so the workflow can commit feed.json back
+  contents: write              # needed so the workflow can push the feed branch
 
 jobs:
   scrape:
@@ -31,13 +31,41 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Run scraper
-        run: python rss_scraper.py --output data/feed.json
+        run: python rss_scraper.py --output "${RUNNER_TEMP}/feed.json"
 
-      - name: Commit updated feed
+      - name: Publish updated feed branch
         run: |
-          git config user.name  "github-actions[bot]"
+          set -euo pipefail
+
+          branch="feed-data"
+          worktree="${RUNNER_TEMP}/feed-branch"
+
+          git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          rm -rf "${worktree}"
+          git fetch origin "${branch}" || true
+
+          if git show-ref --verify --quiet "refs/remotes/origin/${branch}"; then
+            git worktree add --force -B "${branch}" "${worktree}" "origin/${branch}"
+            branch_exists=1
+          else
+            git worktree add --detach "${worktree}" HEAD
+            branch_exists=0
+          fi
+
+          cd "${worktree}"
+
+          if [ "${branch_exists}" -eq 0 ]; then
+            git switch --orphan "${branch}"
+            git rm -rf . >/dev/null 2>&1 || true
+          fi
+
+          mkdir -p data
+          cp "${RUNNER_TEMP}/feed.json" data/feed.json
+
           git add data/feed.json
-          # Only commit if the tracked snapshot actually changed.
-          git diff --staged --quiet || git commit -m "chore: update feed [skip ci]"
-          git push
+          git diff --cached --quiet && exit 0
+
+          git commit -m "chore: update feed [skip ci]"
+          git push origin "HEAD:${branch}"

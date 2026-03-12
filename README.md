@@ -2,7 +2,7 @@
 
 Contango now ships as a two-view product:
 
-- `HeadlineWatch` for the existing live headline workflow backed by a local `data/feed.local.json` override when present, otherwise the tracked `data/feed.json` snapshot
+- `HeadlineWatch` for the existing live headline workflow backed by a local `data/feed.local.json` override when present, otherwise the tracked `data/feed.json` sample snapshot
 - `PriceWatch` for the commodity visual page backed by published commodity database views
 
 ## Product structure
@@ -38,7 +38,7 @@ python3 -m pip install -r requirements.txt
 python3 rss_scraper.py
 ```
 
-This writes to `data/feed.local.json` by default. That file is ignored by Git so your local scraping does not fight with the tracked snapshot that GitHub Actions updates in `data/feed.json`.
+This writes to `data/feed.local.json` by default. That file is ignored by Git so your local scraping does not fight with code commits on `main`.
 
 2. Start the product server:
 
@@ -81,9 +81,16 @@ If the commodity backend is unavailable, `HeadlineWatch` still loads and `PriceW
 
 - Local development: run `python3 rss_scraper.py`
   This updates `data/feed.local.json` only.
-- Tracked shared snapshot: GitHub Actions writes `data/feed.json`
-  That file is the fallback when you do not have a local feed yet.
-- If you need to update the tracked snapshot manually, run:
+- GitHub Actions writes the remote feed to the `feed-data` branch, not to `main`.
+  That keeps `main` focused on code so your normal `git pull` and `git push` workflow is much safer.
+- The tracked `data/feed.json` on `main` is now just a sample fallback when you do not have a local feed yet.
+- If you want the latest remote overnight feed in your local ignored file, run:
+
+```bash
+./scripts/sync_remote_feed.sh
+```
+
+- If you need to update the sample fallback manually on `main`, run:
 
 ```bash
 python3 rss_scraper.py --output data/feed.json
@@ -91,6 +98,32 @@ python3 rss_scraper.py --output data/feed.json
 
 - If you want the server to use a specific feed file, set `CONTANGO_HEADLINE_FEED_PATH`.
 - If you want the scraper default output somewhere else, set `CONTANGO_FEED_OUTPUT`.
+
+## Git workflow
+
+- `main`
+  Code branch. This is where you build the product and push normal app changes.
+- `feed-data`
+  Automation branch. GitHub Actions updates this with the latest scraped feed snapshot.
+- `data/feed.local.json`
+  Your local ignored feed file. The app prefers this file when it exists.
+
+Safe routine for code changes:
+
+```bash
+git status
+git add -A
+git restore --staged data/feed.json
+git commit -m "Describe the code change"
+git pull --rebase origin main
+git push origin main
+```
+
+If you want the latest automated feed locally before you run the app:
+
+```bash
+./scripts/sync_remote_feed.sh
+```
 
 ## Verification
 
