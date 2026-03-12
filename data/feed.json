@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-12T03:12:46.902921+00:00",
-    "total_articles": 2227,
+    "last_updated": "2026-03-12T04:59:02.779266+00:00",
+    "total_articles": 2232,
     "feeds_fetched": 15,
     "feeds_failed": 0,
     "feed_details": {
@@ -105,14 +105,80 @@
       "classifier_fallback_used": 0
     },
     "dedupe": {
-      "new": 10,
-      "updated": 117,
-      "merged": 23,
-      "incoming_merged": 23,
+      "new": 5,
+      "updated": 125,
+      "merged": 20,
+      "incoming_merged": 20,
       "existing_merged": 0
     }
   },
   "articles": [
+    {
+      "id": "0232c2340f67f7b6",
+      "title": "Asia’s caustic soda production costs could rise further due to Mideast conflict",
+      "description": "SINGAPORE (ICIS)--Asia’s caustic soda spot market has been affected by ripple effects from the Middle East conflict. Producers are seeing production costs skyrocket for polyvinyl chloride (PVC), a...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/12/11187986/asia-s-caustic-soda-production-costs-could-rise-further-due-to-mideast-conflict",
+      "published": "2026-03-12T04:15:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals",
+      "categories": [
+        "Chemicals"
+      ]
+    },
+    {
+      "id": "0a1fbc47f2f14d71",
+      "title": "NOON SNAPSHOT - Asia Markets Summary",
+      "description": "CRUDE: Higher on concerns over prolonged supply interruptions to oil flows in the Strait of Hormuz. BENZENE (FOB KOREA): Up on crude gains. TOLUENE (FOB KOREA): Up on gains in crude oil. Product...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/12/11187985/noon-snapshot-asia-markets-summary",
+      "published": "2026-03-12T04:04:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Oil - Crude",
+      "categories": [
+        "Oil - Crude",
+        "Chemicals"
+      ]
+    },
+    {
+      "id": "66f29d286e56caf4",
+      "title": "Plant status: India’s GAIL shuts PE units amid feedstock issues",
+      "description": "MUMBAI (ICIS)--Here is a plant status report: Name: Gas Authority of India Limited (GAIL) India Location: Pata (Uttar Pradesh), India Products: High density polyethylene (HDPE) and linear low-density...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/12/11187984/plant-status-india-s-gail-shuts-pe-units-amid-feedstock-issues",
+      "published": "2026-03-12T03:56:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals",
+      "categories": [
+        "Chemicals"
+      ]
+    },
+    {
+      "id": "d4be8cb3f440a8a0",
+      "title": "Ice Brent crude futures rise above $100/bl",
+      "description": "",
+      "link": "https://www.argusmedia.com/pages/NewsBody.aspx?id=2799965&menu=yes",
+      "published": "2026-03-12T03:43:00+00:00",
+      "source": "Argus Media",
+      "feed": "Argus NewsAll",
+      "category": "Oil - Crude",
+      "categories": [
+        "Oil - Crude"
+      ]
+    },
+    {
+      "id": "10f673bac4dd609c",
+      "title": "US initiates Section 301 investigations on trade partners",
+      "description": "SINGAPORE (ICIS)--The Office of the US Trade Representative (USTR) on 11 March announced it will begin investigations on 16 trade partners, including China and India, under the Section 301 “unfair...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/12/11187980/us-initiates-section-301-investigations-on-trade-partners",
+      "published": "2026-03-12T03:21:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
     {
       "id": "648d8539e90dc00a",
       "title": "India curtails gas supply to petrochemical plants amid LNG disruption",
