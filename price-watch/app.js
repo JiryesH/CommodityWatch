@@ -1,5 +1,6 @@
 import { CommodityApiClient } from "./commodities-client.js";
 import { buildCommodityDefinitions, getCommodityTaxonomy } from "./commodity-presentation.js";
+import { CommodityFilterSelection } from "./filter-selection.js";
 import {
   getMatchingSeriesOptions,
   normalizeCommoditySearchQuery,
@@ -383,8 +384,7 @@ class CommodityWatchEngine {
     this.sectionUi = new Map();
     this.historyCache = new Map();
     this.headlineCache = new Map();
-    this.selectedSectors = new Set(COMMODITY_TAXONOMY.map((sector) => sector.id));
-    this.selectedSubsectors = new Set();
+    this.filterSelection = new CommodityFilterSelection(COMMODITY_TAXONOMY);
     this.searchQuery = "";
     this.resizeRaf = null;
     this.detailCloseTimer = null;
@@ -455,11 +455,11 @@ class CommodityWatchEngine {
         return;
       }
 
-      this.toggleSubsectorSelection(chip.dataset.subsector);
+      this.toggleSubsectorSelection(chip.dataset.sector, chip.dataset.subsector);
     });
 
     this.ui.subsectorClear?.addEventListener("click", () => {
-      this.selectedSubsectors.clear();
+      this.filterSelection.clearSubsectorSelections();
       this.applyFilters();
     });
 
@@ -590,8 +590,6 @@ class CommodityWatchEngine {
       );
       this.createCard(definition);
     });
-
-    this.pruneSubsectorSelection();
     this.syncFilterUi();
   }
 
@@ -664,6 +662,7 @@ class CommodityWatchEngine {
         const button = document.createElement("button");
         button.type = "button";
         button.className = "filter-chip";
+        button.dataset.sector = sector.id;
         button.dataset.subsector = subsector.id;
         button.setAttribute("aria-pressed", "false");
         const label = document.createElement("span");
@@ -885,13 +884,11 @@ class CommodityWatchEngine {
   }
 
   getAllSectorIds() {
-    return COMMODITY_TAXONOMY.map((sector) => sector.id);
+    return this.filterSelection.getAllSectorIds();
   }
 
   getScopedSubsectorIds() {
-    return COMMODITY_TAXONOMY.filter((sector) => this.selectedSectors.has(sector.id)).flatMap((sector) =>
-      sector.subsectors.map((subsector) => subsector.id)
-    );
+    return this.filterSelection.getVisibleSubsectorIds();
   }
 
   getSubsectorSeriesCountMap() {
@@ -903,18 +900,8 @@ class CommodityWatchEngine {
   }
 
   resetSectorSelection() {
-    this.selectedSectors = new Set(this.getAllSectorIds());
-    this.selectedSubsectors.clear();
+    this.filterSelection.reset();
     this.applyFilters();
-  }
-
-  pruneSubsectorSelection() {
-    const allowedSubsectors = new Set(this.getScopedSubsectorIds());
-    Array.from(this.selectedSubsectors).forEach((subsectorId) => {
-      if (!allowedSubsectors.has(subsectorId)) {
-        this.selectedSubsectors.delete(subsectorId);
-      }
-    });
   }
 
   toggleSectorSelection(sectorId) {
@@ -922,62 +909,40 @@ class CommodityWatchEngine {
       return;
     }
 
-    const allSectorIds = this.getAllSectorIds();
-    const allSelected = this.selectedSectors.size === allSectorIds.length && this.selectedSubsectors.size === 0;
-    const nextSelection = new Set(this.selectedSectors);
-
-    if (allSelected) {
-      this.selectedSectors = new Set([sectorId]);
-      this.pruneSubsectorSelection();
-      this.applyFilters();
-      return;
-    }
-
-    if (nextSelection.has(sectorId)) {
-      nextSelection.delete(sectorId);
-    } else {
-      nextSelection.add(sectorId);
-    }
-
-    this.selectedSectors = nextSelection.size ? nextSelection : new Set(allSectorIds);
-    this.pruneSubsectorSelection();
+    this.filterSelection.toggleSectorSelection(sectorId);
     this.applyFilters();
   }
 
-  toggleSubsectorSelection(subsectorId) {
-    if (!subsectorId) {
+  toggleSubsectorSelection(sectorId, subsectorId) {
+    if (!sectorId || !subsectorId) {
       return;
     }
 
-    if (this.selectedSubsectors.has(subsectorId)) {
-      this.selectedSubsectors.delete(subsectorId);
-    } else {
-      this.selectedSubsectors.add(subsectorId);
-    }
-
+    this.filterSelection.toggleSubsectorSelection(sectorId, subsectorId);
     this.applyFilters();
   }
 
   syncFilterUi() {
-    const allSectorIds = this.getAllSectorIds();
-    const allSelected = this.selectedSectors.size === allSectorIds.length && this.selectedSubsectors.size === 0;
+    const allSelected = this.filterSelection.isAllSelected();
 
     this.ui.allSectorsButton?.classList.toggle("is-selected", allSelected);
     this.ui.allSectorsButton?.setAttribute("aria-pressed", String(allSelected));
 
     this.ui.sectorPills.forEach((pill) => {
-      const isSelected = this.selectedSectors.has(pill.dataset.sector);
+      const selectionState = this.filterSelection.getSectorSelectionState(pill.dataset.sector);
+      const isSelected = selectionState !== "none";
+      const isPartial = selectionState === "partial";
       pill.classList.toggle("is-selected", isSelected);
+      pill.classList.toggle("is-partial", isPartial);
       pill.setAttribute("aria-pressed", String(isSelected));
     });
 
-    const showSubsectorLayer =
-      this.selectedSectors.size !== allSectorIds.length || this.selectedSubsectors.size > 0;
+    const showSubsectorLayer = !allSelected;
 
     window.ContangoFilterShell?.setLayerOpen(null, this.ui.subsectorLayer, showSubsectorLayer);
 
     if (this.ui.subsectorClear) {
-      this.ui.subsectorClear.hidden = this.selectedSubsectors.size === 0;
+      this.ui.subsectorClear.hidden = !this.filterSelection.hasPartialSubsectorSelection();
     }
 
     if (this.ui.subsectorHint) {
@@ -985,7 +950,7 @@ class CommodityWatchEngine {
       this.ui.subsectorHint.classList.toggle("open", showHint);
     }
 
-    const visibleSectorIds = new Set(this.selectedSectors);
+    const visibleSectorIds = new Set(this.filterSelection.selectedSectors);
     const visibleSubsectorIds = new Set(this.getScopedSubsectorIds());
 
     this.ui.subsectorGroups?.querySelectorAll(".filter-subsector-group").forEach((groupEl) => {
@@ -995,9 +960,10 @@ class CommodityWatchEngine {
     });
 
     this.ui.subsectorGroups?.querySelectorAll("[data-subsector]").forEach((button) => {
+      const sectorId = button.dataset.sector;
       const subsectorId = button.dataset.subsector;
       const isVisible = visibleSubsectorIds.has(subsectorId);
-      const isSelected = this.selectedSubsectors.has(subsectorId);
+      const isSelected = this.filterSelection.isSubsectorSelected(sectorId, subsectorId);
       button.hidden = !isVisible;
       button.classList.toggle("is-selected", isSelected);
       button.setAttribute("aria-pressed", String(isSelected));
@@ -1018,9 +984,11 @@ class CommodityWatchEngine {
     let visiblePriceCount = 0;
 
     this.views.forEach((view) => {
-      const sectorMatches = this.selectedSectors.has(view.definition.sectorId);
-      const subsectorMatches =
-        this.selectedSubsectors.size === 0 || this.selectedSubsectors.has(view.definition.subsectorId);
+      const sectorMatches = this.filterSelection.selectedSectors.has(view.definition.sectorId);
+      const subsectorMatches = this.filterSelection.isSubsectorSelected(
+        view.definition.sectorId,
+        view.definition.subsectorId
+      );
       const matchingSeries = getMatchingSeriesOptions(view.definition, this.searchQuery);
       const isVisible = sectorMatches && subsectorMatches && matchingSeries.length > 0;
 
@@ -1040,10 +1008,7 @@ class CommodityWatchEngine {
 
   updateCatalogState(visiblePriceCount) {
     const totalCount = this.definitions.reduce((sum, definition) => sum + definition.seriesOptions.length, 0);
-    const scoped =
-      this.selectedSectors.size !== this.getAllSectorIds().length ||
-      this.selectedSubsectors.size > 0 ||
-      Boolean(this.searchQuery);
+    const scoped = !this.filterSelection.isAllSelected() || Boolean(this.searchQuery);
 
     if (this.ui.statusLine) {
       this.ui.statusLine.textContent =
