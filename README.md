@@ -2,7 +2,7 @@
 
 Contango now ships as a two-view product:
 
-- `HeadlineWatch` for the existing live headline workflow backed by `data/feed.json`
+- `HeadlineWatch` for the existing live headline workflow backed by a local `data/feed.local.json` override when present, otherwise the tracked `data/feed.json` snapshot
 - `PriceWatch` for the commodity visual page backed by published commodity database views
 
 ## Product structure
@@ -37,6 +37,8 @@ python3 -m pip install -r requirements.txt
 ```bash
 python3 rss_scraper.py
 ```
+
+This writes to `data/feed.local.json` by default. That file is ignored by Git so your local scraping does not fight with the tracked snapshot that GitHub Actions updates in `data/feed.json`.
 
 2. Start the product server:
 
@@ -74,6 +76,21 @@ Environment variables supported by `server.py`:
   - Product server bind port. Defaults to `8080`
 
 If the commodity backend is unavailable, `HeadlineWatch` still loads and `PriceWatch` shows a targeted configuration error state instead of crashing the product server.
+
+## Headline feed workflow
+
+- Local development: run `python3 rss_scraper.py`
+  This updates `data/feed.local.json` only.
+- Tracked shared snapshot: GitHub Actions writes `data/feed.json`
+  That file is the fallback when you do not have a local feed yet.
+- If you need to update the tracked snapshot manually, run:
+
+```bash
+python3 rss_scraper.py --output data/feed.json
+```
+
+- If you want the server to use a specific feed file, set `CONTANGO_HEADLINE_FEED_PATH`.
+- If you want the scraper default output somewhere else, set `CONTANGO_FEED_OUTPUT`.
 
 ## Verification
 

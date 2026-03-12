@@ -30,14 +30,17 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Optional
 
+from feed_io import preferred_headline_feed_path
+
 logger = logging.getLogger("classifier")
 
 # ---------------------------------------------------------------------------
 # Paths
 # ---------------------------------------------------------------------------
 
-TAXONOMY_PATH = Path(__file__).parent / "commodity_taxonomy.json"
-DEFAULT_FEED_PATH = Path(__file__).parent / "data" / "feed.json"
+APP_ROOT = Path(__file__).resolve().parent
+TAXONOMY_PATH = APP_ROOT / "commodity_taxonomy.json"
+DEFAULT_FEED_PATH = preferred_headline_feed_path(APP_ROOT)
 
 # Canonical category contract (V1 scope)
 CANONICAL_CATEGORIES: tuple[str, ...] = (

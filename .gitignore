@@ -43,3 +43,6 @@ secrets.json
 
 # SQLite databases
 *.db
+
+# Local scraper output (tracked snapshot stays at data/feed.json)
+data/*.local.json

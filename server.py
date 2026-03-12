@@ -16,6 +16,7 @@ from urllib.parse import parse_qs, unquote, urlparse
 from sqlalchemy import create_engine, text
 from sqlalchemy.engine import Engine, make_url
 
+from feed_io import preferred_headline_feed_path
 from headline_associations import RelatedHeadlineService, parse_headline_limit
 
 
@@ -156,7 +157,7 @@ def build_config(app_root: Path = APP_ROOT) -> AppConfig:
         database_url=database_url,
         host=host,
         port=port,
-        headline_feed_path=app_root / "data" / "feed.json",
+        headline_feed_path=preferred_headline_feed_path(app_root),
     )
 
 
@@ -448,7 +449,9 @@ def send_json(handler: SimpleHTTPRequestHandler, status: HTTPStatus, data: Any, 
 
 
 def make_handler(repository_provider: CommodityRepositoryProvider, config: AppConfig):
-    headline_service_provider = RelatedHeadlineServiceProvider(config.headline_feed_path or (config.app_root / "data" / "feed.json"))
+    headline_service_provider = RelatedHeadlineServiceProvider(
+        config.headline_feed_path or preferred_headline_feed_path(config.app_root)
+    )
 
     class ContangoRequestHandler(SimpleHTTPRequestHandler):
         def __init__(self, *args: Any, **kwargs: Any) -> None:

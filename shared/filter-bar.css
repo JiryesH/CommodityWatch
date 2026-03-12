@@ -7,7 +7,7 @@
 .filter-wrap {
   position: sticky;
   top: var(--nav-height);
-  z-index: 100;
+  z-index: 90;
   background: var(--color-bg);
   border-bottom: 1px solid var(--color-border);
 }

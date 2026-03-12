@@ -8,6 +8,9 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
+DEFAULT_TRACKED_HEADLINE_FEED_NAME = "feed.json"
+DEFAULT_LOCAL_HEADLINE_FEED_NAME = "feed.local.json"
+
 
 class FeedPersistenceError(RuntimeError):
     """Raised when a feed file exists but cannot be safely read or written."""
@@ -20,6 +23,40 @@ def empty_feed_payload() -> dict[str, Any]:
 def load_feed_json(path: Path) -> Any:
     with path.open("r", encoding="utf-8") as handle:
         return json.load(handle)
+
+
+def resolve_repo_path(raw_path: str | Path, app_root: Path) -> Path:
+    path = Path(raw_path).expanduser()
+    if not path.is_absolute():
+        path = app_root / path
+    return path.resolve()
+
+
+def tracked_headline_feed_path(app_root: Path) -> Path:
+    return (app_root / "data" / DEFAULT_TRACKED_HEADLINE_FEED_NAME).resolve()
+
+
+def local_headline_feed_path(app_root: Path) -> Path:
+    return (app_root / "data" / DEFAULT_LOCAL_HEADLINE_FEED_NAME).resolve()
+
+
+def preferred_headline_feed_path(app_root: Path) -> Path:
+    configured_path = os.environ.get("CONTANGO_HEADLINE_FEED_PATH")
+    if configured_path:
+        return resolve_repo_path(configured_path, app_root)
+
+    local_path = local_headline_feed_path(app_root)
+    if local_path.exists():
+        return local_path
+
+    return tracked_headline_feed_path(app_root)
+
+
+def default_headline_feed_output_path(app_root: Path) -> Path:
+    configured_output = os.environ.get("CONTANGO_FEED_OUTPUT")
+    if configured_output:
+        return resolve_repo_path(configured_output, app_root)
+    return local_headline_feed_path(app_root)
 
 
 def save_feed_json(path: Path, data: Any) -> None:

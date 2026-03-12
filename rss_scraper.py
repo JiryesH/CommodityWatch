@@ -6,13 +6,14 @@ and Fastmarkets,
 joining them into a single unified JSON data file for the frontend to consume.
 
 Usage:
-    python rss_scraper.py                # Run once, output to data/feed.json
+    python rss_scraper.py                # Run once, output to data/feed.local.json
     python rss_scraper.py --daemon       # Run continuously, polling every 10 minutes
     python rss_scraper.py --daemon --interval 300  # Custom poll interval (seconds)
     python rss_scraper.py --sentiment    # Also score headlines with FinBERT
     python rss_scraper.py --ner          # Also extract entities/countries with spaCy
-    python sentiment_finbert.py --input data/feed.json --output data/feed.json
-    python ner_spacy.py --input data/feed.json --output data/feed.json
+    python rss_scraper.py --output data/feed.json   # Write the tracked snapshot explicitly
+    python sentiment_finbert.py --input data/feed.local.json --output data/feed.local.json
+    python ner_spacy.py --input data/feed.local.json --output data/feed.local.json
     python app.py --host 127.0.0.1 --port 8081  # Control API for job orchestration
 
 Requirements:
@@ -55,7 +56,12 @@ from classifier import (
     normalize_article_categories,
 )
 from dedupe_utils import canonical_article_dedupe_key, canonical_article_id
-from feed_io import load_feed_payload, save_feed_payload
+from feed_io import (
+    default_headline_feed_output_path,
+    load_feed_payload,
+    resolve_repo_path,
+    save_feed_payload,
+)
 
 # Sentiment and NER are optional — they require heavy ML deps (torch, spaCy)
 # that are not installed in lightweight environments (e.g. GitHub Actions).
@@ -242,8 +248,10 @@ DEFAULT_ARGUS_INCLUDE_LEAD = False
 ARGUS_FEED_NAME = str(getattr(argus_scraper, "FEED_NAME", "Argus NewsAll"))
 
 # Output
-DATA_DIR = Path(__file__).parent / "data"
-OUTPUT_FILE = DATA_DIR / "feed.json"
+APP_ROOT = Path(__file__).resolve().parent
+DATA_DIR = APP_ROOT / "data"
+DEFAULT_OUTPUT_FILE = default_headline_feed_output_path(APP_ROOT)
+OUTPUT_FILE = DEFAULT_OUTPUT_FILE
 
 # ---------------------------------------------------------------------------
 # Logging
@@ -1151,9 +1159,14 @@ def main():
         help="Fetch Argus article pages and store lead paragraph as description",
     )
     parser.add_argument(
+        "--output",
+        default=str(DEFAULT_OUTPUT_FILE),
+        help=f"Output feed path (default: {DEFAULT_OUTPUT_FILE})",
+    )
+    parser.add_argument(
         "--sentiment",
         action="store_true",
-        help="Run FinBERT sentiment analysis and store scores in feed.json",
+        help="Run FinBERT sentiment analysis and store scores in the output feed",
     )
     parser.add_argument(
         "--sentiment-model",
@@ -1202,7 +1215,7 @@ def main():
     parser.add_argument(
         "--ner",
         action="store_true",
-        help="Run spaCy entity + country extraction and store it in feed.json",
+        help="Run spaCy entity + country extraction and store it in the output feed",
     )
     parser.add_argument(
         "--ner-model",
@@ -1232,6 +1245,9 @@ def main():
         help="Maximum stored entities per article for NER (default: 18)",
     )
     args = parser.parse_args()
+
+    global OUTPUT_FILE
+    OUTPUT_FILE = resolve_repo_path(args.output, APP_ROOT)
 
     include_rss = not args.no_rss
     include_argus = not args.no_argus
@@ -1271,7 +1287,7 @@ def main():
         logger.info(f"Open in browser: http://localhost:{args.port}/")
 
     if args.daemon or args.serve:
-        # --serve alone implies daemon mode (keep refreshing feed.json)
+        # --serve alone implies daemon mode (keep refreshing the output feed)
         run_daemon(
             args.interval,
             sentiment_config=sentiment_config,
