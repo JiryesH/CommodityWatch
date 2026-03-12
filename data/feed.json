@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "last_updated": "2026-03-12T07:10:23.483328+00:00",
-    "total_articles": 129,
+    "last_updated": "2026-03-12T07:39:52.096839+00:00",
+    "total_articles": 128,
     "feeds_fetched": 15,
     "feeds_failed": 0,
     "feed_details": {
@@ -102,17 +102,69 @@
     ],
     "category_contract": {
       "unknown_tokens_rewritten": 0,
-      "classifier_fallback_used": 6
+      "classifier_fallback_used": 5
     },
     "dedupe": {
-      "new": 129,
+      "new": 128,
       "updated": 0,
-      "merged": 21,
-      "incoming_merged": 21,
+      "merged": 22,
+      "incoming_merged": 22,
       "existing_merged": 0
     }
   },
   "articles": [
+    {
+      "id": "cc214e76ed5f5d54",
+      "title": "China’s Sinopec increases benzene list prices by CNY400/tonne",
+      "description": "SINGAPORE (ICIS)--China’s Sinopec has increased its domestic benzene list prices by yuan (CNY) 400/tonne, a company source said on 12 March. Its benzene prices were adjusted to CNY8,400/tonne EXW...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/12/11188005/china-s-sinopec-increases-benzene-list-prices-by-cny400-tonne",
+      "published": "2026-03-12T07:28:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals",
+      "categories": [
+        "Chemicals"
+      ]
+    },
+    {
+      "id": "7a1d34e95f829e33",
+      "title": "Plant status: India’s IOCL shuts a PP unit at Paradip amid feedstock tightness",
+      "description": "MUMBAI (ICIS)--Here is a plant status report: Name: Indian Oil Corporation Limited (IOCL) Location: Paradip (Odisha), India Products: Polypropylene (PP) Capacity (tonnes/year): 340,000 Event start:...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/12/11188004/plant-status-india-s-iocl-shuts-a-pp-unit-at-paradip-amid-feedstock-tightness",
+      "published": "2026-03-12T07:25:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "Chemicals",
+      "categories": [
+        "Chemicals"
+      ]
+    },
+    {
+      "id": "b1d670927eb1b888",
+      "title": "INSIGHT: PCG, PTTGC fare better than Asia peers amid Mideast conflict",
+      "description": "SINGAPORE (ICIS)--Gas-based petrochemical producers in southeast Asia, including Malaysia’s PETRONAS Chemicals Group (PCG) and Thailand’s PTT Global Chemical (PTTGC), are faring better than...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/12/11188002/insight-pcg-pttgc-fare-better-than-asia-peers-amid-mideast-conflict",
+      "published": "2026-03-12T07:06:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "General",
+      "categories": [
+        "General"
+      ]
+    },
+    {
+      "id": "31e3491444c220a5",
+      "title": "LNG outlook in northeast Asia during Iran war draws on contingency plans",
+      "description": "China has buffers in import diversification of gas/LNG Taiwan has managed to secure prompt LNG supplies Japan and South Korea draw on emergency plans SINGAPORE (ICIS)--Key LNG buyers in northeast...",
+      "link": "https://www.icis.com/explore/resources/news/2026/03/12/11188001/lng-outlook-in-northeast-asia-during-iran-war-draws-on-contingency-plans",
+      "published": "2026-03-12T07:04:00+00:00",
+      "source": "ICIS",
+      "feed": "ICIS",
+      "category": "LNG",
+      "categories": [
+        "LNG"
+      ]
+    },
     {
       "id": "aaff5cee2ec8d2cd",
       "title": "East and south Asia LAB availability of feed impacted by fuel shortages",
@@ -176,6 +228,19 @@
       "category": "Chemicals",
       "categories": [
         "Chemicals"
+      ]
+    },
+    {
+      "id": "64b7eb71d50e8db0",
+      "title": "South Korea to release 22.46mn bl of oil from reserves",
+      "description": "",
+      "link": "https://www.argusmedia.com/pages/NewsBody.aspx?id=2799988&menu=yes",
+      "published": "2026-03-12T05:30:00+00:00",
+      "source": "Argus Media",
+      "feed": "Argus NewsAll",
+      "category": "General",
+      "categories": [
+        "General"
       ]
     },
     {
@@ -363,14 +428,15 @@
     },
     {
       "id": "9cccd5178ff5d2c8",
-      "title": "US DOE to release 172 million barrels from strategic reserve",
-      "description": "The Trump administration announced it would release 172 million barrels from the US Strategic Petroleum Reserve March 11 in conjunction with the International Energy Agency. The US Department of Energy formally announced the decision in the evening, after US President Donald Trump told Cincinnati Local 12 news he was planning to tap the reserve. DOE said the releases would begin &quot;next week&quot; and",
+      "title": "US will tap strategic oil reserves to lower prices: Trump",
+      "description": "US President Donald Trump said on March 11 that the US will tap the Strategic Petroleum Reserve to help ease rising gasoline prices, while reiterating that the stockpile would eventually be replenished. &quot;I filled it up once, and I&apos;ll fill it up again,&quot; Trump said in an interview with Cincinnati Local 12 news. &quot;We&apos;ll reduce it a little bit, and that brings the prices down.&quot; Trump&apos;s comments",
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/crude-oil/031126-us-will-tap-strategic-oil-reserves-to-lower-prices-trump",
       "published": "2026-03-11T23:29:29+00:00",
       "source": "S&P Global",
-      "feed": "S&P Oil - Refined Products",
-      "category": "Oil - Refined Products",
+      "feed": "S&P Oil - Crude",
+      "category": "Oil - Crude",
       "categories": [
+        "Oil - Crude",
         "Oil - Refined Products"
       ]
     },
@@ -505,6 +571,19 @@
       ]
     },
     {
+      "id": "6f3c2eda3ee099c3",
+      "title": "Cyber agency staff furloughs could challenge energy sector as threats grow",
+      "description": "The US Department of Homeland Security&apos;s decision to furlough two-thirds of its cybersecurity staff could increase risks to US energy infrastructure, as defense analysts track a rise in cyberattacks targeting the operational systems of the nation&apos;s critical assets in the wake of the Iran war. The US Cybersecurity and Infrastructure Security Agency (CISA) furloughs were discussed on Capitol Hill",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/electric-power/031126-cyber-agency-staff-furloughs-could-challenge-energy-sector-as-threats-grow",
+      "published": "2026-03-11T20:21:23+00:00",
+      "source": "S&P Global",
+      "feed": "S&P Natural Gas",
+      "category": "Natural Gas",
+      "categories": [
+        "Natural Gas"
+      ]
+    },
+    {
       "id": "8c1fe10752109b3b",
       "title": "US government selects Chubb for maritime reinsurance plan for Middle East shipping",
       "description": "HOUSTON (ICIS)--The US International Development Finance Corporation (DFC) has selected Chubb to serve as the lead partner for DFC’s $20 billion maritime reinsurance plan designed to resume...",
@@ -636,32 +715,6 @@
       ]
     },
     {
-      "id": "0d4f934a1bd6a4ad",
-      "title": "Argentina chemicals output rises 7.2% in January as pharma, agro offset plastics slump",
-      "description": "SAO PAULO (ICIS)--Argentina's chemicals output rose 7.2% in January, year on year, with strong gains in pharmaceuticals and agrochemicals masking a steep contraction in plastics and synthetic rubber,...",
-      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187722/argentina-chemicals-output-rises-7-2-in-january-as-pharma-agro-offset-plastics-slump",
-      "published": "2026-03-11T18:46:00+00:00",
-      "source": "ICIS",
-      "feed": "ICIS",
-      "category": "Chemicals",
-      "categories": [
-        "Chemicals"
-      ]
-    },
-    {
-      "id": "cfbfe38b88c8b892",
-      "title": "Europe refinery solvents' price pressure continues",
-      "description": "LONDON (ICIS)--European refinery solvents truck prices were driven up again this week on the back of firmer feedstocks. Upstream, volatility and high pricing is ongoing as markets react to the war in...",
-      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187721/europe-refinery-solvents-price-pressure-continues",
-      "published": "2026-03-11T18:37:00+00:00",
-      "source": "ICIS",
-      "feed": "ICIS",
-      "category": "Oil - Refined Products",
-      "categories": [
-        "Oil - Refined Products"
-      ]
-    },
-    {
       "id": "cfc829c5743fd27f",
       "title": "US E15 panel may punt on refiner biofuel waivers",
       "description": "",
@@ -675,19 +728,6 @@
       ]
     },
     {
-      "id": "b540af16263e6b22",
-      "title": "Brazil's Petrobras naphtha sales drop within ‘normal’ range, fertilizer output ramps up - spokesperson",
-      "description": "SAO PAULO (ICIS)--Petrobras has attributed a sharp fall in naphtha sales during Q4 and 2025 overall to routine refinery dynamics rather than any structural shift, a spokesperson for the Brazilian...",
-      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187720/brazil-s-petrobras-naphtha-sales-drop-within-normal-range-fertilizer-output-ramps-up-spokesperson",
-      "published": "2026-03-11T18:27:00+00:00",
-      "source": "ICIS",
-      "feed": "ICIS",
-      "category": "Oil - Refined Products",
-      "categories": [
-        "Oil - Refined Products"
-      ]
-    },
-    {
       "id": "31c848ae9c93ea29",
       "title": "Traffic through Hormuz remains minimal",
       "description": "",
@@ -695,19 +735,6 @@
       "published": "2026-03-11T18:17:00+00:00",
       "source": "Argus Media",
       "feed": "Argus NewsAll",
-      "category": "General",
-      "categories": [
-        "General"
-      ]
-    },
-    {
-      "id": "4635775d8c42d858",
-      "title": "Mexico inflation up to 4.02% in February, clouding Banxico rate-cut prospects",
-      "description": "SAO PAULO (ICIS)--Mexico's annual rate of inflation accelerated to 4.02% in February, up from 3.79% in January, pushing the headline rate to the upper limit of the central bank's tolerance band and...",
-      "link": "https://www.icis.com/explore/resources/news/2026/03/11/11187719/mexico-inflation-up-to-4-02-in-february-clouding-banxico-rate-cut-prospects",
-      "published": "2026-03-11T18:03:00+00:00",
-      "source": "ICIS",
-      "feed": "ICIS",
       "category": "General",
       "categories": [
         "General"
@@ -1356,20 +1383,6 @@
       ]
     },
     {
-      "id": "9b9bf26fbff5c7f9",
-      "title": "First tanker to carry non-Iranian crude exits Strait of Hormuz: CAS",
-      "description": "The first tanker carrying non-Iranian crude has exited the Strait of Hormuz, according to data from S&amp;P Global Commodities at Sea. The Shenlong called at Ras Tanura, Saudi Arabia, on March 1 and then at Mumbai, India, on March 10, CAS data showed. Its draught at Mumbai was 15.8 m, up from 9.3 m at Ras Tanura, indicating it had loaded, CAS data showed. The ship&apos;s destination is unknown. The ship&apos;s",
-      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/refined-products/031026-first-tanker-to-carry-non-iranian-crude-exits-strait-of-hormuz-cas",
-      "published": "2026-03-10T17:28:24+00:00",
-      "source": "S&P Global",
-      "feed": "S&P Oil - Crude",
-      "category": "Shipping",
-      "categories": [
-        "Shipping",
-        "Oil - Crude"
-      ]
-    },
-    {
       "id": "e389315c92796cac",
       "title": "Oil industry seeks EU methane regulation pause",
       "description": "",
@@ -1406,19 +1419,6 @@
       "category": "Agriculture",
       "categories": [
         "Agriculture"
-      ]
-    },
-    {
-      "id": "0cfa9ddef9fdf52a",
-      "title": "Italian energy decree 'could hinder RES sector'",
-      "description": "",
-      "link": "https://www.argusmedia.com/pages/NewsBody.aspx?id=2799049&menu=yes",
-      "published": "2026-03-10T16:23:00+00:00",
-      "source": "Argus Media",
-      "feed": "Argus NewsAll",
-      "category": "General",
-      "categories": [
-        "General"
       ]
     },
     {
@@ -1508,7 +1508,7 @@
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/lng/031026-indian-government-orders-redirection-of-natural-gas-to-priority-sectors",
       "published": "2026-03-10T09:26:34+00:00",
       "source": "S&P Global",
-      "feed": "S&P Natural Gas",
+      "feed": "S&P Electric Power",
       "category": "Natural Gas",
       "categories": [
         "Natural Gas"
@@ -1528,26 +1528,13 @@
       ]
     },
     {
-      "id": "6566427ba1706ebf",
-      "title": "Putin says Russia increasing energy supplies to &apos;reliable partners&apos; amid Middle East supply concerns",
-      "description": "Russian President Vladimir Putin said March 9 that Russia is increasing oil and natural gas supplies to &quot;reliable partners,&quot; during a government meeting called to discuss global oil and gas markets. Putin referred to buyers in the Asia-Pacific region, Slovakia and Hungary as reliable, according to a transcript posted on the Kremlin website, and said that Russia is willing to work with other",
-      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/crude-oil/030926-putin-says-russia-increasing-energy-supplies-to-reliable-partners-amid-middle-east-supply-concerns",
-      "published": "2026-03-09T20:29:24+00:00",
-      "source": "S&P Global",
-      "feed": "S&P Natural Gas",
-      "category": "Natural Gas",
-      "categories": [
-        "Natural Gas"
-      ]
-    },
-    {
       "id": "5791d06972d535dc",
       "title": "US POWER TRACKER: Midcontinent April power rises despite mild forecasts, weak gas",
       "description": "April on-peak power in the Midcontinent Independent System Operator footprint has surged, despite mild weather forecasts and continued weakness in natural gas. Industry observers differ on the causes for the strength of power forwards. The Platts M2MS Power Forward curves March 6 had April on-peak power at five geographically dispersed locations averaging around $42.75/megawatt-hour, up about 5.8%",
       "link": "https://www.spglobal.com/energy/en/news-research/latest-news/electric-power/030926-us-power-tracker-midcontinent-april-power-rises-despite-mild-forecasts-weak-gas",
       "published": "2026-03-09T18:56:03+00:00",
       "source": "S&P Global",
-      "feed": "S&P Natural Gas",
+      "feed": "S&P Energy Transition",
       "category": "Natural Gas",
       "categories": [
         "Natural Gas",
