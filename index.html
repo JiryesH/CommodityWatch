@@ -1,38 +1,52 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Contango</title>
-<meta http-equiv="refresh" content="0; url=./headline-watch/">
-<style>
-  body {
-    margin: 0;
-    min-height: 100vh;
-    display: grid;
-    place-items: center;
-    background: #f0efe9;
-    color: #0f1923;
-    font: 16px/1.5 "IBM Plex Sans", sans-serif;
-  }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contango | Home</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./shared/site-shell.css" />
+    <link rel="stylesheet" href="./shared/filter-bar.css" />
+    <link rel="stylesheet" href="./dashboard/styles.css" />
+  </head>
+  <body>
+    <nav class="nav" role="navigation" aria-label="Contango product navigation">
+      <div class="site-nav-main">
+        <div class="nav-logo">Contango<span class="dot"></span></div>
+        <div class="site-tabs" aria-label="Product views">
+          <a class="site-tab" href="/" aria-current="page">Home</a>
+          <a class="site-tab" href="/headline-watch/">HeadlineWatch</a>
+          <a class="site-tab" href="/price-watch/">PriceWatch</a>
+          <a class="site-tab" href="/calendar-watch/">CalendarWatch</a>
+        </div>
+      </div>
+    </nav>
 
-  main {
-    padding: 24px;
-    text-align: center;
-  }
+    <div id="home-filter-root"></div>
 
-  a {
-    color: #0f1923;
-  }
-</style>
-<script>
-  window.location.replace("./headline-watch/");
-</script>
-</head>
-<body>
-<main>
-  <p>Redirecting to <a href="./headline-watch/">HeadlineWatch</a>.</p>
-  <p><a href="./price-watch/">Open PriceWatch</a></p>
-</main>
-</body>
+    <main class="page-shell">
+      <h1 class="sr-only">Commodity intelligence home</h1>
+      <div id="dashboard-root"></div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-left">© 2026 Contango</div>
+      <div class="footer-right">contango.news / home</div>
+    </footer>
+
+    <button id="to-top-btn" class="to-top-btn" aria-label="Back to top" title="Back to top">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 19V5"></path>
+        <path d="M5 12l7-7 7 7"></path>
+      </svg>
+      Top
+    </button>
+
+    <script src="./shared/headline-taxonomy.js"></script>
+    <script src="./shared/click-spark.js"></script>
+    <script type="module" src="./dashboard/app.js"></script>
+  </body>
 </html>

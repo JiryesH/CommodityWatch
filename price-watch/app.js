@@ -17,6 +17,35 @@ const DETAIL_TIMEFRAMES = [
 const DEFAULT_DETAIL_TIMEFRAME_ID = "3M";
 const RELATED_HEADLINES_LIMIT = 10;
 const TO_TOP_SCROLL_THRESHOLD = 360;
+const DETAIL_CHART_VIEWBOX = {
+  width: 860,
+  height: 360,
+  pad: { top: 18, right: 28, bottom: 52, left: 72 },
+};
+const DETAIL_CHART_DIRECTION_THEME = {
+  up: {
+    line: "rgba(48, 209, 88, 0.98)",
+    fillTop: "rgba(48, 209, 88, 0.28)",
+    fillBottom: "rgba(48, 209, 88, 0.03)",
+    guide: "rgba(88, 226, 125, 0.48)",
+    bubbleBackground: "rgba(11, 29, 17, 0.92)",
+    bubbleBorder: "rgba(88, 226, 125, 0.34)",
+    bubbleInk: "rgba(244, 255, 247, 0.98)",
+    bubbleSubtle: "rgba(196, 242, 209, 0.86)",
+    dotStroke: "rgba(9, 20, 13, 0.9)",
+  },
+  down: {
+    line: "rgba(255, 95, 87, 0.98)",
+    fillTop: "rgba(255, 95, 87, 0.28)",
+    fillBottom: "rgba(255, 95, 87, 0.03)",
+    guide: "rgba(255, 133, 126, 0.48)",
+    bubbleBackground: "rgba(33, 13, 17, 0.92)",
+    bubbleBorder: "rgba(255, 133, 126, 0.34)",
+    bubbleInk: "rgba(255, 244, 244, 0.98)",
+    bubbleSubtle: "rgba(255, 214, 211, 0.86)",
+    dotStroke: "rgba(28, 9, 12, 0.9)",
+  },
+};
 
 const PERIODIC_TILE_THEME = {
   gold: {
@@ -332,6 +361,72 @@ class MarketTileVisualizer {
   update() {}
 }
 
+class ArtifactTileVisualizer {
+  constructor(tile) {
+    this.tile = tile;
+  }
+
+  createScene() {
+    return buildArtifactTileScene(this.tile);
+  }
+
+  update() {}
+}
+
+function buildArtifactTileScene(tile) {
+  const scene = document.createElement("div");
+  scene.className = "artifact-face-scene";
+  scene.innerHTML = `
+    <div class="artifact-face-tile">
+      <div class="artifact-face__meta">
+        <span class="artifact-face__badge">${escapeHtml(tile.venueBadge || tile.venue)}</span>
+        <span class="artifact-face__badge">${escapeHtml(tile.badge)}</span>
+      </div>
+      <div class="artifact-face__serial">${escapeHtml(tile.serial)}</div>
+      <div class="artifact-face__register" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      ${tile.emblem ? '<div class="artifact-face__emblem" aria-hidden="true"></div>' : ""}
+      <div class="artifact-face__code">${escapeHtml(tile.code)}</div>
+      <div class="artifact-face__mark">
+        <span class="artifact-face__descriptor">${escapeHtml(tile.descriptor)}</span>
+        <span class="artifact-face__lot">${escapeHtml(tile.lot)}</span>
+      </div>
+      <div class="artifact-face__stamp">${escapeHtml(tile.stamp)}</div>
+      <div class="artifact-face__name">${escapeHtml(tile.nameLabel)}</div>
+      <div class="artifact-face__glint" aria-hidden="true"></div>
+    </div>
+  `;
+
+  const tileEl = scene.querySelector(".artifact-face-tile");
+  tileEl.classList.add(`sector-${tile.sectorClass}`, `pattern-${tile.pattern}`);
+  if ((tile.code || "").length <= 2) {
+    tileEl.classList.add("code-short");
+  }
+  if ((tile.code || "").length >= 5) {
+    tileEl.classList.add("code-wide");
+  }
+  applyArtifactTileTheme(tileEl, tile.palette);
+  return scene;
+}
+
+function applyArtifactTileTheme(tileEl, palette = {}) {
+  tileEl.style.setProperty("--artifact-bg", palette.bg || "#d7c39a");
+  tileEl.style.setProperty("--artifact-bg-2", palette.bg2 || "rgba(255, 255, 255, 0.16)");
+  tileEl.style.setProperty("--artifact-ink", palette.ink || "#2d2518");
+  tileEl.style.setProperty("--artifact-ink-soft", palette.inkSoft || "rgba(45, 37, 24, 0.68)");
+  tileEl.style.setProperty("--artifact-border", palette.border || "rgba(45, 37, 24, 0.14)");
+  tileEl.style.setProperty("--artifact-rule", palette.rule || "rgba(45, 37, 24, 0.1)");
+  tileEl.style.setProperty("--artifact-badge-bg", palette.badgeBg || "rgba(255, 255, 255, 0.44)");
+  tileEl.style.setProperty("--artifact-badge-border", palette.badgeBorder || "rgba(45, 37, 24, 0.14)");
+  tileEl.style.setProperty("--artifact-badge-ink", palette.badgeInk || palette.ink || "#2d2518");
+  tileEl.style.setProperty("--artifact-shadow", palette.shadow || "rgba(33, 41, 52, 0.12)");
+  tileEl.style.setProperty("--artifact-shadow-strong", palette.shadowStrong || "rgba(25, 31, 39, 0.16)");
+}
+
 function createVisualizer(visualDef) {
   if (visualDef.type === "energyTile") {
     return new EnergyTileVisualizer(visualDef.tile);
@@ -339,6 +434,10 @@ function createVisualizer(visualDef) {
 
   if (visualDef.type === "periodicTile") {
     return new PeriodicTileVisualizer(visualDef.tile);
+  }
+
+  if (visualDef.type === "artifactTile") {
+    return new ArtifactTileVisualizer(visualDef.tile);
   }
 
   if (visualDef.type === "marketTile") {
@@ -375,6 +474,25 @@ function getSectorClassName(sectorId) {
   return SECTOR_CLASS_NAMES[sectorId] || "default";
 }
 
+function readInitialDetailRequest(locationLike = window.location) {
+  try {
+    const params = new URLSearchParams(locationLike.search || "");
+    const commodityId = params.get("commodity");
+    const seriesKey = params.get("series");
+
+    if (!commodityId && !seriesKey) {
+      return null;
+    }
+
+    return {
+      commodityId: commodityId || null,
+      seriesKey: seriesKey || null,
+    };
+  } catch {
+    return null;
+  }
+}
+
 class CommodityWatchEngine {
   constructor(apiClient) {
     this.apiClient = apiClient;
@@ -388,6 +506,7 @@ class CommodityWatchEngine {
     this.searchQuery = "";
     this.resizeRaf = null;
     this.detailCloseTimer = null;
+    this.pendingDetailRequest = readInitialDetailRequest();
     this.detailState = {
       openCommodityId: null,
       timeframeByCommodity: new Map(),
@@ -564,6 +683,7 @@ class CommodityWatchEngine {
     this.applyLatestRows(latestRows);
     this.applyFilters();
     this.renderAll();
+    this.applyPendingDetailRequest();
   }
 
   resetCatalog(definitions) {
@@ -696,6 +816,8 @@ class CommodityWatchEngine {
 
     if (definition.visual.type === "periodicTile") {
       card.classList.add("metal-tile-card");
+    } else if (definition.visual.type === "artifactTile") {
+      card.classList.add("artifact-tile-card");
     } else if (definition.visual.type === "marketTile") {
       card.classList.add("market-tile-card");
     } else {
@@ -885,6 +1007,37 @@ class CommodityWatchEngine {
 
   getAllSectorIds() {
     return this.filterSelection.getAllSectorIds();
+  }
+
+  applyPendingDetailRequest() {
+    if (!this.pendingDetailRequest) {
+      return;
+    }
+
+    const { commodityId, seriesKey } = this.pendingDetailRequest;
+    let definition = null;
+
+    if (seriesKey) {
+      definition = this.definitions.find((candidate) =>
+        candidate.seriesOptions.some((seriesOption) => seriesOption.seriesKey === seriesKey)
+      );
+    }
+
+    if (!definition && commodityId) {
+      definition = this.definitionsById.get(commodityId) || null;
+    }
+
+    if (!definition) {
+      this.pendingDetailRequest = null;
+      return;
+    }
+
+    if (seriesKey) {
+      this.detailState.seriesByCommodity.set(definition.id, seriesKey);
+    }
+
+    this.pendingDetailRequest = null;
+    this.openDetail(definition.id);
   }
 
   getScopedSubsectorIds() {
@@ -1447,9 +1600,7 @@ class CommodityWatchEngine {
       return;
     }
 
-    const width = 860;
-    const height = 360;
-    const pad = { top: 22, right: 24, bottom: 40, left: 56 };
+    const { width, height, pad } = DETAIL_CHART_VIEWBOX;
     const values = series.map((point) => point.value);
     const min = Math.min(...values);
     const max = Math.max(...values);
@@ -1458,6 +1609,8 @@ class CommodityWatchEngine {
     const innerHeight = height - pad.top - pad.bottom;
     const lastIndex = series.length - 1;
     const xStep = innerWidth / Math.max(lastIndex, 1);
+    const windowStats = getSeriesRangeStats(series, 0, lastIndex);
+    const windowPalette = getDirectionalChartPalette(detailView.chartPalette, windowStats.deltaClass);
     const dragThresholdPx = 8;
     let isPointerDown = false;
     let dragStarted = false;
@@ -1493,6 +1646,22 @@ class CommodityWatchEngine {
       });
     };
 
+    const applyBubbleTone = (element, palette) => {
+      element.style.setProperty("--detail-bubble-bg", palette.bubbleBackground);
+      element.style.setProperty("--detail-bubble-border", palette.bubbleBorder);
+      element.style.setProperty("--detail-bubble-ink", palette.bubbleInk);
+      element.style.setProperty("--detail-bubble-subtle", palette.bubbleSubtle);
+      element.style.setProperty("--detail-bubble-accent", palette.line);
+    };
+
+    const clearBubbleTone = (element) => {
+      element.style.removeProperty("--detail-bubble-bg");
+      element.style.removeProperty("--detail-bubble-border");
+      element.style.removeProperty("--detail-bubble-ink");
+      element.style.removeProperty("--detail-bubble-subtle");
+      element.style.removeProperty("--detail-bubble-accent");
+    };
+
     const hideSvgElements = (...elements) => {
       elements.forEach((element) => {
         element.setAttribute("hidden", "");
@@ -1501,6 +1670,7 @@ class CommodityWatchEngine {
     };
 
     const hideTooltip = () => {
+      clearBubbleTone(tooltip);
       tooltip.hidden = true;
     };
 
@@ -1519,6 +1689,7 @@ class CommodityWatchEngine {
         <span class="detail-chart-bubble-date">${escapeHtml(formatDateLong(point.date))}</span>
         <strong>${escapeHtml(formatPrice(point.value, activeSeries.decimals, activeSeries.unit))}</strong>
       `;
+      applyBubbleTone(tooltip, windowPalette);
       tooltip.hidden = false;
       setFloatingPosition(tooltip, x, y, 0, -16);
     };
@@ -1537,31 +1708,42 @@ class CommodityWatchEngine {
         selectionStartDot,
         selectionEndDot
       );
+      clearBubbleTone(selectionBubble);
       selectionBubble.hidden = true;
     };
 
     const showSelection = (startIndex, endIndex) => {
       const normalized = normalizeRangeSelection(startIndex, endIndex, lastIndex);
       const stats = getSeriesRangeStats(series, normalized.startIndex, normalized.endIndex);
+      const rangePalette = getDirectionalChartPalette(detailView.chartPalette, stats.deltaClass);
       const leftX = xCoord(normalized.startIndex);
       const rightX = xCoord(normalized.endIndex);
       const segmentPath = buildLinePathSegment(series, normalized.startIndex, normalized.endIndex, xCoord, yCoord);
       const centerX = leftX + (rightX - leftX) / 2;
       const bubbleY = Math.min(yCoord(Math.max(stats.startPoint.value, stats.endPoint.value)), pad.top + 24);
 
+      selectionFill.setAttribute("fill", rangePalette.fillTop);
+      selectionFill.setAttribute("opacity", stats.deltaClass ? "0.2" : "0.16");
       selectionFill.setAttribute("x", leftX.toFixed(2));
       selectionFill.setAttribute("y", pad.top.toFixed(2));
       selectionFill.setAttribute("width", Math.max(rightX - leftX, 2).toFixed(2));
       selectionFill.setAttribute("height", innerHeight.toFixed(2));
       selectionSegment.setAttribute("d", segmentPath);
+      selectionSegment.setAttribute("stroke", rangePalette.line);
       selectionStartLine.setAttribute("x1", leftX.toFixed(2));
       selectionStartLine.setAttribute("x2", leftX.toFixed(2));
+      selectionStartLine.setAttribute("stroke", rangePalette.guide);
       selectionEndLine.setAttribute("x1", rightX.toFixed(2));
       selectionEndLine.setAttribute("x2", rightX.toFixed(2));
+      selectionEndLine.setAttribute("stroke", rangePalette.guide);
       selectionStartDot.setAttribute("cx", leftX.toFixed(2));
       selectionStartDot.setAttribute("cy", yCoord(stats.startPoint.value).toFixed(2));
+      selectionStartDot.setAttribute("fill", rangePalette.line);
+      selectionStartDot.setAttribute("stroke", rangePalette.dotStroke);
       selectionEndDot.setAttribute("cx", rightX.toFixed(2));
       selectionEndDot.setAttribute("cy", yCoord(stats.endPoint.value).toFixed(2));
+      selectionEndDot.setAttribute("fill", rangePalette.line);
+      selectionEndDot.setAttribute("stroke", rangePalette.dotStroke);
       showSvgElements(
         selectionFill,
         selectionSegment,
@@ -1571,6 +1753,7 @@ class CommodityWatchEngine {
         selectionEndDot
       );
 
+      applyBubbleTone(selectionBubble, rangePalette);
       selectionBubble.innerHTML = `
         <strong>${escapeHtml(
           `${formatSigned(stats.delta, activeSeries.decimals, activeSeries.unit)} (${formatSigned(stats.deltaPct, 2)}%)`
@@ -1676,7 +1859,7 @@ class CommodityWatchEngine {
             <h3 class="detail-title">Unavailable</h3>
           </div>
         </div>
-        <div class="detail-chart-wrap detail-chart-state">
+        <div class="detail-chart-wrap detail-chart-state" data-click-spark="off">
           <p class="detail-chart-message">No published series is available for this card.</p>
         </div>
       `;
@@ -1793,7 +1976,7 @@ class CommodityWatchEngine {
     if (detailView.historyStatus === "loading") {
       return `
         ${headMarkup}
-        <div class="detail-chart-wrap detail-chart-state">
+        <div class="detail-chart-wrap detail-chart-state" data-click-spark="off">
           <p class="detail-chart-message">Loading published history...</p>
         </div>
         ${sourceRow}
@@ -1806,7 +1989,7 @@ class CommodityWatchEngine {
     if (detailView.historyStatus === "error") {
       return `
         ${headMarkup}
-        <div class="detail-chart-wrap detail-chart-state">
+        <div class="detail-chart-wrap detail-chart-state" data-click-spark="off">
           <p class="detail-chart-message">Unable to load history: ${escapeHtml(detailView.error || "Unknown error")}</p>
         </div>
         ${sourceRow}
@@ -1819,7 +2002,7 @@ class CommodityWatchEngine {
     if (!detailView.series.length) {
       return `
         ${headMarkup}
-        <div class="detail-chart-wrap detail-chart-state">
+        <div class="detail-chart-wrap detail-chart-state" data-click-spark="off">
           <p class="detail-chart-message">No published history is available for this timeframe.</p>
         </div>
         ${sourceRow}
@@ -1831,7 +2014,7 @@ class CommodityWatchEngine {
 
     return `
       ${headMarkup}
-      <div class="detail-chart-wrap">
+      <div class="detail-chart-wrap" data-click-spark="off">
         ${buildDetailChartSvg(detailView.series, activeSeries.decimals, activeSeries.unit, detailView.chartPalette)}
         <div class="detail-chart-bubble" data-chart-tooltip hidden></div>
         <div class="detail-chart-bubble selection" data-chart-selection-bubble hidden></div>
@@ -2430,6 +2613,10 @@ function getCommodityTheme(definition) {
     return MARKET_TILE_THEME[family] || MARKET_TILE_THEME.default;
   }
 
+  if (definition.visual.type === "artifactTile") {
+    return definition.visual.tile.palette || MARKET_TILE_THEME.default;
+  }
+
   return { top: "#cedbe7", mid: "#95a8bc", bottom: "#596f84" };
 }
 
@@ -2481,15 +2668,25 @@ function getDetailBubbleTheme(definition) {
 
 function getDetailChartPalette(definition) {
   const commodityTheme = getCommodityTheme(definition);
+  const bubbleTheme = getDetailBubbleTheme(definition);
   const rgb = hexToRgb(commodityTheme.mid || "#7ec4ff");
+  const label = "rgba(229, 238, 248, 0.94)";
+  const grid = "rgba(210, 224, 239, 0.18)";
+  const guide = "rgba(226, 237, 248, 0.42)";
 
   if (!rgb) {
     return {
       line: "rgba(126, 196, 255, 0.95)",
       fillTop: "rgba(101, 166, 236, 0.38)",
       fillBottom: "rgba(101, 166, 236, 0.02)",
-      grid: "rgba(185, 205, 225, 0.22)",
-      label: "rgba(196, 214, 231, 0.78)",
+      grid,
+      label,
+      guide,
+      bubbleBackground: bubbleTheme.background,
+      bubbleBorder: bubbleTheme.border,
+      bubbleInk: bubbleTheme.ink,
+      bubbleSubtle: bubbleTheme.subtle,
+      dotStroke: "rgba(7, 14, 21, 0.88)",
     };
   }
 
@@ -2497,8 +2694,27 @@ function getDetailChartPalette(definition) {
     line: toRgba(rgb, 0.95),
     fillTop: toRgba(rgb, 0.38),
     fillBottom: toRgba(rgb, 0.03),
-    grid: toRgba(rgb, 0.22),
-    label: toRgba(rgb, 0.78),
+    grid,
+    label,
+    guide,
+    bubbleBackground: bubbleTheme.background,
+    bubbleBorder: bubbleTheme.border,
+    bubbleInk: bubbleTheme.ink,
+    bubbleSubtle: bubbleTheme.subtle,
+    dotStroke: "rgba(7, 14, 21, 0.88)",
+  };
+}
+
+function getDirectionalChartPalette(basePalette, deltaClass) {
+  const directionTheme = DETAIL_CHART_DIRECTION_THEME[deltaClass];
+
+  if (!directionTheme) {
+    return basePalette;
+  }
+
+  return {
+    ...basePalette,
+    ...directionTheme,
   };
 }
 
@@ -2576,21 +2792,25 @@ function buildDetailChartSvg(series, digits, unit, palette) {
     `;
   }
 
-  const width = 860;
-  const height = 360;
-  const pad = { top: 22, right: 24, bottom: 40, left: 56 };
+  const { width, height, pad } = DETAIL_CHART_VIEWBOX;
   const values = series.map((point) => point.value);
   const min = Math.min(...values);
   const max = Math.max(...values);
   const span = Math.max(max - min, 0.0001);
   const innerWidth = width - pad.left - pad.right;
   const innerHeight = height - pad.top - pad.bottom;
-  const xStep = innerWidth / Math.max(series.length - 1, 1);
+  const lastIndex = series.length - 1;
+  const xStep = innerWidth / Math.max(lastIndex, 1);
+  const windowStats = getSeriesRangeStats(series, 0, lastIndex);
+  const windowPalette = getDirectionalChartPalette(palette, windowStats.deltaClass);
+  const axisFontFamily = "IBM Plex Sans, sans-serif";
+  const axisFontSize = 12.5;
+  const axisWeight = 600;
+  const axisLetterSpacing = "0.035em";
 
   const xCoord = (index) => pad.left + index * xStep;
   const yCoord = (value) => pad.top + ((max - value) / span) * innerHeight;
   const linePath = buildLinePathSegment(series, 0, series.length - 1, xCoord, yCoord);
-  const lastIndex = series.length - 1;
   const areaPath = `${linePath} L ${xCoord(lastIndex).toFixed(2)} ${(pad.top + innerHeight).toFixed(2)} L ${xCoord(
     0
   ).toFixed(2)} ${(pad.top + innerHeight).toFixed(2)} Z`;
@@ -2610,12 +2830,12 @@ function buildDetailChartSvg(series, digits, unit, palette) {
     gridMarkup.push(
       `<line x1="${pad.left}" y1="${y.toFixed(2)}" x2="${(pad.left + innerWidth).toFixed(2)}" y2="${y.toFixed(
         2
-      )}" stroke="${palette.grid}" stroke-width="1" />`
+      )}" stroke="${palette.grid}" stroke-width="1.1" />`
     );
     gridMarkup.push(
-      `<text x="${(pad.left - 10).toFixed(2)}" y="${(y + 4).toFixed(
+      `<text x="${(pad.left - 14).toFixed(2)}" y="${y.toFixed(
         2
-      )}" fill="${palette.label}" font-size="10" text-anchor="end" font-family="IBM Plex Mono, monospace">${formatPrice(
+      )}" fill="${palette.label}" font-size="${axisFontSize}" font-weight="${axisWeight}" letter-spacing="${axisLetterSpacing}" text-anchor="end" dominant-baseline="middle" font-family="${axisFontFamily}">${formatPrice(
         value,
         digits,
         unit,
@@ -2632,20 +2852,33 @@ function buildDetailChartSvg(series, digits, unit, palette) {
       : Math.max(0, Math.round((lastDate.getTime() - firstDate.getTime()) / 86_400_000));
   const tickRatios = [0, 0.25, 0.5, 0.75, 1];
   const tickIndices = [...new Set(tickRatios.map((ratio) => Math.round(lastIndex * ratio)))];
-  const xAxisMarkup = tickIndices
-    .map((index, tickPosition) => {
+  const xAxisEntries = [];
+  tickIndices.forEach((index, tickPosition) => {
+    const label = formatChartAxisDate(series[index].date, { includeDay: spanDays <= 45 });
+
+    if (tickPosition < tickIndices.length - 1 && xAxisEntries.length && xAxisEntries[xAxisEntries.length - 1].label === label) {
+      return;
+    }
+
+    xAxisEntries.push({ index, label });
+  });
+
+  const xAxisMarkup = xAxisEntries
+    .map(({ index, label }, tickPosition) => {
       const x = xCoord(index);
       const isFirst = tickPosition === 0;
-      const isLast = tickPosition === tickIndices.length - 1;
+      const isLast = tickPosition === xAxisEntries.length - 1;
       return `
         <text
           x="${x.toFixed(2)}"
-          y="${height - 10}"
+          y="${height - 14}"
           fill="${palette.label}"
-          font-size="10"
+          font-size="${axisFontSize}"
+          font-weight="${axisWeight}"
+          letter-spacing="${axisLetterSpacing}"
           text-anchor="${isFirst ? "start" : isLast ? "end" : "middle"}"
-          font-family="IBM Plex Mono, monospace"
-        >${formatChartAxisDate(series[index].date, { includeDay: spanDays <= 45 })}</text>
+          font-family="${axisFontFamily}"
+        >${label}</text>
       `;
     })
     .join("");
@@ -2654,44 +2887,44 @@ function buildDetailChartSvg(series, digits, unit, palette) {
     <svg class="detail-chart" viewBox="0 0 ${width} ${height}" preserveAspectRatio="none" aria-label="Commodity price history chart">
       <defs>
         <linearGradient id="chart-fill-gradient" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="${palette.fillTop}" />
-          <stop offset="100%" stop-color="${palette.fillBottom}" />
+          <stop offset="0%" stop-color="${windowPalette.fillTop}" />
+          <stop offset="100%" stop-color="${windowPalette.fillBottom}" />
         </linearGradient>
       </defs>
       ${gridMarkup.join("")}
       <path d="${areaPath}" fill="url(#chart-fill-gradient)" />
-      <path d="${linePath}" fill="none" stroke="${palette.line}" stroke-width="2.5" />
+      <path d="${linePath}" fill="none" stroke="${windowPalette.line}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" />
       <rect class="detail-chart-selection" x="${selectionStartX.toFixed(2)}" y="${pad.top.toFixed(2)}" width="${Math.max(
         selectionEndX - selectionStartX,
         2
       ).toFixed(2)}" height="${innerHeight.toFixed(
         2
-      )}" fill="${palette.fillTop}" opacity="0.16" rx="8" ry="8" hidden style="display:none" />
-      <path class="detail-chart-selection-segment" d="${selectionPath}" fill="none" stroke="${palette.line}" stroke-width="4" hidden style="display:none" />
+      )}" fill="${windowPalette.fillTop}" opacity="0.16" rx="8" ry="8" hidden style="display:none" />
+      <path class="detail-chart-selection-segment" d="${selectionPath}" fill="none" stroke="${windowPalette.line}" stroke-width="4.25" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" hidden style="display:none" />
       <line class="detail-chart-selection-start" x1="${selectionStartX.toFixed(2)}" y1="${pad.top.toFixed(
         2
       )}" x2="${selectionStartX.toFixed(2)}" y2="${(pad.top + innerHeight).toFixed(
         2
-      )}" stroke="${palette.label}" stroke-width="1.4" stroke-dasharray="4 4" hidden style="display:none" />
+      )}" stroke="${windowPalette.guide}" stroke-width="1.4" stroke-dasharray="4 4" vector-effect="non-scaling-stroke" hidden style="display:none" />
       <line class="detail-chart-selection-end" x1="${selectionEndX.toFixed(2)}" y1="${pad.top.toFixed(
         2
       )}" x2="${selectionEndX.toFixed(2)}" y2="${(pad.top + innerHeight).toFixed(
         2
-      )}" stroke="${palette.label}" stroke-width="1.4" stroke-dasharray="4 4" hidden style="display:none" />
+      )}" stroke="${windowPalette.guide}" stroke-width="1.4" stroke-dasharray="4 4" vector-effect="non-scaling-stroke" hidden style="display:none" />
       <circle class="detail-chart-selection-dot start" cx="${selectionStartX.toFixed(2)}" cy="${yCoord(
         selectionStartPoint.value
-      ).toFixed(2)}" r="5.2" fill="${palette.line}" stroke="${palette.fillTop}" stroke-width="2" hidden style="display:none" />
+      ).toFixed(2)}" r="5.6" fill="${windowPalette.line}" stroke="${windowPalette.dotStroke}" stroke-width="2.2" hidden style="display:none" />
       <circle class="detail-chart-selection-dot end" cx="${selectionEndX.toFixed(2)}" cy="${yCoord(
         selectionEndPoint.value
-      ).toFixed(2)}" r="5.2" fill="${palette.line}" stroke="${palette.fillTop}" stroke-width="2" hidden style="display:none" />
+      ).toFixed(2)}" r="5.6" fill="${windowPalette.line}" stroke="${windowPalette.dotStroke}" stroke-width="2.2" hidden style="display:none" />
       <line class="detail-chart-hover-line" x1="${selectionStartX.toFixed(2)}" y1="${pad.top.toFixed(
         2
       )}" x2="${selectionStartX.toFixed(2)}" y2="${(pad.top + innerHeight).toFixed(
         2
-      )}" stroke="${palette.label}" stroke-width="1.25" stroke-dasharray="3 4" hidden style="display:none" />
+      )}" stroke="${windowPalette.guide}" stroke-width="1.25" stroke-dasharray="3 4" vector-effect="non-scaling-stroke" hidden style="display:none" />
       <circle class="detail-chart-hover-dot" cx="${selectionStartX.toFixed(2)}" cy="${yCoord(
         selectionStartPoint.value
-      ).toFixed(2)}" r="4.8" fill="${palette.line}" stroke="${palette.fillTop}" stroke-width="2" hidden style="display:none" />
+      ).toFixed(2)}" r="5.2" fill="${windowPalette.line}" stroke="${windowPalette.dotStroke}" stroke-width="2.2" hidden style="display:none" />
       ${xAxisMarkup}
     </svg>
   `;

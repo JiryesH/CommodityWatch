@@ -1,0 +1,981 @@
+import {
+  ALWAYS_CALENDAR_SECTORS,
+  ALWAYS_HEADLINE_CATEGORIES,
+  DEFAULT_HOME_SERIES_KEYS,
+  SECTOR_META,
+  getAllCommodityIdsForGroup,
+  getCommodityById,
+  getCommodityBySeriesKey,
+  getGroupById,
+  getGroupCalendarPattern,
+  getGroupFeedPattern,
+  getSectorById,
+  getCommodityCalendarPattern,
+} from "./config.js";
+import {
+  fetchCalendarEvents,
+  fetchHeadlineFeed,
+  fetchLatestSeriesMap,
+  fetchRelatedHeadlines,
+  fetchSeriesHistory,
+} from "./data-client.js";
+import {
+  getFilterLabel,
+  getSelectedCommodities,
+  isAllCommoditySelection,
+  isAllFilter,
+  normalizeFilter,
+} from "./filter-state.js";
+
+const headlineExactFormatter = new Intl.DateTimeFormat("en-GB", {
+  day: "numeric",
+  month: "short",
+  year: "numeric",
+  hour: "2-digit",
+  minute: "2-digit",
+  hour12: false,
+  timeZone: "UTC",
+});
+
+const priceObservationFormatter = new Intl.DateTimeFormat("en-GB", {
+  day: "2-digit",
+  month: "short",
+  year: "numeric",
+  timeZone: "UTC",
+});
+
+const calendarDayFormatter = new Intl.DateTimeFormat("en-GB", {
+  weekday: "short",
+  day: "numeric",
+  month: "short",
+  timeZone: "UTC",
+});
+
+const calendarTimeFormatter = new Intl.DateTimeFormat("en-GB", {
+  hour: "2-digit",
+  minute: "2-digit",
+  hour12: false,
+  timeZone: "UTC",
+});
+
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
+function getHeadlineTaxonomy() {
+  return globalThis.window?.ContangoHeadlineTaxonomy || globalThis.ContangoHeadlineTaxonomy || null;
+}
+
+function canonicalHeadlineCategories(article) {
+  const headlineTaxonomy = getHeadlineTaxonomy();
+  if (headlineTaxonomy?.canonicalCategoriesForArticle) {
+    return headlineTaxonomy.canonicalCategoriesForArticle(article);
+  }
+
+  if (Array.isArray(article?.categories) && article.categories.length) {
+    return article.categories.filter(Boolean);
+  }
+
+  return article?.category ? [article.category] : ["General"];
+}
+
+function headlineDotClass(article) {
+  const headlineTaxonomy = getHeadlineTaxonomy();
+  if (headlineTaxonomy?.dotClass) {
+    return headlineTaxonomy.dotClass(article);
+  }
+
+  const categories = canonicalHeadlineCategories(article);
+  if (categories.includes("Metals")) {
+    return "metals";
+  }
+  if (categories.includes("Agriculture") || categories.includes("Fertilizers")) {
+    return "agri";
+  }
+  if (categories.includes("General") || categories.includes("Shipping")) {
+    return "other";
+  }
+  return "energy";
+}
+
+function headlineDotLabel(article) {
+  const headlineTaxonomy = getHeadlineTaxonomy();
+  if (headlineTaxonomy?.dotLabel) {
+    return headlineTaxonomy.dotLabel(article);
+  }
+
+  return canonicalHeadlineCategories(article)[0] || "General";
+}
+
+function parseIsoDate(value) {
+  if (!value) {
+    return null;
+  }
+
+  const parsed = new Date(value);
+  return Number.isFinite(parsed.getTime()) ? parsed : null;
+}
+
+function toIsoDate(value) {
+  return new Date(value).toISOString().slice(0, 10);
+}
+
+function addUtcDays(value, days) {
+  const next = new Date(value);
+  next.setUTCDate(next.getUTCDate() + days);
+  return next;
+}
+
+function exactHeadlineTime(value) {
+  const parsed = parseIsoDate(value);
+  return parsed ? headlineExactFormatter.format(parsed) : "";
+}
+
+function relativeHeadlineTime(value) {
+  const parsed = parseIsoDate(value);
+  if (!parsed) {
+    return "—";
+  }
+
+  const deltaSeconds = Math.round((Date.now() - parsed.getTime()) / 1000);
+  if (!Number.isFinite(deltaSeconds)) {
+    return "—";
+  }
+
+  const future = deltaSeconds < 0;
+  const absoluteSeconds = Math.abs(deltaSeconds);
+  let unitLabel = "<1m";
+
+  if (absoluteSeconds >= 86400) {
+    unitLabel = `${Math.floor(absoluteSeconds / 86400)}d`;
+  } else if (absoluteSeconds >= 3600) {
+    unitLabel = `${Math.floor(absoluteSeconds / 3600)}h`;
+  } else if (absoluteSeconds >= 60) {
+    unitLabel = `${Math.floor(absoluteSeconds / 60)}m`;
+  }
+
+  return future ? `in ${unitLabel}` : `${unitLabel} ago`;
+}
+
+function renderHeadlineTimeMeta(value) {
+  const exact = exactHeadlineTime(value);
+  if (!exact) {
+    return '<span class="feed-time feed-time-invalid">—</span>';
+  }
+
+  return `
+    <span class="feed-time" title="${escapeHtml(exact)}">${escapeHtml(relativeHeadlineTime(value))}</span>
+    <span class="feed-time-exact">(${escapeHtml(exact)})</span>
+  `;
+}
+
+function sortNewest(first, second) {
+  return new Date(second.published).getTime() - new Date(first.published).getTime();
+}
+
+function sortSoonest(first, second) {
+  return new Date(first.event_date).getTime() - new Date(second.event_date).getTime();
+}
+
+function dedupeByKey(items, getKey) {
+  const seen = new Set();
+  return items.filter((item) => {
+    const key = getKey(item);
+    if (!key || seen.has(key)) {
+      return false;
+    }
+    seen.add(key);
+    return true;
+  });
+}
+
+function inferDecimals(value, unit) {
+  if (!Number.isFinite(value)) {
+    return 2;
+  }
+
+  if (/cents? per pound/i.test(unit || "")) {
+    return 2;
+  }
+
+  if (Math.abs(value) >= 1000) {
+    return 0;
+  }
+  if (Math.abs(value) >= 100) {
+    return 1;
+  }
+  return 2;
+}
+
+function formatValue(value, unit) {
+  const decimals = inferDecimals(value, unit);
+  const formatted = Number(value).toLocaleString("en-US", {
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals,
+  });
+
+  switch (unit) {
+    case "USD per barrel":
+      return `$${formatted} / bbl`;
+    case "USD per MMBtu":
+      return `$${formatted} / MMBtu`;
+    case "USD per metric ton":
+      return `$${formatted} / t`;
+    case "USD per dry metric ton":
+      return `$${formatted} / dmt`;
+    case "USD per troy ounce":
+      return `$${formatted} / oz`;
+    case "US cents per pound":
+      return `${formatted} c / lb`;
+    case "USD per kilogram":
+      return `$${formatted} / kg`;
+    case "USD per gallon":
+      return `$${formatted} / gal`;
+    default:
+      return `${formatted}${unit ? ` ${unit}` : ""}`;
+  }
+}
+
+function formatChange(value, percent, unit) {
+  const decimals = inferDecimals(value, unit);
+  const sign = value > 0 ? "+" : value < 0 ? "-" : "";
+  const absoluteValue = Math.abs(value);
+  const absoluteFormatted = Number(absoluteValue).toLocaleString("en-US", {
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals,
+  });
+  const percentFormatted = Number(Math.abs(percent || 0)).toLocaleString("en-US", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+
+  return {
+    absolute: `${sign}${absoluteFormatted}`,
+    percent: `${sign}${percentFormatted}%`,
+  };
+}
+
+function formatObservationDate(value) {
+  const parsed = parseIsoDate(value);
+  return parsed ? priceObservationFormatter.format(parsed) : "Unknown date";
+}
+
+function renderLaunchIcon() {
+  return `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M14 4h6v6"></path>
+      <path d="M10 14 20 4"></path>
+      <path d="M20 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h5"></path>
+    </svg>
+  `;
+}
+
+function bindNavigateLinks(root, onNavigate) {
+  root.querySelectorAll("[data-route]").forEach((button) => {
+    button.addEventListener("click", () => {
+      if (typeof onNavigate === "function") {
+        onNavigate(button.dataset.route);
+      }
+    });
+  });
+}
+
+function createModuleCard({ id, title, linkLabel, route, accentSectorId, onNavigate }) {
+  const section = document.createElement("section");
+  section.className = "dashboard-module";
+  section.dataset.moduleId = id;
+  section.style.setProperty("--module-accent", SECTOR_META[accentSectorId]?.accent || "var(--color-amber)");
+  section.innerHTML = `
+    <div class="module-card">
+      <header class="module-header">
+        <h2 class="module-title">${escapeHtml(title)}</h2>
+        ${
+          linkLabel
+            ? `
+              <button class="module-link" type="button" data-route="${escapeHtml(route)}">
+                <span>${escapeHtml(linkLabel)}</span>
+                ${renderLaunchIcon()}
+              </button>
+            `
+            : ""
+        }
+      </header>
+      <div class="module-body">
+        <p class="module-loading">Loading…</p>
+      </div>
+    </div>
+  `;
+
+  bindNavigateLinks(section, onNavigate);
+  return {
+    section,
+    body: section.querySelector(".module-body"),
+  };
+}
+
+function renderEmptyState(title, copy) {
+  return `
+    <div class="module-empty">
+      <p class="module-empty-title">${escapeHtml(title)}</p>
+      <p class="module-empty-copy">${escapeHtml(copy)}</p>
+    </div>
+  `;
+}
+
+function renderErrorState(copy) {
+  return renderEmptyState("Module unavailable", copy);
+}
+
+function renderHeadlineSentimentMeta(sentiment) {
+  const tone = String(sentiment || "").toLowerCase();
+  if (!tone || !["positive", "negative", "neutral"].includes(tone)) {
+    return "";
+  }
+
+  const label = tone.charAt(0).toUpperCase() + tone.slice(1);
+  return `
+    <span class="feed-sent ${escapeHtml(tone)}">
+      <span class="feed-sent-label">Sentiment:</span> ${escapeHtml(label)}
+    </span>
+  `;
+}
+
+function renderSparkline(values, direction = "neutral") {
+  const points = values.length ? values : [0, 0];
+  const minValue = Math.min(...points);
+  const maxValue = Math.max(...points);
+  const width = 132;
+  const height = 42;
+  const span = maxValue - minValue || 1;
+  const step = width / Math.max(points.length - 1, 1);
+  const line = points
+    .map((value, index) => {
+      const x = Number((index * step).toFixed(2));
+      const y = Number((height - ((value - minValue) / span) * height).toFixed(2));
+      return `${index === 0 ? "M" : "L"}${x} ${y}`;
+    })
+    .join(" ");
+  const area = `${line} L ${width} ${height} L 0 ${height} Z`;
+
+  return `
+    <svg class="sparkline is-${escapeHtml(direction)}" viewBox="0 0 ${width} ${height}" aria-hidden="true">
+      <path class="sparkline-area" d="${area}"></path>
+      <path class="sparkline-line" d="${line}"></path>
+    </svg>
+  `;
+}
+
+function buildSparklineValues(historyRows, latestRow) {
+  const values = historyRows
+    .map((row) => ({ observation_date: row.observation_date, value: row.value }))
+    .filter((row) => Number.isFinite(row.value))
+    .sort((left, right) => left.observation_date.localeCompare(right.observation_date))
+    .slice(-30)
+    .map((row) => row.value);
+
+  if (values.length) {
+    return values;
+  }
+
+  if (Number.isFinite(latestRow?.value)) {
+    return [latestRow.value, latestRow.value];
+  }
+
+  return [0, 0];
+}
+
+function bindPriceTileInteractions(body, onNavigate) {
+  body.querySelectorAll("[data-price-route]").forEach((button) => {
+    button.addEventListener("click", () => {
+      if (typeof onNavigate === "function") {
+        onNavigate(button.dataset.priceRoute);
+      }
+    });
+  });
+}
+
+function bindPriceStripCarousel(body) {
+  if (typeof body.__priceStripCleanup === "function") {
+    body.__priceStripCleanup();
+    body.__priceStripCleanup = null;
+  }
+
+  const strip = body.querySelector("[data-price-strip]");
+  if (!strip) {
+    return;
+  }
+
+  const maxScroll = strip.scrollWidth - strip.clientWidth;
+  if (maxScroll <= 8) {
+    strip.classList.remove("is-carousel");
+    return;
+  }
+
+  strip.classList.add("is-carousel");
+
+  let rafId = 0;
+  let direction = 1;
+  let paused = false;
+  let holdUntil = performance.now() + 1200;
+
+  const onMouseEnter = () => {
+    paused = true;
+  };
+  const onMouseLeave = () => {
+    paused = false;
+  };
+  const onFocusIn = () => {
+    paused = true;
+  };
+  const onFocusOut = () => {
+    paused = false;
+  };
+
+  const step = (timestamp) => {
+    if (!strip.isConnected) {
+      return;
+    }
+
+    if (!paused && timestamp >= holdUntil) {
+      strip.scrollLeft += direction * 0.3;
+
+      if (strip.scrollLeft >= maxScroll - 1) {
+        strip.scrollLeft = maxScroll;
+        direction = -1;
+        holdUntil = timestamp + 900;
+      } else if (strip.scrollLeft <= 1) {
+        strip.scrollLeft = 0;
+        direction = 1;
+        holdUntil = timestamp + 900;
+      }
+    }
+
+    rafId = window.requestAnimationFrame(step);
+  };
+
+  strip.addEventListener("mouseenter", onMouseEnter);
+  strip.addEventListener("mouseleave", onMouseLeave);
+  strip.addEventListener("focusin", onFocusIn);
+  strip.addEventListener("focusout", onFocusOut);
+
+  rafId = window.requestAnimationFrame(step);
+
+  body.__priceStripCleanup = () => {
+    window.cancelAnimationFrame(rafId);
+    strip.removeEventListener("mouseenter", onMouseEnter);
+    strip.removeEventListener("mouseleave", onMouseLeave);
+    strip.removeEventListener("focusin", onFocusIn);
+    strip.removeEventListener("focusout", onFocusOut);
+  };
+}
+
+function getPriceSelection(filter) {
+  const normalized = normalizeFilter(filter);
+
+  if (isAllFilter(normalized)) {
+    return DEFAULT_HOME_SERIES_KEYS
+      .map((seriesKey) => getCommodityBySeriesKey(seriesKey))
+      .filter(Boolean);
+  }
+
+  if (!normalized.groupId) {
+    return getSectorById(normalized.sectorId)?.groups.flatMap((group) => group.commodities).filter((commodity) => commodity.seriesKey) || [];
+  }
+
+  const commodityIds = isAllCommoditySelection(normalized)
+    ? getAllCommodityIdsForGroup(normalized.groupId)
+    : normalized.commodityIds;
+
+  return commodityIds.map((commodityId) => getCommodityById(commodityId)).filter((commodity) => commodity?.seriesKey);
+}
+
+function buildHeadlineText(article) {
+  return `${article?.title || ""} ${article?.description || ""}`.trim();
+}
+
+function articleHasCategory(article, categories) {
+  return article.categories.some((category) => categories.includes(category));
+}
+
+function matchesSectorFeed(article, sectorId) {
+  const sector = getSectorById(sectorId);
+  return Boolean(sector && articleHasCategory(article, sector.feedCategories));
+}
+
+function matchesGroupFeed(article, groupId) {
+  const group = getGroupById(groupId);
+  if (!group || !articleHasCategory(article, group.feedCategories)) {
+    return false;
+  }
+
+  const pattern = getGroupFeedPattern(groupId);
+  const requiresKeyword =
+    group.feedCategories.every((category) => category === "Metals" || category === "Agriculture" || category === "Fertilizers") ||
+    group.id === "power";
+
+  if (!requiresKeyword || !pattern) {
+    return true;
+  }
+
+  return pattern.test(buildHeadlineText(article));
+}
+
+function getAlwaysRelevantHeadlines(feedArticles) {
+  return feedArticles.filter((article) => article.categories.some((category) => ALWAYS_HEADLINE_CATEGORIES.includes(category)));
+}
+
+function fallbackHeadlineLabel(commodityMetaList = []) {
+  if (commodityMetaList.length === 1) {
+    return commodityMetaList[0].label;
+  }
+  if (commodityMetaList.length > 1) {
+    return commodityMetaList[0].label;
+  }
+  return "General";
+}
+
+function fallbackHeadlineDotClass(commodityMetaList = []) {
+  const sectorId = commodityMetaList[0]?.sectorId;
+  if (sectorId === "metals") {
+    return "metals";
+  }
+  if (sectorId === "agriculture") {
+    return "agri";
+  }
+  return "energy";
+}
+
+function createHeadlineItem(article, overrides = {}, commodityMetaList = []) {
+  const categories = article ? canonicalHeadlineCategories(article) : [];
+  const primaryCategory = categories[0] || "General";
+
+  return {
+    id: overrides.id || article?.id || article?.link || `${overrides.title || article?.title || "headline"}|${overrides.published || article?.published || ""}`,
+    title: overrides.title || article?.title || "",
+    url: overrides.url || article?.link || "",
+    source: overrides.source || article?.source || "Unknown source",
+    published: overrides.published || article?.published || "",
+    sentiment: overrides.sentiment || article?.sentiment?.label || "",
+    primaryCategory,
+    metaCategoryLabel: primaryCategory !== "General" ? headlineDotLabel(article) : "",
+    dotLabel: article ? headlineDotLabel(article) : fallbackHeadlineLabel(commodityMetaList),
+    dotClass: article ? headlineDotClass(article) : fallbackHeadlineDotClass(commodityMetaList),
+  };
+}
+
+function enrichRelatedHeadline(row, feedById, commodityMetaList) {
+  const article = row.id ? feedById.get(row.id) : null;
+  return createHeadlineItem(
+    article,
+    {
+      id: row.id || row.link || `${row.title}|${row.published || ""}`,
+      title: row.title,
+      url: row.link || "",
+      source: row.source || article?.source || "Unknown source",
+      published: row.published || article?.published || "",
+      sentiment: article?.sentiment?.label || "",
+    },
+    commodityMetaList
+  );
+}
+
+function mergeRelatedHeadlineSets(relatedRows, feedById) {
+  const merged = new Map();
+
+  relatedRows.forEach(({ commodityMeta, rows }) => {
+    rows.forEach((row) => {
+      const key = row.id || row.link || `${row.title}|${row.published || ""}`;
+      if (!merged.has(key)) {
+        merged.set(key, {
+          row,
+          commodityMetaList: [commodityMeta],
+        });
+        return;
+      }
+
+      const existing = merged.get(key);
+      const seenCommodity = existing.commodityMetaList.some((candidate) => candidate.id === commodityMeta.id);
+      if (!seenCommodity) {
+        existing.commodityMetaList.push(commodityMeta);
+      }
+    });
+  });
+
+  return [...merged.values()]
+    .map(({ row, commodityMetaList }) => enrichRelatedHeadline(row, feedById, commodityMetaList))
+    .sort(sortNewest);
+}
+
+function renderHeadlineItem(item) {
+  const metaParts = [escapeHtml(item.source)];
+  if (item.metaCategoryLabel) {
+    metaParts.push(escapeHtml(item.metaCategoryLabel));
+  }
+  metaParts.push(renderHeadlineTimeMeta(item.published));
+
+  const sentimentMeta = renderHeadlineSentimentMeta(item.sentiment);
+  if (sentimentMeta) {
+    metaParts.push(sentimentMeta);
+  }
+
+  const titleMarkup = item.url
+    ? `
+        <a class="headline-link" href="${escapeHtml(item.url)}" target="_blank" rel="noreferrer noopener">
+          ${escapeHtml(item.title)}
+        </a>
+      `
+    : `<span class="headline-link">${escapeHtml(item.title)}</span>`;
+
+  return `
+    <article class="headline-item">
+      <div class="feed-cat">
+        <span class="feed-cat-dot ${escapeHtml(item.dotClass)}"></span>
+        <span class="feed-cat-label">${escapeHtml(item.dotLabel)}</span>
+      </div>
+      <h3 class="feed-headline">
+        ${titleMarkup}
+      </h3>
+      <div class="feed-meta">${metaParts.join('<span class="sep">·</span>')}</div>
+    </article>
+  `;
+}
+
+function isUndatedEvent(event) {
+  return event.event_date.includes("T00:00:00") && /does not specify|no publication hour|does not specify a publication hour/i.test(event.notes || "");
+}
+
+function formatCalendarTime(event) {
+  if (isUndatedEvent(event)) {
+    return "Time TBC";
+  }
+
+  return `${calendarTimeFormatter.format(new Date(event.event_date))} UTC`;
+}
+
+function formatCalendarDay(isoDate) {
+  return calendarDayFormatter.format(new Date(`${isoDate}T00:00:00Z`));
+}
+
+function renderCalendarItem(event) {
+  const primarySector = event.commodity_sectors.find((sectorId) => SECTOR_META[sectorId]) || "cross-commodity";
+  return `
+    <article class="calendar-item">
+      <div class="calendar-item-marker" style="--marker-accent:${SECTOR_META[primarySector]?.accent || "var(--color-cross)"};"></div>
+      <div class="calendar-item-copy">
+        <h3 class="calendar-item-title">${escapeHtml(event.name)}</h3>
+        <p class="calendar-item-organiser">${escapeHtml(event.organiser)}</p>
+        <div class="calendar-item-meta">
+          <span>${escapeHtml(formatCalendarTime(event))}</span>
+        </div>
+      </div>
+      <a class="calendar-item-link" href="${escapeHtml(event.calendar_url)}" target="_blank" rel="noreferrer noopener" aria-label="Open source for ${escapeHtml(event.name)}">
+        ${renderLaunchIcon()}
+      </a>
+    </article>
+  `;
+}
+
+function groupEventsByDay(events) {
+  const grouped = new Map();
+  events.forEach((event) => {
+    const day = event.event_date.slice(0, 10);
+    const bucket = grouped.get(day) || [];
+    bucket.push(event);
+    grouped.set(day, bucket);
+  });
+  return [...grouped.entries()].map(([day, items]) => ({ day, items: items.sort(sortSoonest) }));
+}
+
+function renderCalendarGroups(events) {
+  const today = toIsoDate(new Date());
+  return groupEventsByDay(events)
+    .map(
+      ({ day, items }) => `
+        <section class="calendar-day-group">
+          <div class="calendar-day-divider ${day === today ? "is-today" : ""}">
+            <span>${escapeHtml(formatCalendarDay(day))}</span>
+            ${day === today ? '<span class="calendar-day-badge">Today</span>' : ""}
+          </div>
+          <div class="calendar-day-items">
+            ${items.map(renderCalendarItem).join("")}
+          </div>
+        </section>
+      `
+    )
+    .join("");
+}
+
+function matchesCalendarPattern(event, pattern) {
+  if (!pattern) {
+    return true;
+  }
+
+  return pattern.test(`${event.name || ""} ${event.notes || ""} ${event.organiser || ""}`);
+}
+
+function getCalendarSelection(filter, events) {
+  const normalized = normalizeFilter(filter);
+  if (isAllFilter(normalized)) {
+    return {
+      items: events.sort(sortSoonest).slice(0, 10),
+      directMatchCount: events.length,
+    };
+  }
+
+  const sectorEvents = events.filter((event) => event.commodity_sectors.includes(normalized.sectorId));
+  const alwaysEvents = events.filter((event) =>
+    event.commodity_sectors.some((sectorId) => ALWAYS_CALENDAR_SECTORS.includes(sectorId))
+  );
+
+  let directMatches = sectorEvents;
+  if (normalized.groupId) {
+    const selectedCommodities = getSelectedCommodities(normalized);
+    const commodityPattern =
+      selectedCommodities.length === 1
+        ? getCommodityCalendarPattern(selectedCommodities[0].id)
+        : null;
+    const groupPattern = getGroupCalendarPattern(normalized.groupId);
+    const activePattern = commodityPattern || groupPattern;
+    directMatches = sectorEvents.filter((event) => matchesCalendarPattern(event, activePattern));
+  }
+
+  const items = dedupeByKey([...directMatches, ...alwaysEvents].sort(sortSoonest), (event) => event.id).slice(0, 10);
+  return {
+    items,
+    directMatchCount: directMatches.length,
+  };
+}
+
+async function renderPriceModuleBody(body, filter, { onNavigate } = {}) {
+  const selection = getPriceSelection(filter);
+
+  if (!selection.length) {
+    body.innerHTML = renderEmptyState(
+      "No benchmark prices available",
+      `No live benchmark prices are configured for ${getFilterLabel(filter)}.`
+    );
+    return;
+  }
+
+  const latestBySeriesKey = await fetchLatestSeriesMap();
+  const priceEntries = await Promise.all(
+    selection.map(async (commodityMeta) => {
+      const latestRow = latestBySeriesKey.get(commodityMeta.seriesKey);
+      if (!latestRow) {
+        return null;
+      }
+
+      const historyRows = await fetchSeriesHistory(commodityMeta.seriesKey);
+      return {
+        commodityMeta,
+        latestRow,
+        historyRows,
+      };
+    })
+  );
+
+  const availableEntries = priceEntries.filter(Boolean);
+  if (!availableEntries.length) {
+    body.innerHTML = renderEmptyState(
+      "No benchmark prices available",
+      `No live benchmark prices are currently available for ${getFilterLabel(filter)}.`
+    );
+    return;
+  }
+
+  body.innerHTML = `
+    ${isAllFilter(filter) ? "" : `<p class="module-scope">Showing prices for ${escapeHtml(getFilterLabel(filter))}</p>`}
+    <div class="price-strip" data-price-strip>
+      ${availableEntries
+        .map(({ commodityMeta, latestRow, historyRows }) => {
+          const change = formatChange(latestRow.delta_value || 0, latestRow.delta_pct || 0, latestRow.unit);
+          const direction = (latestRow.delta_value || 0) >= 0 ? "up" : "down";
+          const group = getGroupById(commodityMeta.groupId);
+          const route = `/price-watch/?series=${encodeURIComponent(commodityMeta.seriesKey)}`;
+
+          return `
+            <button
+              class="price-tile is-${escapeHtml(direction)}"
+              data-sector="${escapeHtml(commodityMeta.sectorId)}"
+              data-price-route="${escapeHtml(route)}"
+              type="button"
+              aria-label="Open ${escapeHtml(commodityMeta.label)} in PriceWatch"
+            >
+              <div class="price-tile-head">
+                <p class="price-tile-label">${escapeHtml(group?.label || SECTOR_META[commodityMeta.sectorId]?.label || "Commodity")}</p>
+                <h3 class="price-tile-title">${escapeHtml(commodityMeta.label)}</h3>
+                <p class="price-as-of">As of ${escapeHtml(formatObservationDate(latestRow.observation_date))}</p>
+              </div>
+              <div class="price-tile-spacer" aria-hidden="true"></div>
+              <div class="price-tile-body">
+                <p class="price-value">${escapeHtml(formatValue(latestRow.value, latestRow.unit))}</p>
+                <div class="price-move">
+                  <span class="price-change">${escapeHtml(change.absolute)}</span>
+                  <span class="price-change-pct">${escapeHtml(change.percent)}</span>
+                </div>
+                <div class="price-spark-wrap">
+                  ${renderSparkline(buildSparklineValues(historyRows, latestRow), direction)}
+                </div>
+                <p class="price-source">${escapeHtml(latestRow.source_name)}</p>
+              </div>
+            </button>
+          `;
+        })
+        .join("")}
+    </div>
+  `;
+
+  bindPriceTileInteractions(body, onNavigate);
+  bindPriceStripCarousel(body);
+}
+
+async function renderHeadlineModuleBody(body, filter) {
+  const feed = await fetchHeadlineFeed();
+  const normalized = normalizeFilter(filter);
+  const alwaysRelevant = getAlwaysRelevantHeadlines(feed.articles);
+
+  if (isAllFilter(normalized)) {
+    const items = feed.articles.slice(0, 10).map((article) => createHeadlineItem(article));
+
+    body.innerHTML = `<div class="headline-list">${items.map(renderHeadlineItem).join("")}</div>`;
+    return;
+  }
+
+  let directItems = [];
+  if (normalized.groupId) {
+    const selectedCommodities = getSelectedCommodities(normalized).filter((commodity) => commodity.seriesKey);
+
+    if (selectedCommodities.length) {
+      const relatedRows = await Promise.all(
+        selectedCommodities.map(async (commodityMeta) => ({
+          commodityMeta,
+          rows: await fetchRelatedHeadlines(commodityMeta.seriesKey, 6),
+        }))
+      );
+      directItems = mergeRelatedHeadlineSets(relatedRows, feed.byId);
+    }
+
+    if (!directItems.length) {
+      directItems = feed.articles
+        .filter((article) => matchesGroupFeed(article, normalized.groupId))
+        .slice(0, 10)
+        .map((article) => createHeadlineItem(article));
+    }
+  } else {
+    directItems = feed.articles
+      .filter((article) => matchesSectorFeed(article, normalized.sectorId))
+      .slice(0, 10)
+      .map((article) => createHeadlineItem(article));
+  }
+
+  const broaderContextItems = alwaysRelevant.slice(0, 10).map((article) => createHeadlineItem(article));
+
+  const items = dedupeByKey([...directItems, ...broaderContextItems].sort(sortNewest), (item) => item.id).slice(0, 10);
+
+  if (!items.length) {
+    body.innerHTML = renderEmptyState(
+      "No headlines found",
+      `No headlines found for ${getFilterLabel(filter)} in the current feed window.`
+    );
+    return;
+  }
+
+  body.innerHTML = `
+    <p class="module-scope">Showing headlines for: <strong>${escapeHtml(getFilterLabel(filter))}</strong></p>
+    ${
+      directItems.length
+        ? ""
+        : `<p class="module-note">No direct commodity matches were found. Showing broader commodity context instead.</p>`
+    }
+    <div class="headline-list">${items.map(renderHeadlineItem).join("")}</div>
+  `;
+}
+
+async function renderCalendarModuleBody(body, filter) {
+  const normalized = normalizeFilter(filter);
+  const today = new Date();
+  const from = toIsoDate(today);
+  const to = toIsoDate(addUtcDays(today, 14));
+  const sectors = isAllFilter(normalized)
+    ? []
+    : [...new Set([normalized.sectorId, ...ALWAYS_CALENDAR_SECTORS])];
+  const events = await fetchCalendarEvents({ from, to, sectors });
+  const { items, directMatchCount } = getCalendarSelection(normalized, events);
+
+  if (!items.length) {
+    body.innerHTML = renderEmptyState(
+      "No releases scheduled",
+      `No upcoming releases were found for ${getFilterLabel(filter)} in the next two weeks.`
+    );
+    return;
+  }
+
+  body.innerHTML = `
+    ${
+      !isAllFilter(normalized) && directMatchCount === 0
+        ? `<p class="module-note">No direct ${escapeHtml(getFilterLabel(filter))} releases are scheduled. Showing macro and cross-commodity events.</p>`
+        : ""
+    }
+    <div class="calendar-agenda">${renderCalendarGroups(items)}</div>
+  `;
+}
+
+function attachAsyncRenderer(section, body, renderer, filter, context = {}) {
+  const requestId = (section.__requestId || 0) + 1;
+  section.__requestId = requestId;
+
+  renderer(body, filter, context)
+    .catch(() => {
+      if (section.__requestId !== requestId) {
+        return;
+      }
+      body.innerHTML = renderErrorState("Live data could not be loaded for this module.");
+    });
+}
+
+export function PriceModule({ filter, onNavigate }) {
+  const { section, body } = createModuleCard({
+    id: "prices",
+    title: "Benchmark Prices",
+    linkLabel: "View PriceWatch",
+    route: "/price-watch/",
+    accentSectorId: normalizeFilter(filter).sectorId || "energy",
+    onNavigate,
+  });
+
+  attachAsyncRenderer(section, body, renderPriceModuleBody, filter, { onNavigate });
+  return section;
+}
+
+export function HeadlineModule({ filter, onNavigate }) {
+  const { section, body } = createModuleCard({
+    id: "headlines",
+    title: "Latest Headlines",
+    linkLabel: "View HeadlineWatch",
+    route: "/headline-watch/",
+    accentSectorId: normalizeFilter(filter).sectorId || "cross-commodity",
+    onNavigate,
+  });
+
+  attachAsyncRenderer(section, body, renderHeadlineModuleBody, filter);
+  return section;
+}
+
+export function CalendarModule({ filter, onNavigate }) {
+  const { section, body } = createModuleCard({
+    id: "calendar",
+    title: "Upcoming Releases",
+    linkLabel: "View CalendarWatch",
+    route: "/calendar-watch/",
+    accentSectorId: normalizeFilter(filter).sectorId || "macro",
+    onNavigate,
+  });
+
+  attachAsyncRenderer(section, body, renderCalendarModuleBody, filter);
+  return section;
+}

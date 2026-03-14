@@ -291,6 +291,9 @@ test("buildCommodityDefinitions honors taxonomy reclassifications and sector ord
 
   assert.equal(wheat.sectorId, "agriculture");
   assert.equal(wheat.subsectorId, "grains_and_cereals");
+  assert.equal(wheat.visual.type, "artifactTile");
+  assert.equal(wheat.visual.tile.pattern, "grain");
+  assert.equal(wheat.visual.tile.code, "WHT");
   assert.deepEqual(
     wheat.seriesOptions.map((seriesOption) => seriesOption.seriesKey),
     ["wheat_global_monthly_proxy", "wheat_us_srw_monthly"]
@@ -298,6 +301,8 @@ test("buildCommodityDefinitions honors taxonomy reclassifications and sector ord
 
   assert.equal(rubber.sectorId, "agriculture");
   assert.equal(rubber.subsectorId, "industrial_agriculture_materials");
+  assert.equal(rubber.visual.type, "artifactTile");
+  assert.equal(rubber.visual.tile.pattern, "tropical");
   assert.deepEqual(
     rubber.seriesOptions.map((seriesOption) => seriesOption.seriesKey),
     ["rubber_rss3_monthly", "rubber_tsr20_monthly"]
@@ -305,13 +310,20 @@ test("buildCommodityDefinitions honors taxonomy reclassifications and sector ord
 
   assert.equal(urea.sectorId, "fertilizers_and_agricultural_chemicals");
   assert.equal(urea.subsectorId, "nitrogen");
+  assert.equal(urea.visual.type, "artifactTile");
+  assert.equal(urea.visual.tile.pattern, "chemistry");
+  assert.equal(urea.visual.tile.code, "UREA");
 
   assert.equal(beef.sectorId, "livestock_dairy_and_seafood");
   assert.equal(beef.subsectorId, "meat_and_livestock");
+  assert.equal(beef.visual.type, "artifactTile");
+  assert.equal(beef.visual.tile.pattern, "meat");
 
   assert.equal(lumber.sectorId, "forest_and_wood_products");
   assert.equal(lumber.subsectorId, "wood_products");
-  assert.equal(lumber.visual.type, "marketTile");
+  assert.equal(lumber.visual.type, "artifactTile");
+  assert.equal(lumber.visual.tile.pattern, "wood");
+  assert.equal(lumber.visual.tile.emblem, true);
 
   assert.ok(coffee.isGrouped);
   assert.deepEqual(

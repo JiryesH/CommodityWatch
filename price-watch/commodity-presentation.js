@@ -1,4 +1,9 @@
 import contract from "../shared/commodity-series-contract.json" with { type: "json" };
+import {
+  ARTIFACT_ENTITY_OVERRIDES,
+  ARTIFACT_FAMILY_PRESETS,
+  ARTIFACT_PALETTES,
+} from "./artifact-tile-presets.js";
 
 const ENERGY_ICONS = {
   oil: "assets/energy-icons/oil-droplet-fill.svg",
@@ -326,6 +331,46 @@ function toTicker(value) {
     .toUpperCase();
 }
 
+function toCompactSourceLabel(value) {
+  const label = String(value || "").trim();
+  if (!label) {
+    return "FRED";
+  }
+
+  if (/world bank/i.test(label)) {
+    return "WB";
+  }
+
+  if (/fred/i.test(label)) {
+    return "FRED";
+  }
+
+  if (/food and agriculture organization|^fao$/i.test(label)) {
+    return "FAO";
+  }
+
+  if (/argus/i.test(label)) {
+    return "ARGUS";
+  }
+
+  if (/mpob/i.test(label)) {
+    return "MPOB";
+  }
+
+  const acronym = label
+    .split(/[^A-Za-z0-9]+/g)
+    .filter(Boolean)
+    .map((part) => part[0] || "")
+    .join("")
+    .toUpperCase();
+
+  if (acronym) {
+    return acronym.slice(0, 6);
+  }
+
+  return label.slice(0, 6).toUpperCase();
+}
+
 function isFiniteNumber(value) {
   return typeof value === "number" && Number.isFinite(value);
 }
@@ -420,6 +465,39 @@ function buildMarketVisual(entityId, row, taxonomyConfig) {
   };
 }
 
+function buildAgricultureVisual(entityId, row, taxonomyConfig) {
+  return buildArtifactVisual(entityId, row, taxonomyConfig);
+}
+
+function buildArtifactVisual(entityId, row, taxonomyConfig) {
+  const familyPreset = ARTIFACT_FAMILY_PRESETS[taxonomyConfig.visualFamily] || {};
+  const entityPreset = ARTIFACT_ENTITY_OVERRIDES[entityId] || {};
+  const paletteKey = entityPreset.paletteKey || familyPreset.paletteKey || "default";
+  const palette = ARTIFACT_PALETTES[paletteKey] || ARTIFACT_PALETTES.default;
+  const sourceName = row?.source_name || "FRED";
+
+  return {
+    type: "artifactTile",
+    tile: {
+      family: taxonomyConfig.visualFamily,
+      sectorClass: entityPreset.sectorClass || familyPreset.sectorClass || "agriculture",
+      pattern: entityPreset.pattern || familyPreset.pattern || "grain",
+      code: entityPreset.code || familyPreset.code || toTicker(taxonomyConfig.shortLabel) || "CM",
+      badge: entityPreset.badge || familyPreset.badge || toTicker(taxonomyConfig.shortLabel) || "CM",
+      venue: sourceName,
+      venueBadge: toCompactSourceLabel(sourceName),
+      nameLabel: entityPreset.nameLabel || familyPreset.nameLabel || taxonomyConfig.shortLabel,
+      descriptor:
+        entityPreset.descriptor || familyPreset.descriptor || toShortCode(taxonomyConfig.shortLabel) || "MARKET",
+      lot: entityPreset.lot || familyPreset.lot || "TRADE LOT",
+      serial: entityPreset.serial || familyPreset.serial || "LOT REGISTER / MARKET BOARD",
+      stamp: entityPreset.stamp || familyPreset.stamp || "MARKET LOT",
+      emblem: Boolean(entityPreset.emblem ?? familyPreset.emblem),
+      palette,
+    },
+  };
+}
+
 function buildVisual(entityId, row, taxonomyConfig) {
   if (taxonomyConfig.sectorId === "energy") {
     return buildEnergyVisual(entityId, row, taxonomyConfig);
@@ -427,6 +505,22 @@ function buildVisual(entityId, row, taxonomyConfig) {
 
   if (taxonomyConfig.sectorId === "metals_and_mining") {
     return buildMetalVisual(taxonomyConfig);
+  }
+
+  if (taxonomyConfig.sectorId === "agriculture") {
+    return buildAgricultureVisual(entityId, row, taxonomyConfig);
+  }
+
+  if (taxonomyConfig.sectorId === "fertilizers_and_agricultural_chemicals") {
+    return buildArtifactVisual(entityId, row, taxonomyConfig);
+  }
+
+  if (taxonomyConfig.sectorId === "livestock_dairy_and_seafood") {
+    return buildArtifactVisual(entityId, row, taxonomyConfig);
+  }
+
+  if (taxonomyConfig.sectorId === "forest_and_wood_products") {
+    return buildArtifactVisual(entityId, row, taxonomyConfig);
   }
 
   return buildMarketVisual(entityId, row, taxonomyConfig);

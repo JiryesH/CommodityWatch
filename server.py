@@ -16,6 +16,7 @@ from urllib.parse import parse_qs, unquote, urlparse
 from sqlalchemy import create_engine, text
 from sqlalchemy.engine import Engine, make_url
 
+from calendar_pipeline.storage import CalendarRepository, create_calendar_engine
 from feed_io import preferred_headline_feed_path
 from headline_associations import RelatedHeadlineService, parse_headline_limit
 
@@ -24,6 +25,7 @@ APP_ROOT = Path(__file__).resolve().parent
 DEFAULT_HOST = "127.0.0.1"
 DEFAULT_PORT = 8080
 DEFAULT_DATABASE_URL = "sqlite:///data/commodities.db"
+DEFAULT_CALENDAR_DATABASE_URL = "sqlite:///data/calendarwatch.db"
 MatchType = Literal["exact", "related"]
 
 
@@ -95,6 +97,7 @@ class AppConfig:
     app_root: Path
     backend_root: Path
     database_url: str
+    calendar_database_url: str
     host: str = DEFAULT_HOST
     port: int = DEFAULT_PORT
     headline_feed_path: Path | None = None
@@ -149,12 +152,15 @@ def build_config(app_root: Path = APP_ROOT) -> AppConfig:
     backend_root = find_backend_root(app_root)
     raw_database_url = os.environ.get("DATABASE_URL", DEFAULT_DATABASE_URL)
     database_url = resolve_database_url(raw_database_url, backend_root)
+    raw_calendar_database_url = os.environ.get("CALENDAR_DATABASE_URL", DEFAULT_CALENDAR_DATABASE_URL)
+    calendar_database_url = resolve_database_url(raw_calendar_database_url, app_root)
     host = os.environ.get("HOST", DEFAULT_HOST)
     port = int(os.environ.get("PORT", str(DEFAULT_PORT)))
     return AppConfig(
         app_root=app_root,
         backend_root=backend_root,
         database_url=database_url,
+        calendar_database_url=calendar_database_url,
         host=host,
         port=port,
         headline_feed_path=preferred_headline_feed_path(app_root),
@@ -203,6 +209,23 @@ def require_iso_date(value: str | None, field_name: str) -> str | None:
 
     try:
         return date.fromisoformat(value).isoformat()
+    except ValueError as exc:
+        raise ValueError(f"Invalid {field_name}: expected YYYY-MM-DD") from exc
+
+
+def require_iso_date_param(value: str | None, field_name: str) -> date | None:
+    if value is None or value == "":
+        return None
+
+    normalized = value.strip()
+    if "T" in normalized:
+        try:
+            normalized = datetime.fromisoformat(normalized.replace("Z", "+00:00")).date().isoformat()
+        except ValueError as exc:
+            raise ValueError(f"Invalid {field_name}: expected ISO date or datetime") from exc
+
+    try:
+        return date.fromisoformat(normalized)
     except ValueError as exc:
         raise ValueError(f"Invalid {field_name}: expected YYYY-MM-DD") from exc
 
@@ -428,6 +451,19 @@ class RelatedHeadlineServiceProvider:
         return self._service
 
 
+class CalendarRepositoryProvider:
+    def __init__(self, database_url: str):
+        self.database_url = database_url
+        self._repository: CalendarRepository | None = None
+
+    def get_repository(self) -> CalendarRepository:
+        if self._repository is None:
+            repository = CalendarRepository(create_calendar_engine(self.database_url))
+            repository.ensure_schema()
+            self._repository = repository
+        return self._repository
+
+
 def json_payload(data: Any, **meta: Any) -> bytes:
     body: dict[str, Any] = {
         "generated_at": datetime.now(timezone.utc).isoformat(),
@@ -448,7 +484,11 @@ def send_json(handler: SimpleHTTPRequestHandler, status: HTTPStatus, data: Any, 
     handler.wfile.write(payload)
 
 
-def make_handler(repository_provider: CommodityRepositoryProvider, config: AppConfig):
+def make_handler(
+    repository_provider: CommodityRepositoryProvider,
+    calendar_repository_provider: CalendarRepositoryProvider,
+    config: AppConfig,
+):
     headline_service_provider = RelatedHeadlineServiceProvider(
         config.headline_feed_path or preferred_headline_feed_path(config.app_root)
     )
@@ -471,6 +511,15 @@ def make_handler(repository_provider: CommodityRepositoryProvider, config: AppCo
         def do_GET(self) -> None:  # noqa: N802
             parsed = urlparse(self.path)
 
+            if parsed.path == "/api/calendar":
+                try:
+                    self.handle_calendar_api(parsed)
+                except ValueError as exc:
+                    send_json(self, HTTPStatus.BAD_REQUEST, {"error": str(exc)})
+                except Exception as exc:  # pragma: no cover
+                    send_json(self, HTTPStatus.INTERNAL_SERVER_ERROR, {"error": str(exc)})
+                return
+
             if parsed.path.startswith("/api/commodities"):
                 try:
                     self.handle_commodity_api(parsed)
@@ -491,6 +540,14 @@ def make_handler(repository_provider: CommodityRepositoryProvider, config: AppCo
                     commodity_api_available = False
                     commodity_api_error = str(exc)
 
+                calendar_api_error: str | None = None
+                calendar_api_available = True
+                try:
+                    calendar_repository_provider.get_repository()
+                except Exception as exc:
+                    calendar_api_available = False
+                    calendar_api_error = str(exc)
+
                 send_json(
                     self,
                     HTTPStatus.OK,
@@ -499,14 +556,17 @@ def make_handler(repository_provider: CommodityRepositoryProvider, config: AppCo
                         "app_root": str(config.app_root),
                         "backend_root": str(config.backend_root),
                         "database_url": config.database_url,
+                        "calendar_database_url": config.calendar_database_url,
                         "commodity_api_available": commodity_api_available,
                         "commodity_api_error": commodity_api_error,
+                        "calendar_api_available": calendar_api_available,
+                        "calendar_api_error": calendar_api_error,
                     },
                 )
                 return
 
             if parsed.path in {"", "/"}:
-                self.path = "/headline-watch/index.html"
+                self.path = "/index.html"
                 return super().do_GET()
 
             return super().do_GET()
@@ -583,6 +643,23 @@ def make_handler(repository_provider: CommodityRepositoryProvider, config: AppCo
             latest = repository.get_latest(series_key)
             send_json(self, HTTPStatus.OK, {"series": series, "latest": latest})
 
+        def handle_calendar_api(self, parsed) -> None:
+            repository = calendar_repository_provider.get_repository()
+            query = parse_qs(parsed.query)
+            sectors_param = query.get("sectors", [None])[0]
+            sectors = [sector.strip() for sector in (sectors_param or "").split(",") if sector.strip()]
+            from_date = require_iso_date_param(query.get("from", [None])[0], "from")
+            to_date = require_iso_date_param(query.get("to", [None])[0], "to")
+            events = repository.list_events(from_date=from_date, to_date=to_date, sectors=sectors or None)
+            send_json(
+                self,
+                HTTPStatus.OK,
+                events,
+                from_date=from_date.isoformat() if from_date else None,
+                to_date=to_date.isoformat() if to_date else None,
+                sectors=sectors,
+            )
+
         def log_message(self, format: str, *args: Any) -> None:
             return
 
@@ -590,18 +667,25 @@ def make_handler(repository_provider: CommodityRepositoryProvider, config: AppCo
 
 
 def create_server(config: AppConfig) -> ThreadingHTTPServer:
-    handler = make_handler(CommodityRepositoryProvider(config.database_url), config)
+    handler = make_handler(
+        CommodityRepositoryProvider(config.database_url),
+        CalendarRepositoryProvider(config.calendar_database_url),
+        config,
+    )
     return ThreadingHTTPServer((config.host, config.port), handler)
 
 
 def serve(config: AppConfig) -> None:
     server = create_server(config)
     print(f"Serving Contango on http://{config.host}:{server.server_port}")
-    print("Pages: /headline-watch/, /price-watch/")
-    print("API:   /api/health, /api/commodities/series, /api/commodities/latest")
+    print("Pages: /, /headline-watch/, /price-watch/, /calendar-watch/")
+    print("API:   /api/health")
+    print("API:   /api/calendar")
+    print("API:   /api/commodities/series, /api/commodities/latest")
     print("API:   /api/commodities/<series_key>, /api/commodities/<series_key>/history")
     print("API:   /api/commodities/<series_key>/headlines")
     print(f"Commodity backend: {config.database_url}")
+    print(f"Calendar backend:  {config.calendar_database_url}")
 
     try:
         server.serve_forever()
@@ -613,7 +697,7 @@ def serve(config: AppConfig) -> None:
 
 def main() -> None:
     env_config = build_config()
-    parser = argparse.ArgumentParser(description="Serve the Contango product UI and PriceWatch API")
+    parser = argparse.ArgumentParser(description="Serve the Contango product UI and APIs")
     parser.add_argument("--host", default=env_config.host)
     parser.add_argument("--port", type=int, default=env_config.port)
     args = parser.parse_args()

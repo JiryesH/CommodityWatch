@@ -1,9 +1,10 @@
 # Contango
 
-Contango now ships as a two-view product:
+Contango now ships as a three-view product:
 
 - `HeadlineWatch` for the existing live headline workflow backed by a local `data/feed.local.json` override when present, otherwise the tracked `data/feed.json` sample snapshot
 - `PriceWatch` for the commodity visual page backed by published commodity database views
+- `CalendarWatch` for publishable commodity-market calendar events backed by the local calendar ingestion pipeline and `/api/calendar`
 
 ## Product structure
 
@@ -11,14 +12,20 @@ Contango now ships as a two-view product:
   - Route module for the headline product view
 - `price-watch/`
   - Route module for the commodity price product view
+- `calendar-watch/`
+  - Route module for the calendar product view
 - `shared/`
   - Shared product shell assets, currently the cross-page tab navigation styling
 - `sandbox/commodity-visual-prototype/`
   - Experimental/reference PriceWatch prototype; production code lives under `price-watch/` and root `server.py`
 - `server.py`
-  - Main product server for the UI plus `/api/commodities/*`
+  - Main product server for the UI plus `/api/commodities/*` and `/api/calendar`
 - `app.py`
   - Existing control API for scrape and enrichment jobs
+- `calendar_pipeline/`
+  - CalendarWatch ingestion adapters, storage schema, CLI runner, and failure digest support
+- `calendar_watch_pipeline.py`
+  - CLI entrypoint for CalendarWatch ingestion
 
 ## Requirements
 
@@ -28,7 +35,7 @@ Install Python dependencies:
 python3 -m pip install -r requirements.txt
 ```
 
-`PriceWatch` also needs access to the commodity backend database views. Copy `.env.example` to `.env` if you need to point the app at a non-default backend location.
+`PriceWatch` also needs access to the commodity backend database views. Copy `.env.example` to `.env` if you need to point the app at non-default locations.
 
 ## Running the product
 
@@ -52,7 +59,7 @@ python3 server.py
 http://127.0.0.1:8080/
 ```
 
-The root route opens `HeadlineWatch`. Use the top navigation tabs to switch to `PriceWatch`.
+The root route opens `HeadlineWatch`. Use the top navigation tabs to switch to `PriceWatch` or `CalendarWatch`.
 
 ## Optional control API
 
@@ -70,12 +77,48 @@ Environment variables supported by `server.py`:
   - Absolute path to the commodity backend repo if it is not discoverable as a sibling `Commodity Prices` folder
 - `DATABASE_URL`
   - Commodity backend database URL. Relative sqlite paths resolve from `COMMODITY_BACKEND_ROOT`
+- `CALENDAR_DATABASE_URL`
+  - CalendarWatch database URL. Defaults to `sqlite:///data/calendarwatch.db` relative to the Contango repo
 - `HOST`
   - Product server bind host. Defaults to `127.0.0.1`
 - `PORT`
   - Product server bind port. Defaults to `8080`
 
 If the commodity backend is unavailable, `HeadlineWatch` still loads and `PriceWatch` shows a targeted configuration error state instead of crashing the product server.
+
+## CalendarWatch pipeline
+
+Initialize the schema:
+
+```bash
+python3 calendar_watch_pipeline.py init-db
+```
+
+Run the first-milestone adapters:
+
+```bash
+python3 calendar_watch_pipeline.py run
+```
+
+Run a subset of adapters:
+
+```bash
+python3 calendar_watch_pipeline.py run --source eia --source fed_fomc --source ons_rss
+```
+
+Send the daily adapter-failure digest to a monitoring endpoint:
+
+```bash
+python3 calendar_watch_pipeline.py send-failure-digest --endpoint-url https://monitoring.example/calendarwatch
+```
+
+The product server exposes the CalendarWatch API at:
+
+```text
+GET /api/calendar?from=2026-03-01&to=2026-03-31&sectors=energy,macro
+```
+
+Only confirmed, publishable events are returned. Entries with unresolved redistribution checks, PDF-derived dates, press-release-derived dates, or flagged date changes stay in the review queue view until manually approved.
 
 ## Headline feed workflow
 

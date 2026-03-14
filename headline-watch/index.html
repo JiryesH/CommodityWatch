@@ -789,8 +789,10 @@ body {
   <div class="site-nav-main">
     <div class="nav-logo">Contango<span class="dot"></span></div>
     <div class="site-tabs" aria-label="Product views">
+      <a class="site-tab" href="/">Home</a>
       <a class="site-tab" href="/headline-watch/" aria-current="page">HeadlineWatch</a>
       <a class="site-tab" href="/price-watch/">PriceWatch</a>
+      <a class="site-tab" href="/calendar-watch/">CalendarWatch</a>
     </div>
   </div>
   <div class="nav-right">
@@ -891,6 +893,8 @@ body {
 </button>
 
 <script src="../shared/filter-shell.js"></script>
+<script src="../shared/headline-taxonomy.js"></script>
+<script src="../shared/click-spark.js"></script>
 <script>
 (function () {
   'use strict';
@@ -916,39 +920,38 @@ body {
     'General'
   ];
 
-  var CATEGORY_PRIORITY = {};
-  CANONICAL_CATEGORIES.forEach(function (cat, idx) {
-    CATEGORY_PRIORITY[cat] = idx;
-  });
-
-  // Maps canonical feed category → dot color group (for visual treatment only)
-  var CAT_COLOR = {
-    'Oil - Crude':           'energy',
+  var headlineTaxonomy = window.ContangoHeadlineTaxonomy || {};
+  CANONICAL_CATEGORIES = headlineTaxonomy.CANONICAL_CATEGORIES || CANONICAL_CATEGORIES;
+  var CATEGORY_PRIORITY = headlineTaxonomy.CATEGORY_PRIORITY || {};
+  if (!Object.keys(CATEGORY_PRIORITY).length) {
+    CANONICAL_CATEGORIES.forEach(function (cat, idx) {
+      CATEGORY_PRIORITY[cat] = idx;
+    });
+  }
+  var CAT_COLOR = headlineTaxonomy.CAT_COLOR || {
+    'Oil - Crude': 'energy',
     'Oil - Refined Products': 'energy',
-    'Natural Gas':           'energy',
-    'LNG':                   'energy',
-    'Coal':                  'energy',
-    'Electric Power':        'energy',
-    'Energy Transition':     'energy',
-    'Chemicals':             'energy',
-    'Metals':                'metals',
-    'Agriculture':           'agri',
-    'Fertilizers':           'agri',
-    'Shipping':              'other',
-    'General':               'other',
+    'Natural Gas': 'energy',
+    'LNG': 'energy',
+    'Coal': 'energy',
+    'Electric Power': 'energy',
+    'Energy Transition': 'energy',
+    'Chemicals': 'energy',
+    'Metals': 'metals',
+    'Agriculture': 'agri',
+    'Fertilizers': 'agri',
+    'Shipping': 'other',
+    'General': 'other'
   };
-
-  // Short display labels for category tags inside cards
-  var CAT_LABEL = {
-    'General':               'General',
-    'Oil - Crude':           'Crude',
+  var CAT_LABEL = headlineTaxonomy.CAT_LABEL || {
+    'General': 'General',
+    'Oil - Crude': 'Crude',
     'Oil - Refined Products': 'Refined',
-    'Natural Gas':           'Nat Gas',
-    'Electric Power':        'Power',
-    'Energy Transition':     'Energy Trans',
+    'Natural Gas': 'Nat Gas',
+    'Electric Power': 'Power',
+    'Energy Transition': 'Energy Trans'
   };
-
-  var ENERGY_CATS = [
+  var ENERGY_CATS = headlineTaxonomy.ENERGY_CATS || [
     'Oil - Crude',
     'Oil - Refined Products',
     'Natural Gas',
@@ -957,9 +960,7 @@ body {
     'Electric Power',
     'Energy Transition'
   ];
-
-  // Maps data-sector values → canonical classifier categories
-  var SECTOR_MAP = {
+  var SECTOR_MAP = headlineTaxonomy.SECTOR_MAP || {
     'energy':             ENERGY_CATS,
     'chemicals':          ['Chemicals'],
     'metals_and_mining':  ['Metals'],
@@ -1039,6 +1040,10 @@ body {
   }
 
   function canonicalCategoriesForArticle(article) {
+    if (headlineTaxonomy.canonicalCategoriesForArticle) {
+      return headlineTaxonomy.canonicalCategoriesForArticle(article);
+    }
+
     var raw = article && article.categories;
     var tokens = [];
 
@@ -1063,6 +1068,10 @@ body {
   }
 
   function normalizeArticleCategoriesInPlace(article) {
+    if (headlineTaxonomy.normalizeArticleCategoriesInPlace) {
+      return headlineTaxonomy.normalizeArticleCategoriesInPlace(article);
+    }
+
     var cats = canonicalCategoriesForArticle(article);
     article.categories = cats;
     article.category = cats[0];
@@ -1081,6 +1090,10 @@ body {
 
   // Dot color class from canonical article categories
   function dotClass(article) {
+    if (headlineTaxonomy.dotClass) {
+      return headlineTaxonomy.dotClass(article);
+    }
+
     var cats = canonicalCategoriesForArticle(article);
     var priority = { energy: 3, metals: 2, agri: 1, other: 0 };
     var best = 'other';
@@ -1102,6 +1115,10 @@ body {
 
   // Short label shown next to the dot in a card
   function dotLabel(article) {
+    if (headlineTaxonomy.dotLabel) {
+      return esc(headlineTaxonomy.dotLabel(article));
+    }
+
     var primary = canonicalCategoriesForArticle(article)[0] || 'General';
     return esc(CAT_LABEL[primary] || primary);
   }

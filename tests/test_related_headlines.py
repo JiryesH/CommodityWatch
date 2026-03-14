@@ -345,10 +345,12 @@ def create_series_database(database_path: Path) -> None:
 
 @contextmanager
 def running_server(database_path: Path, feed_path: Path) -> Iterator[str]:
+    calendar_database_path = database_path.parent / "calendarwatch.db"
     config = AppConfig(
         app_root=Path(__file__).resolve().parents[1],
         backend_root=Path(__file__).resolve().parents[1],
         database_url=f"sqlite:///{database_path}",
+        calendar_database_url=f"sqlite:///{calendar_database_path}",
         host="127.0.0.1",
         port=0,
         headline_feed_path=feed_path,

@@ -1,0 +1,596 @@
+:root {
+  --page-bg: #efece4;
+  --page-ink: #16202b;
+  --page-subtle: #5f6773;
+  --card-bg: rgba(255, 255, 255, 0.82);
+  --card-border: rgba(22, 32, 43, 0.12);
+  --card-shadow: rgba(33, 41, 52, 0.08);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.4), rgba(239, 236, 228, 0.84)),
+    var(--page-bg);
+  color: var(--page-ink);
+  font: 16px/1.45 "IBM Plex Sans", sans-serif;
+}
+
+.page-shell {
+  width: min(1440px, calc(100vw - 48px));
+  margin: 0 auto;
+  padding: 36px 0 64px;
+}
+
+.page-head {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+
+.eyebrow {
+  margin: 0;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--page-subtle);
+}
+
+.page-title {
+  margin: 0;
+  max-width: 16ch;
+  font-family: "IBM Plex Serif", serif;
+  font-size: clamp(34px, 5vw, 56px);
+  line-height: 0.96;
+  letter-spacing: -0.03em;
+}
+
+.page-copy {
+  margin: 0;
+  max-width: 70ch;
+  color: rgba(22, 32, 43, 0.82);
+}
+
+.system-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin: 0 0 28px;
+}
+
+.system-note {
+  padding: 16px 18px;
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.74);
+  box-shadow: 0 14px 30px var(--card-shadow);
+}
+
+.system-note h2 {
+  margin: 0 0 6px;
+  font-family: "IBM Plex Serif", serif;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+}
+
+.system-note p {
+  margin: 0;
+  color: rgba(22, 32, 43, 0.78);
+}
+
+.pilot-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.pilot-card {
+  display: grid;
+  gap: 16px;
+  padding: 18px;
+  border: 1px solid var(--card-border);
+  border-radius: 20px;
+  background: var(--card-bg);
+  box-shadow: 0 18px 34px var(--card-shadow);
+}
+
+.pilot-card__head {
+  display: grid;
+  gap: 4px;
+}
+
+.pilot-sector {
+  margin: 0;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(22, 32, 43, 0.62);
+}
+
+.pilot-title {
+  margin: 0;
+  font-family: "IBM Plex Serif", serif;
+  font-size: 34px;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.artifact-face {
+  --face-bg: #d6c6a0;
+  --face-bg-2: rgba(255, 255, 255, 0.08);
+  --face-ink: #2d2518;
+  --face-ink-soft: rgba(45, 37, 24, 0.68);
+  --face-border: rgba(45, 37, 24, 0.14);
+  --face-rule: rgba(45, 37, 24, 0.1);
+  --face-badge-bg: rgba(255, 255, 255, 0.4);
+  --face-badge-border: rgba(45, 37, 24, 0.14);
+  --face-badge-ink: #2d2518;
+  position: relative;
+  min-height: 252px;
+  border-radius: 18px;
+  border: 1px solid var(--face-border);
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, var(--face-bg-2), rgba(0, 0, 0, 0.04)),
+    var(--face-bg);
+  color: var(--face-ink);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.24),
+    0 14px 24px rgba(25, 31, 39, 0.08);
+}
+
+.artifact-face::before,
+.artifact-face::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.artifact-face::after {
+  inset: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 12px;
+}
+
+.artifact-face__meta {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  top: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 3;
+}
+
+.artifact-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 26px;
+  min-width: 42px;
+  padding: 0 10px;
+  border-radius: 999px;
+  border: 1px solid var(--face-badge-border);
+  background: var(--face-badge-bg);
+  color: var(--face-badge-ink);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  line-height: 1;
+}
+
+.artifact-face__serial {
+  position: absolute;
+  left: 16px;
+  top: 52px;
+  z-index: 2;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--face-ink-soft);
+}
+
+.artifact-face__register {
+  position: absolute;
+  inset: 18px;
+  z-index: 2;
+}
+
+.artifact-face__register span {
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  border-color: var(--face-rule);
+  border-style: solid;
+}
+
+.artifact-face__register span:nth-child(1) {
+  left: 0;
+  top: 0;
+  border-width: 1px 0 0 1px;
+}
+
+.artifact-face__register span:nth-child(2) {
+  right: 0;
+  top: 0;
+  border-width: 1px 1px 0 0;
+}
+
+.artifact-face__register span:nth-child(3) {
+  left: 0;
+  bottom: 0;
+  border-width: 0 0 1px 1px;
+}
+
+.artifact-face__register span:nth-child(4) {
+  right: 0;
+  bottom: 0;
+  border-width: 0 1px 1px 0;
+}
+
+.artifact-face__code {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  top: 82px;
+  z-index: 2;
+  font-family: "IBM Plex Serif", serif;
+  font-size: clamp(56px, 9vw, 84px);
+  line-height: 0.94;
+  letter-spacing: -0.04em;
+  color: rgba(0, 0, 0, 0.62);
+}
+
+.artifact-face__mark {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  z-index: 2;
+}
+
+.artifact-face__descriptor {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--face-ink);
+}
+
+.artifact-face__lot {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--face-ink-soft);
+}
+
+.artifact-face__stamp {
+  position: absolute;
+  right: 16px;
+  bottom: 18px;
+  z-index: 2;
+  padding: 4px 8px;
+  border: 1px solid var(--face-rule);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--face-ink-soft);
+}
+
+.pattern-grain::before {
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0 14px,
+      var(--face-rule) 14px 16px
+    ),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 34%);
+  opacity: 0.56;
+}
+
+.pattern-grain .artifact-face__code {
+  font-size: clamp(62px, 9vw, 92px);
+}
+
+.pattern-oilseed::before {
+  background:
+    radial-gradient(circle at 22% 22%, var(--face-rule) 0 2px, transparent 2px 14px),
+    radial-gradient(circle at 62% 54%, var(--face-rule) 0 2px, transparent 2px 15px),
+    radial-gradient(circle at 50% 50%, transparent 0 58px, var(--face-rule) 58px 60px, transparent 60px 74px, var(--face-rule) 74px 76px, transparent 76px);
+  opacity: 0.54;
+}
+
+.pattern-tropical::before {
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 18px,
+      var(--face-rule) 18px 19px
+    ),
+    repeating-linear-gradient(
+      180deg,
+      transparent 0 18px,
+      var(--face-rule) 18px 19px
+    );
+  opacity: 0.32;
+}
+
+.pattern-chemistry::before {
+  background-image:
+    linear-gradient(var(--face-rule) 1px, transparent 1px),
+    linear-gradient(90deg, var(--face-rule) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.3), transparent 30%);
+  background-size: 18px 18px, 18px 18px, auto;
+}
+
+.pattern-chemistry .artifact-face__code {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: clamp(48px, 8vw, 72px);
+  letter-spacing: -0.06em;
+}
+
+.pattern-chemistry .artifact-face__mark {
+  border-top: 1px solid var(--face-rule);
+  padding-top: 8px;
+}
+
+.pattern-meat::before {
+  background:
+    linear-gradient(90deg, transparent 0 26%, rgba(255, 255, 255, 0.08) 26% 28%, transparent 28% 72%, rgba(255, 255, 255, 0.08) 72% 74%, transparent 74%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 34%);
+}
+
+.pattern-meat .artifact-face__stamp,
+.pattern-seafood .artifact-face__stamp {
+  border-radius: 999px;
+}
+
+.pattern-seafood::before {
+  background:
+    linear-gradient(45deg, transparent 0 10px, var(--face-rule) 10px 11px, transparent 11px 21px),
+    linear-gradient(-45deg, transparent 0 10px, var(--face-rule) 10px 11px, transparent 11px 21px);
+  background-size: 22px 22px;
+  opacity: 0.24;
+}
+
+.pattern-wood::before {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 34%),
+    repeating-linear-gradient(90deg, transparent 0 30px, var(--face-rule) 30px 31px, transparent 31px 62px);
+  opacity: 0.28;
+}
+
+.pattern-wood .artifact-face__code {
+  top: 74px;
+}
+
+.pattern-wood .artifact-face__emblem {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  transform: translate(-50%, -44%);
+  border: 2px solid var(--face-rule);
+  box-shadow:
+    0 0 0 10px rgba(255, 255, 255, 0),
+    0 0 0 24px rgba(255, 255, 255, 0),
+    0 0 0 36px rgba(255, 255, 255, 0);
+  z-index: 1;
+}
+
+.pattern-wood .artifact-face__emblem::before,
+.pattern-wood .artifact-face__emblem::after {
+  content: "";
+  position: absolute;
+  inset: 14px;
+  border-radius: 50%;
+  border: 1px solid var(--face-rule);
+}
+
+.pattern-wood .artifact-face__emblem::after {
+  inset: 30px;
+}
+
+.metric-block {
+  display: grid;
+  gap: 4px;
+}
+
+.metric-value {
+  margin: 0;
+  font-family: "IBM Plex Serif", serif;
+  font-size: 36px;
+  line-height: 0.96;
+  letter-spacing: -0.04em;
+}
+
+.metric-delta {
+  margin: 0;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: #b55238;
+}
+
+.metric-meta {
+  margin: 0;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(22, 32, 43, 0.62);
+}
+
+.theme-wheat {
+  --face-bg: #d7bf7d;
+  --face-bg-2: rgba(255, 248, 229, 0.18);
+  --face-ink: #3f2e16;
+  --face-ink-soft: rgba(63, 46, 22, 0.68);
+  --face-border: rgba(63, 46, 22, 0.14);
+  --face-rule: rgba(63, 46, 22, 0.1);
+  --face-badge-bg: rgba(255, 247, 225, 0.52);
+  --face-badge-border: rgba(63, 46, 22, 0.14);
+  --face-badge-ink: #3f2e16;
+}
+
+.theme-rice {
+  --face-bg: #e7d8a2;
+  --face-bg-2: rgba(255, 252, 239, 0.18);
+  --face-ink: #5b4321;
+  --face-ink-soft: rgba(91, 67, 33, 0.68);
+  --face-border: rgba(91, 67, 33, 0.14);
+  --face-rule: rgba(91, 67, 33, 0.09);
+  --face-badge-bg: rgba(255, 248, 229, 0.58);
+  --face-badge-border: rgba(91, 67, 33, 0.14);
+  --face-badge-ink: #5b4321;
+}
+
+.theme-soy {
+  --face-bg: #c6c18f;
+  --face-bg-2: rgba(248, 247, 230, 0.16);
+  --face-ink: #36401f;
+  --face-ink-soft: rgba(54, 64, 31, 0.7);
+  --face-border: rgba(54, 64, 31, 0.14);
+  --face-rule: rgba(54, 64, 31, 0.1);
+  --face-badge-bg: rgba(248, 247, 230, 0.44);
+  --face-badge-border: rgba(54, 64, 31, 0.14);
+  --face-badge-ink: #36401f;
+}
+
+.theme-palm {
+  --face-bg: #d38d57;
+  --face-bg-2: rgba(255, 239, 225, 0.14);
+  --face-ink: #4a2817;
+  --face-ink-soft: rgba(74, 40, 23, 0.7);
+  --face-border: rgba(74, 40, 23, 0.14);
+  --face-rule: rgba(74, 40, 23, 0.1);
+  --face-badge-bg: rgba(255, 242, 230, 0.44);
+  --face-badge-border: rgba(74, 40, 23, 0.14);
+  --face-badge-ink: #4a2817;
+}
+
+.theme-urea {
+  --face-bg: #f2f4f7;
+  --face-bg-2: rgba(255, 255, 255, 0.26);
+  --face-ink: #243547;
+  --face-ink-soft: rgba(36, 53, 71, 0.7);
+  --face-border: rgba(126, 145, 168, 0.18);
+  --face-rule: rgba(126, 145, 168, 0.1);
+  --face-badge-bg: rgba(255, 255, 255, 0.74);
+  --face-badge-border: rgba(126, 145, 168, 0.18);
+  --face-badge-ink: #243547;
+}
+
+.theme-kcl {
+  --face-bg: #edf1f5;
+  --face-bg-2: rgba(255, 255, 255, 0.24);
+  --face-ink: #2e3b4a;
+  --face-ink-soft: rgba(46, 59, 74, 0.7);
+  --face-border: rgba(133, 148, 167, 0.18);
+  --face-rule: rgba(133, 148, 167, 0.1);
+  --face-badge-bg: rgba(255, 255, 255, 0.74);
+  --face-badge-border: rgba(133, 148, 167, 0.18);
+  --face-badge-ink: #2e3b4a;
+}
+
+.theme-beef {
+  --face-bg: #7e2734;
+  --face-bg-2: rgba(255, 245, 240, 0.08);
+  --face-ink: #f4e8e2;
+  --face-ink-soft: rgba(244, 232, 226, 0.76);
+  --face-border: rgba(244, 232, 226, 0.16);
+  --face-rule: rgba(244, 232, 226, 0.1);
+  --face-badge-bg: rgba(255, 249, 246, 0.14);
+  --face-badge-border: rgba(244, 232, 226, 0.18);
+  --face-badge-ink: #f4e8e2;
+}
+
+.theme-shrimp {
+  --face-bg: #2f4d70;
+  --face-bg-2: rgba(243, 248, 255, 0.08);
+  --face-ink: #eaf3fb;
+  --face-ink-soft: rgba(234, 243, 251, 0.76);
+  --face-border: rgba(234, 243, 251, 0.16);
+  --face-rule: rgba(234, 243, 251, 0.1);
+  --face-badge-bg: rgba(243, 248, 255, 0.12);
+  --face-badge-border: rgba(234, 243, 251, 0.18);
+  --face-badge-ink: #eaf3fb;
+}
+
+.theme-salmon {
+  --face-bg: #365d77;
+  --face-bg-2: rgba(243, 248, 255, 0.08);
+  --face-ink: #eaf3fb;
+  --face-ink-soft: rgba(234, 243, 251, 0.76);
+  --face-border: rgba(234, 243, 251, 0.16);
+  --face-rule: rgba(234, 243, 251, 0.1);
+  --face-badge-bg: rgba(243, 248, 255, 0.12);
+  --face-badge-border: rgba(234, 243, 251, 0.18);
+  --face-badge-ink: #eaf3fb;
+}
+
+.theme-lumber {
+  --face-bg: #b18435;
+  --face-bg-2: rgba(255, 246, 227, 0.12);
+  --face-ink: #4c2f14;
+  --face-ink-soft: rgba(76, 47, 20, 0.7);
+  --face-border: rgba(76, 47, 20, 0.16);
+  --face-rule: rgba(76, 47, 20, 0.1);
+  --face-badge-bg: rgba(255, 245, 224, 0.46);
+  --face-badge-border: rgba(76, 47, 20, 0.16);
+  --face-badge-ink: #4c2f14;
+}
+
+@media (max-width: 1180px) {
+  .pilot-grid,
+  .system-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .page-shell {
+    width: min(100vw - 24px, 1440px);
+    padding-top: 24px;
+  }
+
+  .pilot-card {
+    padding: 16px;
+  }
+
+  .pilot-title {
+    font-size: 30px;
+  }
+
+  .artifact-face {
+    min-height: 236px;
+  }
+
+  .artifact-face__code {
+    font-size: clamp(46px, 12vw, 74px);
+  }
+
+  .metric-value {
+    font-size: 30px;
+  }
+}

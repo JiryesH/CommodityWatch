@@ -4,10 +4,14 @@ import json
 import sqlite3
 import threading
 from contextlib import contextmanager
+from datetime import datetime
 from pathlib import Path
 from typing import Iterator
 from urllib.request import urlopen
 
+from sqlalchemy import insert
+
+from calendar_pipeline.storage import CalendarRepository, calendar_events, create_calendar_engine
 from server import AppConfig, create_server
 
 
@@ -341,12 +345,80 @@ def create_fixture_database(database_path: Path) -> None:
         connection.close()
 
 
+def create_fixture_calendar_database(database_path: Path) -> None:
+    repository = CalendarRepository(create_calendar_engine(f"sqlite:///{database_path}"))
+    repository.ensure_schema()
+
+    with repository.engine.begin() as connection:
+        connection.execute(
+            insert(calendar_events),
+            [
+                {
+                    "id": "cw_energy_1",
+                    "source_slug": "eia",
+                    "source_item_key": "wpsr-2026-03-13",
+                    "natural_key_hash": "energy-hash-1",
+                    "name": "EIA Weekly Petroleum Status Report",
+                    "organiser": "U.S. Energy Information Administration",
+                    "cadence": "weekly",
+                    "commodity_sectors": ["energy"],
+                    "event_date": datetime.fromisoformat("2026-03-18T14:30:00+00:00"),
+                    "calendar_url": "https://www.eia.gov/petroleum/supply/weekly/schedule.php",
+                    "redistribution_ok": True,
+                    "source_label": "EIA",
+                    "notes": "Fixture publishable event",
+                    "is_confirmed": True,
+                    "ingestion_pattern": "html",
+                    "publish_status": "published",
+                    "requires_review": False,
+                    "review_reasons": [],
+                    "manual_publish_override": False,
+                    "raw_payload": {"fixture": True},
+                    "first_seen_at": datetime.fromisoformat("2026-03-12T00:00:00+00:00"),
+                    "last_seen_at": datetime.fromisoformat("2026-03-12T00:00:00+00:00"),
+                    "published_at": datetime.fromisoformat("2026-03-12T00:00:00+00:00"),
+                    "created_at": datetime.fromisoformat("2026-03-12T00:00:00+00:00"),
+                    "updated_at": datetime.fromisoformat("2026-03-12T00:00:00+00:00"),
+                },
+                {
+                    "id": "cw_macro_1",
+                    "source_slug": "ons_rss",
+                    "source_item_key": "ons-cpi-2026-03",
+                    "natural_key_hash": "macro-hash-1",
+                    "name": "ONS UK CPI Release",
+                    "organiser": "Office for National Statistics",
+                    "cadence": "monthly",
+                    "commodity_sectors": ["macro"],
+                    "event_date": datetime.fromisoformat("2026-03-25T07:00:00+00:00"),
+                    "calendar_url": "https://www.ons.gov.uk/releases/consumerpriceinflationukfebruary2026",
+                    "redistribution_ok": False,
+                    "source_label": "ONS",
+                    "notes": "Fixture gated event",
+                    "is_confirmed": True,
+                    "ingestion_pattern": "structured_feed",
+                    "publish_status": "pending_review",
+                    "requires_review": True,
+                    "review_reasons": ["redistribution_unconfirmed"],
+                    "manual_publish_override": False,
+                    "raw_payload": {"fixture": True},
+                    "first_seen_at": datetime.fromisoformat("2026-03-12T00:00:00+00:00"),
+                    "last_seen_at": datetime.fromisoformat("2026-03-12T00:00:00+00:00"),
+                    "published_at": None,
+                    "created_at": datetime.fromisoformat("2026-03-12T00:00:00+00:00"),
+                    "updated_at": datetime.fromisoformat("2026-03-12T00:00:00+00:00"),
+                },
+            ],
+        )
+
+
 @contextmanager
 def running_server(database_path: Path) -> Iterator[str]:
+    calendar_database_path = database_path.parent / "calendarwatch.db"
     config = AppConfig(
         app_root=Path(__file__).resolve().parents[1],
         backend_root=database_path.parent,
         database_url=f"sqlite:///{database_path}",
+        calendar_database_url=f"sqlite:///{calendar_database_path}",
         host="127.0.0.1",
         port=0,
     )
@@ -382,6 +454,8 @@ def test_root_route_serves_headline_watch_shell(tmp_path: Path) -> None:
 
     assert "HeadlineWatch" in html
     assert "/price-watch/" in html
+    assert "/calendar-watch/" in html
+    assert html.count('class="site-tab"') == 3
 
 
 def test_price_watch_route_serves_page(tmp_path: Path) -> None:
@@ -393,6 +467,20 @@ def test_price_watch_route_serves_page(tmp_path: Path) -> None:
 
     assert "PriceWatch" in html
     assert "/headline-watch/" in html
+    assert "/calendar-watch/" in html
+    assert html.count('class="site-tab"') == 3
+
+
+def test_calendar_watch_route_serves_page(tmp_path: Path) -> None:
+    database_path = tmp_path / "commodities.db"
+    create_fixture_database(database_path)
+
+    with running_server(database_path) as base_url:
+        html = get_text(f"{base_url}/calendar-watch/")
+
+    assert "CalendarWatch" in html
+    assert "/price-watch/" in html
+    assert html.count('class="site-tab"') == 3
 
 
 def test_static_routes_disable_browser_caching(tmp_path: Path) -> None:
@@ -411,6 +499,7 @@ def test_health_route_reports_missing_database_without_blocking_ui(tmp_path: Pat
         app_root=Path(__file__).resolve().parents[1],
         backend_root=tmp_path,
         database_url=f"sqlite:///{missing_database_path}",
+        calendar_database_url=f"sqlite:///{tmp_path / 'calendarwatch.db'}",
         host="127.0.0.1",
         port=0,
     )
@@ -429,6 +518,22 @@ def test_health_route_reports_missing_database_without_blocking_ui(tmp_path: Pat
     assert health["data"]["commodity_api_available"] is False
     assert "Database file not found" in health["data"]["commodity_api_error"]
     assert "HeadlineWatch" in html
+
+
+def test_calendar_route_returns_only_publishable_confirmed_events(tmp_path: Path) -> None:
+    database_path = tmp_path / "commodities.db"
+    calendar_database_path = tmp_path / "calendarwatch.db"
+    create_fixture_database(database_path)
+    create_fixture_calendar_database(calendar_database_path)
+
+    with running_server(database_path) as base_url:
+        payload = get_json(f"{base_url}/api/calendar?from=2026-03-01&to=2026-03-31")
+        sector_payload = get_json(f"{base_url}/api/calendar?from=2026-03-01&to=2026-03-31&sectors=energy")
+        macro_payload = get_json(f"{base_url}/api/calendar?from=2026-03-01&to=2026-03-31&sectors=macro")
+
+    assert [event["id"] for event in payload["data"]] == ["cw_energy_1"]
+    assert [event["id"] for event in sector_payload["data"]] == ["cw_energy_1"]
+    assert macro_payload["data"] == []
 
 
 def test_series_route_returns_published_catalog(tmp_path: Path) -> None:

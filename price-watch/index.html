@@ -17,8 +17,10 @@
       <div class="site-nav-main">
         <div class="nav-logo">Contango<span class="dot"></span></div>
         <div class="site-tabs" aria-label="Product views">
+          <a class="site-tab" href="/">Home</a>
           <a class="site-tab" href="/headline-watch/">HeadlineWatch</a>
           <a class="site-tab" href="/price-watch/" aria-current="page">PriceWatch</a>
+          <a class="site-tab" href="/calendar-watch/">CalendarWatch</a>
         </div>
       </div>
       <div class="nav-right">
@@ -63,7 +65,7 @@
 
     <div class="filter-wrap">
       <div class="filter-bar" role="toolbar" aria-label="Commodity sector filter">
-        <button class="filter-pill is-selected" id="sector-reset" type="button" aria-pressed="true">All sectors</button>
+        <button class="filter-pill is-selected" id="sector-reset" type="button" aria-pressed="true">All</button>
       <div class="filter-divider" aria-hidden="true"></div>
       <div class="sector-pill-row" id="sector-pills"></div>
       </div>
@@ -127,6 +129,7 @@
     </button>
 
     <script src="../shared/filter-shell.js"></script>
+    <script src="../shared/click-spark.js"></script>
     <script type="module" src="app.js"></script>
   </body>
 </html>
