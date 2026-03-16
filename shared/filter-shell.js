@@ -55,8 +55,10 @@
     };
   }
 
-  globalScope.ContangoFilterShell = {
+  const api = {
     bindExclusiveLayers,
     setLayerOpen,
   };
+
+  globalScope.CommodityWatchFilterShell = api;
 })(window);

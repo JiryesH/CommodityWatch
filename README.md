@@ -1,6 +1,6 @@
-# Contango
+# CommodityWatch
 
-Contango now ships as a three-view product:
+CommodityWatch now ships as a three-view product:
 
 - `HeadlineWatch` for the existing live headline workflow backed by a local `data/feed.local.json` override when present, otherwise the tracked `data/feed.json` sample snapshot
 - `PriceWatch` for the commodity visual page backed by published commodity database views
@@ -59,7 +59,7 @@ python3 server.py
 http://127.0.0.1:8080/
 ```
 
-The root route opens `HeadlineWatch`. Use the top navigation tabs to switch to `PriceWatch` or `CalendarWatch`.
+The root route opens `Home`. Use the top navigation tabs to switch to `HeadlineWatch`, `PriceWatch`, or `CalendarWatch`.
 
 ## Optional control API
 
@@ -78,7 +78,7 @@ Environment variables supported by `server.py`:
 - `DATABASE_URL`
   - Commodity backend database URL. Relative sqlite paths resolve from `COMMODITY_BACKEND_ROOT`
 - `CALENDAR_DATABASE_URL`
-  - CalendarWatch database URL. Defaults to `sqlite:///data/calendarwatch.db` relative to the Contango repo
+  - CalendarWatch database URL. Defaults to `sqlite:///data/calendarwatch.db` relative to the repository root
 - `HOST`
   - Product server bind host. Defaults to `127.0.0.1`
 - `PORT`
@@ -142,8 +142,8 @@ Only confirmed, publishable events are returned. Entries with unresolved redistr
 python3 rss_scraper.py --output data/feed.json
 ```
 
-- If you want the server to use a specific feed file, set `CONTANGO_HEADLINE_FEED_PATH`.
-- If you want the scraper default output somewhere else, set `CONTANGO_FEED_OUTPUT`.
+- If you want the server to use a specific feed file, set `COMMODITYWATCH_HEADLINE_FEED_PATH`.
+- If you want the scraper default output somewhere else, set `COMMODITYWATCH_FEED_OUTPUT`.
 
 ## Git workflow
 

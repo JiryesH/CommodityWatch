@@ -202,16 +202,20 @@
       return;
     }
 
-    if (globalScope.ContangoClickSparkController) {
+    var existingController = globalScope.CommodityWatchClickSparkController;
+    if (existingController) {
       return;
     }
 
-    globalScope.ContangoClickSparkController = createController();
+    var controller = createController();
+    globalScope.CommodityWatchClickSparkController = controller;
   }
 
-  globalScope.ContangoClickSpark = {
+  var api = {
     createController,
   };
+
+  globalScope.CommodityWatchClickSpark = api;
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", initialize, { once: true });

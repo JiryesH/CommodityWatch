@@ -2,7 +2,7 @@
 
 All externally sourced visual assets below are used in:
 
-- `/Users/jiryes/Desktop/Projects/Contango/sandbox/commodity-visual-prototype/assets/energy-icons/`
+- `/Users/jiryes/Desktop/Projects/CommodityWatch/sandbox/commodity-visual-prototype/assets/energy-icons/`
 
 Retrieved: March 8, 2026.
 

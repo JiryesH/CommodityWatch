@@ -96,7 +96,7 @@ svg {
   font-weight: 400;
   color: #fff;
   letter-spacing: 0.02em;
-  text-transform: lowercase;
+  text-transform: none;
   user-select: none;
 }
 
@@ -188,6 +188,14 @@ svg {
 .home-filter-layer {
   display: grid;
   gap: 16px;
+}
+
+.home-group-sections {
+  gap: 16px 22px;
+}
+
+.home-group-section {
+  gap: 10px;
 }
 
 .home-group-chip {
@@ -374,22 +382,26 @@ svg {
 }
 
 .price-strip {
-  display: flex;
-  gap: 12px;
-  overflow-x: auto;
-  scrollbar-width: none;
+  position: relative;
+  overflow: hidden;
   padding-bottom: 4px;
-  scroll-behavior: smooth;
+  touch-action: pan-y pinch-zoom;
 }
 
-.price-strip::-webkit-scrollbar {
-  display: none;
+.price-strip-track {
+  display: flex;
+  gap: 12px;
+  width: max-content;
+  will-change: transform;
 }
 
 .price-tile {
   appearance: none;
   position: relative;
-  min-width: 196px;
+  --pointer-x: 50%;
+  --pointer-y: 50%;
+  flex: 0 0 196px;
+  width: 196px;
   min-height: 236px;
   padding: 14px;
   display: grid;
@@ -402,7 +414,32 @@ svg {
   text-align: left;
   cursor: pointer;
   overflow: hidden;
-  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+  transition: border-color 180ms ease, background-color 180ms ease;
+}
+
+.price-tile::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background:
+    radial-gradient(
+      120px circle at var(--pointer-x) var(--pointer-y),
+      rgba(255, 255, 255, 0.84),
+      rgba(232, 160, 32, 0.48) 44%,
+      transparent 74%
+    );
+  opacity: 0;
+  pointer-events: none;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
 }
 
 .price-tile::after {
@@ -415,24 +452,31 @@ svg {
   background-size: 220% 220%;
   opacity: 0;
   pointer-events: none;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
   -webkit-mask:
     linear-gradient(#fff 0 0) content-box,
     linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
+  z-index: 1;
 }
 
 .price-tile:hover,
 .price-tile:focus-visible {
-  transform: translateY(-1px);
-  box-shadow: 0 10px 22px rgba(15, 25, 35, 0.08);
   border-color: rgba(15, 25, 35, 0.18);
+}
+
+.price-tile:hover::before,
+.price-tile:focus-visible::before {
+  opacity: 0.88;
 }
 
 .price-tile:hover::after,
 .price-tile:focus-visible::after {
-  opacity: 1;
-  animation: priceBorderShimmer 1.8s linear infinite;
+  opacity: 0.92;
+  animation: priceBorderShimmer 2.4s linear infinite;
 }
 
 @keyframes priceBorderShimmer {

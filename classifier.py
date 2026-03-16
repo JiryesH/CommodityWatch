@@ -1,5 +1,5 @@
 """
-Contango — Commodity Article Classifier
+CommodityWatch — Commodity Article Classifier
 ========================================
 Classifies commodity news articles into frontend filter categories using a
 deterministic keyword index derived from commodity_taxonomy.json plus curated

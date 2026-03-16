@@ -1,12 +1,12 @@
 # Commodity Price Watch
 
-This directory is sandbox-only reference code. Production PriceWatch lives in `/Users/jiryes/Desktop/Projects/Contango/price-watch/` and is served by `/Users/jiryes/Desktop/Projects/Contango/server.py`.
+This directory is sandbox-only reference code. Production PriceWatch lives in `/Users/jiryes/Desktop/Projects/CommodityWatch/price-watch/` and is served by `/Users/jiryes/Desktop/Projects/CommodityWatch/server.py`.
 
-Static Contango-style frontend wired to the commodity ingestion backend in `/Users/jiryes/Desktop/Projects/Commodity Prices`.
+Static CommodityWatch-style frontend wired to the commodity ingestion backend in `/Users/jiryes/Desktop/Projects/Commodity Prices`.
 
 ## Integration architecture
 - The frontend stays browser-first and static.
-- A tiny same-origin Python server in [`server.py`](/Users/jiryes/Desktop/Projects/Contango/sandbox/commodity-visual-prototype/server.py) serves the static assets plus `/api/commodities/*`.
+- A tiny same-origin Python server in [`server.py`](/Users/jiryes/Desktop/Projects/CommodityWatch/sandbox/commodity-visual-prototype/server.py) serves the static assets plus `/api/commodities/*`.
 - The API layer reads only the backend's published views:
   - `published_series`
   - `published_latest_observations`

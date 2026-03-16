@@ -24,26 +24,26 @@ const DETAIL_CHART_VIEWBOX = {
 };
 const DETAIL_CHART_DIRECTION_THEME = {
   up: {
-    line: "rgba(48, 209, 88, 0.98)",
-    fillTop: "rgba(48, 209, 88, 0.28)",
-    fillBottom: "rgba(48, 209, 88, 0.03)",
-    guide: "rgba(88, 226, 125, 0.48)",
-    bubbleBackground: "rgba(11, 29, 17, 0.92)",
-    bubbleBorder: "rgba(88, 226, 125, 0.34)",
-    bubbleInk: "rgba(244, 255, 247, 0.98)",
-    bubbleSubtle: "rgba(196, 242, 209, 0.86)",
-    dotStroke: "rgba(9, 20, 13, 0.9)",
+    line: "rgba(54, 102, 70, 0.98)",
+    fillTop: "rgba(54, 102, 70, 0.24)",
+    fillBottom: "rgba(54, 102, 70, 0.03)",
+    guide: "rgba(96, 138, 109, 0.4)",
+    bubbleBackground: "rgba(17, 26, 20, 0.92)",
+    bubbleBorder: "rgba(96, 138, 109, 0.28)",
+    bubbleInk: "rgba(245, 250, 246, 0.98)",
+    bubbleSubtle: "rgba(200, 214, 204, 0.82)",
+    dotStroke: "rgba(10, 17, 12, 0.9)",
   },
   down: {
-    line: "rgba(255, 95, 87, 0.98)",
-    fillTop: "rgba(255, 95, 87, 0.28)",
-    fillBottom: "rgba(255, 95, 87, 0.03)",
-    guide: "rgba(255, 133, 126, 0.48)",
-    bubbleBackground: "rgba(33, 13, 17, 0.92)",
-    bubbleBorder: "rgba(255, 133, 126, 0.34)",
-    bubbleInk: "rgba(255, 244, 244, 0.98)",
-    bubbleSubtle: "rgba(255, 214, 211, 0.86)",
-    dotStroke: "rgba(28, 9, 12, 0.9)",
+    line: "rgba(183, 78, 67, 0.98)",
+    fillTop: "rgba(183, 78, 67, 0.24)",
+    fillBottom: "rgba(183, 78, 67, 0.03)",
+    guide: "rgba(210, 124, 115, 0.42)",
+    bubbleBackground: "rgba(34, 18, 17, 0.92)",
+    bubbleBorder: "rgba(210, 124, 115, 0.3)",
+    bubbleInk: "rgba(253, 245, 244, 0.98)",
+    bubbleSubtle: "rgba(233, 206, 202, 0.84)",
+    dotStroke: "rgba(26, 12, 11, 0.9)",
   },
 };
 
@@ -406,7 +406,7 @@ function buildArtifactTileScene(tile) {
   if ((tile.code || "").length <= 2) {
     tileEl.classList.add("code-short");
   }
-  if ((tile.code || "").length >= 5) {
+  if ((tile.code || "").length >= 4) {
     tileEl.classList.add("code-wide");
   }
   applyArtifactTileTheme(tileEl, tile.palette);
@@ -1092,7 +1092,11 @@ class CommodityWatchEngine {
 
     const showSubsectorLayer = !allSelected;
 
-    window.ContangoFilterShell?.setLayerOpen(null, this.ui.subsectorLayer, showSubsectorLayer);
+    window.CommodityWatchFilterShell?.setLayerOpen(
+      null,
+      this.ui.subsectorLayer,
+      showSubsectorLayer
+    );
 
     if (this.ui.subsectorClear) {
       this.ui.subsectorClear.hidden = !this.filterSelection.hasPartialSubsectorSelection();
@@ -2047,7 +2051,7 @@ class CommodityWatchEngine {
         <p class="card-meta">Check <code>COMMODITY_BACKEND_ROOT</code>, <code>DATABASE_URL</code>, and the published commodity views before reloading.</p>
       </article>
     `;
-    window.ContangoFilterShell?.setLayerOpen(null, this.ui.subsectorLayer, false);
+    window.CommodityWatchFilterShell?.setLayerOpen(null, this.ui.subsectorLayer, false);
     if (this.ui.catalogEmpty) {
       this.ui.catalogEmpty.hidden = true;
     }
@@ -2072,7 +2076,7 @@ class CommodityWatchEngine {
         <p class="card-meta">Populate the commodity backend and publish at least one series to use PriceWatch.</p>
       </article>
     `;
-    window.ContangoFilterShell?.setLayerOpen(null, this.ui.subsectorLayer, false);
+    window.CommodityWatchFilterShell?.setLayerOpen(null, this.ui.subsectorLayer, false);
     if (this.ui.catalogEmpty) {
       this.ui.catalogEmpty.hidden = true;
     }
@@ -2309,7 +2313,7 @@ function toCsvCell(value) {
 function buildCsvFilename(seriesKey, timeframeId) {
   const seriesSlug = sanitizeFilenameSegment(seriesKey);
   const timeframeSlug = sanitizeFilenameSegment(timeframeId);
-  return `contango-${seriesSlug}-${timeframeSlug || "window"}.csv`;
+  return `commoditywatch-${seriesSlug}-${timeframeSlug || "window"}.csv`;
 }
 
 function sanitizeFilenameSegment(value) {

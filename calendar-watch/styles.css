@@ -102,7 +102,7 @@ svg {
   font-weight: 400;
   color: #fff;
   letter-spacing: 0.02em;
-  text-transform: lowercase;
+  text-transform: none;
   user-select: none;
 }
 

@@ -3,7 +3,6 @@ import {
   ALWAYS_HEADLINE_CATEGORIES,
   DEFAULT_HOME_SERIES_KEYS,
   SECTOR_META,
-  getAllCommodityIdsForGroup,
   getCommodityById,
   getCommodityBySeriesKey,
   getGroupById,
@@ -22,7 +21,10 @@ import {
 import {
   getFilterLabel,
   getSelectedCommodities,
-  isAllCommoditySelection,
+  getSelectedGroup,
+  getSelectedGroups,
+  getSelectedSectors,
+  hasPartialGroupSelection,
   isAllFilter,
   normalizeFilter,
 } from "./filter-state.js";
@@ -68,7 +70,11 @@ function escapeHtml(value) {
 }
 
 function getHeadlineTaxonomy() {
-  return globalThis.window?.ContangoHeadlineTaxonomy || globalThis.ContangoHeadlineTaxonomy || null;
+  return (
+    globalThis.window?.CommodityWatchHeadlineTaxonomy ||
+    globalThis.CommodityWatchHeadlineTaxonomy ||
+    null
+  );
 }
 
 function canonicalHeadlineCategories(article) {
@@ -390,13 +396,40 @@ function buildSparklineValues(historyRows, latestRow) {
 }
 
 function bindPriceTileInteractions(body, onNavigate) {
-  body.querySelectorAll("[data-price-route]").forEach((button) => {
-    button.addEventListener("click", () => {
-      if (typeof onNavigate === "function") {
-        onNavigate(button.dataset.priceRoute);
-      }
-    });
-  });
+  if (typeof body.__priceTileCleanup === "function") {
+    body.__priceTileCleanup();
+    body.__priceTileCleanup = null;
+  }
+
+  const handleClick = (event) => {
+    const tile = event.target.closest("[data-price-route]");
+    if (!tile || !body.contains(tile)) {
+      return;
+    }
+
+    if (typeof onNavigate === "function") {
+      onNavigate(tile.dataset.priceRoute);
+    }
+  };
+
+  const handlePointerMove = (event) => {
+    const tile = event.target.closest("[data-price-route]");
+    if (!tile || !body.contains(tile)) {
+      return;
+    }
+
+    const rect = tile.getBoundingClientRect();
+    tile.style.setProperty("--pointer-x", `${event.clientX - rect.left}px`);
+    tile.style.setProperty("--pointer-y", `${event.clientY - rect.top}px`);
+  };
+
+  body.addEventListener("click", handleClick);
+  body.addEventListener("pointermove", handlePointerMove);
+
+  body.__priceTileCleanup = () => {
+    body.removeEventListener("click", handleClick);
+    body.removeEventListener("pointermove", handlePointerMove);
+  };
 }
 
 function bindPriceStripCarousel(body) {
@@ -406,72 +439,199 @@ function bindPriceStripCarousel(body) {
   }
 
   const strip = body.querySelector("[data-price-strip]");
-  if (!strip) {
+  const track = body.querySelector("[data-price-track]");
+  if (!strip || !track) {
     return;
   }
 
-  const maxScroll = strip.scrollWidth - strip.clientWidth;
-  if (maxScroll <= 8) {
-    strip.classList.remove("is-carousel");
-    return;
-  }
+  let animationCleanup = null;
+  let resizeRafId = 0;
 
-  strip.classList.add("is-carousel");
-
-  let rafId = 0;
-  let direction = 1;
-  let paused = false;
-  let holdUntil = performance.now() + 1200;
-
-  const onMouseEnter = () => {
-    paused = true;
-  };
-  const onMouseLeave = () => {
-    paused = false;
-  };
-  const onFocusIn = () => {
-    paused = true;
-  };
-  const onFocusOut = () => {
-    paused = false;
+  const removeClones = () => {
+    track.querySelectorAll("[data-price-clone='true']").forEach((clone) => clone.remove());
+    track.style.transform = "";
   };
 
-  const step = (timestamp) => {
-    if (!strip.isConnected) {
+  const teardownAnimation = () => {
+    if (typeof animationCleanup === "function") {
+      animationCleanup();
+      animationCleanup = null;
+    }
+  };
+
+  const mountCarousel = () => {
+    teardownAnimation();
+    removeClones();
+
+    const baseCards = [...track.children];
+    if (!baseCards.length) {
+      strip.classList.remove("is-carousel");
       return;
     }
 
-    if (!paused && timestamp >= holdUntil) {
-      strip.scrollLeft += direction * 0.3;
+    const baseWidth = track.scrollWidth;
+    const viewportWidth = strip.clientWidth;
 
-      if (strip.scrollLeft >= maxScroll - 1) {
-        strip.scrollLeft = maxScroll;
-        direction = -1;
-        holdUntil = timestamp + 900;
-      } else if (strip.scrollLeft <= 1) {
-        strip.scrollLeft = 0;
-        direction = 1;
-        holdUntil = timestamp + 900;
-      }
+    if (baseWidth <= viewportWidth + 8) {
+      strip.classList.remove("is-carousel");
+      return;
     }
 
+    strip.classList.add("is-carousel");
+
+    baseCards.forEach((card) => {
+      const clone = card.cloneNode(true);
+      clone.dataset.priceClone = "true";
+      clone.setAttribute("aria-hidden", "true");
+      clone.tabIndex = -1;
+      track.appendChild(clone);
+    });
+
+    const firstClone = track.querySelector("[data-price-clone='true']");
+    const loopWidth = firstClone ? firstClone.offsetLeft : baseWidth;
+    if (loopWidth <= 0) {
+      strip.classList.remove("is-carousel");
+      removeClones();
+      return;
+    }
+
+    let rafId = 0;
+    let lastTimestamp = 0;
+    let offset = 0;
+    let paused = false;
+    let resumeAt = 0;
+
+    const wrapOffset = (value) => {
+      if (!loopWidth) {
+        return 0;
+      }
+
+      let nextValue = value;
+      while (nextValue <= -loopWidth) {
+        nextValue += loopWidth;
+      }
+      while (nextValue > 0) {
+        nextValue -= loopWidth;
+      }
+      return nextValue;
+    };
+
+    const applyOffset = (value) => {
+      offset = wrapOffset(value);
+      track.style.transform = `translate3d(${offset}px, 0, 0)`;
+    };
+
+    const pause = () => {
+      paused = true;
+    };
+
+    const resume = () => {
+      paused = false;
+    };
+
+    const handleWheel = (event) => {
+      const delta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
+      if (!delta) {
+        return;
+      }
+
+      event.preventDefault();
+      paused = true;
+      resumeAt = performance.now() + 1400;
+      applyOffset(offset - delta * 0.75);
+    };
+
+    const handlePointerDown = (event) => {
+      if (event.pointerType !== "touch") {
+        return;
+      }
+
+      pause();
+    };
+
+    const handlePointerUp = () => {
+      resumeAt = performance.now() + 900;
+    };
+
+    const step = (timestamp) => {
+      if (!track.isConnected) {
+        return;
+      }
+
+      if (!lastTimestamp) {
+        lastTimestamp = timestamp;
+      }
+
+      const delta = timestamp - lastTimestamp;
+      lastTimestamp = timestamp;
+
+      if (resumeAt && timestamp >= resumeAt) {
+        paused = false;
+        resumeAt = 0;
+      }
+
+      if (!paused) {
+        applyOffset(offset - delta * 0.028);
+      }
+
+      rafId = window.requestAnimationFrame(step);
+    };
+
+    strip.addEventListener("mouseenter", pause);
+    strip.addEventListener("mouseleave", resume);
+    strip.addEventListener("focusin", pause);
+    strip.addEventListener("focusout", resume);
+    strip.addEventListener("wheel", handleWheel, { passive: false });
+    strip.addEventListener("pointerdown", handlePointerDown, { passive: true });
+    strip.addEventListener("pointerup", handlePointerUp, { passive: true });
+    strip.addEventListener("pointercancel", handlePointerUp, { passive: true });
+
     rafId = window.requestAnimationFrame(step);
+
+    animationCleanup = () => {
+      window.cancelAnimationFrame(rafId);
+      strip.removeEventListener("mouseenter", pause);
+      strip.removeEventListener("mouseleave", resume);
+      strip.removeEventListener("focusin", pause);
+      strip.removeEventListener("focusout", resume);
+      strip.removeEventListener("wheel", handleWheel);
+      strip.removeEventListener("pointerdown", handlePointerDown);
+      strip.removeEventListener("pointerup", handlePointerUp);
+      strip.removeEventListener("pointercancel", handlePointerUp);
+      removeClones();
+      strip.classList.remove("is-carousel");
+    };
   };
 
-  strip.addEventListener("mouseenter", onMouseEnter);
-  strip.addEventListener("mouseleave", onMouseLeave);
-  strip.addEventListener("focusin", onFocusIn);
-  strip.addEventListener("focusout", onFocusOut);
+  const handleResize = () => {
+    window.cancelAnimationFrame(resizeRafId);
+    resizeRafId = window.requestAnimationFrame(mountCarousel);
+  };
 
-  rafId = window.requestAnimationFrame(step);
+  const resizeObserver =
+    typeof window.ResizeObserver === "function" ? new window.ResizeObserver(handleResize) : null;
+
+  resizeObserver?.observe(strip);
+  window.addEventListener("resize", handleResize, { passive: true });
+
+  mountCarousel();
 
   body.__priceStripCleanup = () => {
-    window.cancelAnimationFrame(rafId);
-    strip.removeEventListener("mouseenter", onMouseEnter);
-    strip.removeEventListener("mouseleave", onMouseLeave);
-    strip.removeEventListener("focusin", onFocusIn);
-    strip.removeEventListener("focusout", onFocusOut);
+    window.cancelAnimationFrame(resizeRafId);
+    teardownAnimation();
+    resizeObserver?.disconnect();
+    window.removeEventListener("resize", handleResize);
+    removeClones();
   };
+}
+
+function isSectorScopeOnly(filter) {
+  const normalized = normalizeFilter(filter);
+  if (isAllFilter(normalized)) {
+    return false;
+  }
+
+  return !hasPartialGroupSelection(normalized) && !getSelectedGroup(normalized);
 }
 
 function getPriceSelection(filter) {
@@ -483,15 +643,15 @@ function getPriceSelection(filter) {
       .filter(Boolean);
   }
 
-  if (!normalized.groupId) {
-    return getSectorById(normalized.sectorId)?.groups.flatMap((group) => group.commodities).filter((commodity) => commodity.seriesKey) || [];
+  const selectedGroup = getSelectedGroup(normalized);
+  if (selectedGroup) {
+    return getSelectedCommodities(normalized).filter((commodity) => commodity?.seriesKey);
   }
 
-  const commodityIds = isAllCommoditySelection(normalized)
-    ? getAllCommodityIdsForGroup(normalized.groupId)
-    : normalized.commodityIds;
-
-  return commodityIds.map((commodityId) => getCommodityById(commodityId)).filter((commodity) => commodity?.seriesKey);
+  return getSelectedGroups(normalized)
+    .flatMap((group) => group.commodities)
+    .map((commodity) => getCommodityById(commodity.id))
+    .filter((commodity) => commodity?.seriesKey);
 }
 
 function buildHeadlineText(article) {
@@ -727,21 +887,37 @@ function getCalendarSelection(filter, events) {
     };
   }
 
-  const sectorEvents = events.filter((event) => event.commodity_sectors.includes(normalized.sectorId));
+  const selectedSectorIds = getSelectedSectors(normalized).map((sector) => sector.id);
+  const sectorEvents = events.filter((event) =>
+    event.commodity_sectors.some((sectorId) => selectedSectorIds.includes(sectorId))
+  );
   const alwaysEvents = events.filter((event) =>
     event.commodity_sectors.some((sectorId) => ALWAYS_CALENDAR_SECTORS.includes(sectorId))
   );
 
   let directMatches = sectorEvents;
-  if (normalized.groupId) {
+  const selectedGroup = getSelectedGroup(normalized);
+  const selectedGroups = getSelectedGroups(normalized);
+
+  if (!isSectorScopeOnly(normalized) && selectedGroups.length) {
     const selectedCommodities = getSelectedCommodities(normalized);
     const commodityPattern =
-      selectedCommodities.length === 1
+      selectedGroup && selectedCommodities.length === 1
         ? getCommodityCalendarPattern(selectedCommodities[0].id)
         : null;
-    const groupPattern = getGroupCalendarPattern(normalized.groupId);
-    const activePattern = commodityPattern || groupPattern;
-    directMatches = sectorEvents.filter((event) => matchesCalendarPattern(event, activePattern));
+    const groupPatterns = selectedGroups.map((group) => getGroupCalendarPattern(group.id)).filter(Boolean);
+
+    directMatches = sectorEvents.filter((event) => {
+      if (commodityPattern) {
+        return matchesCalendarPattern(event, commodityPattern);
+      }
+
+      if (!groupPatterns.length) {
+        return false;
+      }
+
+      return groupPatterns.some((pattern) => matchesCalendarPattern(event, pattern));
+    });
   }
 
   const items = dedupeByKey([...directMatches, ...alwaysEvents].sort(sortSoonest), (event) => event.id).slice(0, 10);
@@ -752,6 +928,16 @@ function getCalendarSelection(filter, events) {
 }
 
 async function renderPriceModuleBody(body, filter, { onNavigate } = {}) {
+  if (typeof body.__priceTileCleanup === "function") {
+    body.__priceTileCleanup();
+    body.__priceTileCleanup = null;
+  }
+
+  if (typeof body.__priceStripCleanup === "function") {
+    body.__priceStripCleanup();
+    body.__priceStripCleanup = null;
+  }
+
   const selection = getPriceSelection(filter);
 
   if (!selection.length) {
@@ -791,7 +977,8 @@ async function renderPriceModuleBody(body, filter, { onNavigate } = {}) {
   body.innerHTML = `
     ${isAllFilter(filter) ? "" : `<p class="module-scope">Showing prices for ${escapeHtml(getFilterLabel(filter))}</p>`}
     <div class="price-strip" data-price-strip>
-      ${availableEntries
+      <div class="price-strip-track" data-price-track>
+        ${availableEntries
         .map(({ commodityMeta, latestRow, historyRows }) => {
           const change = formatChange(latestRow.delta_value || 0, latestRow.delta_pct || 0, latestRow.unit);
           const direction = (latestRow.delta_value || 0) >= 0 ? "up" : "down";
@@ -827,6 +1014,7 @@ async function renderPriceModuleBody(body, filter, { onNavigate } = {}) {
           `;
         })
         .join("")}
+      </div>
     </div>
   `;
 
@@ -838,6 +1026,7 @@ async function renderHeadlineModuleBody(body, filter) {
   const feed = await fetchHeadlineFeed();
   const normalized = normalizeFilter(filter);
   const alwaysRelevant = getAlwaysRelevantHeadlines(feed.articles);
+  const selectedSectorIds = getSelectedSectors(normalized).map((sector) => sector.id);
 
   if (isAllFilter(normalized)) {
     const items = feed.articles.slice(0, 10).map((article) => createHeadlineItem(article));
@@ -846,8 +1035,10 @@ async function renderHeadlineModuleBody(body, filter) {
     return;
   }
 
+  const selectedGroups = getSelectedGroups(normalized);
+  const selectedGroup = getSelectedGroup(normalized);
   let directItems = [];
-  if (normalized.groupId) {
+  if (selectedGroup) {
     const selectedCommodities = getSelectedCommodities(normalized).filter((commodity) => commodity.seriesKey);
 
     if (selectedCommodities.length) {
@@ -859,16 +1050,25 @@ async function renderHeadlineModuleBody(body, filter) {
       );
       directItems = mergeRelatedHeadlineSets(relatedRows, feed.byId);
     }
+  }
 
-    if (!directItems.length) {
+  if (!directItems.length) {
+    if (isSectorScopeOnly(normalized)) {
       directItems = feed.articles
-        .filter((article) => matchesGroupFeed(article, normalized.groupId))
+        .filter((article) => selectedSectorIds.some((sectorId) => matchesSectorFeed(article, sectorId)))
+        .slice(0, 10)
+        .map((article) => createHeadlineItem(article));
+    } else {
+      directItems = feed.articles
+        .filter((article) => selectedGroups.some((group) => matchesGroupFeed(article, group.id)))
         .slice(0, 10)
         .map((article) => createHeadlineItem(article));
     }
-  } else {
+  }
+
+  if (!directItems.length && selectedSectorIds.length) {
     directItems = feed.articles
-      .filter((article) => matchesSectorFeed(article, normalized.sectorId))
+      .filter((article) => selectedSectorIds.some((sectorId) => matchesSectorFeed(article, sectorId)))
       .slice(0, 10)
       .map((article) => createHeadlineItem(article));
   }
@@ -903,7 +1103,7 @@ async function renderCalendarModuleBody(body, filter) {
   const to = toIsoDate(addUtcDays(today, 14));
   const sectors = isAllFilter(normalized)
     ? []
-    : [...new Set([normalized.sectorId, ...ALWAYS_CALENDAR_SECTORS])];
+    : [...new Set([...getSelectedSectors(normalized).map((sector) => sector.id), ...ALWAYS_CALENDAR_SECTORS])];
   const events = await fetchCalendarEvents({ from, to, sectors });
   const { items, directMatchCount } = getCalendarSelection(normalized, events);
 
@@ -939,12 +1139,13 @@ function attachAsyncRenderer(section, body, renderer, filter, context = {}) {
 }
 
 export function PriceModule({ filter, onNavigate }) {
+  const primarySectorId = getSelectedSectors(filter)[0]?.id || "energy";
   const { section, body } = createModuleCard({
     id: "prices",
     title: "Benchmark Prices",
     linkLabel: "View PriceWatch",
     route: "/price-watch/",
-    accentSectorId: normalizeFilter(filter).sectorId || "energy",
+    accentSectorId: primarySectorId,
     onNavigate,
   });
 
@@ -953,12 +1154,13 @@ export function PriceModule({ filter, onNavigate }) {
 }
 
 export function HeadlineModule({ filter, onNavigate }) {
+  const primarySectorId = getSelectedSectors(filter)[0]?.id || "cross-commodity";
   const { section, body } = createModuleCard({
     id: "headlines",
     title: "Latest Headlines",
     linkLabel: "View HeadlineWatch",
     route: "/headline-watch/",
-    accentSectorId: normalizeFilter(filter).sectorId || "cross-commodity",
+    accentSectorId: primarySectorId,
     onNavigate,
   });
 
@@ -967,12 +1169,13 @@ export function HeadlineModule({ filter, onNavigate }) {
 }
 
 export function CalendarModule({ filter, onNavigate }) {
+  const primarySectorId = getSelectedSectors(filter)[0]?.id || "macro";
   const { section, body } = createModuleCard({
     id: "calendar",
     title: "Upcoming Releases",
     linkLabel: "View CalendarWatch",
     route: "/calendar-watch/",
-    accentSectorId: normalizeFilter(filter).sectorId || "macro",
+    accentSectorId: primarySectorId,
     onNavigate,
   });
 

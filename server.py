@@ -493,7 +493,7 @@ def make_handler(
         config.headline_feed_path or preferred_headline_feed_path(config.app_root)
     )
 
-    class ContangoRequestHandler(SimpleHTTPRequestHandler):
+    class CommodityWatchRequestHandler(SimpleHTTPRequestHandler):
         def __init__(self, *args: Any, **kwargs: Any) -> None:
             self._sent_cache_control = False
             super().__init__(*args, directory=str(config.app_root), **kwargs)
@@ -663,7 +663,7 @@ def make_handler(
         def log_message(self, format: str, *args: Any) -> None:
             return
 
-    return ContangoRequestHandler
+    return CommodityWatchRequestHandler
 
 
 def create_server(config: AppConfig) -> ThreadingHTTPServer:
@@ -677,7 +677,7 @@ def create_server(config: AppConfig) -> ThreadingHTTPServer:
 
 def serve(config: AppConfig) -> None:
     server = create_server(config)
-    print(f"Serving Contango on http://{config.host}:{server.server_port}")
+    print(f"Serving CommodityWatch on http://{config.host}:{server.server_port}")
     print("Pages: /, /headline-watch/, /price-watch/, /calendar-watch/")
     print("API:   /api/health")
     print("API:   /api/calendar")
@@ -697,7 +697,7 @@ def serve(config: AppConfig) -> None:
 
 def main() -> None:
     env_config = build_config()
-    parser = argparse.ArgumentParser(description="Serve the Contango product UI and APIs")
+    parser = argparse.ArgumentParser(description="Serve the CommodityWatch product UI and APIs")
     parser.add_argument("--host", default=env_config.host)
     parser.add_argument("--port", type=int, default=env_config.port)
     args = parser.parse_args()

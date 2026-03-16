@@ -12,6 +12,7 @@ import {
   clampAnchorDateForView,
   cloneDefaultFilters,
   countActiveFilters,
+  endOfUtcYear,
   filterEvents,
   filterEventsByRange,
   getMaximumAnchorDate,
@@ -143,6 +144,11 @@ test("minimum anchor clamps week and month navigation to the current period", ()
     toIsoDay(clampAnchorDateForView("month", new Date("2027-02-01T00:00:00Z"), reference, maximum)),
     "2026-12-01"
   );
+});
+
+test("endOfUtcYear rolls forward with the current year instead of a baked-in cap", () => {
+  assert.equal(endOfUtcYear(new Date("2026-03-13T08:00:00Z")).toISOString(), "2026-12-31T23:59:59.000Z");
+  assert.equal(endOfUtcYear(new Date("2027-01-03T08:00:00Z")).toISOString(), "2027-12-31T23:59:59.000Z");
 });
 
 test("searchEvents matches release names, organisers, and cadence terms", () => {

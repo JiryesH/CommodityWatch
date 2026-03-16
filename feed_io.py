@@ -10,6 +10,10 @@ from typing import Any
 
 DEFAULT_TRACKED_HEADLINE_FEED_NAME = "feed.json"
 DEFAULT_LOCAL_HEADLINE_FEED_NAME = "feed.local.json"
+HEADLINE_FEED_PATH_ENV = "COMMODITYWATCH_HEADLINE_FEED_PATH"
+FEED_OUTPUT_ENV = "COMMODITYWATCH_FEED_OUTPUT"
+HEADLINE_FEED_PATH_ENV_SUFFIX = "_HEADLINE_FEED_PATH"
+FEED_OUTPUT_ENV_SUFFIX = "_FEED_OUTPUT"
 
 
 class FeedPersistenceError(RuntimeError):
@@ -40,8 +44,24 @@ def local_headline_feed_path(app_root: Path) -> Path:
     return (app_root / "data" / DEFAULT_LOCAL_HEADLINE_FEED_NAME).resolve()
 
 
+def read_configured_env(primary_name: str, fallback_suffix: str) -> str | None:
+    primary_value = os.environ.get(primary_name)
+    if primary_value:
+        return primary_value
+
+    fallback_values = [
+        value
+        for name, value in os.environ.items()
+        if name != primary_name and name.endswith(fallback_suffix) and value
+    ]
+    if len(fallback_values) == 1:
+        return fallback_values[0]
+
+    return None
+
+
 def preferred_headline_feed_path(app_root: Path) -> Path:
-    configured_path = os.environ.get("CONTANGO_HEADLINE_FEED_PATH")
+    configured_path = read_configured_env(HEADLINE_FEED_PATH_ENV, HEADLINE_FEED_PATH_ENV_SUFFIX)
     if configured_path:
         return resolve_repo_path(configured_path, app_root)
 
@@ -53,7 +73,7 @@ def preferred_headline_feed_path(app_root: Path) -> Path:
 
 
 def default_headline_feed_output_path(app_root: Path) -> Path:
-    configured_output = os.environ.get("CONTANGO_FEED_OUTPUT")
+    configured_output = read_configured_env(FEED_OUTPUT_ENV, FEED_OUTPUT_ENV_SUFFIX)
     if configured_output:
         return resolve_repo_path(configured_output, app_root)
     return local_headline_feed_path(app_root)

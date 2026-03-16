@@ -433,7 +433,7 @@ def read_json_body(handler: BaseHTTPRequestHandler) -> dict[str, Any]:
 
 def make_handler(control_api: ControlApi):
     class ApiHandler(BaseHTTPRequestHandler):
-        server_version = "ContangoControlAPI/1.0"
+        server_version = "CommodityWatchControlAPI/1.0"
 
         def do_OPTIONS(self) -> None:  # noqa: N802
             json_response(self, HTTPStatus.OK, {"ok": True})
@@ -511,7 +511,7 @@ def create_server(
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Contango script control API")
+    parser = argparse.ArgumentParser(description="CommodityWatch script control API")
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=8081)
     args = parser.parse_args()

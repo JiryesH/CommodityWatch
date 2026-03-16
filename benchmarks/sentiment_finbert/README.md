@@ -18,4 +18,4 @@ Files:
 - `compare_runs.py`: side-by-side comparison utility for two scored runs
 - `report.md`: benchmark findings, metrics, error analysis, and verdict
 
-See [docs/sentiment-finbert.md](/Users/jiryes/Desktop/Projects/Contango/docs/sentiment-finbert.md) for pipeline stages, CLI/config options, and benchmark commands.
+See [docs/sentiment-finbert.md](/Users/jiryes/Desktop/Projects/CommodityWatch/docs/sentiment-finbert.md) for pipeline stages, CLI/config options, and benchmark commands.

@@ -201,7 +201,7 @@ The system uses six pattern families. Each family scales across multiple commodi
 
 ## Phase 2. Pilot Tiles
 
-The pilot set proves the system across all four unfinished sectors. A browser mock page is available at [sandbox/pricewatch-tile-pilots/index.html](/Users/jiryes/Desktop/Projects/Contango/sandbox/pricewatch-tile-pilots/index.html).
+The pilot set proves the system across all four unfinished sectors. A browser mock page is available at [sandbox/pricewatch-tile-pilots/index.html](/Users/jiryes/Desktop/Projects/CommodityWatch/sandbox/pricewatch-tile-pilots/index.html).
 
 ### Wheat
 

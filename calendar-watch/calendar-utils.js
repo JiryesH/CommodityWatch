@@ -111,6 +111,11 @@ export function endOfUtcMonth(value) {
   return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + 1, 0));
 }
 
+export function endOfUtcYear(value = new Date()) {
+  const date = toUtcDate(value);
+  return new Date(Date.UTC(date.getUTCFullYear(), 11, 31, 23, 59, 59));
+}
+
 export function buildWeekDays(anchorDate) {
   const weekStart = startOfUtcWeek(anchorDate);
   return Array.from({ length: 5 }, (_, index) => addUtcDays(weekStart, index));

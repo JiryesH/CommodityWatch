@@ -9,7 +9,11 @@ let latestPromise = null;
 let feedPromise = null;
 
 function getHeadlineTaxonomy() {
-  return globalThis.window?.ContangoHeadlineTaxonomy || globalThis.ContangoHeadlineTaxonomy || null;
+  return (
+    globalThis.window?.CommodityWatchHeadlineTaxonomy ||
+    globalThis.CommodityWatchHeadlineTaxonomy ||
+    null
+  );
 }
 
 function safeDateValue(value) {

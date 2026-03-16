@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Contango | HeadlineWatch</title>
+<title>CommodityWatch | HeadlineWatch</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../shared/site-shell.css">
 <link rel="stylesheet" href="../shared/filter-bar.css">
@@ -32,7 +32,7 @@
   --nav-height:      52px;
   --filter-height:   52px;
   --feed-max:        680px;
-  --header-text-case: lowercase; /* options: none (use typed text), lowercase, capitalize */
+  --header-text-case: none; /* options: none (use typed text), lowercase, capitalize */
 }
 
 *, *::before, *::after {
@@ -785,9 +785,9 @@ body {
 </head>
 <body>
 
-<nav class="nav" role="navigation" aria-label="Contango product navigation">
+<nav class="nav" role="navigation" aria-label="CommodityWatch product navigation">
   <div class="site-nav-main">
-    <div class="nav-logo">Contango<span class="dot"></span></div>
+    <div class="nav-logo">CommodityWatch<span class="dot"></span></div>
     <div class="site-tabs" aria-label="Product views">
       <a class="site-tab" href="/">Home</a>
       <a class="site-tab" href="/headline-watch/" aria-current="page">HeadlineWatch</a>
@@ -879,8 +879,8 @@ body {
 </div>
 
 <footer class="footer">
-  <div class="footer-left">© 2026 Contango</div>
-  <div class="footer-right">contango.news / headline-watch</div>
+  <div class="footer-left">© 2026 CommodityWatch</div>
+  <div class="footer-right">commoditywatch / headline-watch</div>
 </footer>
 
 <div id="new-toast" class="new-toast" role="status" aria-live="polite"></div>
@@ -920,7 +920,7 @@ body {
     'General'
   ];
 
-  var headlineTaxonomy = window.ContangoHeadlineTaxonomy || {};
+  var headlineTaxonomy = window.CommodityWatchHeadlineTaxonomy || {};
   CANONICAL_CATEGORIES = headlineTaxonomy.CANONICAL_CATEGORIES || CANONICAL_CATEGORIES;
   var CATEGORY_PRIORITY = headlineTaxonomy.CATEGORY_PRIORITY || {};
   if (!Object.keys(CATEGORY_PRIORITY).length) {
@@ -1018,7 +1018,7 @@ body {
   var countryChipList = document.getElementById('country-chip-list');
   var newToast   = document.getElementById('new-toast');
   var toTopBtn   = document.getElementById('to-top-btn');
-  var filterShellApi = window.ContangoFilterShell || null;
+  var filterShellApi = window.CommodityWatchFilterShell || null;
 
   // ─── UTILS ──────────────────────────────────────────────────────────────
 
@@ -1909,7 +1909,7 @@ body {
 
   var bellBtn     = document.getElementById('notif-bell');
   var unreadCount = 0;
-  var BASE_TITLE  = document.title; // "Contango — Commodity Headlines"
+  var BASE_TITLE  = document.title; // "CommodityWatch — Commodity Headlines"
 
   function updateBellState() {
     if (!bellBtn || !('Notification' in window)) return;
@@ -1926,7 +1926,7 @@ body {
     if (!('Notification' in window) || Notification.permission !== 'granted') return;
     if (!document.hidden) return; // tab is visible — toast is enough
     var body = n === 1 ? '1 new headline' : n + ' new headlines';
-    try { new Notification('Contango', { body: body }); } catch (e) {}
+    try { new Notification('CommodityWatch', { body: body }); } catch (e) {}
   }
 
   function setTabTitle(n) {

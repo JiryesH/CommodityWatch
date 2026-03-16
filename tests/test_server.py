@@ -445,17 +445,35 @@ def get_text(url: str) -> str:
         return response.read().decode("utf-8")
 
 
-def test_root_route_serves_headline_watch_shell(tmp_path: Path) -> None:
+def assert_product_nav(html: str, *, current_href: str) -> None:
+    for href in ("/", "/headline-watch/", "/price-watch/", "/calendar-watch/"):
+        assert f'href="{href}"' in html
+    assert html.count('class="site-tab"') == 4
+    assert f'href="{current_href}" aria-current="page"' in html
+    assert "CommodityWatch<span class=\"dot\"></span>" in html
+
+
+def test_root_route_serves_home_shell(tmp_path: Path) -> None:
     database_path = tmp_path / "commodities.db"
     create_fixture_database(database_path)
 
     with running_server(database_path) as base_url:
         html = get_text(base_url)
 
-    assert "HeadlineWatch" in html
-    assert "/price-watch/" in html
-    assert "/calendar-watch/" in html
-    assert html.count('class="site-tab"') == 3
+    assert "<title>CommodityWatch | Home</title>" in html
+    assert "dashboard/app.js" in html
+    assert_product_nav(html, current_href="/")
+
+
+def test_headline_watch_route_serves_page(tmp_path: Path) -> None:
+    database_path = tmp_path / "commodities.db"
+    create_fixture_database(database_path)
+
+    with running_server(database_path) as base_url:
+        html = get_text(f"{base_url}/headline-watch/")
+
+    assert "<title>CommodityWatch | HeadlineWatch</title>" in html
+    assert_product_nav(html, current_href="/headline-watch/")
 
 
 def test_price_watch_route_serves_page(tmp_path: Path) -> None:
@@ -465,10 +483,8 @@ def test_price_watch_route_serves_page(tmp_path: Path) -> None:
     with running_server(database_path) as base_url:
         html = get_text(f"{base_url}/price-watch/")
 
-    assert "PriceWatch" in html
-    assert "/headline-watch/" in html
-    assert "/calendar-watch/" in html
-    assert html.count('class="site-tab"') == 3
+    assert "<title>CommodityWatch | PriceWatch</title>" in html
+    assert_product_nav(html, current_href="/price-watch/")
 
 
 def test_calendar_watch_route_serves_page(tmp_path: Path) -> None:
@@ -478,9 +494,8 @@ def test_calendar_watch_route_serves_page(tmp_path: Path) -> None:
     with running_server(database_path) as base_url:
         html = get_text(f"{base_url}/calendar-watch/")
 
-    assert "CalendarWatch" in html
-    assert "/price-watch/" in html
-    assert html.count('class="site-tab"') == 3
+    assert "<title>CommodityWatch | CalendarWatch</title>" in html
+    assert_product_nav(html, current_href="/calendar-watch/")
 
 
 def test_static_routes_disable_browser_caching(tmp_path: Path) -> None:

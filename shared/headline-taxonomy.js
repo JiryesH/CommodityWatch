@@ -124,7 +124,7 @@
     return CAT_LABEL[primary] || primary;
   }
 
-  globalScope.ContangoHeadlineTaxonomy = {
+  var api = {
     CANONICAL_CATEGORIES: CANONICAL_CATEGORIES,
     CATEGORY_PRIORITY: CATEGORY_PRIORITY,
     CAT_COLOR: CAT_COLOR,
@@ -136,4 +136,6 @@
     dotClass: dotClass,
     dotLabel: dotLabel,
   };
+
+  globalScope.CommodityWatchHeadlineTaxonomy = api;
 })(window);

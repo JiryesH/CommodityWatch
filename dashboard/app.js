@@ -1,13 +1,19 @@
 import { SECTOR_META } from "./config.js";
 import {
   clearCommodities,
+  clearGroups,
   createDefaultFilter,
   getAllSectors,
   getExpandedGroupsForSector,
   getFilterLabel,
+  getSelectedCommodities,
   getSelectedGroup,
+  getSelectedGroups,
   getSelectedSector,
+  getSelectedSectors,
   getSummaryPills,
+  hasPartialGroupSelection,
+  hasPartialGroupSelectionForSector,
   isAllCommoditySelection,
   isAllFilter,
   normalizeFilter,
@@ -74,20 +80,21 @@ function renderSummaryPills() {
 }
 
 function getSectorSelectionState(sectorId) {
-  if (activeFilter.sectorId !== sectorId) {
+  if (!getSelectedSectors(activeFilter).some((sector) => sector.id === sectorId)) {
     return "none";
   }
 
-  return activeFilter.groupId ? "partial" : "full";
+  return hasPartialGroupSelectionForSector(activeFilter, sectorId) ? "partial" : "full";
 }
 
 function getGroupSelectionState(groupId) {
+  const selectedGroups = getSelectedGroups(activeFilter);
   const selectedGroup = getSelectedGroup(activeFilter);
-  if (selectedGroup?.id !== groupId) {
+  if (!selectedGroups.some((group) => group.id === groupId)) {
     return "none";
   }
 
-  return isAllCommoditySelection(activeFilter) ? "full" : "partial";
+  return selectedGroup?.id === groupId && !isAllCommoditySelection(activeFilter) ? "partial" : "full";
 }
 
 function renderSectorPills() {
@@ -112,15 +119,15 @@ function renderSectorPills() {
 }
 
 function renderGroupLayer() {
-  const sector = getSelectedSector(activeFilter);
-  if (!sector) {
+  const selectedSectors = getSelectedSectors(activeFilter);
+  if (!selectedSectors.length) {
     return "";
   }
 
   const selectedGroup = getSelectedGroup(activeFilter);
-  const groups = getExpandedGroupsForSector(sector.id);
-  const selectedCommodities = new Set(activeFilter.commodityIds);
+  const selectedCommodityIds = new Set(getSelectedCommodities(activeFilter).map((commodity) => commodity.id));
   const allBenchmarksSelected = isAllCommoditySelection(activeFilter);
+  const hasPartialGroups = hasPartialGroupSelection(activeFilter);
 
   return `
     <div class="filter-layer home-filter-layer open" aria-hidden="false">
@@ -128,27 +135,39 @@ function renderGroupLayer() {
         <div class="home-filter-section-head">
           <p class="home-filter-section-label">Commodity group</p>
           ${
-            selectedGroup
-              ? '<button class="filter-layer-clear" type="button" data-clear-group>clear group</button>'
+            hasPartialGroups
+              ? '<button class="filter-layer-clear" type="button" data-clear-group>all groups</button>'
               : ""
           }
         </div>
-        <div class="filter-chip-row home-group-row" style="--sector-accent:${escapeHtml(sector.accent)};">
-          ${groups
-            .map((group) => {
-              const selectionState = getGroupSelectionState(group.id);
-              const isSelected = selectionState !== "none";
-              const isPartial = selectionState === "partial";
-
+        <div class="filter-subsector-groups home-group-sections">
+          ${selectedSectors
+            .map((sector) => {
+              const groups = getExpandedGroupsForSector(sector.id);
               return `
-                <button
-                  class="filter-chip home-group-chip${isSelected ? " is-selected" : ""}${isPartial ? " is-partial" : ""}"
-                  type="button"
-                  data-group-id="${escapeHtml(group.id)}"
-                  aria-pressed="${String(isSelected)}"
-                >
-                  <span class="filter-chip-label">${escapeHtml(group.label)}</span>
-                </button>
+                <section class="filter-subsector-group home-group-section" data-sector="${escapeHtml(sector.id)}">
+                  <p class="filter-subsector-group-label" style="color:${escapeHtml(sector.accent)};">${escapeHtml(sector.label)}</p>
+                  <div class="filter-chip-row home-group-row" style="--sector-accent:${escapeHtml(sector.accent)};">
+                    ${groups
+                      .map((group) => {
+                        const selectionState = getGroupSelectionState(group.id);
+                        const isSelected = selectionState !== "none";
+                        const isPartial = selectionState === "partial";
+
+                        return `
+                          <button
+                            class="filter-chip home-group-chip${isSelected ? " is-selected" : ""}${isPartial ? " is-partial" : ""}"
+                            type="button"
+                            data-group-id="${escapeHtml(group.id)}"
+                            aria-pressed="${String(isSelected)}"
+                          >
+                            <span class="filter-chip-label">${escapeHtml(group.label)}</span>
+                          </button>
+                        `;
+                      })
+                      .join("")}
+                  </div>
+                </section>
               `;
             })
             .join("")}
@@ -166,18 +185,10 @@ function renderGroupLayer() {
                     : ""
                 }
               </div>
-              <div class="filter-chip-row" style="--sector-accent:${escapeHtml(sector.accent)};">
-                <button
-                  class="filter-chip home-all-commodities-chip${allBenchmarksSelected ? " is-selected" : ""}"
-                  type="button"
-                  data-select-all-commodities
-                  aria-pressed="${String(allBenchmarksSelected)}"
-                >
-                  <span class="filter-chip-label">All benchmarks</span>
-                </button>
+              <div class="filter-chip-row" style="--sector-accent:${escapeHtml(getSelectedSector(activeFilter)?.accent || "var(--color-amber)")};">
                 ${selectedGroup.commodities
                   .map((commodity) => {
-                    const isSelected = !allBenchmarksSelected && selectedCommodities.has(commodity.id);
+                    const isSelected = selectedCommodityIds.has(commodity.id);
                     return `
                       <button
                         class="filter-chip${isSelected ? " is-selected" : ""}"
@@ -192,7 +203,7 @@ function renderGroupLayer() {
                   .join("")}
               </div>
             </section>
-          `
+            `
           : selectedGroup
             ? `
               <section class="home-filter-section">
@@ -202,7 +213,7 @@ function renderGroupLayer() {
                 </p>
               </section>
             `
-          : ""
+            : ""
       }
     </div>
   `;
@@ -303,16 +314,7 @@ function bindFilterEvents() {
   });
 
   filterRoot.querySelector("[data-clear-group]")?.addEventListener("click", () => {
-    const selectedSector = getSelectedSector(activeFilter);
-    if (!selectedSector) {
-      return;
-    }
-
-    applyFilter({
-      sectorId: selectedSector.id,
-      groupId: null,
-      commodityIds: [],
-    });
+    applyFilter(clearGroups(activeFilter));
   });
 
   filterRoot.querySelectorAll("[data-select-all-commodities]").forEach((button) => {

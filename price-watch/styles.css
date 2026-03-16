@@ -5,8 +5,8 @@
   --color-amber: #e8a020;
   --color-subtext: #6b7280;
   --color-border: #d1cec8;
-  --color-up: #3a8f64;
-  --color-down: #e74c3c;
+  --color-up: #366646;
+  --color-down: #b74e43;
   --color-energy: #e8a020;
   --color-metals: #4a90d9;
   --color-agri: #5ba85c;
@@ -59,7 +59,7 @@ body {
   font-weight: 400;
   color: #fff;
   letter-spacing: 0.02em;
-  text-transform: lowercase;
+  text-transform: none;
   user-select: none;
 }
 
@@ -321,12 +321,12 @@ body.detail-open .to-top-btn {
   grid-template-rows: auto minmax(44px, auto) minmax(0, 1fr) auto auto;
   align-items: start;
   cursor: pointer;
-  transition: transform 200ms ease, box-shadow 200ms ease;
+  transition: box-shadow 200ms ease;
 }
 
 .viz-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(15, 25, 35, 0.12);
+  transform: none;
+  box-shadow: none;
 }
 
 .viz-card:focus-visible {
@@ -616,10 +616,6 @@ body.detail-open .to-top-btn {
     rgba(255, 255, 255, calc(0.16 + var(--energy-glow-strength) * 0.2)) 50%,
     rgba(255, 255, 255, 0) 100%
   );
-}
-
-.energy-market-tile:hover .energy-tile-shimmer {
-  animation: tileShimmer 1.1s cubic-bezier(0.19, 0.72, 0.24, 1) both;
 }
 
 /* Periodic metals tiles */
@@ -973,6 +969,11 @@ body.detail-open .to-top-btn {
     inset 0 1px 0 rgba(255, 255, 255, 0.22),
     0 10px 16px var(--artifact-shadow),
     0 16px 24px var(--artifact-shadow-strong);
+  transition: transform 280ms ease, box-shadow 280ms ease;
+}
+
+.artifact-face-tile:hover {
+  transform: translateY(-4px);
 }
 
 .artifact-face-tile::before,
@@ -1060,8 +1061,8 @@ body.detail-open .to-top-btn {
   text-overflow: ellipsis;
   white-space: nowrap;
   font-family: "IBM Plex Mono", monospace;
-  font-size: 9px;
-  letter-spacing: 0.11em;
+  font-size: 8px;
+  letter-spacing: 0.09em;
   text-transform: uppercase;
 }
 
@@ -1107,22 +1108,22 @@ body.detail-open .to-top-btn {
   position: absolute;
   left: 16px;
   right: 16px;
-  top: 84px;
+  top: 88px;
   z-index: 2;
   text-align: center;
   font-family: "IBM Plex Serif", serif;
-  font-size: clamp(56px, 8vw, 84px);
-  line-height: 0.94;
+  font-size: clamp(50px, 7vw, 72px);
+  line-height: 0.92;
   letter-spacing: -0.04em;
   color: color-mix(in srgb, var(--artifact-ink) 82%, black 18%);
 }
 
 .artifact-face-tile.code-short .artifact-face__code {
-  font-size: clamp(70px, 10vw, 96px);
+  font-size: clamp(62px, 8.8vw, 84px);
 }
 
 .artifact-face-tile.code-wide .artifact-face__code {
-  font-size: clamp(48px, 7vw, 72px);
+  font-size: clamp(40px, 5.9vw, 60px);
 }
 
 .artifact-face__mark {
@@ -1131,9 +1132,9 @@ body.detail-open .to-top-btn {
   right: 16px;
   bottom: 42px;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
-  gap: 12px;
+  gap: 10px;
   z-index: 2;
 }
 
@@ -1147,14 +1148,18 @@ body.detail-open .to-top-btn {
 
 .artifact-face__descriptor {
   color: var(--artifact-ink);
-  font-size: 11px;
-  letter-spacing: 0.11em;
+  max-width: 54%;
+  font-size: 9px;
+  line-height: 1.2;
+  letter-spacing: 0.09em;
 }
 
 .artifact-face__lot {
   color: var(--artifact-ink-soft);
-  font-size: 9px;
-  letter-spacing: 0.08em;
+  max-width: 44%;
+  font-size: 8px;
+  line-height: 1.2;
+  letter-spacing: 0.06em;
   text-align: right;
 }
 
@@ -1170,23 +1175,23 @@ body.detail-open .to-top-btn {
   text-overflow: ellipsis;
   white-space: nowrap;
   color: var(--artifact-ink-soft);
-  font-size: 9px;
-  letter-spacing: 0.12em;
+  font-size: 8px;
+  letter-spacing: 0.1em;
 }
 
 .artifact-face__name {
   position: absolute;
-  left: 68px;
-  right: 68px;
+  left: 92px;
+  right: 18px;
   bottom: 16px;
   z-index: 2;
   overflow: hidden;
-  text-align: center;
+  text-align: right;
   text-overflow: ellipsis;
   white-space: nowrap;
   color: var(--artifact-ink-soft);
-  font-size: 10px;
-  letter-spacing: 0.12em;
+  font-size: 8.5px;
+  letter-spacing: 0.1em;
 }
 
 .artifact-face__glint {
@@ -1208,10 +1213,6 @@ body.detail-open .to-top-btn {
   z-index: 4;
 }
 
-.viz-card:hover .artifact-face__glint {
-  animation: tileShimmer 1.2s cubic-bezier(0.19, 0.72, 0.24, 1) both;
-}
-
 .artifact-face-tile.pattern-grain::before {
   background:
     repeating-linear-gradient(
@@ -1224,7 +1225,7 @@ body.detail-open .to-top-btn {
 }
 
 .artifact-face-tile.pattern-grain .artifact-face__code {
-  font-size: clamp(60px, 9vw, 92px);
+  font-size: clamp(52px, 7.4vw, 74px);
 }
 
 .artifact-face-tile.pattern-oilseed::before {
@@ -1259,7 +1260,7 @@ body.detail-open .to-top-btn {
 
 .artifact-face-tile.pattern-chemistry .artifact-face__code {
   font-family: "IBM Plex Mono", monospace;
-  font-size: clamp(46px, 7vw, 68px);
+  font-size: clamp(40px, 5.8vw, 58px);
   letter-spacing: -0.06em;
 }
 
@@ -1309,7 +1310,7 @@ body.detail-open .to-top-btn {
 }
 
 .artifact-face-tile.pattern-wood .artifact-face__code {
-  top: 74px;
+  top: 82px;
 }
 
 .artifact-face__emblem {

@@ -9,8 +9,10 @@ export const SECTOR_META = {
 export const ALWAYS_HEADLINE_CATEGORIES = ["General", "Shipping"];
 export const ALWAYS_CALENDAR_SECTORS = ["macro", "cross-commodity"];
 export const FEED_URLS = ["/data/feed.local.json", "/data/feed.json"];
-export const HOME_FILTER_STORAGE_KEY = "contango.home.filter";
-export const HOME_FILTER_COLLAPSE_STORAGE_KEY = "contango.home.filter.collapsed";
+export const HOME_FILTER_STORAGE_KEY_SUFFIX = ".home.filter";
+export const HOME_FILTER_STORAGE_KEY = `commoditywatch${HOME_FILTER_STORAGE_KEY_SUFFIX}`;
+export const HOME_FILTER_COLLAPSE_STORAGE_KEY_SUFFIX = ".home.filter.collapsed";
+export const HOME_FILTER_COLLAPSE_STORAGE_KEY = `commoditywatch${HOME_FILTER_COLLAPSE_STORAGE_KEY_SUFFIX}`;
 
 export const DEFAULT_HOME_SERIES_KEYS = [
   "crude_oil_wti",

@@ -75,7 +75,7 @@ def main(argv: list[str] | None = None) -> int:
         service = CalendarIngestionService(repository, client)
         stats = service.run_many(chosen_adapters, as_of=parse_as_of(args.as_of))
         print(json.dumps([stat.__dict__ for stat in stats], indent=2))
-        return 0
+        return 1 if any(stat.failed for stat in stats) else 0
 
     if args.command == "send-failure-digest":
         if not args.endpoint_url:

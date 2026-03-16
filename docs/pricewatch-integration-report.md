@@ -2,7 +2,7 @@
 
 ## Objective
 
-Integrate the sandboxed `PriceWatch` prototype into the main Contango product without turning the app into a larger monolith, while preserving the existing headline workflow as `HeadlineWatch`.
+Integrate the sandboxed `PriceWatch` prototype into the main CommodityWatch product without turning the app into a larger monolith, while preserving the existing headline workflow as `HeadlineWatch`.
 
 ## Architecture analysis
 

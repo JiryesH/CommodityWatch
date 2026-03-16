@@ -13,6 +13,7 @@ import {
   clampAnchorDateForView,
   cloneDefaultFilters,
   countActiveFilters,
+  endOfUtcYear,
   filterEvents,
   filterEventsByRange,
   getEventsForDay,
@@ -30,7 +31,7 @@ import {
 
 const TO_TOP_SCROLL_THRESHOLD = 360;
 const UPCOMING_HORIZON_DAYS = 365;
-const MAX_VISIBLE_DATE = new Date("2026-12-31T23:59:59Z");
+const MAX_VISIBLE_DATE = endOfUtcYear(new Date());
 
 const weekdayFormatter = new Intl.DateTimeFormat("en-GB", {
   weekday: "short",
@@ -60,6 +61,13 @@ const monthFormatter = new Intl.DateTimeFormat("en-GB", {
 const monthDayFormatter = new Intl.DateTimeFormat("en-GB", {
   month: "short",
   day: "numeric",
+  timeZone: "UTC",
+});
+
+const shortDateFormatter = new Intl.DateTimeFormat("en-GB", {
+  day: "numeric",
+  month: "short",
+  year: "numeric",
   timeZone: "UTC",
 });
 
@@ -107,6 +115,10 @@ function formatWeekRangeLabel(anchorDate) {
 
 function formatCountLabel(count, singular, plural = `${singular}s`) {
   return `${count} ${count === 1 ? singular : plural}`;
+}
+
+function formatCalendarLimitDate(value) {
+  return shortDateFormatter.format(value);
 }
 
 function getConfirmedLabel(event) {
@@ -282,7 +294,7 @@ function renderErrorState(message) {
   `;
 }
 
-class CalendarWatchApp {
+export class CalendarWatchApp {
   constructor({
     root,
     filterRoot,
@@ -292,6 +304,7 @@ class CalendarWatchApp {
     navSearch,
     searchToggle,
     searchInput,
+    loadEvents = loadCalendarEvents,
   }) {
     this.root = root;
     this.filterRoot = filterRoot;
@@ -301,6 +314,8 @@ class CalendarWatchApp {
     this.navSearch = navSearch;
     this.searchToggle = searchToggle;
     this.searchInput = searchInput;
+    this.loadEvents = loadEvents;
+    this.activeRefreshRequestId = 0;
     this.state = {
       viewMode: "week",
       anchorDate: getMinimumAnchorDate("week"),
@@ -458,20 +473,29 @@ class CalendarWatchApp {
   }
 
   async refreshData() {
+    const requestId = ++this.activeRefreshRequestId;
     this.state.loading = true;
     this.state.error = null;
     this.render();
 
     try {
-      const events = sortEvents(await loadCalendarEvents(this.getDataRequestRange())).filter(
+      const events = sortEvents(await this.loadEvents(this.getDataRequestRange())).filter(
         (event) => Date.parse(event.event_date) <= MAX_VISIBLE_DATE.getTime()
       );
+
+      if (requestId !== this.activeRefreshRequestId) {
+        return;
+      }
 
       this.state.events = events;
       this.state.loading = false;
       this.state.error = null;
       this.applyDerivedState();
     } catch (error) {
+      if (requestId !== this.activeRefreshRequestId) {
+        return;
+      }
+
       this.state.events = [];
       this.state.visibleEvents = [];
       this.state.loading = false;
@@ -884,6 +908,7 @@ class CalendarWatchApp {
     const atMinimumAnchor = this.state.anchorDate.getTime() === getMinimumAnchorDate("week").getTime();
     const atMaximumAnchor = this.state.anchorDate.getTime() === this.getMaximumAnchor("week").getTime();
     const maxVisibleDay = startOfUtcDay(MAX_VISIBLE_DATE);
+    const calendarLimitLabel = formatCalendarLimitDate(MAX_VISIBLE_DATE);
 
     return `
       <section class="calendar-panel">
@@ -926,7 +951,7 @@ class CalendarWatchApp {
                           </header>
                           <div class="day-column-body">
                             <div class="day-empty day-empty-unavailable">
-                              <span>Calendar ends on 31 Dec 2026</span>
+                              <span>Calendar ends on ${escapeHtml(calendarLimitLabel)}</span>
                             </div>
                           </div>
                         </section>
@@ -1162,15 +1187,56 @@ class CalendarWatchApp {
   }
 }
 
-const app = new CalendarWatchApp({
-  root: document.getElementById("calendar-root"),
-  filterRoot: document.getElementById("calendar-filter-root"),
-  drawerOverlay: document.getElementById("drawer-overlay"),
-  drawerPanel: document.getElementById("drawer-panel"),
-  toTopButton: document.getElementById("to-top-btn"),
-  navSearch: document.getElementById("nav-search"),
-  searchToggle: document.getElementById("search-toggle"),
-  searchInput: document.getElementById("calendar-search"),
-});
+function getMountElements(documentRef) {
+  if (!documentRef) {
+    return null;
+  }
 
-app.init();
+  const root = documentRef.getElementById("calendar-root");
+  const filterRoot = documentRef.getElementById("calendar-filter-root");
+  const drawerOverlay = documentRef.getElementById("drawer-overlay");
+  const drawerPanel = documentRef.getElementById("drawer-panel");
+  const toTopButton = documentRef.getElementById("to-top-btn");
+  const navSearch = documentRef.getElementById("nav-search");
+  const searchToggle = documentRef.getElementById("search-toggle");
+  const searchInput = documentRef.getElementById("calendar-search");
+
+  if (
+    !root ||
+    !filterRoot ||
+    !drawerOverlay ||
+    !drawerPanel ||
+    !toTopButton ||
+    !navSearch ||
+    !searchToggle ||
+    !searchInput
+  ) {
+    return null;
+  }
+
+  return {
+    root,
+    filterRoot,
+    drawerOverlay,
+    drawerPanel,
+    toTopButton,
+    navSearch,
+    searchToggle,
+    searchInput,
+  };
+}
+
+export function mountCalendarWatchApp(documentRef = globalThis.document) {
+  const mountElements = getMountElements(documentRef);
+  if (!mountElements) {
+    return null;
+  }
+
+  const app = new CalendarWatchApp(mountElements);
+  void app.init();
+  return app;
+}
+
+if (typeof document !== "undefined") {
+  mountCalendarWatchApp(document);
+}

@@ -6,7 +6,9 @@ from pathlib import Path
 import pytest
 
 from feed_io import (
+    FEED_OUTPUT_ENV,
     FeedPersistenceError,
+    HEADLINE_FEED_PATH_ENV,
     default_headline_feed_output_path,
     empty_feed_payload,
     local_headline_feed_path,
@@ -67,7 +69,8 @@ def test_preferred_headline_feed_path_falls_back_to_tracked_snapshot(
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    monkeypatch.delenv("CONTANGO_HEADLINE_FEED_PATH", raising=False)
+    monkeypatch.delenv(HEADLINE_FEED_PATH_ENV, raising=False)
+    monkeypatch.delenv("LEGACY_HEADLINE_FEED_PATH", raising=False)
 
     assert preferred_headline_feed_path(tmp_path) == tracked_headline_feed_path(tmp_path)
 
@@ -76,7 +79,8 @@ def test_preferred_headline_feed_path_prefers_local_override(
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    monkeypatch.delenv("CONTANGO_HEADLINE_FEED_PATH", raising=False)
+    monkeypatch.delenv(HEADLINE_FEED_PATH_ENV, raising=False)
+    monkeypatch.delenv("LEGACY_HEADLINE_FEED_PATH", raising=False)
     local_path = local_headline_feed_path(tmp_path)
     local_path.parent.mkdir(parents=True, exist_ok=True)
     local_path.write_text("{}", encoding="utf-8")
@@ -88,16 +92,46 @@ def test_preferred_headline_feed_path_honors_explicit_env(
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    monkeypatch.setenv("CONTANGO_HEADLINE_FEED_PATH", "data/custom-feed.json")
+    monkeypatch.setenv(HEADLINE_FEED_PATH_ENV, "data/custom-feed.json")
 
     assert preferred_headline_feed_path(tmp_path) == resolve_repo_path("data/custom-feed.json", tmp_path)
+
+
+def test_preferred_headline_feed_path_accepts_single_matching_env_suffix(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setenv("LEGACY_HEADLINE_FEED_PATH", "data/legacy-feed.json")
+
+    assert preferred_headline_feed_path(tmp_path) == resolve_repo_path("data/legacy-feed.json", tmp_path)
+
+
+def test_preferred_headline_feed_path_ignores_ambiguous_matching_env_suffixes(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setenv("LEGACY_HEADLINE_FEED_PATH", "data/legacy-feed.json")
+    monkeypatch.setenv("ALT_HEADLINE_FEED_PATH", "data/alt-feed.json")
+
+    assert preferred_headline_feed_path(tmp_path) == tracked_headline_feed_path(tmp_path)
+
+
+def test_preferred_headline_feed_path_prefers_canonical_env_over_matching_suffix_env(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setenv(HEADLINE_FEED_PATH_ENV, "data/canonical-feed.json")
+    monkeypatch.setenv("LEGACY_HEADLINE_FEED_PATH", "data/legacy-feed.json")
+
+    assert preferred_headline_feed_path(tmp_path) == resolve_repo_path("data/canonical-feed.json", tmp_path)
 
 
 def test_default_headline_feed_output_path_defaults_to_local_override(
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    monkeypatch.delenv("CONTANGO_FEED_OUTPUT", raising=False)
+    monkeypatch.delenv(FEED_OUTPUT_ENV, raising=False)
+    monkeypatch.delenv("LEGACY_FEED_OUTPUT", raising=False)
 
     assert default_headline_feed_output_path(tmp_path) == local_headline_feed_path(tmp_path)
 
@@ -106,6 +140,25 @@ def test_default_headline_feed_output_path_honors_env_override(
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    monkeypatch.setenv("CONTANGO_FEED_OUTPUT", "data/custom-output.json")
+    monkeypatch.setenv(FEED_OUTPUT_ENV, "data/custom-output.json")
 
     assert default_headline_feed_output_path(tmp_path) == resolve_repo_path("data/custom-output.json", tmp_path)
+
+
+def test_default_headline_feed_output_path_accepts_single_matching_env_suffix(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setenv("LEGACY_FEED_OUTPUT", "data/legacy-output.json")
+
+    assert default_headline_feed_output_path(tmp_path) == resolve_repo_path("data/legacy-output.json", tmp_path)
+
+
+def test_default_headline_feed_output_path_ignores_ambiguous_matching_env_suffixes(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setenv("LEGACY_FEED_OUTPUT", "data/legacy-output.json")
+    monkeypatch.setenv("ALT_FEED_OUTPUT", "data/alt-output.json")
+
+    assert default_headline_feed_output_path(tmp_path) == local_headline_feed_path(tmp_path)
