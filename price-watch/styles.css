@@ -955,6 +955,7 @@ body.detail-open .to-top-btn {
   --artifact-badge-ink: #2d2518;
   --artifact-shadow: rgba(33, 41, 52, 0.12);
   --artifact-shadow-strong: rgba(25, 31, 39, 0.16);
+  --artifact-code-top: 88px;
   position: relative;
   width: min(94%, 214px);
   aspect-ratio: 1 / 1;
@@ -1108,7 +1109,7 @@ body.detail-open .to-top-btn {
   position: absolute;
   left: 16px;
   right: 16px;
-  top: 88px;
+  top: var(--artifact-code-top);
   z-index: 2;
   text-align: center;
   font-family: "IBM Plex Serif", serif;
@@ -1124,6 +1125,30 @@ body.detail-open .to-top-btn {
 
 .artifact-face-tile.code-wide .artifact-face__code {
   font-size: clamp(40px, 5.9vw, 60px);
+}
+
+/* Non-chemistry artifact families read low with the default hero-code baseline. */
+.artifact-face-tile.pattern-grain,
+.artifact-face-tile.pattern-tropical {
+  --artifact-code-top: 84px;
+}
+
+.artifact-face-tile.pattern-oilseed {
+  --artifact-code-top: 80px;
+}
+
+.artifact-face-tile.pattern-oilseed.code-short {
+  --artifact-code-top: 76px;
+}
+
+.artifact-face-tile.pattern-meat,
+.artifact-face-tile.pattern-seafood,
+.artifact-face-tile.pattern-feed {
+  --artifact-code-top: 82px;
+}
+
+.artifact-face-tile.pattern-wood {
+  --artifact-code-top: 78px;
 }
 
 .artifact-face__mark {
@@ -1307,10 +1332,6 @@ body.detail-open .to-top-btn {
       transparent 31px 62px
     );
   opacity: 0.28;
-}
-
-.artifact-face-tile.pattern-wood .artifact-face__code {
-  top: 82px;
 }
 
 .artifact-face__emblem {
