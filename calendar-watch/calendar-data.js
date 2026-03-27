@@ -314,7 +314,13 @@ function toApiDate(value) {
   if (!value) {
     return null;
   }
-  return new Date(value).toISOString().slice(0, 10);
+
+  const date = new Date(value);
+  if (!Number.isFinite(date.getTime())) {
+    return null;
+  }
+
+  return date.toISOString().slice(0, 10);
 }
 
 export async function loadCalendarEvents({ from, to, sectors } = {}) {
@@ -333,7 +339,8 @@ export async function loadCalendarEvents({ from, to, sectors } = {}) {
     params.set("sectors", sectors.join(","));
   }
 
-  const response = await fetch(`/api/calendar?${params.toString()}`);
+  const query = params.toString();
+  const response = await fetch(query ? `/api/calendar?${query}` : "/api/calendar");
   if (!response.ok) {
     throw new Error(`Calendar API request failed with ${response.status}`);
   }

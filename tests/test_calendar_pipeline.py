@@ -3,7 +3,9 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
+from types import SimpleNamespace
 
+import pytest
 from sqlalchemy import select
 
 from calendar_pipeline.adapters.baker_hughes import BAKER_HUGHES_URL, BakerHughesRigCountAdapter
@@ -23,6 +25,7 @@ from calendar_pipeline.adapters.eurostat import EUROSTAT_ICAL_URL, EurostatRelea
 from calendar_pipeline.adapters.fed_fomc import FOMC_URL, FedFomcCalendarAdapter
 from calendar_pipeline.adapters.ons_rss import ONS_UPCOMING_RSS_URL, OnsReleaseCalendarAdapter
 from calendar_pipeline.adapters.usda_nass import NASS_BASE_URL, UsdaNassCalendarAdapter
+import calendar_pipeline.http as http
 from calendar_pipeline.http import BROWSER_USER_AGENT, HttpFetchError
 from calendar_pipeline.storage import CalendarRepository, calendar_events, create_calendar_engine
 from calendar_pipeline.types import CandidateEvent
@@ -710,3 +713,18 @@ def test_bls_adapter_includes_state_employment_and_unemployment() -> None:
 
     events = adapter.collect(client, as_of=datetime(2026, 3, 1, 0, 0, tzinfo=timezone.utc))
     assert [event.name for event in events] == ["BLS State Employment and Unemployment"]
+
+
+def test_curl_http_client_post_json_rejects_malformed_status(monkeypatch: pytest.MonkeyPatch) -> None:
+    completed = SimpleNamespace(
+        returncode=0,
+        stdout=b"response body\n__CALENDARWATCH_STATUS__:not-a-number",
+        stderr=b"",
+    )
+
+    monkeypatch.setattr(http.subprocess, "run", lambda *args, **kwargs: completed)
+
+    client = http.CurlHttpClient(timeout_seconds=1, user_agent="test-agent")
+
+    with pytest.raises(http.HttpFetchError, match="invalid status code"):
+        client.post_json("https://example.com/hook", {"ok": True})

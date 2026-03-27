@@ -16,6 +16,10 @@
 
   function bindExclusiveLayers({ shell, items }) {
     const normalizedItems = (items || []).filter((item) => item && item.layer);
+    const toggleHandlers = new Map();
+    const previousBinding = shell?.__commodityWatchFilterShellBinding || null;
+
+    previousBinding?.destroy?.();
 
     function closeAll(exceptToggle = null) {
       normalizedItems.forEach((item) => {
@@ -29,30 +33,52 @@
         return;
       }
 
-      item.toggle.addEventListener("click", () => {
+      const handleToggleClick = () => {
         const isOpen = item.layer.classList.contains("open");
         closeAll(isOpen ? null : item.toggle);
-      });
+      };
+
+      toggleHandlers.set(item.toggle, handleToggleClick);
+      item.toggle.addEventListener("click", handleToggleClick);
     });
 
-    document.addEventListener("click", (event) => {
+    const handleDocumentClick = (event) => {
       if (shell && shell.contains(event.target)) {
         return;
       }
 
       closeAll(null);
-    });
+    };
 
-    document.addEventListener("keydown", (event) => {
+    const handleDocumentKeydown = (event) => {
       if (event.key === "Escape") {
         closeAll(null);
       }
-    });
+    };
 
-    return {
+    document.addEventListener("click", handleDocumentClick);
+    document.addEventListener("keydown", handleDocumentKeydown);
+
+    const api = {
       closeAll,
       setLayerOpen,
+      destroy() {
+        toggleHandlers.forEach((handleToggleClick, toggle) => {
+          toggle.removeEventListener("click", handleToggleClick);
+        });
+        document.removeEventListener("click", handleDocumentClick);
+        document.removeEventListener("keydown", handleDocumentKeydown);
+        if (shell && shell.__commodityWatchFilterShellBinding === api) {
+          delete shell.__commodityWatchFilterShellBinding;
+        }
+      },
     };
+
+    if (shell) {
+      shell.__commodityWatchFilterShellBinding = api;
+    }
+
+    return api;
   }
 
   const api = {

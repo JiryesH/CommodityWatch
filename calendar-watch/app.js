@@ -90,13 +90,46 @@ function escapeHtml(value) {
     .replaceAll("'", "&#39;");
 }
 
-function formatUtcDateTime(value) {
+function parseUtcDate(value) {
   const date = new Date(value);
+  return Number.isFinite(date.getTime()) ? date : null;
+}
+
+function formatUtcDateTime(value) {
+  const date = parseUtcDate(value);
+  if (!date) {
+    return "Date unavailable";
+  }
+
   return `${fullDayFormatter.format(date)}, ${timeFormatter.format(date)} UTC`;
 }
 
 function formatUtcTime(value) {
-  return `${timeFormatter.format(new Date(value))} UTC`;
+  const date = parseUtcDate(value);
+  if (!date) {
+    return "Time unavailable";
+  }
+
+  return `${timeFormatter.format(date)} UTC`;
+}
+
+function formatUtcDay(value) {
+  const date = parseUtcDate(value);
+  if (!date) {
+    return "Unknown day";
+  }
+
+  return fullDayFormatter.format(date);
+}
+
+function getDateTimeAttribute(value) {
+  const date = parseUtcDate(value);
+  return date ? date.toISOString() : null;
+}
+
+function getEventDayIso(value) {
+  const date = parseUtcDate(value);
+  return date ? toIsoDay(date) : null;
 }
 
 function formatWeekRangeLabel(anchorDate) {
@@ -176,11 +209,19 @@ function iconLock(confirmed) {
 
 function renderSectorTag(sector) {
   const meta = SECTOR_META[sector];
+  if (!meta) {
+    return `<span class="sector-tag" style="--sector-accent:#7B8894; --sector-bg:#E8EDF1; --sector-text:#5A6671;">${escapeHtml(
+      sector ?? "Unknown"
+    )}</span>`;
+  }
+
   return `<span class="sector-tag" style="--sector-accent:${meta.accent}; --sector-bg:${meta.pillBackground}; --sector-text:${meta.pillText};">${escapeHtml(meta.label)}</span>`;
 }
 
 function renderCadenceBadge(cadence, { subtle = false } = {}) {
-  return `<span class="cadence-badge${subtle ? " is-subtle" : ""}">${escapeHtml(CADENCE_META[cadence].label)}</span>`;
+  const meta = CADENCE_META[cadence];
+  const label = meta ? meta.label : String(cadence ?? "Unknown");
+  return `<span class="cadence-badge${subtle ? " is-subtle" : ""}">${escapeHtml(label)}</span>`;
 }
 
 function renderSectorFilterPills(selectedValues) {
@@ -219,12 +260,17 @@ function renderSectorFilterPills(selectedValues) {
 }
 
 function renderEventCard(event, { inDrawer = false } = {}) {
+  const sectors = Array.isArray(event.commodity_sectors) ? event.commodity_sectors : [];
+  const dateTimeAttribute = getDateTimeAttribute(event.event_date);
+
   return `
     <article class="event-card${inDrawer ? " event-card-drawer" : ""}">
       <button class="event-card-main" type="button" data-event-open="${event.id}">
         <div class="event-card-topline">
           <div class="event-card-meta">
-            <time class="event-time" datetime="${event.event_date}">${escapeHtml(formatUtcTime(event.event_date))}</time>
+            <time class="event-time"${dateTimeAttribute ? ` datetime="${escapeHtml(dateTimeAttribute)}"` : ""}>${escapeHtml(
+              formatUtcTime(event.event_date)
+            )}</time>
           </div>
           <span class="event-status" title="${escapeHtml(getConfirmedLabel(event))}">
             ${iconLock(event.is_confirmed)}
@@ -233,7 +279,7 @@ function renderEventCard(event, { inDrawer = false } = {}) {
         </div>
         <h3 class="event-name">${escapeHtml(event.name)}</h3>
         <p class="event-organiser">${escapeHtml(event.organiser)}</p>
-        <div class="event-tags">${event.commodity_sectors.map(renderSectorTag).join("")}</div>
+        <div class="event-tags">${sectors.map(renderSectorTag).join("")}</div>
       </button>
       <a
         class="event-link"
@@ -250,16 +296,21 @@ function renderEventCard(event, { inDrawer = false } = {}) {
 }
 
 function renderDayListCard(event) {
+  const sectors = Array.isArray(event.commodity_sectors) ? event.commodity_sectors : [];
+  const dateTimeAttribute = getDateTimeAttribute(event.event_date);
+
   return `
     <article class="drawer-event-card">
       <button class="drawer-event-main" type="button" data-event-open="${event.id}">
         <div class="drawer-event-meta">
-          <time datetime="${event.event_date}">${escapeHtml(formatUtcTime(event.event_date))}</time>
+          <time${dateTimeAttribute ? ` datetime="${escapeHtml(dateTimeAttribute)}"` : ""}>${escapeHtml(
+            formatUtcTime(event.event_date)
+          )}</time>
           <span class="drawer-status-label">${escapeHtml(getConfirmedLabel(event))}</span>
         </div>
         <h3>${escapeHtml(event.name)}</h3>
         <p>${escapeHtml(event.organiser)}</p>
-        <div class="event-tags">${event.commodity_sectors.map(renderSectorTag).join("")}</div>
+        <div class="event-tags">${sectors.map(renderSectorTag).join("")}</div>
       </button>
       <a
         class="drawer-event-link"
@@ -674,7 +725,7 @@ export class CalendarWatchApp {
 
     this.state.panelMode = "event";
     this.state.selectedEventId = eventId;
-    this.state.panelDayIso = toIsoDay(selectedEvent.event_date);
+    this.state.panelDayIso = origin === "day" && this.state.panelDayIso ? this.state.panelDayIso : getEventDayIso(selectedEvent.event_date);
     this.state.panelOrigin = origin;
     this.renderDrawer();
   }
@@ -903,8 +954,9 @@ export class CalendarWatchApp {
   renderWeekView() {
     const today = startOfUtcDay(new Date());
     const weekDays = buildWeekDays(this.state.anchorDate);
-    const grouped = groupEventsByDay(this.getCurrentRangeEvents());
-    const hasAnyEvents = this.getCurrentRangeEvents().length > 0;
+    const currentRangeEvents = this.getCurrentRangeEvents();
+    const grouped = groupEventsByDay(currentRangeEvents);
+    const hasAnyEvents = currentRangeEvents.length > 0;
     const atMinimumAnchor = this.state.anchorDate.getTime() === getMinimumAnchorDate("week").getTime();
     const atMaximumAnchor = this.state.anchorDate.getTime() === this.getMaximumAnchor("week").getTime();
     const maxVisibleDay = startOfUtcDay(MAX_VISIBLE_DATE);
@@ -1041,7 +1093,10 @@ export class CalendarWatchApp {
               const inCurrentMonth = isSameUtcMonth(day, this.state.anchorDate);
               const hasEvents = events.length > 0;
               const previewEvents = events.slice(0, 2);
-              const sectorMix = [...new Set(events.flatMap((event) => event.commodity_sectors))].slice(0, 4);
+              const sectorMix = [...new Set(events.flatMap((event) => (Array.isArray(event.commodity_sectors) ? event.commodity_sectors : [])))].slice(
+                0,
+                4
+              );
 
               return `
                 <button
@@ -1091,14 +1146,14 @@ export class CalendarWatchApp {
     if (this.state.panelMode === "day") {
       const grouped = groupEventsByDay(this.getCurrentRangeEvents());
       const dayEvents = grouped.get(this.state.panelDayIso) || [];
-      const dayDate = new Date(`${this.state.panelDayIso}T00:00:00Z`);
+      const dayLabel = this.state.panelDayIso ? formatUtcDay(this.state.panelDayIso) : "Unknown day";
 
       this.drawerPanel.innerHTML = `
         <div class="drawer-shell">
           <header class="drawer-header">
             <div>
               <p class="drawer-kicker">${formatCountLabel(dayEvents.length, "event")} scheduled</p>
-              <h2 id="drawer-title">${escapeHtml(fullDayFormatter.format(dayDate))}</h2>
+              <h2 id="drawer-title">${escapeHtml(dayLabel)}</h2>
             </div>
             <button class="drawer-close" type="button" data-drawer-close aria-label="Close drawer">Close</button>
           </header>

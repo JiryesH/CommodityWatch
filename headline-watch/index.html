@@ -10,8 +10,8 @@
 <!--
   USAGE:
     1. python3 rss_scraper.py          (populate ignored local data/feed.local.json)
-    2. python3 server.py               (serve HeadlineWatch + PriceWatch)
-    3. open http://127.0.0.1:8080/
+    2. python3 server.py               (serve the product server)
+    3. open http://127.0.0.1:8080/headline-watch/
 
   Or to run both together:
     python3 rss_scraper.py --daemon --serve
@@ -893,98 +893,31 @@ body {
 </button>
 
 <script src="../shared/filter-shell.js"></script>
-<script src="../shared/headline-taxonomy.js"></script>
 <script src="../shared/click-spark.js"></script>
-<script>
+<script type="module">
+import {
+  CAT_LABEL,
+  ENERGY_CATS,
+  SECTOR_MAP,
+  canonicalCategoriesForArticle,
+  dotClass,
+  dotLabel,
+} from "../shared/headline-taxonomy.js";
+import {
+  areSetsEqual,
+  buildCountryAvailability,
+  collectCountries,
+  countryKey,
+  eventPathIncludes,
+} from "../shared/headline-watch-utils.js";
+import { fetchJsonWithFallback, normalizeHeadlineFeedArticle } from "../shared/headline-feed.js";
+
 (function () {
   'use strict';
 
   // ─── CONFIG ─────────────────────────────────────────────────────────────
-  var FEED_URLS  = ['/data/feed.local.json', '/data/feed.json'];
   var PAGE_SIZE  = 25;
   var POLL_MS    = 90 * 1000; // poll every 90 seconds
-
-  var CANONICAL_CATEGORIES = [
-    'Oil - Crude',
-    'Oil - Refined Products',
-    'Natural Gas',
-    'LNG',
-    'Coal',
-    'Electric Power',
-    'Energy Transition',
-    'Chemicals',
-    'Metals',
-    'Agriculture',
-    'Fertilizers',
-    'Shipping',
-    'General'
-  ];
-
-  var headlineTaxonomy = window.CommodityWatchHeadlineTaxonomy || {};
-  CANONICAL_CATEGORIES = headlineTaxonomy.CANONICAL_CATEGORIES || CANONICAL_CATEGORIES;
-  var CATEGORY_PRIORITY = headlineTaxonomy.CATEGORY_PRIORITY || {};
-  if (!Object.keys(CATEGORY_PRIORITY).length) {
-    CANONICAL_CATEGORIES.forEach(function (cat, idx) {
-      CATEGORY_PRIORITY[cat] = idx;
-    });
-  }
-  var CAT_COLOR = headlineTaxonomy.CAT_COLOR || {
-    'Oil - Crude': 'energy',
-    'Oil - Refined Products': 'energy',
-    'Natural Gas': 'energy',
-    'LNG': 'energy',
-    'Coal': 'energy',
-    'Electric Power': 'energy',
-    'Energy Transition': 'energy',
-    'Chemicals': 'energy',
-    'Metals': 'metals',
-    'Agriculture': 'agri',
-    'Fertilizers': 'agri',
-    'Shipping': 'other',
-    'General': 'other'
-  };
-  var CAT_LABEL = headlineTaxonomy.CAT_LABEL || {
-    'General': 'General',
-    'Oil - Crude': 'Crude',
-    'Oil - Refined Products': 'Refined',
-    'Natural Gas': 'Nat Gas',
-    'Electric Power': 'Power',
-    'Energy Transition': 'Energy Trans'
-  };
-  var ENERGY_CATS = headlineTaxonomy.ENERGY_CATS || [
-    'Oil - Crude',
-    'Oil - Refined Products',
-    'Natural Gas',
-    'LNG',
-    'Coal',
-    'Electric Power',
-    'Energy Transition'
-  ];
-  var SECTOR_MAP = headlineTaxonomy.SECTOR_MAP || {
-    'energy':             ENERGY_CATS,
-    'chemicals':          ['Chemicals'],
-    'metals_and_mining':  ['Metals'],
-    'agriculture':        ['Agriculture'],
-    'fertilizers':        ['Fertilizers'],
-    'shipping':           ['Shipping']
-  };
-
-  var COUNTRY_NAME_OVERRIDES = {
-    'Iran, Islamic Republic of': 'Iran',
-    'Korea, Republic of': 'South Korea',
-    'Korea, Democratic People\'s Republic of': 'North Korea',
-    'Russian Federation': 'Russia',
-    'Syrian Arab Republic': 'Syria',
-    'Venezuela, Bolivarian Republic of': 'Venezuela',
-    'Bolivia, Plurinational State of': 'Bolivia',
-    'Moldova, Republic of': 'Moldova',
-    'Tanzania, United Republic of': 'Tanzania',
-    'Taiwan, Province of China': 'Taiwan',
-    'Viet Nam': 'Vietnam',
-    'Lao People\'s Democratic Republic': 'Laos',
-    'Brunei Darussalam': 'Brunei',
-    'Libyan Arab Jamahiriya': 'Libya'
-  };
 
   // ─── STATE ──────────────────────────────────────────────────────────────
   var allArticles      = [];        // full sorted list from feed.json
@@ -993,7 +926,6 @@ body {
   var activeFilters    = new Set(); // empty = "All" mode; otherwise canonical categories
   var searchQuery      = '';        // lowercase text search on headline titles
   var selectedCountries = new Set(); // selected country keys (cleaned + lowercase)
-  var displayedIds     = new Set(); // IDs currently rendered in the DOM
   var knownFeedIds     = new Set(); // IDs seen in the previous full feed snapshot
   var lastUpdated      = '';        // metadata.last_updated from last fetch
   var toastTimer       = null;
@@ -1039,45 +971,6 @@ body {
     return '';
   }
 
-  function canonicalCategoriesForArticle(article) {
-    if (headlineTaxonomy.canonicalCategoriesForArticle) {
-      return headlineTaxonomy.canonicalCategoriesForArticle(article);
-    }
-
-    var raw = article && article.categories;
-    var tokens = [];
-
-    if (Array.isArray(raw)) {
-      tokens = raw.slice();
-    } else if (article && article.category) {
-      tokens = String(article.category).split(',');
-    }
-
-    var out = [];
-    var seen = new Set();
-    tokens.forEach(function (token) {
-      var cat = String(token || '').trim();
-      if (!cat || !Object.prototype.hasOwnProperty.call(CATEGORY_PRIORITY, cat) || seen.has(cat)) return;
-      seen.add(cat);
-      out.push(cat);
-    });
-
-    if (out.length === 0) out.push('General');
-    out.sort(function (a, b) { return CATEGORY_PRIORITY[a] - CATEGORY_PRIORITY[b]; });
-    return out;
-  }
-
-  function normalizeArticleCategoriesInPlace(article) {
-    if (headlineTaxonomy.normalizeArticleCategoriesInPlace) {
-      return headlineTaxonomy.normalizeArticleCategoriesInPlace(article);
-    }
-
-    var cats = canonicalCategoriesForArticle(article);
-    article.categories = cats;
-    article.category = cats[0];
-    return article;
-  }
-
   function validateCategoryContract(meta) {
     var backend = (meta && Array.isArray(meta.canonical_categories))
       ? meta.canonical_categories.slice().sort().join('|')
@@ -1086,41 +979,6 @@ body {
     if (backend && backend !== frontend) {
       console.warn('Category contract mismatch between feed metadata and frontend constants.');
     }
-  }
-
-  // Dot color class from canonical article categories
-  function dotClass(article) {
-    if (headlineTaxonomy.dotClass) {
-      return headlineTaxonomy.dotClass(article);
-    }
-
-    var cats = canonicalCategoriesForArticle(article);
-    var priority = { energy: 3, metals: 2, agri: 1, other: 0 };
-    var best = 'other';
-    cats.forEach(function (cat) {
-      var color = CAT_COLOR[cat] || 'other';
-      if (priority[color] > priority[best]) best = color;
-    });
-    return best;
-  }
-
-  function sourceLabel(source) {
-    var normalized = String(source || '').toLowerCase();
-    if (normalized.indexOf('argus') !== -1) return 'ARGUS';
-    if (normalized.indexOf('icis') !== -1) return 'ICIS';
-    if (normalized.indexOf('fastmarkets') !== -1) return 'FASTMARKETS';
-    if (normalized.indexOf('s&p') !== -1 || normalized.indexOf('sp global') !== -1) return 'S&P';
-    return 'COMMODITY';
-  }
-
-  // Short label shown next to the dot in a card
-  function dotLabel(article) {
-    if (headlineTaxonomy.dotLabel) {
-      return esc(headlineTaxonomy.dotLabel(article));
-    }
-
-    var primary = canonicalCategoriesForArticle(article)[0] || 'General';
-    return esc(CAT_LABEL[primary] || primary);
   }
 
   // Does this article match the current active filter selection?
@@ -1148,7 +1006,7 @@ body {
     var ner = article && article.ner;
     var countries = (ner && Array.isArray(ner.countries)) ? ner.countries : [];
     for (var i = 0; i < countries.length; i++) {
-      var key = cleanCountryName(countries[i]).toLowerCase();
+      var key = countryKey(countries[i]);
       if (selectedCountries.has(key)) {
         return true;
       }
@@ -1241,68 +1099,6 @@ body {
     );
   }
 
-  function cleanCountryName(country) {
-    var raw = String(country || '').trim();
-    if (!raw) return '';
-    if (COUNTRY_NAME_OVERRIDES[raw]) return COUNTRY_NAME_OVERRIDES[raw];
-    return raw;
-  }
-
-  function countryKey(country) {
-    return cleanCountryName(country).toLowerCase();
-  }
-
-  function collectCountries(articles) {
-    var seenKey = new Set();
-    var out = [];
-    (articles || []).forEach(function (article) {
-      var ner = article && article.ner;
-      var countries = (ner && Array.isArray(ner.countries)) ? ner.countries : [];
-      countries.forEach(function (country) {
-        var label = cleanCountryName(country);
-        var key = countryKey(country);
-        if (!label || !key || seenKey.has(key)) return;
-        seenKey.add(key);
-        out.push({ key: key, label: label });
-      });
-    });
-    out.sort(function (a, b) { return a.label.localeCompare(b.label); });
-    return out;
-  }
-
-  function buildCountryAvailability(articles) {
-    var counts = new Map();
-    (articles || []).forEach(function (article) {
-      if (!matchesCategoryAndSearch(article)) return;
-      var ner = article && article.ner;
-      var countries = (ner && Array.isArray(ner.countries)) ? ner.countries : [];
-      countries.forEach(function (country) {
-        var key = countryKey(country);
-        if (!key) return;
-        counts.set(key, (counts.get(key) || 0) + 1);
-      });
-    });
-    return counts;
-  }
-
-  function areSetsEqual(a, b) {
-    if (a.size !== b.size) return false;
-    var equal = true;
-    a.forEach(function (value) {
-      if (!b.has(value)) equal = false;
-    });
-    return equal;
-  }
-
-  function eventPathIncludes(event, element) {
-    if (!event || !element) return false;
-    if (typeof event.composedPath === 'function') {
-      var path = event.composedPath();
-      if (Array.isArray(path) && path.indexOf(element) !== -1) return true;
-    }
-    return element.contains(event.target);
-  }
-
   function positionCountryPopover() {
     if (!countryPopover || !countryToggle) return;
     var toggleRect = countryToggle.getBoundingClientRect();
@@ -1385,12 +1181,14 @@ body {
 
   var _countryData = []; // cached country list for chip label lookups
 
-  function updateCountryOptions(articles) {
+  function updateCountryOptions(articles, options) {
+    options = options || {};
     if (!countryPopoverList) return false;
 
-    var previous = new Set(selectedCountries);
+    var pruneSelection = !!options.pruneSelection;
+    var previous = pruneSelection ? new Set(selectedCountries) : null;
     var countries = collectCountries(articles);
-    var availability = buildCountryAvailability(articles);
+    var availability = buildCountryAvailability(articles, matchesCategoryAndSearch);
     _countryData = countries;
     countryPopoverList.innerHTML = '';
 
@@ -1416,18 +1214,20 @@ body {
       countryPopoverList.appendChild(btn);
     });
 
-    // Prune selections for countries that are no longer available
-    var availableKeys = new Set(
-      countries
-        .filter(function (c) { return (availability.get(c.key) || 0) > 0; })
-        .map(function (c) { return c.key; })
-    );
-    selectedCountries.forEach(function (key) {
-      if (!availableKeys.has(key)) selectedCountries.delete(key);
-    });
+    if (pruneSelection) {
+      // Only prune on a fresh feed update so active filters survive normal UI refreshes.
+      var availableKeys = new Set(
+        countries
+          .filter(function (c) { return (availability.get(c.key) || 0) > 0; })
+          .map(function (c) { return c.key; })
+      );
+      selectedCountries.forEach(function (key) {
+        if (!availableKeys.has(key)) selectedCountries.delete(key);
+      });
+    }
 
     syncCountryUi();
-    return !areSetsEqual(previous, selectedCountries);
+    return pruneSelection ? !areSetsEqual(previous, selectedCountries) : false;
   }
 
   function filterCountryList(query) {
@@ -1505,7 +1305,7 @@ body {
     el.innerHTML =
       '<div class="feed-cat">' +
         '<span class="feed-cat-dot ' + dc + '"></span>' +
-        '<span class="feed-cat-label">' + dotLabel(article) + '</span>' +
+        '<span class="feed-cat-label">' + esc(dotLabel(article)) + '</span>' +
         (isNew ? '<span class="feed-new-badge">New</span>' : '') +
       '</div>' +
       '<h3 class="feed-headline">' +
@@ -1526,7 +1326,6 @@ body {
     batch.forEach(function (a, i) {
       var isNew = !!(highlightIds && a.id && highlightIds.has(a.id));
       var el = makeCard(a, i * 25, isNew);
-      if (a.id) displayedIds.add(a.id);
       frag.appendChild(el);
     });
     feed.appendChild(frag);
@@ -1564,7 +1363,6 @@ body {
     desiredCount = Math.max(0, Math.min(desiredCount, filteredArticles.length));
 
     renderedCount = 0;
-    displayedIds.clear();
     feed.innerHTML = '';
 
     if (allArticles.length === 0) {
@@ -1782,37 +1580,12 @@ body {
 
   // ─── FETCH ──────────────────────────────────────────────────────────────
 
-  function fetchFeedPayload() {
-    function attempt(index) {
-      if (index >= FEED_URLS.length) {
-        return Promise.reject(new Error('No headline feed available'));
-      }
-
-      return fetch(FEED_URLS[index] + '?t=' + Date.now())
-        .then(function (r) {
-          if (r.ok) return r.json();
-          if (r.status === 404 && index < FEED_URLS.length - 1) {
-            return attempt(index + 1);
-          }
-          throw new Error('HTTP ' + r.status);
-        })
-        .catch(function (err) {
-          if (index < FEED_URLS.length - 1) {
-            return attempt(index + 1);
-          }
-          throw err;
-        });
-    }
-
-    return attempt(0);
-  }
-
   function fetchFeed(isPoll) {
     // Cache-bust so the browser doesn't serve stale JSON
-    return fetchFeedPayload()
+    return fetchJsonWithFallback()
       .then(function (data) {
         var articles = (data.articles || []).map(function (article) {
-          return normalizeArticleCategoriesInPlace(article);
+          return normalizeHeadlineFeedArticle(article);
         });
         var meta     = data.metadata  || {};
         validateCategoryContract(meta);
@@ -1847,7 +1620,7 @@ body {
               .filter(Boolean)
           );
           allArticles = articles;
-          var countrySelectionChanged = updateCountryOptions(allArticles);
+          var countrySelectionChanged = updateCountryOptions(allArticles, { pruneSelection: true });
           updateSubsectorCounts();
 
           if (countrySelectionChanged) {
@@ -1887,14 +1660,15 @@ body {
       .catch(function (err) {
         if (!isPoll) {
           // Only replace the feed with an error on the initial load
-          var isCORS = err.message.toLowerCase().includes('fetch') ||
-                       err.message.toLowerCase().includes('network');
+          var errMessage = String((err && err.message) || err || 'Unknown error');
+          var lowerMessage = errMessage.toLowerCase();
+          var isCORS = lowerMessage.includes('fetch') || lowerMessage.includes('network');
           var msg = isCORS
             ? 'Could not load <code>/data/feed.local.json</code> or <code>/data/feed.json</code>.<br>' +
               'Run the scraper first: <code>python3 rss_scraper.py</code><br>' +
               'Then serve via: <code>python3 server.py</code><br>' +
-              'And open: <code>http://127.0.0.1:8080/</code>'
-            : 'Error loading feed: ' + esc(err.message);
+              'And open: <code>http://127.0.0.1:8080/headline-watch/</code>'
+            : 'Error loading feed: ' + esc(errMessage);
 
           feed.innerHTML = '<div class="feed-error">' + msg + '</div>';
           loadBtn.textContent = '—';

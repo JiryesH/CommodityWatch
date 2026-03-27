@@ -9,10 +9,11 @@ from pathlib import Path
 from typing import Iterator
 from urllib.request import urlopen
 
+import pytest
 from sqlalchemy import insert
 
 from calendar_pipeline.storage import CalendarRepository, calendar_events, create_calendar_engine
-from server import AppConfig, create_server
+from server import AppConfig, build_config, create_server
 
 
 def create_fixture_database(database_path: Path) -> None:
@@ -533,6 +534,13 @@ def test_health_route_reports_missing_database_without_blocking_ui(tmp_path: Pat
     assert health["data"]["commodity_api_available"] is False
     assert "Database file not found" in health["data"]["commodity_api_error"]
     assert "HeadlineWatch" in html
+
+
+def test_build_config_rejects_invalid_port_env(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("PORT", "not-a-number")
+
+    with pytest.raises(ValueError, match="Invalid PORT"):
+        build_config(tmp_path)
 
 
 def test_calendar_route_returns_only_publishable_confirmed_events(tmp_path: Path) -> None:

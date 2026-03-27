@@ -1,9 +1,14 @@
-import contract from "../shared/commodity-series-contract.json" with { type: "json" };
 import {
   ARTIFACT_ENTITY_OVERRIDES,
   ARTIFACT_FAMILY_PRESETS,
   ARTIFACT_PALETTES,
 } from "./artifact-tile-presets.js";
+import {
+  COMMODITY_SERIES_CONTRACT as contract,
+  ORDERED_COMMODITY_SECTORS as SECTORS,
+  ORDERED_GROUPED_CARD_ENTRIES as GROUPED_CARD_ENTRIES,
+  getCommodityPlacement,
+} from "../shared/commodity-series-contract.js";
 
 const ENERGY_ICONS = {
   oil: "assets/energy-icons/oil-droplet-fill.svg",
@@ -260,56 +265,6 @@ const MARKET_VISUAL_PRESETS = {
   },
 };
 
-const SECTORS = contract.sectors
-  .map((sector) => ({
-    ...sector,
-    subsectors: sector.subsectors.map((subsector) => ({ ...subsector })),
-  }))
-  .sort((left, right) => left.order - right.order);
-
-const SECTOR_BY_ID = new Map(SECTORS.map((sector) => [sector.id, sector]));
-const SUBSECTOR_BY_ID = new Map(
-  SECTORS.flatMap((sector) =>
-    sector.subsectors.map((subsector) => [
-      `${sector.id}:${subsector.id}`,
-      {
-        ...subsector,
-        sectorId: sector.id,
-        sectorLabel: sector.label,
-        sectorOrder: sector.order,
-      },
-    ])
-  )
-);
-
-const GROUPED_CARD_ENTRIES = Object.entries(contract.grouped_cards).sort(([, left], [, right]) => {
-  const leftPlacement = getPlacement(left.sectorId, left.subsectorId);
-  const rightPlacement = getPlacement(right.sectorId, right.subsectorId);
-  return (
-    leftPlacement.sectorOrder - rightPlacement.sectorOrder ||
-    leftPlacement.subsectorOrder - rightPlacement.subsectorOrder ||
-    left.cardOrder - right.cardOrder
-  );
-});
-
-function getPlacement(sectorId, subsectorId) {
-  const sector = SECTOR_BY_ID.get(sectorId);
-  const placement = SUBSECTOR_BY_ID.get(`${sectorId}:${subsectorId}`);
-
-  if (!sector || !placement) {
-    throw new Error(`Unknown taxonomy placement: ${sectorId}/${subsectorId}`);
-  }
-
-  return {
-    sectorId,
-    sectorLabel: sector.label,
-    sectorOrder: sector.order,
-    subsectorId,
-    subsectorLabel: placement.label,
-    subsectorOrder: placement.order,
-  };
-}
-
 function toShortCode(value) {
   return String(value || "")
     .replaceAll(/[^A-Za-z0-9]+/g, " ")
@@ -527,7 +482,7 @@ function buildVisual(entityId, row, taxonomyConfig) {
 }
 
 function buildSeriesOption(row, latestRow, taxonomyConfig) {
-  const placement = getPlacement(taxonomyConfig.sectorId, taxonomyConfig.subsectorId);
+  const placement = getCommodityPlacement(taxonomyConfig.sectorId, taxonomyConfig.subsectorId);
 
   return {
     seriesKey: row.series_key,
@@ -565,7 +520,7 @@ function buildSeriesOption(row, latestRow, taxonomyConfig) {
 }
 
 function buildDefinition(config) {
-  const placement = getPlacement(config.sectorId, config.subsectorId);
+  const placement = getCommodityPlacement(config.sectorId, config.subsectorId);
   const representativeSeries =
     config.seriesOptions.find((seriesOption) => seriesOption.seriesKey === config.defaultSeriesKey) || config.seriesOptions[0];
 

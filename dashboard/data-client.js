@@ -1,5 +1,5 @@
 import { CommodityApiClient } from "../price-watch/commodities-client.js";
-import { FEED_URLS } from "./config.js";
+import { fetchJsonWithFallback, normalizeHeadlineFeedArticle } from "../shared/headline-feed.js";
 
 const commodityClient = new CommodityApiClient("");
 const historyCache = new Map();
@@ -8,14 +8,6 @@ const calendarCache = new Map();
 let latestPromise = null;
 let feedPromise = null;
 
-function getHeadlineTaxonomy() {
-  return (
-    globalThis.window?.CommodityWatchHeadlineTaxonomy ||
-    globalThis.CommodityWatchHeadlineTaxonomy ||
-    null
-  );
-}
-
 function safeDateValue(value) {
   const timestamp = new Date(value).getTime();
   return Number.isFinite(timestamp) ? timestamp : 0;
@@ -23,58 +15,6 @@ function safeDateValue(value) {
 
 function sortNewest(first, second) {
   return safeDateValue(second.published) - safeDateValue(first.published);
-}
-
-function normalizeFeedArticle(article) {
-  const categories = Array.isArray(article?.categories)
-    ? article.categories.filter(Boolean)
-    : article?.category
-      ? [article.category]
-      : [];
-
-  const normalizedArticle = {
-    id: article?.id || null,
-    title: article?.title || "",
-    description: article?.description || "",
-    link: article?.link || "",
-    published: article?.published || null,
-    source: article?.source || "Unknown source",
-    categories,
-    sentiment: article?.sentiment || null,
-    ner: article?.ner || null,
-  };
-
-  const headlineTaxonomy = getHeadlineTaxonomy();
-  if (headlineTaxonomy?.normalizeArticleCategoriesInPlace) {
-    return headlineTaxonomy.normalizeArticleCategoriesInPlace(normalizedArticle);
-  }
-
-  return normalizedArticle;
-}
-
-async function fetchJsonWithFallback(urls) {
-  let lastError = null;
-
-  for (const url of urls) {
-    try {
-      const response = await fetch(`${url}?t=${Date.now()}`, {
-        headers: {
-          Accept: "application/json",
-        },
-      });
-
-      if (!response.ok) {
-        lastError = new Error(`Request failed for ${url}: ${response.status}`);
-        continue;
-      }
-
-      return response.json();
-    } catch (error) {
-      lastError = error;
-    }
-  }
-
-  throw lastError || new Error("Unable to load JSON payload");
 }
 
 export async function fetchLatestSeries() {
@@ -167,10 +107,10 @@ export async function fetchCalendarEvents({ from, to, sectors = [] }) {
 
 export async function fetchHeadlineFeed() {
   if (!feedPromise) {
-    feedPromise = fetchJsonWithFallback(FEED_URLS)
+    feedPromise = fetchJsonWithFallback()
       .then((payload) => {
         const articles = Array.isArray(payload?.articles)
-          ? payload.articles.map(normalizeFeedArticle).sort(sortNewest)
+          ? payload.articles.map(normalizeHeadlineFeedArticle).sort(sortNewest)
           : [];
         const byId = new Map(articles.filter((article) => article.id).map((article) => [article.id, article]));
         return {

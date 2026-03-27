@@ -1,0 +1,133 @@
+{
+  "canonical_categories": [
+    "Oil - Crude",
+    "Oil - Refined Products",
+    "Natural Gas",
+    "LNG",
+    "Coal",
+    "Electric Power",
+    "Energy Transition",
+    "Chemicals",
+    "Metals",
+    "Agriculture",
+    "Fertilizers",
+    "Shipping",
+    "General"
+  ],
+  "short_labels": {
+    "General": "General",
+    "Oil - Crude": "Crude",
+    "Oil - Refined Products": "Refined",
+    "Natural Gas": "Nat Gas",
+    "Electric Power": "Power",
+    "Energy Transition": "Energy Trans"
+  },
+  "color_classes": {
+    "Oil - Crude": "energy",
+    "Oil - Refined Products": "energy",
+    "Natural Gas": "energy",
+    "LNG": "energy",
+    "Coal": "energy",
+    "Electric Power": "energy",
+    "Energy Transition": "energy",
+    "Chemicals": "energy",
+    "Metals": "metals",
+    "Agriculture": "agri",
+    "Fertilizers": "agri",
+    "Shipping": "other",
+    "General": "other"
+  },
+  "sector_map": {
+    "energy": [
+      "Oil - Crude",
+      "Oil - Refined Products",
+      "Natural Gas",
+      "LNG",
+      "Coal",
+      "Electric Power",
+      "Energy Transition"
+    ],
+    "chemicals": [
+      "Chemicals"
+    ],
+    "metals_and_mining": [
+      "Metals"
+    ],
+    "agriculture": [
+      "Agriculture"
+    ],
+    "fertilizers": [
+      "Fertilizers"
+    ],
+    "shipping": [
+      "Shipping"
+    ]
+  },
+  "dashboard_category_tags": {
+    "General": {
+      "label": "Macro",
+      "sectorId": "macro",
+      "alwaysRelevant": true
+    },
+    "Shipping": {
+      "label": "Cross-Commodity",
+      "sectorId": "cross-commodity",
+      "alwaysRelevant": true
+    },
+    "Oil - Crude": {
+      "label": "Crude Oil",
+      "sectorId": "energy",
+      "alwaysRelevant": false
+    },
+    "Oil - Refined Products": {
+      "label": "Refined Products",
+      "sectorId": "energy",
+      "alwaysRelevant": false
+    },
+    "Natural Gas": {
+      "label": "Natural Gas",
+      "sectorId": "energy",
+      "alwaysRelevant": false
+    },
+    "LNG": {
+      "label": "LNG",
+      "sectorId": "energy",
+      "alwaysRelevant": false
+    },
+    "Coal": {
+      "label": "Coal",
+      "sectorId": "energy",
+      "alwaysRelevant": false
+    },
+    "Electric Power": {
+      "label": "Power",
+      "sectorId": "energy",
+      "alwaysRelevant": false
+    },
+    "Energy Transition": {
+      "label": "Power",
+      "sectorId": "energy",
+      "alwaysRelevant": false
+    },
+    "Metals": {
+      "label": "Metals",
+      "sectorId": "metals",
+      "alwaysRelevant": false
+    },
+    "Agriculture": {
+      "label": "Agriculture",
+      "sectorId": "agriculture",
+      "alwaysRelevant": false
+    },
+    "Fertilizers": {
+      "label": "Agriculture",
+      "sectorId": "agriculture",
+      "alwaysRelevant": false
+    },
+    "Chemicals": {
+      "label": "Cross-Commodity",
+      "sectorId": "cross-commodity",
+      "alwaysRelevant": false
+    }
+  }
+}

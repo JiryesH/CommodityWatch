@@ -58,3 +58,18 @@ def test_series_contract_uses_valid_taxonomy_and_grouped_references() -> None:
         assert grouped_card["seriesKeys"]
         assert len(grouped_card["seriesKeys"]) == len(set(grouped_card["seriesKeys"]))
         assert set(grouped_card["seriesKeys"]) <= known_series
+
+    assert contract["dashboard"]["default_home_series_keys"] == [
+        "crude_oil_wti",
+        "crude_oil_brent",
+        "natural_gas_henry_hub",
+        "natural_gas_ttf",
+        "gold_worldbank_monthly",
+        "copper_worldbank_monthly",
+        "wheat_global_monthly_proxy",
+        "corn_global_monthly_proxy",
+        "coffee_arabica_monthly_proxy",
+        "sugar_no11_world_monthly_proxy",
+        "iron_ore_62pct_china_monthly",
+        "thermal_coal_newcastle",
+    ]

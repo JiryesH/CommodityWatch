@@ -51,12 +51,16 @@ def utc_now_iso() -> str:
 
 
 def resolve_path(raw_path: str | None, fallback: Path) -> Path:
-    if not raw_path:
+    if raw_path is None:
         return fallback
-    p = Path(raw_path)
+    normalized = raw_path.strip()
+    if not normalized:
+        return fallback
+
+    p = Path(normalized).expanduser()
     if not p.is_absolute():
         p = ROOT_DIR / p
-    return p
+    return p.resolve()
 
 
 def to_int(value: Any, default: int) -> int:

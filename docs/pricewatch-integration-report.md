@@ -1,5 +1,7 @@
 # PriceWatch Integration Report
 
+Historical note: this report documents the migration from the standalone sandbox into the production CommodityWatch product. It is kept for context only; the current source of truth is `price-watch/` and `server.py`.
+
 ## Objective
 
 Integrate the sandboxed `PriceWatch` prototype into the main CommodityWatch product without turning the app into a larger monolith, while preserving the existing headline workflow as `HeadlineWatch`.

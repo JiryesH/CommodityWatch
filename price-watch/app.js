@@ -2031,7 +2031,7 @@ class CommodityWatchEngine {
   }
 
   renderGlobalError(error) {
-    const message = String(error.message || error);
+    const message = compactErrorMessage(error.message || error);
     this.setSearchAvailability(false);
     this.searchQuery = "";
     if (this.ui.searchInput) {
@@ -2040,17 +2040,13 @@ class CommodityWatchEngine {
     if (this.ui.statusLine) {
       this.ui.statusLine.textContent = "";
     }
-    this.ui.catalogRoot.innerHTML = `
-      <article class="viz-card viz-card-error">
-        <div class="feed-cat">
-          <span class="feed-cat-dot energy"></span>
-          <span class="feed-cat-label">Data</span>
-        </div>
-        <h2 class="card-title">Unable to load commodity data</h2>
+    this.ui.catalogRoot.innerHTML = renderGlobalStateCard(
+      "Unable to load commodity data",
+      `
         <p class="card-meta">${escapeHtml(message)}</p>
         <p class="card-meta">Check <code>COMMODITY_BACKEND_ROOT</code>, <code>DATABASE_URL</code>, and the published commodity views before reloading.</p>
-      </article>
-    `;
+      `
+    );
     window.CommodityWatchFilterShell?.setLayerOpen(null, this.ui.subsectorLayer, false);
     if (this.ui.catalogEmpty) {
       this.ui.catalogEmpty.hidden = true;
@@ -2066,16 +2062,10 @@ class CommodityWatchEngine {
     if (this.ui.statusLine) {
       this.ui.statusLine.textContent = "";
     }
-    this.ui.catalogRoot.innerHTML = `
-      <article class="viz-card viz-card-error">
-        <div class="feed-cat">
-          <span class="feed-cat-dot energy"></span>
-          <span class="feed-cat-label">Data</span>
-        </div>
-        <h2 class="card-title">No published commodity series found</h2>
-        <p class="card-meta">Populate the commodity backend and publish at least one series to use PriceWatch.</p>
-      </article>
-    `;
+    this.ui.catalogRoot.innerHTML = renderGlobalStateCard(
+      "No published commodity series found",
+      `<p class="card-meta">Populate the commodity backend and publish at least one series to use PriceWatch.</p>`
+    );
     window.CommodityWatchFilterShell?.setLayerOpen(null, this.ui.subsectorLayer, false);
     if (this.ui.catalogEmpty) {
       this.ui.catalogEmpty.hidden = true;
@@ -2140,6 +2130,19 @@ function buildCardMeta(definition, activeSeries) {
   }
 
   return parts.join(" · ");
+}
+
+function renderGlobalStateCard(title, bodyMarkup) {
+  return `
+    <article class="viz-card viz-card-error">
+      <div class="feed-cat">
+        <span class="feed-cat-dot energy"></span>
+        <span class="feed-cat-label">Data</span>
+      </div>
+      <h2 class="card-title">${escapeHtml(title)}</h2>
+      ${bodyMarkup}
+    </article>
+  `;
 }
 
 function buildMetaItem(label, value) {
@@ -2220,8 +2223,7 @@ function buildHistoryTable(rows, digits, unit) {
     `;
   }
 
-  const tableRows = [...rows]
-    .sort((left, right) => right.observation_date.localeCompare(left.observation_date))
+  const tableRows = sortHistoryRows(rows, "desc")
     .slice(0, 8)
     .map(
       (row) => `
@@ -2271,7 +2273,7 @@ function buildHistoryCsv(rows) {
     "updated_at",
     "notes",
   ];
-  const sortedRows = [...rows].sort((left, right) => left.observation_date.localeCompare(right.observation_date));
+  const sortedRows = sortHistoryRows(rows, "asc");
   const dataRows = sortedRows.map((row) =>
     [
       row.observation_date,
@@ -2295,6 +2297,15 @@ function buildHistoryCsv(rows) {
   );
 
   return [headers.join(","), ...dataRows].join("\r\n");
+}
+
+function sortHistoryRows(rows, direction = "asc") {
+  const multiplier = direction === "desc" ? -1 : 1;
+
+  return [...rows].sort(
+    (left, right) =>
+      String(left.observation_date || "").localeCompare(String(right.observation_date || "")) * multiplier
+  );
 }
 
 function toCsvCell(value) {

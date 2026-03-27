@@ -2,8 +2,12 @@ import test from "node:test";
 import assert from "node:assert/strict";
 
 import {
+  DEFAULT_HOME_SERIES_KEYS,
+  ALWAYS_HEADLINE_CATEGORIES,
   getAllCommodityIdsForGroup,
+  getSectorById,
   getSeriesKeysForGroup,
+  getTagForFeedCategory,
 } from "../config.js";
 import {
   createDefaultFilter,
@@ -22,6 +26,13 @@ import {
   toggleSector,
 } from "../filter-state.js";
 import { MODULE_REGISTRY } from "../module-registry.js";
+import { createModuleRenderGate } from "../modules.js";
+import {
+  ALWAYS_RELEVANT_CATEGORIES,
+  SECTOR_MAP as HEADLINE_SECTOR_MAP,
+  canonicalCategoriesForArticle,
+} from "../../shared/headline-taxonomy.js";
+import { COMMODITY_SERIES_CONTRACT } from "../../shared/commodity-series-contract.js";
 
 test("default home filter resolves to the all-commodities state with all sectors active", () => {
   const filter = createDefaultFilter();
@@ -137,5 +148,51 @@ test("home registry only renders the live modules in their declared slots", () =
   assert.deepEqual(
     MODULE_REGISTRY.map((moduleDefinition) => moduleDefinition.slot),
     ["main-top", "main-left", "sidebar"]
+  );
+});
+
+test("module render gates ignore stale async writes after a newer render starts", () => {
+  const section = {};
+  const body = { innerHTML: "" };
+
+  const firstGate = createModuleRenderGate(section);
+  const secondGate = createModuleRenderGate(section);
+
+  firstGate.commit(body, "stale");
+  assert.equal(body.innerHTML, "");
+  assert.equal(firstGate.isCurrent(), false);
+
+  secondGate.commit(body, "fresh");
+  assert.equal(body.innerHTML, "fresh");
+  assert.equal(secondGate.isCurrent(), true);
+});
+
+test("dashboard config derives headline category semantics from the shared taxonomy contract", () => {
+  assert.deepEqual(DEFAULT_HOME_SERIES_KEYS, COMMODITY_SERIES_CONTRACT.dashboard.default_home_series_keys);
+  assert.deepEqual(ALWAYS_HEADLINE_CATEGORIES, [...ALWAYS_RELEVANT_CATEGORIES]);
+  assert.deepEqual(getSectorById("energy").feedCategories, [...HEADLINE_SECTOR_MAP.energy]);
+  assert.deepEqual(getSectorById("metals").feedCategories, [...HEADLINE_SECTOR_MAP.metals_and_mining]);
+  assert.deepEqual(getSectorById("agriculture").feedCategories, [
+    ...HEADLINE_SECTOR_MAP.agriculture,
+    ...HEADLINE_SECTOR_MAP.fertilizers,
+  ]);
+  assert.deepEqual(getTagForFeedCategory("Shipping"), {
+    label: "Cross-Commodity",
+    sectorId: "cross-commodity",
+  });
+});
+
+test("shared headline taxonomy normalizes canonical category lists deterministically", () => {
+  assert.deepEqual(
+    canonicalCategoriesForArticle({
+      categories: ["Shipping", "Unknown", "Oil - Crude", "Shipping"],
+    }),
+    ["Oil - Crude", "Shipping"]
+  );
+  assert.deepEqual(
+    canonicalCategoriesForArticle({
+      category: "Shipping, Oil - Crude, Shipping",
+    }),
+    ["Oil - Crude", "Shipping"]
   );
 });

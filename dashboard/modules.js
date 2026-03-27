@@ -28,6 +28,11 @@ import {
   isAllFilter,
   normalizeFilter,
 } from "./filter-state.js";
+import {
+  canonicalCategoriesForArticle as canonicalHeadlineCategories,
+  dotClass as headlineDotClass,
+  dotLabel as headlineDotLabel,
+} from "../shared/headline-taxonomy.js";
 
 const headlineExactFormatter = new Intl.DateTimeFormat("en-GB", {
   day: "numeric",
@@ -67,55 +72,6 @@ function escapeHtml(value) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#39;");
-}
-
-function getHeadlineTaxonomy() {
-  return (
-    globalThis.window?.CommodityWatchHeadlineTaxonomy ||
-    globalThis.CommodityWatchHeadlineTaxonomy ||
-    null
-  );
-}
-
-function canonicalHeadlineCategories(article) {
-  const headlineTaxonomy = getHeadlineTaxonomy();
-  if (headlineTaxonomy?.canonicalCategoriesForArticle) {
-    return headlineTaxonomy.canonicalCategoriesForArticle(article);
-  }
-
-  if (Array.isArray(article?.categories) && article.categories.length) {
-    return article.categories.filter(Boolean);
-  }
-
-  return article?.category ? [article.category] : ["General"];
-}
-
-function headlineDotClass(article) {
-  const headlineTaxonomy = getHeadlineTaxonomy();
-  if (headlineTaxonomy?.dotClass) {
-    return headlineTaxonomy.dotClass(article);
-  }
-
-  const categories = canonicalHeadlineCategories(article);
-  if (categories.includes("Metals")) {
-    return "metals";
-  }
-  if (categories.includes("Agriculture") || categories.includes("Fertilizers")) {
-    return "agri";
-  }
-  if (categories.includes("General") || categories.includes("Shipping")) {
-    return "other";
-  }
-  return "energy";
-}
-
-function headlineDotLabel(article) {
-  const headlineTaxonomy = getHeadlineTaxonomy();
-  if (headlineTaxonomy?.dotLabel) {
-    return headlineTaxonomy.dotLabel(article);
-  }
-
-  return canonicalHeadlineCategories(article)[0] || "General";
 }
 
 function parseIsoDate(value) {
@@ -335,6 +291,22 @@ function renderEmptyState(title, copy) {
 
 function renderErrorState(copy) {
   return renderEmptyState("Module unavailable", copy);
+}
+
+export function createModuleRenderGate(section) {
+  const requestId = (section.__requestId || 0) + 1;
+  section.__requestId = requestId;
+
+  return {
+    isCurrent() {
+      return section.__requestId === requestId;
+    },
+    commit(body, html) {
+      if (section.__requestId === requestId) {
+        body.innerHTML = html;
+      }
+    },
+  };
 }
 
 function renderHeadlineSentimentMeta(sentiment) {
@@ -625,15 +597,6 @@ function bindPriceStripCarousel(body) {
   };
 }
 
-function isSectorScopeOnly(filter) {
-  const normalized = normalizeFilter(filter);
-  if (isAllFilter(normalized)) {
-    return false;
-  }
-
-  return !hasPartialGroupSelection(normalized) && !getSelectedGroup(normalized);
-}
-
 function getPriceSelection(filter) {
   const normalized = normalizeFilter(filter);
 
@@ -690,13 +653,7 @@ function getAlwaysRelevantHeadlines(feedArticles) {
 }
 
 function fallbackHeadlineLabel(commodityMetaList = []) {
-  if (commodityMetaList.length === 1) {
-    return commodityMetaList[0].label;
-  }
-  if (commodityMetaList.length > 1) {
-    return commodityMetaList[0].label;
-  }
-  return "General";
+  return commodityMetaList[0]?.label || "General";
 }
 
 function fallbackHeadlineDotClass(commodityMetaList = []) {
@@ -713,6 +670,8 @@ function fallbackHeadlineDotClass(commodityMetaList = []) {
 function createHeadlineItem(article, overrides = {}, commodityMetaList = []) {
   const categories = article ? canonicalHeadlineCategories(article) : [];
   const primaryCategory = categories[0] || "General";
+  const headlineLabel = article ? headlineDotLabel(article) : fallbackHeadlineLabel(commodityMetaList);
+  const dotClass = article ? headlineDotClass(article) : fallbackHeadlineDotClass(commodityMetaList);
 
   return {
     id: overrides.id || article?.id || article?.link || `${overrides.title || article?.title || "headline"}|${overrides.published || article?.published || ""}`,
@@ -722,9 +681,9 @@ function createHeadlineItem(article, overrides = {}, commodityMetaList = []) {
     published: overrides.published || article?.published || "",
     sentiment: overrides.sentiment || article?.sentiment?.label || "",
     primaryCategory,
-    metaCategoryLabel: primaryCategory !== "General" ? headlineDotLabel(article) : "",
-    dotLabel: article ? headlineDotLabel(article) : fallbackHeadlineLabel(commodityMetaList),
-    dotClass: article ? headlineDotClass(article) : fallbackHeadlineDotClass(commodityMetaList),
+    metaCategoryLabel: primaryCategory !== "General" ? headlineLabel : "",
+    dotLabel: headlineLabel,
+    dotClass,
   };
 }
 
@@ -899,7 +858,7 @@ function getCalendarSelection(filter, events) {
   const selectedGroup = getSelectedGroup(normalized);
   const selectedGroups = getSelectedGroups(normalized);
 
-  if (!isSectorScopeOnly(normalized) && selectedGroups.length) {
+  if (hasPartialGroupSelection(normalized) && selectedGroups.length) {
     const selectedCommodities = getSelectedCommodities(normalized);
     const commodityPattern =
       selectedGroup && selectedCommodities.length === 1
@@ -927,7 +886,12 @@ function getCalendarSelection(filter, events) {
   };
 }
 
-async function renderPriceModuleBody(body, filter, { onNavigate } = {}) {
+async function renderPriceModuleBody(body, filter, { onNavigate, commit, isCurrent } = {}) {
+  const writeBody = typeof commit === "function" ? commit : (target, html) => {
+    target.innerHTML = html;
+  };
+  const isRenderCurrent = typeof isCurrent === "function" ? isCurrent : () => true;
+
   if (typeof body.__priceTileCleanup === "function") {
     body.__priceTileCleanup();
     body.__priceTileCleanup = null;
@@ -941,14 +905,17 @@ async function renderPriceModuleBody(body, filter, { onNavigate } = {}) {
   const selection = getPriceSelection(filter);
 
   if (!selection.length) {
-    body.innerHTML = renderEmptyState(
-      "No benchmark prices available",
-      `No live benchmark prices are configured for ${getFilterLabel(filter)}.`
+    writeBody(
+      body,
+      renderEmptyState("No benchmark prices available", `No live benchmark prices are configured for ${getFilterLabel(filter)}.`)
     );
     return;
   }
 
   const latestBySeriesKey = await fetchLatestSeriesMap();
+  if (!isRenderCurrent()) {
+    return;
+  }
   const priceEntries = await Promise.all(
     selection.map(async (commodityMeta) => {
       const latestRow = latestBySeriesKey.get(commodityMeta.seriesKey);
@@ -964,17 +931,23 @@ async function renderPriceModuleBody(body, filter, { onNavigate } = {}) {
       };
     })
   );
+  if (!isRenderCurrent()) {
+    return;
+  }
 
   const availableEntries = priceEntries.filter(Boolean);
   if (!availableEntries.length) {
-    body.innerHTML = renderEmptyState(
-      "No benchmark prices available",
-      `No live benchmark prices are currently available for ${getFilterLabel(filter)}.`
+    writeBody(
+      body,
+      renderEmptyState(
+        "No benchmark prices available",
+        `No live benchmark prices are currently available for ${getFilterLabel(filter)}.`
+      )
     );
     return;
   }
 
-  body.innerHTML = `
+  writeBody(body, `
     ${isAllFilter(filter) ? "" : `<p class="module-scope">Showing prices for ${escapeHtml(getFilterLabel(filter))}</p>`}
     <div class="price-strip" data-price-strip>
       <div class="price-strip-track" data-price-track>
@@ -1016,14 +989,26 @@ async function renderPriceModuleBody(body, filter, { onNavigate } = {}) {
         .join("")}
       </div>
     </div>
-  `;
+  `);
+
+  if (!isRenderCurrent()) {
+    return;
+  }
 
   bindPriceTileInteractions(body, onNavigate);
   bindPriceStripCarousel(body);
 }
 
-async function renderHeadlineModuleBody(body, filter) {
+async function renderHeadlineModuleBody(body, filter, { commit, isCurrent } = {}) {
+  const writeBody = typeof commit === "function" ? commit : (target, html) => {
+    target.innerHTML = html;
+  };
+  const isRenderCurrent = typeof isCurrent === "function" ? isCurrent : () => true;
+
   const feed = await fetchHeadlineFeed();
+  if (!isRenderCurrent()) {
+    return;
+  }
   const normalized = normalizeFilter(filter);
   const alwaysRelevant = getAlwaysRelevantHeadlines(feed.articles);
   const selectedSectorIds = getSelectedSectors(normalized).map((sector) => sector.id);
@@ -1031,12 +1016,13 @@ async function renderHeadlineModuleBody(body, filter) {
   if (isAllFilter(normalized)) {
     const items = feed.articles.slice(0, 10).map((article) => createHeadlineItem(article));
 
-    body.innerHTML = `<div class="headline-list">${items.map(renderHeadlineItem).join("")}</div>`;
+    writeBody(body, `<div class="headline-list">${items.map(renderHeadlineItem).join("")}</div>`);
     return;
   }
 
   const selectedGroups = getSelectedGroups(normalized);
   const selectedGroup = getSelectedGroup(normalized);
+  const sectorScopeOnly = !hasPartialGroupSelection(normalized) && !selectedGroup;
   let directItems = [];
   if (selectedGroup) {
     const selectedCommodities = getSelectedCommodities(normalized).filter((commodity) => commodity.seriesKey);
@@ -1048,12 +1034,15 @@ async function renderHeadlineModuleBody(body, filter) {
           rows: await fetchRelatedHeadlines(commodityMeta.seriesKey, 6),
         }))
       );
+      if (!isRenderCurrent()) {
+        return;
+      }
       directItems = mergeRelatedHeadlineSets(relatedRows, feed.byId);
     }
   }
 
   if (!directItems.length) {
-    if (isSectorScopeOnly(normalized)) {
+    if (sectorScopeOnly) {
       directItems = feed.articles
         .filter((article) => selectedSectorIds.some((sectorId) => matchesSectorFeed(article, sectorId)))
         .slice(0, 10)
@@ -1078,14 +1067,14 @@ async function renderHeadlineModuleBody(body, filter) {
   const items = dedupeByKey([...directItems, ...broaderContextItems].sort(sortNewest), (item) => item.id).slice(0, 10);
 
   if (!items.length) {
-    body.innerHTML = renderEmptyState(
-      "No headlines found",
-      `No headlines found for ${getFilterLabel(filter)} in the current feed window.`
+    writeBody(
+      body,
+      renderEmptyState("No headlines found", `No headlines found for ${getFilterLabel(filter)} in the current feed window.`)
     );
     return;
   }
 
-  body.innerHTML = `
+  writeBody(body, `
     <p class="module-scope">Showing headlines for: <strong>${escapeHtml(getFilterLabel(filter))}</strong></p>
     ${
       directItems.length
@@ -1093,10 +1082,15 @@ async function renderHeadlineModuleBody(body, filter) {
         : `<p class="module-note">No direct commodity matches were found. Showing broader commodity context instead.</p>`
     }
     <div class="headline-list">${items.map(renderHeadlineItem).join("")}</div>
-  `;
+  `);
 }
 
-async function renderCalendarModuleBody(body, filter) {
+async function renderCalendarModuleBody(body, filter, { commit, isCurrent } = {}) {
+  const writeBody = typeof commit === "function" ? commit : (target, html) => {
+    target.innerHTML = html;
+  };
+  const isRenderCurrent = typeof isCurrent === "function" ? isCurrent : () => true;
+
   const normalized = normalizeFilter(filter);
   const today = new Date();
   const from = toIsoDate(today);
@@ -1105,33 +1099,35 @@ async function renderCalendarModuleBody(body, filter) {
     ? []
     : [...new Set([...getSelectedSectors(normalized).map((sector) => sector.id), ...ALWAYS_CALENDAR_SECTORS])];
   const events = await fetchCalendarEvents({ from, to, sectors });
+  if (!isRenderCurrent()) {
+    return;
+  }
   const { items, directMatchCount } = getCalendarSelection(normalized, events);
 
   if (!items.length) {
-    body.innerHTML = renderEmptyState(
-      "No releases scheduled",
-      `No upcoming releases were found for ${getFilterLabel(filter)} in the next two weeks.`
+    writeBody(
+      body,
+      renderEmptyState("No releases scheduled", `No upcoming releases were found for ${getFilterLabel(filter)} in the next two weeks.`)
     );
     return;
   }
 
-  body.innerHTML = `
+  writeBody(body, `
     ${
       !isAllFilter(normalized) && directMatchCount === 0
         ? `<p class="module-note">No direct ${escapeHtml(getFilterLabel(filter))} releases are scheduled. Showing macro and cross-commodity events.</p>`
         : ""
     }
     <div class="calendar-agenda">${renderCalendarGroups(items)}</div>
-  `;
+  `);
 }
 
 function attachAsyncRenderer(section, body, renderer, filter, context = {}) {
-  const requestId = (section.__requestId || 0) + 1;
-  section.__requestId = requestId;
+  const gate = createModuleRenderGate(section);
 
-  renderer(body, filter, context)
+  Promise.resolve(renderer(body, filter, { ...context, ...gate }))
     .catch(() => {
-      if (section.__requestId !== requestId) {
+      if (!gate.isCurrent()) {
         return;
       }
       body.innerHTML = renderErrorState("Live data could not be loaded for this module.");

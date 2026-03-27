@@ -1,141 +1,122 @@
-(function attachHeadlineTaxonomy(globalScope) {
-  var CANONICAL_CATEGORIES = [
-    "Oil - Crude",
-    "Oil - Refined Products",
-    "Natural Gas",
-    "LNG",
-    "Coal",
-    "Electric Power",
-    "Energy Transition",
-    "Chemicals",
-    "Metals",
-    "Agriculture",
-    "Fertilizers",
-    "Shipping",
-    "General",
-  ];
+import contract from "./headline-taxonomy.json" with { type: "json" };
 
-  var CATEGORY_PRIORITY = {};
-  CANONICAL_CATEGORIES.forEach(function (category, index) {
-    CATEGORY_PRIORITY[category] = index;
-  });
+function freezeArrayRecord(record) {
+  return Object.freeze(
+    Object.fromEntries(Object.entries(record).map(([key, values]) => [key, Object.freeze([...values])]))
+  );
+}
 
-  var CAT_COLOR = {
-    "Oil - Crude": "energy",
-    "Oil - Refined Products": "energy",
-    "Natural Gas": "energy",
-    LNG: "energy",
-    Coal: "energy",
-    "Electric Power": "energy",
-    "Energy Transition": "energy",
-    Chemicals: "energy",
-    Metals: "metals",
-    Agriculture: "agri",
-    Fertilizers: "agri",
-    Shipping: "other",
-    General: "other",
-  };
+function freezeObjectRecord(record) {
+  return Object.freeze(
+    Object.fromEntries(Object.entries(record).map(([key, value]) => [key, Object.freeze({ ...value })]))
+  );
+}
 
-  var CAT_LABEL = {
-    General: "General",
-    "Oil - Crude": "Crude",
-    "Oil - Refined Products": "Refined",
-    "Natural Gas": "Nat Gas",
-    "Electric Power": "Power",
-    "Energy Transition": "Energy Trans",
-  };
+export const CANONICAL_CATEGORIES = Object.freeze([...contract.canonical_categories]);
+export const CATEGORY_PRIORITY = Object.freeze(
+  Object.fromEntries(CANONICAL_CATEGORIES.map((category, index) => [category, index]))
+);
+export const CAT_COLOR = Object.freeze({ ...contract.color_classes });
+export const CAT_LABEL = Object.freeze({ ...contract.short_labels });
+export const SECTOR_MAP = freezeArrayRecord(contract.sector_map);
+export const ENERGY_CATS = SECTOR_MAP.energy || Object.freeze([]);
+export const DASHBOARD_CATEGORY_TAGS = freezeObjectRecord(contract.dashboard_category_tags);
+export const ALWAYS_RELEVANT_CATEGORIES = Object.freeze(
+  Object.entries(DASHBOARD_CATEGORY_TAGS)
+    .filter(([, metadata]) => metadata.alwaysRelevant)
+    .map(([category]) => category)
+);
 
-  var ENERGY_CATS = [
-    "Oil - Crude",
-    "Oil - Refined Products",
-    "Natural Gas",
-    "LNG",
-    "Coal",
-    "Electric Power",
-    "Energy Transition",
-  ];
+function hasCanonicalCategory(category) {
+  return Object.prototype.hasOwnProperty.call(CATEGORY_PRIORITY, category);
+}
 
-  var SECTOR_MAP = {
-    energy: ENERGY_CATS,
-    chemicals: ["Chemicals"],
-    metals_and_mining: ["Metals"],
-    agriculture: ["Agriculture"],
-    fertilizers: ["Fertilizers"],
-    shipping: ["Shipping"],
-  };
+export function canonicalCategoriesForArticle(article) {
+  const raw = article?.categories;
+  let tokens = [];
 
-  function canonicalCategoriesForArticle(article) {
-    var raw = article && article.categories;
-    var tokens = [];
-
-    if (Array.isArray(raw)) {
-      tokens = raw.slice();
-    } else if (article && article.category) {
-      tokens = String(article.category).split(",");
-    }
-
-    var out = [];
-    var seen = new Set();
-    tokens.forEach(function (token) {
-      var category = String(token || "").trim();
-      if (!category || !Object.prototype.hasOwnProperty.call(CATEGORY_PRIORITY, category) || seen.has(category)) {
-        return;
-      }
-
-      seen.add(category);
-      out.push(category);
-    });
-
-    if (out.length === 0) {
-      out.push("General");
-    }
-
-    out.sort(function (left, right) {
-      return CATEGORY_PRIORITY[left] - CATEGORY_PRIORITY[right];
-    });
-
-    return out;
+  if (Array.isArray(raw)) {
+    tokens = raw.slice();
+  } else if (article?.category) {
+    tokens = String(article.category).split(",");
   }
 
-  function normalizeArticleCategoriesInPlace(article) {
-    var categories = canonicalCategoriesForArticle(article);
-    article.categories = categories;
-    article.category = categories[0];
+  const categories = [];
+  const seen = new Set();
+
+  tokens.forEach((token) => {
+    const category = String(token || "").trim();
+    if (!category || !hasCanonicalCategory(category) || seen.has(category)) {
+      return;
+    }
+
+    seen.add(category);
+    categories.push(category);
+  });
+
+  if (!categories.length) {
+    categories.push("General");
+  }
+
+  categories.sort((left, right) => CATEGORY_PRIORITY[left] - CATEGORY_PRIORITY[right]);
+  return categories;
+}
+
+export function normalizeArticleCategoriesInPlace(article) {
+  if (!article || typeof article !== "object") {
     return article;
   }
 
-  function dotClass(article) {
-    var categories = canonicalCategoriesForArticle(article);
-    var priority = { energy: 3, metals: 2, agri: 1, other: 0 };
-    var best = "other";
+  const categories = canonicalCategoriesForArticle(article);
+  article.categories = categories;
+  article.category = categories[0];
+  return article;
+}
 
-    categories.forEach(function (category) {
-      var color = CAT_COLOR[category] || "other";
-      if (priority[color] > priority[best]) {
-        best = color;
-      }
-    });
-
-    return best;
-  }
-
-  function dotLabel(article) {
-    var primary = canonicalCategoriesForArticle(article)[0] || "General";
-    return CAT_LABEL[primary] || primary;
-  }
-
-  var api = {
-    CANONICAL_CATEGORIES: CANONICAL_CATEGORIES,
-    CATEGORY_PRIORITY: CATEGORY_PRIORITY,
-    CAT_COLOR: CAT_COLOR,
-    CAT_LABEL: CAT_LABEL,
-    ENERGY_CATS: ENERGY_CATS,
-    SECTOR_MAP: SECTOR_MAP,
-    canonicalCategoriesForArticle: canonicalCategoriesForArticle,
-    normalizeArticleCategoriesInPlace: normalizeArticleCategoriesInPlace,
-    dotClass: dotClass,
-    dotLabel: dotLabel,
+export function dotClass(article) {
+  const categoryColorPriority = {
+    energy: 3,
+    metals: 2,
+    agri: 1,
+    other: 0,
   };
+  let best = "other";
 
-  globalScope.CommodityWatchHeadlineTaxonomy = api;
-})(window);
+  canonicalCategoriesForArticle(article).forEach((category) => {
+    const color = CAT_COLOR[category] || "other";
+    if (categoryColorPriority[color] > categoryColorPriority[best]) {
+      best = color;
+    }
+  });
+
+  return best;
+}
+
+export function dotLabel(article) {
+  const primaryCategory = canonicalCategoriesForArticle(article)[0] || "General";
+  return CAT_LABEL[primaryCategory] || primaryCategory;
+}
+
+export function getDashboardCategoryTag(category) {
+  return DASHBOARD_CATEGORY_TAGS[category] || null;
+}
+
+const api = Object.freeze({
+  CANONICAL_CATEGORIES,
+  CATEGORY_PRIORITY,
+  CAT_COLOR,
+  CAT_LABEL,
+  ENERGY_CATS,
+  SECTOR_MAP,
+  DASHBOARD_CATEGORY_TAGS,
+  ALWAYS_RELEVANT_CATEGORIES,
+  canonicalCategoriesForArticle,
+  normalizeArticleCategoriesInPlace,
+  dotClass,
+  dotLabel,
+  getDashboardCategoryTag,
+});
+
+globalThis.CommodityWatchHeadlineTaxonomy = api;
+
+export default api;

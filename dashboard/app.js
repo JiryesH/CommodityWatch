@@ -31,6 +31,10 @@ const filterRoot = document.getElementById("home-filter-root");
 const dashboardRoot = document.getElementById("dashboard-root");
 const toTopButton = document.getElementById("to-top-btn");
 
+if (!filterRoot || !dashboardRoot) {
+  throw new Error("Dashboard shell roots are missing");
+}
+
 let activeFilter = normalizeFilter(readStoredFilter());
 let filterCollapsed = readStoredCollapseState();
 
@@ -44,6 +48,10 @@ function escapeHtml(value) {
 }
 
 function handleNavigate(route) {
+  if (!route) {
+    return;
+  }
+
   window.location.assign(route);
 }
 

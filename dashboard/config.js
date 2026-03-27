@@ -1,3 +1,10 @@
+import {
+  ALWAYS_RELEVANT_CATEGORIES,
+  DASHBOARD_CATEGORY_TAGS,
+  SECTOR_MAP as HEADLINE_SECTOR_MAP,
+} from "../shared/headline-taxonomy.js";
+import { DEFAULT_HOME_SERIES_KEYS as SHARED_DEFAULT_HOME_SERIES_KEYS } from "../shared/commodity-series-contract.js";
+
 export const SECTOR_META = {
   energy: { label: "Energy", accent: "var(--color-energy)" },
   metals: { label: "Metals", accent: "var(--color-metals)" },
@@ -6,43 +13,21 @@ export const SECTOR_META = {
   "cross-commodity": { label: "Cross-Commodity", accent: "var(--color-cross)" },
 };
 
-export const ALWAYS_HEADLINE_CATEGORIES = ["General", "Shipping"];
+export const ALWAYS_HEADLINE_CATEGORIES = [...ALWAYS_RELEVANT_CATEGORIES];
 export const ALWAYS_CALENDAR_SECTORS = ["macro", "cross-commodity"];
-export const FEED_URLS = ["/data/feed.local.json", "/data/feed.json"];
 export const HOME_FILTER_STORAGE_KEY_SUFFIX = ".home.filter";
 export const HOME_FILTER_STORAGE_KEY = `commoditywatch${HOME_FILTER_STORAGE_KEY_SUFFIX}`;
 export const HOME_FILTER_COLLAPSE_STORAGE_KEY_SUFFIX = ".home.filter.collapsed";
 export const HOME_FILTER_COLLAPSE_STORAGE_KEY = `commoditywatch${HOME_FILTER_COLLAPSE_STORAGE_KEY_SUFFIX}`;
 
-export const DEFAULT_HOME_SERIES_KEYS = [
-  "crude_oil_wti",
-  "crude_oil_brent",
-  "natural_gas_henry_hub",
-  "natural_gas_ttf",
-  "gold_worldbank_monthly",
-  "copper_worldbank_monthly",
-  "wheat_global_monthly_proxy",
-  "corn_global_monthly_proxy",
-  "coffee_arabica_monthly_proxy",
-  "sugar_no11_world_monthly_proxy",
-  "iron_ore_62pct_china_monthly",
-  "thermal_coal_newcastle",
-];
+export const DEFAULT_HOME_SERIES_KEYS = [...SHARED_DEFAULT_HOME_SERIES_KEYS];
 
 export const HOME_FILTER_TAXONOMY = [
   {
     id: "energy",
     label: "Energy",
     accent: "var(--color-energy)",
-    feedCategories: [
-      "Oil - Crude",
-      "Oil - Refined Products",
-      "Natural Gas",
-      "LNG",
-      "Coal",
-      "Electric Power",
-      "Energy Transition",
-    ],
+    feedCategories: [...HEADLINE_SECTOR_MAP.energy],
     groups: [
       {
         id: "crude-oil",
@@ -110,7 +95,7 @@ export const HOME_FILTER_TAXONOMY = [
     id: "metals",
     label: "Metals",
     accent: "var(--color-metals)",
-    feedCategories: ["Metals"],
+    feedCategories: [...HEADLINE_SECTOR_MAP.metals_and_mining],
     groups: [
       {
         id: "precious",
@@ -167,7 +152,7 @@ export const HOME_FILTER_TAXONOMY = [
     id: "agriculture",
     label: "Agriculture",
     accent: "var(--color-agri)",
-    feedCategories: ["Agriculture", "Fertilizers"],
+    feedCategories: [...HEADLINE_SECTOR_MAP.agriculture, ...HEADLINE_SECTOR_MAP.fertilizers],
     groups: [
       {
         id: "grains-oilseeds",
@@ -229,21 +214,15 @@ const commodityBySeriesKey = new Map(
   )
 );
 
-const categoryTagMap = {
-  General: { label: "Macro", sectorId: "macro" },
-  Shipping: { label: "Cross-Commodity", sectorId: "cross-commodity" },
-  "Oil - Crude": { label: "Crude Oil", sectorId: "energy" },
-  "Oil - Refined Products": { label: "Refined Products", sectorId: "energy" },
-  "Natural Gas": { label: "Natural Gas", sectorId: "energy" },
-  LNG: { label: "LNG", sectorId: "energy" },
-  Coal: { label: "Coal", sectorId: "energy" },
-  "Electric Power": { label: "Power", sectorId: "energy" },
-  "Energy Transition": { label: "Power", sectorId: "energy" },
-  Metals: { label: "Metals", sectorId: "metals" },
-  Agriculture: { label: "Agriculture", sectorId: "agriculture" },
-  Fertilizers: { label: "Agriculture", sectorId: "agriculture" },
-  Chemicals: { label: "Cross-Commodity", sectorId: "cross-commodity" },
-};
+const categoryTagMap = Object.fromEntries(
+  Object.entries(DASHBOARD_CATEGORY_TAGS).map(([category, metadata]) => [
+    category,
+    {
+      label: metadata.label,
+      sectorId: metadata.sectorId,
+    },
+  ])
+);
 
 function uniqueStrings(values) {
   return [...new Set(values.filter(Boolean))];

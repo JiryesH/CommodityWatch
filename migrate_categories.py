@@ -16,7 +16,6 @@ from pathlib import Path
 from typing import Any
 
 from classifier import (
-    CANONICAL_CATEGORIES,
     LEGACY_CATEGORY_MAP,
     MAX_CATEGORIES_PER_ARTICLE,
     classify_categories,
@@ -27,6 +26,7 @@ from classifier import (
 )
 from dedupe_utils import canonical_article_dedupe_key, canonical_article_id
 from feed_io import load_feed_json, save_feed_json
+from headline_taxonomy import CANONICAL_CATEGORIES
 
 def _article_raw_tokens(article: dict[str, Any]) -> list[str]:
     seen: set[str] = set()

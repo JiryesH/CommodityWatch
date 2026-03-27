@@ -31,6 +31,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 from feed_io import preferred_headline_feed_path
+from headline_taxonomy import CANONICAL_CATEGORIES, CATEGORY_PRIORITY as _CATEGORY_PRIORITY
 
 logger = logging.getLogger("classifier")
 
@@ -41,23 +42,6 @@ logger = logging.getLogger("classifier")
 APP_ROOT = Path(__file__).resolve().parent
 TAXONOMY_PATH = APP_ROOT / "commodity_taxonomy.json"
 DEFAULT_FEED_PATH = preferred_headline_feed_path(APP_ROOT)
-
-# Canonical category contract (V1 scope)
-CANONICAL_CATEGORIES: tuple[str, ...] = (
-    "Oil - Crude",
-    "Oil - Refined Products",
-    "Natural Gas",
-    "LNG",
-    "Coal",
-    "Electric Power",
-    "Energy Transition",
-    "Chemicals",
-    "Metals",
-    "Agriculture",
-    "Fertilizers",
-    "Shipping",
-    "General",
-)
 
 MAX_CATEGORIES_PER_ARTICLE = 2
 
@@ -72,7 +56,6 @@ LEGACY_CATEGORY_MAP: dict[str, str] = {
 }
 
 _CANONICAL_BY_LOWER = {cat.lower(): cat for cat in CANONICAL_CATEGORIES}
-_CATEGORY_PRIORITY = {cat: idx for idx, cat in enumerate(CANONICAL_CATEGORIES)}
 _CATEGORY_SPLIT_RE = re.compile(r"\s*(?:,|;|\|)\s*")
 
 # ---------------------------------------------------------------------------

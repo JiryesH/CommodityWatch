@@ -60,6 +60,11 @@ export const CADENCE_META = {
   ad_hoc: { label: "Ad Hoc" },
 };
 
+function toFiniteTimestamp(value) {
+  const timestamp = Date.parse(value);
+  return Number.isFinite(timestamp) ? timestamp : null;
+}
+
 export const DEFAULT_FILTERS = Object.freeze({
   sectors: SECTOR_OPTIONS.map((option) => option.id),
   cadences: CADENCE_OPTIONS.map((option) => option.id),
@@ -159,8 +164,8 @@ export function filterEventsByRange(events, range) {
   const toTime = range?.to ? Date.parse(range.to) : Number.POSITIVE_INFINITY;
 
   return events.filter((event) => {
-    const eventTime = Date.parse(event.event_date);
-    return eventTime >= fromTime && eventTime <= toTime;
+    const eventTime = toFiniteTimestamp(event.event_date);
+    return eventTime !== null && eventTime >= fromTime && eventTime <= toTime;
   });
 }
 
@@ -181,11 +186,26 @@ export function isSameUtcMonth(left, right) {
 
 export function sortEvents(events) {
   return [...events].sort((left, right) => {
-    const dateDifference = Date.parse(left.event_date) - Date.parse(right.event_date);
-    if (dateDifference !== 0) {
-      return dateDifference;
+    const leftTime = toFiniteTimestamp(left?.event_date);
+    const rightTime = toFiniteTimestamp(right?.event_date);
+
+    if (leftTime !== null && rightTime !== null) {
+      if (leftTime !== rightTime) {
+        return leftTime - rightTime;
+      }
+
+      return String(left?.name ?? "").localeCompare(String(right?.name ?? ""), "en");
     }
-    return left.name.localeCompare(right.name, "en");
+
+    if (leftTime === null && rightTime !== null) {
+      return 1;
+    }
+
+    if (leftTime !== null && rightTime === null) {
+      return -1;
+    }
+
+    return String(left?.name ?? "").localeCompare(String(right?.name ?? ""), "en");
   });
 }
 
@@ -211,7 +231,8 @@ export function filterEvents(events, rawFilters) {
       return false;
     }
 
-    if (!event.commodity_sectors.some((sector) => selectedSectors.has(sector))) {
+    const commoditySectors = Array.isArray(event.commodity_sectors) ? event.commodity_sectors : [];
+    if (!commoditySectors.some((sector) => selectedSectors.has(sector))) {
       return false;
     }
 
@@ -221,7 +242,12 @@ export function filterEvents(events, rawFilters) {
 
 export function groupEventsByDay(events) {
   return events.reduce((groups, event) => {
-    const key = toIsoDay(event.event_date);
+    const timestamp = toFiniteTimestamp(event?.event_date);
+    if (timestamp === null) {
+      return groups;
+    }
+
+    const key = new Date(timestamp).toISOString().slice(0, 10);
     if (!groups.has(key)) {
       groups.set(key, []);
     }
@@ -295,7 +321,7 @@ export function getSectorMix(events) {
   const counts = new Map();
 
   events.forEach((event) => {
-    event.commodity_sectors.forEach((sector) => {
+    (Array.isArray(event.commodity_sectors) ? event.commodity_sectors : []).forEach((sector) => {
       counts.set(sector, (counts.get(sector) || 0) + 1);
     });
   });
@@ -317,8 +343,14 @@ export function getInitialAnchorDate(events) {
     return today;
   }
 
-  const first = startOfUtcDay(events[0].event_date);
-  const last = startOfUtcDay(events[events.length - 1].event_date);
+  const validEvents = events.filter((event) => toFiniteTimestamp(event?.event_date) !== null);
+  if (!validEvents.length) {
+    return today;
+  }
+
+  const orderedEvents = sortEvents(validEvents);
+  const first = startOfUtcDay(orderedEvents[0].event_date);
+  const last = startOfUtcDay(orderedEvents[orderedEvents.length - 1].event_date);
 
   if (today.getTime() < addUtcDays(first, -7).getTime() || today.getTime() > addUtcDays(last, 7).getTime()) {
     return first;

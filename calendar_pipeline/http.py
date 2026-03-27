@@ -107,7 +107,10 @@ class CurlHttpClient:
             raise HttpFetchError(f"curl returned an unparseable response for {url}")
 
         body, _, status_bytes = completed.stdout.rpartition(STATUS_MARKER)
-        status_code = int(status_bytes.decode("utf-8").strip())
+        try:
+            status_code = int(status_bytes.decode("utf-8").strip())
+        except ValueError as exc:  # pragma: no cover - defensive guard
+            raise HttpFetchError(f"curl returned an invalid status code for {url}") from exc
         if status_code < 200 or status_code >= 300:
             raise HttpFetchError(f"HTTP {status_code} for {url}")
         return HttpResponse(url=url, status_code=status_code, body=body)

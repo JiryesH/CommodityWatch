@@ -17,7 +17,7 @@ CommodityWatch now ships as a three-view product:
 - `shared/`
   - Shared product shell assets, currently the cross-page tab navigation styling
 - `sandbox/commodity-visual-prototype/`
-  - Experimental/reference PriceWatch prototype; production code lives under `price-watch/` and root `server.py`
+  - Archived PriceWatch prototype reference. Production code lives under `price-watch/` and root `server.py`; keep this folder quarantined unless you are working on the sandbox directly.
 - `server.py`
   - Main product server for the UI plus `/api/commodities/*` and `/api/calendar`
 - `app.py`
@@ -59,7 +59,7 @@ python3 server.py
 http://127.0.0.1:8080/
 ```
 
-The root route opens `Home`. Use the top navigation tabs to switch to `HeadlineWatch`, `PriceWatch`, or `CalendarWatch`.
+The root route opens the dashboard shell. Use the top navigation tabs to switch to `HeadlineWatch`, `PriceWatch`, or `CalendarWatch`.
 
 ## Optional control API
 

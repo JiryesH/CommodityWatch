@@ -1,10 +1,12 @@
 # Commodity Price Watch
 
-This directory is sandbox-only reference code. Production PriceWatch lives in `/Users/jiryes/Desktop/Projects/CommodityWatch/price-watch/` and is served by `/Users/jiryes/Desktop/Projects/CommodityWatch/server.py`.
+This directory is archived sandbox reference code. Production PriceWatch lives in `/Users/jiryes/Desktop/Projects/CommodityWatch/price-watch/` and is served by `/Users/jiryes/Desktop/Projects/CommodityWatch/server.py`.
+
+Do not treat anything in this folder as current product architecture unless you are explicitly working on the sandbox itself.
 
 Static CommodityWatch-style frontend wired to the commodity ingestion backend in `/Users/jiryes/Desktop/Projects/Commodity Prices`.
 
-## Integration architecture
+## Historical integration architecture
 - The frontend stays browser-first and static.
 - A tiny same-origin Python server in [`server.py`](/Users/jiryes/Desktop/Projects/CommodityWatch/sandbox/commodity-visual-prototype/server.py) serves the static assets plus `/api/commodities/*`.
 - The API layer reads only the backend's published views:
@@ -14,7 +16,7 @@ Static CommodityWatch-style frontend wired to the commodity ingestion backend in
 - The UI uses `actual_series_name` as the primary label, keeps `target_concept` as secondary context, and surfaces `match_type` honestly.
 - Missing concepts never appear because the published views already exclude `match_type='missing'`.
 
-## Run against live backend data
+## Historical run notes
 1. Copy `.env.example` to `.env` if you need to override the backend location or database URL.
 2. Ensure the backend database exists and is populated. The normal backend refresh commands are:
 

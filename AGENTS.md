@@ -1,12 +1,25 @@
 # CommodityWatch — Project Folder Instructions
 
+## Current Product Status
+
+CommodityWatch is no longer a headline-only MVP. The shipped product in this repository now includes:
+
+- `/` → dashboard shell spanning the live product modules
+- `/headline-watch/` → HeadlineWatch
+- `/price-watch/` → PriceWatch
+- `/calendar-watch/` → CalendarWatch
+
+The older headline-first guidance below is still useful for tone, restraint, and audience targeting, but when it conflicts with the current route structure or shipped product surfaces, the current product state above takes precedence.
+
+The `sandbox/commodity-visual-prototype/` directory is archived reference material, not the production PriceWatch implementation.
+
 ## What This Project Is
 
-You are working on **CommodityWatch** — a commodity news headline aggregator web app for traders, analysts, and market professionals. Every file, decision, and output in this folder serves that product.
+You are working on **CommodityWatch** — a commodity market monitoring web app for traders, analysts, and market professionals. Every file, decision, and output in this folder serves that product.
 
 This is not a general news site. It is not a financial terminal. It is not a portfolio tool. It is a fast, clean, signal-focused headline feed covering three commodity categories: **Energy, Metals, and Agriculture.**
 
-When in doubt about scope: if it isn't directly related to displaying commodity headlines quickly and credibly, it does not belong in V1.
+When in doubt about scope: if it isn't directly related to fast professional monitoring of commodity headlines, benchmark prices, or scheduled market events, it does not belong.
 
 ---
 

@@ -100,3 +100,27 @@ test("refreshData ignores stale failures after a newer request succeeds", async 
   assert.equal(app.state.loading, false);
   assert.equal(app.state.error, null);
 });
+
+test("openEvent tolerates malformed release dates", () => {
+  const app = createApp(() => Promise.resolve([]));
+  app.state.visibleEvents = [
+    {
+      id: "broken",
+      name: "Broken event",
+      organiser: "Test organiser",
+      cadence: "weekly",
+      commodity_sectors: ["energy"],
+      event_date: "not-a-date",
+      calendar_url: "https://example.com/calendar",
+      source_label: "Example",
+      notes: null,
+      is_confirmed: true,
+    },
+  ];
+
+  app.openEvent("broken", "calendar");
+
+  assert.equal(app.state.panelMode, "event");
+  assert.equal(app.state.selectedEventId, "broken");
+  assert.equal(app.state.panelDayIso, null);
+});

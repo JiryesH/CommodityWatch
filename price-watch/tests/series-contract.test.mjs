@@ -1,11 +1,8 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import fs from "node:fs";
 
 import { buildCommodityDefinitions } from "../commodity-presentation.js";
-
-const contractPath = new URL("../../shared/commodity-series-contract.json", import.meta.url);
-const contract = JSON.parse(fs.readFileSync(contractPath, "utf8"));
+import { COMMODITY_SERIES_CONTRACT as contract } from "../../shared/commodity-series-contract.js";
 
 function buildSeriesRows() {
   return Object.keys(contract.series).map((seriesKey, index) => ({

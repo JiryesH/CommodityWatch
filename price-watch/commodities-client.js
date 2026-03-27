@@ -85,19 +85,56 @@
  * @property {string | null} link
  */
 
+function compactResponseBody(bodyText) {
+  const normalized = String(bodyText || "").replace(/\s+/g, " ").trim();
+  if (!normalized) {
+    return "";
+  }
+
+  if (normalized.length <= 160) {
+    return normalized;
+  }
+
+  return `${normalized.slice(0, 157)}...`;
+}
+
 async function fetchEnvelope(url) {
   const response = await fetch(url, {
     headers: {
       Accept: "application/json",
     },
   });
+  const bodyText = await response.text();
 
   if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(`Request failed for ${url}: ${response.status} ${errorText}`);
+    const detail = compactResponseBody(bodyText);
+    throw new Error(`Request failed for ${url}: ${response.status}${detail ? ` ${detail}` : ""}`);
   }
 
-  return /** @type {Promise<ApiEnvelope<any>>} */ (response.json());
+  let payload;
+
+  try {
+    payload = JSON.parse(bodyText);
+  } catch {
+    const detail = compactResponseBody(bodyText);
+    throw new Error(`Invalid JSON response from ${url}${detail ? `: ${detail}` : ""}`);
+  }
+
+  if (!payload || typeof payload !== "object") {
+    throw new Error(`Malformed commodity API response from ${url}: expected an object envelope`);
+  }
+
+  return /** @type {ApiEnvelope<any>} */ (payload);
+}
+
+async function fetchArrayEnvelope(url) {
+  const payload = await fetchEnvelope(url);
+
+  if (!Array.isArray(payload.data)) {
+    throw new Error(`Malformed commodity API response from ${url}: expected data to be an array`);
+  }
+
+  return payload.data;
 }
 
 export class CommodityApiClient {
@@ -109,16 +146,18 @@ export class CommodityApiClient {
    * @returns {Promise<PublishedSeriesRecord[]>}
    */
   async listSeries() {
-    const payload = await fetchEnvelope(`${this.baseUrl}/api/commodities/series`);
-    return /** @type {PublishedSeriesRecord[]} */ (payload.data);
+    return /** @type {Promise<PublishedSeriesRecord[]>} */ (
+      fetchArrayEnvelope(`${this.baseUrl}/api/commodities/series`)
+    );
   }
 
   /**
    * @returns {Promise<PublishedLatestRecord[]>}
    */
   async listLatest() {
-    const payload = await fetchEnvelope(`${this.baseUrl}/api/commodities/latest`);
-    return /** @type {PublishedLatestRecord[]} */ (payload.data);
+    return /** @type {Promise<PublishedLatestRecord[]>} */ (
+      fetchArrayEnvelope(`${this.baseUrl}/api/commodities/latest`)
+    );
   }
 
   /**
@@ -138,10 +177,11 @@ export class CommodityApiClient {
     }
 
     const query = params.toString();
-    const payload = await fetchEnvelope(
-      `${this.baseUrl}/api/commodities/${encodeURIComponent(seriesKey)}/history${query ? `?${query}` : ""}`
+    return /** @type {Promise<PublishedObservationRecord[]>} */ (
+      fetchArrayEnvelope(
+        `${this.baseUrl}/api/commodities/${encodeURIComponent(seriesKey)}/history${query ? `?${query}` : ""}`
+      )
     );
-    return /** @type {PublishedObservationRecord[]} */ (payload.data);
   }
 
   /**
@@ -157,9 +197,10 @@ export class CommodityApiClient {
     }
 
     const query = params.toString();
-    const payload = await fetchEnvelope(
-      `${this.baseUrl}/api/commodities/${encodeURIComponent(seriesKey)}/headlines${query ? `?${query}` : ""}`
+    return /** @type {Promise<RelatedHeadlineRecord[]>} */ (
+      fetchArrayEnvelope(
+        `${this.baseUrl}/api/commodities/${encodeURIComponent(seriesKey)}/headlines${query ? `?${query}` : ""}`
+      )
     );
-    return /** @type {RelatedHeadlineRecord[]} */ (payload.data);
   }
 }

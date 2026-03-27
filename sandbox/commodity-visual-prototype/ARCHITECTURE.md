@@ -1,5 +1,7 @@
 # Commodity Price Watch Sandbox Architecture
 
+Archived sandbox notes. Production PriceWatch lives under `/Users/jiryes/Desktop/Projects/CommodityWatch/price-watch/` and should be treated as the source of truth for current product behavior.
+
 This sandbox now uses a configuration-first visualization engine so new commodities can be added with minimal code changes.
 
 ## Core design

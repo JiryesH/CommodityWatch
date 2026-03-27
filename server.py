@@ -116,6 +116,29 @@ def load_env_file(dotenv_path: Path) -> None:
         os.environ.setdefault(key.strip(), value.strip().strip("'").strip('"'))
 
 
+def _read_int_env(
+    name: str,
+    default: int,
+    *,
+    min_value: int | None = None,
+    max_value: int | None = None,
+) -> int:
+    raw_value = os.environ.get(name)
+    if raw_value is None or raw_value.strip() == "":
+        return default
+
+    try:
+        parsed = int(raw_value.strip())
+    except ValueError as exc:
+        raise ValueError(f"Invalid {name}: expected an integer") from exc
+
+    if min_value is not None and parsed < min_value:
+        raise ValueError(f"Invalid {name}: expected a value >= {min_value}")
+    if max_value is not None and parsed > max_value:
+        raise ValueError(f"Invalid {name}: expected a value <= {max_value}")
+    return parsed
+
+
 def find_backend_root(app_root: Path) -> Path:
     configured_root = os.environ.get("COMMODITY_BACKEND_ROOT")
     if configured_root:
@@ -155,7 +178,7 @@ def build_config(app_root: Path = APP_ROOT) -> AppConfig:
     raw_calendar_database_url = os.environ.get("CALENDAR_DATABASE_URL", DEFAULT_CALENDAR_DATABASE_URL)
     calendar_database_url = resolve_database_url(raw_calendar_database_url, app_root)
     host = os.environ.get("HOST", DEFAULT_HOST)
-    port = int(os.environ.get("PORT", str(DEFAULT_PORT)))
+    port = _read_int_env("PORT", DEFAULT_PORT, min_value=0, max_value=65535)
     return AppConfig(
         app_root=app_root,
         backend_root=backend_root,
@@ -208,7 +231,7 @@ def require_iso_date(value: str | None, field_name: str) -> str | None:
         return None
 
     try:
-        return date.fromisoformat(value).isoformat()
+        return date.fromisoformat(value.strip()).isoformat()
     except ValueError as exc:
         raise ValueError(f"Invalid {field_name}: expected YYYY-MM-DD") from exc
 
@@ -218,6 +241,8 @@ def require_iso_date_param(value: str | None, field_name: str) -> date | None:
         return None
 
     normalized = value.strip()
+    if not normalized:
+        return None
     if "T" in normalized:
         try:
             normalized = datetime.fromisoformat(normalized.replace("Z", "+00:00")).date().isoformat()

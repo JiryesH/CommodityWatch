@@ -130,14 +130,6 @@ svg {
   color: var(--filter-pill-color, var(--color-subtext));
 }
 
-.home-sector-pill:hover,
-.home-sector-pill.is-selected,
-.home-sector-pill.is-partial,
-.home-sector-pill.is-selected:hover,
-.home-sector-pill.is-partial:hover {
-  color: var(--filter-pill-color, var(--color-subtext));
-}
-
 .home-filter-actions {
   margin-left: auto;
   display: flex;

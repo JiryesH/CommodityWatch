@@ -51,7 +51,6 @@ from article_processing import (
     to_utc_iso,
 )
 from classifier import (
-    CANONICAL_CATEGORIES,
     MAX_CATEGORIES_PER_ARTICLE,
     normalize_article_categories,
 )
@@ -62,6 +61,7 @@ from feed_io import (
     resolve_repo_path,
     save_feed_payload,
 )
+from headline_taxonomy import CANONICAL_CATEGORIES
 
 # Sentiment and NER are optional — they require heavy ML deps (torch, spaCy)
 # that are not installed in lightweight environments (e.g. GitHub Actions).

@@ -15,9 +15,11 @@ import {
   endOfUtcYear,
   filterEvents,
   filterEventsByRange,
+  groupEventsByDay,
   getMaximumAnchorDate,
   getMinimumAnchorDate,
   searchEvents,
+  sortEvents,
   toIsoDay,
   toggleFilterSelection,
 } from "../calendar-utils.js";
@@ -94,6 +96,27 @@ test("filterEvents applies sector, cadence, and confirmed-only controls together
   assert.deepEqual(filtered.map((event) => event.id), []);
 });
 
+test("filterEvents tolerates malformed sector arrays without crashing", () => {
+  const events = [
+    {
+      id: "broken-event",
+      cadence: "weekly",
+      commodity_sectors: null,
+      is_confirmed: true,
+    },
+    {
+      id: "good-event",
+      cadence: "weekly",
+      commodity_sectors: ["energy"],
+      is_confirmed: true,
+    },
+  ];
+
+  const filtered = filterEvents(events, cloneDefaultFilters());
+
+  assert.deepEqual(filtered.map((event) => event.id), ["good-event"]);
+});
+
 test("countActiveFilters tracks only non-default filter state", () => {
   const filters = cloneDefaultFilters();
 
@@ -118,6 +141,31 @@ test("toggleFilterSelection isolates from all and resets when emptied", () => {
   assert.deepEqual(reset, allSectors);
 
   assert.equal(areAllFiltersSelected(reset, allSectors), true);
+});
+
+test("sortEvents pushes malformed release dates to the end", () => {
+  const events = [
+    { id: "invalid", name: "Invalid date event", event_date: "not-a-date" },
+    { id: "b", name: "Beta release", event_date: "2026-03-10T12:00:00Z" },
+    { id: "a", name: "Alpha release", event_date: "2026-03-10T12:00:00Z" },
+  ];
+
+  const sorted = sortEvents(events);
+
+  assert.deepEqual(
+    sorted.map((event) => event.id),
+    ["a", "b", "invalid"]
+  );
+});
+
+test("groupEventsByDay ignores malformed release dates", () => {
+  const grouped = groupEventsByDay([
+    { id: "good", event_date: "2026-03-10T12:00:00Z" },
+    { id: "bad", event_date: "not-a-date" },
+  ]);
+
+  assert.deepEqual([...grouped.keys()], ["2026-03-10"]);
+  assert.deepEqual(grouped.get("2026-03-10").map((event) => event.id), ["good"]);
 });
 
 test("minimum anchor clamps week and month navigation to the current period", () => {

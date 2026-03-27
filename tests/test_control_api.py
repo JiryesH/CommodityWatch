@@ -4,11 +4,12 @@ import json
 import threading
 import time
 from contextlib import contextmanager
+from pathlib import Path
 from typing import Iterator
 from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 
-from app import ControlApi, JobStore, create_server
+from app import ControlApi, JobStore, ROOT_DIR, create_server, resolve_path
 
 
 def wait_for_job_completion(
@@ -85,6 +86,13 @@ def test_job_store_retains_most_recently_completed_jobs() -> None:
     assert store.get_job(job1["id"])["result"] == {"ok": 1}
     assert store.get_job(job3["id"])["result"] == {"ok": 3}
     assert [job["id"] for job in store.list_jobs()] == [job3["id"], job1["id"]]
+
+
+def test_resolve_path_trims_whitespace_and_resolves_relative_paths(tmp_path: Path) -> None:
+    fallback = tmp_path / "fallback.json"
+
+    assert resolve_path("  data/feed.local.json  ", fallback) == (ROOT_DIR / "data" / "feed.local.json").resolve()
+    assert resolve_path("   ", fallback) == fallback
 
 
 def test_control_api_serializes_job_execution_with_runner_lock() -> None:
