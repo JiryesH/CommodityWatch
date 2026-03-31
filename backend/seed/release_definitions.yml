@@ -1,0 +1,71 @@
+- slug: eia_wpsr
+  source_slug: eia
+  name: EIA Weekly Petroleum Status Report
+  release_kind: data_release
+  module_code: inventorywatch
+  commodity_code: crude_oil
+  geography_code: US
+  cadence: weekly
+  schedule_timezone: America/New_York
+  schedule_rule: FREQ=WEEKLY;BYDAY=WE;BYHOUR=10;BYMINUTE=30
+  default_local_time: "10:30:00"
+  is_calendar_driven: false
+  active: true
+  metadata: {published_report: WPSR}
+- slug: eia_wngs
+  source_slug: eia
+  name: EIA Weekly Natural Gas Storage Report
+  release_kind: data_release
+  module_code: inventorywatch
+  commodity_code: natural_gas
+  geography_code: US
+  cadence: weekly
+  schedule_timezone: America/New_York
+  schedule_rule: FREQ=WEEKLY;BYDAY=TH;BYHOUR=10;BYMINUTE=30
+  default_local_time: "10:30:00"
+  is_calendar_driven: false
+  active: true
+  metadata: {published_report: WNGS}
+- slug: agsi_daily
+  source_slug: agsi
+  name: AGSI+ Daily Storage Update
+  release_kind: data_release
+  module_code: inventorywatch
+  commodity_code: natural_gas
+  geography_code: EU
+  cadence: daily
+  schedule_timezone: Europe/Brussels
+  schedule_rule: FREQ=DAILY;BYHOUR=18;BYMINUTE=0
+  default_local_time: "18:00:00"
+  is_calendar_driven: false
+  active: true
+  metadata: {published_report: AGSI}
+- slug: usda_wasde_placeholder
+  source_slug: usda_psd
+  name: USDA WASDE
+  release_kind: report
+  module_code: inventorywatch
+  commodity_code: agriculture
+  geography_code: GLOBAL
+  cadence: monthly
+  schedule_timezone: America/New_York
+  schedule_rule: FREQ=MONTHLY;BYSETPOS=1
+  default_local_time: "12:00:00"
+  is_calendar_driven: true
+  active: true
+  metadata: {placeholder: true}
+- slug: lme_warehouse_placeholder
+  source_slug: lme
+  name: LME Daily Warehouse Stocks
+  release_kind: data_release
+  module_code: inventorywatch
+  commodity_code: metals
+  geography_code: GLOBAL
+  cadence: daily
+  schedule_timezone: Europe/London
+  schedule_rule: FREQ=DAILY;BYHOUR=18;BYMINUTE=0
+  default_local_time: "18:00:00"
+  is_calendar_driven: false
+  active: true
+  metadata: {placeholder: true}
+

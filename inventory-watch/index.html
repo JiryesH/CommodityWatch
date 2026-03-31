@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CommodityWatch | InventoryWatch</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/shared/site-shell.css" />
+    <link rel="stylesheet" href="/shared/filter-bar.css" />
+    <link rel="stylesheet" href="/inventory-watch/styles.css" />
+  </head>
+  <body>
+    <nav class="nav" role="navigation" aria-label="CommodityWatch product navigation">
+      <div class="site-nav-main">
+        <div class="nav-logo">CommodityWatch<span class="dot"></span></div>
+        <div class="site-tabs" aria-label="Product views">
+          <a class="site-tab" href="/">Home</a>
+          <a class="site-tab" href="/headline-watch/">HeadlineWatch</a>
+          <a class="site-tab" href="/price-watch/">PriceWatch</a>
+          <a class="site-tab" href="/calendar-watch/">CalendarWatch</a>
+          <a class="site-tab" href="/inventory-watch/" aria-current="page">InventoryWatch</a>
+        </div>
+      </div>
+    </nav>
+
+    <div id="inventory-filter-root"></div>
+
+    <main class="page-shell">
+      <div id="inventory-root"></div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-left">© 2026 CommodityWatch</div>
+      <div class="footer-right">commoditywatch / inventory-watch</div>
+    </footer>
+
+    <button id="to-top-btn" class="to-top-btn" aria-label="Back to top" title="Back to top">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 19V5"></path>
+        <path d="M5 12l7-7 7 7"></path>
+      </svg>
+      Top
+    </button>
+
+    <script src="/shared/click-spark.js"></script>
+    <script type="module" src="/inventory-watch/app.js"></script>
+  </body>
+</html>

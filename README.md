@@ -1,10 +1,13 @@
 # CommodityWatch
 
-CommodityWatch now ships as a three-view product:
+CommodityWatch now ships as a four-module product in the existing production shell:
 
 - `HeadlineWatch` for the existing live headline workflow backed by a local `data/feed.local.json` override when present, otherwise the tracked `data/feed.json` sample snapshot
-- `PriceWatch` for the commodity visual page backed by published commodity database views
+- `PriceWatch` for the commodity visual page backed by published commodity database views, with optional local syncing into `data/commodities.db`
 - `CalendarWatch` for publishable commodity-market calendar events backed by the local calendar ingestion pipeline and `/api/calendar`
+- `InventoryWatch` for inventory snapshots and indicator detail views backed by a published local SQLite read model in `data/inventorywatch.db` when available, otherwise the local backend artifact archive, with optional proxying to the separate InventoryWatch backend
+
+The separate `frontend/` Next.js app remains in the repo as an implementation reference, not as the primary production runtime.
 
 ## Product structure
 
@@ -14,12 +17,14 @@ CommodityWatch now ships as a three-view product:
   - Route module for the commodity price product view
 - `calendar-watch/`
   - Route module for the calendar product view
+- `inventory-watch/`
+  - Route module for the integrated InventoryWatch product view
 - `shared/`
   - Shared product shell assets, currently the cross-page tab navigation styling
 - `sandbox/commodity-visual-prototype/`
   - Archived PriceWatch prototype reference. Production code lives under `price-watch/` and root `server.py`; keep this folder quarantined unless you are working on the sandbox directly.
 - `server.py`
-  - Main product server for the UI plus `/api/commodities/*` and `/api/calendar`
+  - Main product server for the UI plus `/api/commodities/*`, `/api/calendar`, and InventoryWatch API routes served from the local published archive by default
 - `app.py`
   - Existing control API for scrape and enrichment jobs
 - `calendar_pipeline/`
@@ -36,6 +41,88 @@ python3 -m pip install -r requirements.txt
 ```
 
 `PriceWatch` also needs access to the commodity backend database views. Copy `.env.example` to `.env` if you need to point the app at non-default locations.
+`InventoryWatch` browse-time support now also relies on `PyYAML`, which is included in the same root `requirements.txt` install.
+
+If you want PriceWatch to browse entirely from a local published copy inside this repo, sync the sibling commodity pipeline database into `data/commodities.db`:
+
+```bash
+./scripts/sync_pricewatch_published_db.sh
+```
+
+When that local copy is valid, `server.py` prefers it automatically over the sibling repo.
+
+## InventoryWatch Reference App
+
+The separate reference frontend lives in [frontend/](/Users/jiryes/Desktop/Projects/CommodityWatch/frontend).
+
+One-command local dev for InventoryWatch:
+
+```bash
+./scripts/run_inventorywatch_dev.sh
+```
+
+One-command InventoryWatch data refresh:
+
+```bash
+./scripts/update_inventorywatch_data.sh
+```
+
+The dev script:
+
+- starts the FastAPI InventoryWatch backend on `127.0.0.1:8000` if it is not already running
+- starts the Next.js frontend on `127.0.0.1:3000`
+- points the frontend at `http://127.0.0.1:8000/api`
+
+The refresh script now also publishes the browse-time InventoryWatch SQLite read model to `data/inventorywatch.db`.
+
+First-time frontend install:
+
+```bash
+cd frontend
+npm install
+```
+
+First-time backend setup is still required in `backend/`:
+
+```bash
+cd backend
+cp .env.example .env
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -e ".[dev]"
+alembic upgrade head
+python scripts/seed_reference_data.py
+```
+
+If PostgreSQL is not installed yet on macOS, the shortest path is:
+
+```bash
+brew install postgresql@16
+brew services start postgresql@16
+$(brew --prefix postgresql@16)/bin/createdb commoditywatch
+```
+
+Then update `backend/.env` so `CW_DATABASE_URL` matches your local user instead of the placeholder default. Example:
+
+```env
+CW_DATABASE_URL=postgresql+asyncpg://your-mac-username@localhost:5432/commoditywatch
+```
+
+The refresh script runs `eia_wpsr`, `eia_wngs`, optional `agsi_daily`, and `seasonal_ranges` in sequence. You can also run specific jobs:
+
+```bash
+./scripts/update_inventorywatch_data.sh eia_wpsr
+./scripts/update_inventorywatch_data.sh eia_wngs seasonal_ranges
+```
+
+`eia_wpsr` and `eia_wngs` require `CW_EIA_API_KEY` in `backend/.env`. `agsi_daily` requires `CW_AGSI_API_KEY`.
+
+Frontend environment variable:
+
+- `NEXT_PUBLIC_API_BASE_URL`
+  - Optional
+  - Defaults to `/api`
+  - Set this when the Next.js app is not served on the same origin as the backend API
 
 ## Running the product
 
@@ -53,13 +140,16 @@ This writes to `data/feed.local.json` by default. That file is ignored by Git so
 python3 server.py
 ```
 
+`server.py` is the intended browse-time runtime for the shipped shell. By default it serves InventoryWatch from the persisted archive under `backend/`, so the separate FastAPI/PostgreSQL stack is not required just to view the app.
+When `data/inventorywatch.db` exists, `server.py` serves InventoryWatch from that published local store first.
+
 3. Open:
 
 ```text
 http://127.0.0.1:8080/
 ```
 
-The root route opens the dashboard shell. Use the top navigation tabs to switch to `HeadlineWatch`, `PriceWatch`, or `CalendarWatch`.
+The root route opens the dashboard shell. Use the top navigation tabs to switch to `HeadlineWatch`, `PriceWatch`, `CalendarWatch`, or `InventoryWatch`.
 
 ## Optional control API
 
@@ -83,8 +173,20 @@ Environment variables supported by `server.py`:
   - Product server bind host. Defaults to `127.0.0.1`
 - `PORT`
   - Product server bind port. Defaults to `8080`
+- `INVENTORYWATCH_API_BASE_URL`
+  - Optional InventoryWatch backend API base for the production shell
+  - Defaults to an absolute `NEXT_PUBLIC_API_BASE_URL` when that is set, otherwise `http://127.0.0.1:8000/api`
+- `INVENTORYWATCH_PUBLISHED_DB_PATH`
+  - Optional path to the published local InventoryWatch SQLite store
+  - Defaults to `data/inventorywatch.db`
+- `INVENTORYWATCH_BROWSE_MODE`
+  - Optional InventoryWatch browse-time source selector
+  - `auto` (default) serves from the published local store when available, otherwise the local artifact archive, otherwise proxies the separate backend
+  - `local` requires a local InventoryWatch store and never calls the separate backend
+  - `remote` requires the separate backend and never falls back to local archive data
 
 If the commodity backend is unavailable, `HeadlineWatch` still loads and `PriceWatch` shows a targeted configuration error state instead of crashing the product server.
+If the InventoryWatch local store is available, the shipped shell still loads and InventoryWatch works without the separate backend.
 
 ## CalendarWatch pipeline
 

@@ -1,0 +1,315 @@
+- code: EIA_CRUDE_US_COMMERCIAL_STOCKS_EX_SPR
+  name: EIA US Commercial Crude Stocks excl SPR
+  description: Weekly U.S. commercial crude oil stocks excluding the Strategic Petroleum Reserve.
+  measure_family: stock
+  frequency: weekly
+  commodity_code: crude_oil
+  geography_code: US
+  source_slug: eia
+  source_series_key: PET.W_EPC0_SAX_NUS_MBBL.W
+  native_unit_code: kb
+  canonical_unit_code: kb
+  default_observation_kind: actual
+  publication_lag_days: 4
+  seasonal_profile: inventorywatch_5y
+  is_seasonal: true
+  is_derived: false
+  visibility_tier: public
+  modules: [inventorywatch]
+  primary_module: inventorywatch
+  metadata:
+    release_slug: eia_wpsr
+    source_table: WPSR Table 1
+- code: EIA_CRUDE_US_CUSHING_STOCKS
+  name: EIA US Crude Stocks at Cushing
+  description: Weekly Cushing, Oklahoma commercial crude oil stocks.
+  measure_family: stock
+  frequency: weekly
+  commodity_code: crude_oil
+  geography_code: US_CUSHING
+  source_slug: eia
+  source_series_key: PET.W_EPC0_SAX_YCUOK_MBBL.W
+  native_unit_code: kb
+  canonical_unit_code: kb
+  default_observation_kind: actual
+  publication_lag_days: 4
+  seasonal_profile: inventorywatch_5y
+  is_seasonal: true
+  is_derived: false
+  visibility_tier: public
+  modules: [inventorywatch]
+  primary_module: inventorywatch
+  metadata:
+    release_slug: eia_wpsr
+    source_table: WPSR Table 1
+- code: EIA_CRUDE_US_SPR_STOCKS
+  name: EIA US SPR Stocks
+  description: Weekly Strategic Petroleum Reserve crude stocks.
+  measure_family: stock
+  frequency: weekly
+  commodity_code: crude_oil
+  geography_code: US
+  source_slug: eia
+  source_series_key: PET.WCSSTUS1.W
+  native_unit_code: kb
+  canonical_unit_code: kb
+  default_observation_kind: actual
+  publication_lag_days: 4
+  seasonal_profile: inventorywatch_5y
+  is_seasonal: false
+  is_derived: false
+  visibility_tier: public
+  modules: [inventorywatch]
+  primary_module: inventorywatch
+  metadata:
+    release_slug: eia_wpsr
+    source_table: WPSR Table 1
+- code: EIA_GASOLINE_US_TOTAL_STOCKS
+  name: EIA US Total Motor Gasoline Stocks
+  description: Weekly total motor gasoline stocks for the United States.
+  measure_family: stock
+  frequency: weekly
+  commodity_code: gasoline
+  geography_code: US
+  source_slug: eia
+  source_series_key: PET.WGTSTUS1.W
+  native_unit_code: kb
+  canonical_unit_code: kb
+  default_observation_kind: actual
+  publication_lag_days: 4
+  seasonal_profile: inventorywatch_5y
+  is_seasonal: true
+  is_derived: false
+  visibility_tier: public
+  modules: [inventorywatch]
+  primary_module: inventorywatch
+  metadata:
+    release_slug: eia_wpsr
+    source_table: WPSR Table 2
+- code: EIA_DISTILLATE_US_TOTAL_STOCKS
+  name: EIA US Distillate Fuel Oil Stocks
+  description: Weekly distillate fuel oil stocks for the United States.
+  measure_family: stock
+  frequency: weekly
+  commodity_code: distillates
+  geography_code: US
+  source_slug: eia
+  source_series_key: PET.WDISTUS1.W
+  native_unit_code: kb
+  canonical_unit_code: kb
+  default_observation_kind: actual
+  publication_lag_days: 4
+  seasonal_profile: inventorywatch_5y
+  is_seasonal: true
+  is_derived: false
+  visibility_tier: public
+  modules: [inventorywatch]
+  primary_module: inventorywatch
+  metadata:
+    release_slug: eia_wpsr
+    source_table: WPSR Table 5
+- code: EIA_PROPANE_US_TOTAL_STOCKS
+  name: EIA US Propane/Propylene Stocks
+  description: Weekly U.S. propane and propylene stocks.
+  measure_family: stock
+  frequency: weekly
+  commodity_code: propane
+  geography_code: US
+  source_slug: eia
+  source_series_key: PET.W_EPLLPZ_SAE_NUS_MBBL.W
+  native_unit_code: kb
+  canonical_unit_code: kb
+  default_observation_kind: actual
+  publication_lag_days: 4
+  seasonal_profile: inventorywatch_5y
+  is_seasonal: true
+  is_derived: false
+  visibility_tier: public
+  modules: [inventorywatch]
+  primary_module: inventorywatch
+  metadata:
+    release_slug: eia_wpsr
+    source_table: WPSR Table 9
+- code: EIA_JET_FUEL_US_TOTAL_STOCKS
+  name: EIA US Jet Fuel Stocks
+  description: Weekly kerosene-type jet fuel stocks for the United States.
+  measure_family: stock
+  frequency: weekly
+  commodity_code: jet_fuel
+  geography_code: US
+  source_slug: eia
+  source_series_key: PET.WKJSTUS1.W
+  native_unit_code: kb
+  canonical_unit_code: kb
+  default_observation_kind: actual
+  publication_lag_days: 4
+  seasonal_profile: inventorywatch_5y
+  is_seasonal: true
+  is_derived: false
+  visibility_tier: public
+  modules: [inventorywatch]
+  primary_module: inventorywatch
+  metadata:
+    release_slug: eia_wpsr
+    source_table: WPSR Table 7
+- code: EIA_NATURAL_GAS_US_WORKING_STORAGE
+  name: EIA US Natural Gas Working Gas in Storage
+  description: Weekly working natural gas in underground storage for the Lower 48.
+  measure_family: stock
+  frequency: weekly
+  commodity_code: natural_gas
+  geography_code: US
+  source_slug: eia
+  source_series_key: NG.NW2_EPG0_SWO_R48_BCF.W
+  native_unit_code: bcf
+  canonical_unit_code: bcf
+  default_observation_kind: actual
+  publication_lag_days: 7
+  seasonal_profile: inventorywatch_5y
+  is_seasonal: true
+  is_derived: false
+  visibility_tier: public
+  modules: [inventorywatch]
+  primary_module: inventorywatch
+  metadata:
+    release_slug: eia_wngs
+    source_report: WNGS
+- code: GIE_NATURAL_GAS_EU_TOTAL_STORAGE
+  name: GIE AGSI+ EU Total Gas Storage
+  description: Daily EU aggregate gas in storage from GIE AGSI+.
+  measure_family: stock
+  frequency: daily
+  commodity_code: natural_gas
+  geography_code: EU
+  source_slug: agsi
+  source_series_key: eu
+  native_unit_code: twh
+  canonical_unit_code: twh
+  default_observation_kind: actual
+  publication_lag_days: 1
+  seasonal_profile: inventorywatch_5y_daily
+  is_seasonal: true
+  is_derived: false
+  visibility_tier: public
+  modules: [inventorywatch]
+  primary_module: inventorywatch
+  metadata:
+    release_slug: agsi_daily
+    metric: gasInStorage
+    full_metric: full
+- code: GIE_NATURAL_GAS_EU_DE_STORAGE
+  name: GIE AGSI+ Germany Gas Storage
+  description: Daily German gas in storage from GIE AGSI+.
+  measure_family: stock
+  frequency: daily
+  commodity_code: natural_gas
+  geography_code: EU_DE
+  source_slug: agsi
+  source_series_key: de
+  native_unit_code: twh
+  canonical_unit_code: twh
+  default_observation_kind: actual
+  publication_lag_days: 1
+  seasonal_profile: inventorywatch_5y_daily
+  is_seasonal: true
+  is_derived: false
+  visibility_tier: public
+  modules: [inventorywatch]
+  primary_module: inventorywatch
+  metadata:
+    release_slug: agsi_daily
+    metric: gasInStorage
+    full_metric: full
+- code: GIE_NATURAL_GAS_EU_FR_STORAGE
+  name: GIE AGSI+ France Gas Storage
+  description: Daily French gas in storage from GIE AGSI+.
+  measure_family: stock
+  frequency: daily
+  commodity_code: natural_gas
+  geography_code: EU_FR
+  source_slug: agsi
+  source_series_key: fr
+  native_unit_code: twh
+  canonical_unit_code: twh
+  default_observation_kind: actual
+  publication_lag_days: 1
+  seasonal_profile: inventorywatch_5y_daily
+  is_seasonal: true
+  is_derived: false
+  visibility_tier: public
+  modules: [inventorywatch]
+  primary_module: inventorywatch
+  metadata:
+    release_slug: agsi_daily
+    metric: gasInStorage
+    full_metric: full
+- code: GIE_NATURAL_GAS_EU_IT_STORAGE
+  name: GIE AGSI+ Italy Gas Storage
+  description: Daily Italian gas in storage from GIE AGSI+.
+  measure_family: stock
+  frequency: daily
+  commodity_code: natural_gas
+  geography_code: EU_IT
+  source_slug: agsi
+  source_series_key: it
+  native_unit_code: twh
+  canonical_unit_code: twh
+  default_observation_kind: actual
+  publication_lag_days: 1
+  seasonal_profile: inventorywatch_5y_daily
+  is_seasonal: true
+  is_derived: false
+  visibility_tier: public
+  modules: [inventorywatch]
+  primary_module: inventorywatch
+  metadata:
+    release_slug: agsi_daily
+    metric: gasInStorage
+    full_metric: full
+- code: GIE_NATURAL_GAS_EU_NL_STORAGE
+  name: GIE AGSI+ Netherlands Gas Storage
+  description: Daily Dutch gas in storage from GIE AGSI+.
+  measure_family: stock
+  frequency: daily
+  commodity_code: natural_gas
+  geography_code: EU_NL
+  source_slug: agsi
+  source_series_key: nl
+  native_unit_code: twh
+  canonical_unit_code: twh
+  default_observation_kind: actual
+  publication_lag_days: 1
+  seasonal_profile: inventorywatch_5y_daily
+  is_seasonal: true
+  is_derived: false
+  visibility_tier: public
+  modules: [inventorywatch]
+  primary_module: inventorywatch
+  metadata:
+    release_slug: agsi_daily
+    metric: gasInStorage
+    full_metric: full
+- code: GIE_NATURAL_GAS_EU_AT_STORAGE
+  name: GIE AGSI+ Austria Gas Storage
+  description: Daily Austrian gas in storage from GIE AGSI+.
+  measure_family: stock
+  frequency: daily
+  commodity_code: natural_gas
+  geography_code: EU_AT
+  source_slug: agsi
+  source_series_key: at
+  native_unit_code: twh
+  canonical_unit_code: twh
+  default_observation_kind: actual
+  publication_lag_days: 1
+  seasonal_profile: inventorywatch_5y_daily
+  is_seasonal: true
+  is_derived: false
+  visibility_tier: public
+  modules: [inventorywatch]
+  primary_module: inventorywatch
+  metadata:
+    release_slug: agsi_daily
+    metric: gasInStorage
+    full_metric: full
+

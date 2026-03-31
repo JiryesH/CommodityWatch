@@ -1,0 +1,71 @@
+- slug: eia
+  name: U.S. Energy Information Administration
+  source_type: api
+  legal_status: public_domain
+  homepage_url: https://www.eia.gov/
+  docs_url: https://www.eia.gov/opendata/documentation.php
+  default_timezone: America/New_York
+  attribution_text: U.S. Energy Information Administration
+  rate_limit_notes: Courtesy throttle at 1 request per second.
+  active: true
+- slug: agsi
+  name: GIE / AGSI+
+  source_type: api
+  legal_status: public_registered
+  homepage_url: https://agsi.gie.eu/
+  docs_url: https://www.gie.eu/transparency-platform/GIE_API_documentation_v007.pdf
+  default_timezone: Europe/Brussels
+  attribution_text: GIE AGSI platform
+  rate_limit_notes: Hard rate limit of 60 API calls per minute.
+  active: true
+- slug: usda_nass
+  name: USDA NASS Quick Stats
+  source_type: api
+  legal_status: public_domain
+  homepage_url: https://www.nass.usda.gov/
+  docs_url: https://quickstats.nass.usda.gov/api
+  default_timezone: America/New_York
+  attribution_text: USDA National Agricultural Statistics Service
+  rate_limit_notes: Keyed API, low-volume use.
+  active: true
+- slug: usda_psd
+  name: USDA PSD Online
+  source_type: api
+  legal_status: public_domain
+  homepage_url: https://apps.fas.usda.gov/psdonline/
+  docs_url: https://apps.fas.usda.gov/psdonline/app/index.html#/app/api
+  default_timezone: America/New_York
+  attribution_text: USDA Foreign Agricultural Service PSD
+  rate_limit_notes: Structured JSON access for WASDE-era balance tables.
+  active: true
+- slug: lme
+  name: London Metal Exchange
+  source_type: html
+  legal_status: exchange_public
+  homepage_url: https://www.lme.com/
+  docs_url: https://www.lme.com/Metals/Non-ferrous/LME-Copper/Physical-market-benefits
+  default_timezone: Europe/London
+  attribution_text: London Metal Exchange
+  rate_limit_notes: Low-frequency daily scrape only.
+  active: true
+- slug: comex
+  name: COMEX / CME Group
+  source_type: html
+  legal_status: exchange_public
+  homepage_url: https://www.cmegroup.com/
+  docs_url: https://www.cmegroup.com/market-data/volume-open-interest.html
+  default_timezone: America/New_York
+  attribution_text: CME Group
+  rate_limit_notes: Delivery and warehouse reports only.
+  active: true
+- slug: ice
+  name: ICE
+  source_type: html
+  legal_status: exchange_public
+  homepage_url: https://www.theice.com/
+  docs_url: https://www.theice.com/marketdata/reports
+  default_timezone: America/New_York
+  attribution_text: Intercontinental Exchange
+  rate_limit_notes: Respectful daily scrape only.
+  active: true
+

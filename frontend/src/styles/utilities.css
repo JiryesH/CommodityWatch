@@ -1,0 +1,94 @@
+.text-display {
+  font-size: var(--text-display-size);
+  line-height: var(--text-display-line-height);
+  font-weight: var(--text-display-weight);
+}
+
+.text-h1 {
+  font-size: var(--text-h1-size);
+  line-height: var(--text-h1-line-height);
+  font-weight: var(--text-h1-weight);
+}
+
+.text-h2 {
+  font-size: var(--text-h2-size);
+  line-height: var(--text-h2-line-height);
+  font-weight: var(--text-h2-weight);
+}
+
+.text-h3 {
+  font-size: var(--text-h3-size);
+  line-height: var(--text-h3-line-height);
+  font-weight: var(--text-h3-weight);
+}
+
+.text-body {
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-line-height);
+  font-weight: var(--text-body-weight);
+}
+
+.text-body-strong {
+  font-size: var(--text-body-strong-size);
+  line-height: var(--text-body-strong-line-height);
+  font-weight: var(--text-body-strong-weight);
+}
+
+.text-caption {
+  font-size: var(--text-caption-size);
+  line-height: var(--text-caption-line-height);
+  font-weight: var(--text-caption-weight);
+}
+
+.text-micro {
+  font-size: var(--text-micro-size);
+  line-height: var(--text-micro-line-height);
+  font-weight: var(--text-micro-weight);
+}
+
+.text-data-xl {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: var(--text-data-xl-size);
+  line-height: var(--text-data-xl-line-height);
+  font-weight: var(--text-data-xl-weight);
+}
+
+.text-data-lg {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: var(--text-data-lg-size);
+  line-height: var(--text-data-lg-line-height);
+  font-weight: var(--text-data-lg-weight);
+}
+
+.text-data-md {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: var(--text-data-md-size);
+  line-height: var(--text-data-md-line-height);
+  font-weight: var(--text-data-md-weight);
+}
+
+.text-data-sm {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: var(--text-data-sm-size);
+  line-height: var(--text-data-sm-line-height);
+  font-weight: var(--text-data-sm-weight);
+}
+
+.card-surface {
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 10px;
+  box-shadow: var(--shadow-card);
+}
+
+.content-shell {
+  margin-inline: auto;
+  width: min(100%, 1540px);
+  padding-inline: var(--space-4);
+}
+
+@media (min-width: 768px) {
+  .content-shell {
+    padding-inline: var(--space-6);
+  }
+}

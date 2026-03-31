@@ -1,10 +1,12 @@
 import { CommodityApiClient } from "../price-watch/commodities-client.js";
+import { fetchInventorySnapshot as fetchInventoryWatchSnapshot } from "../inventory-watch/api-client.js";
 import { fetchJsonWithFallback, normalizeHeadlineFeedArticle } from "../shared/headline-feed.js";
 
 const commodityClient = new CommodityApiClient("");
 const historyCache = new Map();
 const relatedHeadlinesCache = new Map();
 const calendarCache = new Map();
+const inventorySnapshotCache = new Map();
 let latestPromise = null;
 let feedPromise = null;
 
@@ -126,4 +128,25 @@ export async function fetchHeadlineFeed() {
   }
 
   return feedPromise;
+}
+
+export async function fetchInventorySnapshot(params = {}) {
+  const cacheKey = JSON.stringify({
+    commodity: params.commodity || null,
+    geography: params.geography || null,
+    limit: params.limit ?? 100,
+    includeSparklines: params.includeSparklines ?? true,
+  });
+
+  if (!inventorySnapshotCache.has(cacheKey)) {
+    inventorySnapshotCache.set(
+      cacheKey,
+      fetchInventoryWatchSnapshot(params).catch((error) => {
+        inventorySnapshotCache.delete(cacheKey);
+        throw error;
+      })
+    );
+  }
+
+  return inventorySnapshotCache.get(cacheKey);
 }

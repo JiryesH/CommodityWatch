@@ -143,11 +143,11 @@ test("series mappings for crude oil match the live home benchmark selection", ()
 test("home registry only renders the live modules in their declared slots", () => {
   assert.deepEqual(
     MODULE_REGISTRY.map((moduleDefinition) => moduleDefinition.id),
-    ["prices", "headlines", "calendar"]
+    ["prices", "inventory", "headlines", "calendar"]
   );
   assert.deepEqual(
     MODULE_REGISTRY.map((moduleDefinition) => moduleDefinition.slot),
-    ["main-top", "main-left", "sidebar"]
+    ["main-top", "main-middle", "main-bottom", "sidebar"]
   );
 });
 

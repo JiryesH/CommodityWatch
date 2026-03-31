@@ -1,0 +1,89 @@
+- commodity_code: crude_oil
+  measure_family: stock
+  canonical_unit_code: kb
+  notes:
+- commodity_code: crude_oil
+  measure_family: flow
+  canonical_unit_code: kb_d
+  notes:
+- commodity_code: gasoline
+  measure_family: stock
+  canonical_unit_code: kb
+  notes:
+- commodity_code: gasoline
+  measure_family: flow
+  canonical_unit_code: kb_d
+  notes:
+- commodity_code: distillates
+  measure_family: stock
+  canonical_unit_code: kb
+  notes:
+- commodity_code: distillates
+  measure_family: flow
+  canonical_unit_code: kb_d
+  notes:
+- commodity_code: jet_fuel
+  measure_family: stock
+  canonical_unit_code: kb
+  notes:
+- commodity_code: jet_fuel
+  measure_family: flow
+  canonical_unit_code: kb_d
+  notes:
+- commodity_code: propane
+  measure_family: stock
+  canonical_unit_code: kb
+  notes:
+- commodity_code: propane
+  measure_family: flow
+  canonical_unit_code: kb_d
+  notes:
+- commodity_code: natural_gas
+  measure_family: stock
+  canonical_unit_code: bcf
+  notes: Canonical U.S. stock unit; European indicators keep native TWh as their canonical unit in Phase 1.
+- commodity_code: natural_gas
+  measure_family: capacity
+  canonical_unit_code: twh
+  notes:
+- commodity_code: natural_gas
+  measure_family: utilisation
+  canonical_unit_code: pct
+  notes:
+- commodity_code: copper
+  measure_family: stock
+  canonical_unit_code: kt
+  notes:
+- commodity_code: aluminium
+  measure_family: stock
+  canonical_unit_code: kt
+  notes:
+- commodity_code: zinc
+  measure_family: stock
+  canonical_unit_code: kt
+  notes:
+- commodity_code: nickel
+  measure_family: stock
+  canonical_unit_code: kt
+  notes:
+- commodity_code: gold
+  measure_family: stock
+  canonical_unit_code: tonnes
+  notes:
+- commodity_code: silver
+  measure_family: stock
+  canonical_unit_code: tonnes
+  notes:
+- commodity_code: corn
+  measure_family: stock
+  canonical_unit_code: mbu
+  notes:
+- commodity_code: wheat
+  measure_family: stock
+  canonical_unit_code: mbu
+  notes:
+- commodity_code: soybeans
+  measure_family: stock
+  canonical_unit_code: mbu
+  notes:
+

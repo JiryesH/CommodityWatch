@@ -1,0 +1,109 @@
+- code: energy
+  name: Energy
+  sector: cross_commodity
+  parent_code:
+  is_active: true
+  metadata: {grouping: true}
+- code: metals
+  name: Metals
+  sector: cross_commodity
+  parent_code:
+  is_active: true
+  metadata: {grouping: true}
+- code: agriculture
+  name: Agriculture
+  sector: cross_commodity
+  parent_code:
+  is_active: true
+  metadata: {grouping: true}
+- code: crude_oil
+  name: Crude Oil
+  sector: energy
+  parent_code: energy
+  is_active: true
+  metadata: {}
+- code: gasoline
+  name: Gasoline
+  sector: energy
+  parent_code: energy
+  is_active: true
+  metadata: {}
+- code: distillates
+  name: Distillates
+  sector: energy
+  parent_code: energy
+  is_active: true
+  metadata: {}
+- code: jet_fuel
+  name: Jet Fuel
+  sector: energy
+  parent_code: energy
+  is_active: true
+  metadata: {}
+- code: propane
+  name: Propane
+  sector: energy
+  parent_code: energy
+  is_active: true
+  metadata: {}
+- code: natural_gas
+  name: Natural Gas
+  sector: energy
+  parent_code: energy
+  is_active: true
+  metadata: {}
+- code: corn
+  name: Corn
+  sector: agriculture
+  parent_code: agriculture
+  is_active: true
+  metadata: {}
+- code: wheat
+  name: Wheat
+  sector: agriculture
+  parent_code: agriculture
+  is_active: true
+  metadata: {}
+- code: soybeans
+  name: Soybeans
+  sector: agriculture
+  parent_code: agriculture
+  is_active: true
+  metadata: {}
+- code: copper
+  name: Copper
+  sector: metals
+  parent_code: metals
+  is_active: true
+  metadata: {}
+- code: aluminium
+  name: Aluminium
+  sector: metals
+  parent_code: metals
+  is_active: true
+  metadata: {}
+- code: zinc
+  name: Zinc
+  sector: metals
+  parent_code: metals
+  is_active: true
+  metadata: {}
+- code: nickel
+  name: Nickel
+  sector: metals
+  parent_code: metals
+  is_active: true
+  metadata: {}
+- code: gold
+  name: Gold
+  sector: metals
+  parent_code: metals
+  is_active: true
+  metadata: {}
+- code: silver
+  name: Silver
+  sector: metals
+  parent_code: metals
+  is_active: true
+  metadata: {}
+

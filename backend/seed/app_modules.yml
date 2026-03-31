@@ -1,0 +1,15 @@
+- code: headlinewatch
+  name: HeadlineWatch
+- code: pricewatch
+  name: PriceWatch
+- code: calendarwatch
+  name: CalendarWatch
+- code: supplywatch
+  name: SupplyWatch
+- code: demandwatch
+  name: DemandWatch
+- code: inventorywatch
+  name: InventoryWatch
+- code: weatherwatch
+  name: WeatherWatch
+

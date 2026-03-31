@@ -276,13 +276,15 @@ svg {
 }
 
 .dashboard-grid > [data-slot="main-top"],
-.dashboard-grid > [data-slot="main-left"] {
+.dashboard-grid > [data-slot="main-middle"],
+.dashboard-grid > [data-slot="main-left"],
+.dashboard-grid > [data-slot="main-bottom"] {
   grid-column: 1;
 }
 
 .dashboard-grid > [data-slot="sidebar"] {
   grid-column: 2;
-  grid-row: 1 / span 2;
+  grid-row: 1 / span 3;
 }
 
 .module-card {
@@ -569,6 +571,144 @@ svg {
   font-size: 11px;
 }
 
+.inventory-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.inventory-preview-card {
+  appearance: none;
+  position: relative;
+  min-height: 198px;
+  padding: 14px 14px 13px 16px;
+  border: 1px solid rgba(15, 25, 35, 0.08);
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(247, 244, 238, 0.94));
+  display: grid;
+  gap: 10px;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+  box-shadow: 0 8px 18px rgba(15, 25, 35, 0.04);
+}
+
+.inventory-preview-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 4px;
+  border-radius: 14px 0 0 14px;
+  background: var(--inventory-accent, rgba(15, 25, 35, 0.16));
+}
+
+.inventory-preview-card:hover,
+.inventory-preview-card:focus-visible {
+  transform: translateY(-2px);
+  border-color: rgba(15, 25, 35, 0.16);
+  box-shadow: 0 12px 24px rgba(15, 25, 35, 0.08);
+}
+
+.inventory-preview-head {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.inventory-preview-group {
+  margin: 0;
+  color: var(--color-subtext);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.inventory-preview-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 8px;
+  border-radius: 999px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.inventory-preview-badge.is-fresh {
+  color: var(--color-up);
+  background: rgba(54, 102, 70, 0.12);
+}
+
+.inventory-preview-badge.is-waiting {
+  color: var(--color-metals);
+  background: rgba(74, 144, 217, 0.12);
+}
+
+.inventory-preview-badge.is-structural {
+  color: var(--color-primary-soft);
+  background: rgba(15, 25, 35, 0.06);
+}
+
+.inventory-preview-badge.is-aged {
+  color: #9a6b10;
+  background: rgba(232, 160, 32, 0.16);
+}
+
+.inventory-preview-title {
+  margin: 0;
+  font-family: "IBM Plex Serif", serif;
+  font-size: 1.04rem;
+  line-height: 1.24;
+}
+
+.inventory-preview-value {
+  margin: 0;
+  font-family: "IBM Plex Serif", serif;
+  font-size: 1.5rem;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.inventory-preview-change {
+  margin: 0;
+  color: var(--color-primary-soft);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.03em;
+}
+
+.inventory-preview-change .sep {
+  margin: 0 5px;
+  opacity: 0.4;
+}
+
+.inventory-preview-foot {
+  margin-top: auto;
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.inventory-preview-source {
+  display: grid;
+  gap: 4px;
+  color: var(--color-subtext);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.inventory-preview-foot .sparkline {
+  width: 96px;
+  flex: 0 0 auto;
+}
+
 .headline-list {
   display: grid;
 }
@@ -852,6 +992,7 @@ svg {
 .home-filter-reset-link:focus-visible,
 .home-filter-collapse-button:focus-visible,
 .module-link:focus-visible,
+.inventory-preview-card:focus-visible,
 .price-tile:focus-visible,
 .headline-link:focus-visible,
 .calendar-item-link:focus-visible,

@@ -14,6 +14,7 @@ import {
 import {
   fetchCalendarEvents,
   fetchHeadlineFeed,
+  fetchInventorySnapshot,
   fetchLatestSeriesMap,
   fetchRelatedHeadlines,
   fetchSeriesHistory,
@@ -33,6 +34,13 @@ import {
   dotClass as headlineDotClass,
   dotLabel as headlineDotLabel,
 } from "../shared/headline-taxonomy.js";
+import {
+  FRESHNESS_BADGES,
+  commodityGroupForCode,
+  formatSignedValue as formatInventorySignedValue,
+  formatValue as formatInventoryValue,
+} from "../inventory-watch/catalog.js";
+import { buildInventoryDetailHref, buildInventorySnapshotHref } from "../inventory-watch/router.js";
 
 const headlineExactFormatter = new Intl.DateTimeFormat("en-GB", {
   day: "numeric",
@@ -348,6 +356,69 @@ function renderSparkline(values, direction = "neutral") {
   `;
 }
 
+function sparklineTrend(values = []) {
+  if (!values.length || values.length < 2) {
+    return "neutral";
+  }
+
+  const delta = values[values.length - 1] - values[0];
+  if (delta > 0) {
+    return "up";
+  }
+  if (delta < 0) {
+    return "down";
+  }
+  return "neutral";
+}
+
+const INVENTORY_GROUP_RANK = new Map([
+  ["Crude Oil", 0],
+  ["Refined Products", 1],
+  ["Natural Gas", 2],
+  ["Base Metals", 3],
+  ["Grains", 4],
+  ["Softs", 5],
+  ["Precious Metals", 6],
+  ["Inventory", 7],
+]);
+
+const INVENTORY_COMMODITY_CODES_BY_GROUP = {
+  "crude-oil": ["crude_oil"],
+  "natural-gas": ["natural_gas"],
+  precious: ["gold", "silver", "platinum", "palladium"],
+  "base-metals": ["copper", "aluminum", "nickel", "zinc", "lead", "tin"],
+  "grains-oilseeds": ["corn", "wheat", "soybeans", "oilseeds"],
+  softs: ["coffee", "cocoa", "sugar", "cotton"],
+};
+
+const INVENTORY_COMMODITY_CODES_BY_COMMODITY = {
+  brent: ["crude_oil"],
+  wti: ["crude_oil"],
+  "dubai-oman": ["crude_oil"],
+  "henry-hub": ["natural_gas"],
+  ttf: ["natural_gas"],
+  gold: ["gold"],
+  silver: ["silver"],
+  platinum: ["platinum"],
+  copper: ["copper"],
+  aluminium: ["aluminum"],
+  nickel: ["nickel"],
+  zinc: ["zinc"],
+  "iron-ore": [],
+  wheat: ["wheat"],
+  corn: ["corn"],
+  soybeans: ["soybeans"],
+  coffee: ["coffee"],
+  sugar: ["sugar"],
+  cocoa: ["cocoa"],
+};
+
+const INVENTORY_GROUPS_BY_SECTOR = {
+  energy: ["energy", "natural-gas"],
+  metals: ["base-metals", "precious-metals"],
+  agriculture: ["grains", "softs"],
+};
+
 function buildSparklineValues(historyRows, latestRow) {
   const values = historyRows
     .map((row) => ({ observation_date: row.observation_date, value: row.value }))
@@ -365,6 +436,127 @@ function buildSparklineValues(historyRows, latestRow) {
   }
 
   return [0, 0];
+}
+
+function inventorySignalAccent(card) {
+  if (card.freshness === "aged") {
+    return "var(--color-amber)";
+  }
+
+  if (card.signal === "tightening" || card.signal === "contracting") {
+    return "var(--color-up)";
+  }
+
+  if (card.signal === "loosening" || card.signal === "expanding") {
+    return "var(--color-down)";
+  }
+
+  return "rgba(15, 25, 35, 0.16)";
+}
+
+function inventorySignalLabel(signal) {
+  return String(signal || "neutral")
+    .split("-")
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+}
+
+function sortInventoryCards(first, second) {
+  const firstRank = INVENTORY_GROUP_RANK.get(first.snapshotGroup) ?? 999;
+  const secondRank = INVENTORY_GROUP_RANK.get(second.snapshotGroup) ?? 999;
+  if (firstRank !== secondRank) {
+    return firstRank - secondRank;
+  }
+
+  return first.name.localeCompare(second.name);
+}
+
+function getInventorySelection(filter, cards) {
+  const normalized = normalizeFilter(filter);
+  if (isAllFilter(normalized)) {
+    return {
+      items: [...cards].sort(sortInventoryCards),
+      scopeLabel: "All Commodities",
+      narrowedByGroup: false,
+    };
+  }
+
+  const selectedGroup = getSelectedGroup(normalized);
+  const narrowedByGroup = Boolean(selectedGroup || hasPartialGroupSelection(normalized));
+  const mappedCommodityCodes = new Set();
+
+  if (selectedGroup && !isAllCommoditySelection(normalized)) {
+    getSelectedCommodities(normalized).forEach((commodity) => {
+      (INVENTORY_COMMODITY_CODES_BY_COMMODITY[commodity.id] || []).forEach((code) => mappedCommodityCodes.add(code));
+    });
+  }
+
+  if (!mappedCommodityCodes.size) {
+    getSelectedGroups(normalized).forEach((group) => {
+      (INVENTORY_COMMODITY_CODES_BY_GROUP[group.id] || []).forEach((code) => mappedCommodityCodes.add(code));
+    });
+  }
+
+  if (mappedCommodityCodes.size) {
+    return {
+      items: cards.filter((card) => mappedCommodityCodes.has(card.commodityCode)).sort(sortInventoryCards),
+      scopeLabel: getFilterLabel(filter),
+      narrowedByGroup,
+    };
+  }
+
+  if (narrowedByGroup) {
+    return {
+      items: [],
+      scopeLabel: getFilterLabel(filter),
+      narrowedByGroup,
+    };
+  }
+
+  const sectorGroups = new Set(
+    getSelectedSectors(normalized).flatMap((sector) => INVENTORY_GROUPS_BY_SECTOR[sector.id] || [])
+  );
+
+  return {
+    items: cards.filter((card) => sectorGroups.has(commodityGroupForCode(card.commodityCode))).sort(sortInventoryCards),
+    scopeLabel: getFilterLabel(filter),
+    narrowedByGroup: false,
+  };
+}
+
+function renderInventoryPreviewCard(card) {
+  const groupSlug = commodityGroupForCode(card.commodityCode);
+  const route = buildInventoryDetailHref(groupSlug === "all" ? "all" : groupSlug, card.indicatorId);
+  const freshnessBadge = FRESHNESS_BADGES[card.freshness] || FRESHNESS_BADGES.current;
+
+  return `
+    <button
+      class="inventory-preview-card"
+      type="button"
+      data-route="${escapeHtml(route)}"
+      style="--inventory-accent:${escapeHtml(inventorySignalAccent(card))};"
+      aria-label="Open ${escapeHtml(card.name)} in InventoryWatch"
+    >
+      <div class="inventory-preview-head">
+        <p class="inventory-preview-group">${escapeHtml(card.snapshotGroup)}</p>
+        <span class="inventory-preview-badge is-${escapeHtml(freshnessBadge.tone)}">${escapeHtml(freshnessBadge.label)}</span>
+      </div>
+      <h3 class="inventory-preview-title">${escapeHtml(card.name)}</h3>
+      <p class="inventory-preview-value">${escapeHtml(formatInventoryValue(card.latestValue, card.unit))}</p>
+      <p class="inventory-preview-change">
+        ${escapeHtml(formatInventorySignedValue(card.changeAbs, card.unit))} vs prior
+        <span class="sep">·</span>
+        ${escapeHtml(inventorySignalLabel(card.signal))}
+      </p>
+      <div class="inventory-preview-foot">
+        <div class="inventory-preview-source">
+          <span>${escapeHtml(card.sourceLabel)}</span>
+          <span>${escapeHtml(card.freshness)}</span>
+        </div>
+        ${renderSparkline(card.sparkline, sparklineTrend(card.sparkline))}
+      </div>
+    </button>
+  `;
 }
 
 function bindPriceTileInteractions(body, onNavigate) {
@@ -1122,6 +1314,53 @@ async function renderCalendarModuleBody(body, filter, { commit, isCurrent } = {}
   `);
 }
 
+async function renderInventoryModuleBody(body, filter, { commit, isCurrent } = {}) {
+  const writeBody = typeof commit === "function" ? commit : (target, html) => {
+    target.innerHTML = html;
+  };
+  const isRenderCurrent = typeof isCurrent === "function" ? isCurrent : () => true;
+
+  const snapshot = await fetchInventorySnapshot({ includeSparklines: true, limit: 100 });
+  if (!isRenderCurrent()) {
+    return;
+  }
+
+  const { items, scopeLabel, narrowedByGroup } = getInventorySelection(filter, snapshot.cards);
+  const visibleItems = items.slice(0, 6);
+
+  if (!items.length) {
+    writeBody(
+      body,
+      renderEmptyState(
+        "Inventory coverage unavailable",
+        narrowedByGroup
+          ? `InventoryWatch does not currently map ${scopeLabel} to a live inventory series.`
+          : `No live inventory indicators are currently available for ${scopeLabel}.`
+      )
+    );
+    return;
+  }
+
+  writeBody(
+    body,
+    `
+      ${
+        isAllFilter(filter)
+          ? ""
+          : `<p class="module-scope">Showing inventory for: <strong>${escapeHtml(scopeLabel)}</strong></p>`
+      }
+      <div class="inventory-preview-grid">
+        ${visibleItems.map((card) => renderInventoryPreviewCard(card)).join("")}
+      </div>
+      ${
+        items.length > visibleItems.length
+          ? `<p class="module-note">Showing ${visibleItems.length} of ${items.length} matching indicators. Open InventoryWatch for the full grid.</p>`
+          : ""
+      }
+    `
+  );
+}
+
 function attachAsyncRenderer(section, body, renderer, filter, context = {}) {
   const gate = createModuleRenderGate(section);
 
@@ -1176,5 +1415,20 @@ export function CalendarModule({ filter, onNavigate }) {
   });
 
   attachAsyncRenderer(section, body, renderCalendarModuleBody, filter);
+  return section;
+}
+
+export function InventoryModule({ filter, onNavigate }) {
+  const primarySectorId = getSelectedSectors(filter)[0]?.id || "energy";
+  const { section, body } = createModuleCard({
+    id: "inventory",
+    title: "Inventory Snapshot",
+    linkLabel: "View InventoryWatch",
+    route: buildInventorySnapshotHref(),
+    accentSectorId: primarySectorId,
+    onNavigate,
+  });
+
+  attachAsyncRenderer(section, body, renderInventoryModuleBody, filter);
   return section;
 }

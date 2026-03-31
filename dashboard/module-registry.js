@@ -1,4 +1,4 @@
-import { CalendarModule, HeadlineModule, PriceModule } from "./modules.js";
+import { CalendarModule, HeadlineModule, InventoryModule, PriceModule } from "./modules.js";
 
 export const MODULE_REGISTRY = [
   {
@@ -10,10 +10,18 @@ export const MODULE_REGISTRY = [
     status: "live",
   },
   {
+    id: "inventory",
+    label: "Inventory Snapshot",
+    component: InventoryModule,
+    slot: "main-middle",
+    sectors: ["energy", "metals", "agriculture"],
+    status: "live",
+  },
+  {
     id: "headlines",
     label: "Latest Headlines",
     component: HeadlineModule,
-    slot: "main-left",
+    slot: "main-bottom",
     sectors: ["energy", "metals", "agriculture", "macro", "cross-commodity"],
     status: "live",
   },

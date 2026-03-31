@@ -1,0 +1,305 @@
+- code: GLOBAL
+  name: Global
+  geo_type: global
+  iso2:
+  iso3:
+  parent_code:
+  is_active: true
+  metadata: {}
+- code: OECD
+  name: OECD
+  geo_type: region
+  iso2:
+  iso3:
+  parent_code: GLOBAL
+  is_active: true
+  metadata: {}
+- code: JAPAN
+  name: Japan
+  geo_type: country
+  iso2: JP
+  iso3: JPN
+  parent_code: GLOBAL
+  is_active: true
+  metadata: {}
+- code: CHINA
+  name: China
+  geo_type: country
+  iso2: CN
+  iso3: CHN
+  parent_code: GLOBAL
+  is_active: true
+  metadata: {}
+- code: INDIA
+  name: India
+  geo_type: country
+  iso2: IN
+  iso3: IND
+  parent_code: GLOBAL
+  is_active: true
+  metadata: {}
+- code: US
+  name: United States
+  geo_type: country
+  iso2: US
+  iso3: USA
+  parent_code: GLOBAL
+  is_active: true
+  metadata: {}
+- code: US_PADD1
+  name: U.S. PADD 1
+  geo_type: storage_region
+  iso2:
+  iso3:
+  parent_code: US
+  is_active: true
+  metadata: {padd: 1}
+- code: US_PADD2
+  name: U.S. PADD 2
+  geo_type: storage_region
+  iso2:
+  iso3:
+  parent_code: US
+  is_active: true
+  metadata: {padd: 2}
+- code: US_PADD3
+  name: U.S. PADD 3
+  geo_type: storage_region
+  iso2:
+  iso3:
+  parent_code: US
+  is_active: true
+  metadata: {padd: 3}
+- code: US_PADD4
+  name: U.S. PADD 4
+  geo_type: storage_region
+  iso2:
+  iso3:
+  parent_code: US
+  is_active: true
+  metadata: {padd: 4}
+- code: US_PADD5
+  name: U.S. PADD 5
+  geo_type: storage_region
+  iso2:
+  iso3:
+  parent_code: US
+  is_active: true
+  metadata: {padd: 5}
+- code: US_CUSHING
+  name: Cushing, Oklahoma
+  geo_type: storage_region
+  iso2:
+  iso3:
+  parent_code: US
+  is_active: true
+  metadata: {}
+- code: EU
+  name: European Union
+  geo_type: region
+  iso2:
+  iso3:
+  parent_code: GLOBAL
+  is_active: true
+  metadata: {}
+- code: EU_AT
+  name: Austria
+  geo_type: country
+  iso2: AT
+  iso3: AUT
+  parent_code: EU
+  is_active: true
+  metadata: {}
+- code: EU_BE
+  name: Belgium
+  geo_type: country
+  iso2: BE
+  iso3: BEL
+  parent_code: EU
+  is_active: true
+  metadata: {}
+- code: EU_BG
+  name: Bulgaria
+  geo_type: country
+  iso2: BG
+  iso3: BGR
+  parent_code: EU
+  is_active: true
+  metadata: {}
+- code: EU_HR
+  name: Croatia
+  geo_type: country
+  iso2: HR
+  iso3: HRV
+  parent_code: EU
+  is_active: true
+  metadata: {}
+- code: EU_CZ
+  name: Czechia
+  geo_type: country
+  iso2: CZ
+  iso3: CZE
+  parent_code: EU
+  is_active: true
+  metadata: {}
+- code: EU_DK
+  name: Denmark
+  geo_type: country
+  iso2: DK
+  iso3: DNK
+  parent_code: EU
+  is_active: true
+  metadata: {}
+- code: EU_EE
+  name: Estonia
+  geo_type: country
+  iso2: EE
+  iso3: EST
+  parent_code: EU
+  is_active: true
+  metadata: {}
+- code: EU_FI
+  name: Finland
+  geo_type: country
+  iso2: FI
+  iso3: FIN
+  parent_code: EU
+  is_active: true
+  metadata: {}
+- code: EU_FR
+  name: France
+  geo_type: country
+  iso2: FR
+  iso3: FRA
+  parent_code: EU
+  is_active: true
+  metadata: {}
+- code: EU_DE
+  name: Germany
+  geo_type: country
+  iso2: DE
+  iso3: DEU
+  parent_code: EU
+  is_active: true
+  metadata: {}
+- code: EU_GR
+  name: Greece
+  geo_type: country
+  iso2: GR
+  iso3: GRC
+  parent_code: EU
+  is_active: true
+  metadata: {}
+- code: EU_HU
+  name: Hungary
+  geo_type: country
+  iso2: HU
+  iso3: HUN
+  parent_code: EU
+  is_active: true
+  metadata: {}
+- code: EU_IE
+  name: Ireland
+  geo_type: country
+  iso2: IE
+  iso3: IRL
+  parent_code: EU
+  is_active: true
+  metadata: {}
+- code: EU_IT
+  name: Italy
+  geo_type: country
+  iso2: IT
+  iso3: ITA
+  parent_code: EU
+  is_active: true
+  metadata: {}
+- code: EU_LV
+  name: Latvia
+  geo_type: country
+  iso2: LV
+  iso3: LVA
+  parent_code: EU
+  is_active: true
+  metadata: {}
+- code: EU_LT
+  name: Lithuania
+  geo_type: country
+  iso2: LT
+  iso3: LTU
+  parent_code: EU
+  is_active: true
+  metadata: {}
+- code: EU_LU
+  name: Luxembourg
+  geo_type: country
+  iso2: LU
+  iso3: LUX
+  parent_code: EU
+  is_active: true
+  metadata: {}
+- code: EU_NL
+  name: Netherlands
+  geo_type: country
+  iso2: NL
+  iso3: NLD
+  parent_code: EU
+  is_active: true
+  metadata: {}
+- code: EU_PL
+  name: Poland
+  geo_type: country
+  iso2: PL
+  iso3: POL
+  parent_code: EU
+  is_active: true
+  metadata: {}
+- code: EU_PT
+  name: Portugal
+  geo_type: country
+  iso2: PT
+  iso3: PRT
+  parent_code: EU
+  is_active: true
+  metadata: {}
+- code: EU_RO
+  name: Romania
+  geo_type: country
+  iso2: RO
+  iso3: ROU
+  parent_code: EU
+  is_active: true
+  metadata: {}
+- code: EU_SK
+  name: Slovakia
+  geo_type: country
+  iso2: SK
+  iso3: SVK
+  parent_code: EU
+  is_active: true
+  metadata: {}
+- code: EU_SI
+  name: Slovenia
+  geo_type: country
+  iso2: SI
+  iso3: SVN
+  parent_code: EU
+  is_active: true
+  metadata: {}
+- code: EU_ES
+  name: Spain
+  geo_type: country
+  iso2: ES
+  iso3: ESP
+  parent_code: EU
+  is_active: true
+  metadata: {}
+- code: EU_SE
+  name: Sweden
+  geo_type: country
+  iso2: SE
+  iso3: SWE
+  parent_code: EU
+  is_active: true
+  metadata: {}
+

@@ -1,0 +1,172 @@
+:root,
+html[data-theme="light"] {
+  --color-bg-app: #f2f2f2;
+  --color-bg-canvas: #e8e8ea;
+  --color-bg-surface: #ffffff;
+  --color-bg-surface-alt: #f7f7f8;
+  --color-bg-elevated: #fcfcfc;
+  --color-bg-muted: #e0e0e0;
+  --color-bg-overlay: rgba(26, 26, 46, 0.66);
+
+  --color-text-primary: #1a1a2e;
+  --color-text-secondary: #3d3d4f;
+  --color-text-muted: #555555;
+  --color-text-soft: #71717f;
+  --color-text-inverse: #f4f4f7;
+
+  --color-border-subtle: #d7d7dd;
+  --color-border-default: #c7c7ce;
+  --color-border-strong: #9f9faa;
+
+  --color-accent: #d4a017;
+  --color-accent-hover: #b88912;
+  --color-accent-soft: rgba(212, 160, 23, 0.12);
+  --color-accent-strong: #8f6c0c;
+
+  --color-positive: #2d7d46;
+  --color-positive-soft: rgba(45, 125, 70, 0.12);
+  --color-negative: #b82020;
+  --color-negative-soft: rgba(184, 32, 32, 0.12);
+  --color-caution: #b36b00;
+  --color-caution-soft: rgba(179, 107, 0, 0.12);
+  --color-neutral: #555555;
+  --color-neutral-soft: rgba(85, 85, 85, 0.1);
+  --color-info: #2e5e8e;
+  --color-info-soft: rgba(46, 94, 142, 0.12);
+
+  --color-sector-energy: #d4a017;
+  --color-sector-metals: #2e5e8e;
+  --color-sector-agriculture: #5e7f34;
+
+  --chart-grid: rgba(26, 26, 46, 0.1);
+  --chart-axis: rgba(26, 26, 46, 0.45);
+  --chart-band-10-90: rgba(26, 26, 46, 0.06);
+  --chart-band-25-75: rgba(26, 26, 46, 0.12);
+  --chart-median: rgba(85, 85, 85, 0.9);
+  --chart-current-year: #d4a017;
+  --chart-prior-year: rgba(85, 85, 85, 0.82);
+  --chart-positive: #2d7d46;
+  --chart-negative: #b82020;
+  --chart-info: #2e5e8e;
+  --chart-annotation: #2e5e8e;
+  --chart-tooltip-bg: #141423;
+  --chart-tooltip-border: rgba(255, 255, 255, 0.12);
+  --chart-tooltip-text: #f4f4f7;
+
+  --shadow-card: 0 1px 2px rgba(26, 26, 46, 0.04), 0 8px 24px rgba(26, 26, 46, 0.06);
+
+  --text-display-size: 32px;
+  --text-display-line-height: 38px;
+  --text-display-weight: 600;
+  --text-h1-size: 26px;
+  --text-h1-line-height: 32px;
+  --text-h1-weight: 600;
+  --text-h2-size: 20px;
+  --text-h2-line-height: 26px;
+  --text-h2-weight: 600;
+  --text-h3-size: 16px;
+  --text-h3-line-height: 22px;
+  --text-h3-weight: 600;
+  --text-body-size: 14px;
+  --text-body-line-height: 20px;
+  --text-body-weight: 400;
+  --text-body-strong-size: 14px;
+  --text-body-strong-line-height: 20px;
+  --text-body-strong-weight: 500;
+  --text-caption-size: 12px;
+  --text-caption-line-height: 16px;
+  --text-caption-weight: 400;
+  --text-micro-size: 11px;
+  --text-micro-line-height: 14px;
+  --text-micro-weight: 500;
+  --text-data-xl-size: 28px;
+  --text-data-xl-line-height: 30px;
+  --text-data-xl-weight: 500;
+  --text-data-lg-size: 20px;
+  --text-data-lg-line-height: 24px;
+  --text-data-lg-weight: 500;
+  --text-data-md-size: 14px;
+  --text-data-md-line-height: 18px;
+  --text-data-md-weight: 400;
+  --text-data-sm-size: 12px;
+  --text-data-sm-line-height: 16px;
+  --text-data-sm-weight: 400;
+
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  --size-card-padding: 16px;
+  --size-card-padding-dense: 12px;
+  --size-section-gap: 24px;
+  --size-grid-gap: 16px;
+  --size-table-cell-y: 10px;
+  --size-table-cell-x: 12px;
+  --size-filter-bar-height: 44px;
+  --size-top-app-bar-height: 52px;
+}
+
+html[data-theme="dark"] {
+  --color-bg-app: #10121b;
+  --color-bg-canvas: #151826;
+  --color-bg-surface: #1a1d2b;
+  --color-bg-surface-alt: #202434;
+  --color-bg-elevated: #262b3d;
+  --color-bg-muted: #2d3347;
+  --color-bg-overlay: rgba(6, 8, 14, 0.72);
+
+  --color-text-primary: #f2f3f7;
+  --color-text-secondary: #d6d8df;
+  --color-text-muted: #a7acb8;
+  --color-text-soft: #8a90a0;
+  --color-text-inverse: #0f1118;
+
+  --color-border-subtle: #2e3447;
+  --color-border-default: #3b4157;
+  --color-border-strong: #555d78;
+
+  --color-accent: #d4a017;
+  --color-accent-hover: #e1b43a;
+  --color-accent-soft: rgba(212, 160, 23, 0.16);
+  --color-accent-strong: #f0c14b;
+
+  --color-positive: #49a264;
+  --color-positive-soft: rgba(73, 162, 100, 0.18);
+  --color-negative: #d14b4b;
+  --color-negative-soft: rgba(209, 75, 75, 0.18);
+  --color-caution: #d08b1f;
+  --color-caution-soft: rgba(208, 139, 31, 0.18);
+  --color-neutral: #9a9fae;
+  --color-neutral-soft: rgba(154, 159, 174, 0.16);
+  --color-info: #5f8fbe;
+  --color-info-soft: rgba(95, 143, 190, 0.18);
+
+  --color-sector-energy: #d4a017;
+  --color-sector-metals: #5f8fbe;
+  --color-sector-agriculture: #7fa04d;
+
+  --chart-grid: rgba(242, 243, 247, 0.1);
+  --chart-axis: rgba(242, 243, 247, 0.55);
+  --chart-band-10-90: rgba(242, 243, 247, 0.08);
+  --chart-band-25-75: rgba(242, 243, 247, 0.16);
+  --chart-median: rgba(215, 218, 223, 0.92);
+  --chart-current-year: #d4a017;
+  --chart-prior-year: rgba(167, 172, 184, 0.92);
+  --chart-positive: #49a264;
+  --chart-negative: #d14b4b;
+  --chart-info: #5f8fbe;
+  --chart-annotation: #5f8fbe;
+  --chart-tooltip-bg: #0e111a;
+  --chart-tooltip-border: rgba(255, 255, 255, 0.12);
+  --chart-tooltip-text: #f2f3f7;
+
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.32), 0 10px 30px rgba(0, 0, 0, 0.24);
+}

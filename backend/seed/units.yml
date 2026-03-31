@@ -1,0 +1,56 @@
+- code: kb
+  name: Thousand Barrels
+  dimension: volume_stock
+  symbol: kb
+  metadata: {}
+- code: kb_d
+  name: Thousand Barrels per Day
+  dimension: flow_rate
+  symbol: kb/d
+  metadata: {}
+- code: bcf
+  name: Billion Cubic Feet
+  dimension: gas_volume
+  symbol: Bcf
+  metadata: {}
+- code: pct
+  name: Percent
+  dimension: ratio
+  symbol: "%"
+  metadata: {}
+- code: usd_bbl
+  name: U.S. Dollars per Barrel
+  dimension: price
+  symbol: USD/bbl
+  metadata: {}
+- code: twh
+  name: Terawatt Hours
+  dimension: energy
+  symbol: TWh
+  metadata: {}
+- code: gwh_d
+  name: Gigawatt Hours per Day
+  dimension: energy_flow
+  symbol: GWh/d
+  metadata: {}
+- code: mt
+  name: Million Tonnes
+  dimension: mass
+  symbol: Mt
+  metadata: {}
+- code: kt
+  name: Thousand Tonnes
+  dimension: mass
+  symbol: kt
+  metadata: {}
+- code: mbu
+  name: Million Bushels
+  dimension: agricultural_volume
+  symbol: Mbu
+  metadata: {}
+- code: tonnes
+  name: Tonnes
+  dimension: mass
+  symbol: t
+  metadata: {}
+

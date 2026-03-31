@@ -1,0 +1,17 @@
+{
+  "response": {
+    "data": [
+      {
+        "period": "2026-03-20",
+        "value": "438940",
+        "series-description": "Weekly U.S. Ending Stocks excluding SPR of Crude Oil"
+      },
+      {
+        "period": "2026-03-13",
+        "value": "442280",
+        "series-description": "Weekly U.S. Ending Stocks excluding SPR of Crude Oil"
+      }
+    ]
+  }
+}
+
