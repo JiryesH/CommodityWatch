@@ -9,18 +9,22 @@ import {
   formatValue,
   groupDescriptionFor,
   isoDate,
+  isGroupPopulated,
+  nextReleaseStatus,
   semanticModeForCommodity,
 } from "./catalog.js";
 import { fetchIndicatorData, fetchIndicatorLatest, fetchInventorySnapshot } from "./api-client.js";
 import {
-  alertKindFromSeasonal,
   buildChangeBarSeries,
   buildRecentReleaseRows,
   buildSeasonalSeries,
+  buildYtdChangeStats,
+  changeToneForValue,
   filterCardsByCommodityGroup,
   groupCardsForSnapshot,
   percentileBracketLabel,
   seasonalPointForLatest,
+  alertToneFromAlerts,
   snapshotSignalDescriptor,
   snapshotSectionEntries,
 } from "./model.js";
@@ -74,14 +78,23 @@ function setDocumentTitle(title) {
   document.title = title;
 }
 
-function alertBadge(kind, labelOverride = "") {
-  if (!kind) {
+function alertBadge(alert) {
+  if (!alert?.label) {
     return "";
   }
 
-  const label = labelOverride || (kind === "extreme-low" ? "Below seasonal" : "Above seasonal");
-  const className = kind === "extreme-low" ? "is-alert-low" : "is-alert-high";
-  return `<span class="inventory-badge ${className}">${escapeHtml(label)}</span>`;
+  const toneClassByAlert = {
+    tight: "is-alert-tight",
+    ample: "is-alert-ample",
+    watch: "is-alert-watch",
+    cool: "is-alert-cool",
+  };
+
+  return `<span class="inventory-badge ${toneClassByAlert[alert.tone] || "is-structural"}">${escapeHtml(alert.label)}</span>`;
+}
+
+function renderAlertBadges(alerts = []) {
+  return alerts.map((alert) => alertBadge(alert)).join("");
 }
 
 function freshnessBadge(state) {
@@ -97,6 +110,11 @@ function snapshotFreshnessBadge(state) {
     return '<span class="inventory-badge is-structural">Structural</span>';
   }
   return "";
+}
+
+function releaseCountdownMarkup(indicatorLike) {
+  const release = nextReleaseStatus(indicatorLike);
+  return `<span class="inventory-release inventory-release-${escapeHtml(release.state)}">${escapeHtml(release.label)}</span>`;
 }
 
 function sparklineTrend(values) {
@@ -181,6 +199,21 @@ function unitDefinition(unit) {
   }
   if (normalized === "%") {
     return { unit: "%", label: "percent" };
+  }
+  if (normalized === "tonnes") {
+    return { unit: "tonnes", label: "metric tonnes" };
+  }
+  if (normalized === "mmt") {
+    return { unit: "mmt", label: "million metric tonnes" };
+  }
+  if (normalized === "mbu") {
+    return { unit: "mbu", label: "million bushels" };
+  }
+  if (normalized === "kcwt") {
+    return { unit: "kcwt", label: "thousand cwt" };
+  }
+  if (normalized === "toz") {
+    return { unit: "toz", label: "troy ounces" };
   }
   return null;
 }
@@ -535,22 +568,37 @@ function renderChangeChart(changeSeries, semanticMode, unit) {
   const barWidth = Math.max(8, barStep - 8);
   const scale = innerHeight / (maxAbs * 2);
   const labelStep = Math.max(1, Math.ceil(changeSeries.length / 6));
+  const averagePath = changeSeries
+    .filter((point) => point.seasonalAverageChange != null)
+    .map((point, index) => {
+      const x = pad.left + index * barStep + barStep / 2;
+      const y = baseline - point.seasonalAverageChange * scale;
+      return `${index === 0 ? "M" : "L"}${x} ${y}`;
+    })
+    .join(" ");
 
   return `
     <div class="inventory-chart">
       <svg viewBox="0 0 ${width} ${height}" role="img" aria-label="Period change chart">
         <line class="inventory-bar-axis" x1="${pad.left}" y1="${baseline}" x2="${width - pad.right}" y2="${baseline}"></line>
+        ${averagePath ? `<path class="inventory-chart-average" d="${averagePath}"></path>` : ""}
         <text class="inventory-chart-value" x="${pad.left - 10}" y="${baseline + 4}" text-anchor="end">0</text>
         ${changeSeries
           .map((point, index) => {
-            const isPositive = semanticMode === "inventory" ? point.value < 0 : point.value > 0;
+            const toneClass = changeToneForValue(point.value, semanticMode);
             const barHeight = Math.abs(point.value) * scale;
             const x = pad.left + index * barStep + (barStep - barWidth) / 2;
             const y = point.value >= 0 ? baseline - barHeight : baseline;
 
             return `
               <rect
-                class="${isPositive ? "inventory-bar-positive" : "inventory-bar-negative"}"
+                class="${
+                  toneClass === "positive"
+                    ? "inventory-bar-positive"
+                    : toneClass === "negative"
+                      ? "inventory-bar-negative"
+                      : "inventory-bar-neutral"
+                }"
                 x="${x}"
                 y="${y}"
                 width="${barWidth}"
@@ -596,7 +644,7 @@ function renderRecentReleasesTable(rows, unit) {
             .map(
               (row) => `
                 <tr>
-                  <td class="is-mono">${escapeHtml(isoDate(row.date))}</td>
+                  <td class="is-mono">${row.revisionFlag ? '<span class="inventory-revision-flag" title="This observation was revised by a later source release">~</span>' : ""}${escapeHtml(isoDate(row.date))}</td>
                   <td class="is-strong">${escapeHtml(formatValue(row.value, unit))}</td>
                   <td class="is-mono">${escapeHtml(formatSignedValue(row.change, unit))}</td>
                   <td class="is-mono">${escapeHtml(formatPercent(row.percentChange))}</td>
@@ -617,7 +665,7 @@ function renderSnapshotCard(card, currentGroupSlug) {
   const routeGroup = groupSlug === "all" ? currentGroupSlug : groupSlug;
   const href = buildInventoryDetailHref(routeGroup || "all", card.indicatorId);
   const descriptor = snapshotSignalDescriptor(card);
-  const changeTone = card.changeAbs > 0 ? "positive" : card.changeAbs < 0 ? "negative" : "flat";
+  const changeTone = changeToneForValue(card.changeAbs, card.semanticMode);
   const cadence = frequencyLabel(card.frequency);
 
   return `
@@ -630,6 +678,7 @@ function renderSnapshotCard(card, currentGroupSlug) {
         <div>
           <p class="inventory-card-kicker">${escapeHtml(card.snapshotGroup)}</p>
           <h2 class="inventory-card-title">${escapeHtml(card.name)}</h2>
+          ${card.alerts?.length ? `<div class="inventory-inline-badges">${renderAlertBadges(card.alerts)}</div>` : ""}
           <p class="inventory-card-signal is-${escapeHtml(descriptor.state)}">${escapeHtml(descriptor.label)}</p>
         </div>
         <div class="inventory-card-badges">
@@ -650,6 +699,7 @@ function renderSnapshotCard(card, currentGroupSlug) {
         <div class="inventory-card-source">
           <span class="inventory-card-source-name">${escapeHtml(card.sourceLabel)}</span>
           <span class="inventory-card-source-time">${escapeHtml(cadence)} <span class="inventory-inline-sep">·</span> ${escapeHtml(formatUtcTimestamp(card.lastUpdatedAt))}</span>
+          <span class="inventory-card-source-time">${releaseCountdownMarkup(card)}</span>
         </div>
         ${renderSparkline(card.sparkline, card.frequency)}
       </div>
@@ -729,8 +779,9 @@ function renderDetailView(route, data, latest, alternateData, alternateUnavailab
   const activeGroupSlug = resolvedGroupSlug === "all" ? route.groupSlug : resolvedGroupSlug;
   const activeData = excludeYear2020 && alternateData?.seasonalRange?.length ? alternateData : data;
   const chartSeries = buildSeasonalSeries(activeData);
-  const changeSeries = buildChangeBarSeries(activeData.series);
+  const changeSeries = buildChangeBarSeries(activeData);
   const recentRows = buildRecentReleaseRows(activeData);
+  const ytdStats = buildYtdChangeStats(activeData);
   const latestValue = latest?.latest?.value ?? activeData.series[activeData.series.length - 1]?.value ?? null;
   const latestTimestamp =
     latest?.latest?.releaseDate ??
@@ -740,16 +791,23 @@ function renderDetailView(route, data, latest, alternateData, alternateUnavailab
   const latestPeriodDate = latest?.latest?.periodEndAt ?? activeData.series[activeData.series.length - 1]?.periodEndAt;
   const latestSeasonalPoint =
     latestPeriodDate && activeData.seasonalRange.length
-      ? seasonalPointForLatest(latestPeriodDate, activeData.seasonalRange, activeData.indicator.frequency)
+      ? seasonalPointForLatest(latestPeriodDate, activeData.seasonalRange, activeData.indicator)
       : null;
-  const alertKind =
-    latestValue != null && latestSeasonalPoint ? alertKindFromSeasonal(latestValue, latestSeasonalPoint) : null;
   const percentileLabel =
     latestValue != null && latestSeasonalPoint ? percentileBracketLabel(latestValue, latestSeasonalPoint) : "Unavailable";
   const detailFreshness = freshnessFor(activeData.indicator.frequency, latestTimestamp);
   const detailTitle = data.indicator.name;
   const semanticMode = semanticModeForCommodity(data.indicator.commodityCode);
   const groupLabel = COMMODITY_GROUPS.find((group) => group.slug === activeGroupSlug)?.label || "Inventory";
+  const releaseStatus = nextReleaseStatus({
+    code: activeData.indicator.code,
+    commodityCode: activeData.indicator.commodityCode,
+    releaseSchedule: activeData.indicator.releaseSchedule,
+    latestReleaseDate: latest?.latest?.releaseDate || activeData.metadata.latestReleaseAt,
+    lastUpdatedAt: latestTimestamp,
+  });
+  const alerts = latest?.latest?.alerts || [];
+  const summaryTone = alertToneFromAlerts(alerts);
 
   setDocumentTitle(`CommodityWatch | InventoryWatch | ${detailTitle}`);
 
@@ -798,7 +856,7 @@ function renderDetailView(route, data, latest, alternateData, alternateUnavailab
             <div class="inventory-panel-head">
               <div>
                 <h2 class="inventory-panel-title">Period change</h2>
-                <p class="inventory-panel-copy">Recent builds and draws with inventory-aware color conventions.</p>
+                <p class="inventory-panel-copy">Recent builds and draws with the seasonal average change overlay.</p>
               </div>
             </div>
             <div class="inventory-panel-body">
@@ -821,15 +879,19 @@ function renderDetailView(route, data, latest, alternateData, alternateUnavailab
 
         <aside class="inventory-stack">
           <section class="inventory-panel">
-            <div class="inventory-summary">
+            <div class="inventory-summary is-${escapeHtml(summaryTone)}">
               <div class="inventory-card-badges">
                 ${freshnessBadge(detailFreshness)}
-                ${alertBadge(alertKind)}
+                ${renderAlertBadges(alerts)}
                 <span class="inventory-badge is-structural">${escapeHtml(percentileLabel)}</span>
               </div>
               <div class="inventory-summary-value">${escapeHtml(formatValue(latestValue, activeData.indicator.unit))}</div>
               <div class="inventory-summary-change">${escapeHtml(formatSignedValue(latest?.latest?.changeFromPriorAbs, activeData.indicator.unit))} vs prior period</div>
               <div class="inventory-summary-grid">
+                <div class="inventory-summary-row">
+                  <div class="inventory-summary-term">Next release</div>
+                  <div class="inventory-summary-definition is-mono">${escapeHtml(releaseStatus.label)}</div>
+                </div>
                 <div class="inventory-summary-row">
                   <div class="inventory-summary-term">Release date</div>
                   <div class="inventory-summary-definition is-mono">${escapeHtml(formatUtcTimestamp(latest?.latest?.releaseDate || latestPeriodDate))}</div>
@@ -844,6 +906,20 @@ function renderDetailView(route, data, latest, alternateData, alternateUnavailab
                   <div class="inventory-summary-term">Frequency</div>
                   <div class="inventory-summary-definition is-mono">${escapeHtml(activeData.indicator.frequency.toUpperCase())}</div>
                 </div>
+                ${
+                  ytdStats
+                    ? `
+                      <div class="inventory-summary-row">
+                        <div class="inventory-summary-term">YTD change</div>
+                        <div class="inventory-summary-definition is-mono">${escapeHtml(formatSignedValue(ytdStats.ytdChange, activeData.indicator.unit))}</div>
+                      </div>
+                      <div class="inventory-summary-row">
+                        <div class="inventory-summary-term">vs 5Y median YTD</div>
+                        <div class="inventory-summary-definition is-mono">${escapeHtml(formatSignedValue(ytdStats.deviationFromMedian, activeData.indicator.unit))}</div>
+                      </div>
+                    `
+                    : ""
+                }
               </div>
             </div>
           </section>
@@ -885,6 +961,7 @@ function renderDetailView(route, data, latest, alternateData, alternateUnavailab
 
 function renderFilterBar(route) {
   const selectedGroup = route.groupSlug || "all";
+  const cards = Array.isArray(snapshotCache.value?.cards) ? snapshotCache.value.cards : null;
 
   filterRoot.innerHTML = `
     <div class="filter-wrap inventory-filter-wrap">
@@ -894,13 +971,17 @@ function renderFilterBar(route) {
             const href = buildInventorySnapshotHref(group.slug);
             const isSelected = group.slug === selectedGroup;
             const color = filterColorForGroup(group.slug);
+            const populated = cards ? isGroupPopulated(group.slug, cards) : !["coal", "fertilisers"].includes(group.slug);
+            const disabled = group.slug !== "all" && !populated;
             return `
               <a
-                class="filter-pill inventory-filter-pill${isSelected ? " is-selected" : ""}"
+                class="filter-pill inventory-filter-pill${isSelected ? " is-selected" : ""}${disabled ? " is-disabled" : ""}"
                 data-group="${escapeHtml(group.slug)}"
                 data-inventory-nav
                 href="${escapeHtml(href)}"
                 ${isSelected ? 'aria-current="page"' : ""}
+                ${disabled ? 'aria-disabled="true" title="Coming soon"' : ""}
+                ${disabled ? 'tabindex="-1"' : ""}
                 style="--filter-pill-color:${escapeHtml(color)};"
               >
                 ${escapeHtml(group.label)}
@@ -1042,6 +1123,7 @@ async function renderRoute() {
       return;
     }
 
+    renderFilterBar(route);
     appRoot.innerHTML = renderSnapshotView(route, snapshot);
   } catch (error) {
     if (!isCurrent()) {
@@ -1087,6 +1169,11 @@ document.addEventListener("click", (event) => {
     return;
   }
 
+  if (link.getAttribute("aria-disabled") === "true") {
+    event.preventDefault();
+    return;
+  }
+
   if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
     return;
   }
@@ -1129,3 +1216,6 @@ if (toTopButton) {
 }
 
 renderRoute();
+window.setInterval(() => {
+  renderRoute();
+}, 60 * 1000);

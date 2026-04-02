@@ -1,0 +1,41 @@
+- source_series_key: ICE_C
+  name: ICE Arabica Coffee Certified Stocks
+  report_id: 42
+  report_url: https://www.ice.com/report/42
+  expected_report_name: "Certified Stock Reports - Coffee"
+  expected_exchange: "ICE Futures U.S."
+  expected_category: "Certified Stock"
+  unit_native_code: bags_60kg
+- source_series_key: ICE_ROBUSTA
+  name: ICE Robusta Coffee Certified Stocks
+  report_id: 173
+  report_url: https://www.ice.com/report/173
+  expected_report_name: "Robusta Coffee"
+  expected_exchange: "ICE Futures Europe"
+  expected_category: "Commodity Reports"
+  unit_native_code: tonnes
+- source_series_key: ICE_NO11
+  name: ICE Raw Sugar No.11 Certified Stocks
+  report_id:
+  report_url:
+  expected_report_name:
+  expected_exchange: "ICE Futures U.S."
+  expected_category: "Certified Stock"
+  unit_native_code: short_tons
+  availability_note: "Exact public report id unresolved as of 2026-03-31."
+- source_series_key: ICE_NO2
+  name: ICE Cotton No.2 Certified Stocks
+  report_id: 4
+  report_url: https://www.ice.com/report/4
+  expected_report_name: "Certified Stock Reports - Cotton"
+  expected_exchange: "ICE Futures U.S."
+  expected_category: "Certified Stock"
+  unit_native_code: bales
+- source_series_key: ICE_COCOA
+  name: ICE Cocoa Certified Stocks
+  report_id: 41
+  report_url: https://www.ice.com/report/41
+  expected_report_name: "Certified Stock Reports - Cocoa "
+  expected_exchange: "ICE Futures U.S."
+  expected_category: "Certified Stock"
+  unit_native_code: tonnes

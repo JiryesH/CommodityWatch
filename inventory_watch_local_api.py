@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import logging
 import math
 from collections import defaultdict
 from dataclasses import dataclass
@@ -13,9 +14,13 @@ try:
 except ImportError:  # pragma: no cover
     yaml = None
 
+from inventory_watch_signals import classify_inventory_signal, compute_inventory_alerts, revision_flag
+
 
 UTC = timezone.utc
 LOCAL_MODULE_CODE = "inventorywatch"
+REVISION_TOLERANCE_RATIO = 0.001
+LOGGER = logging.getLogger(__name__)
 
 
 @dataclass(frozen=True)
@@ -52,6 +57,18 @@ class InventoryObservation:
     revision_sequence: int = 1
 
 
+@dataclass(frozen=True)
+class QuarantinedObservation:
+    indicator_id: str
+    code: str
+    period_end_at: datetime
+    value: float
+    lower_bound: float | None
+    upper_bound: float | None
+    source_slug: str
+    artifact_path: str
+
+
 def utcnow() -> datetime:
     return datetime.now(UTC)
 
@@ -85,8 +102,21 @@ def parse_numeric(raw_value: Any) -> float | None:
 def parse_period_end(raw_value: str, frequency: str) -> datetime:
     if frequency in {"daily", "weekly"}:
         return datetime.fromisoformat(raw_value).replace(tzinfo=UTC)
+    if frequency == "quarterly":
+        normalized = str(raw_value).strip()
+        if len(normalized) == 7 and normalized[4] == "-":
+            month = int(normalized[5:7])
+            quarter_end_month = ((month - 1) // 3 + 1) * 3
+            quarter_end = datetime.fromisoformat(f"{normalized[:4]}-{quarter_end_month:02d}-01").replace(tzinfo=UTC)
+            if quarter_end_month == 12:
+                return quarter_end.replace(day=31)
+            return (quarter_end.replace(month=quarter_end_month + 1) - timedelta(days=1)).replace(tzinfo=UTC)
+        return datetime.fromisoformat(normalized).replace(tzinfo=UTC)
     if frequency == "monthly":
-        return datetime.fromisoformat(f"{raw_value}-01").replace(tzinfo=UTC)
+        normalized = str(raw_value).strip()
+        if len(normalized) == 7 and normalized[4] == "-":
+            return datetime.fromisoformat(f"{normalized}-01").replace(tzinfo=UTC)
+        return datetime.fromisoformat(normalized).replace(tzinfo=UTC)
     raise ValueError(f"Unsupported InventoryWatch frequency: {frequency}")
 
 
@@ -95,6 +125,9 @@ def period_start_for(period_end_at: datetime, frequency: str) -> datetime:
         return period_end_at - timedelta(days=6)
     if frequency == "monthly":
         return period_end_at.replace(day=1)
+    if frequency == "quarterly":
+        quarter_start_month = ((period_end_at.month - 1) // 3) * 3 + 1
+        return period_end_at.replace(month=quarter_start_month, day=1)
     return period_end_at
 
 
@@ -139,11 +172,99 @@ def day_of_year(value: datetime) -> int:
     return value.timetuple().tm_yday
 
 
+def merge_indicator_metadata(raw_indicator: dict[str, Any]) -> dict[str, Any]:
+    metadata = dict(raw_indicator.get("metadata") or {})
+    for key in (
+        "source_url",
+        "source_label",
+        "period_type",
+        "color_convention",
+        "sanity_bounds",
+        "release_schedule",
+        "days_of_supply",
+        "alerts_enabled",
+        "marketing_year_start_month",
+        "days_of_supply_indicator_id",
+        "paired_demand_indicator_id",
+    ):
+        if raw_indicator.get(key) is not None and key not in metadata:
+            metadata[key] = raw_indicator.get(key)
+    return metadata
+
+
+def indicator_period_type(indicator: InventoryIndicatorDefinition) -> str:
+    raw_value = str(indicator.metadata.get("period_type") or "").strip().lower()
+    if raw_value in {"weekly", "monthly", "daily", "marketing_month", "quarterly"}:
+        return raw_value
+    if indicator.frequency == "daily":
+        return "daily"
+    if indicator.frequency == "monthly":
+        return "monthly"
+    if indicator.frequency == "quarterly":
+        return "quarterly"
+    return "weekly"
+
+
+def marketing_year_start_month(indicator: InventoryIndicatorDefinition) -> int:
+    raw_value = indicator.metadata.get("marketing_year_start_month")
+    try:
+        month = int(raw_value)
+    except (TypeError, ValueError):
+        month = 1
+    return month if 1 <= month <= 12 else 1
+
+
+def period_index_for_indicator(indicator: InventoryIndicatorDefinition, period_end_at: datetime) -> int:
+    period_type = indicator_period_type(indicator)
+    if period_type == "daily":
+        return day_of_year(period_end_at)
+    if period_type == "monthly":
+        return period_end_at.month
+    if period_type == "quarterly":
+        return ((period_end_at.month - 1) // 3) + 1
+    if period_type == "marketing_month":
+        return ((period_end_at.month - marketing_year_start_month(indicator)) % 12) + 1
+    return week_of_year(period_end_at)
+
+
+def sanity_bounds_for_indicator(indicator: InventoryIndicatorDefinition) -> tuple[float | None, float | None]:
+    bounds = indicator.metadata.get("sanity_bounds")
+    if not isinstance(bounds, dict):
+        return None, None
+    lower = parse_numeric(bounds.get("min"))
+    upper = parse_numeric(bounds.get("max"))
+    return lower, upper
+
+
+def release_schedule_for_indicator(indicator: InventoryIndicatorDefinition) -> dict[str, Any] | None:
+    schedule = indicator.metadata.get("release_schedule")
+    return schedule if isinstance(schedule, dict) else None
+
+
+def alerts_enabled_for_indicator(indicator: InventoryIndicatorDefinition) -> bool:
+    if "alerts_enabled" not in indicator.metadata:
+        return True
+    return bool(indicator.metadata.get("alerts_enabled"))
+
+
+def days_of_supply_enabled_for_indicator(indicator: InventoryIndicatorDefinition) -> bool:
+    return bool(indicator.metadata.get("days_of_supply"))
+
+
+def color_convention_for_indicator(indicator: InventoryIndicatorDefinition) -> str:
+    value = str(indicator.metadata.get("color_convention") or "").strip().lower()
+    if value in {"standard", "inverse", "none"}:
+        return value
+    return "standard"
+
+
 def period_index_for(frequency: str, period_end_at: datetime) -> int:
     if frequency == "daily":
         return day_of_year(period_end_at)
     if frequency == "monthly":
         return period_end_at.month
+    if frequency == "quarterly":
+        return ((period_end_at.month - 1) // 3) + 1
     return week_of_year(period_end_at)
 
 
@@ -172,25 +293,31 @@ def population_stddev(values: list[float]) -> float | None:
     return variance**0.5
 
 
-def classify_inventory_signal(deviation_zscore: float | None) -> str:
-    if deviation_zscore is None:
-        return "neutral"
-    if deviation_zscore <= -1.0:
-        return "tightening"
-    if deviation_zscore >= 1.0:
-        return "loosening"
-    return "neutral"
-
-
 def source_label_for_indicator(indicator: InventoryIndicatorDefinition) -> str:
+    explicit = str(indicator.metadata.get("source_label") or "").strip()
+    if explicit:
+        return explicit
     if indicator.source_slug == "agsi":
         return "GIE / AGSI+"
     if indicator.source_slug == "eia":
         return "EIA"
+    if indicator.source_slug == "lme":
+        return "LME"
+    if indicator.source_slug in {"usda", "usda_psd"}:
+        return "USDA WASDE"
+    if indicator.source_slug == "comex":
+        return "COMEX / CME"
+    if indicator.source_slug == "etf":
+        return "ETF Holdings"
+    if indicator.source_slug == "ice":
+        return "ICE"
     return "CommodityWatch"
 
 
 def source_url_for_indicator(indicator: InventoryIndicatorDefinition) -> str | None:
+    explicit = str(indicator.metadata.get("source_url") or "").strip()
+    if explicit:
+        return explicit
     release_slug = str(indicator.metadata.get("release_slug") or "")
     if indicator.source_slug == "agsi":
         return "https://agsi.gie.eu/"
@@ -209,6 +336,7 @@ class LocalInventoryRepository:
         self._indicators_by_source_key: dict[tuple[str, str], InventoryIndicatorDefinition] = {}
         self._observations_by_id: dict[str, list[InventoryObservation]] = {}
         self._seasonal_cache: dict[tuple[str, str], list[dict[str, float | int | None]]] = {}
+        self._quarantined_observations: list[QuarantinedObservation] = []
         self._load()
 
     @property
@@ -228,6 +356,7 @@ class LocalInventoryRepository:
             raise ValueError(f"Inventory indicator seed is invalid: {seed_path}")
 
         for raw_indicator in raw_indicators:
+            metadata = merge_indicator_metadata(raw_indicator)
             indicator = InventoryIndicatorDefinition(
                 id=str(raw_indicator.get("code") or ""),
                 code=str(raw_indicator.get("code") or ""),
@@ -246,7 +375,7 @@ class LocalInventoryRepository:
                 is_seasonal=bool(raw_indicator.get("is_seasonal")),
                 is_derived=bool(raw_indicator.get("is_derived")),
                 visibility_tier=str(raw_indicator.get("visibility_tier") or "public"),
-                metadata=raw_indicator.get("metadata") or {},
+                metadata=metadata,
             )
             if not indicator.id:
                 continue
@@ -257,17 +386,104 @@ class LocalInventoryRepository:
         observations_by_period: dict[str, dict[datetime, InventoryObservation]] = defaultdict(dict)
         self._load_eia_artifacts(observations_by_period)
         self._load_agsi_artifacts(observations_by_period)
+        self._load_structured_value_artifacts(observations_by_period, source_slug="lme", value_key="total")
+        self._load_structured_value_artifacts(observations_by_period, source_slug="usda", value_key="value")
+        self._load_structured_value_artifacts(observations_by_period, source_slug="usda_psd", value_key="value")
+        self._load_structured_value_artifacts(observations_by_period, source_slug="comex", value_key="value")
+        self._load_structured_value_artifacts(observations_by_period, source_slug="etf", value_key="value")
+        self._load_structured_value_artifacts(observations_by_period, source_slug="ice", value_key="value")
         self._observations_by_id = {
             indicator_id: sorted(points.values(), key=lambda point: point.period_end_at)
             for indicator_id, points in observations_by_period.items()
         }
+
+    def _within_sanity_bounds(
+        self,
+        indicator: InventoryIndicatorDefinition,
+        value: float,
+        period_end_at: datetime,
+        artifact_path: Path,
+    ) -> bool:
+        lower_bound, upper_bound = sanity_bounds_for_indicator(indicator)
+        if lower_bound is not None and value < lower_bound:
+            self._quarantined_observations.append(
+                QuarantinedObservation(
+                    indicator_id=indicator.id,
+                    code=indicator.code,
+                    period_end_at=period_end_at,
+                    value=value,
+                    lower_bound=lower_bound,
+                    upper_bound=upper_bound,
+                    source_slug=indicator.source_slug,
+                    artifact_path=str(artifact_path),
+                )
+            )
+            LOGGER.warning("QUARANTINE %s %s below minimum bound (%s < %s)", indicator.code, period_end_at.date(), value, lower_bound)
+            return False
+        if upper_bound is not None and value > upper_bound:
+            self._quarantined_observations.append(
+                QuarantinedObservation(
+                    indicator_id=indicator.id,
+                    code=indicator.code,
+                    period_end_at=period_end_at,
+                    value=value,
+                    lower_bound=lower_bound,
+                    upper_bound=upper_bound,
+                    source_slug=indicator.source_slug,
+                    artifact_path=str(artifact_path),
+                )
+            )
+            LOGGER.warning("QUARANTINE %s %s above maximum bound (%s > %s)", indicator.code, period_end_at.date(), value, upper_bound)
+            return False
+        return True
+
+    def _store_observation(
+        self,
+        observations_by_period: dict[str, dict[datetime, InventoryObservation]],
+        indicator: InventoryIndicatorDefinition,
+        observation: InventoryObservation,
+        artifact_path: Path,
+        *,
+        revision_tolerance_ratio: float = REVISION_TOLERANCE_RATIO,
+    ) -> None:
+        if not self._within_sanity_bounds(indicator, observation.value, observation.period_end_at, artifact_path):
+            return
+
+        existing = observations_by_period[indicator.id].get(observation.period_end_at)
+        if existing is None:
+            observations_by_period[indicator.id][observation.period_end_at] = observation
+            return
+
+        if observation.vintage_at < existing.vintage_at:
+            return
+
+        change_ratio = 0.0
+        if existing.value:
+            change_ratio = abs(observation.value - existing.value) / abs(existing.value)
+        elif observation.value != existing.value:
+            change_ratio = 1.0
+
+        revision_sequence_value = existing.revision_sequence
+        if change_ratio > revision_tolerance_ratio:
+            revision_sequence_value += 1
+
+        observations_by_period[indicator.id][observation.period_end_at] = InventoryObservation(
+            period_start_at=observation.period_start_at,
+            period_end_at=observation.period_end_at,
+            release_date=observation.release_date,
+            vintage_at=observation.vintage_at,
+            value=observation.value,
+            unit=observation.unit,
+            observation_kind=observation.observation_kind,
+            revision_sequence=revision_sequence_value,
+        )
 
     def _load_eia_artifacts(self, observations_by_period: dict[str, dict[datetime, InventoryObservation]]) -> None:
         artifact_root = self.data_root / "artifacts" / "eia"
         if not artifact_root.exists():
             return
 
-        for artifact_path in sorted(artifact_root.rglob("*.json")):
+        for artifact_path in sorted(artifact_root.rglob("*.json"), key=artifact_timestamp):
             try:
                 payload = json.loads(artifact_path.read_text(encoding="utf-8"))
             except (OSError, json.JSONDecodeError):
@@ -304,16 +520,14 @@ class LocalInventoryRepository:
                     unit=indicator.canonical_unit_code or indicator.native_unit_code or "",
                     observation_kind=indicator.default_observation_kind,
                 )
-                existing = observations_by_period[indicator.id].get(period_end_at)
-                if existing is None or observation.vintage_at >= existing.vintage_at:
-                    observations_by_period[indicator.id][period_end_at] = observation
+                self._store_observation(observations_by_period, indicator, observation, artifact_path)
 
     def _load_agsi_artifacts(self, observations_by_period: dict[str, dict[datetime, InventoryObservation]]) -> None:
         artifact_root = self.data_root / "artifacts" / "agsi"
         if not artifact_root.exists():
             return
 
-        for artifact_path in sorted(artifact_root.rglob("*.json")):
+        for artifact_path in sorted(artifact_root.rglob("*.json"), key=artifact_timestamp):
             try:
                 payload = json.loads(artifact_path.read_text(encoding="utf-8"))
             except (OSError, json.JSONDecodeError):
@@ -343,9 +557,53 @@ class LocalInventoryRepository:
                     unit=indicator.canonical_unit_code or indicator.native_unit_code or "",
                     observation_kind=indicator.default_observation_kind,
                 )
-                existing = observations_by_period[indicator.id].get(period_end_at)
-                if existing is None or observation.vintage_at >= existing.vintage_at:
-                    observations_by_period[indicator.id][period_end_at] = observation
+                self._store_observation(observations_by_period, indicator, observation, artifact_path, revision_tolerance_ratio=1.0)
+
+    def _load_structured_value_artifacts(
+        self,
+        observations_by_period: dict[str, dict[datetime, InventoryObservation]],
+        *,
+        source_slug: str,
+        value_key: str,
+    ) -> None:
+        artifact_root = self.data_root / "artifacts" / source_slug
+        if not artifact_root.exists():
+            return
+
+        for artifact_path in sorted(artifact_root.rglob("*.json"), key=artifact_timestamp):
+            try:
+                payload = json.loads(artifact_path.read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError):
+                continue
+
+            rows = payload.get("items") or payload.get("data") or []
+            if not isinstance(rows, list):
+                continue
+
+            for row in rows:
+                raw_source_key = row.get("source_series_key") or row.get("series_key") or row.get("metal") or row.get("code")
+                indicator = self._indicators_by_source_key.get((source_slug, normalize_source_series_key(raw_source_key)))
+                if indicator is None:
+                    continue
+
+                value = parse_numeric(row.get(value_key))
+                period_raw = row.get("date") or row.get("observation_date") or row.get("period") or row.get("period_end_at")
+                if value is None or not period_raw:
+                    continue
+
+                period_end_at = parse_period_end(str(period_raw), indicator.frequency)
+                vintage_at = parse_optional_timestamp(row.get("updated_at")) or parse_optional_timestamp(row.get("release_date")) or artifact_timestamp(artifact_path)
+                release_date = parse_optional_timestamp(row.get("release_date")) or vintage_at
+                observation = InventoryObservation(
+                    period_start_at=period_start_for(period_end_at, indicator.frequency),
+                    period_end_at=period_end_at,
+                    release_date=release_date,
+                    vintage_at=vintage_at,
+                    value=value,
+                    unit=indicator.canonical_unit_code or indicator.native_unit_code or "",
+                    observation_kind=indicator.default_observation_kind,
+                )
+                self._store_observation(observations_by_period, indicator, observation, artifact_path)
 
     def find_indicator(self, indicator_id: str) -> InventoryIndicatorDefinition | None:
         return self._indicators_by_id.get(indicator_id) or self._indicators_by_code.get(indicator_id)
@@ -357,6 +615,26 @@ class LocalInventoryRepository:
         latest = series[-1]
         prior = series[-2] if len(series) > 1 else None
         return latest, prior
+
+    def _trailing_changes(self, indicator_id: str, points: int = 4) -> list[float]:
+        series = self._observations_by_id.get(indicator_id, [])
+        trailing = series[-points:]
+        return [trailing[index].value - trailing[index - 1].value for index in range(1, len(trailing))]
+
+    def _deviation_metrics(
+        self,
+        indicator: InventoryIndicatorDefinition,
+        latest: InventoryObservation,
+    ) -> tuple[dict[str, float | int | None] | None, dict[str, float | int | None], float | None, float | None]:
+        seasonal_point = self._seasonal_point(indicator, latest, indicator.seasonal_profile)
+        seasonal_context = self._seasonal_context(indicator, latest, indicator.seasonal_profile)
+        deviation_abs = None
+        deviation_zscore = None
+        if seasonal_point and seasonal_point.get("p50") is not None:
+            deviation_abs = latest.value - float(seasonal_point["p50"])
+            if seasonal_point.get("stddev") not in (None, 0):
+                deviation_zscore = deviation_abs / float(seasonal_point["stddev"])
+        return seasonal_point, seasonal_context, deviation_abs, deviation_zscore
 
     def _seasonal_range(
         self,
@@ -384,7 +662,7 @@ class LocalInventoryRepository:
                 continue
             if exclude_2020 and year == 2020:
                 continue
-            grouped[period_index_for(indicator.frequency, point.period_end_at)].append(point.value)
+            grouped[period_index_for_indicator(indicator, point.period_end_at)].append(point.value)
 
         seasonal_points: list[dict[str, float | int | None]] = []
         for period_index in sorted(grouped):
@@ -413,7 +691,7 @@ class LocalInventoryRepository:
         profile_name: str | None = None,
     ) -> dict[str, float | int | None] | None:
         points = self._seasonal_range(indicator, profile_name)
-        index = period_index_for(indicator.frequency, observation.period_end_at)
+        index = period_index_for_indicator(indicator, observation.period_end_at)
         return next((point for point in points if point["period_index"] == index), None)
 
     def _seasonal_context(
@@ -426,12 +704,12 @@ class LocalInventoryRepository:
         latest_year = observation.period_end_at.year
         min_year = latest_year - 4
         exclude_2020 = "_EX_2020" in str(profile_name or indicator.seasonal_profile or "").upper()
-        target_period_index = period_index_for(indicator.frequency, observation.period_end_at)
+        target_period_index = period_index_for_indicator(indicator, observation.period_end_at)
         matching_values = [
             point.value
             for point in self._observations_by_id.get(indicator.id, [])
             if point.period_end_at.year >= min_year
-            and period_index_for(indicator.frequency, point.period_end_at) == target_period_index
+            and period_index_for_indicator(indicator, point.period_end_at) == target_period_index
             and not (exclude_2020 and point.period_end_at.year == 2020)
         ]
 
@@ -473,6 +751,8 @@ class LocalInventoryRepository:
         cards: list[dict[str, Any]] = []
 
         for indicator in sorted(self._indicators_by_id.values(), key=lambda item: item.code):
+            if indicator.visibility_tier != "public":
+                continue
             if commodity and indicator.commodity_code != commodity:
                 continue
             if geography and indicator.geography_code != geography:
@@ -482,16 +762,16 @@ class LocalInventoryRepository:
             if latest is None:
                 continue
 
-            seasonal_point = self._seasonal_point(indicator, latest, indicator.seasonal_profile)
-            seasonal_context = self._seasonal_context(indicator, latest, indicator.seasonal_profile)
-            deviation_abs = None
-            deviation_zscore = None
-            if seasonal_point and seasonal_point.get("p50") is not None:
-                deviation_abs = latest.value - float(seasonal_point["p50"])
-                if seasonal_point.get("stddev") not in (None, 0):
-                    deviation_zscore = deviation_abs / float(seasonal_point["stddev"])
-
+            _seasonal_point, seasonal_context, deviation_abs, deviation_zscore = self._deviation_metrics(indicator, latest)
             sparkline_source = self._observations_by_id.get(indicator.id, [])
+            alerts = compute_inventory_alerts(
+                commodity_code=indicator.commodity_code,
+                latest_value=latest.value,
+                deviation_zscore=deviation_zscore,
+                seasonal_context=seasonal_context,
+                trailing_changes=self._trailing_changes(indicator.id),
+                alerts_enabled=alerts_enabled_for_indicator(indicator),
+            )
             cards.append(
                 {
                     "indicator_id": indicator.id,
@@ -507,10 +787,20 @@ class LocalInventoryRepository:
                     "deviation_abs": deviation_abs,
                     "signal": classify_inventory_signal(deviation_zscore),
                     "sparkline": [point.value for point in sparkline_source[-12:]] if include_sparklines else [],
+                    "latest_period_end_at": latest.period_end_at.isoformat(),
+                    "latest_release_date": latest.release_date.isoformat() if latest.release_date else None,
                     "last_updated_at": latest.vintage_at.isoformat(),
                     "stale": latest.release_date is None or (now - latest.release_date) > timedelta(days=14),
                     "source_label": source_label_for_indicator(indicator),
                     "source_url": source_url_for_indicator(indicator),
+                    "is_seasonal": indicator.is_seasonal,
+                    "period_type": indicator_period_type(indicator),
+                    "marketing_year_start_month": marketing_year_start_month(indicator),
+                    "color_convention": color_convention_for_indicator(indicator),
+                    "release_schedule": release_schedule_for_indicator(indicator),
+                    "days_of_supply": days_of_supply_enabled_for_indicator(indicator),
+                    "alerts_enabled": alerts_enabled_for_indicator(indicator),
+                    "alerts": alerts,
                     "seasonal_low": seasonal_context["seasonal_low"],
                     "seasonal_high": seasonal_context["seasonal_high"],
                     "seasonal_median": seasonal_context["seasonal_median"],
@@ -538,16 +828,18 @@ class LocalInventoryRepository:
         if latest is None:
             raise LookupError("No observations found.")
 
-        seasonal_point = self._seasonal_point(indicator, latest, indicator.seasonal_profile)
-        deviation_abs = None
-        deviation_zscore = None
-        if seasonal_point and seasonal_point.get("p50") is not None:
-            deviation_abs = latest.value - float(seasonal_point["p50"])
-            if seasonal_point.get("stddev") not in (None, 0):
-                deviation_zscore = deviation_abs / float(seasonal_point["stddev"])
+        _seasonal_point, seasonal_context, deviation_abs, deviation_zscore = self._deviation_metrics(indicator, latest)
 
         change_abs = (latest.value - prior.value) if prior else None
         change_pct = ((change_abs / prior.value) * 100) if prior and prior.value else None
+        alerts = compute_inventory_alerts(
+            commodity_code=indicator.commodity_code,
+            latest_value=latest.value,
+            deviation_zscore=deviation_zscore,
+            seasonal_context=seasonal_context,
+            trailing_changes=self._trailing_changes(indicator.id),
+            alerts_enabled=alerts_enabled_for_indicator(indicator),
+        )
         return {
             "indicator": {
                 "id": indicator.id,
@@ -563,6 +855,8 @@ class LocalInventoryRepository:
                 "deviation_from_seasonal_abs": deviation_abs,
                 "deviation_from_seasonal_zscore": deviation_zscore,
                 "revision_sequence": latest.revision_sequence,
+                "revision_flag": revision_flag(latest.revision_sequence),
+                "alerts": alerts,
             },
         }
 
@@ -603,6 +897,13 @@ class LocalInventoryRepository:
                 "frequency": indicator.frequency,
                 "measure_family": indicator.measure_family,
                 "unit": indicator.canonical_unit_code,
+                "period_type": indicator_period_type(indicator),
+                "marketing_year_start_month": marketing_year_start_month(indicator),
+                "is_seasonal": indicator.is_seasonal,
+                "color_convention": color_convention_for_indicator(indicator),
+                "days_of_supply": days_of_supply_enabled_for_indicator(indicator),
+                "alerts_enabled": alerts_enabled_for_indicator(indicator),
+                "release_schedule": release_schedule_for_indicator(indicator),
             },
             "series": [
                 {
@@ -614,6 +915,7 @@ class LocalInventoryRepository:
                     "unit": point.unit,
                     "observation_kind": point.observation_kind,
                     "revision_sequence": point.revision_sequence,
+                    "revision_flag": revision_flag(point.revision_sequence),
                 }
                 for point in series
             ],
@@ -623,6 +925,9 @@ class LocalInventoryRepository:
                 "latest_release_at": latest.release_date.isoformat() if latest and latest.release_date else None,
                 "source_url": source_url_for_indicator(indicator),
                 "source_label": source_label_for_indicator(indicator),
+                "quarantined_observation_count": len(
+                    [entry for entry in self._quarantined_observations if entry.indicator_id == indicator.id]
+                ),
             },
         }
 
@@ -676,6 +981,9 @@ class LocalInventoryRepository:
                     "is_derived": indicator.is_derived,
                     "visibility_tier": indicator.visibility_tier,
                     "latest_release_at": latest.release_date.isoformat() if latest and latest.release_date else None,
+                    "period_type": indicator_period_type(indicator),
+                    "marketing_year_start_month": marketing_year_start_month(indicator),
+                    "release_schedule": release_schedule_for_indicator(indicator),
                 }
             )
 

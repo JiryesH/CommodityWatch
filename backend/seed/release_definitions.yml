@@ -40,32 +40,73 @@
   is_calendar_driven: false
   active: true
   metadata: {published_report: AGSI}
-- slug: usda_wasde_placeholder
+- slug: usda_wasde
   source_slug: usda_psd
   name: USDA WASDE
   release_kind: report
   module_code: inventorywatch
   commodity_code: agriculture
-  geography_code: GLOBAL
+  geography_code: WORLD
   cadence: monthly
   schedule_timezone: America/New_York
   schedule_rule: FREQ=MONTHLY;BYSETPOS=1
   default_local_time: "12:00:00"
   is_calendar_driven: true
   active: true
-  metadata: {placeholder: true}
-- slug: lme_warehouse_placeholder
+  metadata: {published_report: WASDE}
+- slug: lme_warehouse
   source_slug: lme
   name: LME Daily Warehouse Stocks
   release_kind: data_release
   module_code: inventorywatch
   commodity_code: metals
-  geography_code: GLOBAL
+  geography_code: WORLD
   cadence: daily
   schedule_timezone: Europe/London
   schedule_rule: FREQ=DAILY;BYHOUR=18;BYMINUTE=0
   default_local_time: "18:00:00"
   is_calendar_driven: false
   active: true
-  metadata: {placeholder: true}
-
+  metadata: {published_report: LME Warehouse Stocks}
+- slug: comex_warehouse
+  source_slug: comex
+  name: COMEX Daily Warehouse Stocks
+  release_kind: data_release
+  module_code: inventorywatch
+  commodity_code: metals
+  geography_code: US
+  cadence: daily
+  schedule_timezone: America/New_York
+  schedule_rule: FREQ=DAILY;BYHOUR=17;BYMINUTE=0
+  default_local_time: "17:00:00"
+  is_calendar_driven: false
+  active: true
+  metadata: {published_report: COMEX Warehouse Stocks}
+- slug: etf_holdings
+  source_slug: etf
+  name: ETF Daily Holdings
+  release_kind: data_release
+  module_code: inventorywatch
+  commodity_code: metals
+  geography_code: US
+  cadence: daily
+  schedule_timezone: America/New_York
+  schedule_rule: FREQ=DAILY;BYHOUR=20;BYMINUTE=0
+  default_local_time: "20:00:00"
+  is_calendar_driven: false
+  active: true
+  metadata: {published_report: ETF Holdings}
+- slug: ice_certified
+  source_slug: ice
+  name: ICE Certified Stocks
+  release_kind: data_release
+  module_code: inventorywatch
+  commodity_code: agriculture
+  geography_code: ICE
+  cadence: daily
+  schedule_timezone: America/New_York
+  schedule_rule: FREQ=DAILY;BYHOUR=17;BYMINUTE=0
+  default_local_time: "17:00:00"
+  is_calendar_driven: false
+  active: true
+  metadata: {published_report: ICE Certified Stocks}

@@ -6,6 +6,14 @@
   parent_code:
   is_active: true
   metadata: {}
+- code: WORLD
+  name: World
+  geo_type: global
+  iso2:
+  iso3:
+  parent_code:
+  is_active: true
+  metadata: {}
 - code: OECD
   name: OECD
   geo_type: region
@@ -92,6 +100,14 @@
   iso2:
   iso3:
   parent_code: US
+  is_active: true
+  metadata: {}
+- code: ICE
+  name: ICE Exchange Network
+  geo_type: market
+  iso2:
+  iso3:
+  parent_code: GLOBAL
   is_active: true
   metadata: {}
 - code: EU
@@ -302,4 +318,3 @@
   parent_code: EU
   is_active: true
   metadata: {}
-

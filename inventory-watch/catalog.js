@@ -41,6 +41,18 @@ export const COMMODITY_GROUPS = [
     commodityCodes: ["gold", "silver", "platinum", "palladium"],
     shortDescription: "Vault, warehouse, and ETF stock context for precious metals.",
   },
+  {
+    slug: "coal",
+    label: "Coal",
+    commodityCodes: ["coal"],
+    shortDescription: "Coal stock coverage is planned but not yet populated.",
+  },
+  {
+    slug: "fertilisers",
+    label: "Fertilisers",
+    commodityCodes: ["fertiliser", "fertilisers", "fertilizer", "fertilizers"],
+    shortDescription: "Fertiliser inventory coverage is planned but not yet populated.",
+  },
 ];
 
 export const FRESHNESS_BADGES = {
@@ -76,6 +88,11 @@ const SNAPSHOT_GROUP_BY_COMMODITY = {
   silver: "Precious Metals",
   platinum: "Precious Metals",
   palladium: "Precious Metals",
+  coal: "Coal",
+  fertiliser: "Fertilisers",
+  fertilisers: "Fertilisers",
+  fertilizer: "Fertilisers",
+  fertilizers: "Fertilisers",
 };
 
 const FILTER_PILL_COLOR_BY_GROUP = {
@@ -86,6 +103,8 @@ const FILTER_PILL_COLOR_BY_GROUP = {
   grains: "var(--color-agri)",
   softs: "var(--color-agri)",
   "precious-metals": "var(--color-metals)",
+  coal: "rgba(15, 25, 35, 0.26)",
+  fertilisers: "rgba(15, 25, 35, 0.26)",
 };
 
 const REGISTRY = {
@@ -242,6 +261,30 @@ export function getIndicatorRegistryEntry(code, commodityCode = "") {
     };
   }
 
+  if (String(code || "").startsWith("COMEX_")) {
+    return {
+      description: "Warehouse stock indicator sourced from CME delivery reports.",
+      sourceLabel: "COMEX / CME",
+      snapshotGroup: inferredSnapshotGroup,
+    };
+  }
+
+  if (String(code || "").startsWith("ETF_")) {
+    return {
+      description: "Daily ETF holdings indicator.",
+      sourceLabel: "ETF Holdings",
+      snapshotGroup: inferredSnapshotGroup,
+    };
+  }
+
+  if (String(code || "").startsWith("ICE_")) {
+    return {
+      description: "Certified stock indicator sourced from ICE.",
+      sourceLabel: "ICE",
+      snapshotGroup: inferredSnapshotGroup,
+    };
+  }
+
   return {
     description: "Commodity inventory indicator.",
     sourceLabel: "CommodityWatch API",
@@ -262,7 +305,7 @@ export function commodityGroupForCode(commodityCode) {
   if (["copper", "aluminum", "nickel", "zinc", "lead", "tin"].includes(commodityCode)) {
     return "base-metals";
   }
-  if (["corn", "wheat", "soybeans", "oilseeds"].includes(commodityCode)) {
+  if (["corn", "wheat", "soybeans", "oilseeds", "rice"].includes(commodityCode)) {
     return "grains";
   }
   if (["coffee", "cocoa", "sugar", "cotton"].includes(commodityCode)) {
@@ -271,12 +314,17 @@ export function commodityGroupForCode(commodityCode) {
   if (["gold", "silver", "platinum", "palladium"].includes(commodityCode)) {
     return "precious-metals";
   }
+  if (commodityCode === "coal") {
+    return "coal";
+  }
+  if (["fertiliser", "fertilisers", "fertilizer", "fertilizers"].includes(commodityCode)) {
+    return "fertilisers";
+  }
   return "all";
 }
 
 export function semanticModeForCommodity(commodityCode) {
-  const groupSlug = commodityGroupForCode(commodityCode);
-  return groupSlug === "energy" || groupSlug === "natural-gas" ? "inventory" : "generic";
+  return commodityGroupForCode(commodityCode) === "all" ? "generic" : "inventory";
 }
 
 export function ageInHours(timestamp) {
@@ -389,4 +437,295 @@ export function formatPercent(value) {
 
 export function groupDescriptionFor(slug) {
   return getCommodityGroup(slug).shortDescription;
+}
+
+const DEFAULT_WASDE_RELEASE_DATES_2026 = [
+  "2026-01-12",
+  "2026-02-10",
+  "2026-03-10",
+  "2026-04-09",
+  "2026-05-12",
+  "2026-06-11",
+  "2026-07-10",
+  "2026-08-12",
+  "2026-09-11",
+  "2026-10-09",
+  "2026-11-10",
+  "2026-12-10",
+];
+
+const WEEKDAY_INDEX = {
+  sun: 0,
+  sunday: 0,
+  mon: 1,
+  monday: 1,
+  tue: 2,
+  tuesday: 2,
+  wed: 3,
+  wednesday: 3,
+  thu: 4,
+  thursday: 4,
+  fri: 5,
+  friday: 5,
+  sat: 6,
+  saturday: 6,
+};
+
+const zonedDateFormatterCache = new Map();
+
+function zonedDateFormatter(timeZone) {
+  if (!zonedDateFormatterCache.has(timeZone)) {
+    zonedDateFormatterCache.set(
+      timeZone,
+      new Intl.DateTimeFormat("en-US", {
+        timeZone,
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        hourCycle: "h23",
+        weekday: "short",
+      })
+    );
+  }
+  return zonedDateFormatterCache.get(timeZone);
+}
+
+function zonedParts(date, timeZone) {
+  const parts = zonedDateFormatter(timeZone).formatToParts(date);
+  const get = (type) => parts.find((part) => part.type === type)?.value || "";
+  return {
+    year: Number(get("year")),
+    month: Number(get("month")),
+    day: Number(get("day")),
+    hour: Number(get("hour")),
+    minute: Number(get("minute")),
+    weekday: get("weekday").toLowerCase(),
+  };
+}
+
+function parseScheduleTime(schedule) {
+  const raw = String(schedule?.time_local || schedule?.time_et || "00:00").trim();
+  const [hour, minute] = raw.split(":").map((value) => Number.parseInt(value, 10));
+  return {
+    hour: Number.isFinite(hour) ? hour : 0,
+    minute: Number.isFinite(minute) ? minute : 0,
+  };
+}
+
+function zonedDateTimeToUtc({ year, month, day, hour = 0, minute = 0, timeZone }) {
+  const guess = new Date(Date.UTC(year, month - 1, day, hour, minute, 0, 0));
+  const parts = zonedParts(guess, timeZone);
+  const actualAsUtc = Date.UTC(parts.year, parts.month - 1, parts.day, parts.hour, parts.minute, 0, 0);
+  const intendedAsUtc = Date.UTC(year, month - 1, day, hour, minute, 0, 0);
+  return new Date(guess.getTime() - (actualAsUtc - intendedAsUtc));
+}
+
+function isBusinessDay(dayIndex) {
+  return dayIndex >= 1 && dayIndex <= 5;
+}
+
+function formatReleaseTime(schedule) {
+  const { hour, minute } = parseScheduleTime(schedule);
+  const suffix = schedule?.timezone === "America/New_York" ? "ET" : "";
+  const as12Hour = new Date(Date.UTC(2026, 0, 1, hour, minute)).toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+    timeZone: "UTC",
+  });
+  return `${as12Hour}${suffix ? ` ${suffix}` : ""}`;
+}
+
+function sameZonedCalendarDay(left, right, timeZone) {
+  const leftParts = zonedParts(left, timeZone);
+  const rightParts = zonedParts(right, timeZone);
+  return leftParts.year === rightParts.year && leftParts.month === rightParts.month && leftParts.day === rightParts.day;
+}
+
+function scheduleOccurrences(schedule, now = new Date()) {
+  if (!schedule?.type) {
+    return { previous: null, next: null };
+  }
+
+  const timeZone = schedule.timezone || "UTC";
+  const time = parseScheduleTime(schedule);
+  let previous = null;
+  let next = null;
+
+  if (schedule.type === "monthly_calendar" || schedule.type === "quarterly_calendar") {
+    const dates = Array.isArray(schedule.dates) ? schedule.dates : [];
+    const occurrences = dates
+      .map((value) => {
+        const [year, month, day] = String(value)
+          .split("-")
+          .map((part) => Number.parseInt(part, 10));
+        if (!year || !month || !day) {
+          return null;
+        }
+        return zonedDateTimeToUtc({ year, month, day, hour: time.hour, minute: time.minute, timeZone });
+      })
+      .filter(Boolean)
+      .sort((left, right) => left.getTime() - right.getTime());
+    previous = [...occurrences].reverse().find((value) => value.getTime() <= now.getTime()) || null;
+    next = occurrences.find((value) => value.getTime() > now.getTime()) || null;
+    return { previous, next };
+  }
+
+  const nowParts = zonedParts(now, timeZone);
+  for (let offset = -14; offset <= 21; offset += 1) {
+    const localMidnight = zonedDateTimeToUtc({
+      year: nowParts.year,
+      month: nowParts.month,
+      day: nowParts.day + offset,
+      hour: 0,
+      minute: 0,
+      timeZone,
+    });
+    const localParts = zonedParts(localMidnight, timeZone);
+    const weekday = WEEKDAY_INDEX[localParts.weekday];
+    const occurs =
+      schedule.type === "fixed_daily"
+        ? true
+        : schedule.type === "daily_business"
+          ? isBusinessDay(weekday)
+          : weekday === WEEKDAY_INDEX[String(schedule.day_of_week || schedule.day || "").toLowerCase()];
+
+    if (!occurs) {
+      continue;
+    }
+
+    const occurrence = zonedDateTimeToUtc({
+      year: localParts.year,
+      month: localParts.month,
+      day: localParts.day,
+      hour: time.hour,
+      minute: time.minute,
+      timeZone,
+    });
+
+    if (occurrence.getTime() <= now.getTime()) {
+      previous = occurrence;
+    } else if (next == null) {
+      next = occurrence;
+      break;
+    }
+  }
+
+  return { previous, next };
+}
+
+function fallbackReleaseSchedule(code, commodityCode) {
+  if (String(code || "").startsWith("EIA_")) {
+    return {
+      type: "fixed_weekly",
+      day_of_week: commodityCode === "natural_gas" ? "thursday" : "wednesday",
+      time_local: "10:30",
+      timezone: "America/New_York",
+    };
+  }
+  if (String(code || "").startsWith("GIE_")) {
+    return {
+      type: "fixed_daily",
+      time_local: "17:00",
+      timezone: "Europe/Brussels",
+    };
+  }
+  if (String(code || "").startsWith("LME_")) {
+    return {
+      type: "daily_business",
+      time_local: "18:00",
+      timezone: "Europe/London",
+    };
+  }
+  if (String(code || "").startsWith("COMEX_") || String(code || "").startsWith("ICE_")) {
+    return {
+      type: "fixed_daily",
+      time_local: "17:00",
+      timezone: "America/New_York",
+    };
+  }
+  if (String(code || "").startsWith("ETF_")) {
+    return {
+      type: "fixed_daily",
+      time_local: "20:00",
+      timezone: "America/New_York",
+    };
+  }
+  if (String(code || "").startsWith("USDA_")) {
+    return {
+      type: "monthly_calendar",
+      time_local: "12:00",
+      timezone: "America/New_York",
+      dates: DEFAULT_WASDE_RELEASE_DATES_2026,
+    };
+  }
+  return null;
+}
+
+export function releaseScheduleForIndicator(indicatorLike = {}) {
+  return indicatorLike.releaseSchedule || indicatorLike.release_schedule || fallbackReleaseSchedule(indicatorLike.code, indicatorLike.commodityCode || indicatorLike.commodity_code);
+}
+
+function formatReleaseCountdown(msUntilRelease) {
+  const totalHours = Math.max(0, Math.floor(msUntilRelease / (1000 * 60 * 60)));
+  const days = Math.floor(totalHours / 24);
+  const hours = totalHours % 24;
+  if (days > 0) {
+    return `${days}d ${hours}h`;
+  }
+  return `${hours}h`;
+}
+
+export function nextReleaseStatus(indicatorLike = {}, now = new Date()) {
+  const schedule = releaseScheduleForIndicator(indicatorLike);
+  if (!schedule) {
+    return { label: "Schedule pending", state: "pending", nextReleaseAt: null };
+  }
+
+  const { previous, next } = scheduleOccurrences(schedule, now);
+  const latestReleaseTimestamp =
+    indicatorLike.latestReleaseDate ||
+    indicatorLike.latest_release_date ||
+    indicatorLike.metadata?.latestReleaseAt ||
+    indicatorLike.lastUpdatedAt ||
+    indicatorLike.last_updated_at ||
+    null;
+  const latestReleaseAt = latestReleaseTimestamp ? new Date(latestReleaseTimestamp) : null;
+
+  if (previous && previous.getTime() <= now.getTime()) {
+    if (!latestReleaseAt || latestReleaseAt.getTime() < previous.getTime() - 60 * 1000) {
+      return {
+        label: "Overdue — awaiting data",
+        state: "overdue",
+        nextReleaseAt: next ? next.toISOString() : null,
+      };
+    }
+  }
+
+  if (next && sameZonedCalendarDay(now, next, schedule.timezone || "UTC")) {
+    return {
+      label: `Expected today at ${formatReleaseTime(schedule)}`,
+      state: "today",
+      nextReleaseAt: next.toISOString(),
+    };
+  }
+
+  if (next) {
+    return {
+      label: `Next release in ${formatReleaseCountdown(next.getTime() - now.getTime())}`,
+      state: "upcoming",
+      nextReleaseAt: next.toISOString(),
+    };
+  }
+
+  return { label: "Schedule pending", state: "pending", nextReleaseAt: null };
+}
+
+export function isGroupPopulated(groupSlug, cards = []) {
+  if (groupSlug === "all") {
+    return true;
+  }
+  return cards.some((card) => commodityGroupForCode(card.commodityCode || card.commodity_code) === groupSlug);
 }

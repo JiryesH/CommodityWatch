@@ -48,9 +48,33 @@
   dimension: agricultural_volume
   symbol: Mbu
   metadata: {}
+- code: kcwt
+  name: Thousand Hundredweight
+  dimension: agricultural_volume
+  symbol: kcwt
+  metadata: {}
 - code: tonnes
   name: Tonnes
   dimension: mass
   symbol: t
   metadata: {}
-
+- code: toz
+  name: Troy Ounces
+  dimension: precious_mass
+  symbol: oz t
+  metadata: {}
+- code: bags_60kg
+  name: 60 Kilogram Bags
+  dimension: bag_count
+  symbol: bags
+  metadata: {}
+- code: short_tons
+  name: Short Tons
+  dimension: mass
+  symbol: st
+  metadata: {}
+- code: bales
+  name: Running Bales
+  dimension: bale_count
+  symbol: bales
+  metadata: {}

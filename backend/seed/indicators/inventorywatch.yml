@@ -312,4 +312,748 @@
     release_slug: agsi_daily
     metric: gasInStorage
     full_metric: full
-
+- code: LME_COPPER_WAREHOUSE_STOCKS
+  name: LME Copper Warehouse Stocks
+  description: Daily LME copper warehouse stocks.
+  measure_family: stock
+  frequency: daily
+  commodity_code: copper
+  geography_code: LME
+  source_slug: lme
+  source_series_key: COPPER
+  native_unit_code: tonnes
+  canonical_unit_code: tonnes
+  default_observation_kind: actual
+  seasonal_profile: inventorywatch_5y_monthly
+  is_seasonal: true
+  is_derived: false
+  visibility_tier: public
+  source_url: https://www.lme.com/en/metals/non-ferrous/lme-copper/warehouse-stocks
+  period_type: monthly
+  color_convention: inverse
+  sanity_bounds:
+    min: 10000
+    max: 2000000
+  release_schedule:
+    type: daily_business
+    time_local: "18:00"
+    timezone: Europe/London
+  days_of_supply: false
+  alerts_enabled: true
+  modules: [inventorywatch]
+  primary_module: inventorywatch
+  metadata:
+    release_slug: lme_warehouse
+- code: LME_ALUMINIUM_WAREHOUSE_STOCKS
+  name: LME Aluminium Warehouse Stocks
+  description: Daily LME aluminium warehouse stocks.
+  measure_family: stock
+  frequency: daily
+  commodity_code: aluminum
+  geography_code: LME
+  source_slug: lme
+  source_series_key: ALUMINIUM
+  native_unit_code: tonnes
+  canonical_unit_code: tonnes
+  default_observation_kind: actual
+  seasonal_profile: inventorywatch_5y_monthly
+  is_seasonal: true
+  is_derived: false
+  visibility_tier: public
+  source_url: https://www.lme.com/en/metals/non-ferrous/lme-aluminium/warehouse-stocks
+  period_type: monthly
+  color_convention: inverse
+  sanity_bounds:
+    min: 100000
+    max: 7000000
+  release_schedule:
+    type: daily_business
+    time_local: "18:00"
+    timezone: Europe/London
+  days_of_supply: false
+  alerts_enabled: true
+  modules: [inventorywatch]
+  primary_module: inventorywatch
+  metadata:
+    release_slug: lme_warehouse
+- code: LME_ZINC_WAREHOUSE_STOCKS
+  name: LME Zinc Warehouse Stocks
+  description: Daily LME zinc warehouse stocks.
+  measure_family: stock
+  frequency: daily
+  commodity_code: zinc
+  geography_code: LME
+  source_slug: lme
+  source_series_key: ZINC
+  native_unit_code: tonnes
+  canonical_unit_code: tonnes
+  default_observation_kind: actual
+  seasonal_profile: inventorywatch_5y_monthly
+  is_seasonal: true
+  is_derived: false
+  visibility_tier: public
+  source_url: https://www.lme.com/en/metals/non-ferrous/lme-zinc/warehouse-stocks
+  period_type: monthly
+  color_convention: inverse
+  sanity_bounds:
+    min: 5000
+    max: 2500000
+  release_schedule:
+    type: daily_business
+    time_local: "18:00"
+    timezone: Europe/London
+  days_of_supply: false
+  alerts_enabled: true
+  modules: [inventorywatch]
+  primary_module: inventorywatch
+  metadata:
+    release_slug: lme_warehouse
+- code: LME_NICKEL_WAREHOUSE_STOCKS
+  name: LME Nickel Warehouse Stocks
+  description: Daily LME nickel warehouse stocks.
+  measure_family: stock
+  frequency: daily
+  commodity_code: nickel
+  geography_code: LME
+  source_slug: lme
+  source_series_key: NICKEL
+  native_unit_code: tonnes
+  canonical_unit_code: tonnes
+  default_observation_kind: actual
+  seasonal_profile: inventorywatch_5y_monthly
+  is_seasonal: true
+  is_derived: false
+  visibility_tier: public
+  source_url: https://www.lme.com/en/metals/non-ferrous/lme-nickel/warehouse-stocks
+  period_type: monthly
+  color_convention: inverse
+  sanity_bounds:
+    min: 1000
+    max: 500000
+  release_schedule:
+    type: daily_business
+    time_local: "18:00"
+    timezone: Europe/London
+  days_of_supply: false
+  alerts_enabled: true
+  modules: [inventorywatch]
+  primary_module: inventorywatch
+  metadata:
+    release_slug: lme_warehouse
+- code: LME_TIN_WAREHOUSE_STOCKS
+  name: LME Tin Warehouse Stocks
+  description: Daily LME tin warehouse stocks.
+  measure_family: stock
+  frequency: daily
+  commodity_code: tin
+  geography_code: LME
+  source_slug: lme
+  source_series_key: TIN
+  native_unit_code: tonnes
+  canonical_unit_code: tonnes
+  default_observation_kind: actual
+  seasonal_profile: inventorywatch_5y_monthly
+  is_seasonal: true
+  is_derived: false
+  visibility_tier: public
+  source_url: https://www.lme.com/en/metals/non-ferrous/lme-tin/warehouse-stocks
+  period_type: monthly
+  color_convention: inverse
+  sanity_bounds:
+    min: 100
+    max: 50000
+  release_schedule:
+    type: daily_business
+    time_local: "18:00"
+    timezone: Europe/London
+  days_of_supply: false
+  alerts_enabled: true
+  modules: [inventorywatch]
+  primary_module: inventorywatch
+  metadata:
+    release_slug: lme_warehouse
+- code: LME_LEAD_WAREHOUSE_STOCKS
+  name: LME Lead Warehouse Stocks
+  description: Daily LME lead warehouse stocks.
+  measure_family: stock
+  frequency: daily
+  commodity_code: lead
+  geography_code: LME
+  source_slug: lme
+  source_series_key: LEAD
+  native_unit_code: tonnes
+  canonical_unit_code: tonnes
+  default_observation_kind: actual
+  seasonal_profile: inventorywatch_5y_monthly
+  is_seasonal: true
+  is_derived: false
+  visibility_tier: public
+  source_url: https://www.lme.com/en/metals/non-ferrous/lme-lead/warehouse-stocks
+  period_type: monthly
+  color_convention: inverse
+  sanity_bounds:
+    min: 5000
+    max: 1000000
+  release_schedule:
+    type: daily_business
+    time_local: "18:00"
+    timezone: Europe/London
+  days_of_supply: false
+  alerts_enabled: true
+  modules: [inventorywatch]
+  primary_module: inventorywatch
+  metadata:
+    release_slug: lme_warehouse
+- code: USDA_US_CORN_ENDING_STOCKS
+  name: USDA WASDE US Corn Ending Stocks
+  description: Monthly USDA WASDE estimate for U.S. corn ending stocks.
+  measure_family: stock
+  frequency: monthly
+  commodity_code: corn
+  geography_code: US
+  source_slug: usda_psd
+  source_series_key: 0440000:9000000
+  native_unit_code: mbu
+  canonical_unit_code: mbu
+  default_observation_kind: estimate
+  seasonal_profile: inventorywatch_5y_marketing
+  is_seasonal: true
+  is_derived: false
+  visibility_tier: public
+  source_url: https://www.usda.gov/about-usda/general-information/staff-offices/office-chief-economist/commodity-markets/wasde-report
+  period_type: marketing_month
+  marketing_year_start_month: 9
+  color_convention: inverse
+  sanity_bounds:
+    min: 100
+    max: 5000
+  release_schedule:
+    type: monthly_calendar
+    time_local: "12:00"
+    timezone: America/New_York
+    dates: ["2026-01-12", "2026-02-10", "2026-03-10", "2026-04-09", "2026-05-12", "2026-06-11", "2026-07-10", "2026-08-12", "2026-09-11", "2026-10-09", "2026-11-10", "2026-12-10"]
+  days_of_supply: false
+  alerts_enabled: true
+  modules: [inventorywatch]
+  primary_module: inventorywatch
+  metadata:
+    release_slug: usda_wasde
+- code: USDA_US_SOYBEAN_ENDING_STOCKS
+  name: USDA WASDE US Soybean Ending Stocks
+  description: Monthly USDA WASDE estimate for U.S. soybean ending stocks.
+  measure_family: stock
+  frequency: monthly
+  commodity_code: soybeans
+  geography_code: US
+  source_slug: usda_psd
+  source_series_key: 2222000:9000000
+  native_unit_code: mbu
+  canonical_unit_code: mbu
+  default_observation_kind: estimate
+  seasonal_profile: inventorywatch_5y_marketing
+  is_seasonal: true
+  is_derived: false
+  visibility_tier: public
+  source_url: https://www.usda.gov/about-usda/general-information/staff-offices/office-chief-economist/commodity-markets/wasde-report
+  period_type: marketing_month
+  marketing_year_start_month: 9
+  color_convention: inverse
+  sanity_bounds:
+    min: 20
+    max: 1500
+  release_schedule:
+    type: monthly_calendar
+    time_local: "12:00"
+    timezone: America/New_York
+    dates: ["2026-01-12", "2026-02-10", "2026-03-10", "2026-04-09", "2026-05-12", "2026-06-11", "2026-07-10", "2026-08-12", "2026-09-11", "2026-10-09", "2026-11-10", "2026-12-10"]
+  days_of_supply: false
+  alerts_enabled: true
+  modules: [inventorywatch]
+  primary_module: inventorywatch
+  metadata:
+    release_slug: usda_wasde
+- code: USDA_US_WHEAT_ENDING_STOCKS
+  name: USDA WASDE US Wheat Ending Stocks
+  description: Monthly USDA WASDE estimate for U.S. wheat ending stocks.
+  measure_family: stock
+  frequency: monthly
+  commodity_code: wheat
+  geography_code: US
+  source_slug: usda_psd
+  source_series_key: 0410000:9000000
+  native_unit_code: mbu
+  canonical_unit_code: mbu
+  default_observation_kind: estimate
+  seasonal_profile: inventorywatch_5y_marketing
+  is_seasonal: true
+  is_derived: false
+  visibility_tier: public
+  source_url: https://www.usda.gov/about-usda/general-information/staff-offices/office-chief-economist/commodity-markets/wasde-report
+  period_type: marketing_month
+  marketing_year_start_month: 6
+  color_convention: inverse
+  sanity_bounds:
+    min: 100
+    max: 2000
+  release_schedule:
+    type: monthly_calendar
+    time_local: "12:00"
+    timezone: America/New_York
+    dates: ["2026-01-12", "2026-02-10", "2026-03-10", "2026-04-09", "2026-05-12", "2026-06-11", "2026-07-10", "2026-08-12", "2026-09-11", "2026-10-09", "2026-11-10", "2026-12-10"]
+  days_of_supply: false
+  alerts_enabled: true
+  modules: [inventorywatch]
+  primary_module: inventorywatch
+  metadata:
+    release_slug: usda_wasde
+- code: USDA_US_RICE_ENDING_STOCKS
+  name: USDA WASDE US Rice Ending Stocks
+  description: Monthly USDA WASDE estimate for U.S. rice ending stocks.
+  measure_family: stock
+  frequency: monthly
+  commodity_code: rice
+  geography_code: US
+  source_slug: usda_psd
+  source_series_key: 0422110:9000000
+  native_unit_code: kcwt
+  canonical_unit_code: kcwt
+  default_observation_kind: estimate
+  seasonal_profile: inventorywatch_5y_marketing
+  is_seasonal: true
+  is_derived: false
+  visibility_tier: public
+  source_url: https://www.usda.gov/about-usda/general-information/staff-offices/office-chief-economist/commodity-markets/wasde-report
+  period_type: marketing_month
+  marketing_year_start_month: 8
+  color_convention: inverse
+  sanity_bounds:
+    min: 1000
+    max: 80000
+  release_schedule:
+    type: monthly_calendar
+    time_local: "12:00"
+    timezone: America/New_York
+    dates: ["2026-01-12", "2026-02-10", "2026-03-10", "2026-04-09", "2026-05-12", "2026-06-11", "2026-07-10", "2026-08-12", "2026-09-11", "2026-10-09", "2026-11-10", "2026-12-10"]
+  days_of_supply: false
+  alerts_enabled: true
+  modules: [inventorywatch]
+  primary_module: inventorywatch
+  metadata:
+    release_slug: usda_wasde
+- code: USDA_WORLD_CORN_ENDING_STOCKS
+  name: USDA WASDE World Corn Ending Stocks
+  description: Monthly USDA WASDE estimate for world corn ending stocks.
+  measure_family: stock
+  frequency: monthly
+  commodity_code: corn
+  geography_code: WORLD
+  source_slug: usda_psd
+  source_series_key: 0440000:0000999
+  native_unit_code: mmt
+  canonical_unit_code: mmt
+  default_observation_kind: estimate
+  seasonal_profile: inventorywatch_5y_marketing
+  is_seasonal: true
+  is_derived: false
+  visibility_tier: public
+  source_url: https://www.usda.gov/about-usda/general-information/staff-offices/office-chief-economist/commodity-markets/wasde-report
+  period_type: marketing_month
+  marketing_year_start_month: 10
+  color_convention: inverse
+  sanity_bounds:
+    min: 20
+    max: 500
+  release_schedule:
+    type: monthly_calendar
+    time_local: "12:00"
+    timezone: America/New_York
+    dates: ["2026-01-12", "2026-02-10", "2026-03-10", "2026-04-09", "2026-05-12", "2026-06-11", "2026-07-10", "2026-08-12", "2026-09-11", "2026-10-09", "2026-11-10", "2026-12-10"]
+  days_of_supply: false
+  alerts_enabled: true
+  modules: [inventorywatch]
+  primary_module: inventorywatch
+  metadata:
+    release_slug: usda_wasde
+- code: USDA_WORLD_SOYBEAN_ENDING_STOCKS
+  name: USDA WASDE World Soybean Ending Stocks
+  description: Monthly USDA WASDE estimate for world soybean ending stocks.
+  measure_family: stock
+  frequency: monthly
+  commodity_code: soybeans
+  geography_code: WORLD
+  source_slug: usda_psd
+  source_series_key: 2222000:0000999
+  native_unit_code: mmt
+  canonical_unit_code: mmt
+  default_observation_kind: estimate
+  seasonal_profile: inventorywatch_5y_marketing
+  is_seasonal: true
+  is_derived: false
+  visibility_tier: public
+  source_url: https://www.usda.gov/about-usda/general-information/staff-offices/office-chief-economist/commodity-markets/wasde-report
+  period_type: marketing_month
+  marketing_year_start_month: 10
+  color_convention: inverse
+  sanity_bounds:
+    min: 5
+    max: 200
+  release_schedule:
+    type: monthly_calendar
+    time_local: "12:00"
+    timezone: America/New_York
+    dates: ["2026-01-12", "2026-02-10", "2026-03-10", "2026-04-09", "2026-05-12", "2026-06-11", "2026-07-10", "2026-08-12", "2026-09-11", "2026-10-09", "2026-11-10", "2026-12-10"]
+  days_of_supply: false
+  alerts_enabled: true
+  modules: [inventorywatch]
+  primary_module: inventorywatch
+  metadata:
+    release_slug: usda_wasde
+- code: USDA_WORLD_WHEAT_ENDING_STOCKS
+  name: USDA WASDE World Wheat Ending Stocks
+  description: Monthly USDA WASDE estimate for world wheat ending stocks.
+  measure_family: stock
+  frequency: monthly
+  commodity_code: wheat
+  geography_code: WORLD
+  source_slug: usda_psd
+  source_series_key: 0410000:0000999
+  native_unit_code: mmt
+  canonical_unit_code: mmt
+  default_observation_kind: estimate
+  seasonal_profile: inventorywatch_5y_marketing
+  is_seasonal: true
+  is_derived: false
+  visibility_tier: public
+  source_url: https://www.usda.gov/about-usda/general-information/staff-offices/office-chief-economist/commodity-markets/wasde-report
+  period_type: marketing_month
+  marketing_year_start_month: 7
+  color_convention: inverse
+  sanity_bounds:
+    min: 80
+    max: 400
+  release_schedule:
+    type: monthly_calendar
+    time_local: "12:00"
+    timezone: America/New_York
+    dates: ["2026-01-12", "2026-02-10", "2026-03-10", "2026-04-09", "2026-05-12", "2026-06-11", "2026-07-10", "2026-08-12", "2026-09-11", "2026-10-09", "2026-11-10", "2026-12-10"]
+  days_of_supply: false
+  alerts_enabled: true
+  modules: [inventorywatch]
+  primary_module: inventorywatch
+  metadata:
+    release_slug: usda_wasde
+- code: COMEX_GOLD_WAREHOUSE_STOCKS
+  name: COMEX Gold Registered and Eligible Stocks
+  description: Daily registered plus eligible gold warehouse stocks from COMEX.
+  measure_family: stock
+  frequency: daily
+  commodity_code: gold
+  geography_code: US
+  source_slug: comex
+  source_series_key: GOLD
+  native_unit_code: toz
+  canonical_unit_code: toz
+  default_observation_kind: actual
+  is_seasonal: false
+  is_derived: false
+  visibility_tier: public
+  source_url: https://www.cmegroup.com/delivery_reports/
+  period_type: daily
+  color_convention: inverse
+  sanity_bounds:
+    min: 1000000
+    max: 80000000
+  release_schedule:
+    type: fixed_daily
+    time_local: "17:00"
+    timezone: America/New_York
+  days_of_supply: false
+  alerts_enabled: true
+  modules: [inventorywatch]
+  primary_module: inventorywatch
+  metadata:
+    release_slug: comex_warehouse
+- code: COMEX_SILVER_WAREHOUSE_STOCKS
+  name: COMEX Silver Registered and Eligible Stocks
+  description: Daily registered plus eligible silver warehouse stocks from COMEX.
+  measure_family: stock
+  frequency: daily
+  commodity_code: silver
+  geography_code: US
+  source_slug: comex
+  source_series_key: SILVER
+  native_unit_code: toz
+  canonical_unit_code: toz
+  default_observation_kind: actual
+  is_seasonal: false
+  is_derived: false
+  visibility_tier: public
+  source_url: https://www.cmegroup.com/delivery_reports/
+  period_type: daily
+  color_convention: inverse
+  sanity_bounds:
+    min: 10000000
+    max: 1000000000
+  release_schedule:
+    type: fixed_daily
+    time_local: "17:00"
+    timezone: America/New_York
+  days_of_supply: false
+  alerts_enabled: true
+  modules: [inventorywatch]
+  primary_module: inventorywatch
+  metadata:
+    release_slug: comex_warehouse
+- code: ETF_GLD_HOLDINGS
+  name: SPDR Gold Shares Holdings
+  description: Daily SPDR Gold Shares holdings.
+  measure_family: stock
+  frequency: daily
+  commodity_code: gold
+  geography_code: US
+  source_slug: etf
+  source_series_key: GLD
+  native_unit_code: tonnes
+  canonical_unit_code: tonnes
+  default_observation_kind: actual
+  is_seasonal: false
+  is_derived: false
+  visibility_tier: public
+  source_url: https://www.spdrgoldshares.com/usa/gold/
+  period_type: daily
+  color_convention: inverse
+  sanity_bounds:
+    min: 100
+    max: 2000
+  release_schedule:
+    type: fixed_daily
+    time_local: "20:00"
+    timezone: America/New_York
+  days_of_supply: false
+  alerts_enabled: true
+  modules: [inventorywatch]
+  primary_module: inventorywatch
+  metadata:
+    release_slug: etf_holdings
+- code: ETF_SLV_HOLDINGS
+  name: iShares Silver Trust Holdings
+  description: Daily iShares Silver Trust holdings.
+  measure_family: stock
+  frequency: daily
+  commodity_code: silver
+  geography_code: US
+  source_slug: etf
+  source_series_key: SLV
+  native_unit_code: tonnes
+  canonical_unit_code: tonnes
+  default_observation_kind: actual
+  is_seasonal: false
+  is_derived: false
+  visibility_tier: public
+  source_url: https://www.ishares.com/us/products/239855/
+  period_type: daily
+  color_convention: inverse
+  sanity_bounds:
+    min: 1000
+    max: 30000
+  release_schedule:
+    type: fixed_daily
+    time_local: "20:00"
+    timezone: America/New_York
+  days_of_supply: false
+  alerts_enabled: true
+  modules: [inventorywatch]
+  primary_module: inventorywatch
+  metadata:
+    release_slug: etf_holdings
+- code: ETF_IAU_HOLDINGS
+  name: iShares Gold Trust Holdings
+  description: Daily iShares Gold Trust holdings.
+  measure_family: stock
+  frequency: daily
+  commodity_code: gold
+  geography_code: US
+  source_slug: etf
+  source_series_key: IAU
+  native_unit_code: tonnes
+  canonical_unit_code: tonnes
+  default_observation_kind: actual
+  is_seasonal: false
+  is_derived: false
+  visibility_tier: public
+  source_url: https://www.ishares.com/us/products/239561/
+  period_type: daily
+  color_convention: inverse
+  sanity_bounds:
+    min: 50
+    max: 1000
+  release_schedule:
+    type: fixed_daily
+    time_local: "20:00"
+    timezone: America/New_York
+  days_of_supply: false
+  alerts_enabled: true
+  modules: [inventorywatch]
+  primary_module: inventorywatch
+  metadata:
+    release_slug: etf_holdings
+- code: ICE_ARABICA_COFFEE_CERTIFIED_STOCKS
+  name: ICE Arabica Coffee Certified Stocks
+  description: Daily ICE Arabica coffee certified stocks.
+  measure_family: stock
+  frequency: daily
+  commodity_code: coffee
+  geography_code: ICE
+  source_slug: ice
+  source_series_key: ICE_C
+  native_unit_code: bags_60kg
+  canonical_unit_code: bags_60kg
+  default_observation_kind: actual
+  seasonal_profile: inventorywatch_5y_monthly
+  is_seasonal: true
+  is_derived: false
+  visibility_tier: public
+  source_url: https://www.theice.com/
+  period_type: monthly
+  color_convention: inverse
+  sanity_bounds:
+    min: 100000
+    max: 5000000
+  release_schedule:
+    type: fixed_daily
+    time_local: "17:00"
+    timezone: America/New_York
+  days_of_supply: false
+  alerts_enabled: true
+  modules: [inventorywatch]
+  primary_module: inventorywatch
+  metadata:
+    release_slug: ice_certified
+- code: ICE_ROBUSTA_COFFEE_CERTIFIED_STOCKS
+  name: ICE Robusta Coffee Certified Stocks
+  description: Daily ICE Robusta coffee certified stocks.
+  measure_family: stock
+  frequency: daily
+  commodity_code: coffee
+  geography_code: ICE
+  source_slug: ice
+  source_series_key: ICE_ROBUSTA
+  native_unit_code: tonnes
+  canonical_unit_code: tonnes
+  default_observation_kind: actual
+  seasonal_profile: inventorywatch_5y_monthly
+  is_seasonal: true
+  is_derived: false
+  visibility_tier: public
+  source_url: https://www.theice.com/
+  period_type: monthly
+  color_convention: inverse
+  sanity_bounds:
+    min: 1000
+    max: 300000
+  release_schedule:
+    type: fixed_daily
+    time_local: "17:00"
+    timezone: America/New_York
+  days_of_supply: false
+  alerts_enabled: true
+  modules: [inventorywatch]
+  primary_module: inventorywatch
+  metadata:
+    release_slug: ice_certified
+- code: ICE_RAW_SUGAR_CERTIFIED_STOCKS
+  name: ICE Raw Sugar No.11 Certified Stocks
+  description: Daily ICE raw sugar No.11 certified stocks.
+  measure_family: stock
+  frequency: daily
+  commodity_code: sugar
+  geography_code: ICE
+  source_slug: ice
+  source_series_key: ICE_NO11
+  native_unit_code: short_tons
+  canonical_unit_code: short_tons
+  default_observation_kind: actual
+  seasonal_profile: inventorywatch_5y_monthly
+  is_seasonal: true
+  is_derived: false
+  visibility_tier: public
+  source_url: https://www.theice.com/
+  period_type: monthly
+  color_convention: inverse
+  sanity_bounds:
+    min: 10000
+    max: 500000
+  release_schedule:
+    type: fixed_daily
+    time_local: "17:00"
+    timezone: America/New_York
+  days_of_supply: false
+  alerts_enabled: true
+  modules: [inventorywatch]
+  primary_module: inventorywatch
+  metadata:
+    release_slug: ice_certified
+- code: ICE_COTTON_CERTIFIED_STOCKS
+  name: ICE Cotton No.2 Certified Stocks
+  description: Daily ICE cotton No.2 certified stocks.
+  measure_family: stock
+  frequency: daily
+  commodity_code: cotton
+  geography_code: ICE
+  source_slug: ice
+  source_series_key: ICE_NO2
+  native_unit_code: bales
+  canonical_unit_code: bales
+  default_observation_kind: actual
+  seasonal_profile: inventorywatch_5y_monthly
+  is_seasonal: true
+  is_derived: false
+  visibility_tier: public
+  source_url: https://www.theice.com/
+  period_type: monthly
+  color_convention: inverse
+  sanity_bounds:
+    min: 10000
+    max: 600000
+  release_schedule:
+    type: fixed_daily
+    time_local: "17:00"
+    timezone: America/New_York
+  days_of_supply: false
+  alerts_enabled: true
+  modules: [inventorywatch]
+  primary_module: inventorywatch
+  metadata:
+    release_slug: ice_certified
+- code: ICE_COCOA_CERTIFIED_STOCKS
+  name: ICE Cocoa Certified Stocks
+  description: Daily ICE cocoa certified stocks.
+  measure_family: stock
+  frequency: daily
+  commodity_code: cocoa
+  geography_code: ICE
+  source_slug: ice
+  source_series_key: ICE_COCOA
+  native_unit_code: tonnes
+  canonical_unit_code: tonnes
+  default_observation_kind: actual
+  seasonal_profile: inventorywatch_5y_monthly
+  is_seasonal: true
+  is_derived: false
+  visibility_tier: public
+  source_url: https://www.theice.com/
+  period_type: monthly
+  color_convention: inverse
+  sanity_bounds:
+    min: 1000
+    max: 500000
+  release_schedule:
+    type: fixed_daily
+    time_local: "17:00"
+    timezone: America/New_York
+  days_of_supply: false
+  alerts_enabled: true
+  modules: [inventorywatch]
+  primary_module: inventorywatch
+  metadata:
+    release_slug: ice_certified

@@ -17,6 +17,14 @@ def utcnow() -> datetime:
 
 
 def period_index_for(indicator: Indicator, observation: Observation) -> tuple[str, int]:
+    raw_period_type = str(indicator.metadata_.get("period_type") or "").strip().lower()
+    if raw_period_type == "marketing_month":
+        start_month = int(indicator.metadata_.get("marketing_year_start_month") or 1)
+        return "marketing_year_month", ((observation.period_end_at.month - start_month) % 12) + 1
+    if raw_period_type == "monthly":
+        return "month_of_year", observation.period_end_at.month
+    if raw_period_type == "daily":
+        return "day_of_year", observation.period_end_at.timetuple().tm_yday
     if indicator.frequency.value == "weekly":
         return "week_of_year", min(observation.period_end_at.isocalendar().week, 52)
     if indicator.frequency.value == "monthly":

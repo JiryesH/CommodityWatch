@@ -33,10 +33,20 @@
   source_type: api
   legal_status: public_domain
   homepage_url: https://apps.fas.usda.gov/psdonline/
-  docs_url: https://apps.fas.usda.gov/psdonline/app/index.html#/app/api
+  docs_url: https://apps.fas.usda.gov/PSDExternalAPIService/svcPSD_AMIS.asmx?WSDL
   default_timezone: America/New_York
   attribution_text: USDA Foreign Agricultural Service PSD
-  rate_limit_notes: Structured JSON access for WASDE-era balance tables.
+  rate_limit_notes: Public SOAP service plus keyed REST service; use low-volume SOAP for WASDE ingestion.
+  active: true
+- slug: etf
+  name: ETF Sponsor Holdings Pages
+  source_type: html
+  legal_status: public_registered
+  homepage_url: https://www.ishares.com/
+  docs_url: https://www.ishares.com/us/products/239561/ishares-gold-trust-fund
+  default_timezone: America/New_York
+  attribution_text: ETF sponsor daily holdings pages
+  rate_limit_notes: Respectful daily scrape only.
   active: true
 - slug: lme
   name: London Metal Exchange
@@ -68,4 +78,3 @@
   attribution_text: Intercontinental Exchange
   rate_limit_notes: Respectful daily scrape only.
   active: true
-

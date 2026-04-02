@@ -170,6 +170,19 @@ svg {
   border-bottom-color: var(--filter-pill-color, var(--color-primary));
 }
 
+.inventory-filter-pill.is-disabled {
+  opacity: 0.34;
+  color: var(--color-subtext);
+  border-bottom-color: transparent;
+  cursor: default;
+}
+
+.inventory-filter-pill.is-disabled:hover {
+  opacity: 0.42;
+  color: var(--color-subtext);
+  border-bottom-color: transparent;
+}
+
 .inventory-filter-pill[data-group="all"] {
   --filter-pill-color: var(--color-primary);
 }
@@ -618,6 +631,13 @@ svg {
   justify-content: end;
 }
 
+.inventory-inline-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
 .inventory-badge {
   display: inline-flex;
   align-items: center;
@@ -665,6 +685,30 @@ svg {
   background: rgba(183, 78, 67, 0.12);
   color: var(--color-down);
   border-color: rgba(183, 78, 67, 0.18);
+}
+
+.inventory-badge.is-alert-tight {
+  background: rgba(183, 78, 67, 0.12);
+  color: var(--color-down);
+  border-color: rgba(183, 78, 67, 0.18);
+}
+
+.inventory-badge.is-alert-ample {
+  background: rgba(74, 144, 217, 0.12);
+  color: var(--color-metals);
+  border-color: rgba(74, 144, 217, 0.18);
+}
+
+.inventory-badge.is-alert-watch {
+  background: rgba(232, 160, 32, 0.14);
+  color: #9a6b10;
+  border-color: rgba(232, 160, 32, 0.24);
+}
+
+.inventory-badge.is-alert-cool {
+  background: rgba(15, 25, 35, 0.06);
+  color: var(--color-primary-soft);
+  border-color: rgba(15, 25, 35, 0.1);
 }
 
 .inventory-card-main {
@@ -862,6 +906,19 @@ svg {
   text-transform: uppercase;
 }
 
+.inventory-release {
+  display: inline-flex;
+  align-items: center;
+}
+
+.inventory-release-overdue {
+  color: var(--color-down);
+}
+
+.inventory-release-today {
+  color: #9a6b10;
+}
+
 .inventory-card-spark-wrap {
   display: grid;
   gap: 5px;
@@ -1033,6 +1090,13 @@ svg {
   stroke-width: 1.8;
 }
 
+.inventory-chart-average {
+  fill: none;
+  stroke: rgba(15, 25, 35, 0.54);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 5;
+}
+
 .inventory-bar-axis {
   stroke: rgba(15, 25, 35, 0.18);
   stroke-width: 1.2;
@@ -1046,10 +1110,31 @@ svg {
   fill: var(--color-down);
 }
 
+.inventory-bar-neutral {
+  fill: rgba(15, 25, 35, 0.2);
+}
+
 .inventory-summary {
   display: grid;
   gap: 14px;
   padding: 18px 20px 20px;
+  border-left: 3px solid transparent;
+}
+
+.inventory-summary.is-tight {
+  border-left-color: var(--color-down);
+}
+
+.inventory-summary.is-ample {
+  border-left-color: var(--color-metals);
+}
+
+.inventory-summary.is-watch {
+  border-left-color: var(--color-amber);
+}
+
+.inventory-summary.is-cool {
+  border-left-color: rgba(15, 25, 35, 0.3);
 }
 
 .inventory-summary-value {
@@ -1135,6 +1220,12 @@ svg {
 
 .inventory-table td.is-strong {
   color: var(--color-primary);
+}
+
+.inventory-revision-flag {
+  display: inline-block;
+  margin-right: 4px;
+  color: var(--color-amber);
 }
 
 .to-top-btn {

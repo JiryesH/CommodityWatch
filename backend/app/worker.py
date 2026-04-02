@@ -89,6 +89,41 @@ def build_scheduler() -> AsyncIOScheduler:
         replace_existing=True,
     )
     scheduler.add_job(
+        execute_registered_job,
+        CronTrigger(day="8-14", hour=12, minute=5, timezone=ZoneInfo("America/New_York")),
+        args=["usda_wasde"],
+        id="usda_wasde",
+        replace_existing=True,
+    )
+    scheduler.add_job(
+        execute_registered_job,
+        CronTrigger(hour=18, minute=0, timezone=ZoneInfo("Europe/London")),
+        args=["lme_warehouse"],
+        id="lme_warehouse",
+        replace_existing=True,
+    )
+    scheduler.add_job(
+        execute_registered_job,
+        CronTrigger(hour=17, minute=0, timezone=ZoneInfo("America/New_York")),
+        args=["comex_warehouse"],
+        id="comex_warehouse",
+        replace_existing=True,
+    )
+    scheduler.add_job(
+        execute_registered_job,
+        CronTrigger(hour=20, minute=0, timezone=ZoneInfo("America/New_York")),
+        args=["etf_holdings"],
+        id="etf_holdings",
+        replace_existing=True,
+    )
+    scheduler.add_job(
+        execute_registered_job,
+        CronTrigger(hour=17, minute=0, timezone=ZoneInfo("America/New_York")),
+        args=["ice_certified"],
+        id="ice_certified",
+        replace_existing=True,
+    )
+    scheduler.add_job(
         execute_seasonal_job,
         CronTrigger(day_of_week="sun", hour=2, minute=0, timezone=ZoneInfo("UTC")),
         id="seasonal_ranges",

@@ -21,7 +21,15 @@ class RateLimitedAsyncClient:
     async def close(self) -> None:
         await self._client.aclose()
 
-    async def get(self, url: str, params: Mapping[str, str | int | float] | None = None) -> httpx.Response:
+    async def request(
+        self,
+        method: str,
+        url: str,
+        *,
+        params: Mapping[str, str | int | float] | None = None,
+        headers: Mapping[str, str] | None = None,
+        content: bytes | str | None = None,
+    ) -> httpx.Response:
         last_exc: Exception | None = None
         for attempt in range(REQUEST_RETRY_ATTEMPTS):
             now = monotonic()
@@ -29,7 +37,7 @@ class RateLimitedAsyncClient:
             if elapsed < self._rate_limit_seconds:
                 await asyncio.sleep(self._rate_limit_seconds - elapsed)
             try:
-                response = await self._client.get(url, params=params)
+                response = await self._client.request(method, url, params=params, headers=headers, content=content)
                 self._last_request_at = monotonic()
                 response.raise_for_status()
                 return response
@@ -41,7 +49,8 @@ class RateLimitedAsyncClient:
                     raise
                 delay = min(2**attempt, 10)
                 logger.warning(
-                    "HTTP GET %s failed with status %d; retrying in %d seconds (attempt %d/%d)",
+                    "HTTP %s %s failed with status %d; retrying in %d seconds (attempt %d/%d)",
+                    method.upper(),
                     url,
                     status_code,
                     delay,
@@ -56,7 +65,8 @@ class RateLimitedAsyncClient:
                     raise
                 delay = min(2**attempt, 10)
                 logger.warning(
-                    "HTTP GET %s failed with %s; retrying in %d seconds (attempt %d/%d)",
+                    "HTTP %s %s failed with %s; retrying in %d seconds (attempt %d/%d)",
+                    method.upper(),
                     url,
                     exc.__class__.__name__,
                     delay,
@@ -66,3 +76,18 @@ class RateLimitedAsyncClient:
                 await asyncio.sleep(delay)
         assert last_exc is not None
         raise last_exc
+
+    async def get(self, url: str, params: Mapping[str, str | int | float] | None = None) -> httpx.Response:
+        return await self.request("GET", url, params=params)
+
+    async def post(
+        self,
+        url: str,
+        *,
+        headers: Mapping[str, str] | None = None,
+        content: bytes | str | None = None,
+    ) -> httpx.Response:
+        return await self.request("POST", url, headers=headers, content=content)
+
+    async def head(self, url: str, params: Mapping[str, str | int | float] | None = None) -> httpx.Response:
+        return await self.request("HEAD", url, params=params)

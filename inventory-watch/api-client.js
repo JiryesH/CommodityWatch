@@ -80,6 +80,8 @@ function mapIndicatorLatestResponse(payload) {
       deviationFromSeasonalAbs: convertUnitValue(payload.latest.deviation_from_seasonal_abs, payload.latest.unit),
       deviationFromSeasonalZscore: payload.latest.deviation_from_seasonal_zscore,
       revisionSequence: payload.latest.revision_sequence,
+      revisionFlag: Boolean(payload.latest.revision_flag),
+      alerts: Array.isArray(payload.latest.alerts) ? payload.latest.alerts : [],
     },
   };
 }
@@ -99,6 +101,13 @@ function mapIndicatorDataResponse(payload) {
       frequency: payload.indicator.frequency,
       measureFamily: payload.indicator.measure_family,
       unit: payload.indicator.unit === "kb" ? "mb" : payload.indicator.unit,
+      periodType: payload.indicator.period_type || payload.indicator.frequency,
+      marketingYearStartMonth: payload.indicator.marketing_year_start_month || 1,
+      isSeasonal: Boolean(payload.indicator.is_seasonal),
+      colorConvention: payload.indicator.color_convention || "standard",
+      daysOfSupply: Boolean(payload.indicator.days_of_supply),
+      alertsEnabled: payload.indicator.alerts_enabled !== false,
+      releaseSchedule: payload.indicator.release_schedule || null,
     },
     series: payload.series.map((point) => ({
       periodStartAt: point.period_start_at,
@@ -109,6 +118,7 @@ function mapIndicatorDataResponse(payload) {
       unit: point.unit === "kb" ? "mb" : point.unit,
       observationKind: point.observation_kind,
       revisionSequence: point.revision_sequence,
+      revisionFlag: Boolean(point.revision_flag),
     })),
     seasonalRange: payload.seasonal_range.map((point) => ({
       periodIndex: point.period_index,
@@ -125,6 +135,7 @@ function mapIndicatorDataResponse(payload) {
       latestReleaseAt: payload.metadata.latest_release_at || null,
       sourceUrl: payload.metadata.source_url || registry.sourceHref || null,
       sourceLabel: payload.metadata.source_label || registry.sourceLabel,
+      quarantinedObservationCount: payload.metadata.quarantined_observation_count || 0,
     },
   };
 }
@@ -151,14 +162,24 @@ function mapSnapshotResponse(payload) {
         sparkline: Array.isArray(card.sparkline)
           ? card.sparkline.map((value) => convertUnitValue(value, card.unit) ?? value)
           : [],
+        latestPeriodEndAt: card.latest_period_end_at || null,
+        latestReleaseDate: card.latest_release_date || null,
         lastUpdatedAt: card.last_updated_at,
-        freshness: freshnessFor(undefined, card.last_updated_at, Boolean(card.stale)),
+        freshness: freshnessFor(card.frequency, card.last_updated_at, Boolean(card.stale)),
         stale: Boolean(card.stale),
         sourceLabel: card.source_label || registry.sourceLabel,
         sourceHref: card.source_url || registry.sourceHref || null,
         description: card.description || registry.description,
         semanticMode: semanticModeForCommodity(card.commodity_code),
         snapshotGroup: registry.snapshotGroup,
+        isSeasonal: Boolean(card.is_seasonal),
+        periodType: card.period_type || card.frequency,
+        marketingYearStartMonth: card.marketing_year_start_month || 1,
+        colorConvention: card.color_convention || "standard",
+        releaseSchedule: card.release_schedule || null,
+        alertsEnabled: card.alerts_enabled !== false,
+        daysOfSupply: Boolean(card.days_of_supply),
+        alerts: Array.isArray(card.alerts) ? card.alerts : [],
         seasonalLow: convertUnitValue(card.seasonal_low, card.unit),
         seasonalHigh: convertUnitValue(card.seasonal_high, card.unit),
         seasonalMedian: convertUnitValue(card.seasonal_median, card.unit),

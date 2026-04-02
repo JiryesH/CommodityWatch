@@ -6,6 +6,7 @@
   --color-primary-soft: #334556;
   --color-amber: #e8a020;
   --color-energy: #e8a020;
+  --color-natural-gas: #2f8b84;
   --color-metals: #4a90d9;
   --color-agri: #5ba85c;
   --color-macro: #8662d6;
@@ -14,6 +15,12 @@
   --color-subtext: #65707b;
   --color-up: #366646;
   --color-down: #b74e43;
+  --color-signal-neutral: #d1cdc7;
+  --color-signal-neutral-ink: #7d766f;
+  --color-signal-above: #27ae60;
+  --color-signal-well-above: #1e8449;
+  --color-signal-below: #c0392b;
+  --color-signal-well-below: #922b21;
   --nav-height: 52px;
   --filter-height: 52px;
   --shell-max: 1400px;
@@ -571,26 +578,122 @@ svg {
   font-size: 11px;
 }
 
+.inventory-preview-shell {
+  display: grid;
+  gap: 14px;
+}
+
+.inventory-preview-filters {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.inventory-preview-filter {
+  appearance: none;
+  border: 1px solid rgba(15, 25, 35, 0.1);
+  background: rgba(255, 255, 255, 0.84);
+  padding: 7px 12px;
+  border-radius: 999px;
+  color: var(--color-primary-soft);
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 150ms ease, background-color 150ms ease, color 150ms ease, box-shadow 150ms ease;
+}
+
+.inventory-preview-filter:hover:not(:disabled) {
+  color: var(--color-primary);
+  border-color: rgba(15, 25, 35, 0.18);
+}
+
+.inventory-preview-filter:disabled {
+  opacity: 0.38;
+  cursor: default;
+}
+
+.inventory-preview-filter.is-active {
+  border-color: transparent;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
+}
+
+.inventory-preview-filter[data-group="all"].is-active {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.inventory-preview-filter[data-group="energy"].is-active {
+  background: var(--color-energy);
+  color: var(--color-primary);
+}
+
+.inventory-preview-filter[data-group="natural-gas"].is-active {
+  background: var(--color-natural-gas);
+  color: #fff;
+}
+
+.inventory-preview-filter[data-group="base-metals"].is-active {
+  background: var(--color-metals);
+  color: #fff;
+}
+
+.inventory-preview-filter[data-group="grains"].is-active {
+  background: var(--color-agri);
+  color: #fff;
+}
+
 .inventory-preview-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(var(--inventory-grid-columns, 4), minmax(0, 1fr));
   gap: 12px;
 }
 
 .inventory-preview-card {
   appearance: none;
   position: relative;
-  min-height: 198px;
-  padding: 14px 14px 13px 16px;
+  min-height: 214px;
+  padding: 16px 16px 14px 17px;
   border: 1px solid rgba(15, 25, 35, 0.08);
   border-radius: 14px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(247, 244, 238, 0.94));
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(247, 244, 238, 0.95));
   display: grid;
-  gap: 10px;
+  gap: 12px;
   text-align: left;
   cursor: pointer;
   transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
   box-shadow: 0 8px 18px rgba(15, 25, 35, 0.04);
+  overflow: hidden;
+  --inventory-accent: var(--color-signal-neutral);
+  --inventory-signal-color: var(--color-signal-neutral-ink);
+}
+
+.inventory-preview-card.is-seasonal-range {
+  --inventory-accent: var(--color-signal-neutral);
+  --inventory-signal-color: var(--color-signal-neutral-ink);
+}
+
+.inventory-preview-card.is-above-seasonal {
+  --inventory-accent: var(--color-signal-above);
+  --inventory-signal-color: var(--color-signal-above);
+}
+
+.inventory-preview-card.is-well-above-seasonal {
+  --inventory-accent: var(--color-signal-well-above);
+  --inventory-signal-color: var(--color-signal-well-above);
+}
+
+.inventory-preview-card.is-below-seasonal {
+  --inventory-accent: var(--color-signal-below);
+  --inventory-signal-color: var(--color-signal-below);
+}
+
+.inventory-preview-card.is-well-below-seasonal {
+  --inventory-accent: var(--color-signal-well-below);
+  --inventory-signal-color: var(--color-signal-well-below);
 }
 
 .inventory-preview-card::before {
@@ -599,7 +702,7 @@ svg {
   inset: 0 auto 0 0;
   width: 4px;
   border-radius: 14px 0 0 14px;
-  background: var(--inventory-accent, rgba(15, 25, 35, 0.16));
+  background: var(--inventory-accent);
 }
 
 .inventory-preview-card:hover,
@@ -610,10 +713,8 @@ svg {
 }
 
 .inventory-preview-head {
-  display: flex;
-  align-items: start;
-  justify-content: space-between;
-  gap: 10px;
+  display: grid;
+  gap: 8px;
 }
 
 .inventory-preview-group {
@@ -625,69 +726,75 @@ svg {
   text-transform: uppercase;
 }
 
-.inventory-preview-badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 5px 8px;
-  border-radius: 999px;
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 10px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  line-height: 1;
-  white-space: nowrap;
-}
-
-.inventory-preview-badge.is-fresh {
-  color: var(--color-up);
-  background: rgba(54, 102, 70, 0.12);
-}
-
-.inventory-preview-badge.is-waiting {
-  color: var(--color-metals);
-  background: rgba(74, 144, 217, 0.12);
-}
-
-.inventory-preview-badge.is-structural {
-  color: var(--color-primary-soft);
-  background: rgba(15, 25, 35, 0.06);
-}
-
-.inventory-preview-badge.is-aged {
-  color: #9a6b10;
-  background: rgba(232, 160, 32, 0.16);
-}
-
 .inventory-preview-title {
   margin: 0;
   font-family: "IBM Plex Serif", serif;
-  font-size: 1.04rem;
+  font-size: 1.08rem;
   line-height: 1.24;
+  font-weight: 600;
 }
 
 .inventory-preview-value {
   margin: 0;
   font-family: "IBM Plex Serif", serif;
-  font-size: 1.5rem;
+  font-size: 1.56rem;
   line-height: 1;
   letter-spacing: -0.03em;
 }
 
 .inventory-preview-change {
-  margin: 0;
-  color: var(--color-primary-soft);
+  display: grid;
+  gap: 4px;
   font-family: "IBM Plex Mono", monospace;
   font-size: 11px;
   letter-spacing: 0.03em;
 }
 
-.inventory-preview-change .sep {
-  margin: 0 5px;
-  opacity: 0.4;
+.inventory-preview-change-line {
+  margin: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.inventory-preview-change-value {
+  color: var(--color-primary);
+}
+
+.inventory-preview-change-label {
+  color: var(--color-subtext);
+}
+
+.inventory-preview-signal {
+  margin: 0;
+  color: var(--inventory-signal-color);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+}
+
+.inventory-preview-spark-wrap {
+  margin-top: auto;
+}
+
+.inventory-preview-spark-wrap .sparkline {
+  width: 100%;
+  height: 40px;
+}
+
+.inventory-preview-spark-wrap .sparkline.is-up {
+  color: var(--color-signal-above);
+}
+
+.inventory-preview-spark-wrap .sparkline.is-down {
+  color: var(--color-signal-below);
+}
+
+.inventory-preview-spark-wrap .sparkline.is-neutral {
+  color: var(--color-primary-soft);
 }
 
 .inventory-preview-foot {
-  margin-top: auto;
   display: flex;
   align-items: end;
   justify-content: space-between;
@@ -695,18 +802,45 @@ svg {
 }
 
 .inventory-preview-source {
-  display: grid;
-  gap: 4px;
   color: var(--color-subtext);
   font-family: "IBM Plex Mono", monospace;
   font-size: 10px;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
-.inventory-preview-foot .sparkline {
-  width: 96px;
-  flex: 0 0 auto;
+.inventory-preview-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.inventory-preview-summary,
+.inventory-preview-note {
+  margin: 0;
+  color: var(--color-subtext);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.inventory-preview-link {
+  appearance: none;
+  border: 0;
+  padding: 0;
+  background: none;
+  color: var(--color-amber);
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.inventory-preview-link:hover {
+  color: #c98812;
 }
 
 .headline-list {
@@ -1087,5 +1221,14 @@ svg {
 
   .module-link span {
     display: none;
+  }
+
+  .inventory-preview-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .inventory-preview-footer {
+    align-items: flex-start;
+    flex-direction: column;
   }
 }

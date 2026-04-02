@@ -30,6 +30,30 @@ def percentile(values: list[float], pct: float) -> float | None:
     return ordered[lower] + ((ordered[upper] - ordered[lower]) * weight)
 
 
+def _marketing_year_month(observation: Observation, start_month: int) -> int:
+    offset = (observation.period_end_at.month - start_month) % 12
+    return offset + 1
+
+
+def indicator_period_type(indicator: Indicator) -> str:
+    raw_value = str(indicator.metadata_.get("period_type") or "").strip().lower()
+    if raw_value == "marketing_month":
+        return "marketing_year_month"
+    if raw_value == "monthly":
+        return "month_of_year"
+    if raw_value == "daily":
+        return "day_of_year"
+    if raw_value == "weekly":
+        return "week_of_year"
+    if indicator.frequency.value == "daily":
+        return "day_of_year"
+    if indicator.frequency.value == "monthly":
+        return "month_of_year"
+    if indicator.frequency.value == "weekly":
+        return "week_of_year"
+    raise ValueError(f"Unsupported seasonal frequency: {indicator.frequency.value}")
+
+
 def seasonal_period(observation: Observation, frequency: str) -> tuple[str, int]:
     if frequency == "weekly":
         return "week_of_year", min(observation.period_end_at.isocalendar().week, 52)
@@ -38,6 +62,18 @@ def seasonal_period(observation: Observation, frequency: str) -> tuple[str, int]
     if frequency == "daily":
         return "day_of_year", observation.period_end_at.timetuple().tm_yday
     raise ValueError(f"Unsupported seasonal frequency: {frequency}")
+
+
+def seasonal_period_for_indicator(indicator: Indicator, observation: Observation) -> tuple[str, int]:
+    period_type = indicator_period_type(indicator)
+    if period_type == "marketing_year_month":
+        start_month = int(indicator.metadata_.get("marketing_year_start_month") or 1)
+        return period_type, _marketing_year_month(observation, start_month)
+    if period_type == "month_of_year":
+        return period_type, observation.period_end_at.month
+    if period_type == "day_of_year":
+        return period_type, observation.period_end_at.timetuple().tm_yday
+    return period_type, min(observation.period_end_at.isocalendar().week, 52)
 
 
 async def compute_seasonal_ranges(
@@ -70,7 +106,7 @@ async def compute_seasonal_ranges(
         buckets: dict[tuple[str, int], list[float]] = defaultdict(list)
 
         for observation in observations:
-            period_type, period_index = seasonal_period(observation, indicator.frequency.value)
+            period_type, period_index = seasonal_period_for_indicator(indicator, observation)
             buckets[(period_type, period_index)].append(float(observation.value_canonical))
 
         await session.execute(

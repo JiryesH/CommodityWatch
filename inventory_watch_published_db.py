@@ -43,6 +43,7 @@ class PublishedInventoryRepository(LocalInventoryRepository):
         self._indicators_by_source_key: dict[tuple[str, str], InventoryIndicatorDefinition] = {}
         self._observations_by_id: dict[str, list[InventoryObservation]] = {}
         self._seasonal_cache: dict[tuple[str, str], list[dict[str, float | int | None]]] = {}
+        self._quarantined_observations = []
         self._load_from_db()
 
     def _load_from_db(self) -> None:

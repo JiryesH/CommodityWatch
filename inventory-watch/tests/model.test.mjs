@@ -8,11 +8,13 @@ import {
   convertUnitValue,
   formatSignedValue,
   formatValue,
+  nextReleaseStatus,
 } from "../catalog.js";
 import {
   buildChangeBarSeries,
   buildRecentReleaseRows,
   buildSeasonalSeries,
+  buildYtdChangeStats,
   filterCardsByCommodityGroup,
   percentileBracketLabel,
   snapshotSignalDescriptor,
@@ -30,6 +32,7 @@ test("inventory commodity routing maps backend commodity codes into native Commo
   assert.equal(commodityGroupForCode("natural_gas"), "natural-gas");
   assert.equal(commodityGroupForCode("copper"), "base-metals");
   assert.equal(commodityGroupForCode("wheat"), "grains");
+  assert.equal(commodityGroupForCode("coal"), "coal");
   assert.equal(commodityGroupForCode("unknown_series"), "all");
 });
 
@@ -98,6 +101,7 @@ test("snapshot signal descriptors map seasonal percentiles into readable card la
   assert.deepEqual(
     snapshotSignalDescriptor({
       latestValue: 94,
+      isSeasonal: true,
       seasonalP10: 95,
       seasonalP25: 100,
       seasonalP75: 120,
@@ -109,6 +113,7 @@ test("snapshot signal descriptors map seasonal percentiles into readable card la
   assert.deepEqual(
     snapshotSignalDescriptor({
       latestValue: 98,
+      isSeasonal: true,
       seasonalP10: 95,
       seasonalP25: 100,
       seasonalP75: 120,
@@ -120,6 +125,7 @@ test("snapshot signal descriptors map seasonal percentiles into readable card la
   assert.deepEqual(
     snapshotSignalDescriptor({
       latestValue: 110,
+      isSeasonal: true,
       seasonalP10: 95,
       seasonalP25: 100,
       seasonalP75: 120,
@@ -131,6 +137,7 @@ test("snapshot signal descriptors map seasonal percentiles into readable card la
   assert.deepEqual(
     snapshotSignalDescriptor({
       latestValue: 123,
+      isSeasonal: true,
       seasonalP10: 95,
       seasonalP25: 100,
       seasonalP75: 120,
@@ -142,6 +149,7 @@ test("snapshot signal descriptors map seasonal percentiles into readable card la
   assert.deepEqual(
     snapshotSignalDescriptor({
       latestValue: 128,
+      isSeasonal: true,
       seasonalP10: 95,
       seasonalP25: 100,
       seasonalP75: 120,
@@ -192,6 +200,7 @@ test("seasonal selectors build chart and release-table inputs from backend indic
   const payload = {
     indicator: {
       frequency: "weekly",
+      periodType: "weekly",
       unit: "bcf",
     },
     series: [
@@ -207,18 +216,34 @@ test("seasonal selectors build chart and release-table inputs from backend indic
   };
 
   const seasonalSeries = buildSeasonalSeries(payload);
-  const changeSeries = buildChangeBarSeries(payload.series);
+  const changeSeries = buildChangeBarSeries(payload);
   const releaseRows = buildRecentReleaseRows(payload);
+  const ytdStats = buildYtdChangeStats(payload);
 
   assert.equal(seasonalSeries.mode, "week");
   assert.equal(seasonalSeries.currentYear.length, 2);
   assert.equal(seasonalSeries.priorYear.length, 2);
   assert.equal(changeSeries.length, 3);
+  assert.equal(typeof changeSeries[0].seasonalAverageChange, "number");
   assert.equal(releaseRows[0].percentileRankLabel, "25th-75th");
   assert.equal(percentileBracketLabel(110, payload.seasonalRange[0]), "Above 90th");
+  assert.equal(ytdStats.ytdChange, -4);
 });
 
 test("inventory number formatting preserves sign and converted unit display", () => {
   assert.equal(formatValue(convertUnitValue(1234.4, "kb"), "mb"), "1.2 mb");
   assert.equal(formatSignedValue(-18, "bcf"), "-18 bcf");
+});
+
+test("countdown schedules compute the next expected fixed release", () => {
+  const status = nextReleaseStatus(
+    {
+      code: "EIA_GASOLINE_US_TOTAL_STOCKS",
+      commodityCode: "gasoline",
+      latestReleaseDate: "2026-03-25T14:30:00Z",
+    },
+    new Date("2026-03-31T12:00:00Z")
+  );
+
+  assert.match(status.label, /Next release in|Expected today/);
 });

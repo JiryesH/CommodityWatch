@@ -62,6 +62,8 @@ if [[ "$#" -gt 0 ]]; then
       agsi_daily)
         require_agsi_key
         ;;
+      usda_wasde|lme_warehouse|comex_warehouse|etf_holdings|ice_certified)
+        ;;
     esac
     run_job "${job}"
   done
@@ -78,6 +80,12 @@ if [[ -n "${CW_AGSI_API_KEY:-}" ]]; then
 else
   printf 'Skipping agsi_daily because CW_AGSI_API_KEY is not set in backend/.env\n'
 fi
+
+run_job "usda_wasde"
+run_job "comex_warehouse"
+run_job "etf_holdings"
+run_job "lme_warehouse"
+run_job "ice_certified"
 
 run_job "seasonal_ranges"
 publish_local_store

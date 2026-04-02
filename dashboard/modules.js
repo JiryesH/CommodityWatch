@@ -21,6 +21,7 @@ import {
 } from "./data-client.js";
 import {
   getFilterLabel,
+  isAllCommoditySelection,
   getSelectedCommodities,
   getSelectedGroup,
   getSelectedGroups,
@@ -35,11 +36,11 @@ import {
   dotLabel as headlineDotLabel,
 } from "../shared/headline-taxonomy.js";
 import {
-  FRESHNESS_BADGES,
   commodityGroupForCode,
   formatSignedValue as formatInventorySignedValue,
   formatValue as formatInventoryValue,
 } from "../inventory-watch/catalog.js";
+import { snapshotSignalDescriptor, sortSnapshotCards } from "../inventory-watch/model.js";
 import { buildInventoryDetailHref, buildInventorySnapshotHref } from "../inventory-watch/router.js";
 
 const headlineExactFormatter = new Intl.DateTimeFormat("en-GB", {
@@ -331,7 +332,7 @@ function renderHeadlineSentimentMeta(sentiment) {
   `;
 }
 
-function renderSparkline(values, direction = "neutral") {
+function renderSparkline(values, direction = "neutral", { fillArea = true } = {}) {
   const points = values.length ? values : [0, 0];
   const minValue = Math.min(...points);
   const maxValue = Math.max(...points);
@@ -350,7 +351,7 @@ function renderSparkline(values, direction = "neutral") {
 
   return `
     <svg class="sparkline is-${escapeHtml(direction)}" viewBox="0 0 ${width} ${height}" aria-hidden="true">
-      <path class="sparkline-area" d="${area}"></path>
+      ${fillArea ? `<path class="sparkline-area" d="${area}"></path>` : ""}
       <path class="sparkline-line" d="${line}"></path>
     </svg>
   `;
@@ -370,17 +371,6 @@ function sparklineTrend(values = []) {
   }
   return "neutral";
 }
-
-const INVENTORY_GROUP_RANK = new Map([
-  ["Crude Oil", 0],
-  ["Refined Products", 1],
-  ["Natural Gas", 2],
-  ["Base Metals", 3],
-  ["Grains", 4],
-  ["Softs", 5],
-  ["Precious Metals", 6],
-  ["Inventory", 7],
-]);
 
 const INVENTORY_COMMODITY_CODES_BY_GROUP = {
   "crude-oil": ["crude_oil"],
@@ -419,6 +409,22 @@ const INVENTORY_GROUPS_BY_SECTOR = {
   agriculture: ["grains", "softs"],
 };
 
+const INVENTORY_WIDGET_GROUPS = [
+  { slug: "all", label: "All" },
+  { slug: "energy", label: "Energy" },
+  { slug: "natural-gas", label: "Natural Gas" },
+  { slug: "base-metals", label: "Base Metals" },
+  { slug: "grains", label: "Grains" },
+];
+
+const INVENTORY_WIDGET_SIGNAL_PRIORITY = {
+  "well-below-seasonal": 0,
+  "well-above-seasonal": 0,
+  "below-seasonal": 1,
+  "above-seasonal": 1,
+  "seasonal-range": 2,
+};
+
 function buildSparklineValues(historyRows, latestRow) {
   const values = historyRows
     .map((row) => ({ observation_date: row.observation_date, value: row.value }))
@@ -438,44 +444,54 @@ function buildSparklineValues(historyRows, latestRow) {
   return [0, 0];
 }
 
-function inventorySignalAccent(card) {
-  if (card.freshness === "aged") {
-    return "var(--color-amber)";
-  }
-
-  if (card.signal === "tightening" || card.signal === "contracting") {
-    return "var(--color-up)";
-  }
-
-  if (card.signal === "loosening" || card.signal === "expanding") {
-    return "var(--color-down)";
-  }
-
-  return "rgba(15, 25, 35, 0.16)";
+function inventorySignalPriority(card) {
+  const descriptor = snapshotSignalDescriptor(card);
+  return INVENTORY_WIDGET_SIGNAL_PRIORITY[descriptor.state] ?? 99;
 }
 
-function inventorySignalLabel(signal) {
-  return String(signal || "neutral")
-    .split("-")
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-    .join(" ");
+function inventoryCardTieBreaker(cards) {
+  return new Map(sortSnapshotCards(cards).map((card, index) => [card.indicatorId || card.code || card.name, index]));
 }
 
-function sortInventoryCards(first, second) {
-  const firstRank = INVENTORY_GROUP_RANK.get(first.snapshotGroup) ?? 999;
-  const secondRank = INVENTORY_GROUP_RANK.get(second.snapshotGroup) ?? 999;
-  if (firstRank !== secondRank) {
-    return firstRank - secondRank;
+function sortInventoryCards(cards) {
+  return sortSnapshotCards(cards);
+}
+
+function filterInventoryWidgetCards(cards, groupSlug) {
+  if (groupSlug === "all") {
+    return cards;
   }
 
-  return first.name.localeCompare(second.name);
+  return cards.filter((card) => commodityGroupForCode(card.commodityCode) === groupSlug);
+}
+
+export function selectInventoryWidgetCards(cards, limit = 4) {
+  const fallbackOrder = inventoryCardTieBreaker(cards);
+
+  return [...cards]
+    .sort((left, right) => {
+      const signalDelta = inventorySignalPriority(left) - inventorySignalPriority(right);
+      if (signalDelta !== 0) {
+        return signalDelta;
+      }
+
+      const leftDeviation = Math.abs(left.deviationAbs ?? 0);
+      const rightDeviation = Math.abs(right.deviationAbs ?? 0);
+      if (leftDeviation !== rightDeviation) {
+        return rightDeviation - leftDeviation;
+      }
+
+      return (fallbackOrder.get(left.indicatorId || left.code || left.name) ?? 999) -
+        (fallbackOrder.get(right.indicatorId || right.code || right.name) ?? 999);
+    })
+    .slice(0, limit);
 }
 
 function getInventorySelection(filter, cards) {
   const normalized = normalizeFilter(filter);
   if (isAllFilter(normalized)) {
     return {
-      items: [...cards].sort(sortInventoryCards),
+      items: sortInventoryCards(cards),
       scopeLabel: "All Commodities",
       narrowedByGroup: false,
     };
@@ -499,7 +515,7 @@ function getInventorySelection(filter, cards) {
 
   if (mappedCommodityCodes.size) {
     return {
-      items: cards.filter((card) => mappedCommodityCodes.has(card.commodityCode)).sort(sortInventoryCards),
+      items: sortInventoryCards(cards.filter((card) => mappedCommodityCodes.has(card.commodityCode))),
       scopeLabel: getFilterLabel(filter),
       narrowedByGroup,
     };
@@ -518,45 +534,125 @@ function getInventorySelection(filter, cards) {
   );
 
   return {
-    items: cards.filter((card) => sectorGroups.has(commodityGroupForCode(card.commodityCode))).sort(sortInventoryCards),
+    items: sortInventoryCards(cards.filter((card) => sectorGroups.has(commodityGroupForCode(card.commodityCode)))),
     scopeLabel: getFilterLabel(filter),
     narrowedByGroup: false,
   };
 }
 
+function renderInventoryWidgetFilters(items, selectedGroup) {
+  const availableGroups = new Set(
+    items
+      .map((card) => commodityGroupForCode(card.commodityCode))
+      .filter((groupSlug) => groupSlug !== "all")
+  );
+
+  return `
+    <div class="inventory-preview-filters" role="toolbar" aria-label="Inventory Snapshot commodity groups">
+      ${INVENTORY_WIDGET_GROUPS.map((group) => {
+        const isActive = group.slug === selectedGroup;
+        const isDisabled = group.slug !== "all" && !availableGroups.has(group.slug);
+
+        return `
+          <button
+            class="inventory-preview-filter${isActive ? " is-active" : ""}"
+            type="button"
+            data-inventory-group="${escapeHtml(group.slug)}"
+            data-group="${escapeHtml(group.slug)}"
+            ${isDisabled ? "disabled" : ""}
+            aria-pressed="${String(isActive)}"
+          >
+            ${escapeHtml(group.label)}
+          </button>
+        `;
+      }).join("")}
+    </div>
+  `;
+}
+
 function renderInventoryPreviewCard(card) {
   const groupSlug = commodityGroupForCode(card.commodityCode);
   const route = buildInventoryDetailHref(groupSlug === "all" ? "all" : groupSlug, card.indicatorId);
-  const freshnessBadge = FRESHNESS_BADGES[card.freshness] || FRESHNESS_BADGES.current;
+  const descriptor = snapshotSignalDescriptor(card);
+  const formattedChange = formatInventorySignedValue(card.changeAbs, card.unit);
 
   return `
     <button
-      class="inventory-preview-card"
+      class="inventory-preview-card is-${escapeHtml(descriptor.state)}"
       type="button"
       data-route="${escapeHtml(route)}"
-      style="--inventory-accent:${escapeHtml(inventorySignalAccent(card))};"
       aria-label="Open ${escapeHtml(card.name)} in InventoryWatch"
     >
       <div class="inventory-preview-head">
         <p class="inventory-preview-group">${escapeHtml(card.snapshotGroup)}</p>
-        <span class="inventory-preview-badge is-${escapeHtml(freshnessBadge.tone)}">${escapeHtml(freshnessBadge.label)}</span>
+        <h3 class="inventory-preview-title">${escapeHtml(card.name)}</h3>
       </div>
-      <h3 class="inventory-preview-title">${escapeHtml(card.name)}</h3>
       <p class="inventory-preview-value">${escapeHtml(formatInventoryValue(card.latestValue, card.unit))}</p>
-      <p class="inventory-preview-change">
-        ${escapeHtml(formatInventorySignedValue(card.changeAbs, card.unit))} vs prior
-        <span class="sep">·</span>
-        ${escapeHtml(inventorySignalLabel(card.signal))}
-      </p>
+      <div class="inventory-preview-change">
+        <p class="inventory-preview-change-line">
+          <span class="inventory-preview-change-value">${escapeHtml(formattedChange)}</span>
+          <span class="inventory-preview-change-label">vs prior</span>
+        </p>
+        <p class="inventory-preview-signal is-${escapeHtml(descriptor.state)}">${escapeHtml(descriptor.label)}</p>
+      </div>
+      <div class="inventory-preview-spark-wrap">
+        ${renderSparkline(card.sparkline, sparklineTrend(card.sparkline), { fillArea: false })}
+      </div>
       <div class="inventory-preview-foot">
-        <div class="inventory-preview-source">
-          <span>${escapeHtml(card.sourceLabel)}</span>
-          <span>${escapeHtml(card.freshness)}</span>
-        </div>
-        ${renderSparkline(card.sparkline, sparklineTrend(card.sparkline))}
+        <span class="inventory-preview-source">${escapeHtml(card.sourceLabel)}</span>
       </div>
     </button>
   `;
+}
+
+function renderInventoryWidgetMarkup(items, selectedGroup) {
+  const groupItems = filterInventoryWidgetCards(items, selectedGroup);
+  const visibleItems = selectInventoryWidgetCards(groupItems, 4);
+  const snapshotRoute = buildInventorySnapshotHref(selectedGroup);
+
+  return `
+    <div class="inventory-preview-shell">
+      ${renderInventoryWidgetFilters(items, selectedGroup)}
+      <div class="inventory-preview-grid" style="--inventory-grid-columns:${Math.max(1, Math.min(visibleItems.length, 4))};">
+        ${visibleItems.map((card) => renderInventoryPreviewCard(card)).join("")}
+      </div>
+      <div class="inventory-preview-footer">
+        <p class="inventory-preview-summary">Showing ${visibleItems.length} of ${groupItems.length} indicators</p>
+        <button class="inventory-preview-link" type="button" data-route="${escapeHtml(snapshotRoute)}">
+          View full snapshot <span aria-hidden="true">→</span>
+        </button>
+      </div>
+      <p class="inventory-preview-note">All indicators reflect the latest published reporting period.</p>
+    </div>
+  `;
+}
+
+function bindInventoryModuleInteractions(body, items, onNavigate) {
+  if (typeof body.__inventoryModuleCleanup === "function") {
+    body.__inventoryModuleCleanup();
+    body.__inventoryModuleCleanup = null;
+  }
+
+  const renderGroup = (groupSlug = "all") => {
+    body.innerHTML = renderInventoryWidgetMarkup(items, groupSlug);
+    bindNavigateLinks(body, onNavigate);
+  };
+
+  const handleClick = (event) => {
+    const filterButton = event.target.closest("[data-inventory-group]");
+    if (!filterButton || !body.contains(filterButton) || filterButton.disabled) {
+      return;
+    }
+
+    renderGroup(filterButton.dataset.inventoryGroup || "all");
+  };
+
+  body.addEventListener("click", handleClick);
+  body.__inventoryModuleCleanup = () => {
+    body.removeEventListener("click", handleClick);
+  };
+
+  renderGroup("all");
 }
 
 function bindPriceTileInteractions(body, onNavigate) {
@@ -1314,7 +1410,7 @@ async function renderCalendarModuleBody(body, filter, { commit, isCurrent } = {}
   `);
 }
 
-async function renderInventoryModuleBody(body, filter, { commit, isCurrent } = {}) {
+async function renderInventoryModuleBody(body, filter, { commit, isCurrent, onNavigate } = {}) {
   const writeBody = typeof commit === "function" ? commit : (target, html) => {
     target.innerHTML = html;
   };
@@ -1326,7 +1422,6 @@ async function renderInventoryModuleBody(body, filter, { commit, isCurrent } = {
   }
 
   const { items, scopeLabel, narrowedByGroup } = getInventorySelection(filter, snapshot.cards);
-  const visibleItems = items.slice(0, 6);
 
   if (!items.length) {
     writeBody(
@@ -1341,24 +1436,8 @@ async function renderInventoryModuleBody(body, filter, { commit, isCurrent } = {
     return;
   }
 
-  writeBody(
-    body,
-    `
-      ${
-        isAllFilter(filter)
-          ? ""
-          : `<p class="module-scope">Showing inventory for: <strong>${escapeHtml(scopeLabel)}</strong></p>`
-      }
-      <div class="inventory-preview-grid">
-        ${visibleItems.map((card) => renderInventoryPreviewCard(card)).join("")}
-      </div>
-      ${
-        items.length > visibleItems.length
-          ? `<p class="module-note">Showing ${visibleItems.length} of ${items.length} matching indicators. Open InventoryWatch for the full grid.</p>`
-          : ""
-      }
-    `
-  );
+  writeBody(body, "");
+  bindInventoryModuleInteractions(body, items, onNavigate);
 }
 
 function attachAsyncRenderer(section, body, renderer, filter, context = {}) {
@@ -1423,12 +1502,12 @@ export function InventoryModule({ filter, onNavigate }) {
   const { section, body } = createModuleCard({
     id: "inventory",
     title: "Inventory Snapshot",
-    linkLabel: "View InventoryWatch",
-    route: buildInventorySnapshotHref(),
+    linkLabel: null,
+    route: null,
     accentSectorId: primarySectorId,
     onNavigate,
   });
 
-  attachAsyncRenderer(section, body, renderInventoryModuleBody, filter);
+  attachAsyncRenderer(section, body, renderInventoryModuleBody, filter, { onNavigate });
   return section;
 }

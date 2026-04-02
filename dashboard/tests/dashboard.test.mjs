@@ -33,6 +33,7 @@ import {
   canonicalCategoriesForArticle,
 } from "../../shared/headline-taxonomy.js";
 import { COMMODITY_SERIES_CONTRACT } from "../../shared/commodity-series-contract.js";
+import { selectInventoryWidgetCards } from "../modules.js";
 
 test("default home filter resolves to the all-commodities state with all sectors active", () => {
   const filter = createDefaultFilter();
@@ -165,6 +166,71 @@ test("module render gates ignore stale async writes after a newer render starts"
   secondGate.commit(body, "fresh");
   assert.equal(body.innerHTML, "fresh");
   assert.equal(secondGate.isCurrent(), true);
+});
+
+test("inventory widget prioritizes seasonal outliers before in-range cards and caps the grid at four cards", () => {
+  const cards = [
+    {
+      indicatorId: "neutral-1",
+      code: "A",
+      name: "Alpha",
+      latestValue: 110,
+      seasonalP10: 95,
+      seasonalP25: 100,
+      seasonalP75: 120,
+      seasonalP90: 125,
+      deviationAbs: 1,
+    },
+    {
+      indicatorId: "below-1",
+      code: "B",
+      name: "Bravo",
+      latestValue: 98,
+      seasonalP10: 95,
+      seasonalP25: 100,
+      seasonalP75: 120,
+      seasonalP90: 125,
+      deviationAbs: -10,
+    },
+    {
+      indicatorId: "above-1",
+      code: "C",
+      name: "Charlie",
+      latestValue: 123,
+      seasonalP10: 95,
+      seasonalP25: 100,
+      seasonalP75: 120,
+      seasonalP90: 125,
+      deviationAbs: 13,
+    },
+    {
+      indicatorId: "neutral-2",
+      code: "D",
+      name: "Delta",
+      latestValue: 112,
+      seasonalP10: 95,
+      seasonalP25: 100,
+      seasonalP75: 120,
+      seasonalP90: 125,
+      deviationAbs: 2,
+    },
+    {
+      indicatorId: "well-below-1",
+      code: "E",
+      name: "Echo",
+      latestValue: 94,
+      seasonalP10: 95,
+      seasonalP25: 100,
+      seasonalP75: 120,
+      seasonalP90: 125,
+      deviationAbs: -16,
+    },
+  ];
+
+  assert.deepEqual(
+    selectInventoryWidgetCards(cards).map((card) => card.indicatorId),
+    ["well-below-1", "above-1", "below-1", "neutral-2"]
+  );
 });
 
 test("dashboard config derives headline category semantics from the shared taxonomy contract", () => {
