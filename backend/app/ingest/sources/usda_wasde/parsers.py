@@ -12,6 +12,31 @@ from bs4 import BeautifulSoup
 
 PUBLICATION_URL = "https://esmis.nal.usda.gov/publication/world-agricultural-supply-and-demand-estimates"
 EXPECTED_WORKBOOK_SHEETS = {"Page 11", "Page 12", "Page 14", "Page 15", "Page 19", "Page 23", "Page 28"}
+MONTH_ALIASES = {
+    "jan": "jan",
+    "january": "jan",
+    "feb": "feb",
+    "february": "feb",
+    "mar": "mar",
+    "march": "mar",
+    "apr": "apr",
+    "april": "apr",
+    "may": "may",
+    "jun": "jun",
+    "june": "jun",
+    "jul": "jul",
+    "july": "jul",
+    "aug": "aug",
+    "august": "aug",
+    "sep": "sep",
+    "september": "sep",
+    "oct": "oct",
+    "october": "oct",
+    "nov": "nov",
+    "november": "nov",
+    "dec": "dec",
+    "december": "dec",
+}
 
 
 class USDAWASDEStructureChangedError(RuntimeError):
@@ -142,7 +167,7 @@ def parse_release_listing(html: str, *, month_key: str) -> list[Any]:
     from app.ingest.sources.usda_wasde.client import WASDEReleaseRef
 
     soup = BeautifulSoup(html, "html.parser")
-    workbook_links = soup.find_all("a", href=re.compile(r"wasde\d+\.xls$", re.IGNORECASE))
+    workbook_links = soup.find_all("a", href=re.compile(r"wasde\d+\.(?:xls|xlsx)$", re.IGNORECASE))
     releases: list[WASDEReleaseRef] = []
     seen_urls: set[str] = set()
 
@@ -294,7 +319,7 @@ def _find_row(sheet: xlrd.sheet.Sheet, text: str, *, start: int = 0, end: int | 
 def _find_projection_section_row(sheet: xlrd.sheet.Sheet) -> int:
     for row_idx in range(sheet.nrows):
         value = _clean_text(sheet.cell_value(row_idx, 0))
-        if re.fullmatch(r"\d{4}/\d{2}\s+Proj\.", value):
+        if re.fullmatch(r"\d{4}/\d{2}\s+Proj\.?", value, re.IGNORECASE):
             return row_idx
     raise USDAWASDEStructureChangedError(f"Missing current projection section on sheet {sheet.name}")
 
@@ -303,7 +328,7 @@ def _find_projection_header_row(sheet: xlrd.sheet.Sheet, *, start: int) -> int:
     for row_idx in range(start, min(start + 8, sheet.nrows)):
         for col_idx in range(sheet.ncols):
             value = _clean_text(sheet.cell_value(row_idx, col_idx))
-            if re.fullmatch(r"\d{4}/\d{2}\s+Proj\.", value):
+            if re.fullmatch(r"\d{4}/\d{2}\s+Proj\.?", value, re.IGNORECASE):
                 return row_idx
     raise USDAWASDEStructureChangedError(f"Missing current projection header row on sheet {sheet.name}")
 
@@ -311,16 +336,18 @@ def _find_projection_header_row(sheet: xlrd.sheet.Sheet, *, start: int) -> int:
 def _find_month_header_row(sheet: xlrd.sheet.Sheet, *, start: int) -> int:
     for row_idx in range(start, min(start + 3, sheet.nrows)):
         for col_idx in range(sheet.ncols):
-            value = _clean_text(sheet.cell_value(row_idx, col_idx)).lower()[:3]
-            if value in {"jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"}:
+            value = _normalized_month_label(_clean_text(sheet.cell_value(row_idx, col_idx)))
+            if value is not None:
                 return row_idx
     raise USDAWASDEStructureChangedError(f"Missing current release month row on sheet {sheet.name}")
 
 
 def _find_column_by_month(sheet: xlrd.sheet.Sheet, row_idx: int, month_label: str) -> int:
-    normalized = month_label.lower()[:3]
+    normalized = _normalized_month_label(month_label)
+    if normalized is None:
+        raise USDAWASDEStructureChangedError(f"Missing release month column '{month_label}' on sheet {sheet.name}")
     for col_idx in range(sheet.ncols - 1, -1, -1):
-        value = _clean_text(sheet.cell_value(row_idx, col_idx)).lower()[:3]
+        value = _normalized_month_label(_clean_text(sheet.cell_value(row_idx, col_idx)))
         if value == normalized:
             return col_idx
     raise USDAWASDEStructureChangedError(f"Missing release month column '{month_label}' on sheet {sheet.name}")
@@ -350,8 +377,19 @@ def _clean_text(value: Any) -> str:
 
 def _normalize_entity_label(value: str) -> str:
     collapsed = re.sub(r"\s+", " ", value).strip()
-    collapsed = re.sub(r"\s+\d+/$", "", collapsed)
+    collapsed = re.sub(r"\s+\d+/?$", "", collapsed)
+    collapsed = collapsed.rstrip(".")
     return collapsed
+
+
+def _normalized_month_label(value: str) -> str | None:
+    normalized = re.sub(r"\s+", " ", value).strip().lower().rstrip(".")
+    if not normalized:
+        return None
+    if normalized in MONTH_ALIASES:
+        return MONTH_ALIASES[normalized]
+    prefix = normalized[:3]
+    return prefix if prefix in MONTH_ALIASES else None
 
 
 def _extract_market_year_label(raw: str) -> str:

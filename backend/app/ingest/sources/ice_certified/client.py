@@ -47,7 +47,20 @@ class ICEReportMetadata:
 
 def load_contracts() -> list[ICEContractDefinition]:
     raw_contracts = yaml.safe_load(CONTRACTS_PATH.read_text(encoding="utf-8")) or []
-    return [ICEContractDefinition(**item) for item in raw_contracts]
+    return [
+        ICEContractDefinition(
+            source_series_key=_clean_text(item.get("source_series_key")),
+            name=_clean_text(item.get("name")),
+            report_id=_optional_int(item.get("report_id")),
+            report_url=_optional_text(item.get("report_url")),
+            expected_report_name=_optional_text(item.get("expected_report_name")),
+            expected_exchange=_optional_text(item.get("expected_exchange")),
+            expected_category=_optional_text(item.get("expected_category")),
+            unit_native_code=_clean_text(item.get("unit_native_code")),
+            availability_note=_optional_text(item.get("availability_note")),
+        )
+        for item in raw_contracts
+    ]
 
 
 class ICECertifiedClient:
@@ -67,10 +80,10 @@ class ICECertifiedClient:
         payload = response.json()
         return ICEReportMetadata(
             report_id=int(payload["id"]),
-            name=str(payload["name"]),
-            report_template_url=str(payload["reportTemplateURL"]),
-            exchange=str(payload["exchange"]),
-            category_name=str(payload["categoryName"]),
+            name=_clean_text(payload.get("name")),
+            report_template_url=_clean_text(payload.get("reportTemplateURL")),
+            exchange=_clean_text(payload.get("exchange")),
+            category_name=_clean_text(payload.get("categoryName")),
             active=bool(payload["active"]),
             recaptcha_required=bool(payload["recaptchaRequired"]),
         )
@@ -84,3 +97,19 @@ class ICECertifiedClient:
         if response.status_code == 409 or payload.get("status") == 409:
             raise ICECertifiedAccessBlockedError(f"ICE report {report_id} requires recaptcha validation before data access.")
         return payload
+
+
+def _clean_text(value: object) -> str:
+    return " ".join(str(value or "").split())
+
+
+def _optional_text(value: object) -> str | None:
+    cleaned = _clean_text(value)
+    return cleaned or None
+
+
+def _optional_int(value: object) -> int | None:
+    cleaned = _clean_text(value)
+    if not cleaned:
+        return None
+    return int(cleaned)

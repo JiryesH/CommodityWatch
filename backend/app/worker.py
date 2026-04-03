@@ -66,6 +66,7 @@ async def heartbeat_job() -> None:
 
 
 def build_scheduler() -> AsyncIOScheduler:
+    settings = get_settings()
     scheduler = AsyncIOScheduler()
     scheduler.add_job(
         execute_registered_job,
@@ -95,13 +96,14 @@ def build_scheduler() -> AsyncIOScheduler:
         id="usda_wasde",
         replace_existing=True,
     )
-    scheduler.add_job(
-        execute_registered_job,
-        CronTrigger(hour=18, minute=0, timezone=ZoneInfo("Europe/London")),
-        args=["lme_warehouse"],
-        id="lme_warehouse",
-        replace_existing=True,
-    )
+    if settings.enable_lme_live_jobs:
+        scheduler.add_job(
+            execute_registered_job,
+            CronTrigger(hour=18, minute=0, timezone=ZoneInfo("Europe/London")),
+            args=["lme_warehouse"],
+            id="lme_warehouse",
+            replace_existing=True,
+        )
     scheduler.add_job(
         execute_registered_job,
         CronTrigger(hour=17, minute=0, timezone=ZoneInfo("America/New_York")),
@@ -116,13 +118,14 @@ def build_scheduler() -> AsyncIOScheduler:
         id="etf_holdings",
         replace_existing=True,
     )
-    scheduler.add_job(
-        execute_registered_job,
-        CronTrigger(hour=17, minute=0, timezone=ZoneInfo("America/New_York")),
-        args=["ice_certified"],
-        id="ice_certified",
-        replace_existing=True,
-    )
+    if settings.enable_ice_certified_jobs:
+        scheduler.add_job(
+            execute_registered_job,
+            CronTrigger(hour=17, minute=0, timezone=ZoneInfo("America/New_York")),
+            args=["ice_certified"],
+            id="ice_certified",
+            replace_existing=True,
+        )
     scheduler.add_job(
         execute_seasonal_job,
         CronTrigger(day_of_week="sun", hour=2, minute=0, timezone=ZoneInfo("UTC")),

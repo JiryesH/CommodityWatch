@@ -24,6 +24,35 @@
           <a class="site-tab" href="/inventory-watch/" aria-current="page">InventoryWatch</a>
         </div>
       </div>
+      <div class="nav-right">
+        <div class="nav-search" id="nav-search">
+          <button
+            class="nav-search-toggle"
+            id="search-toggle"
+            type="button"
+            title="Search indicators"
+            aria-label="Search indicators"
+            aria-expanded="false"
+            aria-controls="inventory-search"
+          >
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </button>
+          <div class="nav-search-panel">
+            <input
+              id="inventory-search"
+              class="headline-search"
+              type="search"
+              placeholder="Search indicators"
+              aria-label="Search indicators"
+              autocomplete="off"
+              spellcheck="false"
+            />
+          </div>
+        </div>
+      </div>
     </nav>
 
     <div id="inventory-filter-root"></div>

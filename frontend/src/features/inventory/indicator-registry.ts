@@ -80,6 +80,121 @@ const REGISTRY: Record<string, IndicatorRegistryEntry> = {
     sourceLabel: "GIE / AGSI+",
     snapshotGroup: "Natural Gas",
   },
+  LME_COPPER_WAREHOUSE_STOCKS: {
+    description: "Warehouse inventory indicator from the London Metal Exchange.",
+    sourceLabel: "LME",
+    snapshotGroup: "Base Metals",
+  },
+  LME_ALUMINIUM_WAREHOUSE_STOCKS: {
+    description: "Warehouse inventory indicator from the London Metal Exchange.",
+    sourceLabel: "LME",
+    snapshotGroup: "Base Metals",
+  },
+  LME_ZINC_WAREHOUSE_STOCKS: {
+    description: "Warehouse inventory indicator from the London Metal Exchange.",
+    sourceLabel: "LME",
+    snapshotGroup: "Base Metals",
+  },
+  LME_NICKEL_WAREHOUSE_STOCKS: {
+    description: "Warehouse inventory indicator from the London Metal Exchange.",
+    sourceLabel: "LME",
+    snapshotGroup: "Base Metals",
+  },
+  LME_TIN_WAREHOUSE_STOCKS: {
+    description: "Warehouse inventory indicator from the London Metal Exchange.",
+    sourceLabel: "LME",
+    snapshotGroup: "Base Metals",
+  },
+  LME_LEAD_WAREHOUSE_STOCKS: {
+    description: "Warehouse inventory indicator from the London Metal Exchange.",
+    sourceLabel: "LME",
+    snapshotGroup: "Base Metals",
+  },
+  USDA_US_CORN_ENDING_STOCKS: {
+    description: "Inventory indicator sourced from USDA publications.",
+    sourceLabel: "USDA",
+    snapshotGroup: "Grains",
+  },
+  USDA_US_SOYBEAN_ENDING_STOCKS: {
+    description: "Inventory indicator sourced from USDA publications.",
+    sourceLabel: "USDA",
+    snapshotGroup: "Grains",
+  },
+  USDA_US_WHEAT_ENDING_STOCKS: {
+    description: "Inventory indicator sourced from USDA publications.",
+    sourceLabel: "USDA",
+    snapshotGroup: "Grains",
+  },
+  USDA_US_RICE_ENDING_STOCKS: {
+    description: "Inventory indicator sourced from USDA publications.",
+    sourceLabel: "USDA",
+    snapshotGroup: "Grains",
+  },
+  USDA_WORLD_CORN_ENDING_STOCKS: {
+    description: "Inventory indicator sourced from USDA publications.",
+    sourceLabel: "USDA",
+    snapshotGroup: "Grains",
+  },
+  USDA_WORLD_SOYBEAN_ENDING_STOCKS: {
+    description: "Inventory indicator sourced from USDA publications.",
+    sourceLabel: "USDA",
+    snapshotGroup: "Grains",
+  },
+  USDA_WORLD_WHEAT_ENDING_STOCKS: {
+    description: "Inventory indicator sourced from USDA publications.",
+    sourceLabel: "USDA",
+    snapshotGroup: "Grains",
+  },
+  COMEX_GOLD_WAREHOUSE_STOCKS: {
+    description: "Warehouse stock indicator sourced from CME delivery reports.",
+    sourceLabel: "COMEX / CME",
+    snapshotGroup: "Precious Metals",
+  },
+  COMEX_SILVER_WAREHOUSE_STOCKS: {
+    description: "Warehouse stock indicator sourced from CME delivery reports.",
+    sourceLabel: "COMEX / CME",
+    snapshotGroup: "Precious Metals",
+  },
+  ETF_GLD_HOLDINGS: {
+    description: "Daily ETF holdings indicator.",
+    sourceLabel: "ETF Holdings",
+    snapshotGroup: "Precious Metals",
+  },
+  ETF_IAU_HOLDINGS: {
+    description: "Daily ETF holdings indicator.",
+    sourceLabel: "ETF Holdings",
+    snapshotGroup: "Precious Metals",
+  },
+  ETF_SLV_HOLDINGS: {
+    description: "Daily ETF holdings indicator.",
+    sourceLabel: "ETF Holdings",
+    snapshotGroup: "Precious Metals",
+  },
+  ICE_ARABICA_COFFEE_CERTIFIED_STOCKS: {
+    description: "Certified stock indicator sourced from ICE.",
+    sourceLabel: "ICE",
+    snapshotGroup: "Softs",
+  },
+  ICE_ROBUSTA_COFFEE_CERTIFIED_STOCKS: {
+    description: "Certified stock indicator sourced from ICE.",
+    sourceLabel: "ICE",
+    snapshotGroup: "Softs",
+  },
+  ICE_RAW_SUGAR_CERTIFIED_STOCKS: {
+    description: "Certified stock indicator sourced from ICE.",
+    sourceLabel: "ICE",
+    snapshotGroup: "Softs",
+  },
+  ICE_COTTON_CERTIFIED_STOCKS: {
+    description: "Certified stock indicator sourced from ICE.",
+    sourceLabel: "ICE",
+    snapshotGroup: "Softs",
+  },
+  ICE_COCOA_CERTIFIED_STOCKS: {
+    description: "Certified stock indicator sourced from ICE.",
+    sourceLabel: "ICE",
+    snapshotGroup: "Softs",
+  },
 };
 
 export function getIndicatorRegistryEntry(code: string) {
@@ -103,6 +218,18 @@ export function getIndicatorRegistryEntry(code: string) {
     return { description: "Inventory indicator sourced from USDA publications.", sourceLabel: "USDA", snapshotGroup: "Grains" };
   }
 
+  if (code.startsWith("COMEX_")) {
+    return { description: "Warehouse stock indicator sourced from CME delivery reports.", sourceLabel: "COMEX / CME", snapshotGroup: "Precious Metals" };
+  }
+
+  if (code.startsWith("ETF_")) {
+    return { description: "Daily ETF holdings indicator.", sourceLabel: "ETF Holdings", snapshotGroup: "Precious Metals" };
+  }
+
+  if (code.startsWith("ICE_")) {
+    return { description: "Certified stock indicator sourced from ICE.", sourceLabel: "ICE", snapshotGroup: "Softs" };
+  }
+
   return {
     description: "Commodity inventory indicator.",
     sourceLabel: "CommodityWatch API",
@@ -115,7 +242,7 @@ export function commodityGroupForCode(commodityCode: string | null | undefined):
   if (["crude_oil", "gasoline", "distillates", "propane", "jet_fuel"].includes(commodityCode)) return "energy";
   if (commodityCode === "natural_gas") return "natural-gas";
   if (["copper", "aluminum", "nickel", "zinc", "lead", "tin"].includes(commodityCode)) return "base-metals";
-  if (["corn", "wheat", "soybeans", "oilseeds"].includes(commodityCode)) return "grains";
+  if (["corn", "wheat", "soybeans", "oilseeds", "rice"].includes(commodityCode)) return "grains";
   if (["coffee", "cocoa", "sugar", "cotton"].includes(commodityCode)) return "softs";
   if (["gold", "silver", "platinum", "palladium"].includes(commodityCode)) return "precious-metals";
   return "all";

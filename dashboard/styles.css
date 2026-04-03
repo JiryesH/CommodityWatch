@@ -253,7 +253,7 @@ svg {
   padding: 6px 10px;
   border-radius: 999px;
   background: rgba(15, 25, 35, 0.06);
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1;
 }
 
@@ -327,29 +327,24 @@ svg {
 
 .module-link {
   appearance: none;
-  border: 1px solid rgba(15, 25, 35, 0.1);
-  background: rgba(15, 25, 35, 0.03);
-  padding: 6px 10px;
-  border-radius: 999px;
+  border: 0;
+  padding: 0;
+  background: none;
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  color: var(--color-primary-soft);
-  font-size: 12px;
+  gap: 4px;
+  color: var(--module-accent, var(--color-amber));
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 13px;
   font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
   cursor: pointer;
-  transition: color 150ms ease, border-color 150ms ease, background-color 150ms ease;
+  transition: color 150ms ease;
 }
 
 .module-link:hover {
-  color: var(--color-primary);
-  border-color: rgba(15, 25, 35, 0.18);
-  background: rgba(15, 25, 35, 0.06);
-}
-
-.module-link svg {
-  width: 13px;
-  height: 13px;
+  color: color-mix(in srgb, var(--module-accent, var(--color-amber)) 82%, var(--color-primary));
 }
 
 .module-body {
@@ -580,92 +575,42 @@ svg {
 
 .inventory-preview-shell {
   display: grid;
-  gap: 14px;
+  gap: 0;
 }
 
-.inventory-preview-filters {
+.inventory-preview-strip {
+  position: relative;
+  overflow: hidden;
+  padding-bottom: 4px;
+  touch-action: pan-y pinch-zoom;
+}
+
+.inventory-preview-track {
   display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.inventory-preview-filter {
-  appearance: none;
-  border: 1px solid rgba(15, 25, 35, 0.1);
-  background: rgba(255, 255, 255, 0.84);
-  padding: 7px 12px;
-  border-radius: 999px;
-  color: var(--color-primary-soft);
-  font-family: "IBM Plex Sans", sans-serif;
-  font-size: 12px;
-  font-weight: 600;
-  line-height: 1;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: border-color 150ms ease, background-color 150ms ease, color 150ms ease, box-shadow 150ms ease;
-}
-
-.inventory-preview-filter:hover:not(:disabled) {
-  color: var(--color-primary);
-  border-color: rgba(15, 25, 35, 0.18);
-}
-
-.inventory-preview-filter:disabled {
-  opacity: 0.38;
-  cursor: default;
-}
-
-.inventory-preview-filter.is-active {
-  border-color: transparent;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
-}
-
-.inventory-preview-filter[data-group="all"].is-active {
-  background: var(--color-primary);
-  color: #fff;
-}
-
-.inventory-preview-filter[data-group="energy"].is-active {
-  background: var(--color-energy);
-  color: var(--color-primary);
-}
-
-.inventory-preview-filter[data-group="natural-gas"].is-active {
-  background: var(--color-natural-gas);
-  color: #fff;
-}
-
-.inventory-preview-filter[data-group="base-metals"].is-active {
-  background: var(--color-metals);
-  color: #fff;
-}
-
-.inventory-preview-filter[data-group="grains"].is-active {
-  background: var(--color-agri);
-  color: #fff;
-}
-
-.inventory-preview-grid {
-  display: grid;
-  grid-template-columns: repeat(var(--inventory-grid-columns, 4), minmax(0, 1fr));
   gap: 12px;
+  width: max-content;
+  will-change: transform;
 }
 
 .inventory-preview-card {
   appearance: none;
   position: relative;
-  min-height: 214px;
-  padding: 16px 16px 14px 17px;
-  border: 1px solid rgba(15, 25, 35, 0.08);
+  --pointer-x: 50%;
+  --pointer-y: 50%;
+  flex: 0 0 min(300px, calc(100vw - 72px));
+  width: min(300px, calc(100vw - 72px));
+  min-height: 248px;
+  padding: 16px 16px 14px 18px;
+  border: 1px solid rgba(15, 25, 35, 0.1);
   border-radius: 14px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(247, 244, 238, 0.95));
+  background:
+    linear-gradient(90deg, var(--inventory-accent) 0 4px, transparent 4px),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(247, 245, 239, 0.92));
   display: grid;
-  gap: 12px;
+  gap: 10px;
   text-align: left;
   cursor: pointer;
-  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
-  box-shadow: 0 8px 18px rgba(15, 25, 35, 0.04);
+  transition: border-color 180ms ease, background-color 180ms ease;
   overflow: hidden;
   --inventory-accent: var(--color-signal-neutral);
   --inventory-signal-color: var(--color-signal-neutral-ink);
@@ -699,22 +644,68 @@ svg {
 .inventory-preview-card::before {
   content: "";
   position: absolute;
-  inset: 0 auto 0 0;
-  width: 4px;
-  border-radius: 14px 0 0 14px;
-  background: var(--inventory-accent);
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background:
+    radial-gradient(
+      120px circle at var(--pointer-x) var(--pointer-y),
+      rgba(255, 255, 255, 0.84),
+      rgba(232, 160, 32, 0.48) 44%,
+      transparent 74%
+    );
+  opacity: 0;
+  pointer-events: none;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+.inventory-preview-card::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(120deg, transparent 10%, rgba(255, 255, 255, 0.75) 45%, rgba(232, 160, 32, 0.42) 50%, transparent 60%);
+  background-size: 220% 220%;
+  opacity: 0;
+  pointer-events: none;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  z-index: 1;
 }
 
 .inventory-preview-card:hover,
 .inventory-preview-card:focus-visible {
-  transform: translateY(-2px);
-  border-color: rgba(15, 25, 35, 0.16);
-  box-shadow: 0 12px 24px rgba(15, 25, 35, 0.08);
+  border-color: rgba(15, 25, 35, 0.18);
+}
+
+.inventory-preview-card:hover::before,
+.inventory-preview-card:focus-visible::before {
+  opacity: 0.88;
+}
+
+.inventory-preview-card:hover::after,
+.inventory-preview-card:focus-visible::after {
+  opacity: 0.92;
+  animation: priceBorderShimmer 2.4s linear infinite;
 }
 
 .inventory-preview-head {
   display: grid;
-  gap: 8px;
+  gap: 4px;
 }
 
 .inventory-preview-group {
@@ -724,6 +715,14 @@ svg {
   font-size: 10px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
+}
+
+.inventory-preview-as-of {
+  margin: 0;
+  color: var(--color-subtext);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.03em;
 }
 
 .inventory-preview-title {
@@ -807,40 +806,6 @@ svg {
   font-size: 10px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-}
-
-.inventory-preview-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.inventory-preview-summary,
-.inventory-preview-note {
-  margin: 0;
-  color: var(--color-subtext);
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 10px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.inventory-preview-link {
-  appearance: none;
-  border: 0;
-  padding: 0;
-  background: none;
-  color: var(--color-amber);
-  font-family: "IBM Plex Sans", sans-serif;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.inventory-preview-link:hover {
-  color: #c98812;
 }
 
 .headline-list {
@@ -962,17 +927,6 @@ svg {
   color: var(--color-primary);
 }
 
-.calendar-day-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 5px 9px;
-  border-radius: 999px;
-  font-size: 11px;
-  line-height: 1;
-  white-space: nowrap;
-}
-
 .calendar-agenda {
   display: grid;
   gap: 12px;
@@ -997,11 +951,6 @@ svg {
 
 .calendar-day-divider.is-today {
   color: var(--color-primary);
-}
-
-.calendar-day-badge {
-  color: var(--color-primary);
-  background: rgba(232, 160, 32, 0.15);
 }
 
 .calendar-day-items {
@@ -1219,16 +1168,4 @@ svg {
     gap: 16px;
   }
 
-  .module-link span {
-    display: none;
-  }
-
-  .inventory-preview-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .inventory-preview-footer {
-    align-items: flex-start;
-    flex-direction: column;
-  }
 }

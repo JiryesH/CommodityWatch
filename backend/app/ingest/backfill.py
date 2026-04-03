@@ -13,6 +13,17 @@ from app.processing.seasonal import compute_seasonal_ranges
 from app.processing.snapshots import recompute_inventorywatch_snapshot
 
 
+BACKFILL_COVERAGE_NOTES: dict[str, str] = {
+    "usda_wasde": (
+        "USDA WASDE backfills use the public archive and are seeded from 2000-01-01 by default; "
+        "actual depth depends on what the USDA archive currently exposes."
+    ),
+    "lme_warehouse": (
+        "LME warehouse backfills iterate public business-day workbook URLs; current reports may still be login-gated."
+    ),
+}
+
+
 def yearly_chunks(start_date: date, end_date: date) -> list[tuple[date, date]]:
     chunks = []
     year = start_date.year
@@ -45,6 +56,14 @@ def business_days(start_date: date, end_date: date) -> list[date]:
             days.append(cursor)
         cursor += timedelta(days=1)
     return days
+
+
+def describe_backfill_scope(source: str, from_date: date, to_date: date) -> str:
+    note = BACKFILL_COVERAGE_NOTES.get(source)
+    window = f"{from_date.isoformat()} -> {to_date.isoformat()}"
+    if note is None:
+        return window
+    return f"{window} | {note}"
 
 
 async def run_backfill(source: str, from_date: date, to_date: date) -> None:

@@ -23,6 +23,32 @@ BASE_DIR = Path(__file__).resolve().parents[1]
 SEED_DIR = BASE_DIR / "seed"
 
 
+INDICATOR_ROW_KEYS = {
+    "code",
+    "name",
+    "description",
+    "measure_family",
+    "frequency",
+    "commodity_code",
+    "geography_code",
+    "source_slug",
+    "source_series_key",
+    "native_unit_code",
+    "canonical_unit_code",
+    "default_observation_kind",
+    "publication_lag_days",
+    "seasonal_profile",
+    "is_seasonal",
+    "is_derived",
+    "formula",
+    "visibility_tier",
+    "active",
+    "metadata",
+    "modules",
+    "primary_module",
+}
+
+
 def load_yaml(path: Path) -> list[dict[str, Any]]:
     loaded = yaml.safe_load(path.read_text())
     if not loaded:
@@ -30,6 +56,19 @@ def load_yaml(path: Path) -> list[dict[str, Any]]:
     if not isinstance(loaded, list):
         raise ValueError(f"Expected list payload in {path}")
     return loaded
+
+
+def indicator_metadata(item: dict[str, Any]) -> dict[str, Any]:
+    # Preserve source-specific InventoryWatch metadata declared at the YAML top level.
+    extra_metadata = {
+        key: value
+        for key, value in item.items()
+        if key not in INDICATOR_ROW_KEYS and value is not None
+    }
+    nested_metadata = item.get("metadata", {})
+    if not isinstance(nested_metadata, dict):
+        raise ValueError(f"Indicator {item.get('code')} metadata must be a mapping.")
+    return {**extra_metadata, **nested_metadata}
 
 
 async def upsert_rows(session: AsyncSession, model: Any, rows: list[dict[str, Any]], conflict_cols: list[str]) -> None:
@@ -40,7 +79,7 @@ async def upsert_rows(session: AsyncSession, model: Any, rows: list[dict[str, An
     update_cols = {
         column.name: getattr(stmt.excluded, column.name)
         for column in table.columns
-        if column.name not in conflict_cols
+        if column.name not in conflict_cols and not column.primary_key and column.name != "created_at"
     }
     await session.execute(stmt.on_conflict_do_update(index_elements=conflict_cols, set_=update_cols))
 
@@ -118,7 +157,7 @@ async def seed_indicators(session: AsyncSession, source_ids: dict[str, Any]) -> 
                     "formula": item.get("formula"),
                     "visibility_tier": item.get("visibility_tier", "public"),
                     "active": item.get("active", True),
-                    "metadata": item.get("metadata", {}),
+                    "metadata": indicator_metadata(item),
                 }
             )
 

@@ -58,6 +58,10 @@
   measure_family: stock
   canonical_unit_code: kt
   notes:
+- commodity_code: aluminum
+  measure_family: stock
+  canonical_unit_code: kt
+  notes: Alias of aluminium for frontend/base-metals taxonomy compatibility.
 - commodity_code: zinc
   measure_family: stock
   canonical_unit_code: kt
@@ -86,4 +90,3 @@
   measure_family: stock
   canonical_unit_code: mbu
   notes:
-

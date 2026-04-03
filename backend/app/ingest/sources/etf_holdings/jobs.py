@@ -30,6 +30,9 @@ from app.repositories.observations import ObservationInput, derive_period_start,
 
 
 logger = logging.getLogger(__name__)
+ETF_COVERAGE_NOTE = (
+    "GLD has historical archive coverage; SLV and IAU are current-only iShares pages in this source setup."
+)
 
 
 def _release_datetime(observation_date) -> datetime:
@@ -41,60 +44,98 @@ async def fetch_etf_holdings(session: AsyncSession, run_mode: str = "live") -> I
     source, release_definition = await get_source_bundle(session, "etf", "etf_holdings")
     indicators = await get_release_indicators(session, "etf_holdings")
     indicators_by_key: dict[str, Indicator] = {str(indicator.source_series_key): indicator for indicator in indicators}
-    run = await create_ingest_run(session, "etf_holdings", source.id, release_definition.id, run_mode)
+    run = await create_ingest_run(
+        session,
+        "etf_holdings",
+        source.id,
+        release_definition.id,
+        run_mode,
+        metadata={
+            "coverage_note": ETF_COVERAGE_NOTE,
+            "source_scope": {
+                "GLD": "historical archive",
+                "SLV": "current-only",
+                "IAU": "current-only",
+            },
+        },
+    )
     client = ETFHoldingsClient()
     counters = IngestJobResult()
+    source_failures: list[str] = []
 
     try:
-        gld_archive = await client.get_bytes(GLD_ARCHIVE_URL)
-        gld_raw_artifact = await archive_blob(
-            session,
-            source,
-            "etf_holdings_gld",
-            gld_archive,
-            extension="xlsx",
-            content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-            metadata={"symbol": "GLD", "source_url": GLD_ARCHIVE_URL},
-        )
-        gld_points = parse_gld_archive(gld_archive, source_url=GLD_ARCHIVE_URL)
-        latest_gld = gld_points[-1]
+        parsed_items: list[tuple[ParsedETFObservation, str]] = []
 
-        slv_html = await client.get_text(SLV_URL)
-        slv_raw_artifact = await archive_blob(
-            session,
-            source,
-            "etf_holdings_slv",
-            slv_html.encode("utf-8"),
-            extension="html",
-            content_type="text/html",
-            metadata={"symbol": "SLV", "source_url": SLV_URL},
-        )
-        slv_point = parse_ishares_current_holdings(slv_html, symbol="SLV", source_url=SLV_URL)
+        source_jobs = [
+            (
+                "GLD",
+                "etf_holdings_gld",
+                GLD_ARCHIVE_URL,
+                client.get_bytes,
+                parse_gld_archive,
+                "xlsx",
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                {"symbol": "GLD", "source_url": GLD_ARCHIVE_URL},
+                {"source_url": GLD_ARCHIVE_URL},
+            ),
+            (
+                "SLV",
+                "etf_holdings_slv",
+                SLV_URL,
+                client.get_text,
+                parse_ishares_current_holdings,
+                "html",
+                "text/html",
+                {"symbol": "SLV", "source_url": SLV_URL},
+                {"symbol": "SLV", "source_url": SLV_URL},
+            ),
+            (
+                "IAU",
+                "etf_holdings_iau",
+                IAU_URL,
+                client.get_text,
+                parse_ishares_current_holdings,
+                "html",
+                "text/html",
+                {"symbol": "IAU", "source_url": IAU_URL},
+                {"symbol": "IAU", "source_url": IAU_URL},
+            ),
+        ]
 
-        iau_html = await client.get_text(IAU_URL)
-        iau_raw_artifact = await archive_blob(
-            session,
-            source,
-            "etf_holdings_iau",
-            iau_html.encode("utf-8"),
-            extension="html",
-            content_type="text/html",
-            metadata={"symbol": "IAU", "source_url": IAU_URL},
-        )
-        iau_point = parse_ishares_current_holdings(iau_html, symbol="IAU", source_url=IAU_URL)
+        for symbol, archive_name, url, fetch_fn, parse_fn, archive_extension, content_type, archive_metadata, parse_kwargs in source_jobs:
+            try:
+                payload = await fetch_fn(url)
+                raw_artifact = await archive_blob(
+                    session,
+                    source,
+                    archive_name,
+                    payload if isinstance(payload, bytes) else payload.encode("utf-8"),
+                    extension=archive_extension,
+                    content_type=content_type,
+                    metadata=archive_metadata,
+                )
+                parsed = parse_fn(payload, **parse_kwargs)
+                if symbol == "GLD":
+                    parsed_items.extend((item, raw_artifact.storage_uri) for item in parsed)
+                else:
+                    parsed_items.append((parsed, raw_artifact.storage_uri))
+            except Exception as exc:
+                source_failures.append(f"{symbol}: {exc}")
+                logger.warning("ETF holdings source %s failed: %s", symbol, exc)
 
-        parsed_items = [latest_gld, slv_point, iau_point]
+        if not parsed_items:
+            raise RuntimeError("All ETF holdings sources failed")
+
         structured_artifact = await archive_payload(
             session,
             source,
             "etf_holdings",
-            {"items": [item.to_item() for item in parsed_items]},
+            {"items": [item.to_item() for item, _artifact_uri in parsed_items]},
         )
 
         grouped: dict[str, list[tuple[ParsedETFObservation, str]]] = defaultdict(list)
-        grouped[latest_gld.observation_date.isoformat()].append((latest_gld, gld_raw_artifact.storage_uri))
-        grouped[slv_point.observation_date.isoformat()].append((slv_point, slv_raw_artifact.storage_uri))
-        grouped[iau_point.observation_date.isoformat()].append((iau_point, iau_raw_artifact.storage_uri))
+        for parsed, artifact_uri in parsed_items:
+            grouped[parsed.observation_date.isoformat()].append((parsed, artifact_uri))
 
         for observation_key, rows in grouped.items():
             released_at = _release_datetime(rows[0][0].observation_date)
@@ -167,7 +208,11 @@ async def fetch_etf_holdings(session: AsyncSession, run_mode: str = "live") -> I
                     counters.inserted_rows += 1
                 await emit_observation_event(session, indicator, observation)
 
-        run.status = "partial" if counters.quarantined_rows else "success"
+        if source_failures or counters.quarantined_rows:
+            run.status = "partial"
+            run.error_text = "; ".join(source_failures) if source_failures else None
+        else:
+            run.status = "success"
         run.fetched_items = counters.fetched_items
         run.inserted_rows = counters.inserted_rows
         run.updated_rows = counters.updated_rows
@@ -176,6 +221,8 @@ async def fetch_etf_holdings(session: AsyncSession, run_mode: str = "live") -> I
         await process_pending_events(session)
         return counters
     except Exception as exc:
+        if source_failures and not run.error_text:
+            run.error_text = "; ".join(source_failures)
         run.status = "failed"
         run.error_text = str(exc)
         run.finished_at = utcnow()

@@ -54,6 +54,7 @@ async def db_session() -> AsyncIterator[AsyncSession]:
 @pytest_asyncio.fixture
 async def seeded_session(db_session: AsyncSession) -> AsyncIterator[AsyncSession]:
     indicator_id = uuid4()
+    hidden_indicator_id = uuid4()
     now = datetime.now(timezone.utc)
     db_session.add_all(
         [
@@ -78,6 +79,23 @@ async def seeded_session(db_session: AsyncSession) -> AsyncIterator[AsyncSession
                 metadata_={"release_slug": "eia_wpsr"},
             ),
             IndicatorModule(indicator_id=indicator_id, module_code="inventorywatch", is_primary=True),
+            Indicator(
+                id=hidden_indicator_id,
+                code="EIA_CRUDE_US_COMMERCIAL_STOCKS_ZZ_NO_HISTORY",
+                name="EIA US Commercial Crude Stocks no history",
+                measure_family="stock",
+                frequency="weekly",
+                commodity_code="crude_oil",
+                geography_code="US",
+                native_unit_code="kb",
+                canonical_unit_code="kb",
+                default_observation_kind="actual",
+                is_seasonal=True,
+                is_derived=False,
+                visibility_tier="public",
+                metadata_={"release_slug": "eia_wpsr"},
+            ),
+            IndicatorModule(indicator_id=hidden_indicator_id, module_code="inventorywatch", is_primary=True),
             Observation(
                 indicator_id=indicator_id,
                 period_start_at=datetime(2026, 3, 14, tzinfo=timezone.utc),
@@ -147,7 +165,7 @@ async def seeded_session(db_session: AsyncSession) -> AsyncIterator[AsyncSession
                         }
                     ]
                 },
-                expires_at=now + timedelta(minutes=5),
+                expires_at=now - timedelta(minutes=5),
             ),
         ]
     )

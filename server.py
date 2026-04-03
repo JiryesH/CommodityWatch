@@ -627,21 +627,35 @@ class InventoryRepositoryProvider:
         self._published_db_path = published_db_path
         self._data_root = data_root
         self._repository: LocalInventoryRepository | PublishedInventoryRepository | None = None
-        self._error: Exception | None = None
         self._source_kind: str | None = None
+        self._published_db_signature: tuple[int, int] | None = None
+
+    def _published_db_current_signature(self) -> tuple[int, int] | None:
+        if self._published_db_path is None or not self._published_db_path.exists():
+            return None
+        stat = self._published_db_path.stat()
+        return stat.st_mtime_ns, stat.st_size
 
     def get_repository(self) -> LocalInventoryRepository | PublishedInventoryRepository:
+        published_db_signature = self._published_db_current_signature()
         if self._repository is not None:
-            return self._repository
-        if self._error is not None:
-            raise self._error
+            if self._source_kind == "published-db":
+                if published_db_signature == self._published_db_signature:
+                    return self._repository
+            elif published_db_signature is None:
+                return self._repository
+
+            self._repository = None
+            self._source_kind = None
+            self._published_db_signature = None
 
         published_db_error: Exception | None = None
         try:
-            if self._published_db_path is not None and self._published_db_path.exists():
+            if self._published_db_path is not None and published_db_signature is not None:
                 try:
                     self._repository = PublishedInventoryRepository(self._published_db_path)
                     self._source_kind = "published-db"
+                    self._published_db_signature = published_db_signature
                     return self._repository
                 except Exception as exc:
                     published_db_error = exc
@@ -653,8 +667,11 @@ class InventoryRepositoryProvider:
 
             self._repository = LocalInventoryRepository(self._data_root)
             self._source_kind = "artifact-archive"
+            self._published_db_signature = None
         except Exception as exc:
-            self._error = exc
+            self._repository = None
+            self._source_kind = None
+            self._published_db_signature = None
             raise
         return self._repository
 

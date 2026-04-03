@@ -34,6 +34,9 @@ DEV_RETRY_INTERVAL_SECONDS = 30
 
 
 logger = logging.getLogger(__name__)
+USDA_WASDE_COVERAGE_NOTE = (
+    "Public WASDE archive backfills start at 2000-01-01 by default; actual depth depends on the USDA archive."
+)
 
 
 def retry_interval_seconds(run_mode: str) -> int:
@@ -236,7 +239,11 @@ async def _run_usda_wasde(
         source.id,
         release_definition.id,
         run_mode,
-        metadata={"requested_months": requested_months or []},
+        metadata={
+            "requested_months": requested_months or [],
+            "coverage_note": USDA_WASDE_COVERAGE_NOTE,
+            "expected_history_start": "2000-01-01",
+        },
     )
     client = USDAWASDEClient()
     counters = IngestJobResult()

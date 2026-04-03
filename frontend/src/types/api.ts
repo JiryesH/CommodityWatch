@@ -107,6 +107,9 @@ export interface IndicatorDataResponse {
     frequency: string;
     measureFamily: string;
     unit: string | null;
+    periodType?: string | null;
+    marketingYearStartMonth?: number | null;
+    isSeasonal?: boolean;
   };
   series: SeriesPoint[];
   seasonalRange: SeasonalRangePoint[];
@@ -124,6 +127,10 @@ export interface SnapshotCardData {
   name: string;
   commodityCode: string | null;
   geographyCode: string | null;
+  frequency?: string | null;
+  periodType?: string | null;
+  marketingYearStartMonth?: number | null;
+  isSeasonal?: boolean;
   latestValue: number;
   unit: string;
   changeAbs: number | null;

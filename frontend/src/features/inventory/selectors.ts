@@ -42,6 +42,28 @@ export function filterCardsByCommodityGroup(cards: SnapshotCardData[], slug: Com
   return cards.filter((card) => commodityGroupForCode(card.commodityCode) === slug);
 }
 
+export function hasSeasonalCoverage(data: IndicatorDataResponse) {
+  return Boolean(data.indicator.isSeasonal && data.seasonalRange.some((point) => point.p50 != null));
+}
+
+function periodTypeForIndicator(indicatorLike: Pick<IndicatorDataResponse["indicator"], "frequency" | "periodType">) {
+  return indicatorLike.periodType ?? indicatorLike.frequency;
+}
+
+function marketingYearStartMonth(indicatorLike: Pick<IndicatorDataResponse["indicator"], "marketingYearStartMonth">) {
+  const month = Number(indicatorLike.marketingYearStartMonth ?? 1);
+  return month >= 1 && month <= 12 ? month : 1;
+}
+
+function yearBucketForPoint(point: SeriesPoint, indicatorLike: IndicatorDataResponse["indicator"]) {
+  const date = new Date(point.periodEndAt);
+  if (periodTypeForIndicator(indicatorLike) === "marketing_month") {
+    const startMonth = marketingYearStartMonth(indicatorLike);
+    return date.getUTCMonth() + 1 >= startMonth ? date.getUTCFullYear() : date.getUTCFullYear() - 1;
+  }
+  return date.getUTCFullYear();
+}
+
 function weekOfYear(date: Date) {
   const utcDate = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
   const dayNum = utcDate.getUTCDay() || 7;
@@ -67,25 +89,45 @@ export function periodModeForFrequency(frequency: string): "week" | "month" | "d
   return "week";
 }
 
-export function periodIndexForDate(dateString: string, frequency: string) {
+export function periodIndexForDate(
+  dateString: string,
+  indicatorLike: Pick<IndicatorDataResponse["indicator"], "frequency" | "periodType" | "marketingYearStartMonth">,
+) {
   const date = new Date(dateString);
-  if (frequency === "monthly" || frequency === "quarterly" || frequency === "annual") {
+  const periodType = periodTypeForIndicator(indicatorLike);
+
+  if (periodType === "marketing_month") {
+    const startMonth = marketingYearStartMonth(indicatorLike);
+    return ((date.getUTCMonth() + 1 - startMonth + 12) % 12) + 1;
+  }
+
+  if (periodType === "monthly" || periodType === "quarterly" || periodType === "annual") {
     return date.getUTCMonth() + 1;
   }
 
-  if (frequency === "daily") {
+  if (periodType === "daily") {
     return dayOfYear(date);
   }
 
   return weekOfYear(date);
 }
 
-export function periodLabel(periodIndex: number, frequency: string) {
-  if (frequency === "monthly" || frequency === "quarterly" || frequency === "annual") {
+export function periodLabel(
+  periodIndex: number,
+  indicatorLike: Pick<IndicatorDataResponse["indicator"], "frequency" | "periodType" | "marketingYearStartMonth">,
+) {
+  const periodType = periodTypeForIndicator(indicatorLike);
+
+  if (periodType === "marketing_month") {
+    const baseMonth = ((marketingYearStartMonth(indicatorLike) + periodIndex - 2) % 12) + 1;
+    return new Date(Date.UTC(2026, baseMonth - 1, 1)).toLocaleString("en-US", { month: "short", timeZone: "UTC" });
+  }
+
+  if (periodType === "monthly" || periodType === "quarterly" || periodType === "annual") {
     return new Date(Date.UTC(2026, periodIndex - 1, 1)).toLocaleString("en-US", { month: "short", timeZone: "UTC" });
   }
 
-  if (frequency === "daily") {
+  if (periodType === "daily") {
     return `Day ${periodIndex}`;
   }
 
@@ -93,13 +135,14 @@ export function periodLabel(periodIndex: number, frequency: string) {
 }
 
 export function buildSeasonalSeries(data: IndicatorDataResponse) {
-  const currentYear = new Date().getUTCFullYear();
-  const priorYear = currentYear - 1;
+  const buckets = [...new Set(data.series.map((point) => yearBucketForPoint(point, data.indicator)))].sort((a, b) => a - b);
+  const currentBucket = buckets[buckets.length - 1];
+  const priorBucket = buckets[buckets.length - 2];
   const mode = periodModeForFrequency(data.indicator.frequency);
 
   const mapPoint = (point: SeriesPoint): SeasonalSeriesPoint => ({
-    periodIndex: periodIndexForDate(point.periodEndAt, data.indicator.frequency),
-    label: periodLabel(periodIndexForDate(point.periodEndAt, data.indicator.frequency), data.indicator.frequency),
+    periodIndex: periodIndexForDate(point.periodEndAt, data.indicator),
+    label: periodLabel(periodIndexForDate(point.periodEndAt, data.indicator), data.indicator),
     value: point.value,
     releaseDate: point.releaseDate,
   });
@@ -107,11 +150,11 @@ export function buildSeasonalSeries(data: IndicatorDataResponse) {
   return {
     mode,
     currentYear: data.series
-      .filter((point) => new Date(point.periodEndAt).getUTCFullYear() === currentYear)
+      .filter((point) => yearBucketForPoint(point, data.indicator) === currentBucket)
       .map(mapPoint)
       .sort((a, b) => a.periodIndex - b.periodIndex),
     priorYear: data.series
-      .filter((point) => new Date(point.periodEndAt).getUTCFullYear() === priorYear)
+      .filter((point) => yearBucketForPoint(point, data.indicator) === priorBucket)
       .map(mapPoint)
       .sort((a, b) => a.periodIndex - b.periodIndex),
   };
@@ -136,8 +179,12 @@ export function buildChangeBarSeries(series: SeriesPoint[]): ChangeBarPoint[] {
     .slice(1);
 }
 
-export function seasonalPointForLatest(latestDate: string, seasonalRange: SeasonalRangePoint[], frequency: string) {
-  const index = periodIndexForDate(latestDate, frequency);
+export function seasonalPointForLatest(
+  latestDate: string,
+  seasonalRange: SeasonalRangePoint[],
+  indicatorLike: Pick<IndicatorDataResponse["indicator"], "frequency" | "periodType" | "marketingYearStartMonth">,
+) {
+  const index = periodIndexForDate(latestDate, indicatorLike);
   return seasonalRange.find((point) => point.periodIndex === index) ?? null;
 }
 
@@ -188,7 +235,7 @@ export function buildRecentReleaseRows(data: IndicatorDataResponse): RecentRelea
   return recent.map((point) => {
     const pointIndex = sortedAsc.findIndex((candidate) => candidate.periodEndAt === point.periodEndAt);
     const prior = pointIndex > 0 ? sortedAsc[pointIndex - 1] : null;
-    const seasonalPoint = seasonalPointForLatest(point.periodEndAt, data.seasonalRange, data.indicator.frequency);
+    const seasonalPoint = seasonalPointForLatest(point.periodEndAt, data.seasonalRange, data.indicator);
     const change = prior ? point.value - prior.value : null;
     const percentChange = prior && prior.value !== 0 ? (change! / prior.value) * 100 : null;
     const vsMedian = seasonalPoint?.p50 != null ? point.value - seasonalPoint.p50 : null;

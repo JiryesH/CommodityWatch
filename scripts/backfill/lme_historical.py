@@ -29,6 +29,7 @@ if str(BACKEND_ROOT) not in sys.path:
     sys.path.insert(0, str(BACKEND_ROOT))
 
 from app.ingest.backfill import run_backfill
+from app.ingest.backfill import describe_backfill_scope
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -40,6 +41,10 @@ def build_parser() -> argparse.ArgumentParser:
 
 def main() -> int:
     args = build_parser().parse_args()
+    print(
+        f"LME warehouse backfill scope: {describe_backfill_scope('lme_warehouse', date.fromisoformat(args.from_date), date.fromisoformat(args.to_date))}",
+        file=sys.stderr,
+    )
     asyncio.run(run_backfill("lme_warehouse", date.fromisoformat(args.from_date), date.fromisoformat(args.to_date)))
     return 0
 

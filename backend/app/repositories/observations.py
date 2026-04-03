@@ -134,6 +134,22 @@ async def get_latest_and_prior(session: AsyncSession, indicator_id: uuid.UUID) -
 
 
 async def upsert_observation_revision(session: AsyncSession, payload: ObservationInput) -> tuple[Observation, bool]:
+    exact_vintage_result = await session.execute(
+        select(Observation)
+        .where(
+            Observation.indicator_id == payload.indicator_id,
+            Observation.period_start_at == payload.period_start_at,
+            Observation.period_end_at == payload.period_end_at,
+            Observation.observation_kind == payload.observation_kind,
+            Observation.vintage_at == payload.vintage_at,
+        )
+        .limit(1)
+    )
+    exact_vintage = exact_vintage_result.scalar_one_or_none()
+
+    if exact_vintage is not None:
+        return exact_vintage, False
+
     existing_result = await session.execute(
         select(Observation)
         .where(

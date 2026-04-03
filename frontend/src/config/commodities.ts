@@ -42,7 +42,7 @@ export const COMMODITY_GROUPS: CommodityGroup[] = [
   {
     slug: "grains",
     label: "Grains",
-    commodityCodes: ["corn", "wheat", "soybeans", "oilseeds"],
+    commodityCodes: ["corn", "wheat", "soybeans", "oilseeds", "rice"],
     shortDescription: "USDA grain and oilseed stocks.",
   },
   {

@@ -32,6 +32,7 @@ class ParsedCOMEXObservation:
     def to_item(self) -> dict[str, Any]:
         return {
             "source_series_key": self.source_series_key,
+            "value": self.total,
             "total": self.total,
             "registered": self.registered,
             "eligible": self.eligible,

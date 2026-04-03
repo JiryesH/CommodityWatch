@@ -2,6 +2,7 @@ import {
   COMMODITY_GROUPS,
   FRESHNESS_BADGES,
   commodityGroupForCode,
+  filterPillColorForGroup,
   freshnessFor,
   formatPercent,
   formatSignedValue,
@@ -15,18 +16,21 @@ import {
 } from "./catalog.js";
 import { fetchIndicatorData, fetchIndicatorLatest, fetchInventorySnapshot } from "./api-client.js";
 import {
+  areAllInventoryGroupsSelected,
   buildChangeBarSeries,
   buildRecentReleaseRows,
   buildSeasonalSeries,
   buildYtdChangeStats,
   changeToneForValue,
-  filterCardsByCommodityGroup,
+  filterCardsByCommodityGroups,
   groupCardsForSnapshot,
   percentileBracketLabel,
   seasonalPointForLatest,
   alertToneFromAlerts,
   snapshotSignalDescriptor,
   snapshotSectionEntries,
+  searchSnapshotCards,
+  toggleInventoryGroupSelection,
 } from "./model.js";
 import {
   buildInventoryDetailHref,
@@ -37,6 +41,9 @@ import {
 const filterRoot = document.getElementById("inventory-filter-root");
 const appRoot = document.getElementById("inventory-root");
 const toTopButton = document.getElementById("to-top-btn");
+const navSearch = document.getElementById("nav-search");
+const searchToggle = document.getElementById("search-toggle");
+const searchInput = document.getElementById("inventory-search");
 
 if (!filterRoot || !appRoot) {
   throw new Error("InventoryWatch shell roots are missing.");
@@ -52,6 +59,12 @@ const latestCache = new Map();
 
 let renderRequestId = 0;
 let excludeYear2020 = false;
+let searchQuery = "";
+let searchOpen = false;
+let detailReturnState = null;
+let pendingSnapshotRestore = null;
+let snapshotGroupFilters = null;
+let snapshotFilterRouteKey = null;
 
 function escapeHtml(value) {
   return String(value ?? "")
@@ -74,8 +87,196 @@ function currentRoute() {
   return parseInventoryRoute(window.location.pathname);
 }
 
+function compactSearchQuery(query) {
+  return String(query ?? "")
+    .trim()
+    .replace(/\s+/g, " ");
+}
+
+function hasActiveSearch() {
+  return searchQuery.length > 0;
+}
+
+function eventPathIncludes(event, element) {
+  if (!element) {
+    return false;
+  }
+
+  if (typeof event.composedPath === "function") {
+    return event.composedPath().includes(element);
+  }
+
+  return element.contains(event.target);
+}
+
 function setDocumentTitle(title) {
   document.title = title;
+}
+
+function selectorEscape(value) {
+  if (typeof CSS !== "undefined" && typeof CSS.escape === "function") {
+    return CSS.escape(String(value));
+  }
+
+  return String(value).replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+}
+
+function stickyViewportOffset() {
+  const navHeight = document.querySelector(".nav")?.offsetHeight || 0;
+  const filterHeight = filterRoot.querySelector(".filter-wrap")?.offsetHeight || 0;
+  return navHeight + filterHeight + 20;
+}
+
+function resolveBackLabel() {
+  return detailReturnState?.mode === "search" ? "Back to results" : "Back to snapshot";
+}
+
+function renderBackLink(label = resolveBackLabel()) {
+  return `
+    <div class="inventory-back-row">
+      <a class="inventory-back-link" data-inventory-back href="${escapeHtml(buildInventorySnapshotHref())}">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M15 18l-6-6 6-6"></path>
+          <path d="M21 12H9"></path>
+        </svg>
+        <span>${escapeHtml(label)}</span>
+      </a>
+    </div>
+  `;
+}
+
+function captureDetailReturnState({ indicatorId } = {}) {
+  detailReturnState = {
+    indicatorId: indicatorId || null,
+    mode: hasActiveSearch() ? "search" : "snapshot",
+    query: searchQuery,
+    scrollY: window.scrollY,
+  };
+}
+
+function prepareSnapshotRestore() {
+  pendingSnapshotRestore = detailReturnState
+    ? { ...detailReturnState }
+    : {
+        indicatorId: null,
+        mode: "snapshot",
+        query: "",
+        scrollY: 0,
+      };
+
+  snapshotGroupFilters = null;
+  snapshotFilterRouteKey = null;
+  searchQuery = pendingSnapshotRestore.mode === "search" ? pendingSnapshotRestore.query || "" : "";
+  renderSearchUi();
+}
+
+function restoreSnapshotPosition() {
+  if (!pendingSnapshotRestore) {
+    return;
+  }
+
+  const restoreState = pendingSnapshotRestore;
+  pendingSnapshotRestore = null;
+
+  window.requestAnimationFrame(() => {
+    const target =
+      restoreState.indicatorId != null
+        ? appRoot.querySelector(`[data-indicator-id="${selectorEscape(restoreState.indicatorId)}"]`)
+        : null;
+
+    if (target) {
+      const top = target.getBoundingClientRect().top + window.scrollY - stickyViewportOffset();
+      window.scrollTo({ top: Math.max(0, top), behavior: "auto" });
+      return;
+    }
+
+    if (typeof restoreState.scrollY === "number" && Number.isFinite(restoreState.scrollY)) {
+      window.scrollTo({ top: Math.max(0, restoreState.scrollY), behavior: "auto" });
+    }
+  });
+}
+
+function availableSnapshotGroupSlugs(cards = null) {
+  return COMMODITY_GROUPS.filter((group) => {
+    if (group.slug === "all") {
+      return false;
+    }
+
+    if (Array.isArray(cards)) {
+      return isGroupPopulated(group.slug, cards);
+    }
+
+    return !["coal", "fertilisers"].includes(group.slug);
+  }).map((group) => group.slug);
+}
+
+function normalizeSnapshotGroupFilters(selectedSlugs, availableSlugs) {
+  const available = Array.isArray(availableSlugs) ? availableSlugs.filter(Boolean) : [];
+  if (!available.length) {
+    return [];
+  }
+
+  const filtered = (Array.isArray(selectedSlugs) ? selectedSlugs : []).filter((slug) => available.includes(slug));
+  if (!filtered.length || filtered.length === available.length) {
+    return [...available];
+  }
+
+  return available.filter((slug) => filtered.includes(slug));
+}
+
+function snapshotGroupSelectionState(route, cards = null) {
+  const available = availableSnapshotGroupSlugs(cards);
+  const routeKey = normalizePath(window.location.pathname);
+
+  if (route.view === "snapshot") {
+    if (!snapshotGroupFilters || snapshotFilterRouteKey !== routeKey) {
+      snapshotGroupFilters =
+        route.groupSlug !== "all" && available.includes(route.groupSlug) ? [route.groupSlug] : [...available];
+      snapshotFilterRouteKey = routeKey;
+    } else {
+      snapshotGroupFilters = normalizeSnapshotGroupFilters(snapshotGroupFilters, available);
+    }
+
+    return {
+      selected: snapshotGroupFilters,
+      available,
+      allSelected: areAllInventoryGroupsSelected(snapshotGroupFilters, available),
+    };
+  }
+
+  const selected =
+    route.groupSlug !== "all" && available.includes(route.groupSlug)
+      ? [route.groupSlug]
+      : [...available];
+
+  return {
+    selected,
+    available,
+    allSelected: areAllInventoryGroupsSelected(selected, available),
+  };
+}
+
+function snapshotScopeLabel(selectedGroups, availableGroups) {
+  const allSelected = areAllInventoryGroupsSelected(selectedGroups, availableGroups);
+  if (allSelected || selectedGroups.length !== 1) {
+    return "Market snapshot";
+  }
+
+  return COMMODITY_GROUPS.find((group) => group.slug === selectedGroups[0])?.label || "Market snapshot";
+}
+
+function renderSearchUi() {
+  if (!navSearch || !searchToggle || !searchInput) {
+    return;
+  }
+
+  navSearch.classList.toggle("open", searchOpen);
+  navSearch.classList.toggle("has-query", hasActiveSearch());
+  searchToggle.setAttribute("aria-expanded", String(searchOpen));
+
+  if (searchInput.value !== searchQuery) {
+    searchInput.value = searchQuery;
+  }
 }
 
 function alertBadge(alert) {
@@ -186,60 +387,6 @@ function frequencyLabel(frequency) {
   return String(frequency).charAt(0).toUpperCase() + String(frequency).slice(1);
 }
 
-function unitDefinition(unit) {
-  const normalized = String(unit || "").toLowerCase();
-  if (normalized === "mb") {
-    return { unit: "mb", label: "million barrels" };
-  }
-  if (normalized === "bcf") {
-    return { unit: "bcf", label: "billion cubic feet" };
-  }
-  if (normalized === "twh") {
-    return { unit: "twh", label: "terawatt-hours" };
-  }
-  if (normalized === "%") {
-    return { unit: "%", label: "percent" };
-  }
-  if (normalized === "tonnes") {
-    return { unit: "tonnes", label: "metric tonnes" };
-  }
-  if (normalized === "mmt") {
-    return { unit: "mmt", label: "million metric tonnes" };
-  }
-  if (normalized === "mbu") {
-    return { unit: "mbu", label: "million bushels" };
-  }
-  if (normalized === "kcwt") {
-    return { unit: "kcwt", label: "thousand cwt" };
-  }
-  if (normalized === "toz") {
-    return { unit: "toz", label: "troy ounces" };
-  }
-  return null;
-}
-
-function renderSectionUnitLegend(cards) {
-  const items = [...new Map(cards.map((card) => [card.unit, unitDefinition(card.unit)]).filter(([, value]) => value)).values()];
-  if (!items.length) {
-    return "";
-  }
-
-  return `
-    <div class="snapshot-section-units">
-      ${items
-        .map(
-          (item) => `
-            <span class="snapshot-section-unit">
-              <strong>${escapeHtml(item.unit)}</strong>
-              <span>${escapeHtml(item.label)}</span>
-            </span>
-          `
-        )
-        .join("")}
-    </div>
-  `;
-}
-
 function sectionAccent(sectionName) {
   if (sectionName === "Crude Oil" || sectionName === "Refined Products") {
     return "var(--color-energy)";
@@ -346,10 +493,10 @@ function renderHistoricalRange(card, signalState) {
   `;
 }
 
-function renderPageHead({ title, description, meta = "", breadcrumbs = "", notes = "" }) {
+function renderPageHead({ title, description, meta = "", breadcrumbs = "", notes = "", lead = "" }) {
   return `
     <header class="inventory-page-head">
-      <p class="inventory-eyebrow">InventoryWatch</p>
+      ${lead}
       <div class="inventory-title-row">
         <div class="inventory-title-block">
           <h1 class="inventory-title">${escapeHtml(title)}</h1>
@@ -363,36 +510,12 @@ function renderPageHead({ title, description, meta = "", breadcrumbs = "", notes
   `;
 }
 
-function filterColorForGroup(groupSlug) {
-  if (groupSlug === "all") {
-    return "var(--color-primary)";
+function sourceLabelMarkup(label, href, className = "inventory-inline-link") {
+  if (!href) {
+    return escapeHtml(label);
   }
 
-  if (groupSlug === "energy") {
-    return "#e8a020";
-  }
-
-  if (groupSlug === "natural-gas") {
-    return "#4a90d9";
-  }
-
-  if (groupSlug === "base-metals") {
-    return "#64748b";
-  }
-
-  if (groupSlug === "grains") {
-    return "#5ba85c";
-  }
-
-  if (groupSlug === "softs") {
-    return "#2f8b84";
-  }
-
-  if (groupSlug === "precious-metals") {
-    return "#c9a227";
-  }
-
-  return "var(--color-subtext)";
+  return `<a class="${escapeHtml(className)}" href="${escapeHtml(href)}" target="_blank" rel="noreferrer noopener">${escapeHtml(label)}</a>`;
 }
 
 function renderLoading(view) {
@@ -430,6 +553,33 @@ function renderEmpty(title, copy) {
       <h2 class="inventory-empty-title">${escapeHtml(title)}</h2>
       <p class="inventory-empty-copy">${escapeHtml(copy)}</p>
     </section>
+  `;
+}
+
+function renderDetailUnavailable(route, data, title, copy) {
+  const resolvedGroupSlug = data?.indicator?.commodityCode ? commodityGroupForCode(data.indicator.commodityCode) : route.groupSlug;
+  const activeGroupSlug = resolvedGroupSlug && resolvedGroupSlug !== "all" ? resolvedGroupSlug : route.groupSlug;
+  const groupLabel = COMMODITY_GROUPS.find((group) => group.slug === activeGroupSlug)?.label || "Inventory";
+  const detailTitle = data?.indicator?.name || route.indicatorId || "Inventory indicator";
+
+  setDocumentTitle(`CommodityWatch | InventoryWatch | ${detailTitle}`);
+
+  return `
+    <div class="inventory-stage">
+      ${renderPageHead({
+        title: detailTitle,
+        description: data?.indicator?.description || "Indicator route is live, but the backend has not published observations yet.",
+        lead: renderBackLink(),
+        breadcrumbs: `
+          <div class="inventory-breadcrumbs">
+            <a class="inventory-breadcrumb-link" data-inventory-nav href="${escapeHtml(buildInventorySnapshotHref())}">InventoryWatch</a>
+            <span class="inventory-inline-sep">/</span>
+            <span class="inventory-breadcrumb-current">${escapeHtml(groupLabel)}</span>
+          </div>
+        `,
+      })}
+      ${renderEmpty(title, copy)}
+    </div>
   `;
 }
 
@@ -672,6 +822,7 @@ function renderSnapshotCard(card, currentGroupSlug) {
     <a
       class="inventory-card is-${escapeHtml(descriptor.state)}"
       data-inventory-nav
+      data-indicator-id="${escapeHtml(card.indicatorId)}"
       href="${escapeHtml(href)}"
     >
       <div class="inventory-card-head">
@@ -707,17 +858,47 @@ function renderSnapshotCard(card, currentGroupSlug) {
   `;
 }
 
+function renderSearchSummary(route, matchingCards, totalCards) {
+  const { selected, available } = snapshotGroupSelectionState(route, snapshotCache.value?.cards ?? null);
+  const scopeLabel = snapshotScopeLabel(selected, available);
+
+  return `
+    <section class="inventory-search-summary">
+      <div class="inventory-search-copy">
+        <p class="inventory-search-label">Indicator search</p>
+        <h2 class="inventory-search-title">${escapeHtml(searchQuery)}</h2>
+        <p class="inventory-search-description">
+          ${escapeHtml(String(matchingCards.length))} indicator${matchingCards.length === 1 ? "" : "s"} match in ${escapeHtml(scopeLabel)}
+          ${totalCards !== matchingCards.length ? `<span class="inventory-search-total">out of ${escapeHtml(String(totalCards))}</span>` : ""}
+        </p>
+      </div>
+      <div class="inventory-actions">
+        <button class="inventory-button" type="button" data-clear-search>Clear search</button>
+      </div>
+    </section>
+  `;
+}
+
 function renderSnapshotView(route, snapshot) {
-  const cards = filterCardsByCommodityGroup(snapshot.cards, route.groupSlug);
-  const title = route.groupSlug === "all" ? "Market snapshot" : COMMODITY_GROUPS.find((group) => group.slug === route.groupSlug)?.label || "InventoryWatch";
+  const { selected, available, allSelected } = snapshotGroupSelectionState(route, snapshot.cards);
+  const scopedCards = filterCardsByCommodityGroups(snapshot.cards, selected);
+  const cards = hasActiveSearch() ? searchSnapshotCards(scopedCards, searchQuery) : scopedCards;
+  const selectedLabels = selected
+    .map((slug) => COMMODITY_GROUPS.find((group) => group.slug === slug)?.label)
+    .filter(Boolean);
+  const title = allSelected || selected.length !== 1
+    ? "Market snapshot"
+    : COMMODITY_GROUPS.find((group) => group.slug === selected[0])?.label || "Market snapshot";
   const description =
-    route.groupSlug === "all"
-      ? `Cross-commodity storage and stocks coverage built for fast balance checks. ${cards.length} indicators in the current snapshot.`
-      : `${groupDescriptionFor(route.groupSlug)} ${cards.length ? `· ${cards.length} indicators in the current snapshot.` : ""}`;
+    allSelected || selected.length !== 1
+      ? `Cross-commodity storage and stocks coverage built for fast balance checks. ${scopedCards.length} indicators in the current snapshot${
+          selectedLabels.length && !allSelected ? ` across ${selectedLabels.join(", ")}.` : "."
+        }`
+      : `${groupDescriptionFor(selected[0])} ${scopedCards.length ? `· ${scopedCards.length} indicators in the current snapshot.` : ""}`;
   const grouped = groupCardsForSnapshot(cards);
   const sections = snapshotSectionEntries(grouped);
 
-  setDocumentTitle(route.groupSlug === "all" ? "CommodityWatch | InventoryWatch" : `CommodityWatch | InventoryWatch | ${title}`);
+  setDocumentTitle(title === "Market snapshot" ? "CommodityWatch | InventoryWatch" : `CommodityWatch | InventoryWatch | ${title}`);
 
   return `
     <div class="inventory-stage">
@@ -742,9 +923,15 @@ function renderSnapshotView(route, snapshot) {
           </div>
         `,
       })}
+      ${hasActiveSearch() ? renderSearchSummary(route, cards, scopedCards.length) : ""}
       ${
         !cards.length
-          ? renderEmpty("No data available", `No inventory indicators are currently available for ${title}.`)
+          ? renderEmpty(
+              hasActiveSearch() ? "No matches found" : "No data available",
+              hasActiveSearch()
+                ? `No inventory indicators match "${searchQuery}" in ${title}.`
+                : `No inventory indicators are currently available for ${title}.`
+            )
           : `
             <div class="snapshot-sections">
               ${sections
@@ -756,12 +943,11 @@ function renderSnapshotView(route, snapshot) {
                           <h2 class="snapshot-section-title">${escapeHtml(sectionName)}</h2>
                           <div class="snapshot-section-subline">
                             <div class="snapshot-section-meta">${escapeHtml(sectionCards.length)} indicator${sectionCards.length === 1 ? "" : "s"}</div>
-                            ${renderSectionUnitLegend(sectionCards)}
                           </div>
                         </div>
                       </div>
                       <div class="snapshot-grid">
-                        ${sectionCards.map((card) => renderSnapshotCard(card, route.groupSlug)).join("")}
+                        ${sectionCards.map((card) => renderSnapshotCard(card, selected.length === 1 ? selected[0] : "all")).join("")}
                       </div>
                     </section>
                   `
@@ -808,6 +994,8 @@ function renderDetailView(route, data, latest, alternateData, alternateUnavailab
   });
   const alerts = latest?.latest?.alerts || [];
   const summaryTone = alertToneFromAlerts(alerts);
+  const sourceLabel = activeData.metadata.sourceLabel || "CommodityWatch API";
+  const sourceUrl = activeData.metadata.sourceUrl;
 
   setDocumentTitle(`CommodityWatch | InventoryWatch | ${detailTitle}`);
 
@@ -817,6 +1005,7 @@ function renderDetailView(route, data, latest, alternateData, alternateUnavailab
       ${renderPageHead({
         title: detailTitle,
         description: data.indicator.description || "Seasonal range, period change, and release history.",
+        lead: renderBackLink(),
         breadcrumbs: `
           <div class="inventory-breadcrumbs">
             <a class="inventory-breadcrumb-link" data-inventory-nav href="${escapeHtml(buildInventorySnapshotHref())}">InventoryWatch</a>
@@ -828,7 +1017,7 @@ function renderDetailView(route, data, latest, alternateData, alternateUnavailab
         `,
         meta: `
           <div class="inventory-inline-meta">
-            <span><strong>Source</strong> ${escapeHtml(activeData.metadata.sourceLabel || "CommodityWatch API")}</span>
+            <span><strong>Source</strong> ${sourceLabelMarkup(sourceLabel, sourceUrl)}</span>
             <span class="inventory-inline-sep">·</span>
             <span><strong>Updated</strong> ${escapeHtml(formatUtcTimestamp(latestTimestamp))}</span>
           </div>
@@ -930,17 +1119,7 @@ function renderDetailView(route, data, latest, alternateData, alternateUnavailab
               <div class="inventory-summary-grid">
                 <div class="inventory-summary-row">
                   <div class="inventory-summary-term">Publisher</div>
-                  <div class="inventory-summary-definition">${escapeHtml(activeData.metadata.sourceLabel || "CommodityWatch API")}</div>
-                </div>
-                <div class="inventory-summary-row">
-                  <div class="inventory-summary-term">Link</div>
-                  <div class="inventory-summary-definition">
-                    ${
-                      activeData.metadata.sourceUrl
-                        ? `<a href="${escapeHtml(activeData.metadata.sourceUrl)}" target="_blank" rel="noreferrer noopener">Open source</a>`
-                        : "No source URL"
-                    }
-                  </div>
+                  <div class="inventory-summary-definition">${sourceLabelMarkup(sourceLabel, sourceUrl)}</div>
                 </div>
                 <div class="inventory-summary-row">
                   <div class="inventory-summary-term">Commodity</div>
@@ -960,29 +1139,54 @@ function renderDetailView(route, data, latest, alternateData, alternateUnavailab
 }
 
 function renderFilterBar(route) {
-  const selectedGroup = route.groupSlug || "all";
   const cards = Array.isArray(snapshotCache.value?.cards) ? snapshotCache.value.cards : null;
+  const { selected, available, allSelected } = snapshotGroupSelectionState(route, cards);
+  const scopedCards = cards ? filterCardsByCommodityGroups(cards, selected) : [];
+  const visibleCards = hasActiveSearch() ? searchSnapshotCards(scopedCards, searchQuery) : scopedCards;
+  const activeGroupLabel =
+    allSelected || selected.length !== 1
+      ? "All sectors"
+      : COMMODITY_GROUPS.find((group) => group.slug === selected[0])?.label || "All sectors";
+  const showMeta = Boolean(cards && (route.view !== "detail" || hasActiveSearch()));
 
   filterRoot.innerHTML = `
     <div class="filter-wrap inventory-filter-wrap">
       <nav class="filter-bar inventory-filter-bar" aria-label="Inventory commodity groups">
+        ${(() => {
+          const group = COMMODITY_GROUPS[0];
+          const href = buildInventorySnapshotHref(group.slug);
+          const isSelected = allSelected;
+
+          return `
+            <a
+              class="filter-pill inventory-filter-pill inventory-filter-reset${isSelected ? " is-selected" : ""}"
+              data-group="${escapeHtml(group.slug)}"
+              data-inventory-nav
+              href="${escapeHtml(href)}"
+              ${isSelected ? 'aria-current="page"' : ""}
+              style="--filter-pill-color:${escapeHtml(filterPillColorForGroup(group.slug))};"
+            >
+              ${escapeHtml(group.label)}
+            </a>
+          `;
+        })()}
+        <div class="filter-divider" aria-hidden="true"></div>
         <div class="inventory-group-row">
-          ${COMMODITY_GROUPS.map((group) => {
+          ${COMMODITY_GROUPS.filter((group) => group.slug !== "all").map((group) => {
             const href = buildInventorySnapshotHref(group.slug);
-            const isSelected = group.slug === selectedGroup;
-            const color = filterColorForGroup(group.slug);
             const populated = cards ? isGroupPopulated(group.slug, cards) : !["coal", "fertilisers"].includes(group.slug);
-            const disabled = group.slug !== "all" && !populated;
+            const disabled = !populated;
+            const showSelected = !disabled && (allSelected || selected.includes(group.slug));
             return `
               <a
-                class="filter-pill inventory-filter-pill${isSelected ? " is-selected" : ""}${disabled ? " is-disabled" : ""}"
+                class="filter-pill inventory-filter-pill inventory-sector-pill${showSelected ? " is-selected" : ""}${disabled ? " is-disabled" : ""}"
                 data-group="${escapeHtml(group.slug)}"
                 data-inventory-nav
                 href="${escapeHtml(href)}"
-                ${isSelected ? 'aria-current="page"' : ""}
+                ${showSelected && !allSelected ? 'aria-current="page"' : ""}
                 ${disabled ? 'aria-disabled="true" title="Coming soon"' : ""}
                 ${disabled ? 'tabindex="-1"' : ""}
-                style="--filter-pill-color:${escapeHtml(color)};"
+                style="--filter-pill-color:${escapeHtml(filterPillColorForGroup(group.slug))};"
               >
                 ${escapeHtml(group.label)}
               </a>
@@ -990,6 +1194,35 @@ function renderFilterBar(route) {
           }).join("")}
         </div>
       </nav>
+      ${
+        showMeta
+          ? `
+            <div class="inventory-filter-meta">
+              <div class="inventory-filter-status">
+                <div class="filter-summary">
+                  <span>${escapeHtml(String(visibleCards.length))} indicator${visibleCards.length === 1 ? "" : "s"} ${hasActiveSearch() ? "matching search" : "in view"}</span>
+                  <span class="filter-summary-divider" aria-hidden="true"></span>
+                  <span>${escapeHtml(activeGroupLabel)}</span>
+                  <span class="filter-summary-divider" aria-hidden="true"></span>
+                  <span>Updated ${escapeHtml(formatUtcTimestamp(snapshotCache.value.generatedAt))}</span>
+                </div>
+                <div class="inventory-filter-actions">
+                  ${
+                    hasActiveSearch()
+                      ? `
+                        <span class="search-status">Search: ${escapeHtml(searchQuery)}</span>
+                        <button class="clear-filters" type="button" data-clear-search>clear search</button>
+                      `
+                      : `<span class="filter-summary-muted">${
+                          allSelected ? "All sectors selected." : `${selected.length} sector${selected.length === 1 ? "" : "s"} selected.`
+                        } Search by indicator, code, source, or commodity.</span>`
+                  }
+                </div>
+              </div>
+            </div>
+          `
+          : ""
+      }
     </div>
   `;
 }
@@ -1084,6 +1317,7 @@ async function renderRoute() {
   const isCurrent = () => requestId === renderRequestId;
 
   renderFilterBar(route);
+  renderSearchUi();
   appRoot.innerHTML = renderLoading(route.view);
 
   if (route.view === "not-found") {
@@ -1091,6 +1325,7 @@ async function renderRoute() {
     appRoot.innerHTML = renderError("Inventory route not found", route.reason || "The requested InventoryWatch route is invalid.", {
       retry: false,
     });
+    renderSearchUi();
     return;
   }
 
@@ -1107,14 +1342,18 @@ async function renderRoute() {
       }
 
       if (!data?.series?.length) {
-        appRoot.innerHTML = renderEmpty(
+        appRoot.innerHTML = renderDetailUnavailable(
+          route,
+          data,
           "No data available",
           "This indicator route is live, but the backend has not published any observations yet."
         );
+        renderSearchUi();
         return;
       }
 
       appRoot.innerHTML = renderDetailView(route, data, latest, alternateData, Boolean(excludeYear2020 && !alternateData?.seasonalRange?.length));
+      renderSearchUi();
       return;
     }
 
@@ -1125,6 +1364,8 @@ async function renderRoute() {
 
     renderFilterBar(route);
     appRoot.innerHTML = renderSnapshotView(route, snapshot);
+    renderSearchUi();
+    restoreSnapshotPosition();
   } catch (error) {
     if (!isCurrent()) {
       return;
@@ -1135,6 +1376,7 @@ async function renderRoute() {
       "InventoryWatch unavailable",
       humanizeInventoryError(error)
     );
+    renderSearchUi();
   }
 }
 
@@ -1151,16 +1393,122 @@ function navigate(href) {
   renderRoute();
 }
 
+if (navSearch && searchToggle && searchInput) {
+  searchToggle.addEventListener("click", (event) => {
+    event.stopPropagation();
+    searchOpen = !searchOpen;
+    renderSearchUi();
+
+    if (searchOpen) {
+      window.requestAnimationFrame(() => searchInput.focus());
+    }
+  });
+
+  searchInput.addEventListener("input", () => {
+    searchQuery = compactSearchQuery(searchInput.value);
+    const route = currentRoute();
+
+    if (route.view === "detail" && hasActiveSearch()) {
+      snapshotGroupFilters = null;
+      snapshotFilterRouteKey = null;
+      window.history.pushState({}, "", buildInventorySnapshotHref());
+      window.scrollTo({ top: 0, behavior: "auto" });
+    }
+
+    renderRoute();
+    renderSearchUi();
+  });
+
+  searchInput.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape") {
+      return;
+    }
+
+    event.preventDefault();
+    if (searchInput.value) {
+      searchInput.value = "";
+      searchQuery = "";
+      renderRoute();
+      renderSearchUi();
+      return;
+    }
+
+    searchOpen = false;
+    renderSearchUi();
+    searchToggle.focus();
+  });
+}
+
 document.addEventListener("click", (event) => {
   const target = event.target instanceof Element ? event.target : null;
   if (!target) {
     return;
   }
 
+  if (searchOpen && !eventPathIncludes(event, navSearch)) {
+    searchOpen = false;
+    renderSearchUi();
+  }
+
   const retryButton = target.closest("[data-retry-inventory]");
   if (retryButton) {
     invalidateCurrentRouteCache(currentRoute());
     renderRoute();
+    return;
+  }
+
+  const clearSearchButton = target.closest("[data-clear-search]");
+  if (clearSearchButton) {
+    searchQuery = "";
+    if (searchInput) {
+      searchInput.value = "";
+    }
+    renderRoute();
+    renderSearchUi();
+    return;
+  }
+
+  const groupPill = target.closest(".inventory-filter-pill[data-group]");
+  if (groupPill instanceof HTMLAnchorElement) {
+    if (groupPill.getAttribute("aria-disabled") === "true") {
+      event.preventDefault();
+      return;
+    }
+
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+      return;
+    }
+
+    const route = currentRoute();
+    const available = availableSnapshotGroupSlugs(snapshotCache.value?.cards ?? null);
+    const groupSlug = groupPill.dataset.group || "all";
+
+    event.preventDefault();
+
+    if (route.view === "snapshot") {
+      const { selected } = snapshotGroupSelectionState(route, snapshotCache.value?.cards ?? null);
+      snapshotGroupFilters =
+        groupSlug === "all"
+          ? [...available]
+          : toggleInventoryGroupSelection(selected, groupSlug, available);
+      snapshotFilterRouteKey = normalizePath(window.location.pathname);
+      renderRoute();
+      return;
+    }
+
+    snapshotGroupFilters =
+      groupSlug === "all" ? [...available] : normalizeSnapshotGroupFilters([groupSlug], available);
+    snapshotFilterRouteKey = normalizePath(buildInventorySnapshotHref());
+    detailReturnState = null;
+    navigate(buildInventorySnapshotHref());
+    return;
+  }
+
+  const backLink = target.closest("[data-inventory-back]");
+  if (backLink instanceof HTMLAnchorElement) {
+    event.preventDefault();
+    prepareSnapshotRestore();
+    navigate(backLink.href);
     return;
   }
 
@@ -1179,6 +1527,11 @@ document.addEventListener("click", (event) => {
   }
 
   event.preventDefault();
+  if (link.classList.contains("inventory-card")) {
+    captureDetailReturnState({ indicatorId: link.getAttribute("data-indicator-id") });
+  } else {
+    detailReturnState = null;
+  }
   navigate(link.href);
 });
 
@@ -1195,6 +1548,17 @@ document.addEventListener("change", (event) => {
 
   excludeYear2020 = toggle instanceof HTMLInputElement ? toggle.checked : toggle.getAttribute("checked") !== null;
   renderRoute();
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key !== "Escape") {
+    return;
+  }
+
+  if (searchOpen) {
+    searchOpen = false;
+    renderSearchUi();
+  }
 });
 
 window.addEventListener("popstate", () => {

@@ -164,7 +164,7 @@ async def _run_eia_release(
             for item in parsed:
                 grouped[item.period_end_at].append((indicator, item, artifact))
 
-        for period_end_at, items in grouped.items():
+        for period_end_at, items in sorted(grouped.items(), key=lambda item: item[0]):
             source_release = await upsert_source_release(
                 session,
                 source,

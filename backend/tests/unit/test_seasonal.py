@@ -19,3 +19,8 @@ def test_seasonal_period_for_weekly_and_daily() -> None:
     assert seasonal_period(weekly_observation, "weekly") == ("week_of_year", 12)
     assert seasonal_period(daily_observation, "daily") == ("day_of_year", 79)
 
+
+def test_seasonal_period_caps_iso_week_53() -> None:
+    weekly_observation = SimpleNamespace(period_end_at=datetime(2020, 12, 31, tzinfo=timezone.utc))
+
+    assert seasonal_period(weekly_observation, "weekly") == ("week_of_year", 52)

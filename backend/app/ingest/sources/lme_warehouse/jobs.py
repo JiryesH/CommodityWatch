@@ -33,6 +33,9 @@ logger = logging.getLogger(__name__)
 
 
 LATEST_PUBLIC_LOOKBACK_DAYS = 7
+LME_WAREHOUSE_COVERAGE_NOTE = (
+    "Backfills iterate public business-day workbook URLs; current reports may still be login-gated."
+)
 
 
 def _release_datetime(report_date: date) -> datetime:
@@ -54,7 +57,10 @@ async def fetch_lme_warehouse(
         source.id,
         release_definition.id,
         run_mode,
-        metadata={"requested_report_date": report_date.isoformat() if report_date else None},
+        metadata={
+            "requested_report_date": report_date.isoformat() if report_date else None,
+            "coverage_note": LME_WAREHOUSE_COVERAGE_NOTE,
+        },
     )
     client = LMEWarehouseClient()
     counters = IngestJobResult()

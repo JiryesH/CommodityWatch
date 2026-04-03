@@ -94,6 +94,96 @@ export function filterCardsByCommodityGroup(cards, slug) {
   return cards.filter((card) => commodityGroupForCode(card.commodityCode) === slug);
 }
 
+export function filterCardsByCommodityGroups(cards, slugs) {
+  const selected = Array.isArray(slugs) ? slugs.filter(Boolean) : [];
+  if (!selected.length || selected.includes("all")) {
+    return cards;
+  }
+
+  const selectedGroups = new Set(selected);
+  return cards.filter((card) => selectedGroups.has(commodityGroupForCode(card.commodityCode)));
+}
+
+export function areAllInventoryGroupsSelected(selectedSlugs, availableSlugs) {
+  const available = Array.isArray(availableSlugs) ? availableSlugs.filter(Boolean) : [];
+  if (!available.length) {
+    return true;
+  }
+
+  const selected = new Set(Array.isArray(selectedSlugs) ? selectedSlugs.filter(Boolean) : []);
+  return available.every((slug) => selected.has(slug));
+}
+
+export function toggleInventoryGroupSelection(selectedSlugs, slug, availableSlugs) {
+  const available = Array.isArray(availableSlugs) ? availableSlugs.filter(Boolean) : [];
+  if (!available.length) {
+    return [];
+  }
+
+  if (slug === "all") {
+    return [...available];
+  }
+
+  const current = new Set(Array.isArray(selectedSlugs) ? selectedSlugs.filter(Boolean) : []);
+  const allSelected = areAllInventoryGroupsSelected([...current], available);
+
+  if (allSelected) {
+    return available.includes(slug) ? [slug] : [...available];
+  }
+
+  if (current.has(slug)) {
+    current.delete(slug);
+  } else if (available.includes(slug)) {
+    current.add(slug);
+  }
+
+  if (current.size === 0 || current.size === available.length) {
+    return [...available];
+  }
+
+  return available.filter((option) => current.has(option));
+}
+
+export function normalizeInventorySearchQuery(query) {
+  return String(query ?? "")
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, " ");
+}
+
+function inventoryCardSearchText(card = {}) {
+  const group = getCommodityGroup(commodityGroupForCode(card.commodityCode));
+  const alerts = Array.isArray(card.alerts) ? card.alerts.map((alert) => alert?.label).filter(Boolean).join(" ") : "";
+
+  return normalizeInventorySearchQuery(
+    [
+      card.name,
+      card.code,
+      card.indicatorId,
+      card.sourceLabel,
+      card.snapshotGroup,
+      card.commodityCode,
+      card.frequency,
+      group.label,
+      group.shortDescription,
+      alerts,
+    ].join(" ")
+  );
+}
+
+export function searchSnapshotCards(cards, query) {
+  const normalizedQuery = normalizeInventorySearchQuery(query);
+  if (!normalizedQuery) {
+    return cards;
+  }
+
+  const terms = normalizedQuery.split(" ");
+  return cards.filter((card) => {
+    const haystack = inventoryCardSearchText(card);
+    return terms.every((term) => haystack.includes(term));
+  });
+}
+
 function weekOfYear(date) {
   const utcDate = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
   const dayNumber = utcDate.getUTCDay() || 7;

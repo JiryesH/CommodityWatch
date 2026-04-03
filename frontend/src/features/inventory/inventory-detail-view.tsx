@@ -21,6 +21,7 @@ import {
   buildChangeBarSeries,
   buildRecentReleaseRows,
   buildSeasonalSeries,
+  hasSeasonalCoverage,
   percentileBracketLabel,
   seasonalPointForLatest,
   type RecentReleaseRow,
@@ -49,11 +50,12 @@ export function InventoryDetailView({
   const latestQuery = useIndicatorLatest(indicatorId);
 
   const data = excludeYear2020 && alternateDataQuery.data?.seasonalRange.length ? alternateDataQuery.data : baseDataQuery.data;
-  const chartSeries = useMemo(() => (data ? buildSeasonalSeries(data) : null), [data]);
+  const showSeasonalCoverage = Boolean(data && hasSeasonalCoverage(data));
+  const chartSeries = useMemo(() => (data && showSeasonalCoverage ? buildSeasonalSeries(data) : null), [data, showSeasonalCoverage]);
   const changeSeries = useMemo(() => (data ? buildChangeBarSeries(data.series) : []), [data]);
   const recentRows = useMemo(() => (data ? buildRecentReleaseRows(data) : []), [data]);
-  const tableColumns = useMemo(
-    () => [
+  const tableColumns = useMemo(() => {
+    const columns = [
       {
         accessorKey: "date",
         header: "Date",
@@ -74,25 +76,35 @@ export function InventoryDetailView({
         header: "% Change",
         cell: ({ row }: { row: { original: RecentReleaseRow } }) => formatPercent(row.original.percentChange),
       },
-      {
-        accessorKey: "vsMedian",
-        header: "vs 5Y Median",
-        cell: ({ row }: { row: { original: RecentReleaseRow } }) => formatSignedValue(row.original.vsMedian, data?.indicator.unit),
-      },
-      {
-        accessorKey: "percentileRankLabel",
-        header: "Percentile Rank",
-      },
-    ],
-    [data?.indicator.unit],
-  );
-  const latestSeasonalPoint = data && latestQuery.data
-    ? seasonalPointForLatest(latestQuery.data.latest.periodEndAt, data.seasonalRange, data.indicator.frequency)
-    : null;
+    ];
+
+    if (showSeasonalCoverage) {
+      columns.push(
+        {
+          accessorKey: "vsMedian",
+          header: "vs 5Y Median",
+          cell: ({ row }: { row: { original: RecentReleaseRow } }) => formatSignedValue(row.original.vsMedian, data?.indicator.unit),
+        },
+        {
+          accessorKey: "percentileRankLabel",
+          header: "Percentile Rank",
+          cell: ({ row }: { row: { original: RecentReleaseRow } }) => row.original.percentileRankLabel,
+        },
+      );
+    }
+
+    return columns;
+  }, [data?.indicator.unit, showSeasonalCoverage]);
+  const latestSeasonalPoint =
+    data && latestQuery.data && showSeasonalCoverage
+      ? seasonalPointForLatest(latestQuery.data.latest.periodEndAt, data.seasonalRange, data.indicator)
+      : null;
   const alertKind =
     data && latestQuery.data ? alertKindFromSeasonal(latestQuery.data.latest.value, latestSeasonalPoint) : null;
   const percentileLabel =
-    data && latestQuery.data ? percentileBracketLabel(latestQuery.data.latest.value, latestSeasonalPoint) : "Unavailable";
+    data && latestQuery.data && showSeasonalCoverage
+      ? percentileBracketLabel(latestQuery.data.latest.value, latestSeasonalPoint)
+      : "Current only";
   const activeGroup = getCommodityGroup(commoditySlug);
 
   if (baseDataQuery.isLoading && !data) {
@@ -137,7 +149,12 @@ export function InventoryDetailView({
         </div>
       ) : null}
       <PageHeader
-        description={data.indicator.description ?? "Seasonal inventory range, period changes, and recent releases."}
+        description={
+          data.indicator.description ??
+          (showSeasonalCoverage
+            ? "Seasonal inventory range, period changes, and recent releases."
+            : "Current releases, period changes, and recent history.")
+        }
         eyebrow="InventoryWatch"
         title={data.indicator.name}
       >
@@ -155,12 +172,14 @@ export function InventoryDetailView({
           <section className="card-surface p-4">
             <div className="mb-4 flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
               <div>
-                <h2 className="text-h2 text-foreground">Seasonal range</h2>
+                <h2 className="text-h2 text-foreground">{showSeasonalCoverage ? "Seasonal range" : "History"}</h2>
                 <p className="mt-1 text-body text-foreground-secondary">
-                  Current year versus the 5-year seasonal percentile bands.
+                  {showSeasonalCoverage
+                    ? "Current year versus the 5-year seasonal percentile bands."
+                    : "Current releases and period changes. Seasonal framing is not yet defensible."}
                 </p>
               </div>
-              <SeasonalToggle excludeYear2020={excludeYear2020} onChange={setExcludeYear2020} />
+              {showSeasonalCoverage ? <SeasonalToggle excludeYear2020={excludeYear2020} onChange={setExcludeYear2020} /> : null}
             </div>
             {chartSeries ? (
               <SeasonalRangeChart
@@ -171,7 +190,10 @@ export function InventoryDetailView({
                 unit={data.indicator.unit ?? ""}
               />
             ) : (
-              <EmptyState message="Seasonal data is not available for this indicator." title="No seasonal range" />
+              <EmptyState
+                message="This series is tracked, but its seasonal baseline is too thin to present as a public seasonal view."
+                title="Current only"
+              />
             )}
           </section>
 
@@ -179,7 +201,7 @@ export function InventoryDetailView({
             <div className="mb-4">
               <h2 className="text-h2 text-foreground">Period change</h2>
               <p className="mt-1 text-body text-foreground-secondary">
-                Weekly or monthly builds and draws with inventory-aware color conventions.
+                Recent builds and draws with inventory-aware color conventions.
               </p>
             </div>
             {changeSeries.length ? (
@@ -204,7 +226,7 @@ export function InventoryDetailView({
             />
             <div className="mt-4 flex flex-wrap gap-2">
               {alertKind ? <AlertBadge kind={alertKind} /> : null}
-              <AlertBadge kind="observed" label={percentileLabel} />
+              {showSeasonalCoverage ? <AlertBadge kind="observed" label={percentileLabel} /> : null}
             </div>
             <dl className="mt-4 space-y-3">
               <div>
@@ -217,12 +239,14 @@ export function InventoryDetailView({
                   {latestQuery.data?.latest.releaseDate ? formatUtcTimestamp(latestQuery.data.latest.releaseDate) : "N/A"}
                 </dd>
               </div>
-              <div>
-                <dt className="text-caption text-foreground-muted">vs 5Y median</dt>
-                <dd className="mt-1 font-mono text-[13px] text-foreground-secondary">
-                  {formatSignedValue(latestQuery.data?.latest.deviationFromSeasonalAbs ?? null, data.indicator.unit)}
-                </dd>
-              </div>
+              {showSeasonalCoverage ? (
+                <div>
+                  <dt className="text-caption text-foreground-muted">vs 5Y median</dt>
+                  <dd className="mt-1 font-mono text-[13px] text-foreground-secondary">
+                    {formatSignedValue(latestQuery.data?.latest.deviationFromSeasonalAbs ?? null, data.indicator.unit)}
+                  </dd>
+                </div>
+              ) : null}
             </dl>
           </div>
 

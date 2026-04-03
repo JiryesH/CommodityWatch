@@ -57,23 +57,23 @@ class LMEWarehouseClient:
         await self._client.close()
 
     async def has_report(self, report_date: date) -> bool:
-        try:
-            response = await self._client.head(build_report_url(report_date))
-        except httpx.HTTPStatusError as exc:
-            response = exc.response
-        if response.status_code == 200:
-            return _is_excel_response(response)
-        if _is_missing_redirect(response):
+        response = await self._request_report(report_date, method="HEAD")
+        if _is_excel_response(response):
+            return True
+        if _is_missing_redirect(response) or response.status_code == 404:
             return False
         if _is_access_blocked(response):
             raise LMEWarehouseAccessBlockedError("LME direct report URL is blocked from this environment.")
+        if response.status_code == 405 or response.status_code == 200:
+            # Some report URLs respond to HEAD without a usable content type.
+            response = await self._request_report(report_date, method="GET")
+            if _is_access_blocked(response):
+                raise LMEWarehouseAccessBlockedError("LME direct report URL is blocked from this environment.")
+            return _is_excel_response(response)
         return False
 
     async def get_report(self, report_date: date) -> bytes:
-        try:
-            response = await self._client.get(build_report_url(report_date))
-        except httpx.HTTPStatusError as exc:
-            response = exc.response
+        response = await self._request_report(report_date, method="GET")
         if _is_access_blocked(response):
             raise LMEWarehouseAccessBlockedError("LME direct report URL is blocked from this environment.")
         if not _is_excel_response(response):
@@ -88,6 +88,12 @@ class LMEWarehouseClient:
             if await self.has_report(candidate):
                 return candidate
         return None
+
+    async def _request_report(self, report_date: date, *, method: str) -> httpx.Response:
+        try:
+            return await self._client.request(method, build_report_url(report_date))
+        except httpx.HTTPStatusError as exc:
+            return exc.response
 
 
 def _is_missing_redirect(response) -> bool:

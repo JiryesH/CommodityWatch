@@ -1,0 +1,1091 @@
+{
+  "generated_at": "2026-04-02T18:36:10.346868+00:00",
+  "indicators": [
+    {
+      "code": "COMEX_GOLD_WAREHOUSE_STOCKS",
+      "earliest_period_end_at": "2026-04-01T00:00:00+00:00",
+      "freshness_state": "fresh",
+      "indicator_id": "COMEX_GOLD_WAREHOUSE_STOCKS",
+      "issues": [],
+      "latest_period_end_at": "2026-04-01T00:00:00+00:00",
+      "latest_release_at": "2026-04-01T00:00:00+00:00",
+      "name": "COMEX Gold Registered and Eligible Stocks",
+      "observation_count": 1,
+      "period_age_days": 1,
+      "public_display_status": "eligible",
+      "public_display_suitable": true,
+      "release_age_days": 1,
+      "required_seasonal_points": 12,
+      "seasonal_point_count": 0,
+      "seasonal_profile_count": 2,
+      "source_label": "COMEX / CME",
+      "source_slug": "comex",
+      "stale": false,
+      "visibility_tier": "public"
+    },
+    {
+      "code": "COMEX_SILVER_WAREHOUSE_STOCKS",
+      "earliest_period_end_at": "2026-04-01T00:00:00+00:00",
+      "freshness_state": "fresh",
+      "indicator_id": "COMEX_SILVER_WAREHOUSE_STOCKS",
+      "issues": [],
+      "latest_period_end_at": "2026-04-01T00:00:00+00:00",
+      "latest_release_at": "2026-04-01T00:00:00+00:00",
+      "name": "COMEX Silver Registered and Eligible Stocks",
+      "observation_count": 1,
+      "period_age_days": 1,
+      "public_display_status": "eligible",
+      "public_display_suitable": true,
+      "release_age_days": 1,
+      "required_seasonal_points": 12,
+      "seasonal_point_count": 0,
+      "seasonal_profile_count": 2,
+      "source_label": "COMEX / CME",
+      "source_slug": "comex",
+      "stale": false,
+      "visibility_tier": "public"
+    },
+    {
+      "code": "EIA_CRUDE_US_COMMERCIAL_STOCKS_EX_SPR",
+      "earliest_period_end_at": "2016-08-12T00:00:00+00:00",
+      "freshness_state": "fresh",
+      "indicator_id": "EIA_CRUDE_US_COMMERCIAL_STOCKS_EX_SPR",
+      "issues": [
+        {
+          "code": "thin_seasonal_history",
+          "message": "Seasonal history is too thin for public display: 8 points, need at least 26.",
+          "severity": "error"
+        },
+        {
+          "code": "old_period",
+          "message": "Latest period end is 3471 days old.",
+          "severity": "warning"
+        }
+      ],
+      "latest_period_end_at": "2016-09-30T00:00:00+00:00",
+      "latest_release_at": "2026-04-02T10:16:16.058193+00:00",
+      "name": "EIA US Commercial Crude Stocks excl SPR",
+      "observation_count": 8,
+      "period_age_days": 3471,
+      "public_display_status": "suppressed",
+      "public_display_suitable": false,
+      "release_age_days": 0,
+      "required_seasonal_points": 26,
+      "seasonal_point_count": 8,
+      "seasonal_profile_count": 2,
+      "source_label": "EIA",
+      "source_slug": "eia",
+      "stale": false,
+      "visibility_tier": "public"
+    },
+    {
+      "code": "EIA_CRUDE_US_CUSHING_STOCKS",
+      "earliest_period_end_at": "2026-01-30T00:00:00+00:00",
+      "freshness_state": "fresh",
+      "indicator_id": "EIA_CRUDE_US_CUSHING_STOCKS",
+      "issues": [
+        {
+          "code": "thin_seasonal_history",
+          "message": "Seasonal history is too thin for public display: 9 points, need at least 26.",
+          "severity": "error"
+        }
+      ],
+      "latest_period_end_at": "2026-03-27T00:00:00+00:00",
+      "latest_release_at": "2026-04-02T10:16:20.252598+00:00",
+      "name": "EIA US Crude Stocks at Cushing",
+      "observation_count": 9,
+      "period_age_days": 6,
+      "public_display_status": "suppressed",
+      "public_display_suitable": false,
+      "release_age_days": 0,
+      "required_seasonal_points": 26,
+      "seasonal_point_count": 9,
+      "seasonal_profile_count": 2,
+      "source_label": "EIA",
+      "source_slug": "eia",
+      "stale": false,
+      "visibility_tier": "public"
+    },
+    {
+      "code": "EIA_CRUDE_US_SPR_STOCKS",
+      "earliest_period_end_at": "2026-01-30T00:00:00+00:00",
+      "freshness_state": "fresh",
+      "indicator_id": "EIA_CRUDE_US_SPR_STOCKS",
+      "issues": [],
+      "latest_period_end_at": "2026-03-27T00:00:00+00:00",
+      "latest_release_at": "2026-04-02T10:16:26.521553+00:00",
+      "name": "EIA US SPR Stocks",
+      "observation_count": 9,
+      "period_age_days": 6,
+      "public_display_status": "eligible",
+      "public_display_suitable": true,
+      "release_age_days": 0,
+      "required_seasonal_points": 12,
+      "seasonal_point_count": 0,
+      "seasonal_profile_count": 2,
+      "source_label": "EIA",
+      "source_slug": "eia",
+      "stale": false,
+      "visibility_tier": "public"
+    },
+    {
+      "code": "EIA_DISTILLATE_US_TOTAL_STOCKS",
+      "earliest_period_end_at": "2026-01-30T00:00:00+00:00",
+      "freshness_state": "fresh",
+      "indicator_id": "EIA_DISTILLATE_US_TOTAL_STOCKS",
+      "issues": [
+        {
+          "code": "thin_seasonal_history",
+          "message": "Seasonal history is too thin for public display: 9 points, need at least 26.",
+          "severity": "error"
+        }
+      ],
+      "latest_period_end_at": "2026-03-27T00:00:00+00:00",
+      "latest_release_at": "2026-04-02T10:16:32.529162+00:00",
+      "name": "EIA US Distillate Fuel Oil Stocks",
+      "observation_count": 9,
+      "period_age_days": 6,
+      "public_display_status": "suppressed",
+      "public_display_suitable": false,
+      "release_age_days": 0,
+      "required_seasonal_points": 26,
+      "seasonal_point_count": 9,
+      "seasonal_profile_count": 2,
+      "source_label": "EIA",
+      "source_slug": "eia",
+      "stale": false,
+      "visibility_tier": "public"
+    },
+    {
+      "code": "EIA_GASOLINE_US_TOTAL_STOCKS",
+      "earliest_period_end_at": "2026-01-30T00:00:00+00:00",
+      "freshness_state": "fresh",
+      "indicator_id": "EIA_GASOLINE_US_TOTAL_STOCKS",
+      "issues": [
+        {
+          "code": "thin_seasonal_history",
+          "message": "Seasonal history is too thin for public display: 9 points, need at least 26.",
+          "severity": "error"
+        }
+      ],
+      "latest_period_end_at": "2026-03-27T00:00:00+00:00",
+      "latest_release_at": "2026-04-02T10:16:37.074876+00:00",
+      "name": "EIA US Total Motor Gasoline Stocks",
+      "observation_count": 9,
+      "period_age_days": 6,
+      "public_display_status": "suppressed",
+      "public_display_suitable": false,
+      "release_age_days": 0,
+      "required_seasonal_points": 26,
+      "seasonal_point_count": 9,
+      "seasonal_profile_count": 2,
+      "source_label": "EIA",
+      "source_slug": "eia",
+      "stale": false,
+      "visibility_tier": "public"
+    },
+    {
+      "code": "EIA_JET_FUEL_US_TOTAL_STOCKS",
+      "earliest_period_end_at": "2026-01-30T00:00:00+00:00",
+      "freshness_state": "fresh",
+      "indicator_id": "EIA_JET_FUEL_US_TOTAL_STOCKS",
+      "issues": [
+        {
+          "code": "thin_seasonal_history",
+          "message": "Seasonal history is too thin for public display: 9 points, need at least 26.",
+          "severity": "error"
+        }
+      ],
+      "latest_period_end_at": "2026-03-27T00:00:00+00:00",
+      "latest_release_at": "2026-04-02T10:16:39.923641+00:00",
+      "name": "EIA US Jet Fuel Stocks",
+      "observation_count": 9,
+      "period_age_days": 6,
+      "public_display_status": "suppressed",
+      "public_display_suitable": false,
+      "release_age_days": 0,
+      "required_seasonal_points": 26,
+      "seasonal_point_count": 9,
+      "seasonal_profile_count": 2,
+      "source_label": "EIA",
+      "source_slug": "eia",
+      "stale": false,
+      "visibility_tier": "public"
+    },
+    {
+      "code": "EIA_NATURAL_GAS_US_WORKING_STORAGE",
+      "earliest_period_end_at": "2026-01-30T00:00:00+00:00",
+      "freshness_state": "fresh",
+      "indicator_id": "EIA_NATURAL_GAS_US_WORKING_STORAGE",
+      "issues": [
+        {
+          "code": "thin_seasonal_history",
+          "message": "Seasonal history is too thin for public display: 8 points, need at least 26.",
+          "severity": "error"
+        }
+      ],
+      "latest_period_end_at": "2026-03-20T00:00:00+00:00",
+      "latest_release_at": "2026-04-02T10:16:46.941080+00:00",
+      "name": "EIA US Natural Gas Working Gas in Storage",
+      "observation_count": 8,
+      "period_age_days": 13,
+      "public_display_status": "suppressed",
+      "public_display_suitable": false,
+      "release_age_days": 0,
+      "required_seasonal_points": 26,
+      "seasonal_point_count": 8,
+      "seasonal_profile_count": 2,
+      "source_label": "EIA",
+      "source_slug": "eia",
+      "stale": false,
+      "visibility_tier": "public"
+    },
+    {
+      "code": "EIA_PROPANE_US_TOTAL_STOCKS",
+      "earliest_period_end_at": "2020-02-14T00:00:00+00:00",
+      "freshness_state": "fresh",
+      "indicator_id": "EIA_PROPANE_US_TOTAL_STOCKS",
+      "issues": [
+        {
+          "code": "thin_seasonal_history",
+          "message": "Seasonal history is too thin for public display: 8 points, need at least 26.",
+          "severity": "error"
+        },
+        {
+          "code": "old_period",
+          "message": "Latest period end is 2190 days old.",
+          "severity": "warning"
+        }
+      ],
+      "latest_period_end_at": "2020-04-03T00:00:00+00:00",
+      "latest_release_at": "2026-04-02T10:16:42.804711+00:00",
+      "name": "EIA US Propane/Propylene Stocks",
+      "observation_count": 8,
+      "period_age_days": 2190,
+      "public_display_status": "suppressed",
+      "public_display_suitable": false,
+      "release_age_days": 0,
+      "required_seasonal_points": 26,
+      "seasonal_point_count": 8,
+      "seasonal_profile_count": 1,
+      "source_label": "EIA",
+      "source_slug": "eia",
+      "stale": false,
+      "visibility_tier": "public"
+    },
+    {
+      "code": "ETF_GLD_HOLDINGS",
+      "earliest_period_end_at": "2026-04-01T00:00:00+00:00",
+      "freshness_state": "fresh",
+      "indicator_id": "ETF_GLD_HOLDINGS",
+      "issues": [],
+      "latest_period_end_at": "2026-04-01T00:00:00+00:00",
+      "latest_release_at": "2026-04-01T00:00:00+00:00",
+      "name": "SPDR Gold Shares Holdings",
+      "observation_count": 1,
+      "period_age_days": 1,
+      "public_display_status": "eligible",
+      "public_display_suitable": true,
+      "release_age_days": 1,
+      "required_seasonal_points": 12,
+      "seasonal_point_count": 0,
+      "seasonal_profile_count": 2,
+      "source_label": "ETF Holdings",
+      "source_slug": "etf",
+      "stale": false,
+      "visibility_tier": "public"
+    },
+    {
+      "code": "ETF_IAU_HOLDINGS",
+      "earliest_period_end_at": "2026-04-01T00:00:00+00:00",
+      "freshness_state": "fresh",
+      "indicator_id": "ETF_IAU_HOLDINGS",
+      "issues": [],
+      "latest_period_end_at": "2026-04-01T00:00:00+00:00",
+      "latest_release_at": "2026-04-01T00:00:00+00:00",
+      "name": "iShares Gold Trust Holdings",
+      "observation_count": 1,
+      "period_age_days": 1,
+      "public_display_status": "eligible",
+      "public_display_suitable": true,
+      "release_age_days": 1,
+      "required_seasonal_points": 12,
+      "seasonal_point_count": 0,
+      "seasonal_profile_count": 2,
+      "source_label": "ETF Holdings",
+      "source_slug": "etf",
+      "stale": false,
+      "visibility_tier": "public"
+    },
+    {
+      "code": "ETF_SLV_HOLDINGS",
+      "earliest_period_end_at": "2026-04-01T00:00:00+00:00",
+      "freshness_state": "fresh",
+      "indicator_id": "ETF_SLV_HOLDINGS",
+      "issues": [],
+      "latest_period_end_at": "2026-04-01T00:00:00+00:00",
+      "latest_release_at": "2026-04-01T00:00:00+00:00",
+      "name": "iShares Silver Trust Holdings",
+      "observation_count": 1,
+      "period_age_days": 1,
+      "public_display_status": "eligible",
+      "public_display_suitable": true,
+      "release_age_days": 1,
+      "required_seasonal_points": 12,
+      "seasonal_point_count": 0,
+      "seasonal_profile_count": 2,
+      "source_label": "ETF Holdings",
+      "source_slug": "etf",
+      "stale": false,
+      "visibility_tier": "public"
+    },
+    {
+      "code": "GIE_NATURAL_GAS_EU_AT_STORAGE",
+      "earliest_period_end_at": "2011-01-02T00:00:00+00:00",
+      "freshness_state": "fresh",
+      "indicator_id": "GIE_NATURAL_GAS_EU_AT_STORAGE",
+      "issues": [],
+      "latest_period_end_at": "2026-04-01T00:00:00+00:00",
+      "latest_release_at": "2026-04-02T08:40:50+00:00",
+      "name": "GIE AGSI+ Austria Gas Storage",
+      "observation_count": 5569,
+      "period_age_days": 1,
+      "public_display_status": "eligible",
+      "public_display_suitable": true,
+      "release_age_days": 0,
+      "required_seasonal_points": 180,
+      "seasonal_point_count": 366,
+      "seasonal_profile_count": 2,
+      "source_label": "GIE / AGSI+",
+      "source_slug": "agsi",
+      "stale": false,
+      "visibility_tier": "public"
+    },
+    {
+      "code": "GIE_NATURAL_GAS_EU_DE_STORAGE",
+      "earliest_period_end_at": "2011-01-02T00:00:00+00:00",
+      "freshness_state": "fresh",
+      "indicator_id": "GIE_NATURAL_GAS_EU_DE_STORAGE",
+      "issues": [],
+      "latest_period_end_at": "2026-04-01T00:00:00+00:00",
+      "latest_release_at": "2026-04-02T08:41:11+00:00",
+      "name": "GIE AGSI+ Germany Gas Storage",
+      "observation_count": 5569,
+      "period_age_days": 1,
+      "public_display_status": "eligible",
+      "public_display_suitable": true,
+      "release_age_days": 0,
+      "required_seasonal_points": 180,
+      "seasonal_point_count": 366,
+      "seasonal_profile_count": 2,
+      "source_label": "GIE / AGSI+",
+      "source_slug": "agsi",
+      "stale": false,
+      "visibility_tier": "public"
+    },
+    {
+      "code": "GIE_NATURAL_GAS_EU_FR_STORAGE",
+      "earliest_period_end_at": "2011-01-02T00:00:00+00:00",
+      "freshness_state": "fresh",
+      "indicator_id": "GIE_NATURAL_GAS_EU_FR_STORAGE",
+      "issues": [],
+      "latest_period_end_at": "2026-04-01T00:00:00+00:00",
+      "latest_release_at": "2026-04-01T11:50:02+00:00",
+      "name": "GIE AGSI+ France Gas Storage",
+      "observation_count": 5569,
+      "period_age_days": 1,
+      "public_display_status": "eligible",
+      "public_display_suitable": true,
+      "release_age_days": 1,
+      "required_seasonal_points": 180,
+      "seasonal_point_count": 366,
+      "seasonal_profile_count": 2,
+      "source_label": "GIE / AGSI+",
+      "source_slug": "agsi",
+      "stale": false,
+      "visibility_tier": "public"
+    },
+    {
+      "code": "GIE_NATURAL_GAS_EU_IT_STORAGE",
+      "earliest_period_end_at": "2011-01-02T00:00:00+00:00",
+      "freshness_state": "fresh",
+      "indicator_id": "GIE_NATURAL_GAS_EU_IT_STORAGE",
+      "issues": [],
+      "latest_period_end_at": "2026-04-01T00:00:00+00:00",
+      "latest_release_at": "2026-04-01T13:40:03+00:00",
+      "name": "GIE AGSI+ Italy Gas Storage",
+      "observation_count": 5569,
+      "period_age_days": 1,
+      "public_display_status": "eligible",
+      "public_display_suitable": true,
+      "release_age_days": 1,
+      "required_seasonal_points": 180,
+      "seasonal_point_count": 366,
+      "seasonal_profile_count": 2,
+      "source_label": "GIE / AGSI+",
+      "source_slug": "agsi",
+      "stale": false,
+      "visibility_tier": "public"
+    },
+    {
+      "code": "GIE_NATURAL_GAS_EU_NL_STORAGE",
+      "earliest_period_end_at": "2011-01-02T00:00:00+00:00",
+      "freshness_state": "fresh",
+      "indicator_id": "GIE_NATURAL_GAS_EU_NL_STORAGE",
+      "issues": [],
+      "latest_period_end_at": "2026-04-01T00:00:00+00:00",
+      "latest_release_at": "2026-04-01T10:20:20+00:00",
+      "name": "GIE AGSI+ Netherlands Gas Storage",
+      "observation_count": 5569,
+      "period_age_days": 1,
+      "public_display_status": "eligible",
+      "public_display_suitable": true,
+      "release_age_days": 1,
+      "required_seasonal_points": 180,
+      "seasonal_point_count": 366,
+      "seasonal_profile_count": 2,
+      "source_label": "GIE / AGSI+",
+      "source_slug": "agsi",
+      "stale": false,
+      "visibility_tier": "public"
+    },
+    {
+      "code": "GIE_NATURAL_GAS_EU_TOTAL_STORAGE",
+      "earliest_period_end_at": "2011-01-02T00:00:00+00:00",
+      "freshness_state": "fresh",
+      "indicator_id": "GIE_NATURAL_GAS_EU_TOTAL_STORAGE",
+      "issues": [],
+      "latest_period_end_at": "2026-04-01T00:00:00+00:00",
+      "latest_release_at": "2026-04-02T09:22:33+00:00",
+      "name": "GIE AGSI+ EU Total Gas Storage",
+      "observation_count": 5569,
+      "period_age_days": 1,
+      "public_display_status": "eligible",
+      "public_display_suitable": true,
+      "release_age_days": 0,
+      "required_seasonal_points": 180,
+      "seasonal_point_count": 366,
+      "seasonal_profile_count": 2,
+      "source_label": "GIE / AGSI+",
+      "source_slug": "agsi",
+      "stale": false,
+      "visibility_tier": "public"
+    },
+    {
+      "code": "ICE_ARABICA_COFFEE_CERTIFIED_STOCKS",
+      "earliest_period_end_at": null,
+      "freshness_state": "unknown",
+      "indicator_id": "ICE_ARABICA_COFFEE_CERTIFIED_STOCKS",
+      "issues": [
+        {
+          "code": "no_observations",
+          "message": "No observations are published for this indicator.",
+          "severity": "error"
+        },
+        {
+          "code": "thin_seasonal_history",
+          "message": "Seasonal history is too thin for public display: 0 points, need at least 180.",
+          "severity": "error"
+        }
+      ],
+      "latest_period_end_at": null,
+      "latest_release_at": null,
+      "name": "ICE Arabica Coffee Certified Stocks",
+      "observation_count": 0,
+      "period_age_days": null,
+      "public_display_status": "empty",
+      "public_display_suitable": false,
+      "release_age_days": null,
+      "required_seasonal_points": 180,
+      "seasonal_point_count": 0,
+      "seasonal_profile_count": 1,
+      "source_label": "ICE",
+      "source_slug": "ice",
+      "stale": true,
+      "visibility_tier": "public"
+    },
+    {
+      "code": "ICE_COCOA_CERTIFIED_STOCKS",
+      "earliest_period_end_at": null,
+      "freshness_state": "unknown",
+      "indicator_id": "ICE_COCOA_CERTIFIED_STOCKS",
+      "issues": [
+        {
+          "code": "no_observations",
+          "message": "No observations are published for this indicator.",
+          "severity": "error"
+        },
+        {
+          "code": "thin_seasonal_history",
+          "message": "Seasonal history is too thin for public display: 0 points, need at least 180.",
+          "severity": "error"
+        }
+      ],
+      "latest_period_end_at": null,
+      "latest_release_at": null,
+      "name": "ICE Cocoa Certified Stocks",
+      "observation_count": 0,
+      "period_age_days": null,
+      "public_display_status": "empty",
+      "public_display_suitable": false,
+      "release_age_days": null,
+      "required_seasonal_points": 180,
+      "seasonal_point_count": 0,
+      "seasonal_profile_count": 1,
+      "source_label": "ICE",
+      "source_slug": "ice",
+      "stale": true,
+      "visibility_tier": "public"
+    },
+    {
+      "code": "ICE_COTTON_CERTIFIED_STOCKS",
+      "earliest_period_end_at": null,
+      "freshness_state": "unknown",
+      "indicator_id": "ICE_COTTON_CERTIFIED_STOCKS",
+      "issues": [
+        {
+          "code": "no_observations",
+          "message": "No observations are published for this indicator.",
+          "severity": "error"
+        },
+        {
+          "code": "thin_seasonal_history",
+          "message": "Seasonal history is too thin for public display: 0 points, need at least 180.",
+          "severity": "error"
+        }
+      ],
+      "latest_period_end_at": null,
+      "latest_release_at": null,
+      "name": "ICE Cotton No.2 Certified Stocks",
+      "observation_count": 0,
+      "period_age_days": null,
+      "public_display_status": "empty",
+      "public_display_suitable": false,
+      "release_age_days": null,
+      "required_seasonal_points": 180,
+      "seasonal_point_count": 0,
+      "seasonal_profile_count": 1,
+      "source_label": "ICE",
+      "source_slug": "ice",
+      "stale": true,
+      "visibility_tier": "public"
+    },
+    {
+      "code": "ICE_RAW_SUGAR_CERTIFIED_STOCKS",
+      "earliest_period_end_at": null,
+      "freshness_state": "unknown",
+      "indicator_id": "ICE_RAW_SUGAR_CERTIFIED_STOCKS",
+      "issues": [
+        {
+          "code": "no_observations",
+          "message": "No observations are published for this indicator.",
+          "severity": "error"
+        },
+        {
+          "code": "thin_seasonal_history",
+          "message": "Seasonal history is too thin for public display: 0 points, need at least 180.",
+          "severity": "error"
+        }
+      ],
+      "latest_period_end_at": null,
+      "latest_release_at": null,
+      "name": "ICE Raw Sugar No.11 Certified Stocks",
+      "observation_count": 0,
+      "period_age_days": null,
+      "public_display_status": "empty",
+      "public_display_suitable": false,
+      "release_age_days": null,
+      "required_seasonal_points": 180,
+      "seasonal_point_count": 0,
+      "seasonal_profile_count": 1,
+      "source_label": "ICE",
+      "source_slug": "ice",
+      "stale": true,
+      "visibility_tier": "public"
+    },
+    {
+      "code": "ICE_ROBUSTA_COFFEE_CERTIFIED_STOCKS",
+      "earliest_period_end_at": null,
+      "freshness_state": "unknown",
+      "indicator_id": "ICE_ROBUSTA_COFFEE_CERTIFIED_STOCKS",
+      "issues": [
+        {
+          "code": "no_observations",
+          "message": "No observations are published for this indicator.",
+          "severity": "error"
+        },
+        {
+          "code": "thin_seasonal_history",
+          "message": "Seasonal history is too thin for public display: 0 points, need at least 180.",
+          "severity": "error"
+        }
+      ],
+      "latest_period_end_at": null,
+      "latest_release_at": null,
+      "name": "ICE Robusta Coffee Certified Stocks",
+      "observation_count": 0,
+      "period_age_days": null,
+      "public_display_status": "empty",
+      "public_display_suitable": false,
+      "release_age_days": null,
+      "required_seasonal_points": 180,
+      "seasonal_point_count": 0,
+      "seasonal_profile_count": 1,
+      "source_label": "ICE",
+      "source_slug": "ice",
+      "stale": true,
+      "visibility_tier": "public"
+    },
+    {
+      "code": "LME_ALUMINIUM_WAREHOUSE_STOCKS",
+      "earliest_period_end_at": "2016-07-01T00:00:00+00:00",
+      "freshness_state": "stale",
+      "indicator_id": "LME_ALUMINIUM_WAREHOUSE_STOCKS",
+      "issues": [
+        {
+          "code": "thin_seasonal_history",
+          "message": "Seasonal history is too thin for public display: 12 points, need at least 180.",
+          "severity": "error"
+        },
+        {
+          "code": "stale_release",
+          "message": "Latest release is 2778 days old.",
+          "severity": "warning"
+        },
+        {
+          "code": "old_period",
+          "message": "Latest period end is 2778 days old.",
+          "severity": "warning"
+        }
+      ],
+      "latest_period_end_at": "2018-08-24T00:00:00+00:00",
+      "latest_release_at": "2018-08-24T00:00:00+00:00",
+      "name": "LME Aluminium Warehouse Stocks",
+      "observation_count": 543,
+      "period_age_days": 2778,
+      "public_display_status": "suppressed",
+      "public_display_suitable": false,
+      "release_age_days": 2778,
+      "required_seasonal_points": 180,
+      "seasonal_point_count": 12,
+      "seasonal_profile_count": 2,
+      "source_label": "LME",
+      "source_slug": "lme",
+      "stale": true,
+      "visibility_tier": "public"
+    },
+    {
+      "code": "LME_COPPER_WAREHOUSE_STOCKS",
+      "earliest_period_end_at": "2016-07-01T00:00:00+00:00",
+      "freshness_state": "stale",
+      "indicator_id": "LME_COPPER_WAREHOUSE_STOCKS",
+      "issues": [
+        {
+          "code": "thin_seasonal_history",
+          "message": "Seasonal history is too thin for public display: 12 points, need at least 180.",
+          "severity": "error"
+        },
+        {
+          "code": "stale_release",
+          "message": "Latest release is 2778 days old.",
+          "severity": "warning"
+        },
+        {
+          "code": "old_period",
+          "message": "Latest period end is 2778 days old.",
+          "severity": "warning"
+        }
+      ],
+      "latest_period_end_at": "2018-08-24T00:00:00+00:00",
+      "latest_release_at": "2018-08-24T00:00:00+00:00",
+      "name": "LME Copper Warehouse Stocks",
+      "observation_count": 543,
+      "period_age_days": 2778,
+      "public_display_status": "suppressed",
+      "public_display_suitable": false,
+      "release_age_days": 2778,
+      "required_seasonal_points": 180,
+      "seasonal_point_count": 12,
+      "seasonal_profile_count": 2,
+      "source_label": "LME",
+      "source_slug": "lme",
+      "stale": true,
+      "visibility_tier": "public"
+    },
+    {
+      "code": "LME_LEAD_WAREHOUSE_STOCKS",
+      "earliest_period_end_at": "2016-07-01T00:00:00+00:00",
+      "freshness_state": "stale",
+      "indicator_id": "LME_LEAD_WAREHOUSE_STOCKS",
+      "issues": [
+        {
+          "code": "thin_seasonal_history",
+          "message": "Seasonal history is too thin for public display: 12 points, need at least 180.",
+          "severity": "error"
+        },
+        {
+          "code": "stale_release",
+          "message": "Latest release is 2778 days old.",
+          "severity": "warning"
+        },
+        {
+          "code": "old_period",
+          "message": "Latest period end is 2778 days old.",
+          "severity": "warning"
+        }
+      ],
+      "latest_period_end_at": "2018-08-24T00:00:00+00:00",
+      "latest_release_at": "2018-08-24T00:00:00+00:00",
+      "name": "LME Lead Warehouse Stocks",
+      "observation_count": 543,
+      "period_age_days": 2778,
+      "public_display_status": "suppressed",
+      "public_display_suitable": false,
+      "release_age_days": 2778,
+      "required_seasonal_points": 180,
+      "seasonal_point_count": 12,
+      "seasonal_profile_count": 2,
+      "source_label": "LME",
+      "source_slug": "lme",
+      "stale": true,
+      "visibility_tier": "public"
+    },
+    {
+      "code": "LME_NICKEL_WAREHOUSE_STOCKS",
+      "earliest_period_end_at": "2016-07-01T00:00:00+00:00",
+      "freshness_state": "stale",
+      "indicator_id": "LME_NICKEL_WAREHOUSE_STOCKS",
+      "issues": [
+        {
+          "code": "thin_seasonal_history",
+          "message": "Seasonal history is too thin for public display: 12 points, need at least 180.",
+          "severity": "error"
+        },
+        {
+          "code": "stale_release",
+          "message": "Latest release is 2778 days old.",
+          "severity": "warning"
+        },
+        {
+          "code": "old_period",
+          "message": "Latest period end is 2778 days old.",
+          "severity": "warning"
+        }
+      ],
+      "latest_period_end_at": "2018-08-24T00:00:00+00:00",
+      "latest_release_at": "2018-08-24T00:00:00+00:00",
+      "name": "LME Nickel Warehouse Stocks",
+      "observation_count": 543,
+      "period_age_days": 2778,
+      "public_display_status": "suppressed",
+      "public_display_suitable": false,
+      "release_age_days": 2778,
+      "required_seasonal_points": 180,
+      "seasonal_point_count": 12,
+      "seasonal_profile_count": 2,
+      "source_label": "LME",
+      "source_slug": "lme",
+      "stale": true,
+      "visibility_tier": "public"
+    },
+    {
+      "code": "LME_TIN_WAREHOUSE_STOCKS",
+      "earliest_period_end_at": "2016-07-01T00:00:00+00:00",
+      "freshness_state": "stale",
+      "indicator_id": "LME_TIN_WAREHOUSE_STOCKS",
+      "issues": [
+        {
+          "code": "thin_seasonal_history",
+          "message": "Seasonal history is too thin for public display: 12 points, need at least 180.",
+          "severity": "error"
+        },
+        {
+          "code": "stale_release",
+          "message": "Latest release is 2778 days old.",
+          "severity": "warning"
+        },
+        {
+          "code": "old_period",
+          "message": "Latest period end is 2778 days old.",
+          "severity": "warning"
+        }
+      ],
+      "latest_period_end_at": "2018-08-24T00:00:00+00:00",
+      "latest_release_at": "2018-08-24T00:00:00+00:00",
+      "name": "LME Tin Warehouse Stocks",
+      "observation_count": 543,
+      "period_age_days": 2778,
+      "public_display_status": "suppressed",
+      "public_display_suitable": false,
+      "release_age_days": 2778,
+      "required_seasonal_points": 180,
+      "seasonal_point_count": 12,
+      "seasonal_profile_count": 2,
+      "source_label": "LME",
+      "source_slug": "lme",
+      "stale": true,
+      "visibility_tier": "public"
+    },
+    {
+      "code": "LME_ZINC_WAREHOUSE_STOCKS",
+      "earliest_period_end_at": "2016-07-01T00:00:00+00:00",
+      "freshness_state": "stale",
+      "indicator_id": "LME_ZINC_WAREHOUSE_STOCKS",
+      "issues": [
+        {
+          "code": "thin_seasonal_history",
+          "message": "Seasonal history is too thin for public display: 12 points, need at least 180.",
+          "severity": "error"
+        },
+        {
+          "code": "stale_release",
+          "message": "Latest release is 2778 days old.",
+          "severity": "warning"
+        },
+        {
+          "code": "old_period",
+          "message": "Latest period end is 2778 days old.",
+          "severity": "warning"
+        }
+      ],
+      "latest_period_end_at": "2018-08-24T00:00:00+00:00",
+      "latest_release_at": "2018-08-24T00:00:00+00:00",
+      "name": "LME Zinc Warehouse Stocks",
+      "observation_count": 543,
+      "period_age_days": 2778,
+      "public_display_status": "suppressed",
+      "public_display_suitable": false,
+      "release_age_days": 2778,
+      "required_seasonal_points": 180,
+      "seasonal_point_count": 12,
+      "seasonal_profile_count": 2,
+      "source_label": "LME",
+      "source_slug": "lme",
+      "stale": true,
+      "visibility_tier": "public"
+    },
+    {
+      "code": "USDA_US_CORN_ENDING_STOCKS",
+      "earliest_period_end_at": "2019-05-10T00:00:00+00:00",
+      "freshness_state": "stale",
+      "indicator_id": "USDA_US_CORN_ENDING_STOCKS",
+      "issues": [
+        {
+          "code": "stale_release",
+          "message": "Latest release is 23 days old.",
+          "severity": "warning"
+        }
+      ],
+      "latest_period_end_at": "2026-03-10T00:00:00+00:00",
+      "latest_release_at": "2026-03-10T00:00:00+00:00",
+      "name": "USDA WASDE US Corn Ending Stocks",
+      "observation_count": 53,
+      "period_age_days": 23,
+      "public_display_status": "stale",
+      "public_display_suitable": true,
+      "release_age_days": 23,
+      "required_seasonal_points": 12,
+      "seasonal_point_count": 12,
+      "seasonal_profile_count": 2,
+      "source_label": "USDA WASDE",
+      "source_slug": "usda_psd",
+      "stale": true,
+      "visibility_tier": "public"
+    },
+    {
+      "code": "USDA_US_RICE_ENDING_STOCKS",
+      "earliest_period_end_at": "2019-05-10T00:00:00+00:00",
+      "freshness_state": "stale",
+      "indicator_id": "USDA_US_RICE_ENDING_STOCKS",
+      "issues": [
+        {
+          "code": "stale_release",
+          "message": "Latest release is 23 days old.",
+          "severity": "warning"
+        }
+      ],
+      "latest_period_end_at": "2026-03-10T00:00:00+00:00",
+      "latest_release_at": "2026-03-10T00:00:00+00:00",
+      "name": "USDA WASDE US Rice Ending Stocks",
+      "observation_count": 53,
+      "period_age_days": 23,
+      "public_display_status": "stale",
+      "public_display_suitable": true,
+      "release_age_days": 23,
+      "required_seasonal_points": 12,
+      "seasonal_point_count": 12,
+      "seasonal_profile_count": 2,
+      "source_label": "USDA WASDE",
+      "source_slug": "usda_psd",
+      "stale": true,
+      "visibility_tier": "public"
+    },
+    {
+      "code": "USDA_US_SOYBEAN_ENDING_STOCKS",
+      "earliest_period_end_at": "2019-05-10T00:00:00+00:00",
+      "freshness_state": "stale",
+      "indicator_id": "USDA_US_SOYBEAN_ENDING_STOCKS",
+      "issues": [
+        {
+          "code": "stale_release",
+          "message": "Latest release is 23 days old.",
+          "severity": "warning"
+        }
+      ],
+      "latest_period_end_at": "2026-03-10T00:00:00+00:00",
+      "latest_release_at": "2026-03-10T00:00:00+00:00",
+      "name": "USDA WASDE US Soybean Ending Stocks",
+      "observation_count": 53,
+      "period_age_days": 23,
+      "public_display_status": "stale",
+      "public_display_suitable": true,
+      "release_age_days": 23,
+      "required_seasonal_points": 12,
+      "seasonal_point_count": 12,
+      "seasonal_profile_count": 2,
+      "source_label": "USDA WASDE",
+      "source_slug": "usda_psd",
+      "stale": true,
+      "visibility_tier": "public"
+    },
+    {
+      "code": "USDA_US_WHEAT_ENDING_STOCKS",
+      "earliest_period_end_at": "2019-05-10T00:00:00+00:00",
+      "freshness_state": "stale",
+      "indicator_id": "USDA_US_WHEAT_ENDING_STOCKS",
+      "issues": [
+        {
+          "code": "stale_release",
+          "message": "Latest release is 23 days old.",
+          "severity": "warning"
+        }
+      ],
+      "latest_period_end_at": "2026-03-10T00:00:00+00:00",
+      "latest_release_at": "2026-03-10T00:00:00+00:00",
+      "name": "USDA WASDE US Wheat Ending Stocks",
+      "observation_count": 53,
+      "period_age_days": 23,
+      "public_display_status": "stale",
+      "public_display_suitable": true,
+      "release_age_days": 23,
+      "required_seasonal_points": 12,
+      "seasonal_point_count": 12,
+      "seasonal_profile_count": 2,
+      "source_label": "USDA WASDE",
+      "source_slug": "usda_psd",
+      "stale": true,
+      "visibility_tier": "public"
+    },
+    {
+      "code": "USDA_WORLD_CORN_ENDING_STOCKS",
+      "earliest_period_end_at": "2019-05-10T00:00:00+00:00",
+      "freshness_state": "stale",
+      "indicator_id": "USDA_WORLD_CORN_ENDING_STOCKS",
+      "issues": [
+        {
+          "code": "stale_release",
+          "message": "Latest release is 23 days old.",
+          "severity": "warning"
+        }
+      ],
+      "latest_period_end_at": "2026-03-10T00:00:00+00:00",
+      "latest_release_at": "2026-03-10T00:00:00+00:00",
+      "name": "USDA WASDE World Corn Ending Stocks",
+      "observation_count": 53,
+      "period_age_days": 23,
+      "public_display_status": "stale",
+      "public_display_suitable": true,
+      "release_age_days": 23,
+      "required_seasonal_points": 12,
+      "seasonal_point_count": 12,
+      "seasonal_profile_count": 2,
+      "source_label": "USDA WASDE",
+      "source_slug": "usda_psd",
+      "stale": true,
+      "visibility_tier": "public"
+    },
+    {
+      "code": "USDA_WORLD_SOYBEAN_ENDING_STOCKS",
+      "earliest_period_end_at": "2019-05-10T00:00:00+00:00",
+      "freshness_state": "stale",
+      "indicator_id": "USDA_WORLD_SOYBEAN_ENDING_STOCKS",
+      "issues": [
+        {
+          "code": "stale_release",
+          "message": "Latest release is 23 days old.",
+          "severity": "warning"
+        }
+      ],
+      "latest_period_end_at": "2026-03-10T00:00:00+00:00",
+      "latest_release_at": "2026-03-10T00:00:00+00:00",
+      "name": "USDA WASDE World Soybean Ending Stocks",
+      "observation_count": 53,
+      "period_age_days": 23,
+      "public_display_status": "stale",
+      "public_display_suitable": true,
+      "release_age_days": 23,
+      "required_seasonal_points": 12,
+      "seasonal_point_count": 12,
+      "seasonal_profile_count": 2,
+      "source_label": "USDA WASDE",
+      "source_slug": "usda_psd",
+      "stale": true,
+      "visibility_tier": "public"
+    },
+    {
+      "code": "USDA_WORLD_WHEAT_ENDING_STOCKS",
+      "earliest_period_end_at": "2019-05-10T00:00:00+00:00",
+      "freshness_state": "stale",
+      "indicator_id": "USDA_WORLD_WHEAT_ENDING_STOCKS",
+      "issues": [
+        {
+          "code": "stale_release",
+          "message": "Latest release is 23 days old.",
+          "severity": "warning"
+        }
+      ],
+      "latest_period_end_at": "2026-03-10T00:00:00+00:00",
+      "latest_release_at": "2026-03-10T00:00:00+00:00",
+      "name": "USDA WASDE World Wheat Ending Stocks",
+      "observation_count": 53,
+      "period_age_days": 23,
+      "public_display_status": "stale",
+      "public_display_suitable": true,
+      "release_age_days": 23,
+      "required_seasonal_points": 12,
+      "seasonal_point_count": 12,
+      "seasonal_profile_count": 2,
+      "source_label": "USDA WASDE",
+      "source_slug": "usda_psd",
+      "stale": true,
+      "visibility_tier": "public"
+    }
+  ],
+  "summary": {
+    "error_indicator_count": 18,
+    "indicator_count": 37,
+    "indicators_with_observations": 32,
+    "indicators_with_usable_seasonal_ranges": 13,
+    "issue_code_counts": {
+      "no_observations": 5,
+      "old_period": 8,
+      "stale_release": 13,
+      "thin_seasonal_history": 18
+    },
+    "issue_counts": {
+      "error": 23,
+      "info": 0,
+      "warning": 21
+    },
+    "public_display_suitable_count": 19,
+    "public_indicator_count": 37,
+    "suppressed_indicator_count": 18,
+    "total_observations": 37117,
+    "warning_indicator_count": 15
+  },
+  "thresholds": {
+    "dead_after_days": 90,
+    "min_seasonal_points": 12,
+    "stale_after_days": 14
+  }
+}

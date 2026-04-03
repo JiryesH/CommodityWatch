@@ -3,43 +3,43 @@ export const COMMODITY_GROUPS = [
     slug: "all",
     label: "All",
     commodityCodes: [],
-    shortDescription: "Cross-market inventory snapshot across energy, metals, and agriculture.",
+    shortDescription: "Full InventoryWatch market snapshot.",
   },
   {
     slug: "energy",
     label: "Energy",
     commodityCodes: ["crude_oil", "gasoline", "distillates", "propane", "jet_fuel"],
-    shortDescription: "Crude and refined product storage balances.",
+    shortDescription: "Crude and refined product inventories.",
   },
   {
     slug: "natural-gas",
     label: "Natural Gas",
     commodityCodes: ["natural_gas"],
-    shortDescription: "US and European gas storage balances.",
+    shortDescription: "US and European gas storage.",
   },
   {
     slug: "base-metals",
     label: "Base Metals",
     commodityCodes: ["copper", "aluminum", "nickel", "zinc", "lead", "tin"],
-    shortDescription: "Exchange warehouse stocks across base metals.",
+    shortDescription: "LME warehouse stocks and exchange inventory context.",
   },
   {
     slug: "grains",
     label: "Grains",
-    commodityCodes: ["corn", "wheat", "soybeans", "oilseeds"],
-    shortDescription: "Official grain and oilseed stock reports.",
+    commodityCodes: ["corn", "wheat", "soybeans", "oilseeds", "rice"],
+    shortDescription: "USDA grain and oilseed stocks.",
   },
   {
     slug: "softs",
     label: "Softs",
     commodityCodes: ["coffee", "cocoa", "sugar", "cotton"],
-    shortDescription: "Certified and exchange-reported soft commodity stocks.",
+    shortDescription: "Exchange-certified stocks across soft commodities.",
   },
   {
     slug: "precious-metals",
     label: "Precious Metals",
     commodityCodes: ["gold", "silver", "platinum", "palladium"],
-    shortDescription: "Vault, warehouse, and ETF stock context for precious metals.",
+    shortDescription: "Warehouse stocks and ETF holdings.",
   },
   {
     slug: "coal",
@@ -80,6 +80,7 @@ const SNAPSHOT_GROUP_BY_COMMODITY = {
   wheat: "Grains",
   soybeans: "Grains",
   oilseeds: "Grains",
+  rice: "Grains",
   coffee: "Softs",
   cocoa: "Softs",
   sugar: "Softs",
@@ -249,7 +250,7 @@ export function getIndicatorRegistryEntry(code, commodityCode = "") {
     return {
       description: "Warehouse inventory indicator from the London Metal Exchange.",
       sourceLabel: "LME",
-      snapshotGroup: inferredSnapshotGroup,
+      snapshotGroup: "Base Metals",
     };
   }
 
@@ -257,7 +258,7 @@ export function getIndicatorRegistryEntry(code, commodityCode = "") {
     return {
       description: "Inventory indicator sourced from USDA publications.",
       sourceLabel: "USDA",
-      snapshotGroup: inferredSnapshotGroup,
+      snapshotGroup: "Grains",
     };
   }
 
@@ -265,7 +266,7 @@ export function getIndicatorRegistryEntry(code, commodityCode = "") {
     return {
       description: "Warehouse stock indicator sourced from CME delivery reports.",
       sourceLabel: "COMEX / CME",
-      snapshotGroup: inferredSnapshotGroup,
+      snapshotGroup: "Precious Metals",
     };
   }
 
@@ -273,7 +274,7 @@ export function getIndicatorRegistryEntry(code, commodityCode = "") {
     return {
       description: "Daily ETF holdings indicator.",
       sourceLabel: "ETF Holdings",
-      snapshotGroup: inferredSnapshotGroup,
+      snapshotGroup: "Precious Metals",
     };
   }
 
@@ -281,7 +282,7 @@ export function getIndicatorRegistryEntry(code, commodityCode = "") {
     return {
       description: "Certified stock indicator sourced from ICE.",
       sourceLabel: "ICE",
-      snapshotGroup: inferredSnapshotGroup,
+      snapshotGroup: "Softs",
     };
   }
 

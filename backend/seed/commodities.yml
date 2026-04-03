@@ -112,6 +112,12 @@
   parent_code: metals
   is_active: true
   metadata: {}
+- code: aluminum
+  name: Aluminum
+  sector: metals
+  parent_code: metals
+  is_active: true
+  metadata: {alias_of: aluminium}
 - code: zinc
   name: Zinc
   sector: metals

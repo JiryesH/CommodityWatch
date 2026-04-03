@@ -34,12 +34,16 @@ class IndicatorSeriesMeta(APIModel):
     id: UUID
     code: str
     name: str
+    description: str | None = None
     modules: list[str]
     commodity_code: str | None
     geography_code: str | None
     frequency: str
     measure_family: str
     unit: str | None
+    period_type: str | None = None
+    marketing_year_start_month: int | None = None
+    is_seasonal: bool = False
 
 
 class IndicatorSeriesPoint(APIModel):
@@ -98,11 +102,16 @@ class SnapshotCard(APIModel):
     indicator_id: UUID
     code: str
     name: str
+    description: str | None = None
     commodity_code: str | None
     geography_code: str | None
     latest_value: float
     unit: str
     frequency: str | None = None
+    source_url: str | None = None
+    period_type: str | None = None
+    marketing_year_start_month: int | None = None
+    is_seasonal: bool = False
     change_abs: float | None
     deviation_abs: float | None
     signal: str

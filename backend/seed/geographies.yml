@@ -110,6 +110,14 @@
   parent_code: GLOBAL
   is_active: true
   metadata: {}
+- code: LME
+  name: LME Exchange Network
+  geo_type: market
+  iso2:
+  iso3:
+  parent_code: GLOBAL
+  is_active: true
+  metadata: {}
 - code: EU
   name: European Union
   geo_type: region

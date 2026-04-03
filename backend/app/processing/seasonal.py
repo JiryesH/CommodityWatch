@@ -35,6 +35,30 @@ def _marketing_year_month(observation: Observation, start_month: int) -> int:
     return offset + 1
 
 
+def _weekly_period_index(period_end_at: datetime) -> int:
+    return min(period_end_at.isocalendar().week, 52)
+
+
+def period_type_for_frequency(frequency: str) -> str:
+    if frequency == "daily":
+        return "day_of_year"
+    if frequency == "monthly":
+        return "month_of_year"
+    if frequency == "weekly":
+        return "week_of_year"
+    raise ValueError(f"Unsupported seasonal frequency: {frequency}")
+
+
+def period_index_for_frequency(observation: Observation, frequency: str) -> int:
+    if frequency == "daily":
+        return observation.period_end_at.timetuple().tm_yday
+    if frequency == "monthly":
+        return observation.period_end_at.month
+    if frequency == "weekly":
+        return _weekly_period_index(observation.period_end_at)
+    raise ValueError(f"Unsupported seasonal frequency: {frequency}")
+
+
 def indicator_period_type(indicator: Indicator) -> str:
     raw_value = str(indicator.metadata_.get("period_type") or "").strip().lower()
     if raw_value == "marketing_month":
@@ -45,23 +69,11 @@ def indicator_period_type(indicator: Indicator) -> str:
         return "day_of_year"
     if raw_value == "weekly":
         return "week_of_year"
-    if indicator.frequency.value == "daily":
-        return "day_of_year"
-    if indicator.frequency.value == "monthly":
-        return "month_of_year"
-    if indicator.frequency.value == "weekly":
-        return "week_of_year"
-    raise ValueError(f"Unsupported seasonal frequency: {indicator.frequency.value}")
+    return period_type_for_frequency(indicator.frequency.value)
 
 
 def seasonal_period(observation: Observation, frequency: str) -> tuple[str, int]:
-    if frequency == "weekly":
-        return "week_of_year", min(observation.period_end_at.isocalendar().week, 52)
-    if frequency == "monthly":
-        return "month_of_year", observation.period_end_at.month
-    if frequency == "daily":
-        return "day_of_year", observation.period_end_at.timetuple().tm_yday
-    raise ValueError(f"Unsupported seasonal frequency: {frequency}")
+    return period_type_for_frequency(frequency), period_index_for_frequency(observation, frequency)
 
 
 def seasonal_period_for_indicator(indicator: Indicator, observation: Observation) -> tuple[str, int]:
@@ -69,11 +81,7 @@ def seasonal_period_for_indicator(indicator: Indicator, observation: Observation
     if period_type == "marketing_year_month":
         start_month = int(indicator.metadata_.get("marketing_year_start_month") or 1)
         return period_type, _marketing_year_month(observation, start_month)
-    if period_type == "month_of_year":
-        return period_type, observation.period_end_at.month
-    if period_type == "day_of_year":
-        return period_type, observation.period_end_at.timetuple().tm_yday
-    return period_type, min(observation.period_end_at.isocalendar().week, 52)
+    return period_type, period_index_for_frequency(observation, indicator.frequency.value)
 
 
 async def compute_seasonal_ranges(

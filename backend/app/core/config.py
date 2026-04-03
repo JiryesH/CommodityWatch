@@ -52,6 +52,8 @@ class Settings(BaseSettings):
     agsi_rate_limit_seconds: float = 1.1
     usda_psd_rate_limit_seconds: float = 0.5
     exchange_scrape_rate_limit_seconds: float = 1.0
+    enable_lme_live_jobs: bool = False
+    enable_ice_certified_jobs: bool = False
     auth_rate_limit_max_requests: int = 10
     auth_rate_limit_window_seconds: int = 900
 

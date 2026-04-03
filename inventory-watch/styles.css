@@ -111,6 +111,86 @@ svg {
   top: -1px;
 }
 
+.nav-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+
+.nav-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.nav-search-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 2px;
+  display: flex;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.72);
+  transition: color 0.15s ease;
+  flex-shrink: 0;
+}
+
+.nav-search-toggle:hover {
+  color: #fff;
+}
+
+.nav-search.open .nav-search-toggle,
+.nav-search.has-query .nav-search-toggle {
+  color: var(--color-amber);
+}
+
+.nav-search-panel {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: min(420px, calc(100vw - 32px));
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  z-index: 130;
+  opacity: 0;
+  transform: translateY(-4px);
+  pointer-events: none;
+  transition: opacity 150ms ease, transform 150ms ease;
+}
+
+.nav-search.open .nav-search-panel {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.headline-search {
+  width: 100%;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background: #fff;
+  color: var(--color-primary);
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 14px;
+  line-height: 1.2;
+  padding: 9px 11px;
+}
+
+.headline-search::placeholder {
+  color: #7a7672;
+}
+
+.headline-search:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(22, 22, 22, 0.09);
+}
+
 .page-shell {
   width: min(var(--shell-max), calc(100vw - 48px));
   margin: 0 auto;
@@ -136,7 +216,6 @@ svg {
 
 .inventory-filter-bar {
   min-height: var(--filter-height);
-  align-items: center;
   padding: 0 28px;
 }
 
@@ -149,66 +228,90 @@ svg {
 }
 
 .inventory-filter-pill {
-  position: relative;
-  color: var(--color-primary);
-  opacity: 0.74;
-  padding-top: 12px;
-  padding-bottom: 11px;
-  border-bottom-width: 3px;
-  border-bottom-color: transparent;
+  color: var(--filter-pill-color, var(--color-subtext));
 }
 
+.inventory-filter-pill:hover,
 .inventory-filter-pill.is-selected {
-  opacity: 1;
-  border-bottom-color: var(--filter-pill-color, var(--color-primary));
-  color: var(--color-primary);
+  color: var(--filter-pill-color, var(--color-primary));
 }
 
-.inventory-filter-pill:hover {
+.inventory-filter-reset {
   color: var(--color-primary);
-  opacity: 1;
-  border-bottom-color: var(--filter-pill-color, var(--color-primary));
 }
 
 .inventory-filter-pill.is-disabled {
-  opacity: 0.34;
-  color: var(--color-subtext);
+  opacity: 0.32;
+  color: rgba(101, 112, 123, 0.88);
   border-bottom-color: transparent;
   cursor: default;
 }
 
 .inventory-filter-pill.is-disabled:hover {
-  opacity: 0.42;
-  color: var(--color-subtext);
+  opacity: 0.38;
+  color: rgba(101, 112, 123, 0.88);
   border-bottom-color: transparent;
 }
 
-.inventory-filter-pill[data-group="all"] {
-  --filter-pill-color: var(--color-primary);
+.inventory-filter-meta {
+  display: grid;
+  gap: 10px;
+  padding: 10px 28px 12px;
+  border-top: 1px solid rgba(15, 25, 35, 0.08);
+  background: var(--color-bg);
 }
 
-.inventory-filter-pill[data-group="energy"] {
-  --filter-pill-color: var(--color-energy);
+.inventory-filter-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: wrap;
 }
 
-.inventory-filter-pill[data-group="natural-gas"] {
-  --filter-pill-color: var(--color-natural-gas);
+.inventory-filter-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
-.inventory-filter-pill[data-group="base-metals"] {
-  --filter-pill-color: var(--color-metals);
+.filter-summary {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  color: var(--color-primary-soft);
+  font-size: 13px;
 }
 
-.inventory-filter-pill[data-group="grains"] {
-  --filter-pill-color: var(--color-agri);
+.filter-summary-divider {
+  width: 1px;
+  height: 14px;
+  background: rgba(15, 25, 35, 0.18);
 }
 
-.inventory-filter-pill[data-group="softs"] {
-  --filter-pill-color: var(--color-softs);
+.filter-summary-muted {
+  color: var(--color-subtext);
+  font-size: 13px;
 }
 
-.inventory-filter-pill[data-group="precious-metals"] {
-  --filter-pill-color: var(--color-precious);
+.clear-filters {
+  appearance: none;
+  border: 0;
+  background: none;
+  padding: 0;
+  color: var(--color-primary);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.search-status {
+  color: var(--color-primary-soft);
+  font-size: 13px;
 }
 
 .inventory-stage {
@@ -221,13 +324,31 @@ svg {
   gap: 16px;
 }
 
-.inventory-eyebrow {
-  margin: 0;
+.inventory-back-row {
+  display: flex;
+  align-items: center;
+}
+
+.inventory-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-primary-soft);
   font-family: "IBM Plex Mono", monospace;
-  font-size: 10px;
-  letter-spacing: 0.12em;
+  font-size: 11px;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--color-subtext);
+  transition: color 150ms ease;
+}
+
+.inventory-back-link svg {
+  width: 14px;
+  height: 14px;
+  stroke-width: 2;
+}
+
+.inventory-back-link:hover {
+  color: var(--color-primary);
 }
 
 .inventory-title-row {
@@ -312,6 +433,21 @@ svg {
   color: var(--color-primary);
 }
 
+.inventory-inline-link {
+  color: var(--color-primary-soft);
+  border-bottom: 1px solid transparent;
+  transition: color 150ms ease, border-color 150ms ease;
+}
+
+.inventory-inline-link:hover {
+  color: var(--color-primary);
+  border-bottom-color: rgba(15, 25, 35, 0.24);
+}
+
+.inventory-summary-definition .inventory-inline-link {
+  color: var(--color-primary);
+}
+
 .inventory-inline-sep {
   opacity: 0.4;
 }
@@ -356,6 +492,49 @@ svg {
 
 .inventory-banner {
   background: color-mix(in srgb, var(--color-warning-soft) 65%, white);
+}
+
+.inventory-search-summary {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  border: 1px solid rgba(15, 25, 35, 0.09);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.78);
+  padding: 18px 20px;
+}
+
+.inventory-search-copy {
+  display: grid;
+  gap: 4px;
+}
+
+.inventory-search-label {
+  margin: 0;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-subtext);
+}
+
+.inventory-search-title {
+  margin: 0;
+  font-family: "IBM Plex Serif", serif;
+  font-size: clamp(1.45rem, 2.8vw, 1.9rem);
+  line-height: 1.08;
+}
+
+.inventory-search-description {
+  margin: 0;
+  color: var(--color-primary-soft);
+  font-size: 14px;
+}
+
+.inventory-search-total {
+  color: var(--color-subtext);
 }
 
 .inventory-error,
@@ -484,31 +663,6 @@ svg {
   font-size: 11px;
   color: var(--color-subtext);
   letter-spacing: 0.04em;
-}
-
-.snapshot-section-units {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.snapshot-section-unit {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 6px;
-  padding: 4px 8px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.76);
-  border: 1px solid rgba(15, 25, 35, 0.07);
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 10px;
-  letter-spacing: 0.04em;
-  color: var(--color-subtext);
-}
-
-.snapshot-section-unit strong {
-  color: var(--color-primary);
 }
 
 .snapshot-grid {
@@ -1263,11 +1417,16 @@ svg {
   background: #f0ab2d;
 }
 
+.nav-search-toggle:focus-visible,
+.headline-search:focus-visible,
+.clear-filters:focus-visible,
 .to-top-btn:focus-visible,
 .inventory-button:focus-visible,
+.inventory-back-link:focus-visible,
 .inventory-toggle:focus-visible,
 .inventory-card:focus-visible,
-.inventory-filter-pill:focus-visible {
+.inventory-filter-pill:focus-visible,
+.inventory-inline-link:focus-visible {
   outline: 2px solid rgba(15, 25, 35, 0.22);
   outline-offset: 2px;
 }
@@ -1296,8 +1455,22 @@ svg {
     padding: 0 16px;
   }
 
+  .inventory-filter-meta {
+    padding: 12px 16px 14px;
+  }
+
   .inventory-group-row {
     gap: 16px;
+  }
+
+  .inventory-filter-status,
+  .inventory-search-summary {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .nav-search-panel {
+    width: min(320px, calc(100vw - 24px));
   }
 
   .inventory-note-grid {

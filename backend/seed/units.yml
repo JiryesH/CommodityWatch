@@ -38,6 +38,11 @@
   dimension: mass
   symbol: Mt
   metadata: {}
+- code: mmt
+  name: Million Metric Tonnes
+  dimension: mass
+  symbol: MMT
+  metadata: {alias_of: mt}
 - code: kt
   name: Thousand Tonnes
   dimension: mass

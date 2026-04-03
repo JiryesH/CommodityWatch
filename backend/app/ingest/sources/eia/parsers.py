@@ -13,18 +13,31 @@ class ParsedObservation:
 
 
 def _parse_number(raw: object) -> float | None:
-    if raw in (None, "", "NA", "null"):
+    if raw is None:
         return None
     if isinstance(raw, (int, float)):
         return float(raw)
-    return float(str(raw).replace(",", ""))
+    cleaned = str(raw).strip()
+    if not cleaned:
+        return None
+    if cleaned.upper() in {"NA", "N/A", "NULL", "NONE"}:
+        return None
+    return float(cleaned.replace(",", ""))
+
+
+def _as_utc(datetime_value: datetime) -> datetime:
+    if datetime_value.tzinfo is None:
+        return datetime_value.replace(tzinfo=timezone.utc)
+    return datetime_value.astimezone(timezone.utc)
 
 
 def _parse_period(raw: str, frequency: str) -> datetime:
+    cleaned = str(raw).strip()
     if frequency in {"daily", "weekly"}:
-        return datetime.fromisoformat(raw).replace(tzinfo=timezone.utc)
+        return _as_utc(datetime.fromisoformat(cleaned))
     if frequency == "monthly":
-        return datetime.fromisoformat(f"{raw}-01").replace(tzinfo=timezone.utc)
+        monthly_raw = cleaned if len(cleaned) > 7 else f"{cleaned}-01"
+        return _as_utc(datetime.fromisoformat(monthly_raw))
     raise ValueError(f"Unsupported EIA frequency: {frequency}")
 
 
@@ -39,7 +52,7 @@ def parse_eia_response(payload: dict, frequency: str) -> list[ParsedObservation]
     rows = response.get("data", [])
     parsed: list[ParsedObservation] = []
     for row in rows:
-        period_raw = row.get("period")
+        period_raw = row.get("period") or row.get("date") or row.get("period_start")
         if not period_raw:
             continue
         value = _parse_number(row.get("value"))
@@ -51,8 +64,12 @@ def parse_eia_response(payload: dict, frequency: str) -> list[ParsedObservation]
                 period_start_at=_period_start(period_end_at, frequency),
                 period_end_at=period_end_at,
                 value=value,
-                source_item_ref=row.get("series-description") or row.get("seriesDescription"),
+                source_item_ref=(
+                    row.get("series-description")
+                    or row.get("seriesDescription")
+                    or row.get("series_description")
+                    or row.get("description")
+                ),
             )
         )
     return parsed
-

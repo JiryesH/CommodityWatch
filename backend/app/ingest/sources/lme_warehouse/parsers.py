@@ -70,19 +70,19 @@ def parse_lme_workbook(raw: bytes, *, report_date: date, source_url: str) -> lis
 
     current_label: str | None = None
     parsed: dict[str, ParsedLMEObservation] = {}
-    label_lookup = {label.casefold(): source_series_key for source_series_key, label in EXPECTED_METALS.items()}
+    label_lookup = {_normalize_label(label): source_series_key for source_series_key, label in EXPECTED_METALS.items()}
 
     for row_index in range(header_row_index + 1, sheet.nrows):
         row = sheet.row_values(row_index)
-        label = _clean_text(row[1] if len(row) > 1 else "")
-        row_lead = _clean_text(row[0] if row else "")
+        label = _normalize_label(row[1] if len(row) > 1 else "")
+        row_lead = _normalize_label(row[0] if row else "")
         if label and not row_lead:
             current_label = label
-        if row_lead != "Total":
+        if row_lead.casefold() != "total":
             continue
         if current_label is None:
             continue
-        source_series_key = label_lookup.get(current_label.casefold())
+        source_series_key = label_lookup.get(current_label)
         if source_series_key is None:
             continue
         total = _numeric(row[5])
@@ -90,14 +90,14 @@ def parse_lme_workbook(raw: bytes, *, report_date: date, source_url: str) -> lis
         cancelled = _numeric(row[7])
         parsed[source_series_key] = ParsedLMEObservation(
             source_series_key=source_series_key,
-            metal=source_series_key,
+            metal=EXPECTED_METALS[source_series_key],
             on_warrant=on_warrant,
             cancelled=cancelled,
             total=total,
             report_date=report_date,
             source_item_ref=f"{sheet.name}!F{row_index + 1}",
             source_url=source_url,
-            metadata={"sheet_name": sheet.name, "metal_label": current_label},
+            metadata={"sheet_name": sheet.name, "metal_label": EXPECTED_METALS[source_series_key], "raw_label": current_label},
         )
 
     missing = [key for key in EXPECTED_METALS if key not in parsed]
@@ -120,6 +120,10 @@ def _find_header_row(sheet: xlrd.sheet.Sheet) -> int:
 
 def _clean_text(value: object) -> str:
     return str(value or "").strip()
+
+
+def _normalize_label(value: object) -> str:
+    return " ".join(_clean_text(value).split()).casefold()
 
 
 def _numeric(value: object) -> float:

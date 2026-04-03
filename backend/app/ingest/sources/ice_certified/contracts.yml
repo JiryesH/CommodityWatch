@@ -35,7 +35,7 @@
   name: ICE Cocoa Certified Stocks
   report_id: 41
   report_url: https://www.ice.com/report/41
-  expected_report_name: "Certified Stock Reports - Cocoa "
+  expected_report_name: "Certified Stock Reports - Cocoa"
   expected_exchange: "ICE Futures U.S."
   expected_category: "Certified Stock"
   unit_native_code: tonnes

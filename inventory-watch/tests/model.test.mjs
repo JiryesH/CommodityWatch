@@ -8,18 +8,25 @@ import {
   convertUnitValue,
   formatSignedValue,
   formatValue,
+  getIndicatorRegistryEntry,
   nextReleaseStatus,
+  snapshotGroupForCommodity,
 } from "../catalog.js";
 import {
+  areAllInventoryGroupsSelected,
   buildChangeBarSeries,
   buildRecentReleaseRows,
   buildSeasonalSeries,
   buildYtdChangeStats,
   filterCardsByCommodityGroup,
+  filterCardsByCommodityGroups,
+  normalizeInventorySearchQuery,
   percentileBracketLabel,
+  searchSnapshotCards,
   snapshotSignalDescriptor,
   sortSnapshotCards,
   snapshotSectionEntries,
+  toggleInventoryGroupSelection,
 } from "../model.js";
 import {
   buildInventoryDetailHref,
@@ -39,13 +46,23 @@ test("inventory commodity routing maps backend commodity codes into native Commo
 test("inventory metadata keeps the public group copy and badge labels aligned", () => {
   assert.equal(
     COMMODITY_GROUPS.find((group) => group.slug === "all")?.shortDescription,
-    "Cross-market inventory snapshot across energy, metals, and agriculture."
+    "Full InventoryWatch market snapshot."
   );
   assert.equal(
     COMMODITY_GROUPS.find((group) => group.slug === "natural-gas")?.shortDescription,
-    "US and European gas storage balances."
+    "US and European gas storage."
   );
   assert.equal(FRESHNESS_BADGES.current.label, "Live");
+  assert.match(String(COMMODITY_GROUPS.find((group) => group.slug === "grains")?.commodityCodes), /rice/);
+  assert.equal(snapshotGroupForCommodity("rice"), "Grains");
+});
+
+test("inventory registry keeps source labels and commodity groups aligned across source families", () => {
+  assert.equal(getIndicatorRegistryEntry("ETF_GLD_HOLDINGS").sourceLabel, "ETF Holdings");
+  assert.equal(getIndicatorRegistryEntry("ETF_GLD_HOLDINGS").snapshotGroup, "Precious Metals");
+  assert.equal(getIndicatorRegistryEntry("LME_COPPER_WAREHOUSE_STOCKS").sourceLabel, "LME");
+  assert.equal(getIndicatorRegistryEntry("USDA_US_RICE_ENDING_STOCKS").snapshotGroup, "Grains");
+  assert.equal(getIndicatorRegistryEntry("ICE_COTTON_CERTIFIED_STOCKS").snapshotGroup, "Softs");
 });
 
 test("inventory router preserves module route conventions for snapshot and detail views", () => {
@@ -94,6 +111,71 @@ test("snapshot filtering retains only cards that belong to the active group", ()
   assert.deepEqual(
     filterCardsByCommodityGroup(cards, "all").map((card) => card.indicatorId),
     ["1", "2", "3"]
+  );
+});
+
+test("snapshot multi-select filters isolate, expand, and reset like the other watch modules", () => {
+  const available = ["energy", "natural-gas", "grains"];
+
+  assert.equal(areAllInventoryGroupsSelected(available, available), true);
+  assert.deepEqual(toggleInventoryGroupSelection(available, "energy", available), ["energy"]);
+  assert.deepEqual(toggleInventoryGroupSelection(["energy"], "grains", available), ["energy", "grains"]);
+  assert.deepEqual(toggleInventoryGroupSelection(["energy", "grains"], "energy", available), ["grains"]);
+  assert.deepEqual(toggleInventoryGroupSelection(["energy"], "energy", available), available);
+});
+
+test("snapshot multi-select card filtering retains cards across active sectors", () => {
+  const cards = [
+    { indicatorId: "1", commodityCode: "crude_oil" },
+    { indicatorId: "2", commodityCode: "natural_gas" },
+    { indicatorId: "3", commodityCode: "rice" },
+  ];
+
+  assert.deepEqual(
+    filterCardsByCommodityGroups(cards, ["energy", "grains"]).map((card) => card.indicatorId),
+    ["1", "3"]
+  );
+  assert.deepEqual(
+    filterCardsByCommodityGroups(cards, []).map((card) => card.indicatorId),
+    ["1", "2", "3"]
+  );
+});
+
+test("inventory search normalizes whitespace and matches indicator metadata across fields", () => {
+  const cards = [
+    {
+      indicatorId: "EIA_GASOLINE_US_TOTAL_STOCKS",
+      code: "EIA_GASOLINE_US_TOTAL_STOCKS",
+      name: "EIA US Total Motor Gasoline Stocks",
+      sourceLabel: "EIA",
+      snapshotGroup: "Refined Products",
+      commodityCode: "gasoline",
+      frequency: "weekly",
+      alerts: [{ label: "Below seasonal" }],
+    },
+    {
+      indicatorId: "LME_COPPER_WAREHOUSE_STOCKS",
+      code: "LME_COPPER_WAREHOUSE_STOCKS",
+      name: "LME Copper Warehouse Stocks",
+      sourceLabel: "LME",
+      snapshotGroup: "Base Metals",
+      commodityCode: "copper",
+      frequency: "daily",
+    },
+  ];
+
+  assert.equal(normalizeInventorySearchQuery("  Motor   Gasoline  "), "motor gasoline");
+  assert.deepEqual(
+    searchSnapshotCards(cards, "motor gasoline").map((card) => card.indicatorId),
+    ["EIA_GASOLINE_US_TOTAL_STOCKS"]
+  );
+  assert.deepEqual(
+    searchSnapshotCards(cards, "eia refined").map((card) => card.indicatorId),
+    ["EIA_GASOLINE_US_TOTAL_STOCKS"]
+  );
+  assert.deepEqual(
+    searchSnapshotCards(cards, "base metals daily").map((card) => card.indicatorId),
+    ["LME_COPPER_WAREHOUSE_STOCKS"]
   );
 });
 

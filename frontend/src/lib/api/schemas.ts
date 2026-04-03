@@ -99,6 +99,9 @@ export const indicatorDataResponseSchema = z
         frequency: z.string(),
         measure_family: z.string(),
         unit: z.string().nullable(),
+        period_type: z.string().nullable().optional(),
+        marketing_year_start_month: z.number().nullable().optional(),
+        is_seasonal: z.boolean().optional(),
       })
       .passthrough(),
     series: z.array(seriesPointSchema),
@@ -122,6 +125,11 @@ export const snapshotCardSchema = z
     description: z.string().nullable().optional(),
     commodity_code: z.string().nullable(),
     geography_code: z.string().nullable(),
+    frequency: z.string().nullable().optional(),
+    source_url: z.string().url().nullable().optional(),
+    period_type: z.string().nullable().optional(),
+    marketing_year_start_month: z.number().nullable().optional(),
+    is_seasonal: z.boolean().optional(),
     latest_value: z.number(),
     unit: z.string(),
     change_abs: z.number().nullable(),
@@ -131,7 +139,6 @@ export const snapshotCardSchema = z
     last_updated_at: z.string().datetime(),
     stale: z.boolean().default(false),
     source_label: z.string().optional(),
-    source_url: z.string().url().nullable().optional(),
   })
   .passthrough();
 

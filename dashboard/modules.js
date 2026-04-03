@@ -41,7 +41,7 @@ import {
   formatValue as formatInventoryValue,
 } from "../inventory-watch/catalog.js";
 import { snapshotSignalDescriptor, sortSnapshotCards } from "../inventory-watch/model.js";
-import { buildInventoryDetailHref, buildInventorySnapshotHref } from "../inventory-watch/router.js";
+import { buildInventoryDetailHref } from "../inventory-watch/router.js";
 
 const headlineExactFormatter = new Intl.DateTimeFormat("en-GB", {
   day: "numeric",
@@ -269,8 +269,7 @@ function createModuleCard({ id, title, linkLabel, route, accentSectorId, onNavig
           linkLabel
             ? `
               <button class="module-link" type="button" data-route="${escapeHtml(route)}">
-                <span>${escapeHtml(linkLabel)}</span>
-                ${renderLaunchIcon()}
+                ${escapeHtml(linkLabel)} <span aria-hidden="true">→</span>
               </button>
             `
             : ""
@@ -409,14 +408,6 @@ const INVENTORY_GROUPS_BY_SECTOR = {
   agriculture: ["grains", "softs"],
 };
 
-const INVENTORY_WIDGET_GROUPS = [
-  { slug: "all", label: "All" },
-  { slug: "energy", label: "Energy" },
-  { slug: "natural-gas", label: "Natural Gas" },
-  { slug: "base-metals", label: "Base Metals" },
-  { slug: "grains", label: "Grains" },
-];
-
 const INVENTORY_WIDGET_SIGNAL_PRIORITY = {
   "well-below-seasonal": 0,
   "well-above-seasonal": 0,
@@ -455,14 +446,6 @@ function inventoryCardTieBreaker(cards) {
 
 function sortInventoryCards(cards) {
   return sortSnapshotCards(cards);
-}
-
-function filterInventoryWidgetCards(cards, groupSlug) {
-  if (groupSlug === "all") {
-    return cards;
-  }
-
-  return cards.filter((card) => commodityGroupForCode(card.commodityCode) === groupSlug);
 }
 
 export function selectInventoryWidgetCards(cards, limit = 4) {
@@ -540,41 +523,13 @@ function getInventorySelection(filter, cards) {
   };
 }
 
-function renderInventoryWidgetFilters(items, selectedGroup) {
-  const availableGroups = new Set(
-    items
-      .map((card) => commodityGroupForCode(card.commodityCode))
-      .filter((groupSlug) => groupSlug !== "all")
-  );
-
-  return `
-    <div class="inventory-preview-filters" role="toolbar" aria-label="Inventory Snapshot commodity groups">
-      ${INVENTORY_WIDGET_GROUPS.map((group) => {
-        const isActive = group.slug === selectedGroup;
-        const isDisabled = group.slug !== "all" && !availableGroups.has(group.slug);
-
-        return `
-          <button
-            class="inventory-preview-filter${isActive ? " is-active" : ""}"
-            type="button"
-            data-inventory-group="${escapeHtml(group.slug)}"
-            data-group="${escapeHtml(group.slug)}"
-            ${isDisabled ? "disabled" : ""}
-            aria-pressed="${String(isActive)}"
-          >
-            ${escapeHtml(group.label)}
-          </button>
-        `;
-      }).join("")}
-    </div>
-  `;
-}
-
 function renderInventoryPreviewCard(card) {
   const groupSlug = commodityGroupForCode(card.commodityCode);
   const route = buildInventoryDetailHref(groupSlug === "all" ? "all" : groupSlug, card.indicatorId);
   const descriptor = snapshotSignalDescriptor(card);
   const formattedChange = formatInventorySignedValue(card.changeAbs, card.unit);
+  const asOfValue = card.latestReleaseDate || card.lastUpdatedAt;
+  const asOfLabel = asOfValue ? `As of ${formatObservationDate(asOfValue)}` : "Latest release";
 
   return `
     <button
@@ -586,6 +541,7 @@ function renderInventoryPreviewCard(card) {
       <div class="inventory-preview-head">
         <p class="inventory-preview-group">${escapeHtml(card.snapshotGroup)}</p>
         <h3 class="inventory-preview-title">${escapeHtml(card.name)}</h3>
+        <p class="inventory-preview-as-of">${escapeHtml(asOfLabel)}</p>
       </div>
       <p class="inventory-preview-value">${escapeHtml(formatInventoryValue(card.latestValue, card.unit))}</p>
       <div class="inventory-preview-change">
@@ -605,54 +561,61 @@ function renderInventoryPreviewCard(card) {
   `;
 }
 
-function renderInventoryWidgetMarkup(items, selectedGroup) {
-  const groupItems = filterInventoryWidgetCards(items, selectedGroup);
-  const visibleItems = selectInventoryWidgetCards(groupItems, 4);
-  const snapshotRoute = buildInventorySnapshotHref(selectedGroup);
-
+function renderInventoryWidgetMarkup(items) {
   return `
     <div class="inventory-preview-shell">
-      ${renderInventoryWidgetFilters(items, selectedGroup)}
-      <div class="inventory-preview-grid" style="--inventory-grid-columns:${Math.max(1, Math.min(visibleItems.length, 4))};">
-        ${visibleItems.map((card) => renderInventoryPreviewCard(card)).join("")}
+      <div class="inventory-preview-strip" data-inventory-strip>
+        <div class="inventory-preview-track" data-inventory-track>
+          ${items.map((card) => renderInventoryPreviewCard(card)).join("")}
+        </div>
       </div>
-      <div class="inventory-preview-footer">
-        <p class="inventory-preview-summary">Showing ${visibleItems.length} of ${groupItems.length} indicators</p>
-        <button class="inventory-preview-link" type="button" data-route="${escapeHtml(snapshotRoute)}">
-          View full snapshot <span aria-hidden="true">→</span>
-        </button>
-      </div>
-      <p class="inventory-preview-note">All indicators reflect the latest published reporting period.</p>
     </div>
   `;
 }
 
-function bindInventoryModuleInteractions(body, items, onNavigate) {
+function bindInventoryModuleInteractions(body, onNavigate) {
   if (typeof body.__inventoryModuleCleanup === "function") {
     body.__inventoryModuleCleanup();
     body.__inventoryModuleCleanup = null;
   }
 
-  const renderGroup = (groupSlug = "all") => {
-    body.innerHTML = renderInventoryWidgetMarkup(items, groupSlug);
-    bindNavigateLinks(body, onNavigate);
-  };
+  if (typeof body.__inventoryStripCleanup === "function") {
+    body.__inventoryStripCleanup();
+    body.__inventoryStripCleanup = null;
+  }
 
   const handleClick = (event) => {
-    const filterButton = event.target.closest("[data-inventory-group]");
-    if (!filterButton || !body.contains(filterButton) || filterButton.disabled) {
+    const tile = event.target.closest(".inventory-preview-card[data-route]");
+    if (!tile || !body.contains(tile)) {
       return;
     }
 
-    renderGroup(filterButton.dataset.inventoryGroup || "all");
+    if (typeof onNavigate === "function") {
+      onNavigate(tile.dataset.route);
+    }
+  };
+
+  const handlePointerMove = (event) => {
+    const tile = event.target.closest(".inventory-preview-card");
+    if (!tile || !body.contains(tile)) {
+      return;
+    }
+
+    const rect = tile.getBoundingClientRect();
+    tile.style.setProperty("--pointer-x", `${event.clientX - rect.left}px`);
+    tile.style.setProperty("--pointer-y", `${event.clientY - rect.top}px`);
   };
 
   body.addEventListener("click", handleClick);
+  body.addEventListener("pointermove", handlePointerMove);
   body.__inventoryModuleCleanup = () => {
     body.removeEventListener("click", handleClick);
+    body.removeEventListener("pointermove", handlePointerMove);
+    if (typeof body.__inventoryStripCleanup === "function") {
+      body.__inventoryStripCleanup();
+      body.__inventoryStripCleanup = null;
+    }
   };
-
-  renderGroup("all");
 }
 
 function bindPriceTileInteractions(body, onNavigate) {
@@ -692,14 +655,22 @@ function bindPriceTileInteractions(body, onNavigate) {
   };
 }
 
-function bindPriceStripCarousel(body) {
-  if (typeof body.__priceStripCleanup === "function") {
-    body.__priceStripCleanup();
-    body.__priceStripCleanup = null;
+function bindLoopingStripCarousel(
+  body,
+  {
+    stripSelector,
+    trackSelector,
+    cleanupProperty,
+    cloneAttribute,
+  }
+) {
+  if (typeof body[cleanupProperty] === "function") {
+    body[cleanupProperty]();
+    body[cleanupProperty] = null;
   }
 
-  const strip = body.querySelector("[data-price-strip]");
-  const track = body.querySelector("[data-price-track]");
+  const strip = body.querySelector(stripSelector);
+  const track = body.querySelector(trackSelector);
   if (!strip || !track) {
     return;
   }
@@ -708,7 +679,7 @@ function bindPriceStripCarousel(body) {
   let resizeRafId = 0;
 
   const removeClones = () => {
-    track.querySelectorAll("[data-price-clone='true']").forEach((clone) => clone.remove());
+    track.querySelectorAll(`[${cloneAttribute}='true']`).forEach((clone) => clone.remove());
     track.style.transform = "";
   };
 
@@ -741,13 +712,13 @@ function bindPriceStripCarousel(body) {
 
     baseCards.forEach((card) => {
       const clone = card.cloneNode(true);
-      clone.dataset.priceClone = "true";
+      clone.setAttribute(cloneAttribute, "true");
       clone.setAttribute("aria-hidden", "true");
       clone.tabIndex = -1;
       track.appendChild(clone);
     });
 
-    const firstClone = track.querySelector("[data-price-clone='true']");
+    const firstClone = track.querySelector(`[${cloneAttribute}='true']`);
     const loopWidth = firstClone ? firstClone.offsetLeft : baseWidth;
     if (loopWidth <= 0) {
       strip.classList.remove("is-carousel");
@@ -876,13 +847,31 @@ function bindPriceStripCarousel(body) {
 
   mountCarousel();
 
-  body.__priceStripCleanup = () => {
+  body[cleanupProperty] = () => {
     window.cancelAnimationFrame(resizeRafId);
     teardownAnimation();
     resizeObserver?.disconnect();
     window.removeEventListener("resize", handleResize);
     removeClones();
   };
+}
+
+function bindPriceStripCarousel(body) {
+  bindLoopingStripCarousel(body, {
+    stripSelector: "[data-price-strip]",
+    trackSelector: "[data-price-track]",
+    cleanupProperty: "__priceStripCleanup",
+    cloneAttribute: "data-price-clone",
+  });
+}
+
+function bindInventoryStripCarousel(body) {
+  bindLoopingStripCarousel(body, {
+    stripSelector: "[data-inventory-strip]",
+    trackSelector: "[data-inventory-track]",
+    cleanupProperty: "__inventoryStripCleanup",
+    cloneAttribute: "data-inventory-clone",
+  });
 }
 
 function getPriceSelection(filter) {
@@ -1106,7 +1095,6 @@ function renderCalendarGroups(events) {
         <section class="calendar-day-group">
           <div class="calendar-day-divider ${day === today ? "is-today" : ""}">
             <span>${escapeHtml(formatCalendarDay(day))}</span>
-            ${day === today ? '<span class="calendar-day-badge">Today</span>' : ""}
           </div>
           <div class="calendar-day-items">
             ${items.map(renderCalendarItem).join("")}
@@ -1416,6 +1404,16 @@ async function renderInventoryModuleBody(body, filter, { commit, isCurrent, onNa
   };
   const isRenderCurrent = typeof isCurrent === "function" ? isCurrent : () => true;
 
+  if (typeof body.__inventoryModuleCleanup === "function") {
+    body.__inventoryModuleCleanup();
+    body.__inventoryModuleCleanup = null;
+  }
+
+  if (typeof body.__inventoryStripCleanup === "function") {
+    body.__inventoryStripCleanup();
+    body.__inventoryStripCleanup = null;
+  }
+
   const snapshot = await fetchInventorySnapshot({ includeSparklines: true, limit: 100 });
   if (!isRenderCurrent()) {
     return;
@@ -1436,8 +1434,9 @@ async function renderInventoryModuleBody(body, filter, { commit, isCurrent, onNa
     return;
   }
 
-  writeBody(body, "");
-  bindInventoryModuleInteractions(body, items, onNavigate);
+  writeBody(body, renderInventoryWidgetMarkup(items));
+  bindInventoryModuleInteractions(body, onNavigate);
+  bindInventoryStripCarousel(body);
 }
 
 function attachAsyncRenderer(section, body, renderer, filter, context = {}) {
@@ -1502,8 +1501,8 @@ export function InventoryModule({ filter, onNavigate }) {
   const { section, body } = createModuleCard({
     id: "inventory",
     title: "Inventory Snapshot",
-    linkLabel: null,
-    route: null,
+    linkLabel: "View InventoryWatch",
+    route: "/inventory-watch/",
     accentSectorId: primarySectorId,
     onNavigate,
   });

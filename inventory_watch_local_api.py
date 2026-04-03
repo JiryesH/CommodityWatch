@@ -587,6 +587,10 @@ class LocalInventoryRepository:
                     continue
 
                 value = parse_numeric(row.get(value_key))
+                if value is None and value_key != "value":
+                    value = parse_numeric(row.get("value"))
+                if value is None and value_key != "total":
+                    value = parse_numeric(row.get("total"))
                 period_raw = row.get("date") or row.get("observation_date") or row.get("period") or row.get("period_end_at")
                 if value is None or not period_raw:
                     continue
