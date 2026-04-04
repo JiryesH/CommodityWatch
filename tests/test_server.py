@@ -546,7 +546,26 @@ def running_inventory_backend() -> Iterator[str]:
                     "module": "inventorywatch",
                     "generated_at": "2026-03-28T08:00:00Z",
                     "expires_at": "2026-03-28T08:05:00Z",
-                    "cards": [],
+                    "cards": [
+                        {
+                            "indicator_id": "test-indicator",
+                            "code": "EIA_TEST",
+                            "name": "Fixture Inventory Indicator",
+                            "commodity_code": "natural_gas",
+                            "geography_code": None,
+                            "latest_value": 123.4,
+                            "unit": "kb",
+                            "frequency": "weekly",
+                            "change_abs": -8.0,
+                            "deviation_abs": -12.0,
+                            "signal": "tightening",
+                            "sparkline": [131.4, 123.4],
+                            "latest_period_end_at": "2026-03-21T00:00:00Z",
+                            "latest_release_date": "2026-03-26T14:30:00Z",
+                            "commoditywatch_updated_at": "2026-03-26T15:05:00Z",
+                            "stale": False,
+                        }
+                    ],
                     "path": self.path,
                     "query": query,
                 }
@@ -556,6 +575,7 @@ def running_inventory_backend() -> Iterator[str]:
                     "latest": {
                         "period_end_at": "2026-03-21T00:00:00Z",
                         "release_date": "2026-03-26T14:30:00Z",
+                        "commoditywatch_updated_at": "2026-03-26T15:05:00Z",
                         "value": 123.4,
                         "unit": "kb",
                         "change_from_prior_abs": -8.0,
@@ -585,6 +605,8 @@ def running_inventory_backend() -> Iterator[str]:
                     "metadata": {
                         "latest_release_id": None,
                         "latest_release_at": "2026-03-26T14:30:00Z",
+                        "latest_period_end_at": "2026-03-21T00:00:00Z",
+                        "latest_vintage_at": "2026-03-26T15:05:00Z",
                         "source_url": "https://inventory.example/test",
                     },
                     "path": self.path,
@@ -672,9 +694,9 @@ def get_text(url: str) -> str:
 
 
 def assert_product_nav(html: str, *, current_href: str) -> None:
-    for href in ("/", "/headline-watch/", "/price-watch/", "/calendar-watch/", "/inventory-watch/"):
+    for href in ("/", "/headline-watch/", "/price-watch/", "/calendar-watch/", "/inventory-watch/", "/demand-watch/"):
         assert f'href="{href}"' in html
-    assert html.count('class="site-tab"') == 5
+    assert html.count('class="site-tab"') == 6
     assert f'href="{current_href}" aria-current="page"' in html
     assert "CommodityWatch<span class=\"dot\"></span>" in html
 
@@ -749,6 +771,19 @@ def test_inventory_watch_route_serves_page(tmp_path: Path) -> None:
     assert_product_nav(html, current_href="/inventory-watch/")
 
 
+def test_demand_watch_route_serves_page(tmp_path: Path) -> None:
+    database_path = tmp_path / "commodities.db"
+    create_fixture_database(database_path)
+
+    with running_server(database_path) as base_url:
+        html = get_text(f"{base_url}/demand-watch/")
+
+    assert "<title>CommodityWatch | DemandWatch</title>" in html
+    assert 'id="demand-root"' in html
+    assert 'src="app.js"' in html
+    assert_product_nav(html, current_href="/demand-watch/")
+
+
 def test_inventory_watch_nested_route_serves_inventory_shell(tmp_path: Path) -> None:
     database_path = tmp_path / "commodities.db"
     create_fixture_database(database_path)
@@ -817,9 +852,15 @@ def test_inventory_api_routes_proxy_backend_contracts(tmp_path: Path) -> None:
 
     assert snapshot_payload["module"] == "inventorywatch"
     assert snapshot_payload["path"] == "/api/snapshot/inventorywatch?commodity=natural_gas&limit=7"
+    assert snapshot_payload["cards"][0]["latest_period_end_at"] == "2026-03-21T00:00:00Z"
+    assert snapshot_payload["cards"][0]["latest_release_date"] == "2026-03-26T14:30:00Z"
+    assert snapshot_payload["cards"][0]["commoditywatch_updated_at"] == "2026-03-26T15:05:00Z"
     assert latest_payload["latest"]["unit"] == "kb"
+    assert latest_payload["latest"]["commoditywatch_updated_at"] == "2026-03-26T15:05:00Z"
     assert latest_payload["path"] == "/api/indicators/test-indicator/latest"
     assert data_payload["indicator"]["name"] == "Fixture Inventory Indicator"
+    assert data_payload["metadata"]["latest_period_end_at"] == "2026-03-21T00:00:00Z"
+    assert data_payload["metadata"]["latest_vintage_at"] == "2026-03-26T15:05:00Z"
     assert data_payload["path"] == "/api/indicators/test-indicator/data?include_seasonal=true"
     assert health_payload["data"]["inventory_api_available"] is True
     assert health_payload["data"]["inventory_api_base_url"] == inventory_api_base_url
@@ -870,7 +911,10 @@ def test_inventory_api_uses_published_local_store_when_available(tmp_path: Path)
         health_payload = get_json(f"{base_url}/api/health")
 
     assert snapshot_payload["module"] == "inventorywatch"
+    assert snapshot_payload["cards"][0]["latest_period_end_at"].startswith("2026-03-20T00:00:00")
+    assert snapshot_payload["cards"][0]["latest_release_date"] is not None
     assert latest_payload["indicator"]["id"] == "EIA_NATURAL_GAS_US_WORKING_STORAGE"
+    assert latest_payload["latest"]["commoditywatch_updated_at"] is not None
     assert health_payload["data"]["inventory_api_mode"] == "local-published"
     assert health_payload["data"]["inventory_local_store_kind"] == "published-db"
     assert health_payload["data"]["inventory_published_db_path"] == str(inventory_published_db_path)

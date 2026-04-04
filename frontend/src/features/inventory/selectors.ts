@@ -1,6 +1,7 @@
 import { getCommodityGroup, type CommodityGroupSlug } from "@/config/commodities";
 import { commodityGroupForCode } from "@/features/inventory/indicator-registry";
-import type { AlertKind, IndicatorDataResponse, IndicatorLatestResponse, SeasonalRangePoint, SeriesPoint, SnapshotCardData } from "@/types/api";
+import { formatSignedValue } from "@/lib/format/numbers";
+import type { AlertKind, IndicatorDataResponse, SeasonalRangePoint, SeriesPoint, SnapshotCardData } from "@/types/api";
 
 export interface SeasonalSeriesPoint {
   periodIndex: number;
@@ -17,12 +18,21 @@ export interface ChangeBarPoint {
 }
 
 export interface RecentReleaseRow {
-  date: string;
+  periodEndAt: string;
+  releaseDate: string | null;
   value: number;
   change: number | null;
   percentChange: number | null;
   vsMedian: number | null;
   percentileRankLabel: string;
+}
+
+interface SeasonalBoundsLike {
+  p10?: number | null;
+  p25?: number | null;
+  p50?: number | null;
+  p75?: number | null;
+  p90?: number | null;
 }
 
 export function groupCardsForSnapshot(cards: SnapshotCardData[]) {
@@ -32,6 +42,15 @@ export function groupCardsForSnapshot(cards: SnapshotCardData[]) {
     accumulator[key].push(card);
     return accumulator;
   }, {});
+}
+
+export function buildVisibleSnapshotSections(
+  groupedCards: Record<string, SnapshotCardData[]>,
+  sectionOrder: readonly string[],
+) {
+  return sectionOrder
+    .map((name) => [name, groupedCards[name] ?? []] as const)
+    .filter(([, sectionCards]) => sectionCards.length > 0);
 }
 
 export function filterCardsByCommodityGroup(cards: SnapshotCardData[], slug: CommodityGroupSlug) {
@@ -188,43 +207,107 @@ export function seasonalPointForLatest(
   return seasonalRange.find((point) => point.periodIndex === index) ?? null;
 }
 
-export function percentileBracketLabel(value: number, seasonalPoint: SeasonalRangePoint | null) {
-  if (!seasonalPoint) {
+export function hasSeasonalBaseline(seasonalPoint: SeasonalBoundsLike | null | undefined) {
+  return Boolean(seasonalPoint && seasonalPoint.p50 != null);
+}
+
+export function percentileBracketLabel(value: number, seasonalPoint: SeasonalBoundsLike | null | undefined) {
+  if (!seasonalPoint || seasonalPoint.p50 == null) {
     return "Unavailable";
   }
 
-  if (seasonalPoint.p10 != null && value < seasonalPoint.p10) return "Below 10th";
-  if (seasonalPoint.p25 != null && value < seasonalPoint.p25) return "10th-25th";
-  if (seasonalPoint.p75 != null && value <= seasonalPoint.p75) return "25th-75th";
-  if (seasonalPoint.p90 != null && value <= seasonalPoint.p90) return "75th-90th";
+  const bounds = seasonalPoint;
+  if (bounds.p10 != null && value < bounds.p10) return "Below 10th";
+  if (bounds.p25 != null && value < bounds.p25) return "10th-25th";
+  if (bounds.p75 != null && value <= bounds.p75) return "25th-75th";
+  if (bounds.p90 != null && value <= bounds.p90) return "75th-90th";
   return "Above 90th";
 }
 
-export function alertKindFromSeasonal(value: number, seasonalPoint: SeasonalRangePoint | null): AlertKind | null {
-  if (!seasonalPoint) {
+export function alertKindFromSeasonalPosition(value: number | null | undefined, seasonalPoint: SeasonalBoundsLike | null | undefined): AlertKind | null {
+  if (value == null || !seasonalPoint || seasonalPoint.p50 == null) {
     return null;
   }
 
-  if (seasonalPoint.p10 != null && value < seasonalPoint.p10) return "extreme-low";
-  if (seasonalPoint.p90 != null && value > seasonalPoint.p90) return "extreme-high";
+  const bounds = seasonalPoint;
+  if (bounds.p10 != null && value < bounds.p10) return "extreme-low";
+  if (bounds.p90 != null && value > bounds.p90) return "extreme-high";
   return null;
 }
 
-export function alertKindFromLatest(latest: IndicatorLatestResponse | null | undefined): AlertKind | null {
-  const zscore = latest?.latest.deviationFromSeasonalZscore;
-  if (zscore == null) {
-    return null;
+function seasonalPointFromSnapshotCard(card: Pick<SnapshotCardData, "seasonalP10" | "seasonalP25" | "seasonalMedian" | "seasonalP75" | "seasonalP90">) {
+  return {
+    p10: card.seasonalP10,
+    p25: card.seasonalP25,
+    p50: card.seasonalMedian,
+    p75: card.seasonalP75,
+    p90: card.seasonalP90,
+  };
+}
+
+export function snapshotHasSeasonalBaseline(
+  card: Pick<SnapshotCardData, "seasonalMedian" | "seasonalP10" | "seasonalP25" | "seasonalP75" | "seasonalP90">,
+) {
+  return hasSeasonalBaseline(seasonalPointFromSnapshotCard(card));
+}
+
+export function alertKindFromSnapshotCard(
+  card: Pick<SnapshotCardData, "latestValue" | "seasonalMedian" | "seasonalP10" | "seasonalP25" | "seasonalP75" | "seasonalP90">,
+) {
+  return alertKindFromSeasonalPosition(card.latestValue, seasonalPointFromSnapshotCard(card));
+}
+
+export function snapshotSeasonalComparisonText(
+  card: Pick<SnapshotCardData, "deviationAbs" | "unit" | "seasonalMedian" | "seasonalP10" | "seasonalP25" | "seasonalP75" | "seasonalP90">,
+) {
+  if (!snapshotHasSeasonalBaseline(card)) {
+    return { title: "Seasonal baseline", value: "Current only" };
   }
 
-  if (zscore <= -1.28) {
-    return "extreme-low";
+  return {
+    title: "vs 5Y median",
+    value: describeMedianDeviation(card.deviationAbs, card.unit),
+  };
+}
+
+export function describeMedianDeviation(value: number | null | undefined, unit: string | null | undefined) {
+  if (value == null) {
+    return "Median unavailable";
   }
 
-  if (zscore >= 1.28) {
-    return "extreme-high";
+  if (value === 0) {
+    return "At median";
   }
 
-  return null;
+  return `${formatSignedValue(value, unit)} ${value < 0 ? "below" : "above"} median`;
+}
+
+export function changeReferenceLabel(indicatorLike: { frequency?: string | null; periodType?: string | null }) {
+  const cadence = indicatorLike.periodType ?? indicatorLike.frequency ?? null;
+
+  switch (cadence) {
+    case "daily":
+      return "vs prior day";
+    case "weekly":
+      return "vs prior week";
+    case "monthly":
+    case "marketing_month":
+      return "vs prior month";
+    case "quarterly":
+      return "vs prior quarter";
+    case "annual":
+      return "vs prior year";
+    default:
+      return "vs prior period";
+  }
+}
+
+export function trendWindowLabel(observationCount: number) {
+  if (observationCount <= 0) {
+    return "Trend unavailable";
+  }
+
+  return `Trend · last ${observationCount} observation${observationCount === 1 ? "" : "s"}`;
 }
 
 export function buildRecentReleaseRows(data: IndicatorDataResponse): RecentReleaseRow[] {
@@ -241,7 +324,8 @@ export function buildRecentReleaseRows(data: IndicatorDataResponse): RecentRelea
     const vsMedian = seasonalPoint?.p50 != null ? point.value - seasonalPoint.p50 : null;
 
     return {
-      date: point.periodEndAt,
+      periodEndAt: point.periodEndAt,
+      releaseDate: point.releaseDate,
       value: point.value,
       change,
       percentChange,

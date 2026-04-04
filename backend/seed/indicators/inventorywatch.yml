@@ -6,7 +6,7 @@
   commodity_code: crude_oil
   geography_code: US
   source_slug: eia
-  source_series_key: PET.W_EPC0_SAX_NUS_MBBL.W
+  source_series_key: PET.WCESTUS1.W
   native_unit_code: kb
   canonical_unit_code: kb
   default_observation_kind: actual
@@ -109,14 +109,14 @@
     release_slug: eia_wpsr
     source_table: WPSR Table 5
 - code: EIA_PROPANE_US_TOTAL_STOCKS
-  name: EIA US Propane/Propylene Stocks
-  description: Weekly U.S. propane and propylene stocks.
+  name: EIA US Propane/Propylene Stocks excl Terminal Propylene
+  description: Weekly U.S. propane and propylene ending stocks excluding propylene at terminal.
   measure_family: stock
   frequency: weekly
   commodity_code: propane
   geography_code: US
   source_slug: eia
-  source_series_key: PET.W_EPLLPZ_SAE_NUS_MBBL.W
+  source_series_key: PET.WPRSTUS1.W
   native_unit_code: kb
   canonical_unit_code: kb
   default_observation_kind: actual
@@ -325,9 +325,9 @@
   canonical_unit_code: tonnes
   default_observation_kind: actual
   seasonal_profile: inventorywatch_5y_monthly
-  is_seasonal: true
+  is_seasonal: false
   is_derived: false
-  visibility_tier: public
+  visibility_tier: internal
   source_url: https://www.lme.com/en/metals/non-ferrous/lme-copper/warehouse-stocks
   period_type: monthly
   color_convention: inverse
@@ -357,9 +357,9 @@
   canonical_unit_code: tonnes
   default_observation_kind: actual
   seasonal_profile: inventorywatch_5y_monthly
-  is_seasonal: true
+  is_seasonal: false
   is_derived: false
-  visibility_tier: public
+  visibility_tier: internal
   source_url: https://www.lme.com/en/metals/non-ferrous/lme-aluminium/warehouse-stocks
   period_type: monthly
   color_convention: inverse
@@ -389,9 +389,9 @@
   canonical_unit_code: tonnes
   default_observation_kind: actual
   seasonal_profile: inventorywatch_5y_monthly
-  is_seasonal: true
+  is_seasonal: false
   is_derived: false
-  visibility_tier: public
+  visibility_tier: internal
   source_url: https://www.lme.com/en/metals/non-ferrous/lme-zinc/warehouse-stocks
   period_type: monthly
   color_convention: inverse
@@ -421,9 +421,9 @@
   canonical_unit_code: tonnes
   default_observation_kind: actual
   seasonal_profile: inventorywatch_5y_monthly
-  is_seasonal: true
+  is_seasonal: false
   is_derived: false
-  visibility_tier: public
+  visibility_tier: internal
   source_url: https://www.lme.com/en/metals/non-ferrous/lme-nickel/warehouse-stocks
   period_type: monthly
   color_convention: inverse
@@ -453,9 +453,9 @@
   canonical_unit_code: tonnes
   default_observation_kind: actual
   seasonal_profile: inventorywatch_5y_monthly
-  is_seasonal: true
+  is_seasonal: false
   is_derived: false
-  visibility_tier: public
+  visibility_tier: internal
   source_url: https://www.lme.com/en/metals/non-ferrous/lme-tin/warehouse-stocks
   period_type: monthly
   color_convention: inverse
@@ -485,9 +485,9 @@
   canonical_unit_code: tonnes
   default_observation_kind: actual
   seasonal_profile: inventorywatch_5y_monthly
-  is_seasonal: true
+  is_seasonal: false
   is_derived: false
-  visibility_tier: public
+  visibility_tier: internal
   source_url: https://www.lme.com/en/metals/non-ferrous/lme-lead/warehouse-stocks
   period_type: monthly
   color_convention: inverse
@@ -593,7 +593,7 @@
   marketing_year_start_month: 6
   color_convention: inverse
   sanity_bounds:
-    min: 100
+    min: 1
     max: 2000
   release_schedule:
     type: monthly_calendar
@@ -823,7 +823,7 @@
   period_type: daily
   color_convention: inverse
   sanity_bounds:
-    min: 100
+    min: 1
     max: 2000
   release_schedule:
     type: fixed_daily
@@ -897,163 +897,3 @@
   primary_module: inventorywatch
   metadata:
     release_slug: etf_holdings
-- code: ICE_ARABICA_COFFEE_CERTIFIED_STOCKS
-  name: ICE Arabica Coffee Certified Stocks
-  description: Daily ICE Arabica coffee certified stocks.
-  measure_family: stock
-  frequency: daily
-  commodity_code: coffee
-  geography_code: ICE
-  source_slug: ice
-  source_series_key: ICE_C
-  native_unit_code: bags_60kg
-  canonical_unit_code: bags_60kg
-  default_observation_kind: actual
-  seasonal_profile: inventorywatch_5y_monthly
-  is_seasonal: true
-  is_derived: false
-  visibility_tier: public
-  source_url: https://www.theice.com/
-  period_type: monthly
-  color_convention: inverse
-  sanity_bounds:
-    min: 100000
-    max: 5000000
-  release_schedule:
-    type: fixed_daily
-    time_local: "17:00"
-    timezone: America/New_York
-  days_of_supply: false
-  alerts_enabled: true
-  modules: [inventorywatch]
-  primary_module: inventorywatch
-  metadata:
-    release_slug: ice_certified
-- code: ICE_ROBUSTA_COFFEE_CERTIFIED_STOCKS
-  name: ICE Robusta Coffee Certified Stocks
-  description: Daily ICE Robusta coffee certified stocks.
-  measure_family: stock
-  frequency: daily
-  commodity_code: coffee
-  geography_code: ICE
-  source_slug: ice
-  source_series_key: ICE_ROBUSTA
-  native_unit_code: tonnes
-  canonical_unit_code: tonnes
-  default_observation_kind: actual
-  seasonal_profile: inventorywatch_5y_monthly
-  is_seasonal: true
-  is_derived: false
-  visibility_tier: public
-  source_url: https://www.theice.com/
-  period_type: monthly
-  color_convention: inverse
-  sanity_bounds:
-    min: 1000
-    max: 300000
-  release_schedule:
-    type: fixed_daily
-    time_local: "17:00"
-    timezone: America/New_York
-  days_of_supply: false
-  alerts_enabled: true
-  modules: [inventorywatch]
-  primary_module: inventorywatch
-  metadata:
-    release_slug: ice_certified
-- code: ICE_RAW_SUGAR_CERTIFIED_STOCKS
-  name: ICE Raw Sugar No.11 Certified Stocks
-  description: Daily ICE raw sugar No.11 certified stocks.
-  measure_family: stock
-  frequency: daily
-  commodity_code: sugar
-  geography_code: ICE
-  source_slug: ice
-  source_series_key: ICE_NO11
-  native_unit_code: short_tons
-  canonical_unit_code: short_tons
-  default_observation_kind: actual
-  seasonal_profile: inventorywatch_5y_monthly
-  is_seasonal: true
-  is_derived: false
-  visibility_tier: public
-  source_url: https://www.theice.com/
-  period_type: monthly
-  color_convention: inverse
-  sanity_bounds:
-    min: 10000
-    max: 500000
-  release_schedule:
-    type: fixed_daily
-    time_local: "17:00"
-    timezone: America/New_York
-  days_of_supply: false
-  alerts_enabled: true
-  modules: [inventorywatch]
-  primary_module: inventorywatch
-  metadata:
-    release_slug: ice_certified
-- code: ICE_COTTON_CERTIFIED_STOCKS
-  name: ICE Cotton No.2 Certified Stocks
-  description: Daily ICE cotton No.2 certified stocks.
-  measure_family: stock
-  frequency: daily
-  commodity_code: cotton
-  geography_code: ICE
-  source_slug: ice
-  source_series_key: ICE_NO2
-  native_unit_code: bales
-  canonical_unit_code: bales
-  default_observation_kind: actual
-  seasonal_profile: inventorywatch_5y_monthly
-  is_seasonal: true
-  is_derived: false
-  visibility_tier: public
-  source_url: https://www.theice.com/
-  period_type: monthly
-  color_convention: inverse
-  sanity_bounds:
-    min: 10000
-    max: 600000
-  release_schedule:
-    type: fixed_daily
-    time_local: "17:00"
-    timezone: America/New_York
-  days_of_supply: false
-  alerts_enabled: true
-  modules: [inventorywatch]
-  primary_module: inventorywatch
-  metadata:
-    release_slug: ice_certified
-- code: ICE_COCOA_CERTIFIED_STOCKS
-  name: ICE Cocoa Certified Stocks
-  description: Daily ICE cocoa certified stocks.
-  measure_family: stock
-  frequency: daily
-  commodity_code: cocoa
-  geography_code: ICE
-  source_slug: ice
-  source_series_key: ICE_COCOA
-  native_unit_code: tonnes
-  canonical_unit_code: tonnes
-  default_observation_kind: actual
-  seasonal_profile: inventorywatch_5y_monthly
-  is_seasonal: true
-  is_derived: false
-  visibility_tier: public
-  source_url: https://www.theice.com/
-  period_type: monthly
-  color_convention: inverse
-  sanity_bounds:
-    min: 1000
-    max: 500000
-  release_schedule:
-    type: fixed_daily
-    time_local: "17:00"
-    timezone: America/New_York
-  days_of_supply: false
-  alerts_enabled: true
-  modules: [inventorywatch]
-  primary_module: inventorywatch
-  metadata:
-    release_slug: ice_certified

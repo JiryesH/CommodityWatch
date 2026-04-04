@@ -1,6 +1,6 @@
 "use client";
 
-import { keepPreviousData, useQueries, useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
 import {
   fetchIndicatorData,
@@ -47,20 +47,4 @@ export function useIndicators(filters: IndicatorFilters = {}) {
     staleTime: 30 * 60 * 1000,
     placeholderData: keepPreviousData,
   });
-}
-
-export function useIndicatorLatestMap(indicatorIds: string[]) {
-  const queries = useQueries({
-    queries: indicatorIds.map((indicatorId) => ({
-      queryKey: ["indicator-latest", indicatorId],
-      queryFn: () => fetchIndicatorLatest(indicatorId),
-      enabled: Boolean(indicatorId),
-      staleTime: 5 * 60 * 1000,
-    })),
-  });
-
-  return indicatorIds.reduce<Record<string, ReturnType<typeof useIndicatorLatest>["data"]>>((accumulator, indicatorId, index) => {
-    accumulator[indicatorId] = queries[index].data;
-    return accumulator;
-  }, {});
 }

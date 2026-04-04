@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report Name="CWRCommoditySummary" ReportTitle="COMPLETE WEEKLY REPORT - COMMODITY SUMMARY&#xD;&#xA;U. S. EXPORT SALES AS OF 3/26/2026&#xD;&#xA;&#xD;&#xA;All numbers are in the Thousands" xmlns="CWRCommoditySummary">
+  <Tablix1>
+    <Details_Collection>
+      <Details CommodityCode="401" CommodityName="CORN - UNMILLED" PeriodEndingDate="2026-03-26" MarketingYearWeekNumber="30" MYCOType="Standard" MarketingYear="Sep 2025/Aug 2026" NewSales="1225.240" PurchaseForeignSellers="0" BuyBacks_Cancellations="75.816" WeeklyExports="1994.674" NetSales="1149.424" OutstandingSales="22893.143" />
+      <Details CommodityCode="401" CommodityName="CORN - UNMILLED" PeriodEndingDate="2026-03-19" MarketingYearWeekNumber="29" MYCOType="Standard" MarketingYear="Sep 2025/Aug 2026" NewSales="1430.588" PurchaseForeignSellers="0" BuyBacks_Cancellations="212.761" WeeklyExports="1678.246" NetSales="1217.827" OutstandingSales="23738.393" />
+      <Details CommodityCode="107" CommodityName="ALL WHEAT" PeriodEndingDate="2026-03-26" MarketingYearWeekNumber="43" MYCOType="Standard" MarketingYear="Jun 2025/May 2026" NewSales="175.689" PurchaseForeignSellers="0" BuyBacks_Cancellations="152.168" WeeklyExports="340.858" NetSales="23.521" OutstandingSales="4258.805" />
+    </Details_Collection>
+  </Tablix1>
+</Report>

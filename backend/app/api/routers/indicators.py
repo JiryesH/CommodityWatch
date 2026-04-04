@@ -42,6 +42,11 @@ def resolve_downsample(downsample: str, points: list[Observation]) -> str:
     return "raw"
 
 
+def is_public_indicator_accessible(indicator: Indicator, modules: list[str]) -> bool:
+    visibility = indicator.visibility_tier.value if hasattr(indicator.visibility_tier, "value") else str(indicator.visibility_tier)
+    return bool(modules) and visibility == "public"
+
+
 async def list_inventorywatch_indicators(
     session: AsyncSession,
     filters: IndicatorFilters,
@@ -193,6 +198,9 @@ async def indicator_data(
     indicator = await get_indicator(session, indicator_id)
     if indicator is None:
         raise HTTPException(status_code=404, detail="Indicator not found.")
+    modules = await get_indicator_modules(session, indicator.id)
+    if not is_public_indicator_accessible(indicator, modules):
+        raise HTTPException(status_code=404, detail="Indicator not found.")
 
     start_date = start_date or (utc_today() - timedelta(days=365))
     end_date = end_date or utc_today()
@@ -200,7 +208,6 @@ async def indicator_data(
     collapsed = collapse_vintages(observations, vintage=vintage, as_of=as_of)
     sampled = downsample_observations(collapsed, resolve_downsample(downsample, collapsed))
     sampled = sampled[-limit_points:]
-    modules = await get_indicator_modules(session, indicator.id)
 
     if not sampled:
         raise HTTPException(status_code=404, detail="No observations found.")
@@ -289,6 +296,8 @@ async def indicator_data(
         metadata=IndicatorDataMetadata(
             latest_release_id=latest_release,
             latest_release_at=latest_release_at,
+            latest_period_end_at=latest.period_end_at if latest else None,
+            latest_vintage_at=latest.vintage_at if latest else None,
             source_url=source_url,
         ),
     )
@@ -298,6 +307,9 @@ async def indicator_data(
 async def indicator_latest(indicator_id: UUID, session: SessionDep) -> IndicatorLatestResponse:
     indicator = await get_indicator(session, indicator_id)
     if indicator is None:
+        raise HTTPException(status_code=404, detail="Indicator not found.")
+    modules = await get_indicator_modules(session, indicator.id)
+    if not is_public_indicator_accessible(indicator, modules):
         raise HTTPException(status_code=404, detail="Indicator not found.")
 
     latest, prior = await get_latest_and_prior(session, indicator_id)
@@ -337,6 +349,7 @@ async def indicator_latest(indicator_id: UUID, session: SessionDep) -> Indicator
         latest=LatestPoint(
             period_end_at=latest.period_end_at,
             release_date=latest.release_date,
+            commoditywatch_updated_at=latest.vintage_at,
             value=float(latest.value_canonical),
             unit=latest.unit_canonical_code,
             change_from_prior_abs=change_abs,

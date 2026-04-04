@@ -1,0 +1,1 @@
+"""FRED ingestion package."""

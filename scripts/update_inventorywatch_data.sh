@@ -6,14 +6,41 @@ backend_dir="${root}/backend"
 backend_python="${backend_dir}/.venv/bin/python"
 backend_env="${backend_dir}/.env"
 publish_script="${root}/scripts/publish_inventorywatch_store.py"
+audit_script="${root}/scripts/audit_inventorywatch_coverage.py"
 usda_backfill_script="${root}/scripts/backfill/usda_wasde_historical.py"
 lme_backfill_script="${root}/scripts/backfill/lme_historical.py"
 seed_script="${backend_dir}/scripts/seed_reference_data.py"
 audit_json="${backend_dir}/artifacts/inventorywatch/published_coverage_audit.json"
 audit_markdown="${backend_dir}/artifacts/inventorywatch/published_coverage_audit.md"
 
-declare -a failures=()
+declare -a preflight_failures=()
+declare -a source_failures=()
+declare -a publish_failures=()
+declare -a coverage_failures=()
 declare -a warnings=()
+refresh_mode="${CW_INVENTORYWATCH_REFRESH_MODE:-operator}"
+
+while [[ "$#" -gt 0 ]]; do
+  case "$1" in
+    --strict)
+      refresh_mode="strict"
+      shift
+      ;;
+    --operator)
+      refresh_mode="operator"
+      shift
+      ;;
+    --)
+      shift
+      break
+      ;;
+    *)
+      break
+      ;;
+  esac
+done
+
+requested_jobs=("$@")
 
 require_file() {
   local path="$1"
@@ -28,9 +55,24 @@ log() {
   printf '[%s] %s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "$*"
 }
 
-append_failure() {
+append_preflight_failure() {
   local item="$1"
-  failures+=("${item}")
+  preflight_failures+=("${item}")
+}
+
+append_source_failure() {
+  local item="$1"
+  source_failures+=("${item}")
+}
+
+append_publish_failure() {
+  local item="$1"
+  publish_failures+=("${item}")
+}
+
+append_coverage_failure() {
+  local item="$1"
+  coverage_failures+=("${item}")
 }
 
 append_warning() {
@@ -52,14 +94,17 @@ is_truthy() {
 require_file "${backend_python}" "Missing ${backend_python}. Set up the backend first in backend/."
 require_file "${backend_env}" "Missing backend/.env. Copy backend/.env.example to backend/.env first."
 require_file "${seed_script}" "Missing ${seed_script}. Cannot seed backend reference data."
+require_file "${publish_script}" "Missing ${publish_script}. Cannot publish InventoryWatch data."
+require_file "${audit_script}" "Missing ${audit_script}. Cannot audit InventoryWatch coverage."
 
 set -a
 source "${backend_env}"
 set +a
 
-run_python_script() {
-  local name="$1"
-  shift
+run_backend_task() {
+  local classification="$1"
+  local name="$2"
+  shift 2
   log "Running InventoryWatch task: ${name}"
   (
     cd "${backend_dir}"
@@ -71,34 +116,81 @@ run_python_script() {
     return 0
   fi
 
-  log "FAILED InventoryWatch task: ${name} (exit=${status})"
-  append_failure "${name}"
+  case "${classification}" in
+    preflight)
+      append_preflight_failure "${name}"
+      ;;
+    source)
+      append_source_failure "${name}"
+      ;;
+    publish)
+      append_publish_failure "${name}"
+      ;;
+    coverage)
+      append_coverage_failure "${name}"
+      ;;
+  esac
+  log "FAILED InventoryWatch ${classification} task: ${name} (exit=${status})"
   return "${status}"
 }
 
 run_job() {
   local job="$1"
-  run_python_script "${job}" -m app.worker run-once --job "${job}"
+  run_backend_task "source" "${job}" -m app.worker run-once --job "${job}"
 }
 
 run_backfill_script() {
   local name="$1"
   shift
-  run_python_script "${name}" "$@"
+  run_backend_task "source" "${name}" "$@"
 }
 
 seed_reference_data() {
-  run_python_script "seed_reference_data" "${seed_script}"
+  run_backend_task "preflight" "seed_reference_data" "${seed_script}"
+}
+
+upgrade_database_schema() {
+  run_backend_task "preflight" "alembic_upgrade_head" -m alembic upgrade head
+}
+
+validate_migration_revisions() {
+  run_backend_task "preflight" "inventorywatch_migration_preflight" -m app.ingest.common.jobs validate-migrations
+}
+
+run_schema_preflight() {
+  run_backend_task "preflight" "inventorywatch_schema_preflight" -m app.ingest.common.jobs check-schema
 }
 
 publish_local_store() {
-  log "Publishing InventoryWatch local store"
-  run_python_script "publish_inventorywatch_store" "${publish_script}" \
+  local mode="${1:-operator}"
+  run_backend_task "publish" "publish_inventorywatch_store" "${publish_script}" \
     --data-root "${backend_dir}" \
     --output "${root}/data/inventorywatch.db" \
     --audit-json "${audit_json}" \
-    --audit-markdown "${audit_markdown}" \
-    --fail-on-weak-coverage
+    --audit-markdown "${audit_markdown}" || return 1
+
+  log "Evaluating InventoryWatch coverage audit (${mode})"
+  (
+    cd "${backend_dir}"
+    PYTHONUNBUFFERED=1 "${backend_python}" "${audit_script}" \
+      --database "${root}/data/inventorywatch.db" \
+      --audit-json "${audit_json}" \
+      --audit-markdown "${audit_markdown}" \
+      --fail-on-weak-coverage
+  )
+  local status=$?
+  if [[ "${status}" -eq 0 ]]; then
+    log "Finished InventoryWatch coverage audit (${mode})"
+    return 0
+  fi
+
+  append_coverage_failure "published_coverage_audit"
+  if [[ "${mode}" == "strict" ]]; then
+    log "FAILED InventoryWatch coverage gate: published_coverage_audit (exit=${status})"
+    return "${status}"
+  fi
+  log "InventoryWatch coverage gate reported blocking issues; operator mode will continue."
+  return 0
 }
 
 missing_key_for_job() {
@@ -163,7 +255,8 @@ run_historical_backfills() {
   local today
   today="$(date +%F)"
 
-  if is_truthy "${CW_ENABLE_USDA_HISTORICAL_BACKFILL:-true}"; then
+  # Historical archive backfills are explicit maintenance operations, not the default operator refresh path.
+  if is_truthy "${CW_ENABLE_USDA_HISTORICAL_BACKFILL:-false}"; then
     if [[ -e "${usda_backfill_script}" ]]; then
       run_backfill_script "usda_wasde_historical" "${usda_backfill_script}" --from "${backfill_from_usda}" --to "${today}" || true
     else
@@ -172,7 +265,7 @@ run_historical_backfills() {
     fi
   fi
 
-  if is_truthy "${CW_ENABLE_LME_HISTORICAL_BACKFILL:-true}"; then
+  if is_truthy "${CW_ENABLE_LME_HISTORICAL_BACKFILL:-false}"; then
     if [[ -e "${lme_backfill_script}" ]]; then
       run_backfill_script "lme_historical" "${lme_backfill_script}" --from "${backfill_from_lme}" --to "${today}" || true
     else
@@ -185,19 +278,36 @@ run_historical_backfills() {
 run_post_refresh_steps() {
   local run_seasonal="${1:-true}"
   local run_publish="${2:-true}"
+  local mode="${3:-operator}"
 
   if is_truthy "${run_seasonal}"; then
     run_job "seasonal_ranges" || true
   fi
   if is_truthy "${run_publish}"; then
-    publish_local_store || true
+    publish_local_store "${mode}" || true
   fi
 }
 
 finish_with_summary() {
-  if [[ "${#failures[@]}" -gt 0 ]]; then
-    log "InventoryWatch refresh completed with failures: ${failures[*]}"
+  local mode="${1:-operator}"
+  if [[ "${#preflight_failures[@]}" -gt 0 ]]; then
+    log "InventoryWatch refresh failed during preflight: ${preflight_failures[*]}"
     return 1
+  fi
+  if [[ "${#source_failures[@]}" -gt 0 ]]; then
+    log "InventoryWatch refresh completed with source-job failures: ${source_failures[*]}"
+    return 1
+  fi
+  if [[ "${#publish_failures[@]}" -gt 0 ]]; then
+    log "InventoryWatch refresh completed with publish failures: ${publish_failures[*]}"
+    return 1
+  fi
+  if [[ "${#coverage_failures[@]}" -gt 0 ]]; then
+    if [[ "${mode}" == "strict" ]]; then
+      log "InventoryWatch refresh failed strict coverage gate: ${coverage_failures[*]}"
+      return 1
+    fi
+    log "InventoryWatch refresh completed with weak coverage in operator mode: ${coverage_failures[*]}"
   fi
   if [[ "${#warnings[@]}" -gt 0 ]]; then
     log "InventoryWatch refresh completed with warnings: ${warnings[*]}"
@@ -206,12 +316,15 @@ finish_with_summary() {
   return 0
 }
 
+validate_migration_revisions || exit 1
+upgrade_database_schema || exit 1
+run_schema_preflight || exit 1
 seed_reference_data || exit 1
 
-if [[ "$#" -gt 0 ]]; then
+if [[ "${#requested_jobs[@]}" -gt 0 ]]; then
   requested_seasonal=false
   requested_publish=false
-  for job in "$@"; do
+  for job in "${requested_jobs[@]}"; do
     case "${job}" in
       backfill_usda_wasde)
         run_backfill_script "usda_wasde_historical" "${usda_backfill_script}" --from "${CW_USDA_BACKFILL_FROM:-2000-01-01}" --to "$(date +%F)" || true
@@ -229,7 +342,7 @@ if [[ "$#" -gt 0 ]]; then
         continue
         ;;
       publish_local_store)
-        publish_local_store || true
+        publish_local_store "${refresh_mode}" || true
         requested_publish=true
         continue
         ;;
@@ -253,8 +366,8 @@ if [[ "$#" -gt 0 ]]; then
     run_seasonal_after=false
     run_publish_after=true
   fi
-  run_post_refresh_steps "${run_seasonal_after}" "${run_publish_after}"
-  finish_with_summary
+  run_post_refresh_steps "${run_seasonal_after}" "${run_publish_after}" "${refresh_mode}"
+  finish_with_summary "${refresh_mode}"
   exit $?
 fi
 
@@ -273,6 +386,6 @@ do
   run_job_if_possible "${job}" "default"
 done
 
-run_post_refresh_steps
-finish_with_summary
+run_post_refresh_steps true true "${refresh_mode}"
+finish_with_summary "${refresh_mode}"
 exit $?

@@ -1,0 +1,16 @@
+{
+  "response": {
+    "data": [
+      {
+        "period": "2026-04-02T22",
+        "value": "486210.0",
+        "series-description": "U.S. Lower 48 demand"
+      },
+      {
+        "period": "2026-04-02T23",
+        "value": "487321.0",
+        "series-description": "U.S. Lower 48 demand"
+      }
+    ]
+  }
+}

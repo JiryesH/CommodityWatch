@@ -42,6 +42,7 @@ packages = ["app"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = ["."]
 markers = [
   "asyncio: marks async tests that require pytest-asyncio",
 ]

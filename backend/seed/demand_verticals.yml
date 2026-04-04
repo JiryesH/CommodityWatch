@@ -1,0 +1,48 @@
+- code: crude_products
+  name: Crude Oil + Refined Products
+  commodity_code: crude_products
+  sector: energy
+  nav_label: Crude
+  short_label: Crude + Products
+  description: Weekly petroleum demand and refinery-throughput indicators anchored on EIA releases.
+  display_order: 10
+  active: true
+  metadata:
+    mvp: true
+    supported_group_ids: [crude-oil]
+- code: electricity
+  name: Electricity / Power
+  commodity_code: electricity
+  sector: energy
+  nav_label: Power
+  short_label: Electricity
+  description: Direct electricity demand coverage from EIA and Ember.
+  display_order: 20
+  active: true
+  metadata:
+    mvp: true
+    supported_group_ids: [power]
+- code: grains_oilseeds
+  name: Grains & Oilseeds
+  commodity_code: grains_oilseeds
+  sector: agriculture
+  nav_label: Grains
+  short_label: Grains + Oilseeds
+  description: USDA demand estimates, export flow data, and corn ethanol throughput.
+  display_order: 30
+  active: true
+  metadata:
+    mvp: true
+    supported_group_ids: [grains-oilseeds]
+- code: base_metals
+  name: Base Metals
+  commodity_code: base_metals
+  sector: metals
+  nav_label: Metals
+  short_label: Base Metals
+  description: Macro-demand proxies for industrial metals, led by U.S. industrial production and construction activity.
+  display_order: 40
+  active: true
+  metadata:
+    mvp: true
+    supported_group_ids: [base-metals]

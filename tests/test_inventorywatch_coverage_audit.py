@@ -17,6 +17,8 @@ from inventory_watch_published_db import (
     inventory_coverage_audit_markdown,
     inventory_coverage_blocking_issues,
 )
+from scripts.audit_inventorywatch_coverage import coverage_blocking_message as audit_coverage_blocking_message
+from scripts.publish_inventorywatch_store import coverage_blocking_message as publish_coverage_blocking_message
 from scripts.publish_inventorywatch_store import validate_published_store
 
 
@@ -31,7 +33,11 @@ def make_indicator(
     frequency: str = "weekly",
     is_seasonal: bool = False,
     visibility_tier: str = "public",
+    metadata: dict[str, object] | None = None,
 ) -> InventoryIndicatorDefinition:
+    merged_metadata: dict[str, object] = {"source_label": source_slug.upper()}
+    if metadata:
+        merged_metadata.update(metadata)
     return InventoryIndicatorDefinition(
         id=code,
         code=code,
@@ -50,25 +56,29 @@ def make_indicator(
         is_seasonal=is_seasonal,
         is_derived=False,
         visibility_tier=visibility_tier,
-        metadata={"source_label": source_slug.upper()},
+        metadata=merged_metadata,
     )
 
 
 def make_observation(
     *,
-    period_days_ago: int,
-    release_days_ago: int | None,
-    value: float,
+    period_days_ago: int | None = None,
+    release_days_ago: int | None = None,
+    value: float = 100.0,
     frequency: str = "weekly",
+    period_end_at: datetime | None = None,
+    release_date: datetime | None = None,
 ) -> InventoryObservation:
-    period_end_at = NOW - timedelta(days=period_days_ago)
-    release_date = None if release_days_ago is None else NOW - timedelta(days=release_days_ago)
-    period_start_at = period_end_at - (timedelta(days=6) if frequency == "weekly" else timedelta(days=0))
-    vintage_at = release_date or NOW
+    resolved_period_end_at = period_end_at or NOW - timedelta(days=period_days_ago or 0)
+    resolved_release_date = release_date
+    if resolved_release_date is None and release_days_ago is not None:
+        resolved_release_date = NOW - timedelta(days=release_days_ago)
+    period_start_at = resolved_period_end_at - (timedelta(days=6) if frequency == "weekly" else timedelta(days=0))
+    vintage_at = resolved_release_date or NOW
     return InventoryObservation(
         period_start_at=period_start_at,
-        period_end_at=period_end_at,
-        release_date=release_date,
+        period_end_at=resolved_period_end_at,
+        release_date=resolved_release_date,
         vintage_at=vintage_at,
         value=value,
         unit="kt",
@@ -164,6 +174,17 @@ def test_coverage_audit_reports_structural_gaps_and_suitability() -> None:
     assert audit["summary"]["public_display_suitable_count"] == 1
     assert audit["summary"]["suppressed_indicator_count"] == 3
     assert audit["summary"]["error_indicator_count"] == 2
+    assert audit["summary"]["public_error_indicator_count"] == 2
+    assert audit["summary"]["non_public_error_indicator_count"] == 0
+    assert audit["summary"]["public_warning_indicator_count"] == 0
+    assert audit["summary"]["non_public_warning_indicator_count"] == 0
+    assert audit["summary"]["public_issue_code_counts"] == {
+        "no_observations": 1,
+        "thin_seasonal_history": 1,
+    }
+    assert audit["summary"]["non_public_issue_code_counts"] == {
+        "non_public_indicator": 1,
+    }
 
     good_row = next(item for item in audit["indicators"] if item["code"] == "good_weekly")
     thin_row = next(item for item in audit["indicators"] if item["code"] == "thin_weekly")
@@ -186,20 +207,110 @@ def test_coverage_audit_reports_structural_gaps_and_suitability() -> None:
     assert hidden_row["public_display_suitable"] is False
     assert hidden_row["public_display_status"] == "suppressed"
     assert hidden_row["issues"][0]["code"] == "non_public_indicator"
+    assert hidden_row["issues"][0]["scope"] == "non_public"
 
     markdown = inventory_coverage_audit_markdown(audit)
     assert "# InventoryWatch Coverage Audit" in markdown
+    assert "## Public Product" in markdown
+    assert "## Non-Public / Suppressed" in markdown
     assert "good_weekly" in markdown
     assert "| Code | Source | Obs |" in markdown
 
 
-def test_blocking_issues_and_validation_failures_are_operator_visible(tmp_path: Path) -> None:
-    indicator = make_indicator("empty_weekly", is_seasonal=True)
+def test_monthly_calendar_schedule_is_not_flagged_stale_before_due_but_warns_after_missed_release() -> None:
+    indicator = make_indicator(
+        "monthly_wasde",
+        frequency="monthly",
+        metadata={
+            "release_schedule": {
+                "type": "monthly_calendar",
+                "time_local": "12:00",
+                "timezone": "America/New_York",
+                "dates": ["2026-03-10", "2026-04-09"],
+            }
+        },
+    )
+    latest = make_observation(
+        frequency="monthly",
+        period_end_at=datetime(2026, 3, 10, tzinfo=UTC),
+        release_date=datetime(2026, 3, 10, tzinfo=UTC),
+        value=200.0,
+    )
+    repository = FakeRepository([indicator], {indicator.id: [latest]}, {})
+
+    before_due = build_inventory_coverage_audit(
+        repository,
+        now=datetime(2026, 4, 3, 12, 0, tzinfo=UTC),
+    )
+    before_row = before_due["indicators"][0]
+
+    assert before_due["summary"]["public_warning_indicator_count"] == 0
+    assert before_due["summary"]["public_issue_code_counts"] == {}
+    assert before_row["freshness_state"] == "fresh"
+    assert before_row["public_display_status"] == "eligible"
+    assert before_row["last_expected_release_at"] == "2026-03-10T16:00:00+00:00"
+    assert before_row["next_expected_release_at"] == "2026-04-09T16:00:00+00:00"
+    assert all(issue["code"] != "stale_release" for issue in before_row["issues"])
+
+    after_missed_release = build_inventory_coverage_audit(
+        repository,
+        now=datetime(2026, 4, 11, 18, 0, tzinfo=UTC),
+    )
+    after_row = after_missed_release["indicators"][0]
+
+    assert after_missed_release["summary"]["public_warning_indicator_count"] == 1
+    assert after_missed_release["summary"]["public_issue_code_counts"] == {"stale_release": 1}
+    assert after_row["freshness_state"] == "stale"
+    assert after_row["public_display_status"] == "stale"
+    assert any(issue["code"] == "stale_release" for issue in after_row["issues"])
+    assert any("2026-04-09" in issue["message"] for issue in after_row["issues"] if issue["code"] == "stale_release")
+
+
+def test_non_public_warnings_are_counted_separately_from_public_product_health() -> None:
+    public_indicator = make_indicator("good_daily", source_slug="etf", frequency="daily")
+    internal_indicator = make_indicator("hidden_daily", source_slug="lme", frequency="daily", visibility_tier="internal")
+    repository = FakeRepository(
+        [public_indicator, internal_indicator],
+        {
+            public_indicator.id: [
+                make_observation(period_days_ago=1, release_days_ago=1, value=10.0, frequency="daily"),
+            ],
+            internal_indicator.id: [
+                make_observation(period_days_ago=487, release_days_ago=487, value=10.0, frequency="daily"),
+            ],
+        },
+        {},
+    )
+    audit = build_inventory_coverage_audit(repository, now=NOW)
+    internal_row = next(item for item in audit["indicators"] if item["code"] == "hidden_daily")
+
+    assert audit["summary"]["warning_indicator_count"] == 1
+    assert audit["summary"]["public_warning_indicator_count"] == 0
+    assert audit["summary"]["non_public_warning_indicator_count"] == 1
+    assert audit["summary"]["public_issue_code_counts"] == {}
+    assert audit["summary"]["non_public_issue_code_counts"] == {
+        "non_public_indicator": 1,
+        "old_period": 1,
+        "stale_release": 1,
+    }
+    assert internal_row["freshness_state"] == "historical"
+    assert internal_row["public_display_status"] == "suppressed"
+    assert [issue["scope"] for issue in internal_row["issues"]] == ["non_public", "non_public", "non_public"]
+    assert inventory_coverage_blocking_issues(audit) == []
+    assert publish_coverage_blocking_message(audit) is None
+    assert audit_coverage_blocking_message(audit) is None
+
+
+def test_non_public_errors_do_not_block_public_strict_mode(tmp_path: Path) -> None:
+    indicator = make_indicator("empty_internal", is_seasonal=True, visibility_tier="internal")
     repository = FakeRepository([indicator], {indicator.id: []}, {})
     audit = build_inventory_coverage_audit(repository, now=NOW)
 
-    blocking = inventory_coverage_blocking_issues(audit)
-    assert [item["code"] for item in blocking] == ["empty_weekly"]
+    assert audit["summary"]["public_error_indicator_count"] == 0
+    assert audit["summary"]["non_public_error_indicator_count"] == 1
+    assert inventory_coverage_blocking_issues(audit) == []
+    assert publish_coverage_blocking_message(audit) is None
+    assert audit_coverage_blocking_message(audit) is None
 
     output_path = tmp_path / "inventorywatch.db"
     output_path.write_bytes(b"sqlite")
@@ -212,3 +323,14 @@ def test_blocking_issues_and_validation_failures_are_operator_visible(tmp_path: 
 
     with pytest.raises(RuntimeError, match="Published store path mismatch"):
         validate_published_store(tmp_path / "other.db", summary)
+
+
+def test_coverage_blocking_message_is_consistent_between_publish_and_audit_scripts() -> None:
+    indicator = make_indicator("empty_weekly", is_seasonal=True)
+    repository = FakeRepository([indicator], {indicator.id: []}, {})
+    audit = build_inventory_coverage_audit(repository, now=NOW)
+
+    expected = "InventoryWatch coverage audit found blocking issues for: empty_weekly"
+
+    assert publish_coverage_blocking_message(audit) == expected
+    assert audit_coverage_blocking_message(audit) == expected

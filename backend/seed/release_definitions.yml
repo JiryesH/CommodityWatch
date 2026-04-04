@@ -110,3 +110,103 @@
   is_calendar_driven: false
   active: true
   metadata: {published_report: ICE Certified Stocks}
+- slug: demand_eia_wpsr
+  source_slug: eia
+  name: DemandWatch EIA Weekly Petroleum Status Report
+  release_kind: data_release
+  module_code: demandwatch
+  commodity_code: energy
+  geography_code: US
+  cadence: weekly
+  schedule_timezone: America/New_York
+  schedule_rule: FREQ=WEEKLY;BYDAY=WE;BYHOUR=10;BYMINUTE=30
+  default_local_time: "10:30:00"
+  is_calendar_driven: false
+  active: true
+  metadata: {published_report: WPSR, landing_url: https://www.eia.gov/petroleum/supply/weekly/}
+- slug: demand_eia_grid_monitor
+  source_slug: eia
+  name: DemandWatch EIA Grid Monitor
+  release_kind: data_release
+  module_code: demandwatch
+  commodity_code: electricity
+  geography_code: US
+  cadence: daily
+  schedule_timezone: America/New_York
+  schedule_rule: FREQ=DAILY;BYHOUR=18;BYMINUTE=0
+  default_local_time: "18:00:00"
+  is_calendar_driven: false
+  active: true
+  metadata: {published_report: Grid Monitor, landing_url: https://www.eia.gov/electricity/gridmonitor/}
+- slug: demand_fred_g17
+  source_slug: fred
+  name: DemandWatch FRED G.17 Industrial Production
+  release_kind: data_release
+  module_code: demandwatch
+  commodity_code: base_metals
+  geography_code: US
+  cadence: monthly
+  schedule_timezone: America/Chicago
+  schedule_rule: FREQ=MONTHLY;BYHOUR=08;BYMINUTE=15
+  default_local_time: "08:15:00"
+  is_calendar_driven: false
+  active: true
+  metadata: {published_report: G.17, landing_url: https://www.federalreserve.gov/releases/g17/}
+- slug: demand_fred_new_residential_construction
+  source_slug: fred
+  name: DemandWatch FRED New Residential Construction
+  release_kind: data_release
+  module_code: demandwatch
+  commodity_code: base_metals
+  geography_code: US
+  cadence: monthly
+  schedule_timezone: America/New_York
+  schedule_rule: FREQ=MONTHLY;BYHOUR=08;BYMINUTE=30
+  default_local_time: "08:30:00"
+  is_calendar_driven: false
+  active: true
+  metadata: {published_report: New Residential Construction, landing_url: https://www.census.gov/construction/nrc/index.html}
+- slug: demand_usda_wasde
+  source_slug: usda_psd
+  name: DemandWatch USDA WASDE
+  release_kind: report
+  module_code: demandwatch
+  commodity_code: grains_oilseeds
+  geography_code: WORLD
+  cadence: monthly
+  schedule_timezone: America/New_York
+  schedule_rule: FREQ=MONTHLY;BYHOUR=12;BYMINUTE=0
+  default_local_time: "12:00:00"
+  is_calendar_driven: true
+  active: true
+  metadata:
+    published_report: WASDE
+    landing_url: https://www.usda.gov/about-usda/general-information/staff-offices/office-chief-economist/commodity-markets/wasde-report
+- slug: demand_usda_export_sales
+  source_slug: usda_export_sales
+  name: DemandWatch USDA Export Sales Report
+  release_kind: data_release
+  module_code: demandwatch
+  commodity_code: grains_oilseeds
+  geography_code: US
+  cadence: weekly
+  schedule_timezone: America/New_York
+  schedule_rule: FREQ=WEEKLY;BYDAY=TH;BYHOUR=08;BYMINUTE=30
+  default_local_time: "08:30:00"
+  is_calendar_driven: false
+  active: true
+  metadata: {published_report: Export Sales, landing_url: https://apps.fas.usda.gov/export-sales/esrd1.html}
+- slug: demand_ember_monthly_electricity
+  source_slug: ember
+  name: DemandWatch Ember Monthly Electricity
+  release_kind: data_release
+  module_code: demandwatch
+  commodity_code: electricity
+  geography_code: WORLD
+  cadence: monthly
+  schedule_timezone: UTC
+  schedule_rule: FREQ=MONTHLY;BYHOUR=08;BYMINUTE=0
+  default_local_time: "08:00:00"
+  is_calendar_driven: false
+  active: true
+  metadata: {published_report: Ember monthly electricity dataset, landing_url: https://ember-energy.org/data-catalogue/monthly-electricity-data/}

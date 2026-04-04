@@ -1,0 +1,38 @@
+{
+  "stats": {
+    "timestamp": "2026-04-03T08:00:00Z",
+    "response_time_in_seconds": 0.12,
+    "rate_limit": "unlimited",
+    "number_of_records": 2,
+    "query_parameters_used": {
+      "entity_code": "CHN",
+      "start_date": "2026-01"
+    },
+    "available_metrics": [
+      "demand_twh"
+    ],
+    "query_value_range": {
+      "demand_twh": {
+        "min": 712.3,
+        "max": 2345.6
+      }
+    },
+    "query_all_dates_value_range": "not requested"
+  },
+  "data": [
+    {
+      "entity": "World",
+      "entity_code": null,
+      "is_aggregate_entity": true,
+      "date": "2026-01",
+      "demand_twh": 2345.6
+    },
+    {
+      "entity": "China",
+      "entity_code": "CHN",
+      "is_aggregate_entity": false,
+      "date": "2026-01",
+      "demand_twh": 712.3
+    }
+  ]
+}

@@ -5,6 +5,7 @@ interface DirectionalIndicatorProps {
   value: number | null;
   unit: string | null | undefined;
   semanticMode?: "inventory" | "generic";
+  label?: string;
   className?: string;
 }
 
@@ -12,10 +13,16 @@ export function DirectionalIndicator({
   value,
   unit,
   semanticMode = "generic",
+  label = "vs prior period",
   className,
 }: DirectionalIndicatorProps) {
   if (value == null) {
-    return <span className={cn("font-mono text-[12px] text-foreground-soft", className)}>No change</span>;
+    return (
+      <div className={cn("space-y-1", className)}>
+        <div className="text-caption text-foreground-muted">{label}</div>
+        <div className="font-mono text-[12px] text-foreground-soft">No change</div>
+      </div>
+    );
   }
 
   const direction = value > 0 ? "up" : value < 0 ? "down" : "flat";
@@ -28,8 +35,11 @@ export function DirectionalIndicator({
   const colorClass = direction === "flat" ? "text-foreground-muted" : isPositiveSignal ? "text-positive" : "text-negative";
 
   return (
-    <span className={cn("font-mono text-[12px] uppercase tracking-[0.04em]", colorClass, className)}>
-      {arrow} {formatSignedValue(value, unit)}
-    </span>
+    <div className={cn("space-y-1", className)}>
+      <div className="text-caption text-foreground-muted">{label}</div>
+      <div className={cn("font-mono text-[12px] uppercase tracking-[0.04em]", colorClass)}>
+        {arrow} {formatSignedValue(value, unit)}
+      </div>
+    </div>
   );
 }

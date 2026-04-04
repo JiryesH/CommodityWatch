@@ -17,6 +17,31 @@ def utcnow() -> datetime:
     return datetime.now(timezone.utc)
 
 
+def inventorywatch_release_aged_after(frequency: str | None) -> timedelta:
+    normalized = str(frequency or "").lower()
+    if normalized == "daily":
+        return timedelta(days=7)
+    if normalized == "monthly":
+        return timedelta(days=75)
+    if normalized == "quarterly":
+        return timedelta(days=200)
+    if normalized == "annual":
+        return timedelta(days=550)
+    return timedelta(days=21)
+
+
+def inventorywatch_release_is_aged(
+    frequency: str | None,
+    release_date: datetime | None,
+    *,
+    now: datetime | None = None,
+) -> bool:
+    if release_date is None:
+        return True
+    reference_now = now or utcnow()
+    return (reference_now - release_date) > inventorywatch_release_aged_after(frequency)
+
+
 def period_index_for(indicator: Indicator, observation: Observation) -> tuple[str, int]:
     return seasonal_period_for_indicator(indicator, observation)
 
@@ -103,7 +128,11 @@ async def build_inventorywatch_snapshot_payload(session: AsyncSession) -> dict:
     result = await session.execute(
         select(Indicator)
         .join(IndicatorModule, IndicatorModule.indicator_id == Indicator.id)
-        .where(IndicatorModule.module_code == "inventorywatch", Indicator.active.is_(True))
+        .where(
+            IndicatorModule.module_code == "inventorywatch",
+            Indicator.active.is_(True),
+            Indicator.visibility_tier == "public",
+        )
         .order_by(Indicator.code.asc())
     )
     indicators = list(result.scalars().all())
@@ -161,8 +190,11 @@ async def build_inventorywatch_snapshot_payload(session: AsyncSession) -> dict:
                 "deviation_abs": deviation_abs,
                 "signal": classify_inventory_signal(deviation_zscore),
                 "sparkline": sparkline,
+                "latest_period_end_at": latest.period_end_at.isoformat(),
+                "latest_release_date": latest.release_date.isoformat() if latest.release_date else None,
+                "commoditywatch_updated_at": latest.vintage_at.isoformat(),
                 "last_updated_at": latest.vintage_at.isoformat(),
-                "stale": latest.release_date is None or (now - latest.release_date) > timedelta(days=14),
+                "stale": inventorywatch_release_is_aged(indicator.frequency.value, latest.release_date, now=now),
                 "seasonal_low": context["seasonal_low"] if has_public_seasonality else None,
                 "seasonal_high": context["seasonal_high"] if has_public_seasonality else None,
                 "seasonal_median": context["seasonal_median"] if has_public_seasonality else None,

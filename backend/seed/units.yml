@@ -33,6 +33,16 @@
   dimension: energy_flow
   symbol: GWh/d
   metadata: {}
+- code: gw
+  name: Gigawatts
+  dimension: power
+  symbol: GW
+  metadata: {}
+- code: index
+  name: Index
+  dimension: index
+  symbol: index
+  metadata: {}
 - code: mt
   name: Million Tonnes
   dimension: mass
@@ -82,4 +92,9 @@
   name: Running Bales
   dimension: bale_count
   symbol: bales
+  metadata: {}
+- code: k_units_saar
+  name: Thousand Units SAAR
+  dimension: annualized_units
+  symbol: k SAAR
   metadata: {}

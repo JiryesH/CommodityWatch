@@ -291,7 +291,7 @@ svg {
 
 .dashboard-grid > [data-slot="sidebar"] {
   grid-column: 2;
-  grid-row: 1 / span 3;
+  grid-row: 1 / span 4;
 }
 
 .module-card {
@@ -370,6 +370,90 @@ svg {
   padding: 10px 12px;
   border-radius: 10px;
   background: rgba(15, 25, 35, 0.05);
+}
+
+.demand-preview-shell {
+  display: grid;
+  gap: 12px;
+}
+
+.demand-preview-list {
+  display: grid;
+  gap: 10px;
+}
+
+.demand-preview-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) auto;
+  gap: 14px;
+  align-items: center;
+  padding: 14px 14px 14px 18px;
+  border: 1px solid rgba(15, 25, 35, 0.1);
+  border-radius: 12px;
+  background:
+    linear-gradient(90deg, var(--demand-accent, var(--color-amber)) 0 4px, transparent 4px),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(247, 245, 239, 0.92));
+  text-decoration: none;
+  transition: border-color 160ms ease, transform 160ms ease;
+}
+
+.demand-preview-row:hover {
+  border-color: rgba(15, 25, 35, 0.18);
+  transform: translateY(-1px);
+}
+
+.demand-preview-main,
+.demand-preview-meta {
+  display: grid;
+  gap: 4px;
+}
+
+.demand-preview-meta {
+  justify-items: end;
+  text-align: right;
+}
+
+.demand-preview-label,
+.demand-preview-signal,
+.demand-preview-trend,
+.demand-preview-freshness {
+  margin: 0;
+}
+
+.demand-preview-label,
+.demand-preview-freshness {
+  color: var(--color-subtext);
+  font-size: 12px;
+}
+
+.demand-preview-value {
+  margin: 0;
+  font-family: "IBM Plex Serif", serif;
+  font-size: 1.18rem;
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+}
+
+.demand-preview-signal {
+  color: var(--color-subtext);
+  font-size: 13px;
+}
+
+.demand-preview-change {
+  margin: 0;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12px;
+}
+
+.demand-preview-row.is-up .demand-preview-value,
+.demand-preview-row.is-up .demand-preview-change {
+  color: var(--color-up);
+}
+
+.demand-preview-row.is-down .demand-preview-value,
+.demand-preview-row.is-down .demand-preview-change {
+  color: var(--color-down);
 }
 
 .module-empty-title {
@@ -1075,6 +1159,7 @@ svg {
 .home-filter-reset-link:focus-visible,
 .home-filter-collapse-button:focus-visible,
 .module-link:focus-visible,
+.demand-preview-row:focus-visible,
 .inventory-preview-card:focus-visible,
 .price-tile:focus-visible,
 .headline-link:focus-visible,
@@ -1130,6 +1215,15 @@ svg {
   .module-body {
     padding-left: 16px;
     padding-right: 16px;
+  }
+
+  .demand-preview-row {
+    grid-template-columns: 1fr;
+  }
+
+  .demand-preview-meta {
+    justify-items: start;
+    text-align: left;
   }
 
   .footer {

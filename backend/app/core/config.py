@@ -37,6 +37,7 @@ class Settings(BaseSettings):
     agsi_api_key: SecretStr | None = None
     usda_nass_api_key: SecretStr | None = None
     fred_api_key: SecretStr | None = None
+    ember_api_key: SecretStr | None = None
     cds_api_key: SecretStr | None = None
     cds_uid: str | None = None
 
@@ -51,6 +52,8 @@ class Settings(BaseSettings):
     eia_rate_limit_seconds: float = 1.0
     agsi_rate_limit_seconds: float = 1.1
     usda_psd_rate_limit_seconds: float = 0.5
+    fred_rate_limit_seconds: float = 0.25
+    ember_rate_limit_seconds: float = 0.25
     exchange_scrape_rate_limit_seconds: float = 1.0
     enable_lme_live_jobs: bool = False
     enable_ice_certified_jobs: bool = False

@@ -12,6 +12,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db.models.auth import BillingWebhookEvent, Subscription, User, UserSession
 from app.db.models.content import CalendarEvent, CalendarEventChange, CalendarReviewItem, Headline, HeadlineIndicatorLink
+from app.db.models.demand import DemandSeries, DemandVertical
 from app.db.models.indicators import Indicator, IndicatorDependency, IndicatorModule, ModuleSnapshotCache, SeasonalRange
 from app.db.models.observations import AppEvent, Observation
 from app.db.models.reference import AppModule, Commodity, CommodityUnitConvention, Geography, UnitDefinition
@@ -59,7 +60,7 @@ def load_yaml(path: Path) -> list[dict[str, Any]]:
 
 
 def indicator_metadata(item: dict[str, Any]) -> dict[str, Any]:
-    # Preserve source-specific InventoryWatch metadata declared at the YAML top level.
+    # Preserve module-specific metadata declared at the YAML top level.
     extra_metadata = {
         key: value
         for key, value in item.items()
@@ -129,7 +130,7 @@ async def seed_release_definitions(session: AsyncSession, source_ids: dict[str, 
     return {slug: release_id for slug, release_id in result.all()}
 
 
-async def seed_indicators(session: AsyncSession, source_ids: dict[str, Any]) -> None:
+async def seed_indicators(session: AsyncSession, source_ids: dict[str, Any]) -> dict[str, Any]:
     indicator_files = sorted((SEED_DIR / "indicators").glob("*.yml"))
     rows: list[dict[str, Any]] = []
     module_rows: list[dict[str, Any]] = []
@@ -179,6 +180,40 @@ async def seed_indicators(session: AsyncSession, source_ids: dict[str, Any]) -> 
 
     await session.execute(delete(IndicatorModule))
     await upsert_rows(session, IndicatorModule, module_rows, ["indicator_id", "module_code"])
+    return indicator_ids
+
+
+async def seed_demandwatch_registry(
+    session: AsyncSession,
+    indicator_ids: dict[str, Any],
+    release_ids: dict[str, Any],
+) -> None:
+    await session.execute(delete(DemandSeries))
+    await session.execute(delete(DemandVertical))
+
+    await upsert_rows(session, DemandVertical, load_yaml(SEED_DIR / "demand_verticals.yml"), ["code"])
+
+    rows: list[dict[str, Any]] = []
+    indicator_files = sorted((SEED_DIR / "indicators").glob("*.yml"))
+    for path in indicator_files:
+        for item in load_yaml(path):
+            if "demandwatch" not in item.get("modules", []):
+                continue
+
+            rows.append(
+                {
+                    "indicator_id": indicator_ids[item["code"]],
+                    "vertical_code": item["demand_vertical_code"],
+                    "release_definition_id": release_ids.get(item.get("release_slug")),
+                    "indicator_tier": item["demand_tier"],
+                    "coverage_status": item["coverage_status"],
+                    "display_order": item.get("display_order", 0),
+                    "notes": item.get("coverage_note"),
+                    "metadata": indicator_metadata(item),
+                }
+            )
+
+    await upsert_rows(session, DemandSeries, rows, ["indicator_id"])
 
 
 async def main() -> None:
@@ -186,8 +221,9 @@ async def main() -> None:
     async with session_factory() as session:
         await seed_reference_tables(session)
         source_ids = await seed_sources(session)
-        await seed_release_definitions(session, source_ids)
-        await seed_indicators(session, source_ids)
+        release_ids = await seed_release_definitions(session, source_ids)
+        indicator_ids = await seed_indicators(session, source_ids)
+        await seed_demandwatch_registry(session, indicator_ids, release_ids)
         await session.commit()
 
 

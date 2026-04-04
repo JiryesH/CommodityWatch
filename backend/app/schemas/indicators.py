@@ -71,6 +71,8 @@ class SeasonalRangePoint(APIModel):
 class IndicatorDataMetadata(APIModel):
     latest_release_id: UUID | None = None
     latest_release_at: datetime | None = None
+    latest_period_end_at: datetime
+    latest_vintage_at: datetime
     source_url: str | None = None
 
 
@@ -84,6 +86,7 @@ class IndicatorDataResponse(APIModel):
 class LatestPoint(APIModel):
     period_end_at: datetime
     release_date: datetime | None
+    commoditywatch_updated_at: datetime
     value: float
     unit: str
     change_from_prior_abs: float | None
@@ -116,7 +119,10 @@ class SnapshotCard(APIModel):
     deviation_abs: float | None
     signal: str
     sparkline: list[float]
-    last_updated_at: datetime
+    latest_period_end_at: datetime
+    latest_release_date: datetime | None
+    commoditywatch_updated_at: datetime
+    last_updated_at: datetime | None = None
     stale: bool = False
     seasonal_low: float | None = None
     seasonal_high: float | None = None

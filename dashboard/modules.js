@@ -42,6 +42,7 @@ import {
 } from "../inventory-watch/catalog.js";
 import { snapshotSignalDescriptor, sortSnapshotCards } from "../inventory-watch/model.js";
 import { buildInventoryDetailHref } from "../inventory-watch/router.js";
+import { DEMAND_VERTICALS } from "../demand-watch/data.js";
 
 const headlineExactFormatter = new Intl.DateTimeFormat("en-GB", {
   day: "numeric",
@@ -371,6 +372,16 @@ function sparklineTrend(values = []) {
   return "neutral";
 }
 
+function signalWordForTrend(trend) {
+  if (trend === "up") {
+    return "Improving";
+  }
+  if (trend === "down") {
+    return "Deteriorating";
+  }
+  return "Stable";
+}
+
 const INVENTORY_COMMODITY_CODES_BY_GROUP = {
   "crude-oil": ["crude_oil"],
   "natural-gas": ["natural_gas"],
@@ -406,6 +417,20 @@ const INVENTORY_GROUPS_BY_SECTOR = {
   energy: ["energy", "natural-gas"],
   metals: ["base-metals", "precious-metals"],
   agriculture: ["grains", "softs"],
+};
+
+const DEMAND_VERTICAL_IDS_BY_GROUP = {
+  "crude-oil": ["crude-products"],
+  power: ["electricity"],
+  "grains-oilseeds": ["grains-oilseeds"],
+  "base-metals": ["base-metals"],
+  "battery-metals": ["base-metals"],
+};
+
+const DEMAND_VERTICAL_IDS_BY_SECTOR = {
+  energy: ["crude-products", "electricity"],
+  metals: ["base-metals"],
+  agriculture: ["grains-oilseeds"],
 };
 
 const INVENTORY_WIDGET_SIGNAL_PRIORITY = {
@@ -569,6 +594,77 @@ function renderInventoryWidgetMarkup(items) {
           ${items.map((card) => renderInventoryPreviewCard(card)).join("")}
         </div>
       </div>
+    </div>
+  `;
+}
+
+function demandWidgetSort(left, right) {
+  return DEMAND_VERTICALS.findIndex((vertical) => vertical.id === left.id) -
+    DEMAND_VERTICALS.findIndex((vertical) => vertical.id === right.id);
+}
+
+export function selectDemandWidgetItems(filter, limit = 4) {
+  const normalized = normalizeFilter(filter);
+  const selectedGroup = getSelectedGroup(normalized);
+  const narrowedByGroup = Boolean(selectedGroup || hasPartialGroupSelection(normalized));
+  const demandIds = new Set();
+
+  if (selectedGroup) {
+    (DEMAND_VERTICAL_IDS_BY_GROUP[selectedGroup.id] || []).forEach((id) => demandIds.add(id));
+  } else if (!isAllFilter(normalized) && hasPartialGroupSelection(normalized)) {
+    getSelectedGroups(normalized).forEach((group) => {
+      (DEMAND_VERTICAL_IDS_BY_GROUP[group.id] || []).forEach((id) => demandIds.add(id));
+    });
+  }
+
+  if (!demandIds.size && !narrowedByGroup) {
+    getSelectedSectors(normalized).forEach((sector) => {
+      (DEMAND_VERTICAL_IDS_BY_SECTOR[sector.id] || []).forEach((id) => demandIds.add(id));
+    });
+  }
+
+  const items = DEMAND_VERTICALS.filter((vertical) => demandIds.has(vertical.id))
+    .sort(demandWidgetSort)
+    .slice(0, limit);
+
+  return {
+    items,
+    scopeLabel: getFilterLabel(filter),
+    unsupported: !items.length && narrowedByGroup,
+  };
+}
+
+function renderDemandPreviewRow(vertical) {
+  return `
+    <a
+      class="demand-preview-row is-${escapeHtml(vertical.scorecard.trend)}"
+      href="/demand-watch/#${escapeHtml(vertical.id)}"
+      style="--demand-accent:${escapeHtml(vertical.accent)};"
+    >
+      <div class="demand-preview-main">
+        <p class="demand-preview-label">${escapeHtml(vertical.shortLabel)}</p>
+        <h3 class="demand-preview-value">${escapeHtml(vertical.scorecard.value)}</h3>
+        <p class="demand-preview-signal">${escapeHtml(vertical.scorecard.label)}</p>
+      </div>
+      <div class="demand-preview-meta">
+        <p class="demand-preview-change">${escapeHtml(vertical.scorecard.yoyLabel)} YoY</p>
+        <p class="demand-preview-trend">${escapeHtml(signalWordForTrend(vertical.scorecard.trend))}</p>
+        <p class="demand-preview-freshness">${escapeHtml(vertical.scorecard.freshness)}</p>
+      </div>
+    </a>
+  `;
+}
+
+function renderDemandWidgetMarkup(items, scopeLabel) {
+  return `
+    <div class="demand-preview-shell">
+      <p class="module-scope">Scope: ${escapeHtml(scopeLabel)}</p>
+      <div class="demand-preview-list">
+        ${items.map((vertical) => renderDemandPreviewRow(vertical)).join("")}
+      </div>
+      <p class="module-note">
+        Launch scope starts with crude + products, electricity, grains, and base metals. Natural gas, weather overlays, and broader China demand remain deferred.
+      </p>
     </div>
   `;
 }
@@ -1439,6 +1535,33 @@ async function renderInventoryModuleBody(body, filter, { commit, isCurrent, onNa
   bindInventoryStripCarousel(body);
 }
 
+async function renderDemandModuleBody(body, filter, { commit, isCurrent } = {}) {
+  const writeBody = typeof commit === "function" ? commit : (target, html) => {
+    target.innerHTML = html;
+  };
+  const isRenderCurrent = typeof isCurrent === "function" ? isCurrent : () => true;
+
+  const { items, scopeLabel, unsupported } = selectDemandWidgetItems(filter);
+  if (!isRenderCurrent()) {
+    return;
+  }
+
+  if (!items.length) {
+    writeBody(
+      body,
+      renderEmptyState(
+        "Demand coverage pending",
+        unsupported
+          ? `DemandWatch MVP does not currently cover ${scopeLabel}.`
+          : "DemandWatch preview is not available yet."
+      )
+    );
+    return;
+  }
+
+  writeBody(body, renderDemandWidgetMarkup(items, scopeLabel));
+}
+
 function attachAsyncRenderer(section, body, renderer, filter, context = {}) {
   const gate = createModuleRenderGate(section);
 
@@ -1463,6 +1586,21 @@ export function PriceModule({ filter, onNavigate }) {
   });
 
   attachAsyncRenderer(section, body, renderPriceModuleBody, filter, { onNavigate });
+  return section;
+}
+
+export function DemandModule({ filter, onNavigate }) {
+  const primarySectorId = getSelectedSectors(filter)[0]?.id || "energy";
+  const { section, body } = createModuleCard({
+    id: "demand",
+    title: "Demand Pulse",
+    linkLabel: "View DemandWatch",
+    route: "/demand-watch/",
+    accentSectorId: primarySectorId,
+    onNavigate,
+  });
+
+  attachAsyncRenderer(section, body, renderDemandModuleBody, filter);
   return section;
 }
 

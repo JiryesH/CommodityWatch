@@ -1153,7 +1153,7 @@ def create_server(config: AppConfig) -> ThreadingHTTPServer:
 def serve(config: AppConfig) -> None:
     server = create_server(config)
     print(f"Serving CommodityWatch on http://{config.host}:{server.server_port}")
-    print("Pages: /, /headline-watch/, /price-watch/, /calendar-watch/, /inventory-watch/")
+    print("Pages: /, /headline-watch/, /price-watch/, /calendar-watch/, /inventory-watch/, /demand-watch/")
     print("API:   /api/health")
     print("API:   /api/calendar")
     print("API:   /api/commodities/series, /api/commodities/latest")

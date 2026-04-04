@@ -19,6 +19,8 @@ interface DataTableProps<TData> {
   data: TData[];
   exportName?: string;
   compact?: boolean;
+  title?: string;
+  description?: string;
 }
 
 function csvEscape(value: unknown) {
@@ -29,7 +31,14 @@ function csvEscape(value: unknown) {
   return stringValue;
 }
 
-export function DataTable<TData>({ columns, data, exportName = "inventory-data", compact = false }: DataTableProps<TData>) {
+export function DataTable<TData>({
+  columns,
+  data,
+  exportName = "inventory-data",
+  compact = false,
+  title = "Recent releases",
+  description = "Sortable table of the latest 20 releases.",
+}: DataTableProps<TData>) {
   const [sorting, setSorting] = useState<SortingState>([]);
 
   const table = useReactTable({
@@ -71,8 +80,8 @@ export function DataTable<TData>({ columns, data, exportName = "inventory-data",
     <div className="card-surface overflow-hidden">
       <div className="flex items-center justify-between gap-3 border-b border-border-subtle px-4 py-3">
         <div>
-          <h2 className="text-h3 text-foreground">Recent releases</h2>
-          <p className="mt-1 text-caption text-foreground-muted">Sortable table of the latest 20 releases.</p>
+          <h2 className="text-h3 text-foreground">{title}</h2>
+          <p className="mt-1 text-caption text-foreground-muted">{description}</p>
         </div>
         <Button onClick={handleDownload} size="sm" variant="subtle">
           <Download className="h-4 w-4" />

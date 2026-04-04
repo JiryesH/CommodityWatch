@@ -73,6 +73,56 @@ def utcnow() -> datetime:
     return datetime.now(UTC)
 
 
+def release_aged_after(frequency: str | None) -> timedelta:
+    normalized = str(frequency or "").lower()
+    if normalized == "daily":
+        return timedelta(days=7)
+    if normalized == "monthly":
+        return timedelta(days=75)
+    if normalized == "quarterly":
+        return timedelta(days=200)
+    if normalized == "annual":
+        return timedelta(days=550)
+    return timedelta(days=21)
+
+
+def release_is_aged(frequency: str | None, release_date: datetime | None, *, now: datetime | None = None) -> bool:
+    if release_date is None:
+        return True
+    reference_now = now or utcnow()
+    return (reference_now - release_date) > release_aged_after(frequency)
+
+
+def required_public_seasonal_points(indicator: InventoryIndicatorDefinition) -> int:
+    if not indicator.is_seasonal:
+        return 0
+    frequency = str(indicator.frequency or "").lower()
+    if frequency == "daily":
+        return 180
+    if frequency == "weekly":
+        return 26
+    if frequency == "quarterly":
+        return 8
+    if frequency == "monthly":
+        return 12
+    return 12
+
+
+def public_seasonality_allowed(
+    indicator: InventoryIndicatorDefinition,
+    observation_count: int,
+    seasonal_point_count: int | None = None,
+    seasonal_samples: int | None = None,
+) -> bool:
+    if not indicator.is_seasonal or observation_count <= 0:
+        return False
+    if seasonal_point_count is not None and seasonal_point_count < required_public_seasonal_points(indicator):
+        return False
+    if seasonal_samples is None:
+        return observation_count >= 3
+    return seasonal_samples >= 3
+
+
 def normalize_source_series_key(raw_value: str | None) -> str:
     value = str(raw_value or "").strip()
     if not value:
@@ -640,6 +690,23 @@ class LocalInventoryRepository:
                 deviation_zscore = deviation_abs / float(seasonal_point["stddev"])
         return seasonal_point, seasonal_context, deviation_abs, deviation_zscore
 
+    def _public_seasonality_state(
+        self,
+        indicator: InventoryIndicatorDefinition,
+        latest: InventoryObservation | None,
+    ) -> bool:
+        if latest is None:
+            return False
+        seasonal_points = self._seasonal_range(indicator, indicator.seasonal_profile)
+        seasonal_context = self._seasonal_context(indicator, latest, indicator.seasonal_profile)
+        observation_count = len(self._observations_by_id.get(indicator.id, []))
+        return public_seasonality_allowed(
+            indicator,
+            observation_count,
+            len(seasonal_points),
+            int(seasonal_context.get("seasonal_samples") or 0),
+        )
+
     def _seasonal_range(
         self,
         indicator: InventoryIndicatorDefinition,
@@ -767,6 +834,20 @@ class LocalInventoryRepository:
                 continue
 
             _seasonal_point, seasonal_context, deviation_abs, deviation_zscore = self._deviation_metrics(indicator, latest)
+            has_public_seasonality = self._public_seasonality_state(indicator, latest)
+            if not has_public_seasonality:
+                deviation_abs = None
+                deviation_zscore = None
+                seasonal_context = {
+                    "seasonal_low": None,
+                    "seasonal_high": None,
+                    "seasonal_median": None,
+                    "seasonal_samples": None,
+                    "seasonal_p10": None,
+                    "seasonal_p25": None,
+                    "seasonal_p75": None,
+                    "seasonal_p90": None,
+                }
             sparkline_source = self._observations_by_id.get(indicator.id, [])
             alerts = compute_inventory_alerts(
                 commodity_code=indicator.commodity_code,
@@ -793,11 +874,12 @@ class LocalInventoryRepository:
                     "sparkline": [point.value for point in sparkline_source[-12:]] if include_sparklines else [],
                     "latest_period_end_at": latest.period_end_at.isoformat(),
                     "latest_release_date": latest.release_date.isoformat() if latest.release_date else None,
+                    "commoditywatch_updated_at": latest.vintage_at.isoformat(),
                     "last_updated_at": latest.vintage_at.isoformat(),
-                    "stale": latest.release_date is None or (now - latest.release_date) > timedelta(days=14),
+                    "stale": release_is_aged(indicator.frequency, latest.release_date, now=now),
                     "source_label": source_label_for_indicator(indicator),
                     "source_url": source_url_for_indicator(indicator),
-                    "is_seasonal": indicator.is_seasonal,
+                    "is_seasonal": has_public_seasonality,
                     "period_type": indicator_period_type(indicator),
                     "marketing_year_start_month": marketing_year_start_month(indicator),
                     "color_convention": color_convention_for_indicator(indicator),
@@ -833,6 +915,20 @@ class LocalInventoryRepository:
             raise LookupError("No observations found.")
 
         _seasonal_point, seasonal_context, deviation_abs, deviation_zscore = self._deviation_metrics(indicator, latest)
+        has_public_seasonality = self._public_seasonality_state(indicator, latest)
+        if not has_public_seasonality:
+            deviation_abs = None
+            deviation_zscore = None
+            seasonal_context = {
+                "seasonal_low": None,
+                "seasonal_high": None,
+                "seasonal_median": None,
+                "seasonal_samples": None,
+                "seasonal_p10": None,
+                "seasonal_p25": None,
+                "seasonal_p75": None,
+                "seasonal_p90": None,
+            }
 
         change_abs = (latest.value - prior.value) if prior else None
         change_pct = ((change_abs / prior.value) * 100) if prior and prior.value else None
@@ -852,6 +948,7 @@ class LocalInventoryRepository:
             "latest": {
                 "period_end_at": latest.period_end_at.isoformat(),
                 "release_date": latest.release_date.isoformat() if latest.release_date else None,
+                "commoditywatch_updated_at": latest.vintage_at.isoformat(),
                 "value": latest.value,
                 "unit": latest.unit,
                 "change_from_prior_abs": change_abs,
@@ -888,6 +985,7 @@ class LocalInventoryRepository:
         ]
         series = series[-limit_points:]
         latest, _prior = self._latest_and_prior(indicator.id)
+        has_public_seasonality = self._public_seasonality_state(indicator, latest)
 
         return {
             "indicator": {
@@ -903,7 +1001,7 @@ class LocalInventoryRepository:
                 "unit": indicator.canonical_unit_code,
                 "period_type": indicator_period_type(indicator),
                 "marketing_year_start_month": marketing_year_start_month(indicator),
-                "is_seasonal": indicator.is_seasonal,
+                "is_seasonal": has_public_seasonality,
                 "color_convention": color_convention_for_indicator(indicator),
                 "days_of_supply": days_of_supply_enabled_for_indicator(indicator),
                 "alerts_enabled": alerts_enabled_for_indicator(indicator),
@@ -923,10 +1021,12 @@ class LocalInventoryRepository:
                 }
                 for point in series
             ],
-            "seasonal_range": self._seasonal_range(indicator, seasonal_profile) if include_seasonal else [],
+            "seasonal_range": self._seasonal_range(indicator, seasonal_profile) if include_seasonal and has_public_seasonality else [],
             "metadata": {
                 "latest_release_id": None,
                 "latest_release_at": latest.release_date.isoformat() if latest and latest.release_date else None,
+                "latest_period_end_at": latest.period_end_at.isoformat() if latest else None,
+                "latest_vintage_at": latest.vintage_at.isoformat() if latest else None,
                 "source_url": source_url_for_indicator(indicator),
                 "source_label": source_label_for_indicator(indicator),
                 "quarantined_observation_count": len(
@@ -969,6 +1069,7 @@ class LocalInventoryRepository:
                 continue
 
             latest, _prior = self._latest_and_prior(indicator.id)
+            has_public_seasonality = self._public_seasonality_state(indicator, latest)
             items.append(
                 {
                     "id": indicator.id,
@@ -981,7 +1082,7 @@ class LocalInventoryRepository:
                     "frequency": indicator.frequency,
                     "native_unit": indicator.native_unit_code,
                     "canonical_unit": indicator.canonical_unit_code,
-                    "is_seasonal": indicator.is_seasonal,
+                    "is_seasonal": has_public_seasonality,
                     "is_derived": indicator.is_derived,
                     "visibility_tier": indicator.visibility_tier,
                     "latest_release_at": latest.release_date.isoformat() if latest and latest.release_date else None,

@@ -46,8 +46,20 @@
   parent_code: energy
   is_active: true
   metadata: {}
+- code: crude_products
+  name: Crude Products
+  sector: energy
+  parent_code: energy
+  is_active: true
+  metadata: {grouping: true}
 - code: natural_gas
   name: Natural Gas
+  sector: energy
+  parent_code: energy
+  is_active: true
+  metadata: {}
+- code: electricity
+  name: Electricity
   sector: energy
   parent_code: energy
   is_active: true
@@ -70,6 +82,18 @@
   parent_code: agriculture
   is_active: true
   metadata: {}
+- code: oilseeds
+  name: Oilseeds
+  sector: agriculture
+  parent_code: agriculture
+  is_active: true
+  metadata: {grouping: true}
+- code: grains_oilseeds
+  name: Grains & Oilseeds
+  sector: agriculture
+  parent_code: agriculture
+  is_active: true
+  metadata: {grouping: true}
 - code: rice
   name: Rice
   sector: agriculture
@@ -106,6 +130,12 @@
   parent_code: metals
   is_active: true
   metadata: {}
+- code: base_metals
+  name: Base Metals
+  sector: metals
+  parent_code: metals
+  is_active: true
+  metadata: {grouping: true}
 - code: aluminium
   name: Aluminium
   sector: metals

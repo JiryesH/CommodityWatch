@@ -19,6 +19,13 @@ from inventory_watch_published_db import (
 )
 
 
+def coverage_blocking_message(audit: dict) -> str | None:
+    blocking = inventory_coverage_blocking_issues(audit)
+    if not blocking:
+        return None
+    return "InventoryWatch coverage audit found blocking issues for: " + ", ".join(item["code"] for item in blocking)
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Audit a published InventoryWatch SQLite read model.")
     parser.add_argument(
@@ -46,13 +53,13 @@ def build_parser() -> argparse.ArgumentParser:
         "--stale-after-days",
         type=int,
         default=InventoryCoverageThresholds.stale_after_days,
-        help="Release age in days before coverage is flagged as stale",
+        help="Fallback release-age threshold in days for cadences without explicit schedule-aware rules",
     )
     parser.add_argument(
         "--dead-after-days",
         type=int,
         default=InventoryCoverageThresholds.dead_after_days,
-        help="Release age in days before coverage is flagged as dead",
+        help="Fallback period-age threshold in days for cadences without explicit dead-series rules",
     )
     parser.add_argument(
         "--fail-on-weak-coverage",
@@ -82,15 +89,11 @@ def main() -> int:
         audit_markdown_path.write_text(inventory_coverage_audit_markdown(audit), encoding="utf-8")
 
     print(json.dumps(audit["summary"], indent=2, sort_keys=True))
-    if args.fail_on_weak_coverage:
-        blocking = inventory_coverage_blocking_issues(audit)
-        if blocking:
-            print(
-                "InventoryWatch coverage audit found blocking issues for: "
-                + ", ".join(item["code"] for item in blocking),
-                file=sys.stderr,
-            )
-            return 1
+    warning = coverage_blocking_message(audit)
+    if warning:
+        print(warning, file=sys.stderr)
+    if args.fail_on_weak_coverage and warning:
+        return 1
     return 0
 
 

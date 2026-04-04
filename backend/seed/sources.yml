@@ -78,3 +78,93 @@
   attribution_text: Intercontinental Exchange
   rate_limit_notes: Respectful daily scrape only.
   active: true
+- slug: fred
+  name: Federal Reserve Economic Data
+  source_type: api
+  legal_status: public_domain
+  homepage_url: https://fred.stlouisfed.org/
+  docs_url: https://fred.stlouisfed.org/docs/api/fred/
+  default_timezone: America/Chicago
+  attribution_text: Federal Reserve Bank of St. Louis
+  rate_limit_notes: Free API with generous limits; batch release-aligned pulls only.
+  active: true
+- slug: ember
+  name: Ember
+  source_type: api
+  legal_status: cc_by
+  homepage_url: https://ember-energy.org/
+  docs_url: https://api.ember-energy.org/v1/docs
+  default_timezone: UTC
+  attribution_text: Ember
+  rate_limit_notes: Public CC BY API; use release-aligned monthly refreshes with an API key.
+  active: true
+- slug: usda_export_sales
+  name: USDA Export Sales Reporting
+  source_type: csv
+  legal_status: public_domain
+  homepage_url: https://apps.fas.usda.gov/export-sales/esrd1.html
+  docs_url: https://apps.fas.usda.gov/export-sales/esrd1.html
+  default_timezone: America/New_York
+  attribution_text: USDA Foreign Agricultural Service
+  rate_limit_notes: Weekly pull only after the published release time.
+  active: true
+- slug: china_customs
+  name: China Customs
+  source_type: html
+  legal_status: needs_verification
+  homepage_url: http://english.customs.gov.cn/
+  docs_url:
+  default_timezone: Asia/Shanghai
+  attribution_text: General Administration of Customs of the People's Republic of China
+  rate_limit_notes: Do not ingest until republication terms are cleared.
+  active: true
+- slug: china_nbs
+  name: China National Bureau of Statistics
+  source_type: html
+  legal_status: needs_verification
+  homepage_url: https://www.stats.gov.cn/english/
+  docs_url:
+  default_timezone: Asia/Shanghai
+  attribution_text: National Bureau of Statistics of China
+  rate_limit_notes: Do not ingest until republication terms are cleared.
+  active: true
+- slug: iea
+  name: International Energy Agency
+  source_type: html
+  legal_status: needs_verification
+  homepage_url: https://www.iea.org/
+  docs_url: https://www.iea.org/data-and-statistics
+  default_timezone: Europe/Paris
+  attribution_text: International Energy Agency
+  rate_limit_notes: Mixed licensing. Treat data tables as blocked until terms are verified.
+  active: true
+- slug: worldsteel
+  name: World Steel Association
+  source_type: pdf
+  legal_status: needs_verification
+  homepage_url: https://worldsteel.org/
+  docs_url: https://worldsteel.org/media-centre/press-releases/
+  default_timezone: Europe/Brussels
+  attribution_text: World Steel Association
+  rate_limit_notes: Press release use requires verification before systematic republication.
+  active: true
+- slug: ism
+  name: Institute for Supply Management
+  source_type: html
+  legal_status: needs_verification
+  homepage_url: https://www.ismworld.org/
+  docs_url: https://www.ismworld.org/supply-management-news-and-reports/reports/ism-report-on-business/
+  default_timezone: America/New_York
+  attribution_text: Institute for Supply Management
+  rate_limit_notes: Directional commentary only until raw-number licensing is reviewed.
+  active: true
+- slug: spglobal_pmi
+  name: S&P Global PMI
+  source_type: html
+  legal_status: off_limits
+  homepage_url: https://www.spglobal.com/marketintelligence/en/mi/research-analysis/pmi.html
+  docs_url: https://www.spglobal.com/marketintelligence/en/solutions/purchasing-managers-indexes.html
+  default_timezone: Europe/London
+  attribution_text: S&P Global PMI
+  rate_limit_notes: Raw PMI series are off-limits without a licence.
+  active: true

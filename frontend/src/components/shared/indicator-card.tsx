@@ -1,13 +1,14 @@
 import Link from "next/link";
 
-import { AlertBadge } from "@/components/shared/alert-badge";
 import { DirectionalIndicator } from "@/components/shared/directional-indicator";
 import { FreshnessBadge } from "@/components/shared/freshness-badge";
 import { SourceAttribution } from "@/components/shared/source-attribution";
 import { Sparkline } from "@/components/shared/sparkline";
-import { formatSignedValue, formatValue } from "@/lib/format/numbers";
+import { AlertBadge } from "@/components/shared/alert-badge";
+import { alertKindFromSnapshotCard, changeReferenceLabel, snapshotSeasonalComparisonText, trendWindowLabel } from "@/features/inventory/selectors";
+import { formatValue } from "@/lib/format/numbers";
 import { cn } from "@/lib/utils/cn";
-import type { AlertKind, SnapshotCardData } from "@/types/api";
+import type { SnapshotCardData } from "@/types/api";
 
 function signalRuleClass(signal: SnapshotCardData["signal"], freshness: SnapshotCardData["freshness"]) {
   if (freshness === "aged") {
@@ -33,35 +34,16 @@ function sparklineTrend(values: number[]) {
   return "flat" as const;
 }
 
-function DeviationBar({ value }: { value: number | null }) {
-  if (value == null) {
-    return <div className="h-2 rounded-full bg-[color:var(--color-neutral-soft)]" />;
-  }
-
-  const ratio = Math.max(-1, Math.min(1, value / 25));
-  const width = `${Math.abs(ratio) * 50}%`;
-  const alignClass = ratio >= 0 ? "left-1/2" : "right-1/2";
-  const colorClass = ratio >= 0 ? "bg-negative" : "bg-positive";
-
-  return (
-    <div className="relative h-2 rounded-full bg-[color:var(--color-neutral-soft)]">
-      <div className="absolute bottom-0 left-1/2 top-0 w-px -translate-x-1/2 bg-border-strong" />
-      <div className={cn("absolute bottom-0 top-0 rounded-full", alignClass, colorClass)} style={{ width }} />
-    </div>
-  );
-}
-
 interface IndicatorCardProps {
   card: SnapshotCardData;
   href: string;
-  alertKind?: AlertKind | null;
 }
 
-export function IndicatorCard({ card, href, alertKind }: IndicatorCardProps) {
-  const deviationLabel =
-    card.deviationAbs == null
-      ? "Deviation unavailable"
-      : `${formatSignedValue(card.deviationAbs, card.unit)} ${card.deviationAbs < 0 ? "below" : "above"} avg`;
+export function IndicatorCard({ card, href }: IndicatorCardProps) {
+  const alertKind = alertKindFromSnapshotCard(card);
+  const seasonalComparison = snapshotSeasonalComparisonText(card);
+  const changeLabel = changeReferenceLabel(card);
+  const trendLabel = trendWindowLabel(card.sparkline.length);
 
   return (
     <Link
@@ -84,20 +66,32 @@ export function IndicatorCard({ card, href, alertKind }: IndicatorCardProps) {
       </div>
       <div className="mt-4 flex items-end justify-between gap-4">
         <div className="min-w-0">
-          <div className="text-data-xl text-foreground">{formatValue(card.latestValue, card.unit)}</div>
-          <DirectionalIndicator className="mt-2" semanticMode={card.semanticMode} unit={card.unit} value={card.changeAbs} />
+          <div className="text-caption text-foreground-muted">Latest value</div>
+          <div className="mt-1 text-data-xl text-foreground">{formatValue(card.latestValue, card.unit)}</div>
+          <DirectionalIndicator
+            className="mt-3"
+            label={changeLabel}
+            semanticMode={card.semanticMode}
+            unit={card.unit}
+            value={card.changeAbs}
+          />
         </div>
       </div>
-      <div className="mt-4 space-y-2">
+      <div className="mt-4">
         <div className="flex items-center justify-between gap-3">
-          <div className="text-caption text-foreground-muted">vs 5Y median</div>
-          <div className="font-mono text-[12px] text-foreground-secondary">{deviationLabel}</div>
+          <div className="text-caption text-foreground-muted">{seasonalComparison.title}</div>
+          <div className="font-mono text-[12px] text-foreground-secondary">{seasonalComparison.value}</div>
         </div>
-        <DeviationBar value={card.deviationAbs} />
       </div>
       <div className="mt-auto flex items-end justify-between gap-3 pt-5">
-        <SourceAttribution sourceLabel={card.sourceLabel} timestamp={card.lastUpdatedAt} />
-        <Sparkline trend={sparklineTrend(card.sparkline)} values={card.sparkline} />
+        <SourceAttribution
+          sourceLabel={card.sourceLabel}
+          timestamp={card.releaseDate ?? card.commodityWatchUpdatedAt ?? card.periodEndAt}
+        />
+        <div className="flex flex-col items-end gap-1">
+          <div className="text-caption text-right text-foreground-muted">{trendLabel}</div>
+          <Sparkline trend={sparklineTrend(card.sparkline)} values={card.sparkline} />
+        </div>
       </div>
     </Link>
   );

@@ -5,9 +5,10 @@ import os
 import sqlite3
 import tempfile
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from inventory_watch_local_api import (
     InventoryIndicatorDefinition,
@@ -15,6 +16,8 @@ from inventory_watch_local_api import (
     LocalInventoryRepository,
     normalize_source_series_key,
     parse_optional_timestamp,
+    release_aged_after,
+    release_schedule_for_indicator,
     source_label_for_indicator,
 )
 
@@ -22,6 +25,7 @@ from inventory_watch_local_api import (
 SCHEMA_VERSION = 1
 AUDIT_STALE_AFTER_DAYS = 14
 AUDIT_DEAD_AFTER_DAYS = 90
+AUDIT_CALENDAR_RELEASE_GRACE = timedelta(hours=24)
 
 
 def _expanded_profile_names(profile_name: str | None) -> set[str]:
@@ -62,6 +66,155 @@ def _required_seasonal_points(indicator: InventoryIndicatorDefinition) -> int:
     return 12
 
 
+def _issue_scope_for_indicator(indicator: InventoryIndicatorDefinition) -> str:
+    return "public" if indicator.visibility_tier == "public" else "non_public"
+
+
+def _parse_schedule_time_local(raw_value: Any) -> tuple[int, int]:
+    raw = str(raw_value or "").strip()
+    if not raw:
+        return 0, 0
+    parts = raw.split(":", 1)
+    try:
+        hour = int(parts[0])
+        minute = int(parts[1]) if len(parts) == 2 else 0
+    except ValueError:
+        return 0, 0
+    if not 0 <= hour <= 23 or not 0 <= minute <= 59:
+        return 0, 0
+    return hour, minute
+
+
+def _calendar_schedule_window(schedule: dict[str, Any] | None, *, now: datetime) -> dict[str, Any] | None:
+    if not isinstance(schedule, dict):
+        return None
+    schedule_type = str(schedule.get("type") or "").strip().lower()
+    if schedule_type not in {"monthly_calendar", "quarterly_calendar"}:
+        return None
+
+    scheduled_dates: list[date] = []
+    for raw_value in schedule.get("dates") or []:
+        try:
+            scheduled_dates.append(date.fromisoformat(str(raw_value)))
+        except ValueError:
+            continue
+    if not scheduled_dates:
+        return None
+
+    timezone_name = str(schedule.get("timezone") or "UTC").strip() or "UTC"
+    try:
+        zone = ZoneInfo(timezone_name)
+    except ZoneInfoNotFoundError:
+        zone = timezone.utc
+
+    hour, minute = _parse_schedule_time_local(schedule.get("time_local"))
+    previous: dict[str, Any] | None = None
+    upcoming: dict[str, Any] | None = None
+
+    for scheduled_date in sorted(set(scheduled_dates)):
+        scheduled_at = datetime(
+            scheduled_date.year,
+            scheduled_date.month,
+            scheduled_date.day,
+            hour,
+            minute,
+            tzinfo=zone,
+        ).astimezone(timezone.utc)
+        candidate = {
+            "scheduled_date": scheduled_date,
+            "scheduled_at": scheduled_at,
+        }
+        if scheduled_at <= now:
+            previous = candidate
+            continue
+        upcoming = candidate
+        break
+
+    return {
+        "type": schedule_type,
+        "previous": previous,
+        "next": upcoming,
+    }
+
+
+def _release_warning_after_days(frequency: str | None, fallback_days: int) -> int:
+    cadence_days = max(1, int(release_aged_after(frequency).days))
+    return cadence_days or fallback_days
+
+
+def _period_warning_after_days(frequency: str | None, fallback_days: int) -> int:
+    normalized = str(frequency or "").strip().lower()
+    if normalized == "daily":
+        return 30
+    if normalized == "weekly":
+        return 90
+    if normalized == "monthly":
+        return 180
+    if normalized == "quarterly":
+        return 365
+    if normalized == "annual":
+        return 730
+    return fallback_days
+
+
+def _release_freshness(
+    indicator: InventoryIndicatorDefinition,
+    latest_release_at: datetime | None,
+    *,
+    now: datetime,
+    thresholds: InventoryCoverageThresholds,
+) -> dict[str, Any]:
+    schedule = release_schedule_for_indicator(indicator)
+    schedule_window = _calendar_schedule_window(schedule, now=now)
+    release_age_days = _indicator_release_age_days(now, latest_release_at)
+
+    if latest_release_at is None:
+        return {
+            "state": "unknown",
+            "stale": True,
+            "release_age_days": release_age_days,
+            "warning_after_days": _release_warning_after_days(indicator.frequency, thresholds.stale_after_days),
+            "last_expected_release_at": None,
+            "next_expected_release_at": None,
+            "message": "The latest observation does not include a release date.",
+        }
+
+    if schedule_window:
+        previous_due = schedule_window.get("previous")
+        next_due = schedule_window.get("next")
+        latest_release_date = latest_release_at.date()
+        missed_due = (
+            previous_due is not None
+            and latest_release_date < previous_due["scheduled_date"]
+            and now >= previous_due["scheduled_at"] + AUDIT_CALENDAR_RELEASE_GRACE
+        )
+        return {
+            "state": "stale" if missed_due else "fresh",
+            "stale": missed_due,
+            "release_age_days": release_age_days,
+            "warning_after_days": None,
+            "last_expected_release_at": previous_due["scheduled_at"] if previous_due else None,
+            "next_expected_release_at": next_due["scheduled_at"] if next_due else None,
+            "message": (
+                f"Latest release missed scheduled {previous_due['scheduled_date'].isoformat()} update."
+                if missed_due and previous_due
+                else None
+            ),
+        }
+
+    warning_after_days = _release_warning_after_days(indicator.frequency, thresholds.stale_after_days)
+    stale = release_age_days is not None and release_age_days > warning_after_days
+    return {
+        "state": "stale" if stale else "fresh",
+        "stale": stale,
+        "release_age_days": release_age_days,
+        "warning_after_days": warning_after_days,
+        "last_expected_release_at": None,
+        "next_expected_release_at": None,
+        "message": f"Latest release is {release_age_days} days old." if stale and release_age_days is not None else None,
+    }
+
+
 @dataclass(frozen=True)
 class InventoryCoverageThresholds:
     min_seasonal_points: int = 12
@@ -69,11 +222,12 @@ class InventoryCoverageThresholds:
     dead_after_days: int = AUDIT_DEAD_AFTER_DAYS
 
 
-def _inventory_coverage_issue(severity: str, code: str, message: str) -> dict[str, str]:
+def _inventory_coverage_issue(severity: str, code: str, message: str, *, scope: str) -> dict[str, str]:
     return {
         "severity": severity,
         "code": code,
         "message": message,
+        "scope": scope,
     }
 
 
@@ -102,25 +256,37 @@ def build_inventory_coverage_audit(
     summary = {
         "indicator_count": 0,
         "public_indicator_count": 0,
+        "non_public_indicator_count": 0,
         "indicators_with_observations": 0,
         "total_observations": 0,
         "indicators_with_usable_seasonal_ranges": 0,
         "public_display_suitable_count": 0,
         "suppressed_indicator_count": 0,
         "warning_indicator_count": 0,
+        "public_warning_indicator_count": 0,
+        "non_public_warning_indicator_count": 0,
         "error_indicator_count": 0,
+        "public_error_indicator_count": 0,
+        "non_public_error_indicator_count": 0,
+        "public_issue_counts": {"info": 0, "warning": 0, "error": 0},
+        "non_public_issue_counts": {"info": 0, "warning": 0, "error": 0},
+        "public_issue_code_counts": {},
+        "non_public_issue_code_counts": {},
     }
     issue_counts: dict[str, int] = {"info": 0, "warning": 0, "error": 0}
     issue_code_counts: dict[str, int] = {}
 
     for indicator in sorted(repository._indicators_by_id.values(), key=lambda item: item.code):
+        scope = _issue_scope_for_indicator(indicator)
         observations = list(repository._observations_by_id.get(indicator.id, []))
         observation_count = len(observations)
         earliest_period_end_at = observations[0].period_end_at if observations else None
         latest_period_end_at = observations[-1].period_end_at if observations else None
         latest_release_at = observations[-1].release_date if observations else None
-        release_age_days = _indicator_release_age_days(now, latest_release_at)
+        release_freshness = _release_freshness(indicator, latest_release_at, now=now, thresholds=thresholds)
+        release_age_days = release_freshness["release_age_days"]
         period_age_days = _indicator_period_age_days(now, latest_period_end_at)
+        period_warning_after_days = _period_warning_after_days(indicator.frequency, thresholds.dead_after_days)
         seasonal_points = list(repository._seasonal_range(indicator, indicator.seasonal_profile)) if indicator.is_seasonal else []
         seasonal_point_count = len(seasonal_points)
         required_seasonal_points = max(_required_seasonal_points(indicator), thresholds.min_seasonal_points)
@@ -132,6 +298,7 @@ def build_inventory_coverage_audit(
                     "info",
                     "non_public_indicator",
                     "Indicator is not public and should remain hidden from public surfaces.",
+                    scope="non_public",
                 )
             )
         if observation_count == 0:
@@ -140,6 +307,7 @@ def build_inventory_coverage_audit(
                     "error",
                     "no_observations",
                     "No observations are published for this indicator.",
+                    scope=scope,
                 )
             )
         if indicator.is_seasonal and seasonal_point_count < required_seasonal_points:
@@ -151,6 +319,7 @@ def build_inventory_coverage_audit(
                         f"Seasonal history is too thin for public display: "
                         f"{seasonal_point_count} points, need at least {required_seasonal_points}."
                     ),
+                    scope=scope,
                 )
             )
         if observation_count > 0 and latest_release_at is None:
@@ -159,22 +328,25 @@ def build_inventory_coverage_audit(
                     "error",
                     "missing_release_date",
                     "The latest observation does not include a release date.",
+                    scope=scope,
                 )
             )
-        if release_age_days is not None and release_age_days > thresholds.stale_after_days:
+        if latest_release_at is not None and release_freshness["stale"]:
             issues.append(
                 _inventory_coverage_issue(
                     "warning",
                     "stale_release",
-                    f"Latest release is {release_age_days} days old.",
+                    release_freshness["message"] or f"Latest release is {release_age_days} days old.",
+                    scope=scope,
                 )
             )
-        if period_age_days is not None and period_age_days > thresholds.dead_after_days:
+        if period_age_days is not None and period_age_days > period_warning_after_days:
             issues.append(
                 _inventory_coverage_issue(
                     "warning",
                     "old_period",
                     f"Latest period end is {period_age_days} days old.",
+                    scope=scope,
                 )
             )
 
@@ -187,16 +359,18 @@ def build_inventory_coverage_audit(
             public_display_status = "suppressed"
         elif any(issue["severity"] == "error" for issue in issues):
             public_display_status = "suppressed"
-        elif release_age_days is not None and release_age_days > thresholds.stale_after_days:
-            public_display_status = "stale"
-        elif period_age_days is not None and period_age_days > thresholds.dead_after_days:
+        elif period_age_days is not None and period_age_days > period_warning_after_days:
             public_display_status = "historical"
+        elif release_freshness["stale"]:
+            public_display_status = "stale"
         else:
             public_display_status = "eligible"
 
         summary["indicator_count"] += 1
         if indicator.visibility_tier == "public":
             summary["public_indicator_count"] += 1
+        else:
+            summary["non_public_indicator_count"] += 1
         if observation_count > 0:
             summary["indicators_with_observations"] += 1
             summary["total_observations"] += observation_count
@@ -210,15 +384,25 @@ def build_inventory_coverage_audit(
         for issue in issues:
             issue_counts[issue["severity"]] = issue_counts.get(issue["severity"], 0) + 1
             issue_code_counts[issue["code"]] = issue_code_counts.get(issue["code"], 0) + 1
+            summary[f"{issue['scope']}_issue_counts"][issue["severity"]] += 1
+            scoped_issue_code_counts = summary[f"{issue['scope']}_issue_code_counts"]
+            scoped_issue_code_counts[issue["code"]] = scoped_issue_code_counts.get(issue["code"], 0) + 1
 
-        summary["warning_indicator_count"] += 1 if any(issue["severity"] == "warning" for issue in issues) else 0
-        summary["error_indicator_count"] += 1 if any(issue["severity"] == "error" for issue in issues) else 0
+        has_warning = any(issue["severity"] == "warning" for issue in issues)
+        has_error = any(issue["severity"] == "error" for issue in issues)
+        if has_warning:
+            summary["warning_indicator_count"] += 1
+            summary[f"{scope}_warning_indicator_count"] += 1
+        if has_error:
+            summary["error_indicator_count"] += 1
+            summary[f"{scope}_error_indicator_count"] += 1
 
         indicator_rows.append(
             {
                 "indicator_id": indicator.id,
                 "code": indicator.code,
                 "name": indicator.name,
+                "scope": scope,
                 "source_slug": indicator.source_slug,
                 "source_label": source_label_for_indicator(indicator),
                 "visibility_tier": indicator.visibility_tier,
@@ -228,6 +412,10 @@ def build_inventory_coverage_audit(
                 "latest_release_at": _format_timestamp(latest_release_at),
                 "release_age_days": release_age_days,
                 "period_age_days": period_age_days,
+                "release_warning_after_days": release_freshness["warning_after_days"],
+                "period_warning_after_days": period_warning_after_days,
+                "last_expected_release_at": _format_timestamp(release_freshness["last_expected_release_at"]),
+                "next_expected_release_at": _format_timestamp(release_freshness["next_expected_release_at"]),
                 "seasonal_point_count": seasonal_point_count,
                 "seasonal_profile_count": len(
                     {
@@ -238,13 +426,11 @@ def build_inventory_coverage_audit(
                 ),
                 "required_seasonal_points": required_seasonal_points,
                 "freshness_state": (
-                    "fresh"
-                    if release_age_days is not None and release_age_days <= thresholds.stale_after_days
-                    else "stale"
-                    if release_age_days is not None
-                    else "unknown"
+                    "historical"
+                    if period_age_days is not None and period_age_days > period_warning_after_days
+                    else release_freshness["state"]
                 ),
-                "stale": release_age_days is None or release_age_days > thresholds.stale_after_days,
+                "stale": release_freshness["stale"],
                 "public_display_suitable": public_display_suitable,
                 "public_display_status": public_display_status,
                 "issues": issues,
@@ -270,7 +456,11 @@ def build_inventory_coverage_audit(
 def inventory_coverage_blocking_issues(audit: dict[str, Any]) -> list[dict[str, Any]]:
     blocking: list[dict[str, Any]] = []
     for item in audit["indicators"]:
-        errors = [issue for issue in item.get("issues", []) if issue.get("severity") == "error"]
+        errors = [
+            issue
+            for issue in item.get("issues", [])
+            if issue.get("severity") == "error" and issue.get("scope") == "public"
+        ]
         if errors:
             blocking.append(
                 {
@@ -285,6 +475,12 @@ def inventory_coverage_blocking_issues(audit: dict[str, Any]) -> list[dict[str, 
 
 def inventory_coverage_audit_markdown(audit: dict[str, Any]) -> str:
     summary = audit["summary"]
+    public_issue_codes = ", ".join(
+        f"{code}={count}" for code, count in sorted(summary["public_issue_code_counts"].items())
+    ) or "none"
+    non_public_issue_codes = ", ".join(
+        f"{code}={count}" for code, count in sorted(summary["non_public_issue_code_counts"].items())
+    ) or "none"
     lines = [
         "# InventoryWatch Coverage Audit",
         "",
@@ -299,8 +495,24 @@ def inventory_coverage_audit_markdown(audit: dict[str, Any]) -> str:
         f"- Indicators with usable seasonal ranges: {summary['indicators_with_usable_seasonal_ranges']}",
         f"- Public-display suitable indicators: {summary['public_display_suitable_count']}",
         f"- Suppressed indicators: {summary['suppressed_indicator_count']}",
+        f"- Public warning indicators: {summary['public_warning_indicator_count']}",
+        f"- Non-public warning indicators: {summary['non_public_warning_indicator_count']}",
         f"- Error indicators: {summary['error_indicator_count']}",
         f"- Warning indicators: {summary['warning_indicator_count']}",
+        "",
+        "## Public Product",
+        "",
+        f"- Public indicators: {summary['public_indicator_count']}",
+        f"- Public warning indicators: {summary['public_warning_indicator_count']}",
+        f"- Public error indicators: {summary['public_error_indicator_count']}",
+        f"- Public issue codes: {public_issue_codes}",
+        "",
+        "## Non-Public / Suppressed",
+        "",
+        f"- Non-public indicators: {summary['non_public_indicator_count']}",
+        f"- Non-public warning indicators: {summary['non_public_warning_indicator_count']}",
+        f"- Non-public error indicators: {summary['non_public_error_indicator_count']}",
+        f"- Non-public issue codes: {non_public_issue_codes}",
         "",
         "## Indicators",
         "",

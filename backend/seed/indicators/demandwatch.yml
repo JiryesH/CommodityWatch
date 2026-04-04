@@ -1,0 +1,586 @@
+- code: EIA_US_TOTAL_PRODUCT_SUPPLIED
+  name: EIA US Total Product Supplied
+  description: Weekly U.S. total petroleum product supplied, the core domestic petroleum demand proxy.
+  measure_family: flow
+  frequency: weekly
+  commodity_code: crude_products
+  geography_code: US
+  source_slug: eia
+  source_series_key: PET.WRPUPUS2.W
+  native_unit_code: kb_d
+  canonical_unit_code: kb_d
+  default_observation_kind: actual
+  publication_lag_days: 5
+  is_seasonal: false
+  is_derived: false
+  visibility_tier: public
+  active: true
+  modules: [demandwatch]
+  primary_module: demandwatch
+  demand_vertical_code: crude_products
+  demand_tier: t1_direct
+  coverage_status: live
+  display_order: 10
+  release_slug: demand_eia_wpsr
+  coverage_note: Public-domain WPSR demand anchor for the MVP petroleum page.
+  metadata:
+    source_table: WPSR
+    source_metric: total_product_supplied
+- code: EIA_GASOLINE_US_PRODUCT_SUPPLIED
+  name: EIA US Gasoline Product Supplied
+  description: Weekly U.S. motor gasoline product supplied from the EIA Weekly Petroleum Status Report.
+  measure_family: flow
+  frequency: weekly
+  commodity_code: gasoline
+  geography_code: US
+  source_slug: eia
+  source_series_key: PET.WGFUPUS2.W
+  native_unit_code: kb_d
+  canonical_unit_code: kb_d
+  default_observation_kind: actual
+  publication_lag_days: 5
+  is_seasonal: false
+  is_derived: false
+  visibility_tier: public
+  active: true
+  modules: [demandwatch]
+  primary_module: demandwatch
+  demand_vertical_code: crude_products
+  demand_tier: t1_direct
+  coverage_status: live
+  display_order: 20
+  release_slug: demand_eia_wpsr
+  coverage_note: Public-domain WPSR gasoline demand proxy for the MVP petroleum scorecard.
+  metadata:
+    source_table: WPSR
+    source_metric: gasoline_product_supplied
+- code: EIA_DISTILLATE_US_PRODUCT_SUPPLIED
+  name: EIA US Distillate Product Supplied
+  description: Weekly U.S. distillate fuel oil product supplied from the EIA Weekly Petroleum Status Report.
+  measure_family: flow
+  frequency: weekly
+  commodity_code: distillates
+  geography_code: US
+  source_slug: eia
+  source_series_key: PET.WDIUPUS2.W
+  native_unit_code: kb_d
+  canonical_unit_code: kb_d
+  default_observation_kind: actual
+  publication_lag_days: 5
+  is_seasonal: false
+  is_derived: false
+  visibility_tier: public
+  active: true
+  modules: [demandwatch]
+  primary_module: demandwatch
+  demand_vertical_code: crude_products
+  demand_tier: t1_direct
+  coverage_status: live
+  display_order: 30
+  release_slug: demand_eia_wpsr
+  coverage_note: Public-domain WPSR distillate demand proxy for freight and industrial pull.
+  metadata:
+    source_table: WPSR
+    source_metric: distillate_product_supplied
+- code: EIA_CRUDE_US_REFINERY_INPUTS
+  name: EIA US Refinery Crude Inputs
+  description: Weekly crude oil refinery input volumes from the EIA Weekly Petroleum Status Report.
+  measure_family: flow
+  frequency: weekly
+  commodity_code: crude_oil
+  geography_code: US
+  source_slug: eia
+  source_series_key: PET.WCRRIUS2.W
+  native_unit_code: kb_d
+  canonical_unit_code: kb_d
+  default_observation_kind: actual
+  publication_lag_days: 5
+  is_seasonal: false
+  is_derived: false
+  visibility_tier: public
+  active: true
+  modules: [demandwatch]
+  primary_module: demandwatch
+  demand_vertical_code: crude_products
+  demand_tier: t2_throughput
+  coverage_status: live
+  display_order: 40
+  release_slug: demand_eia_wpsr
+  coverage_note: Public-domain throughput proxy linking crude demand to refinery runs.
+  metadata:
+    source_table: WPSR
+    source_metric: refinery_crude_inputs
+- code: EIA_CRUDE_US_REFINERY_UTILISATION
+  name: EIA US Refinery Utilisation
+  description: Weekly refinery operable capacity utilisation from the EIA Weekly Petroleum Status Report.
+  measure_family: utilisation
+  frequency: weekly
+  commodity_code: crude_products
+  geography_code: US
+  source_slug: eia
+  source_series_key: PET.WPULEUS3.W
+  native_unit_code: pct
+  canonical_unit_code: pct
+  default_observation_kind: actual
+  publication_lag_days: 5
+  is_seasonal: false
+  is_derived: false
+  visibility_tier: public
+  active: true
+  modules: [demandwatch]
+  primary_module: demandwatch
+  demand_vertical_code: crude_products
+  demand_tier: t2_throughput
+  coverage_status: live
+  display_order: 50
+  release_slug: demand_eia_wpsr
+  coverage_note: Public-domain refinery utilisation confirms whether crude demand is translating into system pull.
+  metadata:
+    source_table: WPSR
+    source_metric: refinery_utilisation
+- code: EIA_US_ELECTRICITY_GRID_LOAD
+  name: EIA US Grid Load
+  description: U.S. grid demand from the EIA Grid Monitor, used as the primary direct power-demand signal.
+  measure_family: capacity
+  frequency: hourly
+  commodity_code: electricity
+  geography_code: US
+  source_slug: eia
+  source_series_key: EBA.US48-ALL.D.H
+  native_unit_code: gw
+  canonical_unit_code: gw
+  default_observation_kind: actual
+  publication_lag_days: 1
+  is_seasonal: false
+  is_derived: false
+  visibility_tier: public
+  active: true
+  modules: [demandwatch]
+  primary_module: demandwatch
+  demand_vertical_code: electricity
+  demand_tier: t1_direct
+  coverage_status: live
+  display_order: 10
+  release_slug: demand_eia_grid_monitor
+  coverage_note: Public-domain near-real-time U.S. power demand coverage for the MVP electricity page.
+  metadata:
+    source_metric: grid_load
+- code: EMBER_GLOBAL_ELECTRICITY_DEMAND
+  name: Ember Global Electricity Demand
+  description: Monthly global electricity demand dataset from Ember under CC BY terms.
+  measure_family: flow
+  frequency: monthly
+  commodity_code: electricity
+  geography_code: WORLD
+  source_slug: ember
+  source_series_key: WORLD
+  native_unit_code: twh
+  canonical_unit_code: twh
+  default_observation_kind: actual
+  publication_lag_days: 14
+  is_seasonal: false
+  is_derived: false
+  visibility_tier: public
+  active: true
+  modules: [demandwatch]
+  primary_module: demandwatch
+  demand_vertical_code: electricity
+  demand_tier: t1_direct
+  coverage_status: live
+  display_order: 20
+  release_slug: demand_ember_monthly_electricity
+  coverage_note: CC BY source for legally safe non-U.S. electricity demand coverage at launch.
+  metadata:
+    source_entity: World
+    source_is_aggregate_entity: true
+    source_metric: electricity_demand
+- code: EMBER_CHINA_ELECTRICITY_DEMAND
+  name: Ember China Electricity Demand
+  description: Monthly China electricity demand coverage from Ember, used as the MVP China demand anchor.
+  measure_family: flow
+  frequency: monthly
+  commodity_code: electricity
+  geography_code: CHINA
+  source_slug: ember
+  source_series_key: CHN
+  native_unit_code: twh
+  canonical_unit_code: twh
+  default_observation_kind: actual
+  publication_lag_days: 14
+  is_seasonal: false
+  is_derived: false
+  visibility_tier: public
+  active: true
+  modules: [demandwatch]
+  primary_module: demandwatch
+  demand_vertical_code: electricity
+  demand_tier: t1_direct
+  coverage_status: live
+  display_order: 30
+  release_slug: demand_ember_monthly_electricity
+  coverage_note: CC BY China demand anchor used instead of unresolved direct NBS republication.
+  metadata:
+    source_entity_code: CHN
+    source_metric: electricity_demand
+- code: USDA_US_CORN_TOTAL_USE_WASDE
+  name: USDA US Corn Total Use
+  description: USDA WASDE estimate of total U.S. corn use for the marketing year.
+  measure_family: flow
+  frequency: monthly
+  commodity_code: corn
+  geography_code: US
+  source_slug: usda_psd
+  source_series_key: 0440000
+  native_unit_code: mbu
+  canonical_unit_code: mbu
+  default_observation_kind: estimate
+  publication_lag_days: 0
+  is_seasonal: false
+  is_derived: false
+  visibility_tier: public
+  active: true
+  modules: [demandwatch]
+  primary_module: demandwatch
+  demand_vertical_code: grains_oilseeds
+  demand_tier: t1_direct
+  coverage_status: live
+  display_order: 10
+  release_slug: demand_usda_wasde
+  coverage_note: Public-domain USDA demand estimate for the corn page and grains scorecard.
+  metadata:
+    source_metric: total_use
+    marketing_year_start_month: 9
+- code: USDA_US_SOYBEAN_TOTAL_USE_WASDE
+  name: USDA US Soybean Total Use
+  description: USDA WASDE estimate of total U.S. soybean use for the marketing year.
+  measure_family: flow
+  frequency: monthly
+  commodity_code: soybeans
+  geography_code: US
+  source_slug: usda_psd
+  source_series_key: 2222000
+  native_unit_code: mbu
+  canonical_unit_code: mbu
+  default_observation_kind: estimate
+  publication_lag_days: 0
+  is_seasonal: false
+  is_derived: false
+  visibility_tier: public
+  active: true
+  modules: [demandwatch]
+  primary_module: demandwatch
+  demand_vertical_code: grains_oilseeds
+  demand_tier: t1_direct
+  coverage_status: live
+  display_order: 20
+  release_slug: demand_usda_wasde
+  coverage_note: Public-domain USDA demand estimate for oilseed demand coverage at launch.
+  metadata:
+    source_metric: total_use
+    marketing_year_start_month: 9
+- code: USDA_US_WHEAT_TOTAL_USE_WASDE
+  name: USDA US Wheat Total Use
+  description: USDA WASDE estimate of total U.S. wheat use for the marketing year.
+  measure_family: flow
+  frequency: monthly
+  commodity_code: wheat
+  geography_code: US
+  source_slug: usda_psd
+  source_series_key: 0410000
+  native_unit_code: mbu
+  canonical_unit_code: mbu
+  default_observation_kind: estimate
+  publication_lag_days: 0
+  is_seasonal: false
+  is_derived: false
+  visibility_tier: public
+  active: true
+  modules: [demandwatch]
+  primary_module: demandwatch
+  demand_vertical_code: grains_oilseeds
+  demand_tier: t1_direct
+  coverage_status: live
+  display_order: 30
+  release_slug: demand_usda_wasde
+  coverage_note: Public-domain USDA demand estimate for core wheat demand coverage.
+  metadata:
+    source_metric: total_use
+    marketing_year_start_month: 6
+- code: USDA_US_CORN_EXPORT_SALES
+  name: USDA US Corn Export Sales
+  description: Weekly U.S. corn export sales from the USDA Export Sales Report.
+  measure_family: flow
+  frequency: weekly
+  commodity_code: corn
+  geography_code: US
+  source_slug: usda_export_sales
+  source_series_key: "401"
+  native_unit_code: mmt
+  canonical_unit_code: mmt
+  default_observation_kind: actual
+  publication_lag_days: 7
+  is_seasonal: false
+  is_derived: false
+  visibility_tier: public
+  active: true
+  modules: [demandwatch]
+  primary_module: demandwatch
+  demand_vertical_code: grains_oilseeds
+  demand_tier: t3_trade
+  coverage_status: live
+  display_order: 40
+  release_slug: demand_usda_export_sales
+  coverage_note: Public-domain weekly trade-flow signal used as the MVP grains surprise series.
+  metadata:
+    source_metric: export_sales
+- code: EIA_US_ETHANOL_PRODUCTION
+  name: EIA US Ethanol Production
+  description: Weekly U.S. ethanol production from the EIA Weekly Petroleum Status Report.
+  measure_family: flow
+  frequency: weekly
+  commodity_code: corn
+  geography_code: US
+  source_slug: eia
+  source_series_key: PET.W_EPOOXE_YIR_NUS_MBBLD.W
+  native_unit_code: kb_d
+  canonical_unit_code: kb_d
+  default_observation_kind: actual
+  publication_lag_days: 5
+  is_seasonal: false
+  is_derived: false
+  visibility_tier: public
+  active: true
+  modules: [demandwatch]
+  primary_module: demandwatch
+  demand_vertical_code: grains_oilseeds
+  demand_tier: t2_throughput
+  coverage_status: live
+  display_order: 50
+  release_slug: demand_eia_wpsr
+  coverage_note: Public-domain corn-demand throughput proxy from the energy complex.
+  metadata:
+    source_table: WPSR
+    source_metric: ethanol_production
+- code: FRED_US_INDUSTRIAL_PRODUCTION
+  name: FRED US Industrial Production Index
+  description: U.S. industrial production index from FRED series INDPRO.
+  measure_family: macro
+  frequency: monthly
+  commodity_code: base_metals
+  geography_code: US
+  source_slug: fred
+  source_series_key: INDPRO
+  native_unit_code: index
+  canonical_unit_code: index
+  default_observation_kind: actual
+  publication_lag_days: 14
+  is_seasonal: false
+  is_derived: false
+  visibility_tier: public
+  active: true
+  modules: [demandwatch]
+  primary_module: demandwatch
+  demand_vertical_code: base_metals
+  demand_tier: t6_macro
+  coverage_status: live
+  display_order: 10
+  release_slug: demand_fred_g17
+  coverage_note: Public-domain macro backbone for industrial-metals demand context.
+  metadata:
+    source_release: G.17
+- code: FRED_US_MANUFACTURING_PRODUCTION
+  name: FRED US Manufacturing Production Index
+  description: U.S. manufacturing output index from FRED series IPMAN.
+  measure_family: macro
+  frequency: monthly
+  commodity_code: base_metals
+  geography_code: US
+  source_slug: fred
+  source_series_key: IPMAN
+  native_unit_code: index
+  canonical_unit_code: index
+  default_observation_kind: actual
+  publication_lag_days: 14
+  is_seasonal: false
+  is_derived: false
+  visibility_tier: public
+  active: true
+  modules: [demandwatch]
+  primary_module: demandwatch
+  demand_vertical_code: base_metals
+  demand_tier: t6_macro
+  coverage_status: live
+  display_order: 20
+  release_slug: demand_fred_g17
+  coverage_note: Public-domain manufacturing subset for metals-specific demand context.
+  metadata:
+    source_release: G.17
+- code: FRED_US_HOUSING_STARTS
+  name: FRED US Housing Starts
+  description: U.S. housing starts from FRED series HOUST.
+  measure_family: macro
+  frequency: monthly
+  commodity_code: base_metals
+  geography_code: US
+  source_slug: fred
+  source_series_key: HOUST
+  native_unit_code: k_units_saar
+  canonical_unit_code: k_units_saar
+  default_observation_kind: actual
+  publication_lag_days: 20
+  is_seasonal: false
+  is_derived: false
+  visibility_tier: public
+  active: true
+  modules: [demandwatch]
+  primary_module: demandwatch
+  demand_vertical_code: base_metals
+  demand_tier: t4_end_use
+  coverage_status: live
+  display_order: 30
+  release_slug: demand_fred_new_residential_construction
+  coverage_note: Public-domain construction-demand proxy for copper and aluminium exposure.
+  metadata:
+    source_release: New Residential Construction
+- code: FRED_US_BUILDING_PERMITS
+  name: FRED US Building Permits
+  description: U.S. building permits from FRED series PERMIT.
+  measure_family: macro
+  frequency: monthly
+  commodity_code: base_metals
+  geography_code: US
+  source_slug: fred
+  source_series_key: PERMIT
+  native_unit_code: k_units_saar
+  canonical_unit_code: k_units_saar
+  default_observation_kind: actual
+  publication_lag_days: 20
+  is_seasonal: false
+  is_derived: false
+  visibility_tier: public
+  active: true
+  modules: [demandwatch]
+  primary_module: demandwatch
+  demand_vertical_code: base_metals
+  demand_tier: t5_leading
+  coverage_status: live
+  display_order: 40
+  release_slug: demand_fred_new_residential_construction
+  coverage_note: Public-domain leading indicator for metals demand through the construction pipeline.
+  metadata:
+    source_release: New Residential Construction
+- code: CHINA_CRUDE_IMPORTS_MONTHLY
+  name: China Crude Oil Imports
+  description: Monthly China crude oil imports placeholder pending republication review.
+  measure_family: flow
+  frequency: monthly
+  commodity_code: crude_oil
+  geography_code: CHINA
+  source_slug: china_customs
+  native_unit_code: mmt
+  canonical_unit_code: mmt
+  default_observation_kind: actual
+  publication_lag_days: 30
+  is_seasonal: false
+  is_derived: false
+  visibility_tier: internal
+  active: false
+  modules: [demandwatch]
+  primary_module: demandwatch
+  demand_vertical_code: crude_products
+  demand_tier: t3_trade
+  coverage_status: needs_verification
+  display_order: 90
+  coverage_note: Direct China customs republication terms are unresolved. Keep out of ingestion until legal review clears systematic use.
+- code: CHINA_REFINERY_THROUGHPUT_MONTHLY
+  name: China Refinery Throughput
+  description: Monthly China refinery throughput placeholder pending republication review.
+  measure_family: flow
+  frequency: monthly
+  commodity_code: crude_oil
+  geography_code: CHINA
+  source_slug: china_nbs
+  native_unit_code: mmt
+  canonical_unit_code: mmt
+  default_observation_kind: actual
+  publication_lag_days: 30
+  is_seasonal: false
+  is_derived: false
+  visibility_tier: internal
+  active: false
+  modules: [demandwatch]
+  primary_module: demandwatch
+  demand_vertical_code: crude_products
+  demand_tier: t2_throughput
+  coverage_status: needs_verification
+  display_order: 100
+  coverage_note: NBS throughput publication terms remain unresolved for commercial republication.
+- code: IEA_GLOBAL_OIL_DEMAND_TABLE
+  name: IEA Global Oil Demand Table
+  description: IEA global oil demand table placeholder blocked from MVP republication.
+  measure_family: macro
+  frequency: monthly
+  commodity_code: crude_products
+  geography_code: WORLD
+  source_slug: iea
+  native_unit_code: kb_d
+  canonical_unit_code: kb_d
+  default_observation_kind: forecast
+  publication_lag_days: 14
+  is_seasonal: false
+  is_derived: false
+  visibility_tier: internal
+  active: false
+  modules: [demandwatch]
+  primary_module: demandwatch
+  demand_vertical_code: crude_products
+  demand_tier: t6_macro
+  coverage_status: blocked
+  display_order: 110
+  coverage_note: IEA data tables are not cleared for MVP republication. Use EIA or qualitative commentary instead.
+- code: WORLDSTEEL_GLOBAL_CRUDE_STEEL_PRODUCTION
+  name: Worldsteel Global Crude Steel Production
+  description: World Steel Association monthly crude steel production placeholder pending press-release review.
+  measure_family: macro
+  frequency: monthly
+  commodity_code: base_metals
+  geography_code: WORLD
+  source_slug: worldsteel
+  native_unit_code: mmt
+  canonical_unit_code: mmt
+  default_observation_kind: actual
+  publication_lag_days: 30
+  is_seasonal: false
+  is_derived: false
+  visibility_tier: internal
+  active: false
+  modules: [demandwatch]
+  primary_module: demandwatch
+  demand_vertical_code: base_metals
+  demand_tier: t2_throughput
+  coverage_status: needs_verification
+  display_order: 90
+  coverage_note: Monthly steel-output press releases stay blocked until republication terms are verified.
+- code: SPGLOBAL_EUROZONE_MANUFACTURING_PMI_RAW
+  name: S&P Global Eurozone Manufacturing PMI Raw
+  description: Raw Eurozone manufacturing PMI placeholder blocked from MVP republication.
+  measure_family: signal
+  frequency: monthly
+  commodity_code: base_metals
+  geography_code: EU
+  source_slug: spglobal_pmi
+  native_unit_code: index
+  canonical_unit_code: index
+  default_observation_kind: signal
+  publication_lag_days: 0
+  is_seasonal: false
+  is_derived: false
+  visibility_tier: internal
+  active: false
+  modules: [demandwatch]
+  primary_module: demandwatch
+  demand_vertical_code: base_metals
+  demand_tier: t6_macro
+  coverage_status: blocked
+  display_order: 100
+  coverage_note: Raw S&P Global PMI values are off-limits without a licence; do not ingest for MVP.

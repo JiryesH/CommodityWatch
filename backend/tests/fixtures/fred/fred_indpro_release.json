@@ -1,0 +1,14 @@
+{
+  "realtime_start": "2026-04-03",
+  "realtime_end": "2026-04-03",
+  "releases": [
+    {
+      "id": 10,
+      "realtime_start": "2026-04-03",
+      "realtime_end": "2026-04-03",
+      "name": "Industrial Production and Capacity Utilization",
+      "press_release": true,
+      "link": "https://fred.stlouisfed.org/release?rid=10"
+    }
+  ]
+}

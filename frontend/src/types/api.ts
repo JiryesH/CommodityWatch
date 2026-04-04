@@ -56,6 +56,7 @@ export interface IndicatorListResponse {
 export interface IndicatorLatest {
   periodEndAt: string;
   releaseDate: string | null;
+  commodityWatchUpdatedAt: string;
   value: number;
   unit: string;
   changeFromPriorAbs: number | null;
@@ -109,13 +110,15 @@ export interface IndicatorDataResponse {
     unit: string | null;
     periodType?: string | null;
     marketingYearStartMonth?: number | null;
-    isSeasonal?: boolean;
+    isSeasonal: boolean;
   };
   series: SeriesPoint[];
   seasonalRange: SeasonalRangePoint[];
   metadata: {
     latestReleaseId: string | null;
     latestReleaseAt: string | null;
+    latestPeriodEndAt: string;
+    latestVintageAt: string;
     sourceUrl: string | null;
     sourceLabel?: string | null;
   };
@@ -130,14 +133,21 @@ export interface SnapshotCardData {
   frequency?: string | null;
   periodType?: string | null;
   marketingYearStartMonth?: number | null;
-  isSeasonal?: boolean;
+  isSeasonal: boolean;
   latestValue: number;
   unit: string;
   changeAbs: number | null;
   deviationAbs: number | null;
+  seasonalMedian: number | null;
+  seasonalP10: number | null;
+  seasonalP25: number | null;
+  seasonalP75: number | null;
+  seasonalP90: number | null;
   signal: InventorySignal;
   sparkline: number[];
-  lastUpdatedAt: string;
+  periodEndAt: string;
+  releaseDate: string | null;
+  commodityWatchUpdatedAt: string;
   freshness: FreshnessState;
   stale: boolean;
   sourceLabel: string;

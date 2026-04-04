@@ -6,6 +6,10 @@
   measure_family: flow
   canonical_unit_code: kb_d
   notes:
+- commodity_code: crude_products
+  measure_family: flow
+  canonical_unit_code: kb_d
+  notes: Aggregate petroleum demand convention for total product supplied and refinery utilisation context.
 - commodity_code: gasoline
   measure_family: stock
   canonical_unit_code: kb
@@ -50,6 +54,18 @@
   measure_family: utilisation
   canonical_unit_code: pct
   notes:
+- commodity_code: electricity
+  measure_family: flow
+  canonical_unit_code: twh
+  notes: Monthly electricity demand totals stay in TWh; point-in-time load uses the capacity convention below.
+- commodity_code: electricity
+  measure_family: capacity
+  canonical_unit_code: gw
+  notes: Grid load is stored as instantaneous demand in gigawatts.
+- commodity_code: base_metals
+  measure_family: macro
+  canonical_unit_code: index
+  notes: Base-metals MVP uses macro-demand proxies such as industrial production and housing activity.
 - commodity_code: copper
   measure_family: stock
   canonical_unit_code: kt
@@ -82,11 +98,23 @@
   measure_family: stock
   canonical_unit_code: mbu
   notes:
+- commodity_code: corn
+  measure_family: flow
+  canonical_unit_code: mbu
+  notes: USDA domestic-use estimates are tracked in million bushels; weekly export sales keep their native MMT unit.
 - commodity_code: wheat
   measure_family: stock
   canonical_unit_code: mbu
   notes:
+- commodity_code: wheat
+  measure_family: flow
+  canonical_unit_code: mbu
+  notes: USDA demand estimates are tracked in million bushels.
 - commodity_code: soybeans
   measure_family: stock
   canonical_unit_code: mbu
   notes:
+- commodity_code: soybeans
+  measure_family: flow
+  canonical_unit_code: mbu
+  notes: USDA demand estimates are tracked in million bushels.

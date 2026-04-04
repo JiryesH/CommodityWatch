@@ -33,7 +33,7 @@ import {
   canonicalCategoriesForArticle,
 } from "../../shared/headline-taxonomy.js";
 import { COMMODITY_SERIES_CONTRACT } from "../../shared/commodity-series-contract.js";
-import { selectInventoryWidgetCards } from "../modules.js";
+import { selectDemandWidgetItems, selectInventoryWidgetCards } from "../modules.js";
 
 test("default home filter resolves to the all-commodities state with all sectors active", () => {
   const filter = createDefaultFilter();
@@ -144,12 +144,33 @@ test("series mappings for crude oil match the live home benchmark selection", ()
 test("home registry only renders the live modules in their declared slots", () => {
   assert.deepEqual(
     MODULE_REGISTRY.map((moduleDefinition) => moduleDefinition.id),
-    ["prices", "inventory", "headlines", "calendar"]
+    ["prices", "demand", "inventory", "headlines", "calendar"]
   );
   assert.deepEqual(
     MODULE_REGISTRY.map((moduleDefinition) => moduleDefinition.slot),
-    ["main-top", "main-middle", "main-bottom", "sidebar"]
+    ["main-top", "main-middle", "main-left", "main-bottom", "sidebar"]
   );
+});
+
+test("demand widget selection only surfaces launch verticals that match the current home filter", () => {
+  const energySelection = selectDemandWidgetItems(toggleSector(createDefaultFilter(), "energy"));
+  assert.deepEqual(
+    energySelection.items.map((item) => item.id),
+    ["crude-products", "electricity"]
+  );
+  assert.equal(energySelection.unsupported, false);
+
+  const unsupportedSelection = selectDemandWidgetItems(
+    normalizeFilter({
+      sectorIds: ["energy"],
+      groupIdsBySector: {
+        energy: ["natural-gas"],
+      },
+      commodityIds: [],
+    })
+  );
+  assert.deepEqual(unsupportedSelection.items, []);
+  assert.equal(unsupportedSelection.unsupported, true);
 });
 
 test("module render gates ignore stale async writes after a newer render starts", () => {

@@ -254,12 +254,28 @@ export function semanticModeForCommodity(commodityCode: string | null | undefine
     : "generic";
 }
 
-export function freshnessFor(frequency: string | undefined, timestamp: string | null | undefined, stale = false): FreshnessState {
-  if (!timestamp) {
-    return "aged";
+function freshnessThresholds(frequency: string | undefined) {
+  switch (frequency) {
+    case "daily":
+      return { currentHours: 72, agedHours: 24 * 7, structural: false };
+    case "monthly":
+      return { currentHours: 24 * 45, agedHours: 24 * 75, structural: false };
+    case "quarterly":
+      return { currentHours: 24 * 120, agedHours: 24 * 200, structural: true };
+    case "annual":
+      return { currentHours: 24 * 400, agedHours: 24 * 550, structural: true };
+    default:
+      return { currentHours: 24 * 10, agedHours: 24 * 21, structural: false };
   }
+}
 
-  if (stale) {
+export function freshnessFor(
+  frequency: string | undefined,
+  releaseTimestamp: string | null | undefined,
+  observedTimestamp: string | null | undefined,
+): FreshnessState {
+  const timestamp = releaseTimestamp ?? observedTimestamp;
+  if (!timestamp) {
     return "aged";
   }
 
@@ -268,27 +284,12 @@ export function freshnessFor(frequency: string | undefined, timestamp: string | 
     return "live";
   }
 
-  if (frequency === "daily" && hours <= 72) {
-    return "current";
+  const thresholds = freshnessThresholds(frequency);
+  if (hours <= thresholds.currentHours) {
+    return thresholds.structural ? "structural" : "current";
   }
 
-  if (frequency === "weekly" && hours <= 24 * 10) {
-    return "current";
-  }
-
-  if (frequency === "monthly" && hours <= 24 * 45) {
-    return "current";
-  }
-
-  if (frequency === "quarterly" && hours <= 24 * 120) {
-    return "structural";
-  }
-
-  if (frequency === "annual" && hours <= 24 * 400) {
-    return "structural";
-  }
-
-  if (hours <= 24 * 21) {
+  if (hours <= thresholds.agedHours) {
     return "lagged";
   }
 

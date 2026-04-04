@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report Name="WeeklyHighlightsReport" xmlns="WeeklyHighlightsReport">
+  <Tablix1>
+    <Details_Collection>
+      <Details Textbox1="This summary is based on reports from exporters for the period March 20-26, 2026.&#xD;&#xA;Corn: Net sales of 1,149,400 MT for 2025/2026.&#xD;&#xA;April 2, 2026&#xD;&#xA;SUMMARY OF EXPORT TRANSACTIONS&#xD;&#xA;For Period Ending March 26, 2026&#xD;&#xA;" />
+    </Details_Collection>
+  </Tablix1>
+</Report>

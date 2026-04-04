@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <getDatabyCommodityResponse xmlns="http://www.fas.usda.gov/wsfaspsd/">
+      <getDatabyCommodityResult>
+        <getDatabyCommodity xmlns="">
+          <Commodity>
+            <Commodity_code>0440000</Commodity_code>
+            <Country_Code>US</Country_Code>
+            <Market_Year>2025</Market_Year>
+            <Calendar_Year>2026</Calendar_Year>
+            <Month>03</Month>
+            <Attribute_Description>Domestic Consumption</Attribute_Description>
+            <Unit_Description>(1000 MT)</Unit_Description>
+            <Value>39100.0000</Value>
+          </Commodity>
+          <Commodity>
+            <Commodity_code>2222000</Commodity_code>
+            <Country_Code>US</Country_Code>
+            <Market_Year>2025</Market_Year>
+            <Calendar_Year>2026</Calendar_Year>
+            <Month>03</Month>
+            <Attribute_Description>Total Use</Attribute_Description>
+            <Unit_Description>(1000 MT)</Unit_Description>
+            <Value>17180.0000</Value>
+          </Commodity>
+          <Commodity>
+            <Commodity_code>0410000</Commodity_code>
+            <Country_Code>US</Country_Code>
+            <Market_Year>2025</Market_Year>
+            <Calendar_Year>2026</Calendar_Year>
+            <Month>03</Month>
+            <Attribute_Description>Total Consumption</Attribute_Description>
+            <Unit_Description>(1000 MT)</Unit_Description>
+            <Value>30800.0000</Value>
+          </Commodity>
+          <Commodity>
+            <Commodity_code>0440000</Commodity_code>
+            <Country_Code>US</Country_Code>
+            <Market_Year>2025</Market_Year>
+            <Calendar_Year>2026</Calendar_Year>
+            <Month>03</Month>
+            <Attribute_Description>Production</Attribute_Description>
+            <Unit_Description>(1000 MT)</Unit_Description>
+            <Value>37760.0000</Value>
+          </Commodity>
+          <Commodity>
+            <Commodity_code>0440000</Commodity_code>
+            <Country_Code>CN</Country_Code>
+            <Market_Year>2025</Market_Year>
+            <Calendar_Year>2026</Calendar_Year>
+            <Month>03</Month>
+            <Attribute_Description>Domestic Consumption</Attribute_Description>
+            <Unit_Description>(1000 MT)</Unit_Description>
+            <Value>312000.0000</Value>
+          </Commodity>
+        </getDatabyCommodity>
+      </getDatabyCommodityResult>
+    </getDatabyCommodityResponse>
+  </soap:Body>
+</soap:Envelope>

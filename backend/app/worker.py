@@ -84,6 +84,34 @@ def build_scheduler() -> AsyncIOScheduler:
     )
     scheduler.add_job(
         execute_registered_job,
+        CronTrigger(day_of_week="wed", hour=10, minute=35, timezone=ZoneInfo("America/New_York")),
+        args=["demand_eia_wpsr"],
+        id="demand_eia_wpsr",
+        replace_existing=True,
+    )
+    scheduler.add_job(
+        execute_registered_job,
+        CronTrigger(hour=18, minute=5, timezone=ZoneInfo("America/New_York")),
+        args=["demand_eia_grid_monitor"],
+        id="demand_eia_grid_monitor",
+        replace_existing=True,
+    )
+    scheduler.add_job(
+        execute_registered_job,
+        CronTrigger(day="8-20", hour=8, minute=20, timezone=ZoneInfo("America/Chicago")),
+        args=["demand_fred_g17"],
+        id="demand_fred_g17",
+        replace_existing=True,
+    )
+    scheduler.add_job(
+        execute_registered_job,
+        CronTrigger(day="8-25", hour=8, minute=35, timezone=ZoneInfo("America/New_York")),
+        args=["demand_fred_new_residential_construction"],
+        id="demand_fred_new_residential_construction",
+        replace_existing=True,
+    )
+    scheduler.add_job(
+        execute_registered_job,
         CronTrigger(hour=18, minute=0, timezone=ZoneInfo("Europe/Brussels")),
         args=["agsi_daily"],
         id="agsi_daily",
@@ -94,6 +122,27 @@ def build_scheduler() -> AsyncIOScheduler:
         CronTrigger(day="8-14", hour=12, minute=5, timezone=ZoneInfo("America/New_York")),
         args=["usda_wasde"],
         id="usda_wasde",
+        replace_existing=True,
+    )
+    scheduler.add_job(
+        execute_registered_job,
+        CronTrigger(day="8-14", hour=12, minute=5, timezone=ZoneInfo("America/New_York")),
+        args=["demand_usda_wasde"],
+        id="demand_usda_wasde",
+        replace_existing=True,
+    )
+    scheduler.add_job(
+        execute_registered_job,
+        CronTrigger(day_of_week="thu", hour=8, minute=35, timezone=ZoneInfo("America/New_York")),
+        args=["demand_usda_export_sales"],
+        id="demand_usda_export_sales",
+        replace_existing=True,
+    )
+    scheduler.add_job(
+        execute_registered_job,
+        CronTrigger(day="8-20", hour=8, minute=5, timezone=ZoneInfo("UTC")),
+        args=["demand_ember_monthly_electricity"],
+        id="demand_ember_monthly_electricity",
         replace_existing=True,
     )
     if settings.enable_lme_live_jobs:

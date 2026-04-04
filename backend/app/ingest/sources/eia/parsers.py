@@ -33,6 +33,10 @@ def _as_utc(datetime_value: datetime) -> datetime:
 
 def _parse_period(raw: str, frequency: str) -> datetime:
     cleaned = str(raw).strip()
+    if frequency == "hourly":
+        if len(cleaned) == 13:
+            return _as_utc(datetime.strptime(cleaned, "%Y-%m-%dT%H"))
+        return _as_utc(datetime.fromisoformat(cleaned))
     if frequency in {"daily", "weekly"}:
         return _as_utc(datetime.fromisoformat(cleaned))
     if frequency == "monthly":
@@ -44,6 +48,8 @@ def _parse_period(raw: str, frequency: str) -> datetime:
 def _period_start(period_end_at: datetime, frequency: str) -> datetime:
     if frequency == "weekly":
         return period_end_at - timedelta(days=6)
+    if frequency == "hourly":
+        return period_end_at
     return period_end_at
 
 

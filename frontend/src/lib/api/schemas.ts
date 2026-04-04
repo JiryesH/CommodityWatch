@@ -47,6 +47,7 @@ export const indicatorLatestResponseSchema = z
       .object({
         period_end_at: z.string().datetime(),
         release_date: z.string().datetime().nullable(),
+        commoditywatch_updated_at: z.string().datetime(),
         value: z.number(),
         unit: z.string(),
         change_from_prior_abs: z.number().nullable(),
@@ -101,7 +102,7 @@ export const indicatorDataResponseSchema = z
         unit: z.string().nullable(),
         period_type: z.string().nullable().optional(),
         marketing_year_start_month: z.number().nullable().optional(),
-        is_seasonal: z.boolean().optional(),
+        is_seasonal: z.boolean(),
       })
       .passthrough(),
     series: z.array(seriesPointSchema),
@@ -109,7 +110,9 @@ export const indicatorDataResponseSchema = z
     metadata: z
       .object({
         latest_release_id: z.string().nullable().optional(),
-        latest_release_at: z.string().datetime().nullable().optional(),
+        latest_release_at: z.string().datetime().nullable(),
+        latest_period_end_at: z.string().datetime(),
+        latest_vintage_at: z.string().datetime(),
         source_url: z.string().url().nullable().optional(),
         source_label: z.string().nullable().optional(),
       })
@@ -129,14 +132,22 @@ export const snapshotCardSchema = z
     source_url: z.string().url().nullable().optional(),
     period_type: z.string().nullable().optional(),
     marketing_year_start_month: z.number().nullable().optional(),
-    is_seasonal: z.boolean().optional(),
+    is_seasonal: z.boolean(),
     latest_value: z.number(),
     unit: z.string(),
     change_abs: z.number().nullable(),
     deviation_abs: z.number().nullable(),
+    seasonal_median: z.number().nullable(),
+    seasonal_p10: z.number().nullable(),
+    seasonal_p25: z.number().nullable(),
+    seasonal_p75: z.number().nullable(),
+    seasonal_p90: z.number().nullable(),
     signal: z.enum(["tightening", "loosening", "expanding", "contracting", "neutral"]).catch("neutral"),
     sparkline: z.array(z.number()).default([]),
-    last_updated_at: z.string().datetime(),
+    latest_period_end_at: z.string().datetime(),
+    latest_release_date: z.string().datetime().nullable(),
+    commoditywatch_updated_at: z.string().datetime(),
+    last_updated_at: z.string().datetime().optional(),
     stale: z.boolean().default(false),
     source_label: z.string().optional(),
   })
