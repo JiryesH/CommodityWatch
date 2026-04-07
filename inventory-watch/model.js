@@ -491,7 +491,7 @@ export function alertToneFromAlerts(alerts = []) {
 }
 
 export function buildRecentReleaseRows(data) {
-  const recent = data.series.slice(-20).reverse();
+  const recent = [...data.series].reverse();
   const sortedAscending = [...data.series].sort(
     (left, right) => new Date(left.periodEndAt).getTime() - new Date(right.periodEndAt).getTime()
   );

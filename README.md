@@ -1,16 +1,21 @@
 # CommodityWatch
 
-CommodityWatch now ships as a four-module product in the existing production shell:
+CommodityWatch ships as a five-module product in the existing production shell:
 
 - `HeadlineWatch` for the existing live headline workflow backed by a local `data/feed.local.json` override when present, otherwise the tracked `data/feed.json` sample snapshot
 - `PriceWatch` for the commodity visual page backed by published commodity database views, with optional local syncing into `data/commodities.db`
 - `CalendarWatch` for publishable commodity-market calendar events backed by the local calendar ingestion pipeline and `/api/calendar`
 - `InventoryWatch` for inventory snapshots and indicator detail views backed by a published local SQLite read model in `data/inventorywatch.db` when available, otherwise the local backend artifact archive, with optional proxying to the separate InventoryWatch backend
+- `DemandWatch` for demand-side indicator panels backed by curated static data in `demand-watch/data.js` (live API backend in development via `scripts/publish_demandwatch_store.py`)
+
+The root `/` serves a multi-module dashboard homepage. Two additional modules — `SupplyWatch` and `WeatherWatch` — appear as disabled placeholders in the navigation and are not yet implemented.
 
 The separate `frontend/` Next.js app remains in the repo as an implementation reference, not as the primary production runtime.
 
 ## Product structure
 
+- `index.html` + `dashboard/`
+  - Root dashboard homepage. Renders a multi-module overview: Benchmark Prices, Demand Pulse, Inventory Snapshot, Latest Headlines, Upcoming Releases.
 - `headline-watch/`
   - Route module for the headline product view
 - `price-watch/`
@@ -19,6 +24,8 @@ The separate `frontend/` Next.js app remains in the repo as an implementation re
   - Route module for the calendar product view
 - `inventory-watch/`
   - Route module for the integrated InventoryWatch product view
+- `demand-watch/`
+  - Route module for the demand-side indicator view. Data is currently curated static JS (`demand-watch/data.js`); a live backend publication workflow is in development under `scripts/publish_demandwatch_store.py`.
 - `shared/`
   - Shared product shell assets, currently the cross-page tab navigation styling
 - `sandbox/commodity-visual-prototype/`
@@ -149,7 +156,7 @@ When `data/inventorywatch.db` exists, `server.py` serves InventoryWatch from tha
 http://127.0.0.1:8080/
 ```
 
-The root route opens the dashboard shell. Use the top navigation tabs to switch to `HeadlineWatch`, `PriceWatch`, `CalendarWatch`, or `InventoryWatch`.
+The root route opens the dashboard home. Use the top navigation tabs to switch to `HeadlineWatch`, `PriceWatch`, `DemandWatch`, `InventoryWatch`, or `CalendarWatch`.
 
 ## Optional control API
 

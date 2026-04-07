@@ -266,21 +266,17 @@ function renderEventCard(event, { inDrawer = false } = {}) {
   return `
     <article class="event-card${inDrawer ? " event-card-drawer" : ""}">
       <button class="event-card-main" type="button" data-event-open="${event.id}">
-        <div class="event-card-topline">
-          <div class="event-card-meta">
-            <time class="event-time"${dateTimeAttribute ? ` datetime="${escapeHtml(dateTimeAttribute)}"` : ""}>${escapeHtml(
-              formatUtcTime(event.event_date)
-            )}</time>
-          </div>
-          <span class="event-status" title="${escapeHtml(getConfirmedLabel(event))}">
-            ${iconLock(event.is_confirmed)}
-            <span class="sr-only">${escapeHtml(getConfirmedLabel(event))}</span>
-          </span>
-        </div>
+        <time class="event-time"${dateTimeAttribute ? ` datetime="${escapeHtml(dateTimeAttribute)}"` : ""}>${escapeHtml(
+          formatUtcTime(event.event_date)
+        )}</time>
         <h3 class="event-name">${escapeHtml(event.name)}</h3>
         <p class="event-organiser">${escapeHtml(event.organiser)}</p>
         <div class="event-tags">${sectors.map(renderSectorTag).join("")}</div>
       </button>
+      <span class="event-status${event.is_confirmed ? " is-confirmed" : " is-provisional"}" title="${escapeHtml(getConfirmedLabel(event))}">
+        ${iconLock(event.is_confirmed)}
+        <span class="sr-only">${escapeHtml(getConfirmedLabel(event))}</span>
+      </span>
       <a
         class="event-link"
         href="${escapeHtml(event.calendar_url)}"
@@ -1120,7 +1116,11 @@ export class CalendarWatchApp {
                   </div>
                   <div class="month-preview-list">
                     ${previewEvents
-                      .map((eventItem) => `<span class="month-preview-item">${escapeHtml(eventItem.name)}</span>`)
+                      .map((eventItem) => {
+                        const firstSector = Array.isArray(eventItem.commodity_sectors) && eventItem.commodity_sectors[0];
+                        const previewAccent = firstSector && SECTOR_META[firstSector] ? SECTOR_META[firstSector].accent : null;
+                        return `<span class="month-preview-item"${previewAccent ? ` style="--preview-accent:${escapeHtml(previewAccent)}"` : ""}>${escapeHtml(eventItem.name)}</span>`;
+                      })
                       .join("")}
                   </div>
                 </button>

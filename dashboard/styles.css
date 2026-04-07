@@ -12,13 +12,13 @@
   --color-macro: #8662d6;
   --color-cross: #7b8894;
   --color-border: #d1cec8;
-  --color-subtext: #65707b;
+  --color-subtext: #5e6b76;
   --color-up: #366646;
   --color-down: #b74e43;
   --color-signal-neutral: #d1cdc7;
   --color-signal-neutral-ink: #7d766f;
-  --color-signal-above: #27ae60;
-  --color-signal-well-above: #1e8449;
+  --color-signal-above: #2d6a4f;
+  --color-signal-well-above: #1b4332;
   --color-signal-below: #c0392b;
   --color-signal-well-below: #922b21;
   --nav-height: 52px;
@@ -35,6 +35,7 @@
 
 html {
   font-size: 16px;
+  scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -133,7 +134,9 @@ svg {
   gap: 24px;
 }
 
-.home-sector-pill {
+.home-sector-pill.is-selected,
+.home-sector-pill.is-partial,
+.home-sector-pill:hover {
   color: var(--filter-pill-color, var(--color-subtext));
 }
 
@@ -149,7 +152,7 @@ svg {
 .home-filter-section-label,
 .home-filter-collapsed-label {
   font-family: "IBM Plex Mono", monospace;
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--color-subtext);
@@ -283,15 +286,18 @@ svg {
 }
 
 .dashboard-grid > [data-slot="main-top"],
-.dashboard-grid > [data-slot="main-middle"],
 .dashboard-grid > [data-slot="main-left"],
 .dashboard-grid > [data-slot="main-bottom"] {
   grid-column: 1;
 }
 
-.dashboard-grid > [data-slot="sidebar"] {
+.dashboard-sidebar {
   grid-column: 2;
-  grid-row: 1 / span 4;
+  grid-row: 1 / span 3;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  align-self: start;
 }
 
 .module-card {
@@ -366,6 +372,13 @@ svg {
   margin-bottom: 12px;
 }
 
+/* module-scope: meta label for scoped/filtered module content */
+.module-scope {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+}
+
 .module-note {
   padding: 10px 12px;
   border-radius: 10px;
@@ -374,21 +387,21 @@ svg {
 
 .demand-preview-shell {
   display: grid;
-  gap: 12px;
+  gap: 8px;
 }
 
 .demand-preview-list {
   display: grid;
-  gap: 10px;
+  gap: 6px;
 }
 
 .demand-preview-row {
   position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1.25fr) auto;
-  gap: 14px;
+  gap: 10px;
   align-items: center;
-  padding: 14px 14px 14px 18px;
+  padding: 10px 12px 10px 14px;
   border: 1px solid rgba(15, 25, 35, 0.1);
   border-radius: 12px;
   background:
@@ -430,7 +443,7 @@ svg {
 .demand-preview-value {
   margin: 0;
   font-family: "IBM Plex Serif", serif;
-  font-size: 1.18rem;
+  font-size: 1rem;
   line-height: 1.04;
   letter-spacing: -0.02em;
 }
@@ -924,8 +937,8 @@ svg {
 }
 
 .feed-cat-dot {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   flex-shrink: 0;
 }
@@ -955,6 +968,10 @@ svg {
   color: var(--color-subtext);
 }
 
+.feed-cat-dot.energy + .feed-cat-label { color: var(--color-energy); }
+.feed-cat-dot.metals + .feed-cat-label { color: var(--color-metals); }
+.feed-cat-dot.agri   + .feed-cat-label { color: var(--color-agri); }
+
 .feed-headline {
   margin: 0 0 6px;
   font-family: "IBM Plex Serif", serif;
@@ -974,7 +991,7 @@ svg {
 
 .feed-meta .sep {
   margin: 0 5px;
-  opacity: 0.4;
+  opacity: 0.5;
 }
 
 .feed-time {
@@ -1013,24 +1030,31 @@ svg {
 
 .calendar-agenda {
   display: grid;
-  gap: 12px;
+  gap: 10px;
 }
 
 .calendar-day-group {
   display: grid;
-  gap: 8px;
+  gap: 6px;
 }
 
 .calendar-day-divider {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  gap: 8px;
   color: var(--color-subtext);
   font-family: "IBM Plex Mono", monospace;
   font-size: 11px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+/* Hairline rule extending from the date label to the right edge */
+.calendar-day-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--color-border);
 }
 
 .calendar-day-divider.is-today {
@@ -1039,7 +1063,7 @@ svg {
 
 .calendar-day-items {
   display: grid;
-  gap: 8px;
+  gap: 4px;
 }
 
 .calendar-item {
@@ -1047,41 +1071,46 @@ svg {
   grid-template-columns: auto minmax(0, 1fr) auto;
   gap: 12px;
   align-items: start;
-  padding: 12px 0;
+  padding: 8px 0;
   border-top: 1px solid rgba(15, 25, 35, 0.08);
 }
 
 .calendar-day-items .calendar-item:first-child {
   border-top: 0;
+  padding-top: 4px;
 }
 
 .calendar-item-marker {
   width: 9px;
   height: 9px;
-  margin-top: 6px;
+  margin-top: 4px;
   border-radius: 50%;
   background: var(--marker-accent, var(--color-cross));
 }
 
 .calendar-item-title {
-  margin: 0 0 4px;
+  margin: 0 0 3px;
   font-size: 0.97rem;
   line-height: 1.25;
 }
 
+/* Organiser (publisher name) — clearly secondary to title and time */
 .calendar-item-organiser {
-  margin: 0 0 6px;
+  margin: 0 0 4px;
   color: var(--color-subtext);
-  font-size: 12px;
+  font-size: 11px;
 }
 
+/* Release time — the most actionable data in this card */
 .calendar-item-meta {
   display: flex;
   align-items: center;
   gap: 8px;
   flex-wrap: wrap;
+  font-family: "IBM Plex Mono", monospace;
   font-size: 12px;
-  color: var(--color-primary-soft);
+  letter-spacing: 0.02em;
+  color: var(--color-primary);
 }
 
 .calendar-item-link {
@@ -1179,7 +1208,7 @@ svg {
     grid-template-columns: 1fr;
   }
 
-  .dashboard-grid > [data-slot="sidebar"] {
+  .dashboard-sidebar {
     grid-column: 1;
     grid-row: auto;
   }
@@ -1239,10 +1268,14 @@ svg {
 }
 
 @media (max-width: 640px) {
+  :root {
+    --nav-height: 96px;
+  }
+
   .nav {
     height: auto;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding: 10px 16px;
+    align-items: flex-start;
   }
 
   .site-nav-main {
@@ -1255,11 +1288,14 @@ svg {
   }
 
   .home-filter-bar {
-    gap: 10px;
+    gap: 8px;
   }
 
   .home-sector-row {
-    gap: 16px;
+    gap: 14px;
   }
 
+  .home-filter-actions {
+    gap: 10px;
+  }
 }

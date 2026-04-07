@@ -12,7 +12,7 @@
   --color-softs: #9b6a43;
   --color-precious: #7568b3;
   --color-border: #d1cec8;
-  --color-subtext: #65707b;
+  --color-subtext: #5e6b76;
   --color-up: #366646;
   --color-down: #b74e43;
   --color-signal-neutral: #d1cdc7;
@@ -39,6 +39,7 @@
 
 html {
   font-size: 16px;
+  scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -201,13 +202,17 @@ svg {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  padding: 16px 24px 28px;
+  gap: 16px;
+  padding: 0 24px 24px;
   color: var(--color-subtext);
+  font-size: 12px;
+}
+
+.footer-right {
   font-family: "IBM Plex Mono", monospace;
   font-size: 11px;
-  letter-spacing: 0.04em;
-  text-transform: lowercase;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .filter-wrap.inventory-filter-wrap {
@@ -225,10 +230,6 @@ svg {
   gap: 24px;
   min-width: max-content;
   padding-right: 6px;
-}
-
-.inventory-filter-pill {
-  color: var(--filter-pill-color, var(--color-subtext));
 }
 
 .inventory-filter-pill:hover,
@@ -480,7 +481,6 @@ svg {
   line-height: 1.5;
 }
 
-.inventory-banner,
 .inventory-error,
 .inventory-empty,
 .inventory-loading {
@@ -488,10 +488,6 @@ svg {
   border-radius: 14px;
   background: rgba(255, 255, 255, 0.78);
   padding: 18px 20px;
-}
-
-.inventory-banner {
-  background: color-mix(in srgb, var(--color-warning-soft) 65%, white);
 }
 
 .inventory-search-summary {
@@ -813,8 +809,8 @@ svg {
 
 .inventory-badge.is-waiting {
   background: color-mix(in srgb, var(--color-metals) 12%, white);
-  color: var(--color-metals);
-  border-color: rgba(74, 144, 217, 0.18);
+  color: #1a4e87;
+  border-color: rgba(74, 144, 217, 0.24);
 }
 
 .inventory-badge.is-structural {
@@ -825,8 +821,8 @@ svg {
 
 .inventory-badge.is-aged {
   background: color-mix(in srgb, var(--color-warning-soft) 76%, white);
-  color: #9a6b10;
-  border-color: rgba(232, 160, 32, 0.24);
+  color: #7a4e07;
+  border-color: rgba(232, 160, 32, 0.28);
 }
 
 .inventory-badge.is-alert-low {
@@ -836,27 +832,27 @@ svg {
 }
 
 .inventory-badge.is-alert-high {
-  background: rgba(183, 78, 67, 0.12);
-  color: var(--color-down);
-  border-color: rgba(183, 78, 67, 0.18);
+  background: rgba(183, 78, 67, 0.1);
+  color: #8c1f17;
+  border-color: rgba(183, 78, 67, 0.26);
 }
 
 .inventory-badge.is-alert-tight {
-  background: rgba(183, 78, 67, 0.12);
-  color: var(--color-down);
-  border-color: rgba(183, 78, 67, 0.18);
+  background: rgba(183, 78, 67, 0.1);
+  color: #8c1f17;
+  border-color: rgba(183, 78, 67, 0.26);
 }
 
 .inventory-badge.is-alert-ample {
-  background: rgba(74, 144, 217, 0.12);
-  color: var(--color-metals);
-  border-color: rgba(74, 144, 217, 0.18);
+  background: rgba(74, 144, 217, 0.1);
+  color: #1a4e87;
+  border-color: rgba(74, 144, 217, 0.24);
 }
 
 .inventory-badge.is-alert-watch {
   background: rgba(232, 160, 32, 0.14);
-  color: #9a6b10;
-  border-color: rgba(232, 160, 32, 0.24);
+  color: #7a4e07;
+  border-color: rgba(232, 160, 32, 0.28);
 }
 
 .inventory-badge.is-alert-cool {
@@ -1066,11 +1062,19 @@ svg {
 }
 
 .inventory-release-overdue {
-  color: var(--color-down);
+  color: #8c1f17;
+  background: rgba(183, 78, 67, 0.07);
+  border: 1px solid rgba(183, 78, 67, 0.16);
+  padding: 1px 5px;
+  border-radius: 4px;
 }
 
 .inventory-release-today {
-  color: #9a6b10;
+  color: #7a4e07;
+  background: rgba(232, 160, 32, 0.09);
+  border: 1px solid rgba(232, 160, 32, 0.2);
+  padding: 1px 5px;
+  border-radius: 4px;
 }
 
 .inventory-card-spark-wrap {
@@ -1123,6 +1127,11 @@ svg {
   align-items: start;
 }
 
+.inventory-detail-grid > aside .inventory-panel {
+  background: var(--color-surface);
+  border-color: rgba(15, 25, 35, 0.1);
+}
+
 .inventory-stack {
   display: grid;
   gap: 18px;
@@ -1133,6 +1142,7 @@ svg {
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.9);
   box-shadow: 0 10px 24px rgba(15, 25, 35, 0.04);
+  overflow: hidden;
 }
 
 .inventory-panel-head {
@@ -1162,22 +1172,6 @@ svg {
   font-size: 14px;
 }
 
-.inventory-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  border: 1px solid rgba(15, 25, 35, 0.12);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.9);
-  padding: 8px 11px;
-  cursor: pointer;
-  user-select: none;
-}
-
-.inventory-toggle input {
-  margin: 0;
-}
-
 .inventory-chart {
   width: 100%;
   margin-top: 18px;
@@ -1187,6 +1181,7 @@ svg {
   width: 100%;
   height: auto;
   display: block;
+  overflow: visible;
 }
 
 .inventory-chart-label,
@@ -1277,24 +1272,39 @@ svg {
 
 .inventory-summary.is-tight {
   border-left-color: var(--color-down);
+  border-left-width: 4px;
+  background: rgba(183, 78, 67, 0.03);
 }
 
 .inventory-summary.is-ample {
   border-left-color: var(--color-metals);
+  border-left-width: 4px;
+  background: rgba(74, 144, 217, 0.03);
 }
 
 .inventory-summary.is-watch {
   border-left-color: var(--color-amber);
+  border-left-width: 4px;
+  background: rgba(232, 160, 32, 0.03);
 }
 
 .inventory-summary.is-cool {
   border-left-color: rgba(15, 25, 35, 0.3);
+  border-left-width: 4px;
+}
+
+.inventory-summary .inventory-card-badges {
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 .inventory-summary-value {
   font-size: clamp(2rem, 4vw, 2.5rem);
   line-height: 0.96;
   letter-spacing: -0.04em;
+  padding-top: 10px;
+  border-top: 1px solid rgba(15, 25, 35, 0.07);
 }
 
 .inventory-summary-change {
@@ -1376,6 +1386,155 @@ svg {
   color: var(--color-primary);
 }
 
+.inventory-history-loading {
+  padding: 28px 0 12px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12px;
+  color: var(--color-subtext);
+}
+
+.inventory-history-chart-wrap {
+  position: relative;
+}
+
+.inventory-history-scrub-area {
+  cursor: crosshair;
+  stroke: none;
+}
+
+.inventory-history-crosshair {
+  stroke: rgba(15, 25, 35, 0.22);
+  stroke-width: 1;
+  stroke-dasharray: 4 4;
+  pointer-events: none;
+}
+
+.inventory-history-scrub-dot {
+  fill: var(--color-amber);
+  stroke: var(--color-primary);
+  stroke-width: 1.8;
+  pointer-events: none;
+}
+
+.inventory-history-sel-fill {
+  pointer-events: none;
+}
+
+.inventory-history-sel-seg {
+  fill: none;
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+
+.inventory-history-sel-line {
+  stroke-width: 1.2;
+  stroke-dasharray: 4 4;
+  pointer-events: none;
+}
+
+.inventory-history-sel-dot {
+  stroke: #fff;
+  stroke-width: 2;
+  pointer-events: none;
+}
+
+.inventory-history-sel-bubble {
+  position: absolute;
+  transform: translate(-50%, calc(-100% - 12px));
+  min-width: 130px;
+  max-width: 240px;
+  padding: 10px 13px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  box-shadow: 0 8px 20px rgba(15, 25, 35, 0.1);
+  display: grid;
+  gap: 4px;
+  pointer-events: none;
+  z-index: 10;
+  text-align: center;
+  backdrop-filter: blur(8px);
+}
+
+.inventory-history-sel-bubble[hidden] {
+  display: none !important;
+}
+
+.inventory-history-sel-bubble strong {
+  font-family: "IBM Plex Serif", serif;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.inventory-history-bubble-pct {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.inventory-history-bubble-date {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.03em;
+  color: var(--color-subtext);
+}
+
+.inventory-history-timeframes {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.inventory-history-tf-btn {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--color-subtext);
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  padding: 3px 8px;
+  cursor: pointer;
+  transition: color 0.1s, border-color 0.1s, background 0.1s;
+}
+
+.inventory-history-tf-btn:hover {
+  color: var(--color-primary);
+  border-color: rgba(15, 25, 35, 0.3);
+}
+
+.inventory-history-tf-btn.is-active {
+  color: var(--color-amber);
+  border-color: var(--color-amber);
+  background: rgba(232, 160, 32, 0.06);
+}
+
+.inventory-table-row--extra {
+  display: none;
+}
+
+.inventory-table-expand-btn {
+  display: block;
+  margin-top: 14px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.03em;
+  color: var(--color-subtext);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.1s;
+}
+
+.inventory-table-expand-btn:hover {
+  color: var(--color-primary);
+}
+
 .inventory-revision-flag {
   display: inline-block;
   margin-right: 4px;
@@ -1423,12 +1582,18 @@ svg {
 .to-top-btn:focus-visible,
 .inventory-button:focus-visible,
 .inventory-back-link:focus-visible,
-.inventory-toggle:focus-visible,
 .inventory-card:focus-visible,
 .inventory-filter-pill:focus-visible,
 .inventory-inline-link:focus-visible {
   outline: 2px solid rgba(15, 25, 35, 0.22);
   outline-offset: 2px;
+}
+
+@media (min-width: 1041px) {
+  .inventory-detail-grid > aside {
+    position: sticky;
+    top: calc(var(--nav-height) + var(--filter-height) + 16px);
+  }
 }
 
 @media (max-width: 1040px) {
@@ -1486,7 +1651,7 @@ svg {
   }
 
   .footer {
-    padding: 14px 16px 24px;
+    padding: 0 16px 24px;
     flex-direction: column;
     align-items: start;
   }
@@ -1523,4 +1688,106 @@ svg {
   .snapshot-grid {
     gap: 10px;
   }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --nav-height: 96px;
+  }
+
+  .nav {
+    height: auto;
+    padding: 10px 16px;
+    align-items: flex-start;
+  }
+
+  .nav-search-panel {
+    width: calc(100vw - 32px);
+  }
+
+  .inventory-title-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .inventory-panel-head {
+    flex-direction: column;
+  }
+}
+
+/* ── Chart hit zones (invisible wide stroke for line hover) ────── */
+
+.inventory-chart-hit {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 18;
+  cursor: default;
+}
+
+.inventory-chart-hit--average {
+  stroke-width: 10;
+}
+
+.inventory-bar-hit {
+  fill: transparent;
+  stroke: none;
+  cursor: default;
+}
+
+/* ── Chart tooltip ─────────────────────────────────────────────── */
+
+.inventory-chart-tooltip {
+  position: fixed;
+  z-index: 200;
+  max-width: 280px;
+  padding: 8px 12px;
+  background: var(--color-primary);
+  color: #fff;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 5px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.1s;
+}
+
+.inventory-chart-tooltip.is-visible {
+  opacity: 1;
+}
+
+/* ── Seasonal window toggle ────────────────────────────────────── */
+
+.inventory-chart-windows {
+  display: flex;
+  gap: 4px;
+  align-items: flex-start;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.inventory-window-btn {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.03em;
+  padding: 4px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--color-subtext);
+  cursor: pointer;
+  transition: border-color 0.1s, color 0.1s, background 0.1s;
+  line-height: 1.4;
+}
+
+.inventory-window-btn:hover {
+  border-color: rgba(15, 25, 35, 0.4);
+  color: var(--color-primary);
+}
+
+.inventory-window-btn.is-active {
+  background: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
 }

@@ -695,22 +695,28 @@ def json_payload(data: Any, **meta: Any) -> bytes:
 
 def send_json(handler: SimpleHTTPRequestHandler, status: HTTPStatus, data: Any, **meta: Any) -> None:
     payload = json_payload(data, **meta)
-    handler.send_response(status)
-    handler.send_header("Content-Type", "application/json; charset=utf-8")
-    handler.send_header("Cache-Control", "no-store")
-    handler.send_header("Content-Length", str(len(payload)))
-    handler.end_headers()
-    handler.wfile.write(payload)
+    try:
+        handler.send_response(status)
+        handler.send_header("Content-Type", "application/json; charset=utf-8")
+        handler.send_header("Cache-Control", "no-store")
+        handler.send_header("Content-Length", str(len(payload)))
+        handler.end_headers()
+        handler.wfile.write(payload)
+    except (BrokenPipeError, ConnectionResetError):
+        pass
 
 
 def send_raw_json(handler: SimpleHTTPRequestHandler, status: HTTPStatus, data: Any) -> None:
     payload = json.dumps(data).encode("utf-8")
-    handler.send_response(status)
-    handler.send_header("Content-Type", "application/json; charset=utf-8")
-    handler.send_header("Cache-Control", "no-store")
-    handler.send_header("Content-Length", str(len(payload)))
-    handler.end_headers()
-    handler.wfile.write(payload)
+    try:
+        handler.send_response(status)
+        handler.send_header("Content-Type", "application/json; charset=utf-8")
+        handler.send_header("Cache-Control", "no-store")
+        handler.send_header("Content-Length", str(len(payload)))
+        handler.end_headers()
+        handler.wfile.write(payload)
+    except (BrokenPipeError, ConnectionResetError):
+        pass
 
 
 def fetch_proxy_response(target_url: str) -> tuple[int, bytes, str]:

@@ -1,7 +1,7 @@
 :root {
   --color-bg: #f0efe9;
   --color-surface: #ffffff;
-  --color-surface-muted: rgba(255, 255, 255, 0.78);
+  --color-surface-tint: rgba(255, 255, 255, 0.78);
   --color-primary: #0f1923;
   --color-primary-soft: #334556;
   --color-amber: #e8a020;
@@ -10,7 +10,7 @@
   --color-metals: #4a90d9;
   --color-agri: #5ba85c;
   --color-border: #d1cec8;
-  --color-subtext: #65707b;
+  --color-subtext: #5e6b76;
   --color-up: #366646;
   --color-up-bg: rgba(54, 102, 70, 0.08);
   --color-down: #b74e43;
@@ -18,8 +18,9 @@
   --color-flat: #8a7d6a;
   --color-flat-bg: rgba(138, 125, 106, 0.08);
   --nav-height: 52px;
+  --filter-height: 52px;
   --shell-max: 1380px;
-  --radius: 12px;
+  --radius: 8px;
 }
 
 *,
@@ -39,15 +40,30 @@ body {
   margin: 0;
   font-family: "IBM Plex Sans", sans-serif;
   color: var(--color-primary);
-  background:
-    radial-gradient(circle at top left, rgba(232, 160, 32, 0.12), transparent 28%),
-    radial-gradient(circle at top right, rgba(74, 144, 217, 0.08), transparent 24%),
-    linear-gradient(180deg, #f4f1e8 0%, var(--color-bg) 28%, #ece9de 100%);
+  background: var(--color-bg);
   line-height: 1.45;
 }
 
 a {
   color: inherit;
+}
+
+/* ── DemandWatch-specific filter pill sector colors (active/hover only) ── */
+.filter-pill.is-selected[data-sector="natural-gas"],
+.filter-pill.is-partial[data-sector="natural-gas"],
+.filter-pill:hover[data-sector="natural-gas"] {
+  color: var(--color-natural-gas);
+}
+
+.filter-pill.is-selected[data-sector="metals_and_mining"],
+.filter-pill.is-partial[data-sector="metals_and_mining"],
+.filter-pill:hover[data-sector="metals_and_mining"] {
+  color: var(--color-metals);
+}
+
+/* Hidden state for filtered-out sections — !important overrides display:grid on .dw-section */
+.is-filtered-out {
+  display: none !important;
 }
 
 button,
@@ -70,15 +86,14 @@ svg {
 .nav {
   position: sticky;
   top: 0;
-  z-index: 140;
+  z-index: 120;
   height: var(--nav-height);
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 20px;
   padding: 0 24px;
-  background: rgba(15, 25, 35, 0.98);
-  backdrop-filter: blur(16px);
+  background: var(--color-primary);
 }
 
 .site-nav-main {
@@ -125,8 +140,7 @@ svg {
 .roadmap-card {
   border: 1px solid rgba(15, 25, 35, 0.1);
   border-radius: var(--radius);
-  background: var(--color-surface-muted);
-  box-shadow: 0 10px 26px rgba(15, 25, 35, 0.05);
+  background: var(--color-surface-tint);
   backdrop-filter: blur(18px);
 }
 
@@ -167,12 +181,16 @@ svg {
   color: var(--color-subtext);
 }
 
+.hero-card .hero-kicker {
+  color: var(--color-amber);
+}
+
 .hero-title {
-  margin: 0 0 12px;
+  margin: 0 0 14px;
   font-family: "IBM Plex Serif", serif;
-  font-size: clamp(2.2rem, 4.2vw, 3.9rem);
-  line-height: 0.96;
-  letter-spacing: -0.04em;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  line-height: 1.04;
+  letter-spacing: -0.03em;
 }
 
 .hero-subtitle,
@@ -204,10 +222,35 @@ svg {
   letter-spacing: -0.03em;
 }
 
+/* Stat chips in hero left column */
+.hero-stats {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(15, 25, 35, 0.1);
+}
+
+.hero-stat {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12px;
+  color: var(--color-subtext);
+  letter-spacing: 0.02em;
+}
+
+.hero-stat strong {
+  font-family: "IBM Plex Serif", serif;
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: var(--color-primary);
+  display: block;
+  line-height: 1.1;
+  margin-bottom: 2px;
+}
+
 .macro-strip {
-  position: sticky;
-  top: var(--nav-height);
-  z-index: 120;
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 12px;
@@ -230,6 +273,7 @@ svg {
   padding: 14px 14px 13px;
 }
 
+
 .macro-label,
 .fact-label,
 .calendar-item-label,
@@ -241,6 +285,13 @@ svg {
   margin: 0;
   color: var(--color-subtext);
   font-size: 12px;
+}
+
+.macro-label {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .macro-value {
@@ -257,6 +308,14 @@ svg {
   align-items: center;
   gap: 6px;
   font-size: 13px;
+}
+
+.macro-freshness {
+  margin: 6px 0 0;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--color-subtext);
 }
 
 .macro-arrow {
@@ -286,64 +345,43 @@ svg {
   background: var(--color-flat-bg);
 }
 
-.section-nav {
-  position: sticky;
-  top: calc(var(--nav-height) + 98px);
-  z-index: 118;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  overflow-x: auto;
-  padding: 4px 0 2px;
-  scrollbar-width: none;
-}
-
-.section-nav::-webkit-scrollbar {
-  display: none;
-}
-
-.section-nav-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 34px;
-  padding: 0 14px;
-  border: 1px solid rgba(15, 25, 35, 0.08);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.84);
-  color: var(--color-subtext);
-  text-decoration: none;
-  font-size: 13px;
-  font-weight: 500;
-  white-space: nowrap;
-  transition: border-color 150ms ease, background-color 150ms ease, color 150ms ease;
-}
-
-.section-nav-link:hover,
-.section-nav-link.is-active {
-  color: var(--color-primary);
-  border-color: rgba(232, 160, 32, 0.4);
-  background: rgba(232, 160, 32, 0.16);
-}
 
 .dw-section {
   display: grid;
   gap: 18px;
-  scroll-margin-top: 176px;
+  scroll-margin-top: calc(var(--nav-height) + var(--filter-height) + 16px);
+}
+
+/* Vertical section kicker inherits the accent color via CSS variable cascade */
+.vertical-kicker {
+  color: var(--vertical-accent, var(--color-amber));
+  font-weight: 500;
+  letter-spacing: 0.08em;
 }
 
 .overview-section {
   gap: 20px;
 }
 
+/* Overview card kickers use amber — brand-level context */
+.dw-card .section-kicker {
+  color: var(--color-amber);
+}
+
 .dw-card {
   padding: 20px;
 }
 
-.dw-card-head,
+.dw-card-head {
+  display: grid;
+  gap: 4px;
+  margin-bottom: 20px;
+}
+
 .vertical-header {
   display: grid;
-  gap: 12px;
+  gap: 14px;
+  margin-bottom: 14px;
 }
 
 .section-title {
@@ -426,11 +464,16 @@ svg {
 
 .scorecard-row {
   position: relative;
+  overflow: hidden;
   padding: 14px;
   border-radius: calc(var(--radius) - 2px);
   border: 1px solid rgba(15, 25, 35, 0.08);
   background: rgba(255, 255, 255, 0.86);
-  text-decoration: none;
+  appearance: none;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  transition: border-color 150ms ease, background 150ms ease;
 }
 
 .scorecard-row::before,
@@ -445,8 +488,8 @@ svg {
 }
 
 .scorecard-row:hover {
-  border-color: rgba(15, 25, 35, 0.14);
-  transform: translateY(-1px);
+  border-color: rgba(15, 25, 35, 0.18);
+  background: color-mix(in srgb, var(--vertical-accent, var(--color-amber)) 7%, rgba(255, 255, 255, 0.94));
 }
 
 .scorecard-row.is-up {
@@ -470,6 +513,25 @@ svg {
 .scorecard-row strong {
   display: block;
   font-size: 14px;
+}
+
+.scorecard-freshness-cell {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.scorecard-drill {
+  font-size: 13px;
+  color: var(--color-subtext);
+  opacity: 0;
+  transition: opacity 150ms ease, transform 150ms ease;
+}
+
+.scorecard-row:hover .scorecard-drill {
+  opacity: 1;
+  transform: translateX(3px);
 }
 
 .scorecard-vertical {
@@ -503,8 +565,9 @@ svg {
 .coverage-card,
 .roadmap-card,
 .sidebar-card {
-  padding: 16px;
   position: relative;
+  overflow: hidden;
+  padding: 16px;
 }
 
 .mover-head,
@@ -611,6 +674,7 @@ svg {
 
 .detail-block {
   position: relative;
+  overflow: hidden;
   border: 1px solid rgba(15, 25, 35, 0.08);
   border-radius: calc(var(--radius) - 2px);
   background: rgba(255, 255, 255, 0.9);
@@ -638,7 +702,19 @@ svg {
   padding: 14px;
   display: grid;
   gap: 8px;
+  position: relative;
+  overflow: hidden;
 }
+
+.indicator-card::after {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  border-radius: calc(var(--radius) - 2px) 0 0 calc(var(--radius) - 2px);
+  background: var(--vertical-accent, var(--color-amber));
+}
+
 
 .indicator-trend {
   width: 26px;
@@ -647,11 +723,12 @@ svg {
   place-items: center;
   border-radius: 999px;
   font-size: 14px;
+  cursor: help;
 }
 
-.indicator-chart {
-  color: inherit;
-}
+.indicator-card.is-up .indicator-chart { color: var(--color-up); }
+.indicator-card.is-down .indicator-chart { color: var(--color-down); }
+.indicator-card.is-flat .indicator-chart { color: var(--color-flat); }
 
 .dw-sparkline {
   width: 100%;
@@ -666,7 +743,7 @@ svg {
 
 .dw-sparkline-area {
   fill: currentColor;
-  opacity: 0.14;
+  opacity: 0.18;
   stroke: none;
 }
 
@@ -705,7 +782,7 @@ svg {
   display: grid;
   gap: 12px;
   position: sticky;
-  top: calc(var(--nav-height) + 122px);
+  top: calc(var(--nav-height) + var(--filter-height) + 20px);
 }
 
 .calendar-list {
@@ -730,6 +807,82 @@ svg {
   gap: 8px;
 }
 
+.sidebar-card .detail-kicker,
+.detail-block .detail-kicker {
+  color: var(--vertical-accent, var(--color-amber));
+}
+
+.coverage-section .section-kicker {
+  color: var(--color-amber);
+}
+
+/* ── Sparkline range label ── */
+.sparkline-range {
+  margin: 4px 0 0;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-subtext);
+}
+
+/* ── Sparkline color legend (near Signal Tiers) ── */
+.sparkline-legend {
+  margin: 16px 0 0;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-subtext);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.sparkline-legend-dot {
+  font-size: 12px;
+}
+
+.sparkline-legend-direct {
+  color: var(--color-up);
+}
+
+.sparkline-legend-proxy {
+  color: var(--color-flat);
+}
+
+/* ── Macro descriptor (e.g. "Index (2017 = 100)") ── */
+.macro-descriptor {
+  margin: 0 0 4px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--color-subtext);
+}
+
+/* ── Demand Backdrop section label ── */
+.demand-backdrop-wrap {
+  display: grid;
+  gap: 10px;
+}
+
+.demand-backdrop-kicker {
+  color: var(--color-amber);
+  padding-top: 4px;
+}
+
+/* ── Indicator value link (e.g. "See WeatherWatch ↗") ── */
+.indicator-value-link {
+  text-decoration: none;
+  color: inherit;
+  border-bottom: 1px solid rgba(15, 25, 35, 0.24);
+  transition: border-color 120ms ease;
+}
+
+.indicator-value-link:hover {
+  border-color: var(--vertical-accent, var(--color-amber));
+}
+
 .coverage-section {
   padding: 20px;
 }
@@ -750,9 +903,16 @@ svg {
   font-size: 12px;
 }
 
+.footer-right {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .to-top-btn {
   position: fixed;
-  right: 24px;
+  right: max(8px, calc((100vw - (var(--shell-max) + 56px)) / 2 - 28px));
   bottom: 24px;
   z-index: 90;
   display: inline-flex;
@@ -807,6 +967,11 @@ svg {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  /* Orphan card fix: last card alone in a row spans full width */
+  .indicator-grid > .indicator-card:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+
   .mover-grid,
   .scope-grid,
   .coverage-grid {
@@ -834,7 +999,6 @@ svg {
     grid-template-columns: 1fr;
   }
 
-  .section-nav,
   .macro-strip,
   .vertical-sidebar {
     position: static;
@@ -871,16 +1035,25 @@ svg {
   }
 
   .dw-section {
-    scroll-margin-top: 96px;
+    scroll-margin-top: calc(var(--nav-height) + var(--filter-height) + 8px);
   }
 
   .to-top-btn {
-    right: 16px;
     bottom: 16px;
   }
 }
 
 @media (max-width: 640px) {
+  :root {
+    --nav-height: 96px;
+  }
+
+  .nav {
+    height: auto;
+    padding: 10px 16px;
+    align-items: flex-start;
+  }
+
   .hero-card,
   .dw-card,
   .vertical-section,
@@ -894,6 +1067,25 @@ svg {
   }
 
   .detail-table {
-    min-width: 520px;
+    min-width: 480px;
+  }
+
+  .hero-stats {
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .macro-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .indicator-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .mover-grid,
+  .scope-grid,
+  .coverage-grid {
+    grid-template-columns: 1fr;
   }
 }

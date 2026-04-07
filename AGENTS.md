@@ -4,10 +4,16 @@
 
 CommodityWatch is no longer a headline-only MVP. The shipped product in this repository now includes:
 
-- `/` → dashboard shell spanning the live product modules
+- `/` → dashboard home — multi-module overview (Benchmark Prices, Demand Pulse, Inventory Snapshot, Latest Headlines, Upcoming Releases)
 - `/headline-watch/` → HeadlineWatch
 - `/price-watch/` → PriceWatch
+- `/demand-watch/` → DemandWatch (frontend live; data is currently curated static JS — live API backend in development)
+- `/inventory-watch/` → InventoryWatch
 - `/calendar-watch/` → CalendarWatch
+
+Two additional modules appear as disabled navigation placeholders and are not yet implemented:
+- SupplyWatch
+- WeatherWatch
 
 The older headline-first guidance below is still useful for tone, restraint, and audience targeting, but when it conflicts with the current route structure or shipped product surfaces, the current product state above takes precedence.
 
@@ -99,24 +105,33 @@ The amber (`#E8A020`) is CommodityWatch's signature. It should appear on: the lo
 
 ## Product Structure
 
-### Site Map (MVP)
+### Site Map (current shipped product)
 
 ```
-/                → Homepage — main headline feed (all categories)
-/energy          → Energy headlines only
-/metals          → Metals headlines only
-/agriculture     → Agriculture headlines only
-/about           → What CommodityWatch is, sourcing philosophy
+/                → Dashboard home — multi-module commodity overview
+/headline-watch/ → HeadlineWatch — live headline feed
+/price-watch/    → PriceWatch — benchmark commodity prices
+/demand-watch/   → DemandWatch — demand-side indicator panels
+/inventory-watch/→ InventoryWatch — inventory snapshots and detail views
+/calendar-watch/ → CalendarWatch — scheduled market event releases
 ```
 
-### Homepage Layout Order
+Planned but not yet implemented:
+```
+/supply-watch/   → SupplyWatch (placeholder in nav)
+/weather-watch/  → WeatherWatch (placeholder in nav)
+```
 
-1. Sticky top nav (logo + category links + Live badge)
-2. Hero value statement (minimal — not a marketing hero section)
-3. Sticky category filter pills (All / Energy / Metals / Agriculture)
-4. Headline feed (main content)
-5. Load more
-6. Footer
+### Dashboard Homepage Layout
+
+The root `/` is a multi-module overview, not a pure headline feed:
+
+1. Sticky top nav (logo + module tab links)
+2. Sector filter bar (All / Energy / Metals / Agriculture)
+3. Multi-panel layout: Benchmark Prices (top), Demand Pulse (sidebar), Inventory Snapshot (left), Latest Headlines (bottom), Upcoming Releases (sidebar)
+4. Footer
+
+The HeadlineWatch route (`/headline-watch/`) retains the dedicated headline-feed layout with filter pills, load-more, and per-card timestamps.
 
 ### Headline Card Structure
 
@@ -129,31 +144,37 @@ No images. No excerpts. No author bylines in V1.
 
 ---
 
-## MVP Feature Scope
+## Shipped Feature Scope
 
-### Build These (V1)
+### Implemented
 
-- Real-time headline feed across all commodity categories
-- Category filter pills (All / Energy / Metals / Agriculture)
+- Live headline feed across all commodity categories (HeadlineWatch)
+- Category filter pills — All / Energy / Metals / Agriculture
 - Source label + timestamp on every card
-- Mobile-responsive single-column layout
-- Individual category pages
+- Mobile-responsive layout
+- Benchmark commodity price tiles with history (PriceWatch)
+- Demand-side indicator panels by vertical (DemandWatch)
+- Inventory snapshots and indicator detail views (InventoryWatch)
+- Scheduled market event calendar (CalendarWatch)
+- Multi-module dashboard homepage
 - External links to source articles (open in new tab)
 
-### Do Not Build in V1
+### Not Yet Implemented
 
-| Feature | Reason |
+| Feature | Status |
 |---|---|
-| User accounts / login | Premature — no V1 payoff |
-| Watchlists | Scope creep |
-| Price charts | This is a headline product |
-| Push notifications | Trust must be built first |
-| AI summaries | Adds latency, undermines "raw signal" positioning |
-| Comment sections | Wrong product entirely |
-| Sponsored content | Destroys early trust |
-| Dark mode toggle | Ship one great theme first |
-| Search | V1.5 feature |
-| Sentiment tags | V2 feature |
+| SupplyWatch | Placeholder in nav — not yet built |
+| WeatherWatch | Placeholder in nav — not yet built |
+| DemandWatch live API | Data is curated static JS; backend publication in development |
+| User accounts / login | Not planned for current phase |
+| Watchlists | Not planned for current phase |
+| Push notifications | Not planned for current phase |
+| AI summaries | Not planned for current phase |
+| Comment sections | Not planned for current phase |
+| Sponsored content | Not planned for current phase |
+| Dark mode toggle | Not planned for current phase |
+| Search | Not yet implemented |
+| Sentiment tags displayed in UI | Not yet implemented |
 
 ---
 

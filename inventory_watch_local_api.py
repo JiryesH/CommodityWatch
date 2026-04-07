@@ -977,11 +977,12 @@ class LocalInventoryRepository:
 
         all_points = self._observations_by_id.get(indicator.id, [])
         effective_end = end_date or utcnow().date()
-        effective_start = start_date or (effective_end - timedelta(days=365))
+        effective_start = start_date
         series = [
             point
             for point in all_points
-            if effective_start <= point.period_end_at.date() <= effective_end
+            if (effective_start is None or effective_start <= point.period_end_at.date())
+            and point.period_end_at.date() <= effective_end
         ]
         series = series[-limit_points:]
         latest, _prior = self._latest_and_prior(indicator.id)

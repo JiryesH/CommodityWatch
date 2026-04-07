@@ -349,15 +349,24 @@ function renderModules() {
   const grid = document.createElement("div");
   grid.className = "dashboard-grid";
 
+  const sidebar = document.createElement("div");
+  sidebar.className = "dashboard-sidebar";
+
   MODULE_REGISTRY.forEach((moduleDefinition) => {
     const moduleElement = moduleDefinition.component({
       filter: activeFilter,
       onNavigate: handleNavigate,
     });
-    moduleElement.dataset.slot = moduleDefinition.slot;
-    grid.appendChild(moduleElement);
+
+    if (moduleDefinition.slot === "sidebar") {
+      sidebar.appendChild(moduleElement);
+    } else {
+      moduleElement.dataset.slot = moduleDefinition.slot;
+      grid.appendChild(moduleElement);
+    }
   });
 
+  grid.appendChild(sidebar);
   dashboardRoot.replaceChildren(grid);
 }
 

@@ -13,7 +13,7 @@ export const MODULE_REGISTRY = [
     id: "demand",
     label: "Demand Pulse",
     component: DemandModule,
-    slot: "main-middle",
+    slot: "sidebar",
     sectors: ["energy", "metals", "agriculture"],
     status: "live",
   },

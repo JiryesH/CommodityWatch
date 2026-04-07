@@ -3,12 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CommodityWatch | DemandWatch</title>
+    <title>Demand Pulse — DemandWatch | CommodityWatch</title>
     <link
       href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../shared/site-shell.css" />
+    <link rel="stylesheet" href="../shared/filter-bar.css" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -19,12 +20,16 @@
           <a class="site-tab" href="/">Home</a>
           <a class="site-tab" href="/headline-watch/">HeadlineWatch</a>
           <a class="site-tab" href="/price-watch/">PriceWatch</a>
-          <a class="site-tab" href="/calendar-watch/">CalendarWatch</a>
-          <a class="site-tab" href="/inventory-watch/">InventoryWatch</a>
           <a class="site-tab" href="/demand-watch/" aria-current="page">DemandWatch</a>
+          <span class="site-tab site-tab--disabled" aria-disabled="true">SupplyWatch</span>
+          <a class="site-tab" href="/inventory-watch/">InventoryWatch</a>
+          <span class="site-tab site-tab--disabled" aria-disabled="true">WeatherWatch</span>
+          <a class="site-tab" href="/calendar-watch/">CalendarWatch</a>
         </div>
       </div>
     </nav>
+
+    <div id="demand-filter-root"></div>
 
     <main class="page-shell">
       <div id="demand-root"></div>

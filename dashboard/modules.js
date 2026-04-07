@@ -662,9 +662,6 @@ function renderDemandWidgetMarkup(items, scopeLabel) {
       <div class="demand-preview-list">
         ${items.map((vertical) => renderDemandPreviewRow(vertical)).join("")}
       </div>
-      <p class="module-note">
-        Launch scope starts with crude + products, electricity, grains, and base metals. Natural gas, weather overlays, and broader China demand remain deferred.
-      </p>
     </div>
   `;
 }

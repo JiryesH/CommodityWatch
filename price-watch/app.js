@@ -24,26 +24,26 @@ const DETAIL_CHART_VIEWBOX = {
 };
 const DETAIL_CHART_DIRECTION_THEME = {
   up: {
-    line: "rgba(54, 102, 70, 0.98)",
-    fillTop: "rgba(54, 102, 70, 0.24)",
-    fillBottom: "rgba(54, 102, 70, 0.03)",
-    guide: "rgba(96, 138, 109, 0.4)",
-    bubbleBackground: "rgba(17, 26, 20, 0.92)",
-    bubbleBorder: "rgba(96, 138, 109, 0.28)",
-    bubbleInk: "rgba(245, 250, 246, 0.98)",
-    bubbleSubtle: "rgba(200, 214, 204, 0.82)",
-    dotStroke: "rgba(10, 17, 12, 0.9)",
+    line: "rgba(54, 102, 70, 0.92)",
+    fillTop: "rgba(54, 102, 70, 0.12)",
+    fillBottom: "rgba(54, 102, 70, 0.01)",
+    guide: "rgba(54, 102, 70, 0.16)",
+    bubbleBackground: "#ffffff",
+    bubbleBorder: "rgba(209, 206, 200, 0.9)",
+    bubbleInk: "rgba(15, 25, 35, 0.92)",
+    bubbleSubtle: "rgba(94, 107, 118, 0.9)",
+    dotStroke: "rgba(15, 25, 35, 0.6)",
   },
   down: {
-    line: "rgba(183, 78, 67, 0.98)",
-    fillTop: "rgba(183, 78, 67, 0.24)",
-    fillBottom: "rgba(183, 78, 67, 0.03)",
-    guide: "rgba(210, 124, 115, 0.42)",
-    bubbleBackground: "rgba(34, 18, 17, 0.92)",
-    bubbleBorder: "rgba(210, 124, 115, 0.3)",
-    bubbleInk: "rgba(253, 245, 244, 0.98)",
-    bubbleSubtle: "rgba(233, 206, 202, 0.84)",
-    dotStroke: "rgba(26, 12, 11, 0.9)",
+    line: "rgba(183, 78, 67, 0.92)",
+    fillTop: "rgba(183, 78, 67, 0.12)",
+    fillBottom: "rgba(183, 78, 67, 0.01)",
+    guide: "rgba(183, 78, 67, 0.16)",
+    bubbleBackground: "#ffffff",
+    bubbleBorder: "rgba(209, 206, 200, 0.9)",
+    bubbleInk: "rgba(15, 25, 35, 0.92)",
+    bubbleSubtle: "rgba(94, 107, 118, 0.9)",
+    dotStroke: "rgba(15, 25, 35, 0.6)",
   },
 };
 
@@ -1503,15 +1503,14 @@ class CommodityWatchEngine {
   }
 
   applyDetailTheme(definition) {
-    const theme = getDetailBackdropTheme(definition);
-    const bubbleTheme = getDetailBubbleTheme(definition);
-    this.ui.detailBack.style.setProperty("--detail-back-top", theme.top);
-    this.ui.detailBack.style.setProperty("--detail-back-mid", theme.mid);
-    this.ui.detailBack.style.setProperty("--detail-back-bottom", theme.bottom);
-    this.ui.detailBack.style.setProperty("--detail-bubble-bg", bubbleTheme.background);
-    this.ui.detailBack.style.setProperty("--detail-bubble-border", bubbleTheme.border);
-    this.ui.detailBack.style.setProperty("--detail-bubble-ink", bubbleTheme.ink);
-    this.ui.detailBack.style.setProperty("--detail-bubble-subtle", bubbleTheme.subtle);
+    const commodityTheme = getCommodityTheme(definition);
+    const midRgb = hexToRgb(commodityTheme.mid || "#95a8bc");
+    if (midRgb) {
+      this.ui.detailBack.style.setProperty("--tile-border-color", toRgba(midRgb, 0.7));
+    } else {
+      this.ui.detailBack.style.removeProperty("--tile-border-color");
+    }
+    this.ui.detailBack.style.setProperty("--sector-accent", getSectorAccent(definition.sectorId));
   }
 
   bindDetailControls(definition) {
@@ -2657,27 +2656,12 @@ function getDetailBackdropTheme(definition) {
   };
 }
 
-function getDetailBubbleTheme(definition) {
-  const commodityTheme = getCommodityTheme(definition);
-  const topRgb = hexToRgb(commodityTheme.top || commodityTheme.mid || "#95a8bc");
-  const midRgb = hexToRgb(commodityTheme.mid || "#95a8bc");
-  const shadeRgb = { r: 7, g: 14, b: 21 };
-  const lightRgb = { r: 244, g: 248, b: 252 };
-
-  if (!topRgb || !midRgb) {
-    return {
-      background: "rgba(7, 14, 21, 0.9)",
-      border: "rgba(196, 214, 231, 0.22)",
-      ink: "rgba(248, 251, 255, 0.98)",
-      subtle: "rgba(196, 214, 231, 0.82)",
-    };
-  }
-
+function getDetailBubbleTheme(_definition) {
   return {
-    background: toRgba(mixRgb(midRgb, shadeRgb, 0.72), 0.94),
-    border: toRgba(mixRgb(topRgb, lightRgb, 0.28), 0.34),
-    ink: toRgba(mixRgb(topRgb, lightRgb, 0.78), 0.98),
-    subtle: toRgba(mixRgb(topRgb, lightRgb, 0.58), 0.82),
+    background: "#ffffff",
+    border: "rgba(209, 206, 200, 0.9)",
+    ink: "rgba(15, 25, 35, 0.92)",
+    subtle: "rgba(94, 107, 118, 0.9)",
   };
 }
 
@@ -2685,15 +2669,15 @@ function getDetailChartPalette(definition) {
   const commodityTheme = getCommodityTheme(definition);
   const bubbleTheme = getDetailBubbleTheme(definition);
   const rgb = hexToRgb(commodityTheme.mid || "#7ec4ff");
-  const label = "rgba(229, 238, 248, 0.94)";
-  const grid = "rgba(210, 224, 239, 0.18)";
-  const guide = "rgba(226, 237, 248, 0.42)";
+  const label = "rgba(94, 107, 118, 0.88)";
+  const grid = "rgba(15, 25, 35, 0.07)";
+  const guide = "rgba(15, 25, 35, 0.14)";
 
   if (!rgb) {
     return {
       line: "rgba(126, 196, 255, 0.95)",
-      fillTop: "rgba(101, 166, 236, 0.38)",
-      fillBottom: "rgba(101, 166, 236, 0.02)",
+      fillTop: "rgba(101, 166, 236, 0.14)",
+      fillBottom: "rgba(101, 166, 236, 0.01)",
       grid,
       label,
       guide,
@@ -2701,14 +2685,14 @@ function getDetailChartPalette(definition) {
       bubbleBorder: bubbleTheme.border,
       bubbleInk: bubbleTheme.ink,
       bubbleSubtle: bubbleTheme.subtle,
-      dotStroke: "rgba(7, 14, 21, 0.88)",
+      dotStroke: "rgba(15, 25, 35, 0.6)",
     };
   }
 
   return {
     line: toRgba(rgb, 0.95),
-    fillTop: toRgba(rgb, 0.38),
-    fillBottom: toRgba(rgb, 0.03),
+    fillTop: toRgba(rgb, 0.14),
+    fillBottom: toRgba(rgb, 0.01),
     grid,
     label,
     guide,
@@ -2716,7 +2700,7 @@ function getDetailChartPalette(definition) {
     bubbleBorder: bubbleTheme.border,
     bubbleInk: bubbleTheme.ink,
     bubbleSubtle: bubbleTheme.subtle,
-    dotStroke: "rgba(7, 14, 21, 0.88)",
+    dotStroke: "rgba(15, 25, 35, 0.6)",
   };
 }
 

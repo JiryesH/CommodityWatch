@@ -62,7 +62,8 @@ export const DEMAND_MACRO_STRIP = [
   {
     id: "indpro",
     label: "US Industrial Production",
-    value: "+0.2%",
+    value: "103.8",
+    descriptor: "Index (2017 = 100)",
     change: "-0.1pp MoM",
     trend: "flat",
     freshness: "Feb 2026",
@@ -98,7 +99,7 @@ export const DEMAND_VERTICALS = [
     id: "crude-products",
     navLabel: "Crude",
     label: "Crude Oil + Refined Products",
-    shortLabel: "Crude + Products",
+    shortLabel: "Crude · Products",
     sectorId: "energy",
     accent: "var(--color-energy)",
     supportedGroupIds: ["crude-oil"],
@@ -110,7 +111,7 @@ export const DEMAND_VERTICALS = [
       yoyLabel: "+1.8%",
       yoyValue: 1.8,
       trend: "up",
-      latestData: "Week ending Mar 14",
+      latestData: "Week ending 14 Mar 2026",
       freshness: "5d ago",
     },
     facts: [
@@ -156,7 +157,7 @@ export const DEMAND_VERTICALS = [
           ["Total product supplied", "20.2 mb/d", "+0.4 mb/d", "+1.8%", "5d ago"],
           ["Gasoline", "8.9 mb/d", "+0.2 mb/d", "+0.7%", "5d ago"],
           ["Distillate", "4.1 mb/d", "+0.1 mb/d", "+1.4%", "5d ago"],
-          ["Jet fuel", "1.7 mb/d", "+0.0 mb/d", "+1.1%", "6w ago"],
+          ["Jet fuel", "1.7 mb/d", "–", "+1.1%", "6w ago"],
         ],
       },
       {
@@ -190,7 +191,7 @@ export const DEMAND_VERTICALS = [
       },
       {
         id: "context",
-        title: "End-Use + Trade Context",
+        title: "End-Use · Trade Context",
         description: "Demand confirmation comes from transport activity and the monthly import channels outside the US.",
         indicators: [
           {
@@ -222,16 +223,16 @@ export const DEMAND_VERTICALS = [
           },
         ],
         tableRows: [
-          ["Vehicle miles travelled", "287 bn", "+1.7 bn", "+1.1%", "7w ago"],
+          ["Vehicle miles travelled", "287 bn mi", "+1.7 bn mi", "+1.1%", "7w ago"],
           ["TSA throughput", "2.7m/day", "+0.1m/day", "+4.2%", "1d ago"],
-          ["EU inland deliveries", "11.8 mb/d", "+0.0 mb/d", "-0.2%", "9w ago"],
+          ["EU inland deliveries", "11.8 mb/d", "–", "-0.2%", "9w ago"],
         ],
       },
     ],
     calendar: [
       { label: "EIA Weekly Petroleum Status", value: "Wed 15:30 UTC", note: "Direct + throughput reset" },
       { label: "TSA checkpoint data", value: "Daily 06:00 UTC", note: "Jet fuel proxy" },
-      { label: "EIA STEO", value: "09 Apr", note: "Forecast comparison input" },
+      { label: "EIA STEO", value: "9 Apr 2026", note: "Forecast comparison input" },
     ],
     notes: [
       "Global oil demand tables remain restricted. MVP uses EIA STEO for the free global anchor and keeps IEA commentary qualitative.",
@@ -254,7 +255,7 @@ export const DEMAND_VERTICALS = [
       yoyLabel: "+2.1%",
       yoyValue: 2.1,
       trend: "up",
-      latestData: "Mar 19",
+      latestData: "19 Mar 2026",
       freshness: "1d ago",
     },
     facts: [
@@ -298,13 +299,13 @@ export const DEMAND_VERTICALS = [
         ],
         tableRows: [
           ["US grid load peak", "428 GW", "+9 GW", "+2.1%", "1d ago"],
-          ["US generation", "11.1 TWh/day", "+0.2", "+1.6%", "1d ago"],
+          ["US generation", "11.1 TWh/day", "+0.2 TWh/day", "+1.6%", "1d ago"],
           ["China electricity demand", "+4.6%", "+0.7pp", "+4.6%", "3w ago"],
         ],
       },
       {
         id: "throughput",
-        title: "Fuel Pull + Context",
+        title: "Fuel Pull · Context",
         description: "Power demand matters because it pulls gas, coal, and carbon through the stack.",
         indicators: [
           {
@@ -318,7 +319,7 @@ export const DEMAND_VERTICALS = [
           },
           {
             tier: "T6 · Macro",
-            title: "Data centre power load",
+            title: "Data center power load",
             value: "Rising",
             change: "Structural support",
             detail: "Tracked as a structural theme, not a spot indicator",
@@ -328,7 +329,8 @@ export const DEMAND_VERTICALS = [
           {
             tier: "T7 · Weather",
             title: "Cooling degree days",
-            value: "Via WeatherWatch",
+            value: "See WeatherWatch ↗",
+            valueHref: "/weather-watch/",
             change: "Single source of truth",
             detail: "Weather overlay is intentionally read-only here",
             trend: "flat",
@@ -344,7 +346,7 @@ export const DEMAND_VERTICALS = [
     calendar: [
       { label: "EIA Grid Monitor", value: "Hourly", note: "Continuous demand tape" },
       { label: "Ember electricity update", value: "Monthly", note: "Global + China context" },
-      { label: "WeatherWatch sync", value: "Read-only", note: "HDD/CDD overlay" },
+      { label: "Cooling Degree Days", value: "Via WeatherWatch", note: "HDD/CDD overlay — source: WeatherWatch" },
     ],
     notes: [
       "Power is the strongest launch vertical because the data is both direct and timely.",
@@ -411,13 +413,13 @@ export const DEMAND_VERTICALS = [
         ],
         tableRows: [
           ["Corn total use", "14,890 mb", "+120 mb", "+2.1%", "8d ago"],
-          ["Soybean crush", "2.36 bn bu", "+0.03 bn", "+1.4%", "8d ago"],
+          ["Soybean crush", "2.36 bn bu", "+30m bu", "+1.4%", "8d ago"],
           ["World PSD demand", "Updated", "n/a", "n/a", "8d ago"],
         ],
       },
       {
         id: "flow",
-        title: "Trade + Throughput",
+        title: "Trade · Throughput",
         description: "Weekly export sales and ethanol runs make grains one of the most event-driven demand pages in the app.",
         indicators: [
           {
@@ -442,7 +444,7 @@ export const DEMAND_VERTICALS = [
             tier: "T5 · Leading",
             title: "Prospective plantings",
             value: "94.0m acres",
-            change: "Sets fertiliser pull",
+            change: "Determines fertiliser input demand",
             detail: "Leading indicator, not direct demand",
             trend: "flat",
             sparkline: [90, 91, 92, 93, 94, 94, 94],
@@ -457,7 +459,7 @@ export const DEMAND_VERTICALS = [
     ],
     calendar: [
       { label: "USDA Export Sales", value: "Thu 12:30 UTC", note: "Weekly demand pulse" },
-      { label: "USDA WASDE", value: "~12th monthly", note: "Primary revision event" },
+      { label: "USDA WASDE", value: "Monthly, approx. 12th", note: "Primary revision event" },
       { label: "USDA Crop Progress", value: "Mon seasonal", note: "Timing signal for demand" },
     ],
     notes: [
@@ -524,14 +526,14 @@ export const DEMAND_VERTICALS = [
           },
         ],
         tableRows: [
-          ["Industrial production", "103.8", "+0.2", "+1.2%", "3w ago"],
+          ["Industrial production", "103.8", "+0.2 pts", "+1.2%", "3w ago"],
           ["Housing starts", "1.52m", "+0.07m", "+5.2%", "3w ago"],
           ["Vehicle sales", "15.6m SAAR", "+0.1m", "+0.8%", "3w ago"],
         ],
       },
       {
         id: "end-use",
-        title: "End-Use + Throughput",
+        title: "End-Use · Throughput",
         description: "The module keeps throughput context visible while legal review continues on some association data.",
         indicators: [
           {
@@ -546,8 +548,8 @@ export const DEMAND_VERTICALS = [
           {
             tier: "T2 · Throughput",
             title: "World steel production",
-            value: "Pending clearance",
-            change: "Ready for parser once terms are verified",
+            value: "—",
+            change: "Data pending licensing clearance",
             detail: "Kept visible as a tracked gap rather than silently omitted",
             trend: "flat",
             sparkline: [82, 82, 83, 83, 84, 84, 84],
@@ -555,7 +557,7 @@ export const DEMAND_VERTICALS = [
           {
             tier: "T3 · Trade Flow",
             title: "China demand placeholder",
-            value: "Planned",
+            value: "Data forthcoming",
             change: "Legal review",
             detail: "China remains the highest-impact metals gap",
             trend: "flat",
@@ -564,8 +566,8 @@ export const DEMAND_VERTICALS = [
         ],
         tableRows: [
           ["Durable goods orders", "+0.9%", "+0.4pp", "Up", "3w ago"],
-          ["World steel production", "Pending", "n/a", "Legal review", "Deferred"],
-          ["China metals demand", "Placeholder", "n/a", "Deferred", "Deferred"],
+          ["World steel production", "—", "n/a", "Legal review", "Deferred"],
+          ["China metals demand", "Data forthcoming", "n/a", "Deferred", "Deferred"],
         ],
       },
     ],

@@ -39,10 +39,9 @@
   border: 0;
   white-space: nowrap;
   border-bottom: 2px solid transparent;
-  padding: 11px 2px 10px;
-  opacity: 0.68;
+  padding: 11px 8px 10px;
   cursor: pointer;
-  transition: opacity 180ms ease, color 180ms ease, border-color 180ms ease;
+  transition: color 180ms ease, border-color 180ms ease;
   user-select: none;
   line-height: 1;
 }
@@ -51,52 +50,63 @@
   color: var(--color-primary);
 }
 
-/* "All" / "All sectors" reset pill */
+/* "All" / "All sectors" reset pill — always primary color */
 .filter-pill#sector-reset,
 .filter-pill[data-sector="ALL"] {
   color: var(--color-primary);
 }
 
-/* Sector-colored text */
-.filter-pill[data-sector="energy"],
-.filter-pill[data-sector="chemicals"] {
+/* Sector color only applies on selected + hover states.
+   Inactive pills stay at --color-subtext (base rule above) for readable contrast. */
+.filter-pill.is-selected[data-sector="energy"],
+.filter-pill.is-selected[data-sector="chemicals"],
+.filter-pill.is-partial[data-sector="energy"],
+.filter-pill.is-partial[data-sector="chemicals"],
+.filter-pill:hover[data-sector="energy"],
+.filter-pill:hover[data-sector="chemicals"] {
   color: var(--color-energy);
 }
 
-.filter-pill[data-sector="metals_and_mining"] {
+.filter-pill.is-selected[data-sector="metals_and_mining"],
+.filter-pill.is-partial[data-sector="metals_and_mining"],
+.filter-pill:hover[data-sector="metals_and_mining"] {
   color: var(--color-metals);
 }
 
-.filter-pill[data-sector="agriculture"],
-.filter-pill[data-sector="fertilizers"] {
+.filter-pill.is-selected[data-sector="agriculture"],
+.filter-pill.is-selected[data-sector="fertilizers"],
+.filter-pill.is-partial[data-sector="agriculture"],
+.filter-pill.is-partial[data-sector="fertilizers"],
+.filter-pill:hover[data-sector="agriculture"],
+.filter-pill:hover[data-sector="fertilizers"] {
   color: var(--color-agri);
 }
 
-.filter-pill[data-sector="shipping"] {
-  color: var(--color-subtext);
-}
-
-.filter-pill[data-sector="fertilizers_and_agricultural_chemicals"] {
+.filter-pill.is-selected[data-sector="fertilizers_and_agricultural_chemicals"],
+.filter-pill.is-partial[data-sector="fertilizers_and_agricultural_chemicals"],
+.filter-pill:hover[data-sector="fertilizers_and_agricultural_chemicals"] {
   color: #c47b3a;
 }
 
-.filter-pill[data-sector="livestock_dairy_and_seafood"] {
+.filter-pill.is-selected[data-sector="livestock_dairy_and_seafood"],
+.filter-pill.is-partial[data-sector="livestock_dairy_and_seafood"],
+.filter-pill:hover[data-sector="livestock_dairy_and_seafood"] {
   color: #3d7f8d;
 }
 
-.filter-pill[data-sector="forest_and_wood_products"] {
+.filter-pill.is-selected[data-sector="forest_and_wood_products"],
+.filter-pill.is-partial[data-sector="forest_and_wood_products"],
+.filter-pill:hover[data-sector="forest_and_wood_products"] {
   color: #8a5b3d;
 }
 
-/* Selected / active state */
+/* Selected state: show underline in current (sector) color */
 .filter-pill.is-selected {
-  opacity: 1;
   border-bottom-color: currentColor;
 }
 
-/* Partial state (some subsectors selected) */
+/* Partial state: dashed underline signals incomplete selection */
 .filter-pill.is-partial {
-  opacity: 0.82;
   border-bottom-color: currentColor;
   border-bottom-style: dashed;
 }
@@ -140,7 +150,7 @@
 }
 
 .filter-layer.open {
-  max-height: 440px;
+  max-height: 520px;
   opacity: 1;
   transform: translateY(0);
   padding: 14px 28px 18px;
@@ -276,7 +286,7 @@
 
 .subsector-hint-text {
   font-family: "IBM Plex Mono", monospace;
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: 0.03em;
   color: var(--color-subtext);
 }
@@ -284,12 +294,13 @@
 /* ── RESPONSIVE ── */
 @media (max-width: 640px) {
   .filter-bar {
-    gap: 12px;
+    gap: 8px;
     padding: 0 16px;
   }
 
   .filter-layer.open {
     padding: 10px 16px 14px;
+    max-height: 600px;
   }
 
   .subsector-hint.open {
@@ -301,6 +312,10 @@
   }
 
   .sector-pill-row {
-    gap: 16px;
+    gap: 14px;
+  }
+
+  .filter-chip {
+    padding: 9px 10px;
   }
 }

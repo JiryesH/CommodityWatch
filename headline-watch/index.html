@@ -21,11 +21,12 @@
   --color-bg:        #F0EFE9;
   --color-surface:   #FFFFFF;
   --color-primary:   #0F1923;
+  --color-primary-soft: #334556;
   --color-amber:     #E8A020;
-  --color-subtext:   #6B7280;
+  --color-subtext:   #5e6b76;
   --color-border:    #D1CEC8;
-  --color-up:        #3A8F64;
-  --color-down:      #E74C3C;
+  --color-up:        #366646;
+  --color-down:      #b74e43;
   --color-energy:    #E8A020;
   --color-metals:    #4A90D9;
   --color-agri:      #5BA85C;
@@ -43,6 +44,7 @@
 
 html {
   font-size: 16px;
+  scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -58,7 +60,7 @@ body {
 .nav {
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 120;
   height: var(--nav-height);
   background: var(--color-primary);
   display: flex;
@@ -69,7 +71,7 @@ body {
 
 .nav-logo {
   font-family: 'IBM Plex Serif', serif;
-  font-weight: 200;
+  font-weight: 400;
   font-size: 19px;
   color: #fff;
   letter-spacing: 0.02em;
@@ -376,7 +378,7 @@ body {
 
 #status-line {
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 10px;
+  font-size: 11px;
   color: var(--color-subtext);
   letter-spacing: 0.03em;
   max-width: var(--feed-max);
@@ -554,8 +556,8 @@ body {
 }
 
 .feed-cat-dot {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   flex-shrink: 0;
 }
@@ -573,6 +575,10 @@ body {
   text-transform: uppercase;
   color: var(--color-subtext);
 }
+
+.feed-cat-dot.energy + .feed-cat-label { color: var(--color-energy); }
+.feed-cat-dot.metals + .feed-cat-label { color: var(--color-metals); }
+.feed-cat-dot.agri   + .feed-cat-label { color: var(--color-agri); }
 
 .feed-headline {
   font-family: 'IBM Plex Serif', serif;
@@ -604,7 +610,7 @@ body {
 
 .feed-meta .sep {
   margin: 0 5px;
-  opacity: 0.4;
+  opacity: 0.5;
 }
 
 .feed-time {
@@ -692,31 +698,42 @@ body {
 
 /* ── FOOTER ── */
 .footer {
-  background: var(--color-primary);
-  padding: 16px 24px;
+  padding: 0 24px 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
+  color: var(--color-subtext);
+  font-size: 12px;
   margin-top: 32px;
 }
 
 .footer-left {
   font-family: 'IBM Plex Sans', sans-serif;
   font-size: 11px;
-  color: rgba(255,255,255,0.45);
 }
 
 .footer-right {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 11px;
-  color: var(--color-amber);
-  letter-spacing: 0.02em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 /* ── MOBILE ── */
 @media (max-width: 640px) {
+  :root {
+    --nav-height: 96px;
+  }
+
   .nav {
-    padding: 0 16px;
+    height: auto;
+    padding: 10px 16px;
+    align-items: flex-start;
+  }
+
+  .nav-live {
+    display: none;
   }
 
   .filter-wrap {
@@ -778,7 +795,7 @@ body {
 
   .to-top-btn {
     right: 16px;
-    bottom: 16px;
+    bottom: calc(16px + env(safe-area-inset-bottom));
   }
 }
 </style>
@@ -792,9 +809,11 @@ body {
       <a class="site-tab" href="/">Home</a>
       <a class="site-tab" href="/headline-watch/" aria-current="page">HeadlineWatch</a>
       <a class="site-tab" href="/price-watch/">PriceWatch</a>
-      <a class="site-tab" href="/calendar-watch/">CalendarWatch</a>
-      <a class="site-tab" href="/inventory-watch/">InventoryWatch</a>
       <a class="site-tab" href="/demand-watch/">DemandWatch</a>
+      <span class="site-tab site-tab--disabled" aria-disabled="true">SupplyWatch</span>
+      <a class="site-tab" href="/inventory-watch/">InventoryWatch</a>
+      <span class="site-tab site-tab--disabled" aria-disabled="true">WeatherWatch</span>
+      <a class="site-tab" href="/calendar-watch/">CalendarWatch</a>
     </div>
   </div>
   <div class="nav-right">
