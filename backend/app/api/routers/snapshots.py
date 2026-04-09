@@ -3,7 +3,9 @@ from __future__ import annotations
 from fastapi import APIRouter, HTTPException, Query
 
 from app.api.deps import SessionDep
+from app.processing.demandwatch import DemandWatchSetupError, get_demandwatch_snapshot_payload
 from app.processing.snapshots import get_snapshot_payload
+from app.schemas.demandwatch import DemandBootstrapResponse
 from app.schemas.indicators import SnapshotResponse
 
 
@@ -36,3 +38,16 @@ async def inventorywatch_snapshot(
         expires_at=payload["expires_at"],
         cards=cards,
     )
+
+
+@router.get("/demandwatch", response_model=DemandBootstrapResponse)
+async def demandwatch_snapshot(session: SessionDep) -> DemandBootstrapResponse:
+    try:
+        payload = await get_demandwatch_snapshot_payload(session)
+    except DemandWatchSetupError as exc:
+        raise HTTPException(status_code=503, detail=str(exc)) from exc
+
+    if payload.get("module") != "demandwatch":
+        raise HTTPException(status_code=500, detail="Invalid DemandWatch snapshot payload.")
+
+    return DemandBootstrapResponse.model_validate(payload)

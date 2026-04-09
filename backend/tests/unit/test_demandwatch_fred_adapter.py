@@ -4,6 +4,9 @@ import json
 from datetime import date, datetime, timezone
 from pathlib import Path
 
+import httpx
+
+from app.ingest.sources.fred import jobs as fred_jobs
 from app.ingest.sources.fred.parsers import parse_fred_observations, parse_fred_release, parse_fred_release_dates, selected_vintage_dates
 
 
@@ -57,3 +60,16 @@ def test_selected_vintage_dates_keeps_recent_live_releases_and_respects_backfill
         date(2026, 3, 17),
         date(2026, 4, 16),
     ]
+
+
+def test_retryable_fred_vintage_errors_only_soft_fail_outside_backfill() -> None:
+    request = httpx.Request("GET", "https://fred.stlouisfed.org")
+    retryable_http = httpx.HTTPStatusError(
+        "server error",
+        request=request,
+        response=httpx.Response(500, request=request),
+    )
+
+    assert fred_jobs._should_soft_fail_vintage_error(exc=retryable_http, run_mode="manual") is True
+    assert fred_jobs._should_soft_fail_vintage_error(exc=retryable_http, run_mode="backfill") is False
+    assert fred_jobs._should_soft_fail_vintage_error(exc=ValueError("bad payload"), run_mode="manual") is False

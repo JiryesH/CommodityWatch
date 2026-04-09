@@ -1,16 +1,21 @@
 from __future__ import annotations
 
+import logging
 from datetime import date
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.ingest.common.archive import archive_blob, archive_payload
 from app.ingest.common.jobs import IngestJobResult, create_ingest_run, get_release_indicators, get_source_bundle, upsert_source_release, utcnow
+from app.modules.demandwatch.reliability import annotate_run_failure, bump_run_metadata_counter, dedupe_records
 from app.ingest.sources.usda_psd.client import USDAPSDClient
 from app.ingest.sources.usda_psd.parsers import parse_psd_commodity_response
 from app.ingest.sources.usda_wasde.client import USDAWASDEClient, release_datetime
 from app.processing.events import emit_observation_event, process_pending_events
 from app.repositories.observations import ObservationInput, derive_period_start, upsert_observation_revision
+
+
+logger = logging.getLogger(__name__)
 
 
 async def fetch_demand_usda_psd(
@@ -29,7 +34,7 @@ async def fetch_demand_usda_psd(
 
     run = await create_ingest_run(
         session,
-        "demand_usda_psd",
+        "demand_usda_wasde",
         source.id,
         release_definition.id,
         run_mode,
@@ -39,17 +44,21 @@ async def fetch_demand_usda_psd(
     wasde_client = USDAWASDEClient()
     counters = IngestJobResult()
     release_cache: dict[str, object] = {}
+    failure_stage = "initializing"
 
     try:
+        failure_stage = "fetch_release_months"
         month_keys = await wasde_client.list_available_release_months()
         selected_months = set(month_keys if run_mode == "backfill" else month_keys[:2])
         releases = []
         for month_key in selected_months:
+            failure_stage = f"fetch_release_manifest:{month_key}"
             releases.extend(await wasde_client.list_releases_for_month(month_key))
         releases_by_month = {release.month_key: release for release in releases}
 
         structured_rows: list[dict[str, object]] = []
         for commodity_code, indicator in indicators_by_series.items():
+            failure_stage = f"fetch_psd_payload:{commodity_code}"
             raw = await psd_client.get_data_by_commodity(commodity_code)
             raw_artifact = await archive_blob(
                 session,
@@ -60,7 +69,19 @@ async def fetch_demand_usda_psd(
                 content_type="application/xml",
                 metadata={"commodity_code": commodity_code},
             )
+            failure_stage = f"parse_psd_payload:{commodity_code}"
             parsed = parse_psd_commodity_response(raw, commodity_code=commodity_code)
+            parsed, duplicate_count = dedupe_records(
+                parsed,
+                key=lambda item: (item.source_series_key, item.release_month, item.market_year, item.source_item_ref),
+            )
+            if duplicate_count:
+                bump_run_metadata_counter(run, "duplicate_observations_dropped", duplicate_count)
+                logger.warning(
+                    "USDA PSD job dropped %d duplicate parsed rows for commodity %s",
+                    duplicate_count,
+                    commodity_code,
+                )
             for item in parsed:
                 release = releases_by_month.get(item.release_month)
                 if release is None:
@@ -141,8 +162,10 @@ async def fetch_demand_usda_psd(
         return counters
     except Exception as exc:
         run.status = "failed"
+        annotate_run_failure(run, exc, stage=failure_stage)
         run.error_text = str(exc)
         run.finished_at = utcnow()
+        logger.exception("USDA PSD job failed during %s: %s", failure_stage, exc)
         raise
     finally:
         await psd_client.close()

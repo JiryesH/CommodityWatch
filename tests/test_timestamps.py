@@ -3,6 +3,7 @@ import json
 import unittest
 from datetime import timezone
 from pathlib import Path
+from unittest import mock
 
 import argus_scraper
 import rss_scraper
@@ -99,6 +100,70 @@ class TimestampNormalizationTests(unittest.TestCase):
         self.assertIsNotNone(ok_dt)
         self.assertIsNone(bad_dt)
         self.assertEqual(metrics["timestamp_parse_errors"], 1)
+
+    def test_argus_parse_parenthesized_offset_format(self) -> None:
+        metrics = {"timestamp_parse_errors": 0}
+        dt = argus_scraper.parse_pub_date(
+            "09 Apr 2026 12:26 (+01:00 GMT)",
+            metrics,
+        )
+
+        self.assertIsNotNone(dt)
+        self.assertEqual(dt.isoformat(), "2026-04-09T11:26:00+00:00")
+        self.assertEqual(metrics["timestamp_parse_errors"], 0)
+
+    def test_scrape_argus_marks_all_invalid_timestamps_as_failed(self) -> None:
+        class FakeScraper:
+            def __init__(self, timeout: int = 20) -> None:
+                self.timeout = timeout
+                self.metrics = {"timestamp_parse_errors": 2}
+
+            def scrape(
+                self,
+                max_pages: int = 1,
+                include_lead: bool = False,
+                pause: float = 0.0,
+            ):
+                return (
+                    [
+                        {
+                            "id": "1",
+                            "title": "Broken 1",
+                            "description": "",
+                            "link": "https://example.com/1",
+                            "published": None,
+                            "source": "Argus Media",
+                            "feed": "Argus NewsAll",
+                            "category": "General",
+                            "categories": ["General"],
+                        },
+                        {
+                            "id": "2",
+                            "title": "Broken 2",
+                            "description": "",
+                            "link": "https://example.com/2",
+                            "published": None,
+                            "source": "Argus Media",
+                            "feed": "Argus NewsAll",
+                            "category": "General",
+                            "categories": ["General"],
+                        },
+                    ],
+                    1,
+                    30,
+                )
+
+        with mock.patch.object(rss_scraper.argus_scraper, "ArgusNewsAllScraper", FakeScraper):
+            articles, detail = rss_scraper.scrape_argus(max_pages=1)
+
+        self.assertEqual(len(articles), 2)
+        self.assertEqual(detail["status"], "failed")
+        self.assertEqual(
+            detail["error"],
+            "Argus returned article rows, but none had parseable timestamps.",
+        )
+        self.assertEqual(detail["valid_timestamp_count"], 0)
+        self.assertEqual(detail["missing_timestamp_count"], 2)
 
     def test_rss_sort_cases(self) -> None:
         for case in self.fixture["sort_cases"]:

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 from datetime import date, datetime, time
 from zoneinfo import ZoneInfo
 
@@ -7,10 +8,14 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.ingest.common.archive import archive_blob, archive_payload
 from app.ingest.common.jobs import IngestJobResult, create_ingest_run, get_release_indicators, get_source_bundle, upsert_source_release, utcnow
+from app.modules.demandwatch.reliability import annotate_run_failure, bump_run_metadata_counter, dedupe_records
 from app.ingest.sources.usda_export_sales.client import STATIC_REPORTS_BASE, USDAExportSalesClient
 from app.ingest.sources.usda_export_sales.parsers import parse_export_sales_release_info, parse_export_sales_summary
 from app.processing.events import emit_observation_event, process_pending_events
 from app.repositories.observations import ObservationInput, derive_period_start, upsert_observation_revision
+
+
+logger = logging.getLogger(__name__)
 
 
 def _release_datetime(release_definition, released_on: date) -> datetime:
@@ -44,9 +49,12 @@ async def fetch_demand_usda_export_sales(
     )
     client = USDAExportSalesClient()
     counters = IngestJobResult()
+    failure_stage = "initializing"
 
     try:
+        failure_stage = "fetch_summary"
         summary_raw = await client.get_commodity_summary()
+        failure_stage = "fetch_highlights"
         highlights_raw = await client.get_weekly_highlights()
         summary_artifact = await archive_blob(
             session,
@@ -66,8 +74,20 @@ async def fetch_demand_usda_export_sales(
             content_type="application/xml",
             metadata={"source_url": f"{STATIC_REPORTS_BASE}/WeeklyHighlightsReport.xml"},
         )
+        failure_stage = "parse_highlights"
         release_info = parse_export_sales_release_info(highlights_raw)
+        failure_stage = "parse_summary"
         summary_items = parse_export_sales_summary(summary_raw)
+        summary_items, duplicate_count = dedupe_records(
+            summary_items,
+            key=lambda item: (item.source_series_key, item.period_ending_on, item.marketing_year, item.source_item_ref),
+        )
+        if duplicate_count:
+            bump_run_metadata_counter(run, "duplicate_observations_dropped", duplicate_count)
+            logger.warning(
+                "USDA export sales job dropped %d duplicate parsed rows",
+                duplicate_count,
+            )
         relevant_items = [item for item in summary_items if item.source_series_key in indicators_by_series]
         await archive_payload(
             session,
@@ -156,8 +176,10 @@ async def fetch_demand_usda_export_sales(
         return counters
     except Exception as exc:
         run.status = "failed"
+        annotate_run_failure(run, exc, stage=failure_stage)
         run.error_text = str(exc)
         run.finished_at = utcnow()
+        logger.exception("USDA export sales job failed during %s: %s", failure_stage, exc)
         raise
     finally:
         await client.close()

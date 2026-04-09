@@ -148,7 +148,7 @@ test("home registry only renders the live modules in their declared slots", () =
   );
   assert.deepEqual(
     MODULE_REGISTRY.map((moduleDefinition) => moduleDefinition.slot),
-    ["main-top", "main-middle", "main-left", "main-bottom", "sidebar"]
+    ["main-top", "sidebar", "main-left", "main-bottom", "sidebar"]
   );
 });
 

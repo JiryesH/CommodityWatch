@@ -17,6 +17,7 @@ from app.db.models.indicators import Indicator
 from app.db.models.observations import AppEvent, Observation
 from app.db.models.sources import IngestRun, ReleaseDefinition, Source, SourceRelease
 from app.ingest.common.archive import archive_payload
+from app.modules.demandwatch.reliability import annotate_run_failure, bump_run_metadata_counter, dedupe_records
 from app.ingest.sources.eia.client import EIAClient
 from app.ingest.sources.eia.parsers import ParsedObservation, parse_eia_response
 from app.processing.events import emit_observation_event, process_pending_events
@@ -396,6 +397,7 @@ async def _run_eia_release(
     repaired_windows: dict[str, int] = {}
     cleaned_history: dict[str, int] = {}
     stale_live_indicators: list[str] = []
+    failure_stage = "initializing"
 
     try:
         logger.info("EIA job %s starting with %d indicators", job_name, total_indicators)
@@ -436,6 +438,7 @@ async def _run_eia_release(
                 request.start.isoformat() if request.start else None,
                 request.end.isoformat() if request.end else None,
             )
+            failure_stage = f"fetch_series:{indicator.code}"
             payload = await client.get_series_data(
                 indicator.source_series_key,
                 start=request.start,
@@ -444,7 +447,20 @@ async def _run_eia_release(
                 sort_desc=request.sort_desc,
             )
             artifact = await archive_payload(session, source, job_name, payload)
+            failure_stage = f"parse_series:{indicator.code}"
             parsed = parse_eia_response(payload, indicator.frequency.value)
+            parsed, duplicate_count = dedupe_records(
+                parsed,
+                key=lambda item: (item.period_start_at, item.period_end_at, item.source_item_ref),
+            )
+            if duplicate_count:
+                bump_run_metadata_counter(run, "duplicate_observations_dropped", duplicate_count)
+                logger.warning(
+                    "EIA job %s dropped %d duplicate parsed rows for %s",
+                    job_name,
+                    duplicate_count,
+                    indicator.code,
+                )
             if start_date is None and run_mode != "backfill":
                 latest_payload_period = latest_eia_payload_period_end_at(parsed)
                 if is_stale_live_payload(latest_payload_period, observed_at=observed_at):
@@ -542,9 +558,10 @@ async def _run_eia_release(
         return counters
     except Exception as exc:
         run.status = "failed"
+        annotate_run_failure(run, exc, stage=failure_stage)
         run.error_text = str(exc)
         run.finished_at = utcnow()
-        logger.exception("EIA job %s failed: %s", job_name, exc)
+        logger.exception("EIA job %s failed during %s: %s", job_name, failure_stage, exc)
         raise
     finally:
         await client.close()

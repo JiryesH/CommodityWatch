@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import ORJSONResponse
 
-from app.api.routers import auth, health, indicators, snapshots
+from app.api.routers import auth, demandwatch, health, indicators, snapshots
 from app.core.config import get_settings
 from app.core.logging import configure_logging
 
@@ -29,6 +29,7 @@ def create_app() -> FastAPI:
         )
 
     app.include_router(auth.router)
+    app.include_router(demandwatch.router)
     app.include_router(health.router)
     app.include_router(indicators.router)
     app.include_router(snapshots.router)

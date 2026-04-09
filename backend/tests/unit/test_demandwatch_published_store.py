@@ -270,9 +270,13 @@ def test_demandwatch_published_store_round_trips(tmp_path: Path) -> None:
 
     summary = write_published_demand_store(bundle, output_path)
     repository = PublishedDemandRepository(output_path)
+    round_trip_bundle = repository.to_bundle()
 
     assert summary["series_count"] == 4
+    assert repository.schema_version == 1
+    assert repository.published_at == datetime(2026, 4, 1, 14, 30, tzinfo=UTC)
     assert len(repository._series_by_id) == 4
+    assert len(round_trip_bundle.series_by_id) == 4
     assert sum(len(points) for points in repository._observations_by_series_id.values()) == 3
     live_metrics = repository._latest_metrics_by_series_id["live-series"]
     assert live_metrics.latest_period_label == "Week ending 2026-03-27"

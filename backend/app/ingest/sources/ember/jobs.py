@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 from datetime import date, datetime, time, timedelta, timezone
 from zoneinfo import ZoneInfo
 
@@ -9,10 +10,14 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.db.models.observations import Observation
 from app.ingest.common.archive import archive_payload
 from app.ingest.common.jobs import IngestJobResult, create_ingest_run, get_release_indicators, get_source_bundle, upsert_source_release, utcnow
+from app.modules.demandwatch.reliability import annotate_run_failure, bump_run_metadata_counter, dedupe_records
 from app.ingest.sources.ember.client import EmberClient
 from app.ingest.sources.ember.parsers import parse_ember_monthly_demand, parse_ember_stats_timestamp
 from app.processing.events import emit_observation_event, process_pending_events
 from app.repositories.observations import ObservationInput, upsert_observation_revision
+
+
+logger = logging.getLogger(__name__)
 
 
 async def _latest_indicator_period_end_at(session: AsyncSession, indicator_id) -> datetime | None:
@@ -41,7 +46,6 @@ async def fetch_demand_ember_monthly_electricity(
 ) -> IngestJobResult:
     source, release_definition = await get_source_bundle(session, "ember", "demand_ember_monthly_electricity")
     indicators = await get_release_indicators(session, "demand_ember_monthly_electricity")
-    client = EmberClient()
     run = await create_ingest_run(
         session,
         "demand_ember_monthly_electricity",
@@ -52,14 +56,30 @@ async def fetch_demand_ember_monthly_electricity(
     )
     counters = IngestJobResult()
     release_cache: dict[str, object] = {}
+    client: EmberClient | None = None
+    failure_stage = "initializing"
 
     try:
+        try:
+            client = EmberClient()
+        except ValueError as exc:
+            run.status = "partial"
+            run.error_text = str(exc)
+            run.metadata_ = {
+                **(run.metadata_ or {}),
+                "skipped_reason": "missing_api_key",
+            }
+            run.finished_at = utcnow()
+            logger.warning("Ember job skipped because credentials are missing: %s", exc)
+            return counters
+
         for indicator in indicators:
             metadata = indicator.metadata_ or {}
             latest_period_end_at = None if run_mode == "backfill" else await _latest_indicator_period_end_at(session, indicator.id)
             query_start = start_date.isoformat()[:7] if start_date else (
                 latest_period_end_at.date().replace(day=1).isoformat()[:7] if latest_period_end_at else None
             )
+            failure_stage = f"fetch_ember_payload:{indicator.code}"
             payload = await client.get_monthly_demand(
                 entity=metadata.get("source_entity"),
                 entity_code=metadata.get("source_entity_code"),
@@ -68,8 +88,20 @@ async def fetch_demand_ember_monthly_electricity(
                 is_aggregate_entity=metadata.get("source_is_aggregate_entity"),
             )
             artifact = await archive_payload(session, source, "demand_ember_monthly_electricity", payload)
+            failure_stage = f"parse_ember_payload:{indicator.code}"
             stats_timestamp = parse_ember_stats_timestamp(payload)
             parsed = parse_ember_monthly_demand(payload)
+            parsed, duplicate_count = dedupe_records(
+                parsed,
+                key=lambda item: (item.period_start_at, item.period_end_at, item.source_item_ref),
+            )
+            if duplicate_count:
+                bump_run_metadata_counter(run, "duplicate_observations_dropped", duplicate_count)
+                logger.warning(
+                    "Ember job dropped %d duplicate parsed rows for %s",
+                    duplicate_count,
+                    indicator.code,
+                )
             counters.fetched_items += len(parsed)
 
             for item in parsed:
@@ -141,8 +173,11 @@ async def fetch_demand_ember_monthly_electricity(
         return counters
     except Exception as exc:
         run.status = "failed"
+        annotate_run_failure(run, exc, stage=failure_stage)
         run.error_text = str(exc)
         run.finished_at = utcnow()
+        logger.exception("Ember job failed during %s: %s", failure_stage, exc)
         raise
     finally:
-        await client.close()
+        if client is not None:
+            await client.close()

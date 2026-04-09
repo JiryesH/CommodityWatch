@@ -649,10 +649,50 @@ def running_inventory_backend() -> Iterator[str]:
 
 
 @contextmanager
+def running_demandwatch_backend(next_releases_payload: dict | None = None) -> Iterator[str]:
+    payload = next_releases_payload or {"generated_at": "2026-03-12T00:00:00Z", "items": []}
+
+    class DemandWatchBackendHandler(BaseHTTPRequestHandler):
+        def do_GET(self) -> None:  # noqa: N802
+            parsed = urlparse(self.path)
+
+            if parsed.path == "/api/health":
+                response_payload = {"ok": True}
+                status = 200
+            elif parsed.path == "/api/demandwatch/next-release-dates":
+                response_payload = payload
+                status = 200
+            else:
+                response_payload = {"detail": f"Unhandled fixture path: {self.path}"}
+                status = 404
+
+            body = json.dumps(response_payload).encode("utf-8")
+            self.send_response(status)
+            self.send_header("Content-Type", "application/json; charset=utf-8")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+
+        def log_message(self, format: str, *args) -> None:
+            return
+
+    server = ThreadingHTTPServer(("127.0.0.1", 0), DemandWatchBackendHandler)
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    try:
+        yield f"http://127.0.0.1:{server.server_port}/api"
+    finally:
+        server.shutdown()
+        thread.join(timeout=5)
+        server.server_close()
+
+
+@contextmanager
 def running_server(
     database_path: Path,
     *,
     inventory_api_base_url: str = "http://127.0.0.1:8000/api",
+    demandwatch_api_base_url: str = "http://127.0.0.1:8000/api",
     inventory_published_db_path: Path | None = None,
     inventory_data_root: Path | None = None,
     inventory_browse_mode: str = "auto",
@@ -666,6 +706,7 @@ def running_server(
         inventory_published_db_path=inventory_published_db_path,
         inventory_data_root=inventory_data_root,
         inventory_api_base_url=inventory_api_base_url,
+        demandwatch_api_base_url=demandwatch_api_base_url,
         inventory_browse_mode=inventory_browse_mode,
         host="127.0.0.1",
         port=0,
@@ -1029,6 +1070,96 @@ def test_calendar_route_returns_only_publishable_confirmed_events(tmp_path: Path
     assert [event["id"] for event in payload["data"]] == ["cw_energy_1"]
     assert [event["id"] for event in sector_payload["data"]] == ["cw_energy_1"]
     assert macro_payload["data"] == []
+
+
+def test_calendar_route_merges_demandwatch_release_dates_without_duplicate_events(tmp_path: Path) -> None:
+    database_path = tmp_path / "commodities.db"
+    calendar_database_path = tmp_path / "calendarwatch.db"
+    create_fixture_database(database_path)
+    create_fixture_calendar_database(calendar_database_path)
+
+    next_releases_payload = {
+        "generated_at": "2026-03-12T00:00:00Z",
+        "items": [
+            {
+                "release_slug": "demand_eia_wpsr",
+                "release_name": "EIA Weekly Petroleum Status Report",
+                "source_slug": "eia",
+                "source_name": "EIA",
+                "cadence": "weekly",
+                "schedule_timezone": "America/New_York",
+                "vertical_ids": ["crude-products", "grains"],
+                "vertical_codes": ["crude_products", "grains_oilseeds"],
+                "series_codes": ["EIA_US_TOTAL_PRODUCT_SUPPLIED", "EIA_US_ETHANOL_PRODUCTION"],
+                "scheduled_for": "2026-03-18T14:30:00Z",
+                "latest_release_at": "2026-03-11T14:30:00Z",
+                "source_url": "https://www.eia.gov/petroleum/supply/weekly/",
+                "is_estimated": False,
+                "notes": [],
+            },
+            {
+                "release_slug": "demand_usda_export_sales",
+                "release_name": "USDA Export Sales Report",
+                "source_slug": "usda_export_sales",
+                "source_name": "USDA Export Sales",
+                "cadence": "weekly",
+                "schedule_timezone": "America/New_York",
+                "vertical_ids": ["grains"],
+                "vertical_codes": ["grains_oilseeds"],
+                "series_codes": ["USDA_US_CORN_EXPORT_SALES", "USDA_US_SOYBEAN_EXPORT_SALES", "USDA_US_WHEAT_EXPORT_SALES"],
+                "scheduled_for": "2026-03-19T12:30:00Z",
+                "latest_release_at": "2026-03-12T12:30:00Z",
+                "source_url": "https://apps.fas.usda.gov/export-sales/esrd1.html",
+                "is_estimated": False,
+                "notes": [],
+            },
+            {
+                "release_slug": "demand_fred_motor_vehicle_sales",
+                "release_name": "US Total Vehicle Sales",
+                "source_slug": "fred",
+                "source_name": "FRED",
+                "cadence": "monthly",
+                "schedule_timezone": "America/New_York",
+                "vertical_ids": ["base-metals"],
+                "vertical_codes": ["base_metals"],
+                "series_codes": ["FRED_US_TOTAL_VEHICLE_SALES"],
+                "scheduled_for": "2026-03-20T12:30:00Z",
+                "latest_release_at": "2026-02-27T13:30:00Z",
+                "source_url": "https://fred.stlouisfed.org/series/TOTALSA",
+                "is_estimated": True,
+                "notes": [
+                    "Next release time is estimated from cadence or latest observed release.",
+                    "Calendar-driven release; confirm against CalendarWatch before publication.",
+                ],
+            },
+        ],
+    }
+
+    with running_demandwatch_backend(next_releases_payload) as demandwatch_api_base_url:
+        with running_server(database_path, demandwatch_api_base_url=demandwatch_api_base_url) as base_url:
+            payload = get_json(f"{base_url}/api/calendar?from=2026-03-01&to=2026-03-31")
+            agriculture_payload = get_json(f"{base_url}/api/calendar?from=2026-03-01&to=2026-03-31&sectors=agriculture")
+
+    assert [event["id"] for event in payload["data"]] == [
+        "cw_energy_1",
+        "demand_usda_export_sales:2026-03-19",
+        "demand_fred_motor_vehicle_sales:2026-03-20",
+    ]
+
+    export_sales_event = next(event for event in payload["data"] if event["id"] == "demand_usda_export_sales:2026-03-19")
+    vehicle_sales_event = next(event for event in payload["data"] if event["id"] == "demand_fred_motor_vehicle_sales:2026-03-20")
+
+    assert export_sales_event["commodity_sectors"] == ["agriculture"]
+    assert export_sales_event["source_label"] == "USDA FAS"
+    assert export_sales_event["is_confirmed"] is True
+    assert export_sales_event["source_slug"] == "usda_export_sales"
+
+    assert vehicle_sales_event["commodity_sectors"] == ["metals"]
+    assert vehicle_sales_event["source_label"] == "FRED"
+    assert vehicle_sales_event["is_confirmed"] is False
+    assert "estimated" in (vehicle_sales_event["notes"] or "").lower()
+
+    assert [event["id"] for event in agriculture_payload["data"]] == ["demand_usda_export_sales:2026-03-19"]
 
 
 def test_series_route_returns_published_catalog(tmp_path: Path) -> None:

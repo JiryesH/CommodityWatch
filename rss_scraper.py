@@ -649,20 +649,15 @@ def scrape_argus(
         classify_articles_in_place(articles)
         articles = sort_by_date(deduplicate(articles))
 
-        detail: dict[str, Any] = {
-            "status": "ok" if pages_scraped > 0 else "failed",
-            "count": len(articles),
-            "pages_scraped": pages_scraped,
-            "max_pages": max_pages,
-            "timestamp_parse_errors": int(
+        detail = argus_scraper.build_feed_detail(
+            articles,
+            pages_scraped=pages_scraped,
+            max_pages=max_pages,
+            timestamp_parse_errors=int(
                 getattr(scraper, "metrics", {}).get("timestamp_parse_errors", 0)
             ),
-        }
-        if total_pages_hint is not None:
-            detail["total_pages_hint"] = total_pages_hint
-
-        if pages_scraped <= 0:
-            detail.setdefault("error", "No pages scraped from Argus")
+            total_pages_hint=total_pages_hint,
+        )
 
         if pages_scraped > 0:
             logger.info("[%s] Fetched %s articles across %s page(s)", ARGUS_FEED_NAME, len(articles), pages_scraped)
@@ -741,6 +736,7 @@ def save_feed(
         "last_updated": datetime.now(timezone.utc).isoformat(),
         "total_articles": len(articles),
         "feeds_fetched": fetch_stats.get("success", 0),
+        "feeds_degraded": fetch_stats.get("degraded", 0),
         "feeds_failed": fetch_stats.get("failed", 0),
         "feed_details": fetch_stats.get("details", {}),
         "timestamp_parse_errors": int(fetch_stats.get("timestamp_parse_errors", 0)),
@@ -764,6 +760,7 @@ def save_feed(
     logger.info(
         f"Saved {len(articles)} articles to {OUTPUT_FILE} "
         f"({fetch_stats.get('success', 0)} feeds OK, "
+        f"{fetch_stats.get('degraded', 0)} degraded, "
         f"{fetch_stats.get('failed', 0)} failed)"
     )
 
@@ -876,7 +873,13 @@ def scrape_all(
 ) -> tuple[list[dict], dict, dict[str, int]]:
     """Fetch all enabled sources, normalize, deduplicate, and return articles + stats."""
     all_articles = []
-    stats = {"success": 0, "failed": 0, "details": {}, "timestamp_parse_errors": 0}
+    stats = {
+        "success": 0,
+        "degraded": 0,
+        "failed": 0,
+        "details": {},
+        "timestamp_parse_errors": 0,
+    }
     configured_feeds = 0
 
     if include_rss:
@@ -908,9 +911,13 @@ def scrape_all(
             include_lead=argus_include_lead,
             pause=argus_pause,
         )
-        if argus_detail.get("status") == "ok":
+        argus_status = str(argus_detail.get("status") or "failed")
+        if argus_status == "ok":
             all_articles.extend(argus_articles)
             stats["success"] += 1
+        elif argus_status == "degraded":
+            all_articles.extend(argus_articles)
+            stats["degraded"] += 1
         else:
             stats["failed"] += 1
         stats["timestamp_parse_errors"] += int(
@@ -927,8 +934,9 @@ def scrape_all(
 
     logger.info(
         f"Scrape complete: {len(all_articles)} unique articles "
-        f"from {stats['success']}/{configured_feeds} feeds "
-        f"(merged duplicates={dedupe_stats.get('merged', 0)})"
+        f"from {stats['success']}/{configured_feeds} feeds OK "
+        f"(degraded={stats.get('degraded', 0)}, failed={stats['failed']}, "
+        f"merged duplicates={dedupe_stats.get('merged', 0)})"
     )
 
     return all_articles, stats, dedupe_stats
@@ -1311,7 +1319,9 @@ def main():
             argus_pause=args.argus_pause,
         )
         print(f"\nDone! {len(articles)} articles saved to {OUTPUT_FILE}")
-        print(f"Feeds OK: {stats['success']} | Failed: {stats['failed']}")
+        print(
+            f"Feeds OK: {stats['success']} | Degraded: {stats.get('degraded', 0)} | Failed: {stats['failed']}"
+        )
         if sentiment_stats and sentiment_stats.get("enabled"):
             if sentiment_stats.get("error"):
                 print(f"Sentiment: failed ({sentiment_stats['error']})")

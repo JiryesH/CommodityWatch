@@ -138,6 +138,33 @@
   metadata:
     source_table: WPSR
     source_metric: refinery_utilisation
+- code: FRED_US_VEHICLE_MILES_TRAVELED
+  name: FRED US Vehicle Miles Traveled
+  description: U.S. vehicle miles traveled from FRED series TRFVOLUSM227NFWA, used as the gasoline end-use proxy.
+  measure_family: macro
+  frequency: monthly
+  commodity_code: crude_products
+  geography_code: US
+  source_slug: fred
+  source_series_key: TRFVOLUSM227NFWA
+  native_unit_code: m_vehicle_miles
+  canonical_unit_code: m_vehicle_miles
+  default_observation_kind: actual
+  publication_lag_days: 45
+  is_seasonal: false
+  is_derived: false
+  visibility_tier: public
+  active: true
+  modules: [demandwatch]
+  primary_module: demandwatch
+  demand_vertical_code: crude_products
+  demand_tier: t4_end_use
+  coverage_status: live
+  display_order: 60
+  release_slug: demand_fred_traffic_volume_trends
+  coverage_note: Public-domain FHWA/BTS traffic volume proxy keeps the crude page tied to realized road demand.
+  metadata:
+    source_release: Traffic Volume Trends
 - code: EIA_US_ELECTRICITY_GRID_LOAD
   name: EIA US Grid Load
   description: U.S. grid demand from the EIA Grid Monitor, used as the primary direct power-demand signal.
@@ -230,7 +257,7 @@
   commodity_code: corn
   geography_code: US
   source_slug: usda_psd
-  source_series_key: 0440000
+  source_series_key: "0440000"
   native_unit_code: mbu
   canonical_unit_code: mbu
   default_observation_kind: estimate
@@ -258,7 +285,7 @@
   commodity_code: soybeans
   geography_code: US
   source_slug: usda_psd
-  source_series_key: 2222000
+  source_series_key: "2222000"
   native_unit_code: mbu
   canonical_unit_code: mbu
   default_observation_kind: estimate
@@ -286,7 +313,7 @@
   commodity_code: wheat
   geography_code: US
   source_slug: usda_psd
-  source_series_key: 0410000
+  source_series_key: "0410000"
   native_unit_code: mbu
   canonical_unit_code: mbu
   default_observation_kind: estimate
@@ -333,6 +360,60 @@
   coverage_note: Public-domain weekly trade-flow signal used as the MVP grains surprise series.
   metadata:
     source_metric: export_sales
+- code: USDA_US_SOYBEAN_EXPORT_SALES
+  name: USDA US Soybean Export Sales
+  description: Weekly U.S. soybean export sales from the USDA Export Sales Report.
+  measure_family: flow
+  frequency: weekly
+  commodity_code: soybeans
+  geography_code: US
+  source_slug: usda_export_sales
+  source_series_key: "801"
+  native_unit_code: mmt
+  canonical_unit_code: mmt
+  default_observation_kind: actual
+  publication_lag_days: 7
+  is_seasonal: false
+  is_derived: false
+  visibility_tier: public
+  active: true
+  modules: [demandwatch]
+  primary_module: demandwatch
+  demand_vertical_code: grains_oilseeds
+  demand_tier: t3_trade
+  coverage_status: live
+  display_order: 50
+  release_slug: demand_usda_export_sales
+  coverage_note: Public-domain weekly soybean flow signal expands grains coverage beyond corn-only exports.
+  metadata:
+    source_metric: export_sales
+- code: USDA_US_WHEAT_EXPORT_SALES
+  name: USDA US Wheat Export Sales
+  description: Weekly U.S. all-wheat export sales from the USDA Export Sales Report.
+  measure_family: flow
+  frequency: weekly
+  commodity_code: wheat
+  geography_code: US
+  source_slug: usda_export_sales
+  source_series_key: "107"
+  native_unit_code: mmt
+  canonical_unit_code: mmt
+  default_observation_kind: actual
+  publication_lag_days: 7
+  is_seasonal: false
+  is_derived: false
+  visibility_tier: public
+  active: true
+  modules: [demandwatch]
+  primary_module: demandwatch
+  demand_vertical_code: grains_oilseeds
+  demand_tier: t3_trade
+  coverage_status: live
+  display_order: 60
+  release_slug: demand_usda_export_sales
+  coverage_note: Public-domain weekly wheat flow signal keeps the launch grains page broader than a single crop.
+  metadata:
+    source_metric: export_sales
 - code: EIA_US_ETHANOL_PRODUCTION
   name: EIA US Ethanol Production
   description: Weekly U.S. ethanol production from the EIA Weekly Petroleum Status Report.
@@ -355,7 +436,7 @@
   demand_vertical_code: grains_oilseeds
   demand_tier: t2_throughput
   coverage_status: live
-  display_order: 50
+  display_order: 70
   release_slug: demand_eia_wpsr
   coverage_note: Public-domain corn-demand throughput proxy from the energy complex.
   metadata:
@@ -415,6 +496,33 @@
   coverage_note: Public-domain manufacturing subset for metals-specific demand context.
   metadata:
     source_release: G.17
+- code: FRED_US_MANUFACTURING_CAPACITY_UTILISATION
+  name: FRED US Manufacturing Capacity Utilisation
+  description: U.S. manufacturing capacity utilisation from FRED series MCUMFN.
+  measure_family: utilisation
+  frequency: monthly
+  commodity_code: base_metals
+  geography_code: US
+  source_slug: fred
+  source_series_key: MCUMFN
+  native_unit_code: pct
+  canonical_unit_code: pct
+  default_observation_kind: actual
+  publication_lag_days: 14
+  is_seasonal: false
+  is_derived: false
+  visibility_tier: public
+  active: true
+  modules: [demandwatch]
+  primary_module: demandwatch
+  demand_vertical_code: base_metals
+  demand_tier: t6_macro
+  coverage_status: live
+  display_order: 30
+  release_slug: demand_fred_g17
+  coverage_note: Public-domain plant-utilisation signal adds a tighter manufacturing read for industrial metals.
+  metadata:
+    source_release: G.17
 - code: FRED_US_HOUSING_STARTS
   name: FRED US Housing Starts
   description: U.S. housing starts from FRED series HOUST.
@@ -437,11 +545,38 @@
   demand_vertical_code: base_metals
   demand_tier: t4_end_use
   coverage_status: live
-  display_order: 30
+  display_order: 40
   release_slug: demand_fred_new_residential_construction
   coverage_note: Public-domain construction-demand proxy for copper and aluminium exposure.
   metadata:
     source_release: New Residential Construction
+- code: FRED_US_TOTAL_VEHICLE_SALES
+  name: FRED US Total Vehicle Sales
+  description: U.S. total vehicle sales from FRED series TOTALSA, used as an industrial end-use demand proxy.
+  measure_family: macro
+  frequency: monthly
+  commodity_code: base_metals
+  geography_code: US
+  source_slug: fred
+  source_series_key: TOTALSA
+  native_unit_code: m_units_saar
+  canonical_unit_code: m_units_saar
+  default_observation_kind: actual
+  publication_lag_days: 7
+  is_seasonal: false
+  is_derived: false
+  visibility_tier: public
+  active: true
+  modules: [demandwatch]
+  primary_module: demandwatch
+  demand_vertical_code: base_metals
+  demand_tier: t4_end_use
+  coverage_status: live
+  display_order: 50
+  release_slug: demand_fred_motor_vehicle_sales
+  coverage_note: Public-domain vehicle-sales demand proxy extends metals end-use coverage into autos.
+  metadata:
+    source_release: Motor Vehicle Sales
 - code: FRED_US_BUILDING_PERMITS
   name: FRED US Building Permits
   description: U.S. building permits from FRED series PERMIT.
@@ -464,7 +599,7 @@
   demand_vertical_code: base_metals
   demand_tier: t5_leading
   coverage_status: live
-  display_order: 40
+  display_order: 60
   release_slug: demand_fred_new_residential_construction
   coverage_note: Public-domain leading indicator for metals demand through the construction pipeline.
   metadata:

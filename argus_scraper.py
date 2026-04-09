@@ -91,9 +91,22 @@ logging.basicConfig(
 )
 logger = logging.getLogger("argus_scraper")
 
+PARENTHESIZED_OFFSET_RE = re.compile(
+    r"\(\s*(?P<hours>[+-]\d{2}):?(?P<minutes>\d{2})\s*(?:GMT|UTC)?\s*\)\s*$",
+    re.IGNORECASE,
+)
+
 
 def normalize_whitespace(text: str) -> str:
     return " ".join(unescape(text or "").replace("\xa0", " ").split())
+
+
+def _normalize_parenthesized_tz_suffix(raw: str) -> str:
+    match = PARENTHESIZED_OFFSET_RE.search(raw)
+    if not match:
+        return raw
+    prefix = raw[: match.start()].rstrip()
+    return f"{prefix} {match.group('hours')}{match.group('minutes')}"
 
 
 def _normalize_named_utc_suffix(raw: str) -> str:
@@ -115,7 +128,9 @@ def parse_pub_date(
     if not raw:
         return None
 
-    raw = _normalize_named_utc_suffix(normalize_whitespace(raw))
+    raw = normalize_whitespace(raw)
+    raw = _normalize_parenthesized_tz_suffix(raw)
+    raw = _normalize_named_utc_suffix(raw)
     if not raw:
         return None
 
@@ -422,6 +437,59 @@ def sort_by_date(articles: list[dict[str, Any]], descending: bool = True) -> lis
     )
 
 
+def build_feed_detail(
+    articles: list[dict[str, Any]],
+    *,
+    pages_scraped: int,
+    max_pages: int,
+    timestamp_parse_errors: int,
+    total_pages_hint: Optional[int] = None,
+) -> dict[str, Any]:
+    valid_timestamp_count = sum(1 for article in articles if article.get("published"))
+    missing_timestamp_count = max(len(articles) - valid_timestamp_count, 0)
+    valid_timestamps = sorted(
+        str(article.get("published"))
+        for article in articles
+        if article.get("published")
+    )
+
+    detail: dict[str, Any] = {
+        "status": "ok",
+        "count": len(articles),
+        "pages_scraped": pages_scraped,
+        "max_pages": max_pages,
+        "timestamp_parse_errors": int(timestamp_parse_errors),
+        "valid_timestamp_count": valid_timestamp_count,
+        "missing_timestamp_count": missing_timestamp_count,
+    }
+    if total_pages_hint is not None:
+        detail["total_pages_hint"] = total_pages_hint
+    if valid_timestamps:
+        detail["oldest_published"] = valid_timestamps[0]
+        detail["latest_published"] = valid_timestamps[-1]
+
+    if pages_scraped <= 0:
+        detail["status"] = "failed"
+        detail.setdefault("error", "No pages scraped from Argus")
+        return detail
+
+    if not articles:
+        detail["status"] = "failed"
+        detail["error"] = "No article rows parsed from Argus"
+        return detail
+
+    if valid_timestamp_count <= 0:
+        detail["status"] = "failed"
+        detail["error"] = "Argus returned article rows, but none had parseable timestamps."
+        return detail
+
+    if missing_timestamp_count > 0:
+        detail["status"] = "degraded"
+        detail["warning"] = "Argus returned some article rows with unparseable timestamps."
+
+    return detail
+
+
 def load_existing_feed(output_file: Path) -> dict[str, Any]:
     return load_feed_payload(output_file)
 
@@ -498,6 +566,7 @@ def save_feed(
         "last_updated": datetime.now(timezone.utc).isoformat(),
         "total_articles": len(articles),
         "feeds_fetched": fetch_stats.get("success", 0),
+        "feeds_degraded": fetch_stats.get("degraded", 0),
         "feeds_failed": fetch_stats.get("failed", 0),
         "feed_details": fetch_stats.get("details", {}),
         "timestamp_parse_errors": int(fetch_stats.get("timestamp_parse_errors", 0)),
@@ -548,24 +617,27 @@ def run_once(
         timestamp_parse_errors = int(
             scraper.metrics.get("timestamp_parse_errors", 0)
         )
+        detail = build_feed_detail(
+            articles,
+            pages_scraped=pages_scraped,
+            max_pages=max_pages,
+            timestamp_parse_errors=timestamp_parse_errors,
+            total_pages_hint=total_pages_hint,
+        )
         fetch_stats = {
-            "success": 1 if pages_scraped > 0 else 0,
-            "failed": 0 if pages_scraped > 0 else 1,
+            "success": 1 if detail.get("status") == "ok" else 0,
+            "degraded": 1 if detail.get("status") == "degraded" else 0,
+            "failed": 1 if detail.get("status") == "failed" else 0,
             "timestamp_parse_errors": timestamp_parse_errors,
             "details": {
-                FEED_NAME: {
-                    "status": "ok" if pages_scraped > 0 else "failed",
-                    "count": len(articles),
-                    "pages_scraped": pages_scraped,
-                    "total_pages_hint": total_pages_hint,
-                    "timestamp_parse_errors": timestamp_parse_errors,
-                }
+                FEED_NAME: detail
             },
         }
     except Exception as exc:
         logger.error("Scrape failed: %s", exc)
         return [], {
             "success": 0,
+            "degraded": 0,
             "failed": 1,
             "timestamp_parse_errors": 0,
             "details": {
@@ -723,7 +795,9 @@ def main() -> None:
     )
 
     print(f"\nDone! {len(articles)} articles saved to {output_file}")
-    print(f"Feeds OK: {stats['success']} | Failed: {stats['failed']}")
+    print(
+        f"Feeds OK: {stats['success']} | Degraded: {stats.get('degraded', 0)} | Failed: {stats['failed']}"
+    )
     print(f"Pages scraped: {pages_scraped}")
     if total_pages_hint is not None:
         print(f"Estimated total pages: {total_pages_hint}")

@@ -163,10 +163,44 @@ svg {
   pointer-events: none;
 }
 
+.hero-card--state {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 .hero-copy,
 .hero-summary {
   position: relative;
   z-index: 1;
+}
+
+.dw-state-card {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 14px;
+  max-width: 760px;
+}
+
+.dw-state-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dw-state-button {
+  appearance: none;
+  border: 1px solid rgba(15, 25, 35, 0.14);
+  background: var(--color-primary);
+  color: #fff;
+  border-radius: 999px;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: background 140ms ease, border-color 140ms ease;
+}
+
+.dw-state-button:hover {
+  background: #162533;
+  border-color: rgba(15, 25, 35, 0.24);
 }
 
 .hero-kicker,
@@ -271,6 +305,10 @@ svg {
 
 .macro-card {
   padding: 14px 14px 13px;
+}
+
+.macro-card--empty {
+  grid-column: 1 / -1;
 }
 
 
@@ -715,6 +753,46 @@ svg {
   background: var(--vertical-accent, var(--color-amber));
 }
 
+.indicator-card.is-placeholder {
+  border-style: dashed;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(240, 239, 233, 0.88));
+}
+
+.indicator-card.is-placeholder .indicator-value,
+.indicator-card.is-placeholder .indicator-change {
+  color: var(--color-primary);
+}
+
+.indicator-status {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0 9px;
+  border-radius: 999px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: rgba(15, 25, 35, 0.06);
+  color: var(--color-primary-soft);
+}
+
+.indicator-status.is-deferred,
+.indicator-status.is-partial {
+  color: #8f6114;
+  background: rgba(232, 160, 32, 0.15);
+}
+
+.indicator-status.is-blocked {
+  color: var(--color-down);
+  background: rgba(183, 78, 67, 0.12);
+}
+
+.indicator-status.is-live {
+  color: var(--color-up);
+  background: rgba(54, 102, 70, 0.12);
+}
 
 .indicator-trend {
   width: 26px;
@@ -778,6 +856,11 @@ svg {
   font-weight: 500;
 }
 
+.detail-table tbody tr.is-placeholder th,
+.detail-table tbody tr.is-placeholder td {
+  color: var(--color-primary-soft);
+}
+
 .vertical-sidebar {
   display: grid;
   gap: 12px;
@@ -812,8 +895,36 @@ svg {
   color: var(--vertical-accent, var(--color-amber));
 }
 
+.detail-block.is-gap-block {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(246, 243, 236, 0.92));
+}
+
 .coverage-section .section-kicker {
   color: var(--color-amber);
+}
+
+.dw-inline-empty,
+.dw-inline-state-copy {
+  margin: 0;
+  color: var(--color-primary-soft);
+}
+
+.dw-inline-state {
+  border: 1px dashed rgba(15, 25, 35, 0.16);
+  border-radius: calc(var(--radius) - 2px);
+  background: rgba(255, 255, 255, 0.9);
+  padding: 18px;
+}
+
+.dw-inline-state.is-error {
+  border-color: rgba(183, 78, 67, 0.28);
+  background: rgba(255, 245, 244, 0.94);
+}
+
+.dw-inline-state-title {
+  margin: 0 0 6px;
+  font-size: 0.98rem;
 }
 
 /* ── Sparkline range label ── */
@@ -837,6 +948,11 @@ svg {
   display: flex;
   align-items: center;
   gap: 4px;
+}
+
+.sparkline-legend-gap {
+  display: inline-block;
+  width: 10px;
 }
 
 .sparkline-legend-dot {

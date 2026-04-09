@@ -50,644 +50,531 @@ export const DEMAND_TAXONOMY = [
   },
 ];
 
-export const DEMAND_MACRO_STRIP = [
-  {
-    id: "gdp",
-    label: "US GDP",
-    value: "+2.4%",
-    change: "+0.3pp vs prior estimate",
-    trend: "flat",
-    freshness: "Q4 2025",
-  },
-  {
-    id: "indpro",
-    label: "US Industrial Production",
-    value: "103.8",
-    descriptor: "Index (2017 = 100)",
-    change: "-0.1pp MoM",
-    trend: "flat",
-    freshness: "Feb 2026",
-  },
-  {
-    id: "housing",
-    label: "US Housing Starts",
-    value: "1.52m",
-    change: "+5.2% YoY",
-    trend: "up",
-    freshness: "Feb 2026",
-  },
-  {
-    id: "payrolls",
-    label: "US Payrolls",
-    value: "+228k",
-    change: "Demand backdrop still firm",
-    trend: "up",
-    freshness: "Mar 2026",
-  },
-  {
-    id: "china-power",
-    label: "China Power Demand",
-    value: "+4.6%",
-    change: "Ember electricity demand YoY",
-    trend: "up",
-    freshness: "Feb 2026",
-  },
-];
-
 export const DEMAND_VERTICALS = [
   {
     id: "crude-products",
+    code: "crude_products",
     navLabel: "Crude",
     label: "Crude Oil + Refined Products",
-    shortLabel: "Crude · Products",
+    shortLabel: "Crude + Products",
     sectorId: "energy",
     accent: "var(--color-energy)",
     supportedGroupIds: ["crude-oil"],
-    summary:
-      "US petroleum demand is running 1.8% above year-ago levels, led by stronger gasoline and refinery pull.",
-    scorecard: {
-      label: "US product supplied",
-      value: "20.2 mb/d",
-      yoyLabel: "+1.8%",
-      yoyValue: 1.8,
-      trend: "up",
-      latestData: "Week ending 14 Mar 2026",
-      freshness: "5d ago",
-    },
-    facts: [
-      { label: "Primary cadence", value: "Weekly", note: "EIA WPSR anchor release" },
-      { label: "Surprise flag", value: "+340 kb/d", note: "Gasoline vs year-ago" },
-      { label: "Coverage", value: "US direct", note: "EU context; China pending clearance" },
-    ],
-    sections: [
-      {
-        id: "direct",
-        title: "Direct Consumption",
-        description: "Measured delivery volumes remain the lead signal for the US oil complex.",
-        indicators: [
-          {
-            tier: "T1 · Direct",
-            title: "Total product supplied",
-            value: "20.2 mb/d",
-            change: "+1.8% YoY",
-            detail: "4-week average at 20.0 mb/d",
-            trend: "up",
-            sparkline: [19.1, 19.3, 19.6, 19.5, 19.8, 20.0, 20.2],
-          },
-          {
-            tier: "T1 · Direct",
-            title: "Gasoline product supplied",
-            value: "8.9 mb/d",
-            change: "+0.7% YoY",
-            detail: "Still below summer peak but improving",
-            trend: "flat",
-            sparkline: [8.3, 8.4, 8.6, 8.5, 8.7, 8.8, 8.9],
-          },
-          {
-            tier: "T1 · Direct",
-            title: "Distillate product supplied",
-            value: "4.1 mb/d",
-            change: "+1.4% YoY",
-            detail: "Industrial and freight pull holding firm",
-            trend: "up",
-            sparkline: [3.7, 3.8, 3.9, 3.8, 4.0, 4.0, 4.1],
-          },
-        ],
-        tableRows: [
-          ["Total product supplied", "20.2 mb/d", "+0.4 mb/d", "+1.8%", "5d ago"],
-          ["Gasoline", "8.9 mb/d", "+0.2 mb/d", "+0.7%", "5d ago"],
-          ["Distillate", "4.1 mb/d", "+0.1 mb/d", "+1.4%", "5d ago"],
-          ["Jet fuel", "1.7 mb/d", "–", "+1.1%", "6w ago"],
-        ],
-      },
-      {
-        id: "throughput",
-        title: "Throughput Proxies",
-        description: "Refinery runs confirm whether crude demand is translating into physical system pull.",
-        indicators: [
-          {
-            tier: "T2 · Throughput",
-            title: "Refinery crude inputs",
-            value: "16.3 mb/d",
-            change: "+2.0% YoY",
-            detail: "Seasonal maintenance is clearing",
-            trend: "up",
-            sparkline: [15.2, 15.3, 15.6, 15.9, 16.0, 16.1, 16.3],
-          },
-          {
-            tier: "T2 · Throughput",
-            title: "Refinery utilisation",
-            value: "88.4%",
-            change: "+1.6pp YoY",
-            detail: "Utilisation pushing above 5-year median",
-            trend: "up",
-            sparkline: [83.8, 84.4, 85.7, 86.2, 86.9, 87.5, 88.4],
-          },
-        ],
-        tableRows: [
-          ["Refinery crude inputs", "16.3 mb/d", "+0.5 mb/d", "+2.0%", "5d ago"],
-          ["Refinery utilisation", "88.4%", "+1.2pp", "+1.6pp", "5d ago"],
-        ],
-      },
-      {
-        id: "context",
-        title: "End-Use · Trade Context",
-        description: "Demand confirmation comes from transport activity and the monthly import channels outside the US.",
-        indicators: [
-          {
-            tier: "T4 · End-Use",
-            title: "Vehicle miles travelled",
-            value: "287 bn miles",
-            change: "+1.1% YoY",
-            detail: "US road demand still constructive",
-            trend: "up",
-            sparkline: [276, 278, 280, 282, 284, 286, 287],
-          },
-          {
-            tier: "T4 · End-Use",
-            title: "TSA throughput",
-            value: "2.7m passengers/day",
-            change: "+4.2% YoY",
-            detail: "Jet demand proxy improving into summer",
-            trend: "up",
-            sparkline: [2.2, 2.3, 2.4, 2.4, 2.5, 2.6, 2.7],
-          },
-          {
-            tier: "T3 · Trade Flow",
-            title: "EU inland deliveries",
-            value: "11.8 mb/d",
-            change: "-0.2% YoY",
-            detail: "Eurostat lagged but still useful for monthly confirmation",
-            trend: "flat",
-            sparkline: [11.6, 11.5, 11.4, 11.6, 11.7, 11.8, 11.8],
-          },
-        ],
-        tableRows: [
-          ["Vehicle miles travelled", "287 bn mi", "+1.7 bn mi", "+1.1%", "7w ago"],
-          ["TSA throughput", "2.7m/day", "+0.1m/day", "+4.2%", "1d ago"],
-          ["EU inland deliveries", "11.8 mb/d", "–", "-0.2%", "9w ago"],
-        ],
-      },
-    ],
-    calendar: [
-      { label: "EIA Weekly Petroleum Status", value: "Wed 15:30 UTC", note: "Direct + throughput reset" },
-      { label: "TSA checkpoint data", value: "Daily 06:00 UTC", note: "Jet fuel proxy" },
-      { label: "EIA STEO", value: "9 Apr 2026", note: "Forecast comparison input" },
-    ],
-    notes: [
-      "Global oil demand tables remain restricted. MVP uses EIA STEO for the free global anchor and keeps IEA commentary qualitative.",
-      "China crude import data remains a legal review item. Monthly context stays limited until direct republication terms are cleared.",
-    ],
   },
   {
     id: "electricity",
+    code: "electricity",
     navLabel: "Power",
     label: "Electricity / Power",
     shortLabel: "Electricity",
     sectorId: "energy",
     accent: "var(--color-natural-gas)",
     supportedGroupIds: ["power"],
-    summary:
-      "Power demand remains the strongest direct-read vertical: hourly US load is running above year-ago levels and China electricity demand remains firm.",
-    scorecard: {
-      label: "US grid load peak",
-      value: "428 GW",
-      yoyLabel: "+2.1%",
-      yoyValue: 2.1,
-      trend: "up",
-      latestData: "19 Mar 2026",
-      freshness: "1d ago",
-    },
-    facts: [
-      { label: "Primary cadence", value: "Hourly", note: "EIA Grid Monitor" },
-      { label: "Global edge", value: "Ember", note: "Confirmed CC BY source" },
-      { label: "Weather link", value: "Deferred", note: "WeatherWatch owns HDD/CDD" },
-    ],
-    sections: [
-      {
-        id: "direct",
-        title: "Direct Load",
-        description: "Electricity is the cleanest demand page in the module because direct measurement is available at high frequency.",
-        indicators: [
-          {
-            tier: "T1 · Direct",
-            title: "US grid load peak",
-            value: "428 GW",
-            change: "+2.1% YoY",
-            detail: "Peak load remains above the 5-year seasonal median",
-            trend: "up",
-            sparkline: [401, 405, 409, 412, 418, 423, 428],
-          },
-          {
-            tier: "T1 · Direct",
-            title: "US total power generation",
-            value: "11.1 TWh/day",
-            change: "+1.6% YoY",
-            detail: "Broad-based lift across residential and commercial demand",
-            trend: "up",
-            sparkline: [10.4, 10.5, 10.6, 10.8, 10.9, 11.0, 11.1],
-          },
-          {
-            tier: "T1 · Direct",
-            title: "China electricity demand",
-            value: "+4.6% YoY",
-            change: "Ember monthly demand growth",
-            detail: "Launch proxy for China demand until broader data clears review",
-            trend: "up",
-            sparkline: [1.2, 1.8, 2.4, 2.8, 3.5, 4.0, 4.6],
-          },
-        ],
-        tableRows: [
-          ["US grid load peak", "428 GW", "+9 GW", "+2.1%", "1d ago"],
-          ["US generation", "11.1 TWh/day", "+0.2 TWh/day", "+1.6%", "1d ago"],
-          ["China electricity demand", "+4.6%", "+0.7pp", "+4.6%", "3w ago"],
-        ],
-      },
-      {
-        id: "throughput",
-        title: "Fuel Pull · Context",
-        description: "Power demand matters because it pulls gas, coal, and carbon through the stack.",
-        indicators: [
-          {
-            tier: "T2 · Throughput",
-            title: "US gas power burn",
-            value: "32.7 Bcf/d",
-            change: "+1.3% YoY",
-            detail: "Gas retains dispatch lead in shoulder season",
-            trend: "up",
-            sparkline: [30.1, 30.4, 30.8, 31.2, 31.7, 32.1, 32.7],
-          },
-          {
-            tier: "T6 · Macro",
-            title: "Data center power load",
-            value: "Rising",
-            change: "Structural support",
-            detail: "Tracked as a structural theme, not a spot indicator",
-            trend: "up",
-            sparkline: [70, 73, 77, 82, 88, 93, 99],
-          },
-          {
-            tier: "T7 · Weather",
-            title: "Cooling degree days",
-            value: "See WeatherWatch ↗",
-            valueHref: "/weather-watch/",
-            change: "Single source of truth",
-            detail: "Weather overlay is intentionally read-only here",
-            trend: "flat",
-            sparkline: [52, 53, 54, 55, 54, 55, 56],
-          },
-        ],
-        tableRows: [
-          ["US gas power burn", "32.7 Bcf/d", "+0.5 Bcf/d", "+1.3%", "8w ago"],
-          ["Weather dependency", "Linked", "n/a", "n/a", "WeatherWatch"],
-        ],
-      },
-    ],
-    calendar: [
-      { label: "EIA Grid Monitor", value: "Hourly", note: "Continuous demand tape" },
-      { label: "Ember electricity update", value: "Monthly", note: "Global + China context" },
-      { label: "Cooling Degree Days", value: "Via WeatherWatch", note: "HDD/CDD overlay — source: WeatherWatch" },
-    ],
-    notes: [
-      "Power is the strongest launch vertical because the data is both direct and timely.",
-      "HDD/CDD stays out of DemandWatch storage. The page reads weather context from WeatherWatch only.",
-    ],
   },
   {
-    id: "grains-oilseeds",
+    id: "grains",
+    code: "grains_oilseeds",
     navLabel: "Grains",
     label: "Grains & Oilseeds",
     shortLabel: "Grains",
     sectorId: "agriculture",
     accent: "var(--color-agri)",
     supportedGroupIds: ["grains-oilseeds"],
-    summary:
-      "Demand remains constructive in grains: WASDE use is still above last year and export demand is firm, with ethanol reinforcing the energy link.",
-    scorecard: {
-      label: "USDA total use",
-      value: "14,890 mb",
-      yoyLabel: "+2.1%",
-      yoyValue: 2.1,
-      trend: "flat",
-      latestData: "March WASDE",
-      freshness: "8d ago",
-    },
-    facts: [
-      { label: "Primary cadence", value: "Monthly", note: "WASDE + PSD backbone" },
-      { label: "Fast release", value: "Weekly", note: "Export sales every Thursday" },
-      { label: "China coverage", value: "Partial", note: "USDA FAS only at launch" },
-    ],
-    sections: [
-      {
-        id: "direct",
-        title: "Direct Demand Estimates",
-        description: "USDA remains the launch anchor because it publishes the cleanest public-domain demand set in commodities.",
-        indicators: [
-          {
-            tier: "T1 · Direct",
-            title: "Corn total use",
-            value: "14,890 mb",
-            change: "+2.1% YoY",
-            detail: "Domestic use and exports both supportive",
-            trend: "flat",
-            sparkline: [14.4, 14.5, 14.6, 14.7, 14.8, 14.8, 14.89],
-          },
-          {
-            tier: "T1 · Direct",
-            title: "Soybean crush",
-            value: "2.36 bn bu",
-            change: "+1.4% YoY",
-            detail: "Meal demand remains steady",
-            trend: "up",
-            sparkline: [2.18, 2.20, 2.23, 2.26, 2.29, 2.33, 2.36],
-          },
-          {
-            tier: "T1 · Direct",
-            title: "PSD world demand",
-            value: "Active",
-            change: "Same-day machine-readable",
-            detail: "Global context comes directly from FAS PSD Online",
-            trend: "up",
-            sparkline: [90, 91, 92, 93, 94, 95, 96],
-          },
-        ],
-        tableRows: [
-          ["Corn total use", "14,890 mb", "+120 mb", "+2.1%", "8d ago"],
-          ["Soybean crush", "2.36 bn bu", "+30m bu", "+1.4%", "8d ago"],
-          ["World PSD demand", "Updated", "n/a", "n/a", "8d ago"],
-        ],
-      },
-      {
-        id: "flow",
-        title: "Trade · Throughput",
-        description: "Weekly export sales and ethanol runs make grains one of the most event-driven demand pages in the app.",
-        indicators: [
-          {
-            tier: "T3 · Trade Flow",
-            title: "Corn export sales",
-            value: "1.21 mmt",
-            change: "+18% vs 4-week avg",
-            detail: "Strong book to key destinations",
-            trend: "up",
-            sparkline: [0.72, 0.81, 0.88, 0.93, 1.01, 1.08, 1.21],
-          },
-          {
-            tier: "T2 · Throughput",
-            title: "Ethanol production",
-            value: "1.08 mb/d",
-            change: "+3.4% YoY",
-            detail: "Energy linkage still doing demand work",
-            trend: "up",
-            sparkline: [0.96, 0.98, 1.00, 1.01, 1.03, 1.05, 1.08],
-          },
-          {
-            tier: "T5 · Leading",
-            title: "Prospective plantings",
-            value: "94.0m acres",
-            change: "Determines fertiliser input demand",
-            detail: "Leading indicator, not direct demand",
-            trend: "flat",
-            sparkline: [90, 91, 92, 93, 94, 94, 94],
-          },
-        ],
-        tableRows: [
-          ["Corn export sales", "1.21 mmt", "+0.14 mmt", "+18% vs 4w avg", "2d ago"],
-          ["Ethanol production", "1.08 mb/d", "+0.03 mb/d", "+3.4%", "5d ago"],
-          ["Prospective plantings", "94.0m acres", "n/a", "Leading", "Same day"],
-        ],
-      },
-    ],
-    calendar: [
-      { label: "USDA Export Sales", value: "Thu 12:30 UTC", note: "Weekly demand pulse" },
-      { label: "USDA WASDE", value: "Monthly, approx. 12th", note: "Primary revision event" },
-      { label: "USDA Crop Progress", value: "Mon seasonal", note: "Timing signal for demand" },
-    ],
-    notes: [
-      "Fertilisers stay nested under grains at launch because direct consumption data is too thin without a commercial licence.",
-      "China agricultural demand remains partly covered through USDA FAS GAIN reports until broader customs republication is cleared.",
-    ],
   },
   {
     id: "base-metals",
+    code: "base_metals",
     navLabel: "Metals",
     label: "Base Metals / Industrial Demand",
     shortLabel: "Base Metals",
     sectorId: "metals",
     accent: "var(--color-metals)",
     supportedGroupIds: ["base-metals", "battery-metals"],
-    summary:
-      "Base-metals demand stays tied to the macro cycle: industrial production is improving, housing is still constructive, and auto demand remains stable enough to support copper and aluminium.",
+  },
+];
+
+const DEMAND_VERTICAL_ORDER = new Map(DEMAND_VERTICALS.map((vertical, index) => [vertical.id, index]));
+const DEMAND_VERTICALS_BY_ID = new Map(DEMAND_VERTICALS.map((vertical) => [vertical.id, vertical]));
+const DEMAND_TIER_LABELS = new Map(
+  DEMAND_TAXONOMY.map((tier) => [
+    String(tier.id || "").toLowerCase(),
+    tier.shortLabel,
+  ])
+);
+
+const TIER_SORT_ORDER = {
+  t1_direct: 1,
+  t2_throughput: 2,
+  t3_trade: 3,
+  t4_end_use: 4,
+  t5_leading: 5,
+  t6_macro: 6,
+  t7_weather: 7,
+};
+
+const RELEASE_DATE_FORMATTER = new Intl.DateTimeFormat("en-GB", {
+  weekday: "short",
+  day: "2-digit",
+  month: "short",
+  hour: "2-digit",
+  minute: "2-digit",
+  hour12: false,
+  timeZone: "UTC",
+});
+
+function firstNonEmpty(...values) {
+  return values.find((value) => value !== null && value !== undefined && String(value).trim() !== "") ?? null;
+}
+
+function titleCase(value) {
+  return String(value || "")
+    .replaceAll("_", " ")
+    .replace(/\b\w/g, (character) => character.toUpperCase());
+}
+
+function asArray(value) {
+  return Array.isArray(value) ? value : [];
+}
+
+function fallbackSparkline(values, fallbackValue = null) {
+  const points = asArray(values).filter((value) => Number.isFinite(value));
+  if (points.length > 1) {
+    return points;
+  }
+
+  if (points.length === 1) {
+    return [points[0], points[0]];
+  }
+
+  if (Number.isFinite(fallbackValue)) {
+    return [fallbackValue, fallbackValue];
+  }
+
+  return [0, 0];
+}
+
+function tierOrder(value) {
+  return TIER_SORT_ORDER[String(value || "").toLowerCase()] ?? 99;
+}
+
+function tierLabel(value) {
+  const normalized = String(value || "").toLowerCase();
+  const compact = normalized.startsWith("t") ? normalized.slice(0, 2) : normalized;
+  return DEMAND_TIER_LABELS.get(compact) || titleCase(value);
+}
+
+function sortCoverageItems(items) {
+  return [...asArray(items)].sort((left, right) => {
+    const tierDelta = tierOrder(left.tier) - tierOrder(right.tier);
+    if (tierDelta !== 0) {
+      return tierDelta;
+    }
+
+    return String(left.name || left.code || "").localeCompare(String(right.name || right.code || ""));
+  });
+}
+
+function formatReleaseStamp(value) {
+  if (!value) {
+    return null;
+  }
+
+  const parsed = new Date(value);
+  if (!Number.isFinite(parsed.getTime())) {
+    return null;
+  }
+
+  return RELEASE_DATE_FORMATTER.format(parsed).replace(",", "");
+}
+
+function coverageLabel(status) {
+  switch (String(status || "").toLowerCase()) {
+    case "live":
+      return "Live";
+    case "partial":
+      return "Partial";
+    case "blocked":
+      return "Blocked";
+    case "needs_verification":
+      return "Needs verification";
+    case "deferred":
+      return "Deferred";
+    default:
+      return "Coverage note";
+  }
+}
+
+export function coverageToneForStatus(status) {
+  switch (String(status || "").toLowerCase()) {
+    case "live":
+      return "live";
+    case "partial":
+      return "partial";
+    case "blocked":
+      return "blocked";
+    case "needs_verification":
+    case "deferred":
+      return "deferred";
+    default:
+      return "neutral";
+  }
+}
+
+function coverageDetail(item) {
+  const reason = firstNonEmpty(...asArray(item?.reasons));
+  const sourceName = firstNonEmpty(item?.source_name, item?.source_slug);
+  if (reason && sourceName) {
+    return `${sourceName} - ${reason}`;
+  }
+  return reason || sourceName || "Coverage remains explicit until republication terms are clear.";
+}
+
+function coverageSummaryLabel(coverageVertical) {
+  const counts = coverageVertical?.counts || {};
+  const parts = [];
+
+  if (Number.isFinite(counts.live) && counts.live > 0) {
+    parts.push(`${counts.live} live`);
+  }
+  if (Number.isFinite(counts.partial) && counts.partial > 0) {
+    parts.push(`${counts.partial} partial`);
+  }
+  if (Number.isFinite(counts.deferred) && counts.deferred > 0) {
+    parts.push(`${counts.deferred} deferred`);
+  }
+  if (Number.isFinite(counts.blocked) && counts.blocked > 0) {
+    parts.push(`${counts.blocked} blocked`);
+  }
+
+  return parts.join(" / ") || "No coverage metadata";
+}
+
+function gapSectionDescription(coverageVertical) {
+  const counts = coverageVertical?.counts || {};
+  const deferredCount = Number.isFinite(counts.deferred) ? counts.deferred : 0;
+  const blockedCount = Number.isFinite(counts.blocked) ? counts.blocked : 0;
+  const parts = [];
+
+  if (deferredCount > 0) {
+    parts.push(`${deferredCount} deferred`);
+  }
+  if (blockedCount > 0) {
+    parts.push(`${blockedCount} blocked`);
+  }
+
+  return parts.length
+    ? `DemandWatch keeps ${parts.join(" / ")} indicators visible without fabricated values.`
+    : "Coverage gaps remain explicit where the backend marks them as deferred or blocked.";
+}
+
+function mapDemandMacroStripItem(item) {
+  return {
+    id: item.id,
+    code: item.code,
+    label: item.label,
+    descriptor: item.descriptor,
+    value: firstNonEmpty(item.display_value, item.latest_period_label, "No live value"),
+    change: firstNonEmpty(item.change_label, item.latest_period_label, "Awaiting next release"),
+    trend: item.trend || "flat",
+    freshness: firstNonEmpty(item.freshness, item.latest_period_label, "Unknown"),
+    freshnessState: item.freshness_state || "unknown",
+    sourceUrl: item.source_url || null,
+  };
+}
+
+export function mapDemandScorecardItem(item) {
+  const meta = getDemandVerticalById(item.id);
+
+  return {
+    id: item.id,
+    code: item.code,
+    navLabel: firstNonEmpty(item.nav_label, meta?.navLabel, item.label, item.id),
+    label: firstNonEmpty(item.label, meta?.label, item.id),
+    shortLabel: firstNonEmpty(item.short_label, meta?.shortLabel, item.nav_label, item.label, item.id),
+    sectorId: firstNonEmpty(item.sector, meta?.sectorId, "energy"),
+    accent: meta?.accent || "var(--color-amber)",
+    supportedGroupIds: meta?.supportedGroupIds || [],
     scorecard: {
-      label: "US industrial production",
-      value: "103.8",
-      yoyLabel: "+1.2%",
-      yoyValue: 1.2,
-      trend: "up",
-      latestData: "Feb 2026",
-      freshness: "3w ago",
+      label: firstNonEmpty(item.scorecard_label, "Demand signal"),
+      value: firstNonEmpty(item.display_value, "No live value"),
+      yoyLabel: firstNonEmpty(item.yoy_label, "YoY unavailable"),
+      yoyValue: item.yoy_value ?? null,
+      trend: item.trend || "flat",
+      latestData: firstNonEmpty(item.latest_period_label, "Latest release"),
+      freshness: firstNonEmpty(item.freshness, "Unknown"),
+      freshnessState: item.freshness_state || "unknown",
+      stale: Boolean(item.stale),
+      sourceUrl: item.source_url || null,
+      primarySeriesCode: item.primary_series_code,
     },
-    facts: [
-      { label: "Primary cadence", value: "Monthly", note: "FRED-led macro stack" },
-      { label: "PMI handling", value: "Directional only", note: "No raw PMI numbers" },
-      { label: "Launch scope", value: "US-centric", note: "China metals still under review" },
-    ],
-    sections: [
-      {
-        id: "macro",
-        title: "Macro Backbone",
-        description: "This page deliberately uses public-domain macro series instead of proprietary PMI values.",
-        indicators: [
-          {
-            tier: "T6 · Macro",
-            title: "Industrial production",
-            value: "103.8",
-            change: "+1.2% YoY",
-            detail: "The cleanest public demand proxy for industrial metals",
-            trend: "up",
-            sparkline: [101.6, 101.9, 102.3, 102.7, 103.0, 103.4, 103.8],
-          },
-          {
-            tier: "T6 · Macro",
-            title: "Housing starts",
-            value: "1.52m",
-            change: "+5.2% YoY",
-            detail: "Construction still supporting copper intensity",
-            trend: "up",
-            sparkline: [1.36, 1.39, 1.41, 1.44, 1.46, 1.49, 1.52],
-          },
-          {
-            tier: "T6 · Macro",
-            title: "Vehicle sales",
-            value: "15.6m SAAR",
-            change: "+0.8% YoY",
-            detail: "Auto demand remains steady rather than hot",
-            trend: "flat",
-            sparkline: [15.1, 15.2, 15.3, 15.3, 15.4, 15.5, 15.6],
-          },
-        ],
-        tableRows: [
-          ["Industrial production", "103.8", "+0.2 pts", "+1.2%", "3w ago"],
-          ["Housing starts", "1.52m", "+0.07m", "+5.2%", "3w ago"],
-          ["Vehicle sales", "15.6m SAAR", "+0.1m", "+0.8%", "3w ago"],
-        ],
-      },
-      {
-        id: "end-use",
-        title: "End-Use · Throughput",
-        description: "The module keeps throughput context visible while legal review continues on some association data.",
-        indicators: [
-          {
-            tier: "T4 · End-Use",
-            title: "Durable goods orders",
-            value: "+0.9%",
-            change: "MoM",
-            detail: "Order flow is constructive for fabricated metals demand",
-            trend: "up",
-            sparkline: [0.0, 0.1, 0.2, 0.2, 0.4, 0.6, 0.9],
-          },
-          {
-            tier: "T2 · Throughput",
-            title: "World steel production",
-            value: "—",
-            change: "Data pending licensing clearance",
-            detail: "Kept visible as a tracked gap rather than silently omitted",
-            trend: "flat",
-            sparkline: [82, 82, 83, 83, 84, 84, 84],
-          },
-          {
-            tier: "T3 · Trade Flow",
-            title: "China demand placeholder",
-            value: "Data forthcoming",
-            change: "Legal review",
-            detail: "China remains the highest-impact metals gap",
-            trend: "flat",
-            sparkline: [50, 50, 50, 51, 51, 51, 51],
-          },
-        ],
-        tableRows: [
-          ["Durable goods orders", "+0.9%", "+0.4pp", "Up", "3w ago"],
-          ["World steel production", "—", "n/a", "Legal review", "Deferred"],
-          ["China metals demand", "Data forthcoming", "n/a", "Deferred", "Deferred"],
-        ],
-      },
-    ],
-    calendar: [
-      { label: "Federal Reserve G.17", value: "Monthly", note: "Industrial production release" },
-      { label: "Census housing starts", value: "Monthly", note: "Construction demand proxy" },
-      { label: "Auto sales roll-up", value: "Monthly", note: "Demand pulse by end market" },
-    ],
-    notes: [
-      "Raw PMI numbers remain outside launch scope. DemandWatch uses directional language only and links users to source releases for the headline value.",
-      "China is the critical metals gap. The page keeps that absence explicit rather than implying false completeness.",
-    ],
-  },
-];
+  };
+}
 
-export const DEMAND_MOVERS = [
-  {
-    id: "gasoline-surprise",
-    verticalId: "crude-products",
-    tier: "T1 · Direct",
-    title: "US gasoline product supplied",
-    value: "8.9 mb/d",
-    change: "+340 kb/d vs year-ago",
-    surprise: "1.6σ above trailing YoY range",
-    freshness: "5d ago",
-    trend: "up",
-  },
-  {
-    id: "grid-load",
-    verticalId: "electricity",
-    tier: "T1 · Direct",
-    title: "US grid load peak",
-    value: "428 GW",
-    change: "+2.1% YoY",
-    surprise: "Peak demand above seasonal norm",
-    freshness: "1d ago",
-    trend: "up",
-  },
-  {
-    id: "corn-export-sales",
-    verticalId: "grains-oilseeds",
-    tier: "T3 · Trade Flow",
-    title: "US corn export sales",
-    value: "1.21 mmt",
-    change: "+18% vs 4-week average",
-    surprise: "Strong weekly book",
-    freshness: "2d ago",
-    trend: "up",
-  },
-  {
-    id: "industrial-production",
-    verticalId: "base-metals",
-    tier: "T6 · Macro",
-    title: "US industrial production",
-    value: "103.8",
-    change: "+1.2% YoY",
-    surprise: "Demand proxy still improving",
-    freshness: "3w ago",
-    trend: "up",
-  },
-  {
-    id: "refinery-inputs",
-    verticalId: "crude-products",
-    tier: "T2 · Throughput",
-    title: "Refinery crude inputs",
-    value: "16.3 mb/d",
-    change: "+2.0% YoY",
-    surprise: "Maintenance fading faster than usual",
-    freshness: "5d ago",
-    trend: "up",
-  },
-  {
-    id: "ethanol-output",
-    verticalId: "grains-oilseeds",
-    tier: "T2 · Throughput",
-    title: "US ethanol production",
-    value: "1.08 mb/d",
-    change: "+3.4% YoY",
-    surprise: "Corn pull reinforcing",
-    freshness: "5d ago",
-    trend: "up",
-  },
-];
+export function mapDemandScorecardItems(items) {
+  return sortDemandVerticalItems(asArray(items).map(mapDemandScorecardItem));
+}
 
-export const DEMAND_SCOPE_NOTES = [
-  {
-    title: "Launch verticals",
-    copy: "DemandWatch MVP covers crude + refined products, electricity, grains, and base metals.",
-  },
-  {
-    title: "Tier policy",
-    copy: "Every indicator carries a tier badge so users can separate direct measurement from proxy and macro context at a glance.",
-  },
-  {
-    title: "China transparency",
-    copy: "Where republication terms are unresolved, DemandWatch keeps placeholders and notes instead of synthetic estimates.",
-  },
-];
+function mapDemandMoverItem(item) {
+  const meta = getDemandVerticalById(item.vertical_id);
 
-export const DEMAND_GAP_NOTES = [
-  {
-    title: "China demand remains the highest-impact gap",
-    copy: "Launch uses Ember electricity demand and USDA FAS agricultural context while direct customs and NBS republication terms remain under review.",
-  },
-  {
-    title: "PMI stays directional only",
-    copy: "The module avoids raw ISM and S&P Global PMI values. Public-domain industrial production remains the primary macro demand proxy.",
-  },
-  {
-    title: "Weather lives in WeatherWatch",
-    copy: "HDD and CDD overlays are linked contextually. DemandWatch does not duplicate weather storage or calculation.",
-  },
-];
+  return {
+    id: `${item.vertical_id}:${item.code}`,
+    verticalId: item.vertical_id,
+    tier: firstNonEmpty(item.tier_label, item.tier, "Tier"),
+    title: item.title,
+    value: firstNonEmpty(item.display_value, "No live value"),
+    change: firstNonEmpty(item.change_label, item.latest_period_label, "Awaiting next release"),
+    surprise: firstNonEmpty(item.surprise_label, item.latest_period_label, "No active surprise flag"),
+    freshness: firstNonEmpty(item.freshness, "Unknown"),
+    freshnessState: item.freshness_state || "unknown",
+    trend: item.trend || "flat",
+    accent: meta?.accent || "var(--color-amber)",
+    sourceUrl: item.source_url || null,
+  };
+}
 
-export const DEMAND_ROADMAP = [
-  "Natural gas, coal, and precious metals demand pages after WeatherWatch integration and legal review.",
-  "Full macro dashboard, structural trends, and demand-on-price overlays in V2.",
-  "Cross-module balance stories with InventoryWatch and future SupplyWatch in V3.",
-];
+function mapIndicatorCard(indicator) {
+  return {
+    id: indicator.series_id || indicator.code,
+    title: indicator.title,
+    tier: firstNonEmpty(indicator.tier_label, indicator.tier, "Tier"),
+    value: firstNonEmpty(indicator.display_value, "No live value"),
+    change: firstNonEmpty(indicator.change_label, indicator.latest_period_label, "Awaiting next release"),
+    detail: firstNonEmpty(
+      indicator.detail,
+      indicator.latest_period_label ? `As of ${indicator.latest_period_label}` : null,
+      indicator.freshness ? `Updated ${indicator.freshness}` : null,
+      "Awaiting next release"
+    ),
+    trend: indicator.trend || "flat",
+    sparkline: fallbackSparkline(indicator.sparkline, indicator.latest_value),
+    freshness: firstNonEmpty(indicator.freshness, "Unknown"),
+    freshnessState: indicator.freshness_state || "unknown",
+    latestPeriodLabel: indicator.latest_period_label || null,
+    sourceUrl: indicator.source_url || null,
+    coverageStatus: indicator.coverage_status || "live",
+    coverageLabel: coverageLabel(indicator.coverage_status || "live"),
+    coverageTone: coverageToneForStatus(indicator.coverage_status || "live"),
+    placeholder: false,
+  };
+}
+
+function mapIndicatorTableRow(row) {
+  return {
+    id: row.series_id || row.code,
+    label: row.label,
+    latest: firstNonEmpty(row.latest_display, "No live value"),
+    change: firstNonEmpty(row.change_display, "-"),
+    yoy: firstNonEmpty(row.yoy_display, "-"),
+    freshness: firstNonEmpty(row.freshness, "Unknown"),
+    freshnessState: row.freshness_state || "unknown",
+    trend: row.trend || "flat",
+    sourceUrl: row.source_url || null,
+    placeholder: false,
+  };
+}
+
+function mapCoveragePlaceholderCard(item) {
+  const status = item.coverage_status || "deferred";
+
+  return {
+    id: item.series_id || item.code,
+    title: firstNonEmpty(item.name, item.code, "Coverage gap"),
+    tier: tierLabel(item.tier || "coverage"),
+    value: coverageLabel(status),
+    change: coverageLabel(status),
+    detail: coverageDetail(item),
+    trend: "flat",
+    sparkline: [0, 0],
+    freshness: coverageLabel(status),
+    freshnessState: item.freshness_state || "unknown",
+    latestPeriodLabel: item.latest_period_label || null,
+    sourceUrl: item.source_url || null,
+    coverageStatus: status,
+    coverageLabel: coverageLabel(status),
+    coverageTone: coverageToneForStatus(status),
+    placeholder: true,
+  };
+}
+
+function mapCoveragePlaceholderRow(item) {
+  const status = item.coverage_status || "deferred";
+
+  return {
+    id: item.series_id || item.code,
+    label: firstNonEmpty(item.name, item.code, "Coverage gap"),
+    latest: coverageLabel(status),
+    change: "-",
+    yoy: "-",
+    freshness: coverageLabel(status),
+    freshnessState: item.freshness_state || "unknown",
+    trend: "flat",
+    sourceUrl: item.source_url || null,
+    placeholder: true,
+  };
+}
+
+function mapReleaseItem(item) {
+  const scheduleLabel = formatReleaseStamp(item.scheduled_for);
+
+  return {
+    label: item.release_name,
+    value: scheduleLabel ? `${item.is_estimated ? "Estimated - " : ""}${scheduleLabel} UTC` : titleCase(item.cadence || "schedule pending"),
+    note: firstNonEmpty(
+      asArray(item.notes)[0],
+      item.source_name ? `${item.source_name} - ${titleCase(item.cadence || "release")}` : null,
+      "Release timing pending"
+    ),
+  };
+}
+
+function findCoverageVertical(coverageNotes, verticalId) {
+  return asArray(coverageNotes?.verticals).find((vertical) => vertical.id === verticalId) || null;
+}
+
+function buildCoverageGapSection(coverageVertical) {
+  const placeholderItems = sortCoverageItems([
+    ...asArray(coverageVertical?.deferred),
+    ...asArray(coverageVertical?.blocked),
+  ]);
+
+  if (!placeholderItems.length) {
+    return null;
+  }
+
+  return {
+    id: "coverage-gaps",
+    title: "Coverage Gaps",
+    description: gapSectionDescription(coverageVertical),
+    indicators: placeholderItems.map(mapCoveragePlaceholderCard),
+    tableRows: placeholderItems.map(mapCoveragePlaceholderRow),
+    isCoverageGap: true,
+  };
+}
+
+export function mapDemandVerticalDetail(detail, coverageNotes) {
+  const meta = getDemandVerticalById(detail.id);
+  const coverageVertical = findCoverageVertical(coverageNotes, detail.id);
+  const gapSection = buildCoverageGapSection(coverageVertical);
+  const sections = asArray(detail.sections).map((section) => ({
+    id: section.id,
+    title: section.title,
+    description: section.description,
+    indicators: asArray(section.indicators).map(mapIndicatorCard),
+    tableRows: asArray(section.table_rows).map(mapIndicatorTableRow),
+    isCoverageGap: false,
+  }));
+
+  if (gapSection) {
+    sections.push(gapSection);
+  }
+
+  return {
+    id: detail.id,
+    code: detail.code,
+    navLabel: firstNonEmpty(detail.nav_label, meta?.navLabel, detail.label, detail.id),
+    label: firstNonEmpty(detail.label, meta?.label, detail.id),
+    shortLabel: firstNonEmpty(detail.short_label, meta?.shortLabel, detail.nav_label, detail.label, detail.id),
+    sectorId: firstNonEmpty(detail.sector, meta?.sectorId, "energy"),
+    accent: meta?.accent || "var(--color-amber)",
+    supportedGroupIds: meta?.supportedGroupIds || [],
+    summary: firstNonEmpty(detail.summary, "Demand coverage is loading."),
+    facts: asArray(detail.facts),
+    scorecard: mapDemandScorecardItem(detail.scorecard).scorecard,
+    sections,
+    calendar: asArray(detail.calendar).map(mapReleaseItem),
+    notes: asArray(detail.notes),
+    coverageLabel: coverageSummaryLabel(coverageVertical),
+    coverageVertical,
+  };
+}
+
+function buildHeroSummary(scorecardItems, coverageSummary) {
+  const counts = scorecardItems.reduce(
+    (accumulator, item) => {
+      const trend = item?.scorecard?.trend || "flat";
+      accumulator[trend] = (accumulator[trend] || 0) + 1;
+      return accumulator;
+    },
+    { up: 0, down: 0, flat: 0 }
+  );
+
+  let value = "Demand is mixed across the launch set.";
+  if (counts.up > 0 && counts.down === 0) {
+    value = counts.flat > 0 ? "Demand is firm where live coverage is deepest." : "Demand is improving across the launch set.";
+  } else if (counts.down > 0 && counts.up === 0) {
+    value = counts.flat > 0 ? "Demand is softening in part of the launch set." : "Demand is softening across the launch set.";
+  } else if (counts.up === 0 && counts.down === 0) {
+    value = "Demand is stable across the launch set.";
+  }
+
+  const statusCounts = coverageSummary?.status_counts || {};
+  const liveCount = Number.isFinite(statusCounts.live) ? statusCounts.live : 0;
+  const deferredCount = Number.isFinite(statusCounts.deferred) ? statusCounts.deferred : 0;
+  const blockedCount = Number.isFinite(statusCounts.blocked) ? statusCounts.blocked : 0;
+  const explicitGaps = deferredCount + blockedCount;
+
+  return {
+    label: "Current signal",
+    value,
+    copy:
+      liveCount || explicitGaps
+        ? `${liveCount} live series in the launch set, ${explicitGaps} explicit coverage gaps, freshness labelled on every release.`
+        : "Freshness and coverage metadata stay attached to every release.",
+  };
+}
+
+export function buildDemandWatchPageModel({
+  macroStrip,
+  scorecard,
+  movers,
+  coverageNotes,
+  verticalDetails,
+} = {}) {
+  const mappedScorecard = mapDemandScorecardItems(scorecard?.items);
+  const mappedVerticals = sortDemandVerticalItems(asArray(verticalDetails).map((detail) => mapDemandVerticalDetail(detail, coverageNotes)));
+
+  return {
+    generatedAt: firstNonEmpty(
+      coverageNotes?.generated_at,
+      scorecard?.generated_at,
+      macroStrip?.generated_at,
+      movers?.generated_at,
+      null
+    ),
+    hero: {
+      ...buildHeroSummary(mappedScorecard, coverageNotes?.summary),
+      stats: [
+        { label: "verticals", value: String(mappedScorecard.length || DEMAND_VERTICALS.length) },
+        { label: "signal tiers", value: String(DEMAND_TAXONOMY.length) },
+        {
+          label: "tracked series",
+          value: String(coverageNotes?.summary?.series_count || 0),
+        },
+      ],
+    },
+    macroStrip: asArray(macroStrip?.items).map(mapDemandMacroStripItem),
+    scorecard: mappedScorecard,
+    movers: asArray(movers?.items).map(mapDemandMoverItem),
+    verticals: mappedVerticals,
+    taxonomy: DEMAND_TAXONOMY,
+    coverageSummary: coverageNotes?.summary || null,
+    coverageNotes: coverageNotes || null,
+  };
+}
+
+export function sortDemandVerticalItems(items) {
+  return [...asArray(items)].sort((left, right) => {
+    const leftIndex = DEMAND_VERTICAL_ORDER.get(left.id) ?? 999;
+    const rightIndex = DEMAND_VERTICAL_ORDER.get(right.id) ?? 999;
+    if (leftIndex !== rightIndex) {
+      return leftIndex - rightIndex;
+    }
+
+    return String(left.label || left.id || "").localeCompare(String(right.label || right.id || ""));
+  });
+}
 
 export function getDemandVerticalById(verticalId) {
-  return DEMAND_VERTICALS.find((vertical) => vertical.id === verticalId) || null;
+  return DEMAND_VERTICALS_BY_ID.get(verticalId) || null;
 }

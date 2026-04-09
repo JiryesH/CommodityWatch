@@ -43,6 +43,16 @@
   dimension: index
   symbol: index
   metadata: {}
+- code: m_vehicle_miles
+  name: Million Vehicle Miles
+  dimension: transportation_activity
+  symbol: m mi
+  metadata: {}
+- code: m_units_saar
+  name: Million Units SAAR
+  dimension: annualized_units
+  symbol: m SAAR
+  metadata: {}
 - code: mt
   name: Million Tonnes
   dimension: mass

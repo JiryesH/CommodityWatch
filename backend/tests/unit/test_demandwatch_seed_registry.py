@@ -60,3 +60,25 @@ def test_unresolved_demand_sources_are_marked_conservatively() -> None:
     assert sources["iea"]["legal_status"] == "needs_verification"
     assert sources["worldsteel"]["legal_status"] == "needs_verification"
     assert sources["spglobal_pmi"]["legal_status"] == "off_limits"
+
+
+def test_canonical_unit_policy_covers_all_seeded_demandwatch_series() -> None:
+    indicators = load_yaml("indicators/demandwatch.yml")
+
+    assert {item["code"] for item in indicators} == set(policy.DEMANDWATCH_CANONICAL_UNIT_BY_SERIES_CODE)
+    for item in indicators:
+        assert policy.expected_canonical_unit_for_series(item["code"]) == item["canonical_unit_code"]
+
+
+def test_seeded_source_series_keys_preserve_string_identifiers() -> None:
+    indicators = {item["code"]: item for item in load_yaml("indicators/demandwatch.yml")}
+
+    assert indicators["USDA_US_CORN_TOTAL_USE_WASDE"]["source_series_key"] == "0440000"
+    assert indicators["USDA_US_SOYBEAN_TOTAL_USE_WASDE"]["source_series_key"] == "2222000"
+    assert indicators["USDA_US_WHEAT_TOTAL_USE_WASDE"]["source_series_key"] == "0410000"
+    assert indicators["USDA_US_CORN_EXPORT_SALES"]["source_series_key"] == "401"
+    assert indicators["USDA_US_SOYBEAN_EXPORT_SALES"]["source_series_key"] == "801"
+    assert indicators["USDA_US_WHEAT_EXPORT_SALES"]["source_series_key"] == "107"
+    assert isinstance(indicators["USDA_US_CORN_TOTAL_USE_WASDE"]["source_series_key"], str)
+    assert isinstance(indicators["USDA_US_SOYBEAN_EXPORT_SALES"]["source_series_key"], str)
+    assert isinstance(indicators["USDA_US_WHEAT_EXPORT_SALES"]["source_series_key"], str)

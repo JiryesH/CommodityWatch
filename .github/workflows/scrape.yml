@@ -57,6 +57,32 @@ jobs:
       - name: Run scraper
         run: python rss_scraper.py --output data/feed.json
 
+      - name: Fail on unhealthy feed state
+        run: |
+          python - <<'PY'
+          import json
+          import sys
+
+          with open("data/feed.json", "r", encoding="utf-8") as fh:
+              metadata = json.load(fh).get("metadata", {})
+
+          failed = int(metadata.get("feeds_failed", 0))
+          degraded = int(metadata.get("feeds_degraded", 0))
+          if failed == 0 and degraded == 0:
+              sys.exit(0)
+
+          details = metadata.get("feed_details", {})
+          print(f"Feed health check failed: failed={failed}, degraded={degraded}")
+          for name, detail in details.items():
+              status = str(detail.get("status") or "unknown")
+              if status == "ok":
+                  continue
+              message = detail.get("error") or detail.get("warning") or "No detail provided"
+              print(f"- {name}: {status} ({message})")
+
+          sys.exit(1)
+          PY
+
       - name: Re-classify feed
         run: python classifier.py --all --input data/feed.json --output data/feed.json
 

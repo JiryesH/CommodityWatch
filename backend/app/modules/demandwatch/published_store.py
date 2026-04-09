@@ -264,11 +264,14 @@ class DemandLatestMetrics:
 class PublishedDemandRepository:
     def __init__(self, database_path: Path) -> None:
         self.database_path = database_path
+        self._meta_by_key: dict[str, str] = {}
         self._units_by_code: dict[str, DemandUnitDefinition] = {}
         self._verticals_by_code: dict[str, DemandVerticalDefinition] = {}
         self._series_by_id: dict[str, DemandSeriesDefinition] = {}
         self._observations_by_series_id: dict[str, list[DemandObservation]] = {}
         self._latest_metrics_by_series_id: dict[str, DemandLatestMetrics] = {}
+        self.schema_version: int | None = None
+        self.published_at: datetime | None = None
         self._load_from_db()
 
     def _load_from_db(self) -> None:
@@ -278,6 +281,29 @@ class PublishedDemandRepository:
         connection = sqlite3.connect(self.database_path)
         connection.row_factory = sqlite3.Row
         try:
+            for row in connection.execute(
+                """
+                SELECT key, value
+                FROM published_demand_meta
+                ORDER BY key
+                """
+            ).fetchall():
+                self._meta_by_key[str(row["key"])] = str(row["value"])
+
+            raw_schema_version = self._meta_by_key.get("schema_version")
+            if raw_schema_version is None:
+                raise ValueError("DemandWatch published metadata is missing schema_version.")
+            self.schema_version = int(raw_schema_version)
+            if self.schema_version != SCHEMA_VERSION:
+                raise ValueError(
+                    f"DemandWatch published schema version {self.schema_version} does not match expected version {SCHEMA_VERSION}."
+                )
+
+            raw_published_at = self._meta_by_key.get("published_at")
+            if raw_published_at is None:
+                raise ValueError("DemandWatch published metadata is missing published_at.")
+            self.published_at = _as_utc(datetime.fromisoformat(raw_published_at))
+
             for row in connection.execute(
                 """
                 SELECT code, name, symbol
@@ -538,6 +564,15 @@ class PublishedDemandRepository:
                 )
         finally:
             connection.close()
+
+    def to_bundle(self) -> "DemandStoreBundle":
+        return DemandStoreBundle(
+            units_by_code=self._units_by_code,
+            verticals_by_code=self._verticals_by_code,
+            series_by_id=self._series_by_id,
+            observations_by_series_id=self._observations_by_series_id,
+            latest_metrics_by_series_id=self._latest_metrics_by_series_id,
+        )
 
 
 def normalize_period_bounds(

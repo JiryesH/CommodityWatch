@@ -72,6 +72,12 @@ def indicator_metadata(item: dict[str, Any]) -> dict[str, Any]:
     return {**extra_metadata, **nested_metadata}
 
 
+def _as_optional_str(value: Any) -> str | None:
+    if value is None:
+        return None
+    return str(value)
+
+
 async def upsert_rows(session: AsyncSession, model: Any, rows: list[dict[str, Any]], conflict_cols: list[str]) -> None:
     if not rows:
         return
@@ -147,7 +153,7 @@ async def seed_indicators(session: AsyncSession, source_ids: dict[str, Any]) -> 
                     "commodity_code": item.get("commodity_code"),
                     "geography_code": item.get("geography_code"),
                     "source_id": source_ids[item["source_slug"]],
-                    "source_series_key": item.get("source_series_key"),
+                    "source_series_key": _as_optional_str(item.get("source_series_key")),
                     "native_unit_code": item.get("native_unit_code"),
                     "canonical_unit_code": item.get("canonical_unit_code"),
                     "default_observation_kind": item["default_observation_kind"],

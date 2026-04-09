@@ -166,6 +166,34 @@
   is_calendar_driven: false
   active: true
   metadata: {published_report: New Residential Construction, landing_url: https://www.census.gov/construction/nrc/index.html}
+- slug: demand_fred_motor_vehicle_sales
+  source_slug: fred
+  name: DemandWatch FRED Motor Vehicle Sales
+  release_kind: data_release
+  module_code: demandwatch
+  commodity_code: base_metals
+  geography_code: US
+  cadence: monthly
+  schedule_timezone: America/New_York
+  schedule_rule: FREQ=MONTHLY;BYHOUR=08;BYMINUTE=30
+  default_local_time: "08:30:00"
+  is_calendar_driven: true
+  active: true
+  metadata: {published_report: Motor Vehicle Sales, landing_url: https://fred.stlouisfed.org/series/TOTALSA}
+- slug: demand_fred_traffic_volume_trends
+  source_slug: fred
+  name: DemandWatch FRED Traffic Volume Trends
+  release_kind: data_release
+  module_code: demandwatch
+  commodity_code: crude_products
+  geography_code: US
+  cadence: monthly
+  schedule_timezone: America/New_York
+  schedule_rule: FREQ=MONTHLY;BYHOUR=08;BYMINUTE=30
+  default_local_time: "08:30:00"
+  is_calendar_driven: true
+  active: true
+  metadata: {published_report: Traffic Volume Trends, landing_url: https://fred.stlouisfed.org/series/TRFVOLUSM227NFWA}
 - slug: demand_usda_wasde
   source_slug: usda_psd
   name: DemandWatch USDA WASDE

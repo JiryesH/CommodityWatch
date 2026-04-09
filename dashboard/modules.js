@@ -42,7 +42,8 @@ import {
 } from "../inventory-watch/catalog.js";
 import { snapshotSignalDescriptor, sortSnapshotCards } from "../inventory-watch/model.js";
 import { buildInventoryDetailHref } from "../inventory-watch/router.js";
-import { DEMAND_VERTICALS } from "../demand-watch/data.js";
+import { fetchDemandScorecard } from "../demand-watch/api-client.js";
+import { DEMAND_VERTICALS, mapDemandScorecardItems, sortDemandVerticalItems } from "../demand-watch/data.js";
 
 const headlineExactFormatter = new Intl.DateTimeFormat("en-GB", {
   day: "numeric",
@@ -422,7 +423,7 @@ const INVENTORY_GROUPS_BY_SECTOR = {
 const DEMAND_VERTICAL_IDS_BY_GROUP = {
   "crude-oil": ["crude-products"],
   power: ["electricity"],
-  "grains-oilseeds": ["grains-oilseeds"],
+  "grains-oilseeds": ["grains"],
   "base-metals": ["base-metals"],
   "battery-metals": ["base-metals"],
 };
@@ -430,7 +431,7 @@ const DEMAND_VERTICAL_IDS_BY_GROUP = {
 const DEMAND_VERTICAL_IDS_BY_SECTOR = {
   energy: ["crude-products", "electricity"],
   metals: ["base-metals"],
-  agriculture: ["grains-oilseeds"],
+  agriculture: ["grains"],
 };
 
 const INVENTORY_WIDGET_SIGNAL_PRIORITY = {
@@ -598,12 +599,7 @@ function renderInventoryWidgetMarkup(items) {
   `;
 }
 
-function demandWidgetSort(left, right) {
-  return DEMAND_VERTICALS.findIndex((vertical) => vertical.id === left.id) -
-    DEMAND_VERTICALS.findIndex((vertical) => vertical.id === right.id);
-}
-
-export function selectDemandWidgetItems(filter, limit = 4) {
+export function selectDemandWidgetItems(filter, items = DEMAND_VERTICALS, limit = 4) {
   const normalized = normalizeFilter(filter);
   const selectedGroup = getSelectedGroup(normalized);
   const narrowedByGroup = Boolean(selectedGroup || hasPartialGroupSelection(normalized));
@@ -623,14 +619,13 @@ export function selectDemandWidgetItems(filter, limit = 4) {
     });
   }
 
-  const items = DEMAND_VERTICALS.filter((vertical) => demandIds.has(vertical.id))
-    .sort(demandWidgetSort)
+  const selectedItems = sortDemandVerticalItems(items.filter((vertical) => demandIds.has(vertical.id)))
     .slice(0, limit);
 
   return {
-    items,
+    items: selectedItems,
     scopeLabel: getFilterLabel(filter),
-    unsupported: !items.length && narrowedByGroup,
+    unsupported: !selectedItems.length && narrowedByGroup,
   };
 }
 
@@ -647,7 +642,7 @@ function renderDemandPreviewRow(vertical) {
         <p class="demand-preview-signal">${escapeHtml(vertical.scorecard.label)}</p>
       </div>
       <div class="demand-preview-meta">
-        <p class="demand-preview-change">${escapeHtml(vertical.scorecard.yoyLabel)} YoY</p>
+        <p class="demand-preview-change">${escapeHtml(vertical.scorecard.yoyLabel)}</p>
         <p class="demand-preview-trend">${escapeHtml(signalWordForTrend(vertical.scorecard.trend))}</p>
         <p class="demand-preview-freshness">${escapeHtml(vertical.scorecard.freshness)}</p>
       </div>
@@ -1538,7 +1533,9 @@ async function renderDemandModuleBody(body, filter, { commit, isCurrent } = {}) 
   };
   const isRenderCurrent = typeof isCurrent === "function" ? isCurrent : () => true;
 
-  const { items, scopeLabel, unsupported } = selectDemandWidgetItems(filter);
+  const payload = await fetchDemandScorecard();
+  const liveItems = mapDemandScorecardItems(payload.items);
+  const { items, scopeLabel, unsupported } = selectDemandWidgetItems(filter, liveItems);
   if (!isRenderCurrent()) {
     return;
   }

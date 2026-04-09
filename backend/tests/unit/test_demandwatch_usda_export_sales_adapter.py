@@ -25,3 +25,19 @@ def test_parse_usda_export_sales_summary_rows() -> None:
     assert corn.marketing_year == "Sep 2025/Aug 2026"
     assert corn.raw_net_sales_kt == pytest.approx(1149.424)
     assert corn.value_mmt == pytest.approx(1.149424)
+
+
+def test_parse_usda_export_sales_summary_accepts_mmddyyyy_period_dates() -> None:
+    raw = b"""
+    <Report xmlns="CWRCommoditySummary">
+      <Tablix1>
+        <Details_Collection>
+          <Details CommodityCode="401" PeriodEndingDate="03/26/2026" MarketingYear="Sep 2025/Aug 2026" NetSales="1149.424" />
+        </Details_Collection>
+      </Tablix1>
+    </Report>
+    """
+
+    parsed = parse_export_sales_summary(raw)
+
+    assert parsed[0].period_ending_on == date(2026, 3, 26)

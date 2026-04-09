@@ -1,23 +1,34 @@
 from __future__ import annotations
 
-from datetime import timedelta
+import sqlite3
+from dataclasses import dataclass
+from datetime import datetime, timedelta
 from pathlib import Path
+from threading import Lock
 from typing import Any
 
-from sqlalchemy import select
+from fastapi.encoders import jsonable_encoder
+from sqlalchemy import func, select
+from sqlalchemy.exc import ProgrammingError
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.config import get_settings
 from app.db.models.demand import DemandSeries, DemandVertical
 from app.db.models.indicators import Indicator, ModuleSnapshotCache
 from app.db.models.observations import Observation
 from app.db.models.reference import UnitDefinition
 from app.db.models.sources import ReleaseDefinition, Source, SourceRelease
+from app.modules.demandwatch.presentation import (
+    DemandReleaseSchedule,
+    build_demandwatch_bootstrap_payload,
+)
 from app.modules.demandwatch.published_store import (
     DemandObservation,
     DemandSeriesDefinition,
     DemandStoreBundle,
     DemandUnitDefinition,
     DemandVerticalDefinition,
+    PublishedDemandRepository,
     build_latest_metrics_map,
     build_observation,
     utcnow,
@@ -25,7 +36,152 @@ from app.modules.demandwatch.published_store import (
 )
 
 
+SETUP_INSTRUCTIONS = "Run `alembic upgrade head` and `python scripts/seed_reference_data.py` against the backend database."
+PUBLISHED_STORE_SETUP_INSTRUCTIONS = (
+    "Run `python -m app.modules.demandwatch.cli publish` to create the DemandWatch published store."
+)
+DEMANDWATCH_SNAPSHOT_TTL = timedelta(seconds=300)
+DEMANDWATCH_SNAPSHOT_MOVERS_LIMIT = 50
+DEMANDWATCH_PUBLISHED_STORE_MAX_AGE = timedelta(days=14)
+
+
+@dataclass(frozen=True, slots=True)
+class DemandWatchPublicReadModel:
+    bundle: DemandStoreBundle
+    generated_at: datetime
+    database_path: Path
+
+
+@dataclass(slots=True)
+class _CachedDemandWatchReadModel:
+    database_path: Path
+    signature: tuple[int, int, int]
+    read_model: DemandWatchPublicReadModel
+
+
+_demandwatch_public_read_model_cache: _CachedDemandWatchReadModel | None = None
+_demandwatch_public_read_model_lock = Lock()
+
+
+class DemandWatchSetupError(RuntimeError):
+    pass
+
+
+def _demandwatch_public_artifact_path() -> Path:
+    return get_settings().artifact_root / "demandwatch" / "published.sqlite"
+
+
+def _published_store_signature(path: Path) -> tuple[int, int, int]:
+    stat_result = path.stat()
+    return (int(stat_result.st_ino), int(stat_result.st_size), int(stat_result.st_mtime_ns))
+
+
+def clear_demandwatch_public_read_model_cache() -> None:
+    global _demandwatch_public_read_model_cache
+    with _demandwatch_public_read_model_lock:
+        _demandwatch_public_read_model_cache = None
+
+
+def _published_store_unavailable(path: Path, exc: Exception) -> DemandWatchSetupError:
+    return DemandWatchSetupError(
+        f"DemandWatch published store is unavailable at {path}. "
+        f"{PUBLISHED_STORE_SETUP_INSTRUCTIONS} "
+        f"Details: {exc}"
+    )
+
+
+def _published_store_invalid(path: Path, exc: Exception) -> DemandWatchSetupError:
+    return DemandWatchSetupError(
+        f"DemandWatch published store at {path} is invalid. "
+        f"{PUBLISHED_STORE_SETUP_INSTRUCTIONS} "
+        f"Details: {exc}"
+    )
+
+
+def _format_duration_label(value: timedelta) -> str:
+    total_hours = max(0, int(value.total_seconds() // 3600))
+    if total_hours >= 48 and total_hours % 24 == 0:
+        return f"{total_hours // 24}d"
+    return f"{total_hours}h"
+
+
+def _published_store_stale(path: Path, *, published_at: datetime, now: datetime | None = None) -> DemandWatchSetupError:
+    reference_now = now or utcnow()
+    age = max(reference_now - published_at, timedelta())
+    return DemandWatchSetupError(
+        f"DemandWatch published store at {path} is stale. "
+        f"Published at {published_at.isoformat()} ({_format_duration_label(age)} old); "
+        f"maximum allowed age is {_format_duration_label(DEMANDWATCH_PUBLISHED_STORE_MAX_AGE)}. "
+        f"{PUBLISHED_STORE_SETUP_INSTRUCTIONS}"
+    )
+
+
+def _normalized_iso_timestamp(value: object) -> str | None:
+    if isinstance(value, datetime):
+        return value.isoformat()
+    if isinstance(value, str) and value.strip():
+        return value
+    return None
+
+
+def load_demandwatch_public_read_model() -> DemandWatchPublicReadModel:
+    path = _demandwatch_public_artifact_path()
+    try:
+        signature = _published_store_signature(path)
+    except FileNotFoundError as exc:
+        raise _published_store_unavailable(path, exc) from exc
+
+    global _demandwatch_public_read_model_cache
+    with _demandwatch_public_read_model_lock:
+        cached = _demandwatch_public_read_model_cache
+        if cached is not None and cached.database_path == path and cached.signature == signature:
+            return cached.read_model
+
+        try:
+            repository = PublishedDemandRepository(path)
+        except FileNotFoundError as exc:
+            raise _published_store_unavailable(path, exc) from exc
+        except (sqlite3.DatabaseError, ValueError) as exc:
+            raise _published_store_invalid(path, exc) from exc
+
+        if repository.published_at is None:
+            raise _published_store_invalid(path, ValueError("published_at metadata is missing."))
+        if utcnow() - repository.published_at > DEMANDWATCH_PUBLISHED_STORE_MAX_AGE:
+            raise _published_store_stale(path, published_at=repository.published_at)
+
+        read_model = DemandWatchPublicReadModel(
+            bundle=repository.to_bundle(),
+            generated_at=repository.published_at,
+            database_path=path,
+        )
+        _demandwatch_public_read_model_cache = _CachedDemandWatchReadModel(
+            database_path=path,
+            signature=signature,
+            read_model=read_model,
+        )
+        return read_model
+
+
+async def assert_demandwatch_registry_seeded(session: AsyncSession) -> None:
+    try:
+        vertical_count = await session.scalar(select(func.count()).select_from(DemandVertical))
+        series_count = await session.scalar(select(func.count()).select_from(DemandSeries))
+    except ProgrammingError as exc:
+        raise DemandWatchSetupError(
+            "DemandWatch tables are missing from the backend database. "
+            f"{SETUP_INSTRUCTIONS}"
+        ) from exc
+
+    if int(vertical_count or 0) <= 0 or int(series_count or 0) <= 0:
+        raise DemandWatchSetupError(
+            "DemandWatch reference data is missing from the backend database. "
+            f"{SETUP_INSTRUCTIONS}"
+        )
+
+
 async def load_demandwatch_bundle(session: AsyncSession) -> DemandStoreBundle:
+    await assert_demandwatch_registry_seeded(session)
+
     unit_result = await session.execute(select(UnitDefinition).order_by(UnitDefinition.code.asc()))
     units_by_code = {
         unit.code: DemandUnitDefinition(code=unit.code, name=unit.name, symbol=unit.symbol)
@@ -159,77 +315,176 @@ async def load_demandwatch_bundle(session: AsyncSession) -> DemandStoreBundle:
     )
 
 
-def build_demandwatch_snapshot_payload(bundle: DemandStoreBundle) -> dict[str, Any]:
-    generated_at = utcnow()
-    vertical_cards: list[dict[str, Any]] = []
-    for vertical in sorted(bundle.verticals_by_code.values(), key=lambda item: (item.display_order, item.code)):
-        related_series = [
-            series
-            for series in sorted(bundle.series_by_id.values(), key=lambda item: (item.display_order, item.code))
-            if series.vertical_code == vertical.code and series.coverage_status == "live"
-        ]
-        primary_series = next((series for series in related_series if series.tier == "t1_direct"), None)
-        if primary_series is None and related_series:
-            primary_series = related_series[0]
-        if primary_series is None:
-            continue
-        metrics = bundle.latest_metrics_by_series_id[primary_series.id]
-        vertical_cards.append(
-            {
-                "vertical_code": vertical.code,
-                "vertical_name": vertical.name,
-                "series_code": primary_series.code,
-                "series_name": primary_series.name,
-                "tier": primary_series.tier,
-                "latest_value": metrics.latest_value,
-                "unit_symbol": metrics.unit_symbol,
-                "yoy_pct": metrics.yoy_pct,
-                "yoy_abs": metrics.yoy_abs,
-                "moving_average_4w": metrics.moving_average_4w,
-                "trend_3m_direction": metrics.trend_3m_direction,
-                "latest_period_label": metrics.latest_period_label,
-                "freshness_state": metrics.freshness_state,
-                "surprise_flag": metrics.surprise_flag,
-            }
+async def load_demandwatch_release_schedules(session: AsyncSession) -> list[DemandReleaseSchedule]:
+    release_rows = (
+        await session.execute(
+            select(ReleaseDefinition, Source)
+            .join(Source, Source.id == ReleaseDefinition.source_id)
+            .where(ReleaseDefinition.module_code == "demandwatch", ReleaseDefinition.active.is_(True))
+            .order_by(ReleaseDefinition.slug.asc())
         )
+    ).all()
 
-    movers = [
-        {
-            "vertical_code": series.vertical_code,
-            "code": series.code,
-            "name": series.name,
-            "tier": series.tier,
-            "latest_period_label": metrics.latest_period_label,
-            "latest_release_date": metrics.latest_release_date.isoformat() if metrics.latest_release_date else None,
-            "latest_value": metrics.latest_value,
-            "unit_symbol": metrics.unit_symbol,
-            "change_abs": metrics.change_abs,
-            "yoy_pct": metrics.yoy_pct,
-            "surprise_flag": metrics.surprise_flag,
-            "surprise_reason": metrics.surprise_reason,
-        }
-        for series, metrics in (
-            (bundle.series_by_id[series_id], bundle.latest_metrics_by_series_id[series_id])
-            for series_id in bundle.series_by_id
+    if not release_rows:
+        return []
+
+    release_ids = [release.id for release, _source in release_rows]
+    latest_release_rows = (
+        await session.execute(
+            select(
+                SourceRelease.release_definition_id,
+                func.max(SourceRelease.released_at).label("latest_release_at"),
+            )
+            .where(SourceRelease.release_definition_id.in_(release_ids))
+            .group_by(SourceRelease.release_definition_id)
         )
-        if metrics.latest_release_date is not None
-    ]
-    movers.sort(key=lambda item: item["latest_release_date"] or "", reverse=True)
-
-    return {
-        "module": "demandwatch",
-        "generated_at": generated_at.isoformat(),
-        "expires_at": (generated_at + timedelta(seconds=300)).isoformat(),
-        "scorecard": vertical_cards,
-        "movers": movers[:10],
+    ).all()
+    latest_release_by_definition_id = {
+        release_definition_id: latest_release_at
+        for release_definition_id, latest_release_at in latest_release_rows
     }
+
+    series_rows = (
+        await session.execute(
+            select(ReleaseDefinition.id, DemandSeries.vertical_code, Indicator.code)
+            .join(DemandSeries, DemandSeries.release_definition_id == ReleaseDefinition.id)
+            .join(Indicator, Indicator.id == DemandSeries.indicator_id)
+            .where(
+                ReleaseDefinition.id.in_(release_ids),
+                Indicator.active.is_(True),
+                DemandSeries.coverage_status == "live",
+            )
+            .order_by(ReleaseDefinition.id.asc(), DemandSeries.display_order.asc(), Indicator.code.asc())
+        )
+    ).all()
+
+    grouped_verticals: dict[object, set[str]] = {}
+    grouped_series_codes: dict[object, list[str]] = {}
+    for release_definition_id, vertical_code, series_code in series_rows:
+        grouped_verticals.setdefault(release_definition_id, set()).add(vertical_code)
+        grouped_series_codes.setdefault(release_definition_id, []).append(series_code)
+
+    schedules: list[DemandReleaseSchedule] = []
+    for release, source in release_rows:
+        series_codes = tuple(dict.fromkeys(grouped_series_codes.get(release.id, [])))
+        vertical_codes = tuple(sorted(grouped_verticals.get(release.id, set())))
+        if not series_codes or not vertical_codes:
+            continue
+        schedules.append(
+            DemandReleaseSchedule(
+                release_slug=release.slug,
+                release_name=release.name,
+                source_slug=source.slug,
+                source_name=source.name,
+                cadence=release.cadence,
+                schedule_timezone=release.schedule_timezone,
+                schedule_rule=release.schedule_rule,
+                default_local_time=release.default_local_time,
+                is_calendar_driven=bool(release.is_calendar_driven),
+                source_url=(release.metadata_ or {}).get("landing_url") or source.homepage_url,
+                latest_release_at=latest_release_by_definition_id.get(release.id),
+                vertical_codes=vertical_codes,
+                series_codes=series_codes,
+            )
+        )
+    return schedules
+
+
+def build_demandwatch_snapshot_payload(
+    bundle: DemandStoreBundle,
+    schedules: list[DemandReleaseSchedule],
+    *,
+    generated_at: datetime | None = None,
+    expires_at: datetime | None = None,
+) -> dict[str, Any]:
+    payload_generated_at = generated_at or utcnow()
+    payload = build_demandwatch_bootstrap_payload(
+        bundle,
+        schedules,
+        now=payload_generated_at,
+        expires_at=expires_at or (utcnow() + DEMANDWATCH_SNAPSHOT_TTL),
+        movers_limit=DEMANDWATCH_SNAPSHOT_MOVERS_LIMIT,
+    )
+    return jsonable_encoder(payload)
+
+
+def demandwatch_snapshot_payload_is_complete(payload: object) -> bool:
+    if not isinstance(payload, dict):
+        return False
+    required_fields = {
+        "module",
+        "generated_at",
+        "expires_at",
+        "macro_strip",
+        "scorecard",
+        "movers",
+        "coverage_notes",
+        "vertical_details",
+        "vertical_errors",
+        "next_release_dates",
+    }
+    if payload.get("module") != "demandwatch" or not required_fields.issubset(payload):
+        return False
+
+    generated_at = _normalized_iso_timestamp(payload.get("generated_at"))
+    expires_at = _normalized_iso_timestamp(payload.get("expires_at"))
+    if generated_at is None or expires_at is None:
+        return False
+
+    section_specs = (
+        ("macro_strip", "items"),
+        ("scorecard", "items"),
+        ("movers", "items"),
+        ("coverage_notes", "verticals"),
+        ("next_release_dates", "items"),
+    )
+    for section_name, items_key in section_specs:
+        section = payload.get(section_name)
+        if not isinstance(section, dict):
+            return False
+        if _normalized_iso_timestamp(section.get("generated_at")) != generated_at:
+            return False
+        if not isinstance(section.get(items_key), list):
+            return False
+
+    coverage_notes = payload["coverage_notes"]
+    if not isinstance(coverage_notes.get("summary"), dict):
+        return False
+
+    vertical_details = payload.get("vertical_details")
+    if not isinstance(vertical_details, list):
+        return False
+    for detail in vertical_details:
+        if not isinstance(detail, dict):
+            return False
+        if _normalized_iso_timestamp(detail.get("generated_at")) != generated_at:
+            return False
+        if not isinstance(detail.get("sections"), list):
+            return False
+
+    vertical_errors = payload.get("vertical_errors")
+    if not isinstance(vertical_errors, list):
+        return False
+    for item in vertical_errors:
+        if not isinstance(item, dict):
+            return False
+        if not isinstance(item.get("vertical_id"), str) or not isinstance(item.get("message"), str):
+            return False
+
+    return True
 
 
 async def recompute_demandwatch_snapshot(session: AsyncSession) -> dict[str, Any]:
-    bundle = await load_demandwatch_bundle(session)
-    payload = build_demandwatch_snapshot_payload(bundle)
+    read_model = load_demandwatch_public_read_model()
+    schedules = await load_demandwatch_release_schedules(session)
     as_of = utcnow()
-    expires_at = as_of + timedelta(seconds=300)
+    expires_at = as_of + DEMANDWATCH_SNAPSHOT_TTL
+    payload = build_demandwatch_snapshot_payload(
+        read_model.bundle,
+        schedules,
+        generated_at=read_model.generated_at,
+        expires_at=expires_at,
+    )
     await session.merge(
         ModuleSnapshotCache(
             module_code="demandwatch",
@@ -241,6 +496,34 @@ async def recompute_demandwatch_snapshot(session: AsyncSession) -> dict[str, Any
     )
     await session.flush()
     return payload
+
+
+async def get_demandwatch_snapshot_payload(session: AsyncSession) -> dict[str, Any]:
+    await assert_demandwatch_registry_seeded(session)
+    read_model = load_demandwatch_public_read_model()
+
+    result = await session.execute(
+        select(ModuleSnapshotCache).where(
+            ModuleSnapshotCache.module_code == "demandwatch",
+            ModuleSnapshotCache.snapshot_key == "default",
+        )
+    )
+    cached = result.scalar_one_or_none()
+    cached_generated_at = None
+    if isinstance(getattr(cached, "payload", None), dict):
+        raw_generated_at = cached.payload.get("generated_at")
+        if isinstance(raw_generated_at, datetime):
+            cached_generated_at = raw_generated_at.isoformat()
+        elif isinstance(raw_generated_at, str):
+            cached_generated_at = raw_generated_at
+    if (
+        cached
+        and cached.expires_at > utcnow()
+        and demandwatch_snapshot_payload_is_complete(cached.payload)
+        and cached_generated_at == read_model.generated_at.isoformat()
+    ):
+        return cached.payload
+    return await recompute_demandwatch_snapshot(session)
 
 
 async def publish_demandwatch_store(session: AsyncSession, output_path: Path) -> dict[str, Any]:

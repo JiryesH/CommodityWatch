@@ -33,6 +33,30 @@ DEFAULT_DATABASE_URL = "sqlite:///data/commodities.db"
 DEFAULT_CALENDAR_DATABASE_URL = "sqlite:///data/calendarwatch.db"
 MatchType = Literal["exact", "related"]
 InventoryBrowseMode = Literal["auto", "local", "remote"]
+DEMANDWATCH_RELEASE_ORGANISERS = {
+    "demand_eia_wpsr": "U.S. Energy Information Administration",
+    "demand_eia_grid_monitor": "U.S. Energy Information Administration",
+    "demand_fred_g17": "Board of Governors of the Federal Reserve System",
+    "demand_fred_new_residential_construction": "U.S. Census Bureau",
+    "demand_fred_motor_vehicle_sales": "U.S. Bureau of Economic Analysis",
+    "demand_fred_traffic_volume_trends": "Federal Highway Administration / Bureau of Transportation Statistics",
+    "demand_usda_wasde": "USDA Office of the Chief Economist",
+    "demand_usda_export_sales": "USDA Foreign Agricultural Service",
+    "demand_ember_monthly_electricity": "Ember",
+}
+DEMANDWATCH_SOURCE_LABELS = {
+    "eia": "EIA",
+    "fred": "FRED",
+    "usda_psd": "USDA OCE",
+    "usda_export_sales": "USDA FAS",
+    "ember": "Ember",
+}
+DEMANDWATCH_VERTICAL_TO_SECTOR = {
+    "crude_products": "energy",
+    "electricity": "energy",
+    "grains_oilseeds": "agriculture",
+    "base_metals": "metals",
+}
 
 
 class PublishedSeriesRecord(TypedDict):
@@ -107,6 +131,7 @@ class AppConfig:
     inventory_published_db_path: Path | None = None
     inventory_data_root: Path | None = None
     inventory_api_base_url: str = "http://127.0.0.1:8000/api"
+    demandwatch_api_base_url: str = "http://127.0.0.1:8000/api"
     inventory_browse_mode: InventoryBrowseMode = "auto"
     host: str = DEFAULT_HOST
     port: int = DEFAULT_PORT
@@ -263,13 +288,20 @@ def build_config(app_root: Path = APP_ROOT) -> AppConfig:
     raw_calendar_database_url = os.environ.get("CALENDAR_DATABASE_URL", DEFAULT_CALENDAR_DATABASE_URL)
     calendar_database_url = resolve_database_url(raw_calendar_database_url, app_root)
     configured_inventory_api_base_url = os.environ.get("INVENTORYWATCH_API_BASE_URL")
+    configured_demandwatch_api_base_url = os.environ.get("DEMANDWATCH_API_BASE_URL")
     next_public_api_base_url = os.environ.get("NEXT_PUBLIC_API_BASE_URL")
     raw_inventory_api_base_url = configured_inventory_api_base_url or (
         next_public_api_base_url
         if next_public_api_base_url and next_public_api_base_url.startswith(("http://", "https://"))
         else "http://127.0.0.1:8000/api"
     )
+    raw_demandwatch_api_base_url = configured_demandwatch_api_base_url or (
+        next_public_api_base_url
+        if next_public_api_base_url and next_public_api_base_url.startswith(("http://", "https://"))
+        else "http://127.0.0.1:8000/api"
+    )
     inventory_api_base_url = raw_inventory_api_base_url.rstrip("/")
+    demandwatch_api_base_url = raw_demandwatch_api_base_url.rstrip("/")
     inventory_browse_mode = parse_inventory_browse_mode(os.environ.get("INVENTORYWATCH_BROWSE_MODE"))
     host = os.environ.get("HOST", DEFAULT_HOST)
     port = _read_int_env("PORT", DEFAULT_PORT, min_value=0, max_value=65535)
@@ -281,6 +313,7 @@ def build_config(app_root: Path = APP_ROOT) -> AppConfig:
         inventory_published_db_path=inventory_published_db_path,
         inventory_data_root=inventory_data_root,
         inventory_api_base_url=inventory_api_base_url,
+        demandwatch_api_base_url=demandwatch_api_base_url,
         inventory_browse_mode=inventory_browse_mode,
         host=host,
         port=port,
@@ -753,7 +786,154 @@ def relay_proxy_response(handler: SimpleHTTPRequestHandler, target_url: str) -> 
     handler.wfile.write(body)
 
 
-def check_inventory_api(base_url: str) -> tuple[bool, str | None]:
+def fetch_json_response(target_url: str, *, timeout: float = 2.0) -> dict[str, Any] | None:
+    request = Request(
+        target_url,
+        method="GET",
+        headers={
+            "Accept": "application/json",
+        },
+    )
+
+    try:
+        with urlopen(request, timeout=timeout) as response:
+            if not 200 <= response.status < 300:
+                return None
+            body = response.read()
+    except (HTTPError, URLError):
+        return None
+
+    try:
+        payload = json.loads(body.decode("utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError):
+        return None
+
+    return payload if isinstance(payload, dict) else None
+
+
+def parse_iso_datetime(value: object) -> datetime | None:
+    if not isinstance(value, str):
+        return None
+    normalized = value.strip()
+    if not normalized:
+        return None
+
+    try:
+        parsed = datetime.fromisoformat(normalized.replace("Z", "+00:00"))
+    except ValueError:
+        return None
+
+    if parsed.tzinfo is None:
+        return parsed.replace(tzinfo=timezone.utc)
+    return parsed.astimezone(timezone.utc)
+
+
+def calendar_event_sort_key(event: dict[str, Any]) -> tuple[datetime, str]:
+    event_date = parse_iso_datetime(event.get("event_date")) or datetime.max.replace(tzinfo=timezone.utc)
+    return event_date, str(event.get("name") or "")
+
+
+def _normalized_event_name(name: object) -> str:
+    return " ".join(str(name or "").casefold().split())
+
+
+def _demandwatch_event_in_window(event_date: datetime, *, from_date: date | None, to_date: date | None) -> bool:
+    if from_date is not None and event_date < datetime(from_date.year, from_date.month, from_date.day, tzinfo=timezone.utc):
+        return False
+    if to_date is not None and event_date > datetime(to_date.year, to_date.month, to_date.day, 23, 59, 59, tzinfo=timezone.utc):
+        return False
+    return True
+
+
+def _demandwatch_event_sectors(vertical_codes: object) -> list[str]:
+    if not isinstance(vertical_codes, list):
+        return []
+
+    sectors: list[str] = []
+    for vertical_code in vertical_codes:
+        sector = DEMANDWATCH_VERTICAL_TO_SECTOR.get(str(vertical_code))
+        if sector is not None and sector not in sectors:
+            sectors.append(sector)
+    return sectors
+
+
+def _merge_demandwatch_release_dates(
+    events: list[dict[str, Any]],
+    *,
+    demandwatch_api_base_url: str,
+    from_date: date | None,
+    to_date: date | None,
+    sectors: list[str] | None,
+) -> list[dict[str, Any]]:
+    payload = fetch_json_response(f"{demandwatch_api_base_url.rstrip('/')}/demandwatch/next-release-dates")
+    if payload is None or not isinstance(payload.get("items"), list):
+        return sorted(events, key=calendar_event_sort_key)
+
+    selected_sectors = set(sectors or [])
+    merged_events = list(events)
+    known_keys = {
+        (_normalized_event_name(event.get("name")), str(event.get("event_date") or ""))
+        for event in merged_events
+    }
+    updated_at = datetime.now(timezone.utc).isoformat()
+
+    for item in payload["items"]:
+        if not isinstance(item, dict):
+            continue
+
+        scheduled_for = parse_iso_datetime(item.get("scheduled_for"))
+        if scheduled_for is None or not _demandwatch_event_in_window(scheduled_for, from_date=from_date, to_date=to_date):
+            continue
+
+        commodity_sectors = _demandwatch_event_sectors(item.get("vertical_codes"))
+        if not commodity_sectors:
+            continue
+        if selected_sectors and not any(sector in selected_sectors for sector in commodity_sectors):
+            continue
+
+        release_name = str(item.get("release_name") or "").strip()
+        if not release_name:
+            continue
+
+        event_date = scheduled_for.isoformat()
+        event_key = (_normalized_event_name(release_name), event_date)
+        if event_key in known_keys:
+            continue
+
+        release_slug = str(item.get("release_slug") or "demandwatch-release")
+        source_slug = str(item.get("source_slug") or "demandwatch")
+        notes = item.get("notes")
+        note_parts = [str(note).strip() for note in notes] if isinstance(notes, list) else []
+        note_parts = [note for note in note_parts if note]
+        if not note_parts:
+            note_parts.append("DemandWatch release schedule derived from the live indicator registry.")
+
+        merged_events.append(
+            {
+                "id": f"{release_slug}:{scheduled_for.date().isoformat()}",
+                "name": release_name,
+                "organiser": DEMANDWATCH_RELEASE_ORGANISERS.get(release_slug, str(item.get("source_name") or "DemandWatch")),
+                "cadence": str(item.get("cadence") or "scheduled"),
+                "commodity_sectors": commodity_sectors,
+                "event_date": event_date,
+                "calendar_url": str(item.get("source_url") or ""),
+                "redistribution_ok": True,
+                "source_label": DEMANDWATCH_SOURCE_LABELS.get(source_slug, str(item.get("source_name") or "DemandWatch")),
+                "notes": " ".join(note_parts),
+                "is_confirmed": not bool(item.get("is_estimated")),
+                "source_slug": source_slug,
+                "ingestion_pattern": "derived_schedule",
+                "publish_status": "published",
+                "review_reasons": [],
+                "updated_at": updated_at,
+            }
+        )
+        known_keys.add(event_key)
+
+    return sorted(merged_events, key=calendar_event_sort_key)
+
+
+def check_backend_api(base_url: str, *, label: str) -> tuple[bool, str | None]:
     target_url = f"{base_url.rstrip('/')}/health"
     request = Request(
         target_url,
@@ -767,11 +947,11 @@ def check_inventory_api(base_url: str) -> tuple[bool, str | None]:
         with urlopen(request, timeout=3) as response:
             if 200 <= response.status < 400:
                 return True, None
-            return False, f"InventoryWatch API health check returned {response.status}"
+            return False, f"{label} API health check returned {response.status}"
     except HTTPError as exc:
-        return False, f"InventoryWatch API health check returned {exc.code}"
+        return False, f"{label} API health check returned {exc.code}"
     except URLError as exc:
-        return False, f"InventoryWatch API unavailable: {exc.reason}"
+        return False, f"{label} API unavailable: {exc.reason}"
 
 
 def resolve_inventory_browse_source(
@@ -823,6 +1003,10 @@ def make_handler(
                 self.handle_inventory_api(parsed)
                 return
 
+            if parsed.path.startswith("/api/demandwatch"):
+                self.handle_demandwatch_api(parsed)
+                return
+
             if parsed.path == "/api/calendar":
                 try:
                     self.handle_calendar_api(parsed)
@@ -869,8 +1053,9 @@ def make_handler(
                     config.inventory_browse_mode == "auto" and not inventory_archive_has_data
                 )
                 if should_check_remote_inventory:
-                    remote_inventory_api_available, remote_inventory_api_error = check_inventory_api(
-                        config.inventory_api_base_url
+                    remote_inventory_api_available, remote_inventory_api_error = check_backend_api(
+                        config.inventory_api_base_url,
+                        label="InventoryWatch",
                     )
 
                 inventory_api_mode = resolve_inventory_browse_source(
@@ -883,6 +1068,10 @@ def make_handler(
                     None
                     if inventory_api_available
                     else remote_inventory_api_error or inventory_archive_error or "InventoryWatch unavailable."
+                )
+                demandwatch_api_available, demandwatch_api_error = check_backend_api(
+                    config.demandwatch_api_base_url,
+                    label="DemandWatch",
                 )
 
                 send_json(
@@ -912,6 +1101,9 @@ def make_handler(
                         "inventory_published_db_path": str(config.inventory_published_db_path)
                         if config.inventory_published_db_path is not None
                         else None,
+                        "demandwatch_api_base_url": config.demandwatch_api_base_url,
+                        "demandwatch_api_available": demandwatch_api_available,
+                        "demandwatch_api_error": demandwatch_api_error,
                     },
                 )
                 return
@@ -967,6 +1159,24 @@ def make_handler(
                     HTTPStatus.BAD_GATEWAY,
                     {
                         "detail": f"InventoryWatch API unavailable: {exc.reason}",
+                        "target_url": target_url,
+                    },
+                )
+
+        def handle_demandwatch_api(self, parsed) -> None:
+            suffix = parsed.path.removeprefix("/api")
+            target_url = f"{config.demandwatch_api_base_url}{suffix}"
+            if parsed.query:
+                target_url = f"{target_url}?{parsed.query}"
+            try:
+                relay_proxy_response(self, target_url)
+                return
+            except URLError as exc:
+                send_raw_json(
+                    self,
+                    HTTPStatus.BAD_GATEWAY,
+                    {
+                        "detail": f"DemandWatch API unavailable: {exc.reason}",
                         "target_url": target_url,
                     },
                 )
@@ -1131,6 +1341,13 @@ def make_handler(
             from_date = require_iso_date_param(query.get("from", [None])[0], "from")
             to_date = require_iso_date_param(query.get("to", [None])[0], "to")
             events = repository.list_events(from_date=from_date, to_date=to_date, sectors=sectors or None)
+            events = _merge_demandwatch_release_dates(
+                events,
+                demandwatch_api_base_url=config.demandwatch_api_base_url,
+                from_date=from_date,
+                to_date=to_date,
+                sectors=sectors or None,
+            )
             send_json(
                 self,
                 HTTPStatus.OK,
@@ -1165,11 +1382,13 @@ def serve(config: AppConfig) -> None:
     print("API:   /api/commodities/series, /api/commodities/latest")
     print("API:   /api/commodities/<series_key>, /api/commodities/<series_key>/history")
     print("API:   /api/commodities/<series_key>/headlines")
+    print("API:   /api/demandwatch/*")
     print("API:   /api/indicators, /api/indicators/<indicator_id>/data, /api/indicators/<indicator_id>/latest")
     print("API:   /api/snapshot/inventorywatch")
     print(f"Commodity backend: {config.database_url}")
     print(f"Calendar backend:  {config.calendar_database_url}")
     print(f"Inventory backend: {config.inventory_api_base_url}")
+    print(f"Demand backend:    {config.demandwatch_api_base_url}")
     print(f"Inventory browse:  {config.inventory_browse_mode}")
     print(f"Inventory store:   {config.inventory_published_db_path or 'not configured'}")
     print(f"Inventory data:    {config.inventory_data_root or 'not configured'}")

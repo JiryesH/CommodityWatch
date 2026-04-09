@@ -1554,7 +1554,9 @@ import { fetchJsonWithFallback, normalizeHeadlineFeedArticle } from "../shared/h
     if (!statusLine) return;
     var total     = meta.total_articles || 0;
     var ok        = meta.feeds_fetched  || 0;
-    var totalFeeds = ok + (meta.feeds_failed || 0);
+    var degraded  = meta.feeds_degraded || 0;
+    var failed    = meta.feeds_failed || 0;
+    var totalFeeds = ok + degraded + failed;
     var updRel    = relTime(meta.last_updated);
     var updExact  = exactTime(meta.last_updated);
     var upd       = updExact ? (updRel + ' (' + updExact + ')') : updRel;
@@ -1562,8 +1564,11 @@ import { fetchJsonWithFallback, normalizeHeadlineFeedArticle } from "../shared/h
     var showing   = (scoped && filteredArticles.length !== total)
       ? filteredArticles.length + ' of ' + total
       : total;
-    statusLine.textContent =
-      showing + ' articles · ' + ok + '/' + totalFeeds + ' feeds live · updated ' + upd;
+    var parts = [showing + ' articles', ok + '/' + totalFeeds + ' feeds live'];
+    if (degraded > 0) parts.push(degraded + ' degraded');
+    if (failed > 0) parts.push(failed + ' failed');
+    parts.push('updated ' + upd);
+    statusLine.textContent = parts.join(' · ');
   }
 
   function openSearch() {

@@ -55,6 +55,16 @@ def _parse_long_date(raw: str) -> date:
     return date(int(year_value), months[month_name], int(day_value))
 
 
+def _parse_period_ending_date(raw: str) -> date:
+    normalized = str(raw or "").strip()
+    if not normalized:
+        raise ValueError("USDA export sales summary row is missing PeriodEndingDate.")
+    if "/" in normalized:
+        month_value, day_value, year_value = normalized.split("/")
+        return date(int(year_value), int(month_value), int(day_value))
+    return date.fromisoformat(normalized)
+
+
 def parse_export_sales_release_info(raw: bytes) -> ExportSalesReleaseInfo:
     root = ET.fromstring(raw)
     text = next((node.attrib.get("Textbox1", "") for node in root.iter() if node.tag.endswith("Details")), "")
@@ -95,7 +105,7 @@ def parse_export_sales_summary(raw: bytes) -> list[ParsedExportSalesObservation]
         parsed.append(
             ParsedExportSalesObservation(
                 source_series_key=commodity_code,
-                period_ending_on=date.fromisoformat(period_ending),
+                period_ending_on=_parse_period_ending_date(period_ending),
                 raw_net_sales_kt=raw_net_sales_kt,
                 value_mmt=raw_net_sales_kt / 1000.0,
                 marketing_year=marketing_year,

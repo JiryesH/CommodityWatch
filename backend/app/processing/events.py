@@ -9,7 +9,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.db.models.indicators import Indicator
 from app.db.models.enums import AppModuleCode
 from app.db.models.observations import AppEvent, Observation
-from app.processing.demandwatch import recompute_demandwatch_snapshot
+from app.processing.demandwatch import DemandWatchSetupError, recompute_demandwatch_snapshot
 from app.processing.snapshots import recompute_inventorywatch_snapshot
 
 
@@ -79,5 +79,9 @@ async def process_pending_events(session: AsyncSession, limit: int = 100) -> int
     if touched_inventorywatch:
         await recompute_inventorywatch_snapshot(session)
     if touched_demandwatch:
-        await recompute_demandwatch_snapshot(session)
+        try:
+            await recompute_demandwatch_snapshot(session)
+        except DemandWatchSetupError:
+            # DemandWatch public reads only advance once a published artifact exists.
+            pass
     return len(events)
