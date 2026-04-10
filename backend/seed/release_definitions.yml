@@ -194,6 +194,22 @@
   is_calendar_driven: true
   active: true
   metadata: {published_report: Traffic Volume Trends, landing_url: https://fred.stlouisfed.org/series/TRFVOLUSM227NFWA}
+- slug: demand_oecd_cli
+  source_slug: oecd
+  name: DemandWatch OECD Composite Leading Indicators
+  release_kind: data_release
+  module_code: demandwatch
+  commodity_code: base_metals
+  geography_code: OECD
+  cadence: monthly
+  schedule_timezone: Europe/Paris
+  schedule_rule: FREQ=MONTHLY;BYHOUR=12;BYMINUTE=0
+  default_local_time: "12:00:00"
+  is_calendar_driven: true
+  active: true
+  metadata:
+    published_report: OECD Composite Leading Indicators
+    landing_url: https://sdmx.oecd.org/public/rest/data/OECD.SDD.STES,DSD_STES@DF_CLI/
 - slug: demand_usda_wasde
   source_slug: usda_psd
   name: DemandWatch USDA WASDE

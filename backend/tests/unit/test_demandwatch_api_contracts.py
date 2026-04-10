@@ -26,7 +26,7 @@ from app.modules.demandwatch.published_store import (
     build_latest_metrics_map,
     build_observation,
 )
-from app.processing.demandwatch import DemandWatchSetupError
+from app.processing.demandwatch import DemandWatchPublicReadModel, DemandWatchSetupError
 
 
 def _bundle() -> DemandStoreBundle:
@@ -287,35 +287,6 @@ def _bundle() -> DemandStoreBundle:
             canonical_unit_code="mbu",
             canonical_unit_symbol="mbu",
             default_observation_kind="actual",
-            visibility_tier="internal",
-            active=False,
-            metadata={},
-        ),
-        "metals-blocked": DemandSeriesDefinition(
-            id="metals-blocked",
-            indicator_id="metals-blocked-indicator",
-            code="SPGLOBAL_EUROZONE_MANUFACTURING_PMI_RAW",
-            name="S&P Global Eurozone Manufacturing PMI Raw",
-            description=None,
-            vertical_code="base_metals",
-            tier="t6_macro",
-            coverage_status="blocked",
-            display_order=100,
-            notes="Raw PMI values are off-limits without a licence.",
-            measure_family="signal",
-            frequency="monthly",
-            commodity_code="base_metals",
-            geography_code="EU",
-            source_slug="spglobal_pmi",
-            source_name="S&P Global",
-            source_legal_status="off_limits",
-            source_url=None,
-            source_series_key=None,
-            native_unit_code="index",
-            native_unit_symbol="index",
-            canonical_unit_code="index",
-            canonical_unit_symbol="index",
-            default_observation_kind="signal",
             visibility_tier="internal",
             active=False,
             metadata={},
@@ -783,6 +754,15 @@ async def contract_client(
 
     monkeypatch.setattr(demandwatch_router, "get_demandwatch_snapshot_payload", fake_snapshot)
     monkeypatch.setattr(snapshots_router, "get_demandwatch_snapshot_payload", fake_snapshot)
+    monkeypatch.setattr(
+        demandwatch_router,
+        "load_demandwatch_public_read_model",
+        lambda: DemandWatchPublicReadModel(
+            bundle=demand_bundle,
+            generated_at=datetime(2026, 4, 20, 12, 0, tzinfo=UTC),
+            database_path=BACKEND_ROOT / "artifacts" / "demandwatch" / "published.sqlite",
+        ),
+    )
     app.dependency_overrides[get_db_session] = fake_session
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://testserver") as http_client:
         yield http_client
@@ -795,6 +775,7 @@ async def test_macro_strip_contract(contract_client: AsyncClient) -> None:
     assert response.status_code == 200
     payload = response.json()
     assert payload["items"][0]["code"] == "FRED_US_INDUSTRIAL_PRODUCTION"
+    assert payload["items"][0]["source_label"] == "FRED"
     assert payload["items"][-1]["code"] == "EIA_US_ELECTRICITY_GRID_LOAD"
 
 
@@ -809,6 +790,7 @@ async def test_scorecard_contract(contract_client: AsyncClient) -> None:
         "grains",
         "base-metals",
     ]
+    assert payload["items"][0]["source_label"] == "EIA"
 
 
 @pytest.mark.asyncio
@@ -818,7 +800,58 @@ async def test_vertical_detail_contract(contract_client: AsyncClient) -> None:
     payload = response.json()
     assert payload["id"] == "base-metals"
     assert payload["sections"][0]["id"] == "macro"
+    assert payload["scorecard"]["source_label"] == "FRED"
+    assert payload["sections"][0]["indicators"][0]["source_label"] == "FRED"
     assert any(row["code"] == "FRED_US_INDUSTRIAL_PRODUCTION" for row in payload["sections"][0]["table_rows"])
+
+
+@pytest.mark.asyncio
+async def test_concept_detail_contract(contract_client: AsyncClient) -> None:
+    response = await contract_client.get(
+        "/api/demandwatch/verticals/base-metals/concepts/FRED_US_INDUSTRIAL_PRODUCTION"
+    )
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["vertical_id"] == "base-metals"
+    assert payload["code"] == "FRED_US_INDUSTRIAL_PRODUCTION"
+    assert payload["title"] == "Industrial production"
+    assert payload["source_label"] == "FRED"
+    assert payload["cadence"] == "Monthly"
+    assert payload["change_label"] == "+1.2"
+    assert payload["yoy_label"] == "+1.2% YoY"
+    assert payload["history"][-1]["display_value"] == "103.8"
+    assert payload["observations"][0]["display_value"] == "103.8"
+    assert payload["calendar"][0]["release_slug"] == "demand_fred_g17"
+
+
+@pytest.mark.asyncio
+async def test_vertical_detail_returns_503_when_snapshot_is_missing_a_known_vertical(
+    monkeypatch: pytest.MonkeyPatch,
+    demand_bundle: DemandStoreBundle,
+    demand_schedules: list[DemandReleaseSchedule],
+) -> None:
+    async def fake_snapshot(_session) -> dict:
+        payload = build_demandwatch_bootstrap_payload(
+            demand_bundle,
+            demand_schedules,
+            now=datetime(2026, 4, 20, 12, 0, tzinfo=UTC),
+            expires_at=datetime(2026, 4, 20, 12, 5, tzinfo=UTC),
+        )
+        payload["vertical_details"] = [
+            item for item in payload["vertical_details"] if item["id"] != "base-metals"
+        ]
+        return payload
+
+    async def fake_session() -> AsyncIterator[object]:
+        yield object()
+
+    monkeypatch.setattr(demandwatch_router, "get_demandwatch_snapshot_payload", fake_snapshot)
+    app.dependency_overrides[get_db_session] = fake_session
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://testserver") as http_client:
+        response = await http_client.get("/api/demandwatch/verticals/base-metals")
+        assert response.status_code == 503
+        assert response.json()["detail"] == "DemandWatch vertical detail is unavailable."
+    app.dependency_overrides.clear()
 
 
 @pytest.mark.asyncio
@@ -847,6 +880,7 @@ async def test_snapshot_contract(contract_client: AsyncClient) -> None:
     payload = response.json()
     assert payload["module"] == "demandwatch"
     assert payload["macro_strip"]["items"][0]["code"] == "FRED_US_INDUSTRIAL_PRODUCTION"
+    assert payload["macro_strip"]["items"][0]["source_label"] == "FRED"
     assert [item["id"] for item in payload["vertical_details"]] == [
         "crude-products",
         "electricity",

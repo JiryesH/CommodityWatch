@@ -25,6 +25,7 @@ def test_demandwatch_ingest_jobs_are_registered() -> None:
         "demand_fred_new_residential_construction",
         "demand_fred_motor_vehicle_sales",
         "demand_fred_traffic_volume_trends",
+        "demand_oecd_cli",
         "demand_usda_wasde",
         "demand_usda_export_sales",
         "demand_ember_monthly_electricity",

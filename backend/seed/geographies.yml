@@ -46,6 +46,14 @@
   parent_code: GLOBAL
   is_active: true
   metadata: {}
+- code: SOUTH_KOREA
+  name: South Korea
+  geo_type: country
+  iso2: KR
+  iso3: KOR
+  parent_code: GLOBAL
+  is_active: true
+  metadata: {}
 - code: US
   name: United States
   geo_type: country

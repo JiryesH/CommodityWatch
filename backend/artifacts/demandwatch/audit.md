@@ -30,7 +30,7 @@ Generated at: 2026-04-08T21:19:21.027670+00:00
 
 ## Canonical Units
 
-- OK: 27
+- OK: 25
 - Violations: 0
 - Missing policy: 0
 
@@ -41,20 +41,20 @@ Generated at: 2026-04-08T21:19:21.027670+00:00
 ## Summary
 
 - Verticals: 4
-- Indicators: 27
+- Indicators: 25
 - Live: 16
 - Partial: 6
 - Deferred: 3
-- Blocked: 2
+- Blocked: 0
 
 ## By Vertical
 
 | Vertical | Live | Partial | Deferred | Blocked |
 | --- | ---: | ---: | ---: | ---: |
-| Crude Oil + Refined Products | 6 | 0 | 2 | 1 |
+| Crude Oil + Refined Products | 6 | 0 | 2 | 0 |
 | Electricity / Power | 0 | 3 | 0 | 0 |
 | Grains & Oilseeds | 4 | 3 | 0 | 0 |
-| Base Metals | 6 | 0 | 1 | 1 |
+| Base Metals | 6 | 0 | 1 | 0 |
 
 ## Indicator Detail
 
@@ -68,7 +68,6 @@ Generated at: 2026-04-08T21:19:21.027670+00:00
 | Crude Oil + Refined Products | live | FRED_US_VEHICLE_MILES_TRAVELED | t4_end_use | Jan 2026 | fresh | - |
 | Crude Oil + Refined Products | deferred | CHINA_CRUDE_IMPORTS_MONTHLY | t3_trade | - | unknown | Direct China customs republication terms are unresolved. Keep out of ingestion until legal review clears systematic use. |
 | Crude Oil + Refined Products | deferred | CHINA_REFINERY_THROUGHPUT_MONTHLY | t2_throughput | - | unknown | NBS throughput publication terms remain unresolved for commercial republication. |
-| Crude Oil + Refined Products | blocked | IEA_GLOBAL_OIL_DEMAND_TABLE | t6_macro | - | unknown | IEA data tables are not cleared for MVP republication. Use EIA or qualitative commentary instead. |
 | Electricity / Power | partial | EIA_US_ELECTRICITY_GRID_LOAD | t1_direct | 2026-04-08 19:00 UTC | fresh | Backfill window is 14 days; DemandWatch MVP expects at least 1095 days. |
 | Electricity / Power | partial | EMBER_GLOBAL_ELECTRICITY_DEMAND | t1_direct | - | unknown | No observations have been published.; Backfill window is 0 days; DemandWatch MVP expects at least 1095 days. |
 | Electricity / Power | partial | EMBER_CHINA_ELECTRICITY_DEMAND | t1_direct | - | unknown | No observations have been published.; Backfill window is 0 days; DemandWatch MVP expects at least 1095 days. |
@@ -86,4 +85,3 @@ Generated at: 2026-04-08T21:19:21.027670+00:00
 | Base Metals | live | FRED_US_TOTAL_VEHICLE_SALES | t4_end_use | Mar 2026 | fresh | - |
 | Base Metals | live | FRED_US_BUILDING_PERMITS | t5_leading | Jan 2026 | fresh | - |
 | Base Metals | deferred | WORLDSTEEL_GLOBAL_CRUDE_STEEL_PRODUCTION | t2_throughput | - | unknown | Monthly steel-output press releases stay blocked until republication terms are verified. |
-| Base Metals | blocked | SPGLOBAL_EUROZONE_MANUFACTURING_PMI_RAW | t6_macro | - | unknown | Raw S&P Global PMI values are off-limits without a licence; do not ingest for MVP. |

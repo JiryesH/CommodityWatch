@@ -88,6 +88,16 @@
   attribution_text: Federal Reserve Bank of St. Louis
   rate_limit_notes: Free API with generous limits; batch release-aligned pulls only.
   active: true
+- slug: oecd
+  name: OECD SDMX API
+  source_type: api
+  legal_status: public_registered
+  homepage_url: https://www.oecd.org/
+  docs_url: https://www.oecd.org/en/data/insights/data-explainers/2024/09/api.html
+  default_timezone: Europe/Paris
+  attribution_text: Organisation for Economic Co-operation and Development
+  rate_limit_notes: Public SDMX API under OECD terms; use attributed, low-frequency monthly pulls only.
+  active: true
 - slug: ember
   name: Ember
   source_type: api
@@ -107,6 +117,36 @@
   default_timezone: America/New_York
   attribution_text: USDA Foreign Agricultural Service
   rate_limit_notes: Weekly pull only after the published release time.
+  active: true
+- slug: japan_estat
+  name: Japan e-Stat Trade Statistics
+  source_type: api
+  legal_status: public_registered
+  homepage_url: https://www.e-stat.go.jp/
+  docs_url: https://www.e-stat.go.jp/api/en/api-info/api-guide
+  default_timezone: Asia/Tokyo
+  attribution_text: Japan e-Stat / Trade Statistics of Japan
+  rate_limit_notes: App ID required; keep as non-live candidate until the LNG query contract is verified end to end.
+  active: true
+- slug: korea_customs
+  name: Korea Customs Service Item Trade API
+  source_type: api
+  legal_status: public_registered
+  homepage_url: https://www.data.go.kr/
+  docs_url: https://www.data.go.kr/en/data/15101609/openapi.do
+  default_timezone: Asia/Seoul
+  attribution_text: Korea Customs Service via the Public Data Portal
+  rate_limit_notes: Service key required; keep as non-live candidate until the XML response contract is verified end to end.
+  active: true
+- slug: india_dof
+  name: India Department of Fertilizers
+  source_type: pdf
+  legal_status: public_registered
+  homepage_url: https://fert.nic.in/
+  docs_url: https://fert.nic.in/terms-conditions
+  default_timezone: Asia/Kolkata
+  attribution_text: India Department of Fertilizers
+  rate_limit_notes: Monthly summary PDFs require manual format verification before automation.
   active: true
 - slug: china_customs
   name: China Customs
@@ -128,16 +168,6 @@
   attribution_text: National Bureau of Statistics of China
   rate_limit_notes: Do not ingest until republication terms are cleared.
   active: true
-- slug: iea
-  name: International Energy Agency
-  source_type: html
-  legal_status: needs_verification
-  homepage_url: https://www.iea.org/
-  docs_url: https://www.iea.org/data-and-statistics
-  default_timezone: Europe/Paris
-  attribution_text: International Energy Agency
-  rate_limit_notes: Mixed licensing. Treat data tables as blocked until terms are verified.
-  active: true
 - slug: worldsteel
   name: World Steel Association
   source_type: pdf
@@ -147,24 +177,4 @@
   default_timezone: Europe/Brussels
   attribution_text: World Steel Association
   rate_limit_notes: Press release use requires verification before systematic republication.
-  active: true
-- slug: ism
-  name: Institute for Supply Management
-  source_type: html
-  legal_status: needs_verification
-  homepage_url: https://www.ismworld.org/
-  docs_url: https://www.ismworld.org/supply-management-news-and-reports/reports/ism-report-on-business/
-  default_timezone: America/New_York
-  attribution_text: Institute for Supply Management
-  rate_limit_notes: Directional commentary only until raw-number licensing is reviewed.
-  active: true
-- slug: spglobal_pmi
-  name: S&P Global PMI
-  source_type: html
-  legal_status: off_limits
-  homepage_url: https://www.spglobal.com/marketintelligence/en/mi/research-analysis/pmi.html
-  docs_url: https://www.spglobal.com/marketintelligence/en/solutions/purchasing-managers-indexes.html
-  default_timezone: Europe/London
-  attribution_text: S&P Global PMI
-  rate_limit_notes: Raw PMI series are off-limits without a licence.
   active: true

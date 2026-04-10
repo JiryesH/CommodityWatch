@@ -1,5 +1,19 @@
-import { fetchDemandWatchPageData } from "./api-client.js";
-import { DEMAND_TAXONOMY, DEMAND_VERTICALS, buildDemandWatchPageModel, getDemandVerticalById } from "./data.js";
+import { loadCalendarEvents, findCalendarEventForDemandRelease } from "../calendar-watch/calendar-data.js";
+import { buildCalendarEventHref } from "../calendar-watch/router.js";
+import { fetchDemandConceptDetail, fetchDemandWatchPageData } from "./api-client.js";
+import {
+  DEMAND_TAXONOMY,
+  DEMAND_VERTICALS,
+  buildDemandWatchPageModel,
+  getDemandVerticalById,
+  mapDemandConceptDetail,
+} from "./data.js";
+import {
+  buildDemandConceptHref,
+  buildDemandOverviewHref,
+  normalizeDemandPath,
+  parseDemandRoute,
+} from "./router.js";
 
 const VERTICAL_SECTOR_MAP = {
   "crude-products": "energy",
@@ -8,8 +22,31 @@ const VERTICAL_SECTOR_MAP = {
   "base-metals": "metals_and_mining",
 };
 
+const PAGE_TIMESTAMP_FORMATTER = new Intl.DateTimeFormat("en-GB", {
+  day: "2-digit",
+  month: "short",
+  year: "numeric",
+  hour: "2-digit",
+  minute: "2-digit",
+  hour12: false,
+  timeZone: "UTC",
+});
+
+const DEFAULT_VISIBLE_MOVERS = 6;
+const TAXONOMY_BY_ID = new Map(DEMAND_TAXONOMY.map((tier) => [String(tier.id || "").toLowerCase(), tier]));
+const TAXONOMY_BY_LABEL = new Map(DEMAND_TAXONOMY.map((tier) => [String(tier.shortLabel || "").toLowerCase(), tier]));
+
 let activeFilters = new Set();
 let currentVerticalErrors = new Map();
+let currentPageData = null;
+let moversExpanded = false;
+let activeTierBadge = null;
+let tierDismissalBound = false;
+let detailReturnState = null;
+let pendingOverviewRestore = null;
+let activeConceptDetail = null;
+
+const conceptDetailCache = new Map();
 
 const appRoot = document.getElementById("demand-root");
 const filterRoot = document.getElementById("demand-filter-root");
@@ -28,6 +65,116 @@ function escapeHtml(value) {
     .replaceAll("'", "&#39;");
 }
 
+function setDocumentTitle(title) {
+  document.title = title;
+}
+
+function currentRoute() {
+  return parseDemandRoute(window.location.pathname);
+}
+
+function selectorEscape(value) {
+  if (typeof CSS !== "undefined" && typeof CSS.escape === "function") {
+    return CSS.escape(String(value));
+  }
+
+  return String(value).replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+}
+
+function normalizeTimestamp(value) {
+  const timestamp = Date.parse(String(value || ""));
+  return Number.isFinite(timestamp) ? timestamp : null;
+}
+
+function stickyViewportOffset() {
+  const navHeight = document.querySelector(".nav")?.offsetHeight || 0;
+  const filterHeight = filterRoot?.querySelector(".filter-wrap")?.offsetHeight || 0;
+  return navHeight + filterHeight + 20;
+}
+
+function captureDetailReturnState({ conceptCode } = {}) {
+  detailReturnState = {
+    conceptCode: conceptCode || null,
+    filters: [...activeFilters],
+    scrollY: window.scrollY,
+    hash: window.location.hash || "",
+  };
+}
+
+function prepareOverviewRestore() {
+  pendingOverviewRestore = detailReturnState
+    ? {
+        ...detailReturnState,
+        filters: [...detailReturnState.filters],
+      }
+    : {
+        conceptCode: null,
+        filters: [...activeFilters],
+        scrollY: window.scrollY,
+        hash: window.location.hash || "",
+      };
+  detailReturnState = null;
+  activeConceptDetail = null;
+}
+
+function queueOverviewRestore() {
+  if (!detailReturnState) {
+    return;
+  }
+
+  pendingOverviewRestore = {
+    ...detailReturnState,
+    filters: [...detailReturnState.filters],
+  };
+  activeConceptDetail = null;
+}
+
+function restoreOverviewPosition() {
+  if (!pendingOverviewRestore) {
+    return;
+  }
+
+  const restoreState = pendingOverviewRestore;
+  pendingOverviewRestore = null;
+
+  window.requestAnimationFrame(() => {
+    const target =
+      restoreState.conceptCode != null
+        ? appRoot.querySelector(`[data-concept-code="${selectorEscape(restoreState.conceptCode)}"]`)
+        : null;
+
+    if (target) {
+      const top = target.getBoundingClientRect().top + window.scrollY - stickyViewportOffset();
+      window.scrollTo({ top: Math.max(0, top), behavior: "auto" });
+      return;
+    }
+
+    if (typeof restoreState.scrollY === "number" && Number.isFinite(restoreState.scrollY)) {
+      window.scrollTo({ top: Math.max(0, restoreState.scrollY), behavior: "auto" });
+      return;
+    }
+
+    if (restoreState.hash) {
+      const hashTarget = appRoot.querySelector(restoreState.hash);
+      if (hashTarget) {
+        hashTarget.scrollIntoView({ block: "start" });
+      }
+    }
+  });
+}
+
+function navigate(href) {
+  const nextPath = normalizeDemandPath(new URL(href, window.location.origin).pathname);
+  const currentPath = normalizeDemandPath(window.location.pathname);
+  if (nextPath === currentPath) {
+    return;
+  }
+
+  window.history.pushState({}, "", nextPath);
+  window.scrollTo({ top: 0, behavior: "auto" });
+  void renderRoute();
+}
+
 function signalClassForTrend(trend) {
   switch (trend) {
     case "up":
@@ -36,17 +183,6 @@ function signalClassForTrend(trend) {
       return "is-down";
     default:
       return "is-flat";
-  }
-}
-
-function signalWordForTrend(trend) {
-  switch (trend) {
-    case "up":
-      return "Improving";
-    case "down":
-      return "Deteriorating";
-    default:
-      return "Stable";
   }
 }
 
@@ -70,6 +206,113 @@ function trendArrowTooltip(trend) {
     default:
       return "Tracking near recent baseline";
   }
+}
+
+function formatPageTimestamp(value) {
+  if (!value) {
+    return null;
+  }
+
+  const parsed = new Date(value);
+  if (!Number.isFinite(parsed.getTime())) {
+    return null;
+  }
+
+  return `${PAGE_TIMESTAMP_FORMATTER.format(parsed).replace(",", "")} UTC`;
+}
+
+function formatExactTimestamp(value) {
+  return formatPageTimestamp(value);
+}
+
+function sourceDisplayLabel(label, href) {
+  if (label) {
+    return label;
+  }
+
+  if (!href) {
+    return null;
+  }
+
+  try {
+    return new URL(href).hostname.replace(/^www\./, "");
+  } catch {
+    return "Source";
+  }
+}
+
+function sourceLinkMarkup(label, href, className = "dw-source-link") {
+  const displayLabel = sourceDisplayLabel(label, href);
+  if (!displayLabel) {
+    return "";
+  }
+
+  if (!href) {
+    return `<span class="${escapeHtml(className)}">${escapeHtml(displayLabel)}</span>`;
+  }
+
+  return `<a class="${escapeHtml(className)}" href="${escapeHtml(href)}" target="_blank" rel="noreferrer noopener">${escapeHtml(displayLabel)}</a>`;
+}
+
+function renderSourceRow(label, href, className = "dw-source-row") {
+  const markup = sourceLinkMarkup(label, href);
+  if (!markup) {
+    return "";
+  }
+
+  return `
+    <p class="${escapeHtml(className)}">
+      <span class="dw-source-label">Source</span>
+      <span class="dw-source-sep" aria-hidden="true">·</span>
+      ${markup}
+    </p>
+  `;
+}
+
+function getTierDefinition(tierKey, tierLabel = tierKey) {
+  const normalizedKey = String(tierKey || "").trim().toLowerCase();
+  if (normalizedKey) {
+    if (TAXONOMY_BY_ID.has(normalizedKey)) {
+      return TAXONOMY_BY_ID.get(normalizedKey);
+    }
+
+    const compactKey = normalizedKey.match(/^t\d+/)?.[0];
+    if (compactKey && TAXONOMY_BY_ID.has(compactKey)) {
+      return TAXONOMY_BY_ID.get(compactKey);
+    }
+  }
+
+  const normalizedLabel = String(tierLabel || "").trim().toLowerCase();
+  if (normalizedLabel) {
+    if (TAXONOMY_BY_LABEL.has(normalizedLabel)) {
+      return TAXONOMY_BY_LABEL.get(normalizedLabel);
+    }
+
+    const compactLabel = normalizedLabel.match(/^t\d+/)?.[0];
+    if (compactLabel && TAXONOMY_BY_ID.has(compactLabel)) {
+      return TAXONOMY_BY_ID.get(compactLabel);
+    }
+  }
+
+  return null;
+}
+
+function renderTierBadge(label, tierKey) {
+  const tier = getTierDefinition(tierKey, label);
+  if (!tier) {
+    return `<span class="tier-badge">${escapeHtml(label)}</span>`;
+  }
+
+  return `
+    <button
+      class="tier-badge tier-badge-button"
+      type="button"
+      data-tier-key="${escapeHtml(tier.id)}"
+      data-tier-label="${escapeHtml(tier.shortLabel)}"
+      aria-haspopup="dialog"
+      aria-expanded="false"
+    >${escapeHtml(label)}</button>
+  `;
 }
 
 function renderSparkline(values, trend = "flat") {
@@ -97,20 +340,11 @@ function renderSparkline(values, trend = "flat") {
   `;
 }
 
-function renderInlineEmpty(copy) {
-  return `<p class="dw-inline-empty">${escapeHtml(copy)}</p>`;
-}
-
 function renderFilterBar() {
   return `
     <nav class="filter-wrap" aria-label="DemandWatch filter">
       <div class="filter-bar">
-        <button
-          class="filter-pill"
-          data-filter="all"
-          data-sector="ALL"
-          aria-pressed="false"
-        >All</button>
+        <button class="filter-pill" data-filter="all" data-sector="ALL" aria-pressed="false">All</button>
         <div class="filter-divider"></div>
         ${DEMAND_VERTICALS.map(
           (vertical) => `
@@ -127,163 +361,189 @@ function renderFilterBar() {
   `;
 }
 
-function renderMacroStrip(items) {
-  const cards = items.length
-    ? items
-        .map(
-          (item) => `
-            <article class="macro-card ${escapeHtml(signalClassForTrend(item.trend))}">
-              <p class="macro-label">${escapeHtml(item.label)}</p>
-              <p class="macro-value">${escapeHtml(item.value)}</p>
-              ${item.descriptor ? `<p class="macro-descriptor">${escapeHtml(item.descriptor)}</p>` : ""}
-              <p class="macro-change">
-                <span class="macro-arrow" aria-hidden="true">${escapeHtml(trendArrow(item.trend))}</span>
-                ${escapeHtml(item.change)}
-              </p>
-              <p class="macro-freshness">${escapeHtml(item.freshness)}</p>
-            </article>
-          `
-        )
-        .join("")
-    : `
-        <article class="macro-card macro-card--empty">
-          <p class="macro-label">Macro backdrop</p>
-          <p class="macro-value">Awaiting data</p>
-          <p class="macro-change">No live macro strip items are available yet.</p>
-        </article>
-      `;
+function renderPageHeader(pageData) {
+  const updatedStamp = formatPageTimestamp(pageData.generatedAt);
 
   return `
-    <div class="demand-backdrop-wrap">
-      <p class="section-kicker demand-backdrop-kicker">Demand Backdrop</p>
-      <section class="macro-strip" aria-label="Demand macro context">
-        ${cards}
-      </section>
-    </div>
+    <header class="demand-page-head">
+      <div class="demand-page-head-row">
+        <div class="demand-page-title-block">
+          <h1 class="demand-page-title">Demand Pulse</h1>
+          <p class="demand-page-description">Published demand signals across crude, power, grains, and base metals.</p>
+        </div>
+      </div>
+      ${
+        updatedStamp
+          ? `
+              <div class="demand-page-meta">
+                <span class="demand-page-meta-item"><strong>Updated</strong> ${escapeHtml(updatedStamp)}</span>
+              </div>
+            `
+          : ""
+      }
+    </header>
   `;
 }
 
-function renderTaxonomy() {
+function renderMacroStrip(items) {
+  if (!items.length) {
+    return "";
+  }
+
   return `
-    <section class="dw-card" data-dw-overview="taxonomy">
+    <section class="demand-backdrop-wrap" data-dw-overview="macro" aria-label="Demand macro context">
       <div class="dw-card-head">
-        <p class="section-kicker">Signal Tiers</p>
-        <h2 class="section-title">Every indicator carries a tier. Every tier has a reliability standard.</h2>
+        <p class="section-kicker demand-backdrop-kicker">Macro Context</p>
       </div>
-      <div class="taxonomy-grid">
-        ${DEMAND_TAXONOMY.map(
-          (tier) => `
-            <article class="taxonomy-card">
-              <p class="tier-badge">${escapeHtml(tier.shortLabel)}</p>
-              <h3>${escapeHtml(tier.label)}</h3>
-              <p class="taxonomy-copy">${escapeHtml(tier.description)}</p>
-              <p class="taxonomy-reliability">${escapeHtml(tier.reliability)} reliability</p>
-            </article>
-          `
-        ).join("")}
+      <div class="macro-strip">
+        ${items
+          .map(
+            (item) => `
+              <article class="macro-card ${escapeHtml(signalClassForTrend(item.trend))}">
+                <p class="macro-label">${escapeHtml(item.label)}</p>
+                <p class="macro-value">${escapeHtml(item.value)}</p>
+                ${item.descriptor ? `<p class="macro-descriptor">${escapeHtml(item.descriptor)}</p>` : ""}
+                <p class="macro-change">
+                  <span class="macro-arrow" aria-hidden="true">${escapeHtml(trendArrow(item.trend))}</span>
+                  ${escapeHtml(item.change)}
+                </p>
+                <div class="macro-meta">
+                  <p class="macro-freshness">${escapeHtml(item.freshness)}</p>
+                  ${renderSourceRow(item.sourceLabel, item.sourceUrl, "dw-source-row macro-source-row")}
+                </div>
+              </article>
+            `
+          )
+          .join("")}
       </div>
-      <p class="sparkline-legend">
-        <span class="sparkline-legend-dot sparkline-legend-direct">●</span> Direct measurement
-        <span class="sparkline-legend-gap"></span>
-        <span class="sparkline-legend-dot sparkline-legend-proxy">●</span> Proxy / trade flow
-      </p>
     </section>
   `;
 }
 
 function renderScorecard(items) {
+  if (!items.length) {
+    return "";
+  }
+
   return `
     <section class="dw-card" data-dw-overview="scorecard">
       <div class="dw-card-head">
         <p class="section-kicker">Demand Scorecard</p>
         <h2 class="section-title">Where does demand stand?</h2>
       </div>
-      ${
-        items.length
-          ? `
-              <div class="scorecard-table" role="table" aria-label="Demand scorecard - click a row to drill into the vertical">
-                <div class="scorecard-head" role="row">
-                  <span role="columnheader">Vertical</span>
-                  <span role="columnheader">Signal</span>
-                  <span role="columnheader">YoY</span>
-                  <span role="columnheader">Direction</span>
-                  <span role="columnheader">As of</span>
-                  <span role="columnheader">Updated</span>
-                </div>
-                ${items
-                  .map(
-                    (vertical) => `
-                      <button
-                        class="scorecard-row ${escapeHtml(signalClassForTrend(vertical.scorecard.trend))}"
-                        role="row"
-                        data-dw-filter="${escapeHtml(vertical.id)}"
-                        style="--vertical-accent:${escapeHtml(vertical.accent)};"
-                      >
-                        <span class="scorecard-vertical" role="cell">
-                          <span class="scorecard-dot"></span>
-                          ${escapeHtml(vertical.shortLabel)}
-                        </span>
-                        <span role="cell">
-                          <strong>${escapeHtml(vertical.scorecard.label)}</strong>
-                          <span class="scorecard-secondary">${escapeHtml(vertical.scorecard.value)}</span>
-                        </span>
-                        <span role="cell">${escapeHtml(vertical.scorecard.yoyLabel)}</span>
-                        <span role="cell">${escapeHtml(signalWordForTrend(vertical.scorecard.trend))}</span>
-                        <span role="cell">${escapeHtml(vertical.scorecard.latestData)}</span>
-                        <span role="cell" class="scorecard-freshness-cell">
-                          ${escapeHtml(vertical.scorecard.freshness)}
-                          <span class="scorecard-drill" aria-hidden="true">→</span>
-                        </span>
-                      </button>
-                    `
-                  )
-                  .join("")}
-              </div>
+      <div class="scorecard-table" aria-label="Demand scorecard">
+        <div class="scorecard-head" aria-hidden="true">
+          <span>Vertical</span>
+          <span>Signal</span>
+          <span>YoY</span>
+          <span>As of</span>
+          <span>Updated</span>
+          <span>Source</span>
+        </div>
+        ${items
+          .map(
+            (vertical) => `
+              <article
+                class="scorecard-row ${escapeHtml(signalClassForTrend(vertical.scorecard.trend))}"
+                tabindex="0"
+                data-dw-filter="${escapeHtml(vertical.id)}"
+                aria-label="Filter to ${escapeHtml(vertical.shortLabel)}"
+                style="--vertical-accent:${escapeHtml(vertical.accent)};"
+              >
+                <span class="scorecard-vertical">
+                  <span class="scorecard-dot"></span>
+                  ${escapeHtml(vertical.shortLabel)}
+                </span>
+                <span class="scorecard-cell scorecard-cell-signal">
+                  <strong>${escapeHtml(vertical.scorecard.label)}</strong>
+                  <span class="scorecard-secondary">${escapeHtml(vertical.scorecard.value)}</span>
+                </span>
+                <span class="scorecard-cell">${escapeHtml(vertical.scorecard.yoyLabel)}</span>
+                <span class="scorecard-cell">${escapeHtml(vertical.scorecard.latestData)}</span>
+                <span class="scorecard-cell">${escapeHtml(vertical.scorecard.freshness)}</span>
+                <span class="scorecard-cell scorecard-cell-source">
+                  ${sourceLinkMarkup(vertical.scorecard.sourceLabel, vertical.scorecard.sourceUrl, "scorecard-source-link")}
+                </span>
+                <span class="scorecard-drill" aria-hidden="true">→</span>
+              </article>
             `
-          : renderInlineEmpty("No live scorecard items are available yet.")
-      }
+          )
+          .join("")}
+      </div>
     </section>
   `;
 }
 
 function renderMovers(movers) {
+  if (!movers.length) {
+    return "";
+  }
+
+  const visibleMovers = moversExpanded ? movers : movers.slice(0, DEFAULT_VISIBLE_MOVERS);
+  const hasDisclosure = movers.length > DEFAULT_VISIBLE_MOVERS;
+
   return `
     <section class="dw-card" data-dw-overview="movers">
       <div class="dw-card-head">
         <p class="section-kicker">Demand Movers</p>
         <h2 class="section-title">Latest releases</h2>
       </div>
+      <div class="mover-grid">
+        ${visibleMovers
+          .map((mover) => {
+            const vertical = getDemandVerticalById(mover.verticalId);
+            const surpriseMarkup =
+              mover.surprise && !/^No active surprise flag$/i.test(mover.surprise)
+                ? `<p class="mover-surprise">${escapeHtml(mover.surprise)}</p>`
+                : "";
+            const href = buildDemandConceptHref(mover.verticalId, mover.code);
+            return `
+              <article
+                class="mover-card ${escapeHtml(signalClassForTrend(mover.trend))}"
+                style="--vertical-accent:${escapeHtml(vertical?.accent || mover.accent || "var(--color-amber)")};"
+                data-vertical="${escapeHtml(mover.verticalId)}"
+                data-concept-nav
+                data-concept-code="${escapeHtml(mover.code)}"
+                data-concept-vertical="${escapeHtml(mover.verticalId)}"
+                data-concept-href="${escapeHtml(href)}"
+                role="link"
+                tabindex="0"
+                aria-label="Open detail for ${escapeHtml(mover.title)}"
+              >
+                <div class="mover-head">
+                  <p class="mover-vertical">${escapeHtml(vertical?.shortLabel || "Demand")}</p>
+                  ${renderTierBadge(mover.tier, mover.tierKey)}
+                </div>
+                <h3 class="mover-title">${escapeHtml(mover.title)}</h3>
+                <p class="mover-value">${escapeHtml(mover.value)}</p>
+                <p class="mover-change">${escapeHtml(mover.change)}</p>
+                ${surpriseMarkup}
+                <div class="mover-meta">
+                  <p class="mover-freshness">${escapeHtml(mover.freshness)}</p>
+                  ${renderSourceRow(mover.sourceLabel, mover.sourceUrl)}
+                </div>
+                <p class="mover-drill" aria-hidden="true">View detail →</p>
+              </article>
+            `;
+          })
+          .join("")}
+      </div>
       ${
-        movers.length
+        hasDisclosure
           ? `
-              <div class="mover-grid">
-                ${movers
-                  .map((mover) => {
-                    const vertical = getDemandVerticalById(mover.verticalId);
-                    return `
-                      <article class="mover-card ${escapeHtml(signalClassForTrend(mover.trend))}" style="--vertical-accent:${escapeHtml(vertical?.accent || mover.accent || "var(--color-amber)")};" data-vertical="${escapeHtml(mover.verticalId)}">
-                        <div class="mover-head">
-                          <p class="mover-vertical">${escapeHtml(vertical?.shortLabel || "Demand")}</p>
-                          <span class="tier-badge">${escapeHtml(mover.tier)}</span>
-                        </div>
-                        <h3 class="mover-title">${escapeHtml(mover.title)}</h3>
-                        <p class="mover-value">${escapeHtml(mover.value)}</p>
-                        <p class="mover-change">${escapeHtml(mover.change)}</p>
-                        <p class="mover-surprise">${escapeHtml(mover.surprise)}</p>
-                        <p class="mover-freshness">${escapeHtml(mover.freshness)}</p>
-                      </article>
-                    `;
-                  })
-                  .join("")}
+              <div class="section-disclosure">
+                <button class="section-disclosure-button" type="button" data-toggle-movers>
+                  ${moversExpanded ? "Show less" : "Show more"}
+                </button>
               </div>
             `
-          : renderInlineEmpty("No recent DemandWatch movers are available yet.")
+          : ""
       }
     </section>
   `;
 }
 
-function renderIndicatorCard(indicator, accent) {
+function renderIndicatorCard(indicator, accent, verticalId) {
   const trendTooltip = trendArrowTooltip(indicator.trend);
   const valueHtml = indicator.valueHref
     ? `<a href="${escapeHtml(indicator.valueHref)}" class="indicator-value-link">${escapeHtml(indicator.value)}</a>`
@@ -291,11 +551,16 @@ function renderIndicatorCard(indicator, accent) {
   const headMeta = indicator.placeholder
     ? `<span class="indicator-status is-${escapeHtml(indicator.coverageTone)}">${escapeHtml(indicator.coverageLabel)}</span>`
     : `<span class="indicator-trend" title="${escapeHtml(trendTooltip)}" aria-label="${escapeHtml(trendTooltip)}">${escapeHtml(trendArrow(indicator.trend))}</span>`;
+  const href = indicator.placeholder ? "" : buildDemandConceptHref(verticalId, indicator.code);
 
   return `
-    <article class="indicator-card ${escapeHtml(signalClassForTrend(indicator.trend))}${indicator.placeholder ? " is-placeholder" : ""}" style="--vertical-accent:${escapeHtml(accent)};">
+    <article
+      class="indicator-card ${escapeHtml(signalClassForTrend(indicator.trend))}${indicator.placeholder ? " is-placeholder" : ""}${indicator.placeholder ? "" : " is-drilldown"}"
+      style="--vertical-accent:${escapeHtml(accent)};"
+      ${indicator.placeholder ? "" : `data-concept-nav data-concept-code="${escapeHtml(indicator.code)}" data-concept-vertical="${escapeHtml(verticalId)}" data-concept-href="${escapeHtml(href)}" role="link" tabindex="0" aria-label="Open detail for ${escapeHtml(indicator.title)}"`}
+    >
       <div class="indicator-head">
-        <span class="tier-badge">${escapeHtml(indicator.tier)}</span>
+        ${renderTierBadge(indicator.tier, indicator.tierKey)}
         ${headMeta}
       </div>
       <h4 class="indicator-title">${escapeHtml(indicator.title)}</h4>
@@ -303,14 +568,20 @@ function renderIndicatorCard(indicator, accent) {
       <p class="indicator-change">${escapeHtml(indicator.change)}</p>
       <div class="indicator-chart">
         ${renderSparkline(indicator.sparkline, indicator.trend)}
-        <p class="sparkline-range">${indicator.placeholder ? "Placeholder" : "Recent trend"}</p>
+        <p class="sparkline-range">Recent trend</p>
       </div>
-      <p class="indicator-detail">${escapeHtml(indicator.detail)}</p>
+      ${indicator.detail ? `<p class="indicator-detail">${escapeHtml(indicator.detail)}</p>` : ""}
+      ${renderSourceRow(indicator.sourceLabel, indicator.sourceUrl)}
+      ${indicator.placeholder ? "" : '<p class="indicator-drill" aria-hidden="true">View detail →</p>'}
     </article>
   `;
 }
 
 function renderDataTable(rows) {
+  if (!rows.length) {
+    return "";
+  }
+
   return `
     <div class="detail-table-wrap">
       <table class="detail-table">
@@ -320,7 +591,8 @@ function renderDataTable(rows) {
             <th scope="col">Latest</th>
             <th scope="col">vs prior</th>
             <th scope="col">YoY</th>
-            <th scope="col">Freshness</th>
+            <th scope="col">Updated</th>
+            <th scope="col">Source</th>
           </tr>
         </thead>
         <tbody>
@@ -333,6 +605,7 @@ function renderDataTable(rows) {
                   <td>${escapeHtml(row.change)}</td>
                   <td>${escapeHtml(row.yoy)}</td>
                   <td>${escapeHtml(row.freshness)}</td>
+                  <td>${sourceLinkMarkup(row.sourceLabel, row.sourceUrl, "detail-table-source-link")}</td>
                 </tr>
               `
             )
@@ -343,7 +616,198 @@ function renderDataTable(rows) {
   `;
 }
 
+function renderCalendarCard(items) {
+  if (!items.length) {
+    return "";
+  }
+
+  return `
+    <section class="sidebar-card">
+      <p class="detail-kicker">Release timing</p>
+      <div class="calendar-list">
+        ${items
+          .map(
+            (item) => `
+              <article class="calendar-item">
+                <p class="calendar-item-label">${escapeHtml(item.label)}</p>
+                <p class="calendar-item-value">${escapeHtml(item.value)}</p>
+                <div class="calendar-item-meta">
+                  ${item.note ? `<p class="calendar-item-note">${escapeHtml(item.note)}</p>` : ""}
+                  ${renderSourceRow(item.sourceLabel, item.sourceUrl, "dw-source-row calendar-source-row")}
+                  ${
+                    item.calendarHref
+                      ? `<p class="calendar-item-link-row"><a class="calendar-item-link" href="${escapeHtml(item.calendarHref)}">Open in CalendarWatch</a></p>`
+                      : ""
+                  }
+                </div>
+              </article>
+            `
+          )
+          .join("")}
+      </div>
+    </section>
+  `;
+}
+
+function renderBackLink() {
+  return `
+    <div class="demand-back-row">
+      <a class="demand-back-link" data-demand-back href="${escapeHtml(buildDemandOverviewHref())}">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M15 18l-6-6 6-6"></path>
+          <path d="M21 12H9"></path>
+        </svg>
+        <span>Back to Demand Pulse</span>
+      </a>
+    </div>
+  `;
+}
+
+function renderConceptHistoryChart(history, trend = "flat") {
+  if (!history.length) {
+    return "";
+  }
+
+  const width = 860;
+  const height = 260;
+  const pad = { top: 18, right: 28, bottom: 42, left: 22 };
+  const minValue = Math.min(...history.map((point) => point.value));
+  const maxValue = Math.max(...history.map((point) => point.value));
+  const span = maxValue - minValue || 1;
+  const innerWidth = width - pad.left - pad.right;
+  const innerHeight = height - pad.top - pad.bottom;
+  const step = innerWidth / Math.max(history.length - 1, 1);
+  const linePath = history
+    .map((point, index) => {
+      const x = Number((pad.left + index * step).toFixed(2));
+      const y = Number((pad.top + innerHeight - ((point.value - minValue) / span) * innerHeight).toFixed(2));
+      return `${index === 0 ? "M" : "L"}${x} ${y}`;
+    })
+    .join(" ");
+  const areaPath = `${linePath} L ${pad.left + innerWidth} ${pad.top + innerHeight} L ${pad.left} ${pad.top + innerHeight} Z`;
+  const firstPoint = history[0];
+  const lastPoint = history[history.length - 1];
+
+  return `
+    <div class="concept-history-chart">
+      <svg class="concept-history-svg ${escapeHtml(signalClassForTrend(trend))}" viewBox="0 0 ${width} ${height}" role="img" aria-label="Recent concept history">
+        <path class="concept-history-area" d="${areaPath}"></path>
+        <path class="concept-history-line" d="${linePath}"></path>
+        <text class="concept-history-label" x="${pad.left}" y="${height - 12}" text-anchor="start">${escapeHtml(firstPoint.periodLabel)}</text>
+        <text class="concept-history-label" x="${width - pad.right}" y="${height - 12}" text-anchor="end">${escapeHtml(lastPoint.periodLabel)}</text>
+      </svg>
+    </div>
+  `;
+}
+
+function renderConceptObservationTable(observations) {
+  if (!observations.length) {
+    return "";
+  }
+
+  return `
+    <div class="detail-table-wrap concept-observations-wrap">
+      <table class="detail-table concept-observations-table">
+        <thead>
+          <tr>
+            <th scope="col">Period</th>
+            <th scope="col">Value</th>
+            <th scope="col">Released</th>
+            <th scope="col">Source</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${observations
+            .map(
+              (row) => `
+                <tr>
+                  <th scope="row">${escapeHtml(row.periodLabel)}</th>
+                  <td>${escapeHtml(row.displayValue)}</td>
+                  <td>${escapeHtml(formatExactTimestamp(row.releaseDate) || "Unavailable")}</td>
+                  <td>${sourceLinkMarkup(row.sourceLabel, row.sourceUrl, "detail-table-source-link")}</td>
+                </tr>
+              `
+            )
+            .join("")}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+function renderConceptDetail(concept) {
+  const updatedStamp = formatPageTimestamp(concept.generatedAt);
+  const metaPills = [
+    concept.change ? `<div class="concept-stat"><span class="concept-stat-label">vs prior</span><strong>${escapeHtml(concept.change)}</strong></div>` : "",
+    concept.yoy ? `<div class="concept-stat"><span class="concept-stat-label">YoY</span><strong>${escapeHtml(concept.yoy)}</strong></div>` : "",
+    concept.freshness ? `<div class="concept-stat"><span class="concept-stat-label">Freshness</span><strong>${escapeHtml(concept.freshness)}</strong></div>` : "",
+    concept.cadence ? `<div class="concept-stat"><span class="concept-stat-label">Cadence</span><strong>${escapeHtml(concept.cadence)}</strong></div>` : "",
+  ]
+    .filter(Boolean)
+    .join("");
+
+  return `
+    <div class="demand-shell demand-shell--detail">
+      ${renderBackLink()}
+      <section class="dw-card concept-hero-card" style="--vertical-accent:${escapeHtml(getDemandVerticalById(concept.verticalId)?.accent || "var(--color-amber)")};">
+        <div class="concept-hero-head">
+          <div>
+            <p class="section-kicker">${escapeHtml(concept.verticalLabel)}</p>
+            <h1 class="concept-title">${escapeHtml(concept.title)}</h1>
+          </div>
+          ${renderTierBadge(concept.tier, concept.tierKey)}
+        </div>
+        <div class="concept-value-row">
+          <p class="concept-value">${escapeHtml(concept.value)}</p>
+          ${concept.latestPeriodLabel ? `<p class="concept-period">${escapeHtml(concept.latestPeriodLabel)}</p>` : ""}
+        </div>
+        ${metaPills ? `<div class="concept-stat-grid">${metaPills}</div>` : ""}
+        <div class="concept-meta-row">
+          ${renderSourceRow(concept.sourceLabel, concept.sourceUrl)}
+          ${
+            updatedStamp
+              ? `<p class="concept-updated"><span class="dw-source-label">Updated</span><span class="dw-source-sep" aria-hidden="true">·</span>${escapeHtml(updatedStamp)}</p>`
+              : ""
+          }
+        </div>
+        ${concept.detail ? `<p class="concept-detail-copy">${escapeHtml(concept.detail)}</p>` : ""}
+      </section>
+      <section class="dw-card concept-history-card">
+        <div class="dw-card-head">
+          <p class="section-kicker">History</p>
+          <h2 class="section-title">Recent observations</h2>
+        </div>
+        ${renderConceptHistoryChart(concept.history, concept.trend)}
+      </section>
+      ${concept.calendar.length ? renderCalendarCard(concept.calendar) : ""}
+      ${
+        concept.observations.length
+          ? `
+            <section class="dw-card concept-table-card">
+              <div class="dw-card-head">
+                <p class="section-kicker">Observations</p>
+                <h2 class="section-title">Recent releases</h2>
+              </div>
+              ${renderConceptObservationTable(concept.observations)}
+            </section>
+          `
+          : ""
+      }
+      <div id="demand-tier-explainer" class="tier-explainer" role="dialog" aria-live="polite" hidden></div>
+    </div>
+  `;
+}
+
 function renderVerticalSection(vertical) {
+  const visibleSections = vertical.sections.filter(
+    (section) => !section.isCoverageGap && (section.indicators.length || section.tableRows.length)
+  );
+  const calendarMarkup = renderCalendarCard(vertical.calendar);
+
+  if (!visibleSections.length && !calendarMarkup) {
+    return "";
+  }
+
   return `
     <section
       id="${escapeHtml(vertical.id)}"
@@ -356,77 +820,29 @@ function renderVerticalSection(vertical) {
         <div>
           <p class="section-kicker vertical-kicker">${escapeHtml(vertical.shortLabel)}</p>
           <h2 class="section-title">${escapeHtml(vertical.label)}</h2>
-          <p class="vertical-summary">${escapeHtml(vertical.summary)}</p>
-        </div>
-        <div class="vertical-facts">
-          ${vertical.facts
-            .map(
-              (fact) => `
-                <article class="fact-card">
-                  <p class="fact-label">${escapeHtml(fact.label)}</p>
-                  <p class="fact-value">${escapeHtml(fact.value)}</p>
-                  <p class="fact-note">${escapeHtml(fact.note)}</p>
-                </article>
-              `
-            )
-            .join("")}
+          ${vertical.summary ? `<p class="vertical-summary">${escapeHtml(vertical.summary)}</p>` : ""}
         </div>
       </div>
-      <div class="vertical-layout">
+      <div class="vertical-layout${calendarMarkup ? "" : " vertical-layout--full"}">
         <div class="vertical-main">
-          ${vertical.sections
+          ${visibleSections
             .map(
               (section) => `
-                <article class="detail-block${section.isCoverageGap ? " is-gap-block" : ""}">
+                <article class="detail-block">
                   <div class="detail-block-head">
                     <div>
                       <p class="detail-kicker">${escapeHtml(section.title)}</p>
                       <h3>${escapeHtml(section.description)}</h3>
                     </div>
                   </div>
-                  ${
-                    section.indicators.length
-                      ? `<div class="indicator-grid">${section.indicators.map((indicator) => renderIndicatorCard(indicator, vertical.accent)).join("")}</div>`
-                      : renderInlineEmpty("No indicators are available in this section yet.")
-                  }
-                  ${section.tableRows.length ? renderDataTable(section.tableRows) : ""}
+                  ${section.indicators.length ? `<div class="indicator-grid">${section.indicators.map((indicator) => renderIndicatorCard(indicator, vertical.accent, vertical.id)).join("")}</div>` : ""}
+                  ${renderDataTable(section.tableRows)}
                 </article>
               `
             )
             .join("")}
         </div>
-        <aside class="vertical-sidebar">
-          <section class="sidebar-card">
-            <p class="detail-kicker">Data Calendar</p>
-            ${
-              vertical.calendar.length
-                ? `
-                    <div class="calendar-list">
-                      ${vertical.calendar
-                        .map(
-                          (item) => `
-                            <article class="calendar-item">
-                              <p class="calendar-item-label">${escapeHtml(item.label)}</p>
-                              <p class="calendar-item-value">${escapeHtml(item.value)}</p>
-                              <p class="calendar-item-note">${escapeHtml(item.note)}</p>
-                            </article>
-                          `
-                        )
-                        .join("")}
-                    </div>
-                  `
-                : renderInlineEmpty("No release timing is available for this vertical yet.")
-            }
-          </section>
-          <section class="sidebar-card">
-            <p class="detail-kicker">Coverage Notes</p>
-            ${
-              vertical.notes.length
-                ? `<ul class="sidebar-list">${vertical.notes.map((note) => `<li>${escapeHtml(note)}</li>`).join("")}</ul>`
-                : renderInlineEmpty("No coverage notes are available yet.")
-            }
-          </section>
-        </aside>
+        ${calendarMarkup ? `<aside class="vertical-sidebar">${calendarMarkup}</aside>` : ""}
       </div>
     </section>
   `;
@@ -445,7 +861,6 @@ function renderVerticalStateSection(meta, title, copy, tone = "neutral") {
         <div>
           <p class="section-kicker vertical-kicker">${escapeHtml(meta.shortLabel)}</p>
           <h2 class="section-title">${escapeHtml(meta.label)}</h2>
-          <p class="vertical-summary">${escapeHtml(copy)}</p>
         </div>
       </div>
       <div class="dw-inline-state is-${escapeHtml(tone)}">
@@ -461,23 +876,21 @@ function renderPageState({ title, copy, buttonLabel = "", buttonAttr = "" }) {
     filterRoot.innerHTML = "";
   }
 
+  closeTierExplainer();
   appRoot.innerHTML = `
     <div class="demand-shell">
-      <section class="hero-card hero-card--state">
-        <div class="dw-state-card">
-          <p class="hero-kicker">DemandWatch</p>
-          <h1 class="hero-title">${escapeHtml(title)}</h1>
-          <p class="hero-subtitle">${escapeHtml(copy)}</p>
-          ${
-            buttonLabel
-              ? `
-                  <div class="dw-state-actions">
-                    <button class="dw-state-button" type="button" ${buttonAttr}>${escapeHtml(buttonLabel)}</button>
-                  </div>
-                `
-              : ""
-          }
-        </div>
+      <section class="demand-state-card">
+        <h1 class="demand-page-title">${escapeHtml(title)}</h1>
+        <p class="demand-page-description">${escapeHtml(copy)}</p>
+        ${
+          buttonLabel
+            ? `
+                <div class="dw-state-actions">
+                  <button class="dw-state-button" type="button" ${buttonAttr}>${escapeHtml(buttonLabel)}</button>
+                </div>
+              `
+            : ""
+        }
       </section>
     </div>
   `;
@@ -488,6 +901,9 @@ function renderApp(pageData) {
     filterRoot.innerHTML = renderFilterBar();
   }
 
+  const overviewMarkup = [renderScorecard(pageData.scorecard), renderMovers(pageData.movers)]
+    .filter(Boolean)
+    .join("");
   const verticalsById = new Map(pageData.verticals.map((vertical) => [vertical.id, vertical]));
   const verticalMarkup = DEMAND_VERTICALS.map((meta) => {
     const vertical = verticalsById.get(meta.id);
@@ -499,46 +915,172 @@ function renderApp(pageData) {
       return renderVerticalStateSection(meta, "Detail unavailable", currentVerticalErrors.get(meta.id), "error");
     }
 
-    return renderVerticalStateSection(meta, "Awaiting detail", "No live DemandWatch detail is available for this vertical yet.");
-  }).join("");
+    return "";
+  })
+    .filter(Boolean)
+    .join("");
 
   appRoot.innerHTML = `
     <div class="demand-shell">
-      <section class="hero-card">
-        <div class="hero-copy">
-          <p class="hero-kicker">DemandWatch</p>
-          <h1 class="hero-title">Demand Pulse</h1>
-          <p class="hero-subtitle">
-            Direct consumption where it is legally safe, proxies where they add signal, and explicit placeholders where coverage remains blocked or deferred.
-          </p>
-          <div class="hero-stats">
-            ${pageData.hero.stats
-              .map(
-                (stat) => `
-                  <span class="hero-stat"><strong>${escapeHtml(stat.value)}</strong>${escapeHtml(stat.label)}</span>
-                `
-              )
-              .join("")}
-          </div>
-        </div>
-        <div class="hero-summary">
-          <p class="hero-summary-label">${escapeHtml(pageData.hero.label)}</p>
-          <p class="hero-summary-value">${escapeHtml(pageData.hero.value)}</p>
-          <p class="hero-summary-copy">${escapeHtml(pageData.hero.copy)}</p>
-        </div>
-      </section>
-
+      ${renderPageHeader(pageData)}
       ${renderMacroStrip(pageData.macroStrip)}
-
-      <section id="overview" class="dw-section overview-section" data-dw-section="overview">
-        ${renderScorecard(pageData.scorecard)}
-        ${renderMovers(pageData.movers)}
-        ${renderTaxonomy()}
-      </section>
-
+      ${overviewMarkup ? `<section id="overview" class="dw-section overview-section" data-dw-section="overview">${overviewMarkup}</section>` : ""}
       ${verticalMarkup}
+      <div id="demand-tier-explainer" class="tier-explainer" role="dialog" aria-live="polite" hidden></div>
     </div>
   `;
+}
+
+function getTierExplainerElement() {
+  return document.getElementById("demand-tier-explainer");
+}
+
+function closeTierExplainer() {
+  const explainer = getTierExplainerElement();
+  if (explainer) {
+    explainer.hidden = true;
+    explainer.classList.remove("is-open");
+  }
+
+  if (activeTierBadge) {
+    activeTierBadge.setAttribute("aria-expanded", "false");
+    activeTierBadge = null;
+  }
+}
+
+function positionTierExplainer(button, explainer) {
+  if (!button || !explainer) {
+    return;
+  }
+
+  const rect = button.getBoundingClientRect();
+  const explainerRect = explainer.getBoundingClientRect();
+  const viewportWidth = window.innerWidth || document.documentElement?.clientWidth || 0;
+  const viewportHeight = window.innerHeight || document.documentElement?.clientHeight || 0;
+  const margin = 16;
+  const preferredTop = rect.bottom + 10;
+  const aboveTop = rect.top - explainerRect.height - 10;
+  const top =
+    preferredTop + explainerRect.height <= viewportHeight - margin
+      ? preferredTop
+      : Math.max(margin, aboveTop);
+  const left = Math.min(
+    Math.max(margin, rect.left),
+    Math.max(margin, viewportWidth - explainerRect.width - margin)
+  );
+
+  explainer.style.top = `${Math.round(top)}px`;
+  explainer.style.left = `${Math.round(left)}px`;
+}
+
+function openTierExplainer(button) {
+  const explainer = getTierExplainerElement();
+  const tier = getTierDefinition(button?.dataset?.tierKey, button?.dataset?.tierLabel);
+  if (!explainer || !button || !tier) {
+    return;
+  }
+
+  if (activeTierBadge && activeTierBadge !== button) {
+    activeTierBadge.setAttribute("aria-expanded", "false");
+  }
+
+  activeTierBadge = button;
+  activeTierBadge.setAttribute("aria-expanded", "true");
+  explainer.innerHTML = `
+    <div class="tier-explainer-head">
+      <p class="tier-explainer-kicker">${escapeHtml(tier.shortLabel)}</p>
+      <p class="tier-explainer-reliability">${escapeHtml(tier.reliability)} reliability</p>
+    </div>
+    <h3 class="tier-explainer-title">${escapeHtml(tier.label)}</h3>
+    <p class="tier-explainer-copy">${escapeHtml(tier.description)}</p>
+  `;
+  explainer.hidden = false;
+  explainer.classList.add("is-open");
+  positionTierExplainer(button, explainer);
+}
+
+function bindTierDismissal() {
+  if (tierDismissalBound) {
+    return;
+  }
+
+  tierDismissalBound = true;
+
+  if (typeof document === "undefined" || typeof document.addEventListener !== "function") {
+    return;
+  }
+
+  document.addEventListener("click", (event) => {
+    const explainer = getTierExplainerElement();
+    if (!explainer || explainer.hidden) {
+      return;
+    }
+
+    if (event.target instanceof Element && event.target.closest(".tier-badge-button")) {
+      return;
+    }
+
+    if (event.target instanceof Node && explainer.contains(event.target)) {
+      return;
+    }
+
+    closeTierExplainer();
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeTierExplainer();
+    }
+  });
+}
+
+function bindTierExplainers() {
+  bindTierDismissal();
+
+  appRoot.querySelectorAll(".tier-badge-button").forEach((button) => {
+    button.addEventListener("mouseenter", () => openTierExplainer(button));
+    button.addEventListener("mouseleave", () => {
+      if (document.activeElement !== button) {
+        closeTierExplainer();
+      }
+    });
+    button.addEventListener("focus", () => openTierExplainer(button));
+    button.addEventListener("blur", () => {
+      window.setTimeout(() => {
+        if (document.activeElement !== button) {
+          closeTierExplainer();
+        }
+      }, 0);
+    });
+    button.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      if (activeTierBadge === button) {
+        closeTierExplainer();
+        return;
+      }
+
+      openTierExplainer(button);
+    });
+    button.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        if (activeTierBadge === button) {
+          closeTierExplainer();
+        } else {
+          openTierExplainer(button);
+        }
+      }
+    });
+  });
+}
+
+function bindMoversToggle() {
+  appRoot.querySelector("[data-toggle-movers]")?.addEventListener("click", () => {
+    moversExpanded = !moversExpanded;
+    void renderRoute();
+  });
 }
 
 function syncFilterUI() {
@@ -574,7 +1116,7 @@ function syncFilterUI() {
     const [targetId] = [...activeFilters];
     const target = document.getElementById(targetId);
     if (target) {
-      setTimeout(() => target.scrollIntoView({ behavior: "smooth", block: "start" }), 50);
+      window.setTimeout(() => target.scrollIntoView({ behavior: "smooth", block: "start" }), 50);
     }
   }
 }
@@ -616,16 +1158,273 @@ function bindFilterBar() {
   });
 
   appRoot.querySelectorAll(".scorecard-row[data-dw-filter]").forEach((row) => {
-    row.addEventListener("click", () => focusFilter(row.dataset.dwFilter));
+    row.addEventListener("click", (event) => {
+      if (event.target instanceof Element && event.target.closest("a")) {
+        return;
+      }
+
+      focusFilter(row.dataset.dwFilter);
+    });
+    row.addEventListener("keydown", (event) => {
+      if (event.target instanceof Element && event.target.closest("a")) {
+        return;
+      }
+
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        focusFilter(row.dataset.dwFilter);
+      }
+    });
   });
 
   syncFilterUI();
 }
 
-function bindRetryButton() {
-  appRoot.querySelector("[data-retry-demand]")?.addEventListener("click", () => {
-    loadDemandWatch({ force: true });
+function bindConceptNavigation() {
+  appRoot.querySelectorAll("[data-concept-nav]").forEach((card) => {
+    const navigateToConcept = () => {
+      const href = card.getAttribute("data-concept-href");
+      const conceptCode = card.getAttribute("data-concept-code");
+      if (!href || !conceptCode) {
+        return;
+      }
+
+      captureDetailReturnState({ conceptCode });
+      navigate(href);
+    };
+
+    card.addEventListener("click", (event) => {
+      if (!(event.target instanceof Element)) {
+        navigateToConcept();
+        return;
+      }
+
+      const interactiveChild = event.target.closest("a,button");
+      if (interactiveChild && interactiveChild !== card) {
+        return;
+      }
+
+      navigateToConcept();
+    });
+
+    card.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        navigateToConcept();
+      }
+    });
   });
+}
+
+function bindDemandNavigationButtons() {
+  appRoot.querySelector("[data-demand-back]")?.addEventListener("click", (event) => {
+    event.preventDefault();
+    prepareOverviewRestore();
+    navigate(buildDemandOverviewHref());
+  });
+
+  appRoot.querySelector("[data-demand-home]")?.addEventListener("click", () => {
+    activeFilters.clear();
+    detailReturnState = null;
+    pendingOverviewRestore = null;
+    navigate(buildDemandOverviewHref());
+  });
+
+  appRoot.querySelector("[data-retry-demand]")?.addEventListener("click", () => {
+    conceptDetailCache.clear();
+    void renderRoute({ force: true });
+  });
+}
+
+function bindDemandWatchInteractions() {
+  if (currentRoute().view === "overview") {
+    bindFilterBar();
+    bindMoversToggle();
+    bindConceptNavigation();
+  }
+
+  bindDemandNavigationButtons();
+  bindTierExplainers();
+}
+
+async function hydrateCalendarLinks(releaseItems) {
+  const candidates = (Array.isArray(releaseItems) ? releaseItems : []).filter((item) => normalizeTimestamp(item?.scheduledFor));
+  if (!candidates.length) {
+    return Array.isArray(releaseItems) ? releaseItems : [];
+  }
+
+  const timestamps = candidates.map((item) => normalizeTimestamp(item.scheduledFor)).filter(Number.isFinite);
+  const from = new Date(Math.min(...timestamps));
+  const to = new Date(Math.max(...timestamps));
+
+  try {
+    const calendarEvents = await loadCalendarEvents({ from, to });
+    return releaseItems.map((item) => {
+      const calendarEvent = findCalendarEventForDemandRelease(item, calendarEvents);
+      if (!calendarEvent) {
+        return {
+          ...item,
+          calendarEventId: null,
+          calendarHref: null,
+        };
+      }
+
+      return {
+        ...item,
+        calendarEventId: calendarEvent.id,
+        calendarHref: buildCalendarEventHref(calendarEvent.id),
+      };
+    });
+  } catch {
+    return releaseItems.map((item) => ({
+      ...item,
+      calendarEventId: null,
+      calendarHref: null,
+    }));
+  }
+}
+
+async function ensurePageData({ force = false } = {}) {
+  if (force) {
+    currentPageData = null;
+    currentVerticalErrors = new Map();
+  }
+
+  if (currentPageData && !force) {
+    return currentPageData;
+  }
+
+  renderPageState({
+    title: "Loading Demand Pulse",
+    copy: "Loading current demand signals.",
+  });
+
+  const payload = await fetchDemandWatchPageData({ force });
+  const pageData = buildDemandWatchPageModel(payload);
+  currentVerticalErrors = new Map(payload.verticalErrors.map((item) => [item.verticalId, item.message]));
+
+  if (!pageData.scorecard.length && !pageData.verticals.length) {
+    renderPageState({
+      title: "Demand data unavailable",
+      copy: "No published demand signals are available right now.",
+      buttonLabel: "Retry",
+      buttonAttr: 'data-retry-demand="true"',
+    });
+    bindDemandNavigationButtons();
+    return null;
+  }
+
+  currentPageData = pageData;
+  return pageData;
+}
+
+async function getConceptDetailData(verticalId, conceptCode) {
+  const cacheKey = `${verticalId}:${conceptCode}`;
+  if (conceptDetailCache.has(cacheKey)) {
+    return conceptDetailCache.get(cacheKey);
+  }
+
+  const promise = fetchDemandConceptDetail(verticalId, conceptCode)
+    .then(async (payload) => {
+      const concept = mapDemandConceptDetail(payload);
+      concept.calendar = (await hydrateCalendarLinks(concept.calendar)).filter((item) => item.calendarHref);
+      conceptDetailCache.set(cacheKey, concept);
+      return concept;
+    })
+    .catch((error) => {
+      conceptDetailCache.delete(cacheKey);
+      throw error;
+    });
+
+  conceptDetailCache.set(cacheKey, promise);
+  return promise;
+}
+
+async function renderOverviewRoute({ force = false } = {}) {
+  try {
+    const pageData = await ensurePageData({ force });
+    if (!pageData) {
+      return;
+    }
+
+    activeConceptDetail = null;
+    setDocumentTitle("Demand Pulse — DemandWatch | CommodityWatch");
+    renderApp(pageData);
+    bindDemandWatchInteractions();
+
+    if (pendingOverviewRestore) {
+      activeFilters = new Set(pendingOverviewRestore.filters || []);
+      syncFilterUI();
+      restoreOverviewPosition();
+      return;
+    }
+
+    scrollToHashOnLoad();
+  } catch (error) {
+    const message = error instanceof Error && error.message ? error.message : "DemandWatch data could not be loaded.";
+    currentVerticalErrors = new Map();
+    setDocumentTitle("DemandWatch unavailable | CommodityWatch");
+    renderPageState({
+      title: "DemandWatch unavailable",
+      copy: message,
+      buttonLabel: "Retry",
+      buttonAttr: 'data-retry-demand="true"',
+    });
+    bindDemandNavigationButtons();
+  }
+}
+
+async function renderConceptRoute(route) {
+  if (filterRoot) {
+    filterRoot.innerHTML = "";
+  }
+
+  renderPageState({
+    title: "Loading concept detail",
+    copy: "Loading detailed concept view.",
+  });
+
+  try {
+    const concept = await getConceptDetailData(route.verticalId, route.conceptCode);
+    activeConceptDetail = concept;
+    setDocumentTitle(`${concept.title} — DemandWatch | CommodityWatch`);
+    appRoot.innerHTML = renderConceptDetail(concept);
+    bindDemandWatchInteractions();
+  } catch (error) {
+    const message = error instanceof Error && error.message ? error.message : "DemandWatch concept detail is unavailable.";
+    setDocumentTitle("DemandWatch concept unavailable | CommodityWatch");
+    renderPageState({
+      title: "DemandWatch concept unavailable",
+      copy: message,
+      buttonLabel: "Back to Demand Pulse",
+      buttonAttr: 'data-demand-home="true"',
+    });
+    bindDemandNavigationButtons();
+  }
+}
+
+async function renderRoute({ force = false } = {}) {
+  closeTierExplainer();
+  const route = currentRoute();
+
+  if (route.view === "not-found") {
+    setDocumentTitle("DemandWatch route unavailable | CommodityWatch");
+    renderPageState({
+      title: "DemandWatch route unavailable",
+      copy: route.reason || "The requested DemandWatch route does not exist.",
+      buttonLabel: "Back to Demand Pulse",
+      buttonAttr: 'data-demand-home="true"',
+    });
+    bindDemandNavigationButtons();
+    return;
+  }
+
+  if (route.view === "detail" && route.verticalId && route.conceptCode) {
+    await renderConceptRoute(route);
+    return;
+  }
+
+  await renderOverviewRoute({ force });
 }
 
 function bindToTopButton() {
@@ -637,7 +1436,14 @@ function bindToTopButton() {
     toTopButton.classList.toggle("visible", window.scrollY > 520);
   };
 
-  window.addEventListener("scroll", syncVisibility, { passive: true });
+  window.addEventListener(
+    "scroll",
+    () => {
+      closeTierExplainer();
+      syncVisibility();
+    },
+    { passive: true }
+  );
   syncVisibility();
 
   toTopButton.addEventListener("click", () => {
@@ -658,42 +1464,12 @@ function scrollToHashOnLoad() {
 }
 
 export async function loadDemandWatch({ force = false } = {}) {
-  renderPageState({
-    title: "Loading Demand Pulse",
-    copy: "Fetching the live DemandWatch snapshot from the backend.",
-  });
-
-  try {
-    const payload = await fetchDemandWatchPageData({ force });
-    const pageData = buildDemandWatchPageModel(payload);
-    currentVerticalErrors = new Map(payload.verticalErrors.map((item) => [item.verticalId, item.message]));
-
-    if (!pageData.scorecard.length && !pageData.verticals.length) {
-      renderPageState({
-        title: "Demand data unavailable",
-        copy: "No live DemandWatch payload is currently available from the backend.",
-        buttonLabel: "Retry",
-        buttonAttr: 'data-retry-demand="true"',
-      });
-      bindRetryButton();
-      return;
-    }
-
-    renderApp(pageData);
-    bindFilterBar();
-    scrollToHashOnLoad();
-  } catch (error) {
-    const message = error instanceof Error && error.message ? error.message : "Live DemandWatch data could not be loaded.";
-    currentVerticalErrors = new Map();
-
-    renderPageState({
-      title: "DemandWatch unavailable",
-      copy: message,
-      buttonLabel: "Retry",
-      buttonAttr: 'data-retry-demand="true"',
-    });
-    bindRetryButton();
+  if (force) {
+    moversExpanded = false;
+    conceptDetailCache.clear();
   }
+
+  await renderRoute({ force });
 }
 
 let initialDemandWatchLoadPromise = null;
@@ -701,6 +1477,12 @@ let initialDemandWatchLoadPromise = null;
 export function initDemandWatch() {
   if (!initialDemandWatchLoadPromise) {
     bindToTopButton();
+    window.addEventListener("popstate", () => {
+      if (currentRoute().view === "overview") {
+        queueOverviewRestore();
+      }
+      void renderRoute();
+    });
     initialDemandWatchLoadPromise = loadDemandWatch();
   }
 

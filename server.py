@@ -864,6 +864,7 @@ def _merge_demandwatch_release_dates(
     from_date: date | None,
     to_date: date | None,
     sectors: list[str] | None,
+    known_events: list[dict[str, Any]] | None = None,
 ) -> list[dict[str, Any]]:
     payload = fetch_json_response(f"{demandwatch_api_base_url.rstrip('/')}/demandwatch/next-release-dates")
     if payload is None or not isinstance(payload.get("items"), list):
@@ -873,7 +874,7 @@ def _merge_demandwatch_release_dates(
     merged_events = list(events)
     known_keys = {
         (_normalized_event_name(event.get("name")), str(event.get("event_date") or ""))
-        for event in merged_events
+        for event in (known_events or merged_events)
     }
     updated_at = datetime.now(timezone.utc).isoformat()
 
@@ -1119,6 +1120,13 @@ def make_handler(
                 self.path = "/inventory-watch/index.html"
                 return super().do_GET()
 
+            if parsed.path == "/demand-watch" or (
+                parsed.path.startswith("/demand-watch/")
+                and "." not in parsed.path.rstrip("/").rsplit("/", 1)[-1]
+            ):
+                self.path = "/demand-watch/index.html"
+                return super().do_GET()
+
             return super().do_GET()
 
         def handle_inventory_api(self, parsed) -> None:
@@ -1340,13 +1348,23 @@ def make_handler(
             sectors = [sector.strip() for sector in (sectors_param or "").split(",") if sector.strip()]
             from_date = require_iso_date_param(query.get("from", [None])[0], "from")
             to_date = require_iso_date_param(query.get("to", [None])[0], "to")
-            events = repository.list_events(from_date=from_date, to_date=to_date, sectors=sectors or None)
+            all_events = repository.list_events(from_date=from_date, to_date=to_date, sectors=None)
+            if sectors:
+                selected_sectors = set(sectors)
+                events = [
+                    event
+                    for event in all_events
+                    if any(sector in selected_sectors for sector in event.get("commodity_sectors", []))
+                ]
+            else:
+                events = all_events
             events = _merge_demandwatch_release_dates(
                 events,
                 demandwatch_api_base_url=config.demandwatch_api_base_url,
                 from_date=from_date,
                 to_date=to_date,
                 sectors=sectors or None,
+                known_events=all_events,
             )
             send_json(
                 self,

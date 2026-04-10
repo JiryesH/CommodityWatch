@@ -43,8 +43,8 @@ def test_restricted_demandwatch_series_are_seeded_as_inactive_placeholders() -> 
 
     assert {item["code"] for item in restricted} >= {
         "CHINA_CRUDE_IMPORTS_MONTHLY",
-        "IEA_GLOBAL_OIL_DEMAND_TABLE",
-        "SPGLOBAL_EUROZONE_MANUFACTURING_PMI_RAW",
+        "CHINA_REFINERY_THROUGHPUT_MONTHLY",
+        "WORLDSTEEL_GLOBAL_CRUDE_STEEL_PRODUCTION",
     }
 
     for item in restricted:
@@ -55,11 +55,13 @@ def test_restricted_demandwatch_series_are_seeded_as_inactive_placeholders() -> 
 def test_unresolved_demand_sources_are_marked_conservatively() -> None:
     sources = {item["slug"]: item for item in load_yaml("sources.yml")}
 
+    assert sources["oecd"]["legal_status"] == "public_registered"
+    assert sources["japan_estat"]["legal_status"] == "public_registered"
+    assert sources["korea_customs"]["legal_status"] == "public_registered"
+    assert sources["india_dof"]["legal_status"] == "public_registered"
     assert sources["china_customs"]["legal_status"] == "needs_verification"
     assert sources["china_nbs"]["legal_status"] == "needs_verification"
-    assert sources["iea"]["legal_status"] == "needs_verification"
     assert sources["worldsteel"]["legal_status"] == "needs_verification"
-    assert sources["spglobal_pmi"]["legal_status"] == "off_limits"
 
 
 def test_canonical_unit_policy_covers_all_seeded_demandwatch_series() -> None:

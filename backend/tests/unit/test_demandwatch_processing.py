@@ -512,6 +512,57 @@ async def test_get_demandwatch_snapshot_payload_recomputes_when_cached_snapshot_
 
 
 @pytest.mark.asyncio
+async def test_get_demandwatch_snapshot_payload_recomputes_when_cached_snapshot_misses_a_known_vertical(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    published_at = datetime(2026, 4, 8, 14, 30, tzinfo=UTC)
+    bundle = _public_bundle(latest_value=9800.0, latest_vintage_at=published_at)
+    consistent_payload = demandwatch_processing.build_demandwatch_snapshot_payload(
+        bundle,
+        _public_schedules(),
+        generated_at=published_at,
+        expires_at=published_at + timedelta(minutes=5),
+    )
+    cached_payload = {
+        **consistent_payload,
+        "vertical_details": [],
+        "vertical_errors": [],
+    }
+    cached_snapshot = SimpleNamespace(
+        expires_at=published_at + timedelta(minutes=5),
+        payload=cached_payload,
+    )
+    session = _FakeCacheLookupSession(cached_snapshot)
+    read_model = demandwatch_processing.DemandWatchPublicReadModel(
+        bundle=bundle,
+        generated_at=published_at,
+        database_path=Path("/tmp/demandwatch-published.sqlite"),
+    )
+    recompute_calls = 0
+
+    async def fake_assert_registry_seeded(_session) -> None:
+        return None
+
+    def fake_load_read_model():
+        return read_model
+
+    async def fake_recompute(_session) -> dict[str, object]:
+        nonlocal recompute_calls
+        recompute_calls += 1
+        return consistent_payload
+
+    monkeypatch.setattr(demandwatch_processing, "assert_demandwatch_registry_seeded", fake_assert_registry_seeded)
+    monkeypatch.setattr(demandwatch_processing, "load_demandwatch_public_read_model", fake_load_read_model)
+    monkeypatch.setattr(demandwatch_processing, "recompute_demandwatch_snapshot", fake_recompute)
+    monkeypatch.setattr(demandwatch_processing, "utcnow", lambda: published_at)
+
+    payload = await demandwatch_processing.get_demandwatch_snapshot_payload(session)
+
+    assert payload == consistent_payload
+    assert recompute_calls == 1
+
+
+@pytest.mark.asyncio
 async def test_recompute_demandwatch_snapshot_preserves_key_field_parity_from_published_bundle(
     monkeypatch: pytest.MonkeyPatch,
     tmp_path: Path,

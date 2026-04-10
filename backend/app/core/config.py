@@ -54,6 +54,7 @@ class Settings(BaseSettings):
     usda_psd_rate_limit_seconds: float = 0.5
     fred_rate_limit_seconds: float = 0.25
     ember_rate_limit_seconds: float = 0.25
+    oecd_rate_limit_seconds: float = 0.25
     exchange_scrape_rate_limit_seconds: float = 1.0
     enable_lme_live_jobs: bool = False
     enable_ice_certified_jobs: bool = False

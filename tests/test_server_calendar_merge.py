@@ -147,3 +147,59 @@ def test_merge_demandwatch_release_dates_honors_sector_filter(monkeypatch) -> No
     )
 
     assert [event["id"] for event in merged] == ["demand_usda_export_sales:2026-03-19"]
+
+
+def test_merge_demandwatch_release_dates_dedupes_against_known_events_outside_sector_filter(monkeypatch) -> None:
+    known_events = [
+        {
+            "id": "cw_energy_1",
+            "name": "EIA Weekly Petroleum Status Report",
+            "organiser": "U.S. Energy Information Administration",
+            "cadence": "weekly",
+            "commodity_sectors": ["energy"],
+            "event_date": "2026-03-18T14:30:00+00:00",
+            "calendar_url": "https://www.eia.gov/petroleum/supply/weekly/schedule.php",
+            "redistribution_ok": True,
+            "source_label": "EIA",
+            "notes": "Fixture publishable event",
+            "is_confirmed": True,
+            "source_slug": "eia",
+            "ingestion_pattern": "html",
+            "publish_status": "published",
+            "review_reasons": [],
+            "updated_at": "2026-03-12T00:00:00+00:00",
+        }
+    ]
+
+    monkeypatch.setattr(
+        server,
+        "fetch_json_response",
+        lambda _url, timeout=2.0: {
+            "generated_at": "2026-03-12T00:00:00Z",
+            "items": [
+                {
+                    "release_slug": "demand_eia_wpsr",
+                    "release_name": "EIA Weekly Petroleum Status Report",
+                    "source_slug": "eia",
+                    "source_name": "EIA",
+                    "cadence": "weekly",
+                    "vertical_codes": ["crude_products", "grains_oilseeds"],
+                    "scheduled_for": "2026-03-18T14:30:00Z",
+                    "source_url": "https://www.eia.gov/petroleum/supply/weekly/",
+                    "is_estimated": False,
+                    "notes": [],
+                }
+            ],
+        },
+    )
+
+    merged = server._merge_demandwatch_release_dates(
+        [],
+        demandwatch_api_base_url="http://127.0.0.1:8000/api",
+        from_date=date(2026, 3, 1),
+        to_date=date(2026, 3, 31),
+        sectors=["agriculture"],
+        known_events=known_events,
+    )
+
+    assert merged == []

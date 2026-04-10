@@ -24,6 +24,7 @@ from app.ingest.sources.fred.jobs import (
     fetch_demand_fred_new_residential_construction,
     fetch_demand_fred_traffic_volume_trends,
 )
+from app.ingest.sources.oecd.jobs import fetch_demand_oecd_cli
 from app.ingest.sources.usda_export_sales.jobs import fetch_demand_usda_export_sales
 from app.ingest.sources.usda_psd.jobs import fetch_demand_usda_psd
 from app.modules.demandwatch.backfill import (
@@ -163,6 +164,13 @@ DEMANDWATCH_SOURCE_SPECS: tuple[DemandWatchSourceSpec, ...] = (
         release_slug="demand_fred_traffic_volume_trends",
         display_name="FRED Traffic Volume Trends",
         runner=fetch_demand_fred_traffic_volume_trends,
+    ),
+    DemandWatchSourceSpec(
+        name="demand_oecd_cli",
+        source_slug="oecd",
+        release_slug="demand_oecd_cli",
+        display_name="OECD Composite Leading Indicators",
+        runner=fetch_demand_oecd_cli,
     ),
     DemandWatchSourceSpec(
         name="demand_usda_wasde",

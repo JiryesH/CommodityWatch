@@ -126,6 +126,43 @@ function mapBootstrapPayload(payload) {
     throw new Error("DemandWatch bootstrap vertical error payload is invalid.");
   }
 
+  const expectedVerticalIds = new Set();
+  payload.coverage_notes.verticals.forEach((item) => {
+    if (!item || typeof item !== "object" || typeof item.id !== "string" || !item.id) {
+      throw new Error("DemandWatch coverage payload is invalid.");
+    }
+    if (expectedVerticalIds.has(item.id)) {
+      throw new Error("DemandWatch coverage payload is invalid.");
+    }
+    expectedVerticalIds.add(item.id);
+  });
+
+  const representedVerticalIds = new Set();
+  payload.vertical_details.forEach((item) => {
+    if (!item || typeof item !== "object" || typeof item.id !== "string" || !item.id || typeof item.code !== "string") {
+      throw new Error("DemandWatch bootstrap vertical detail payload is invalid.");
+    }
+    if (representedVerticalIds.has(item.id)) {
+      throw new Error("DemandWatch bootstrap vertical detail payload is invalid.");
+    }
+    representedVerticalIds.add(item.id);
+  });
+  payload.vertical_errors.forEach((item) => {
+    if (!item || typeof item !== "object" || typeof item.vertical_id !== "string" || !item.vertical_id || typeof item.message !== "string") {
+      throw new Error("DemandWatch bootstrap vertical error payload is invalid.");
+    }
+    if (representedVerticalIds.has(item.vertical_id)) {
+      throw new Error("DemandWatch bootstrap vertical error payload is invalid.");
+    }
+    representedVerticalIds.add(item.vertical_id);
+  });
+  if (
+    representedVerticalIds.size !== expectedVerticalIds.size ||
+    [...expectedVerticalIds].some((verticalId) => !representedVerticalIds.has(verticalId))
+  ) {
+    throw new Error("DemandWatch bootstrap payload is missing vertical detail coverage.");
+  }
+
   if (!payload?.next_release_dates || !Array.isArray(payload.next_release_dates.items)) {
     throw new Error("DemandWatch release calendar payload is invalid.");
   }
@@ -173,6 +210,17 @@ export async function fetchDemandVerticalDetail(verticalId) {
   const payload = await fetchJson(`/api/demandwatch/verticals/${encodeURIComponent(verticalId)}`);
   if (!payload || typeof payload !== "object" || typeof payload.id !== "string") {
     throw new Error("DemandWatch vertical detail payload is invalid.");
+  }
+
+  return payload;
+}
+
+export async function fetchDemandConceptDetail(verticalId, conceptCode) {
+  const payload = await fetchJson(
+    `/api/demandwatch/verticals/${encodeURIComponent(verticalId)}/concepts/${encodeURIComponent(conceptCode)}`
+  );
+  if (!payload || typeof payload !== "object" || typeof payload.code !== "string") {
+    throw new Error("DemandWatch concept detail payload is invalid.");
   }
 
   return payload;

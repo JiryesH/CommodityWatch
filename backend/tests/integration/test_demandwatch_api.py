@@ -148,18 +148,6 @@ async def demandwatch_seeded_session(seeded_session: AsyncSession) -> AsyncItera
                 rate_limit_notes="blocked",
                 active=True,
             ),
-            Source(
-                slug="spglobal_pmi",
-                name="S&P Global PMI",
-                source_type="html",
-                legal_status="off_limits",
-                homepage_url="https://www.spglobal.com/marketintelligence/en/mi/research-analysis/pmi.html",
-                docs_url="https://www.spglobal.com/marketintelligence/en/solutions/purchasing-managers-indexes.html",
-                default_timezone="Europe/London",
-                attribution_text="S&P Global",
-                rate_limit_notes="blocked",
-                active=True,
-            ),
         ]
     )
     await seeded_session.flush()
@@ -167,7 +155,7 @@ async def demandwatch_seeded_session(seeded_session: AsyncSession) -> AsyncItera
     sources = {
         source.slug: source
         for source in (
-            await seeded_session.execute(select(Source).where(Source.slug.in_(("eia", "fred", "usda_psd", "usda_export_sales", "ember", "china_customs", "spglobal_pmi"))))
+            await seeded_session.execute(select(Source).where(Source.slug.in_(("eia", "fred", "usda_psd", "usda_export_sales", "ember", "china_customs"))))
         ).scalars()
     }
 
@@ -383,7 +371,6 @@ async def demandwatch_seeded_session(seeded_session: AsyncSession) -> AsyncItera
         ("FRED_US_HOUSING_STARTS", "FRED US Housing Starts", "macro", "monthly", "base_metals", "US", "fred", "HOUST", "k_units_saar", "k_units_saar", "actual", "base_metals", "t4_end_use", "live", 30, "demand_fred_new_residential_construction"),
         ("FRED_US_BUILDING_PERMITS", "FRED US Building Permits", "macro", "monthly", "base_metals", "US", "fred", "PERMIT", "k_units_saar", "k_units_saar", "actual", "base_metals", "t5_leading", "live", 40, "demand_fred_new_residential_construction"),
         ("CHINA_CRUDE_IMPORTS_MONTHLY", "China Crude Oil Imports", "flow", "monthly", "crude_oil", "CHINA", "china_customs", None, "mmt", "mmt", "actual", "crude_products", "t3_trade", "needs_verification", 90, None),
-        ("SPGLOBAL_EUROZONE_MANUFACTURING_PMI_RAW", "S&P Global Eurozone Manufacturing PMI Raw", "signal", "monthly", "base_metals", "WORLD", "spglobal_pmi", None, "index", "index", "signal", "base_metals", "t6_macro", "blocked", 100, None),
     ]
 
     indicators: dict[str, Indicator] = {}
@@ -855,6 +842,7 @@ async def test_demandwatch_macro_strip_endpoint(demandwatch_client: AsyncClient)
     payload = response.json()
     by_code = {item["code"]: item for item in payload["items"]}
     assert by_code["FRED_US_INDUSTRIAL_PRODUCTION"]["label"] == "US Industrial Production"
+    assert by_code["FRED_US_INDUSTRIAL_PRODUCTION"]["source_label"] == "FRED"
     assert by_code["EIA_US_ELECTRICITY_GRID_LOAD"]["display_value"].endswith("GW")
     assert by_code["EMBER_CHINA_ELECTRICITY_DEMAND"]["source_url"] is not None
     assert (
@@ -876,6 +864,7 @@ async def test_demandwatch_scorecard_endpoint(demandwatch_client: AsyncClient) -
     ]
     crude = payload["items"][0]
     assert crude["primary_series_code"] == "EIA_US_TOTAL_PRODUCT_SUPPLIED"
+    assert crude["source_label"] == "EIA"
     assert crude["yoy_label"] is not None
 
 
@@ -887,6 +876,7 @@ async def test_demandwatch_movers_endpoint(demandwatch_client: AsyncClient) -> N
     assert len(payload["items"]) == 5
     assert payload["items"][0]["latest_release_date"] is not None
     assert payload["items"][0]["tier_label"].startswith("T")
+    assert payload["items"][0]["source_label"] is not None
 
 
 @pytest.mark.asyncio
@@ -896,7 +886,9 @@ async def test_demandwatch_vertical_detail_endpoint(demandwatch_client: AsyncCli
     payload = response.json()
     assert payload["id"] == "crude-products"
     assert payload["scorecard"]["primary_series_code"] == "EIA_US_TOTAL_PRODUCT_SUPPLIED"
+    assert payload["scorecard"]["source_label"] == "EIA"
     assert [section["id"] for section in payload["sections"]] == ["direct", "throughput"]
+    assert payload["sections"][0]["indicators"][0]["source_label"] == "EIA"
     assert any("China" in note for note in payload["notes"])
 
 
@@ -912,6 +904,7 @@ async def test_demandwatch_indicator_table_endpoint_exposes_fred_vintages(demand
     }
     assert rows["FRED_US_INDUSTRIAL_PRODUCTION"]["vintage_count"] >= 3
     assert rows["FRED_US_HOUSING_STARTS"]["latest_display"].endswith("m")
+    assert rows["FRED_US_INDUSTRIAL_PRODUCTION"]["source_label"] == "FRED"
 
 
 @pytest.mark.asyncio
@@ -921,9 +914,7 @@ async def test_demandwatch_coverage_notes_endpoint(demandwatch_client: AsyncClie
     payload = response.json()
     assert payload["markdown"].startswith("# DemandWatch Coverage Audit")
     crude = next(item for item in payload["verticals"] if item["code"] == "crude_products")
-    metals = next(item for item in payload["verticals"] if item["code"] == "base_metals")
     assert crude["deferred"][0]["code"] == "CHINA_CRUDE_IMPORTS_MONTHLY"
-    assert metals["blocked"][0]["code"] == "SPGLOBAL_EUROZONE_MANUFACTURING_PMI_RAW"
 
 
 @pytest.mark.asyncio
@@ -992,7 +983,7 @@ async def test_demandwatch_snapshot_endpoint_returns_full_bootstrap_payload(
         "base-metals",
     ]
     assert payload["vertical_errors"] == []
-    assert payload["coverage_notes"]["summary"]["status_counts"]["blocked"] == 1
+    assert payload["coverage_notes"]["summary"]["status_counts"]["blocked"] == 0
     assert {item["release_slug"] for item in payload["next_release_dates"]["items"]} == {
         "demand_eia_wpsr",
         "demand_eia_grid_monitor",

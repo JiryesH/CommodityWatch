@@ -21,6 +21,7 @@ from app.db.models.sources import ReleaseDefinition, Source, SourceRelease
 from app.modules.demandwatch.presentation import (
     DemandReleaseSchedule,
     build_demandwatch_bootstrap_payload,
+    public_vertical_id,
 )
 from app.modules.demandwatch.published_store import (
     DemandObservation,
@@ -450,10 +451,24 @@ def demandwatch_snapshot_payload_is_complete(payload: object) -> bool:
     coverage_notes = payload["coverage_notes"]
     if not isinstance(coverage_notes.get("summary"), dict):
         return False
+    coverage_vertical_ids: set[str] = set()
+    for vertical in coverage_notes.get("verticals", []):
+        if not isinstance(vertical, dict):
+            return False
+        vertical_id = vertical.get("id")
+        if not isinstance(vertical_id, str) or not vertical_id:
+            vertical_code = vertical.get("code")
+            if not isinstance(vertical_code, str) or not vertical_code:
+                return False
+            vertical_id = public_vertical_id(vertical_code)
+        if vertical_id in coverage_vertical_ids:
+            return False
+        coverage_vertical_ids.add(vertical_id)
 
     vertical_details = payload.get("vertical_details")
     if not isinstance(vertical_details, list):
         return False
+    represented_vertical_ids: set[str] = set()
     for detail in vertical_details:
         if not isinstance(detail, dict):
             return False
@@ -461,6 +476,17 @@ def demandwatch_snapshot_payload_is_complete(payload: object) -> bool:
             return False
         if not isinstance(detail.get("sections"), list):
             return False
+        detail_id = detail.get("id")
+        detail_code = detail.get("code")
+        if not isinstance(detail_id, str) or not detail_id:
+            return False
+        if not isinstance(detail_code, str) or not detail_code:
+            return False
+        if detail_id != public_vertical_id(detail_code):
+            return False
+        if detail_id in represented_vertical_ids:
+            return False
+        represented_vertical_ids.add(detail_id)
 
     vertical_errors = payload.get("vertical_errors")
     if not isinstance(vertical_errors, list):
@@ -468,8 +494,15 @@ def demandwatch_snapshot_payload_is_complete(payload: object) -> bool:
     for item in vertical_errors:
         if not isinstance(item, dict):
             return False
-        if not isinstance(item.get("vertical_id"), str) or not isinstance(item.get("message"), str):
+        vertical_id = item.get("vertical_id")
+        if not isinstance(vertical_id, str) or not vertical_id or not isinstance(item.get("message"), str):
             return False
+        if vertical_id in represented_vertical_ids:
+            return False
+        represented_vertical_ids.add(vertical_id)
+
+    if represented_vertical_ids != coverage_vertical_ids:
+        return False
 
     return True
 

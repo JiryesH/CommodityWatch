@@ -3,9 +3,19 @@ from __future__ import annotations
 from fastapi import APIRouter, HTTPException, Query
 
 from app.api.deps import SessionDep
-from app.modules.demandwatch.presentation import public_vertical_id, resolve_vertical_code
-from app.processing.demandwatch import DemandWatchSetupError, get_demandwatch_snapshot_payload
+from app.modules.demandwatch.presentation import (
+    build_concept_detail_payload,
+    public_vertical_id,
+    resolve_concept_series,
+    resolve_vertical_code,
+)
+from app.processing.demandwatch import (
+    DemandWatchSetupError,
+    get_demandwatch_snapshot_payload,
+    load_demandwatch_public_read_model,
+)
 from app.schemas.demandwatch import (
+    DemandConceptDetailResponse,
     DemandCoverageNotesResponse,
     DemandIndicatorTableResponse,
     DemandMacroStripResponse,
@@ -54,7 +64,7 @@ def _snapshot_vertical_detail(snapshot_payload: dict, vertical_code: str) -> dic
         if isinstance(item, dict) and item.get("vertical_id") == target_public_id:
             raise HTTPException(status_code=503, detail=str(item.get("message") or "DemandWatch vertical detail is unavailable."))
 
-    raise HTTPException(status_code=404, detail="DemandWatch vertical not found.")
+    raise HTTPException(status_code=503, detail="DemandWatch vertical detail is unavailable.")
 
 
 @router.get("/macro-strip", response_model=DemandMacroStripResponse)
@@ -89,6 +99,43 @@ async def demandwatch_vertical_detail(vertical_id: str, session: SessionDep) -> 
     snapshot_payload = await _load_snapshot(session)
     vertical_code = _require_vertical_code(vertical_id, _valid_snapshot_vertical_codes(snapshot_payload))
     return DemandVerticalDetailResponse.model_validate(_snapshot_vertical_detail(snapshot_payload, vertical_code))
+
+
+@router.get("/verticals/{vertical_id}/concepts/{concept_code}", response_model=DemandConceptDetailResponse)
+async def demandwatch_concept_detail(
+    vertical_id: str,
+    concept_code: str,
+    session: SessionDep,
+) -> DemandConceptDetailResponse:
+    snapshot_payload = await _load_snapshot(session)
+    vertical_code = _require_vertical_code(vertical_id, _valid_snapshot_vertical_codes(snapshot_payload))
+
+    try:
+        public_read_model = load_demandwatch_public_read_model()
+    except DemandWatchSetupError as exc:
+        raise HTTPException(status_code=503, detail=str(exc)) from exc
+
+    series = resolve_concept_series(public_read_model.bundle, vertical_code, concept_code)
+    if series is None:
+        raise HTTPException(status_code=404, detail="DemandWatch concept not found.")
+
+    release_items = [
+        item
+        for item in snapshot_payload.get("next_release_dates", {}).get("items", [])
+        if isinstance(item, dict)
+        and vertical_code in item.get("vertical_codes", [])
+        and series.code in item.get("series_codes", [])
+    ]
+
+    return DemandConceptDetailResponse.model_validate(
+        build_concept_detail_payload(
+            public_read_model.bundle,
+            vertical_code,
+            series.code,
+            release_items,
+            now=public_read_model.generated_at,
+        )
+    )
 
 
 @router.get("/verticals/{vertical_id}/indicator-table", response_model=DemandIndicatorTableResponse)

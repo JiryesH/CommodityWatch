@@ -28,17 +28,40 @@ function buildEvent(id, eventDate) {
   };
 }
 
-function createApp(loadEvents) {
+function fakeNode() {
+  return {
+    hidden: false,
+    innerHTML: "",
+    classList: {
+      toggle() {},
+    },
+    addEventListener() {},
+    setAttribute() {},
+  };
+}
+
+function createApp(loadEvents, options = {}) {
+  globalThis.document ??= {
+    addEventListener() {},
+    body: { classList: { toggle() {} } },
+  };
+  globalThis.window ??= {
+    addEventListener() {},
+    scrollTo() {},
+    scrollY: 0,
+  };
+
   const app = new CalendarWatchApp({
-    root: {},
-    filterRoot: {},
-    drawerOverlay: {},
-    drawerPanel: {},
-    toTopButton: {},
-    navSearch: {},
-    searchToggle: {},
-    searchInput: { value: "" },
+    root: fakeNode(),
+    filterRoot: fakeNode(),
+    drawerOverlay: fakeNode(),
+    drawerPanel: fakeNode(),
+    toTopButton: fakeNode(),
+    navSearch: { ...fakeNode(), classList: { toggle() {} } },
+    searchToggle: { ...fakeNode(), setAttribute() {} },
+    searchInput: { value: "", addEventListener() {} },
     loadEvents,
+    ...options,
   });
 
   app.render = () => {};
@@ -123,4 +146,20 @@ test("openEvent tolerates malformed release dates", () => {
   assert.equal(app.state.panelMode, "event");
   assert.equal(app.state.selectedEventId, "broken");
   assert.equal(app.state.panelDayIso, null);
+});
+
+test("init opens an exact deep-linked event when an initial event id is provided", async () => {
+  const app = createApp(
+    () =>
+      Promise.resolve([
+        buildEvent("demand_eia_wpsr:2026-04-22", "2026-04-22T14:30:00Z"),
+      ]),
+    { initialEventId: "demand_eia_wpsr:2026-04-22" }
+  );
+
+  await app.init();
+
+  assert.equal(app.state.panelMode, "event");
+  assert.equal(app.state.selectedEventId, "demand_eia_wpsr:2026-04-22");
+  assert.equal(app.state.viewMode, "week");
 });

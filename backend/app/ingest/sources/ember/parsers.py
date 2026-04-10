@@ -30,11 +30,26 @@ def _month_end(value: date) -> date:
     return date(value.year, value.month + 1, 1) - timedelta(days=1)
 
 
+def _parse_ember_month(raw: object) -> date:
+    normalized = str(raw or "").strip()
+    if not normalized:
+        raise ValueError("Ember monthly demand row is missing a date.")
+
+    if len(normalized) == 7:
+        return date.fromisoformat(f"{normalized}-01")
+
+    parsed = date.fromisoformat(normalized)
+    return parsed.replace(day=1)
+
+
 def parse_ember_stats_timestamp(payload: dict) -> datetime | None:
     raw = ((payload.get("stats") or {}).get("timestamp"))
     if not raw:
         return None
-    return datetime.fromisoformat(str(raw).replace("Z", "+00:00")).astimezone(timezone.utc)
+    try:
+        return datetime.fromisoformat(str(raw).replace("Z", "+00:00")).astimezone(timezone.utc)
+    except ValueError:
+        return None
 
 
 def parse_ember_monthly_demand(payload: dict) -> list[ParsedEmberObservation]:
@@ -44,7 +59,7 @@ def parse_ember_monthly_demand(payload: dict) -> list[ParsedEmberObservation]:
         raw_value = row.get("demand_twh")
         if raw_date is None or raw_value is None:
             continue
-        month_date = date.fromisoformat(f"{raw_date}-01")
+        month_date = _parse_ember_month(raw_date)
         period_start_at = datetime(month_date.year, month_date.month, 1, tzinfo=timezone.utc)
         period_end_at = datetime.combine(_month_end(month_date), datetime.max.time(), tzinfo=timezone.utc).replace(microsecond=0)
         parsed.append(

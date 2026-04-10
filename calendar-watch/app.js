@@ -1,4 +1,5 @@
 import { loadCalendarEvents } from "./calendar-data.js";
+import { parseCalendarLocation } from "./router.js";
 import {
   CADENCE_META,
   CADENCE_OPTIONS,
@@ -352,6 +353,7 @@ export class CalendarWatchApp {
     searchToggle,
     searchInput,
     loadEvents = loadCalendarEvents,
+    initialEventId = null,
   }) {
     this.root = root;
     this.filterRoot = filterRoot;
@@ -362,6 +364,7 @@ export class CalendarWatchApp {
     this.searchToggle = searchToggle;
     this.searchInput = searchInput;
     this.loadEvents = loadEvents;
+    this.initialEventId = initialEventId;
     this.activeRefreshRequestId = 0;
     this.state = {
       viewMode: "week",
@@ -384,6 +387,7 @@ export class CalendarWatchApp {
   async init() {
     this.bindEvents();
     await this.refreshData();
+    this.applyInitialDeepLink();
   }
 
   bindEvents() {
@@ -735,6 +739,32 @@ export class CalendarWatchApp {
     if (render) {
       this.renderDrawer();
     }
+  }
+
+  applyInitialDeepLink() {
+    if (!this.initialEventId) {
+      return;
+    }
+
+    const targetEvent = this.state.events.find((event) => event.id === this.initialEventId);
+    this.initialEventId = null;
+
+    if (!targetEvent) {
+      return;
+    }
+
+    const eventDate = parseUtcDate(targetEvent.event_date);
+    if (!eventDate) {
+      return;
+    }
+
+    this.state.viewMode = "week";
+    this.state.anchorDate = clampAnchorDateForView("week", eventDate, new Date(), MAX_VISIBLE_DATE);
+    this.state.filters = cloneDefaultFilters();
+    this.state.searchQuery = "";
+    this.state.cadenceLayerOpen = false;
+    this.applyDerivedState();
+    this.openEvent(targetEvent.id, "calendar");
   }
 
   render() {
@@ -1287,7 +1317,12 @@ export function mountCalendarWatchApp(documentRef = globalThis.document) {
     return null;
   }
 
-  const app = new CalendarWatchApp(mountElements);
+  const locationRef = documentRef?.defaultView?.location || globalThis.location;
+  const { eventId } = parseCalendarLocation(locationRef);
+  const app = new CalendarWatchApp({
+    ...mountElements,
+    initialEventId: eventId,
+  });
   void app.init();
   return app;
 }

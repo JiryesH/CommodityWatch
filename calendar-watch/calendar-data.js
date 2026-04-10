@@ -310,6 +310,11 @@ function expandRecurringSeries(series) {
 
 export const MOCK_EVENTS = sortEvents([...RECURRING_SERIES.flatMap(expandRecurringSeries), ...ONE_OFF_EVENTS]);
 
+function normalizeEventTimestamp(value) {
+  const timestamp = Date.parse(String(value || ""));
+  return Number.isFinite(timestamp) ? new Date(timestamp).toISOString() : null;
+}
+
 function toApiDate(value) {
   if (!value) {
     return null;
@@ -351,4 +356,18 @@ export async function loadCalendarEvents({ from, to, sectors } = {}) {
   }
 
   return payload.data;
+}
+
+export function findCalendarEventForDemandRelease(release, events = MOCK_EVENTS) {
+  const releaseName = String(release?.releaseName || release?.release_name || release?.label || "").trim();
+  const scheduledFor = normalizeEventTimestamp(release?.scheduledFor || release?.scheduled_for || release?.event_date);
+  if (!releaseName || !scheduledFor) {
+    return null;
+  }
+
+  return (
+    events.find((event) => {
+      return event?.name === releaseName && normalizeEventTimestamp(event?.event_date) === scheduledFor;
+    }) || null
+  );
 }

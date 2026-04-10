@@ -59,6 +59,9 @@ SERIES_TITLE_OVERRIDES = {
     "FRED_US_HOUSING_STARTS": "Housing starts",
     "FRED_US_TOTAL_VEHICLE_SALES": "Total vehicle sales",
     "FRED_US_BUILDING_PERMITS": "Building permits",
+    "OECD_JAPAN_COMPOSITE_LEADING_INDICATOR": "Japan OECD CLI",
+    "OECD_SOUTH_KOREA_COMPOSITE_LEADING_INDICATOR": "South Korea OECD CLI",
+    "OECD_INDIA_COMPOSITE_LEADING_INDICATOR": "India OECD CLI",
 }
 
 RELEASE_TITLE_OVERRIDES = {
@@ -68,6 +71,7 @@ RELEASE_TITLE_OVERRIDES = {
     "demand_fred_new_residential_construction": "US New Residential Construction",
     "demand_fred_motor_vehicle_sales": "US Total Vehicle Sales",
     "demand_fred_traffic_volume_trends": "US Traffic Volume Trends",
+    "demand_oecd_cli": "OECD Composite Leading Indicators",
     "demand_usda_wasde": "USDA WASDE Monthly Report",
     "demand_usda_export_sales": "USDA Export Sales Report",
     "demand_ember_monthly_electricity": "Ember Monthly Electricity Demand",
@@ -104,7 +108,7 @@ VERTICAL_PRESENTATION = {
     "crude_products": DemandVerticalPresentation(
         public_id="crude-products",
         notes=(
-            "Global oil demand tables remain restricted. DemandWatch sticks to public-domain EIA series and marks restricted tables as deferred or blocked.",
+            "Crude demand coverage stays anchored to public-domain EIA releases at launch.",
             "China direct customs and NBS demand series remain outside ingestion until republication terms are verified.",
         ),
         macro_priority=None,
@@ -185,8 +189,9 @@ VERTICAL_PRESENTATION = {
     "base_metals": DemandVerticalPresentation(
         public_id="base-metals",
         notes=(
-            "Base-metals demand stays anchored to public-domain macro releases rather than raw PMI republication.",
+            "Base-metals demand stays anchored to public and attributed macro releases plus direct industrial proxies.",
             "China metals demand series remain deferred until republication terms are legally confirmed.",
+            "OECD CLI context extends the macro stack without reintroducing licensed PMI-style product features.",
         ),
         macro_priority=10,
         macro_label="US Industrial Production",
@@ -196,7 +201,7 @@ VERTICAL_PRESENTATION = {
             DemandSectionConfig(
                 id="macro",
                 title="Macro Backbone",
-                description="Public-domain Federal Reserve and Census releases carry the base-metals demand page.",
+                description="Federal Reserve, Census, and OECD releases carry the base-metals macro context stack.",
                 tiers=("t6_macro",),
             ),
             DemandSectionConfig(
@@ -439,6 +444,7 @@ def _indicator_card(bundle: DemandStoreBundle, series: DemandSeriesDefinition) -
         "title": _clean_series_title(series),
         "tier": series.tier,
         "tier_label": TIER_LABELS.get(series.tier, series.tier),
+        "source_label": series.source_name,
         "latest_value": metrics.latest_value,
         "unit_code": metrics.unit_code,
         "unit_symbol": metrics.unit_symbol,
@@ -467,6 +473,7 @@ def _indicator_table_row(bundle: DemandStoreBundle, series: DemandSeriesDefiniti
         "label": _clean_series_title(series),
         "tier": series.tier,
         "tier_label": TIER_LABELS.get(series.tier, series.tier),
+        "source_label": series.source_name,
         "latest_value": metrics.latest_value,
         "unit_code": metrics.unit_code,
         "unit_symbol": metrics.unit_symbol,
@@ -498,6 +505,7 @@ def _scorecard_item(bundle: DemandStoreBundle, vertical_code: str) -> dict[str, 
         "short_label": vertical.short_label or vertical.name,
         "sector": vertical.sector,
         "scorecard_label": SCORECARD_LABELS.get(vertical_code, _clean_series_title(series)),
+        "source_label": series.source_name,
         "latest_value": metrics.latest_value,
         "unit_code": metrics.unit_code,
         "unit_symbol": metrics.unit_symbol,
@@ -530,6 +538,7 @@ def build_macro_strip_payload(bundle: DemandStoreBundle, *, now: datetime | None
                 "code": series.code,
                 "label": label,
                 "descriptor": descriptor,
+                "source_label": series.source_name,
                 "latest_value": metrics.latest_value,
                 "unit_code": metrics.unit_code,
                 "unit_symbol": metrics.unit_symbol,
@@ -596,6 +605,7 @@ def build_movers_payload(bundle: DemandStoreBundle, *, limit: int = 10, now: dat
                 "title": _clean_series_title(series),
                 "tier": series.tier,
                 "tier_label": TIER_LABELS.get(series.tier, series.tier),
+                "source_label": series.source_name,
                 "latest_value": metrics.latest_value,
                 "unit_code": metrics.unit_code,
                 "unit_symbol": metrics.unit_symbol,
@@ -784,9 +794,9 @@ def _vertical_facts(
         return [
             {"label": "Primary cadence", "value": cadence_value, "note": str(cadence_note)},
             {
-                "label": "PMI handling",
-                "value": "Blocked",
-                "note": "DemandWatch does not republish raw PMI numbers; the page uses public-domain macro releases instead.",
+                "label": "Macro anchor",
+                "value": "Public-domain",
+                "note": "DemandWatch uses Federal Reserve and Census releases for metals demand context.",
             },
             {"label": "Coverage", "value": coverage_value, "note": coverage_note},
         ]
@@ -960,6 +970,118 @@ def build_vertical_detail_payload(
         "sections": _build_section_payloads(bundle, vertical_code),
         "calendar": release_items,
         "notes": notes,
+    }
+
+
+def _cadence_label(frequency: str) -> str:
+    return str(frequency or "").replace("_", " ").strip().title() or "Unknown"
+
+
+def resolve_concept_series(
+    bundle: DemandStoreBundle,
+    vertical_code: str,
+    concept_code: str,
+) -> DemandSeriesDefinition | None:
+    normalized_code = str(concept_code or "").strip()
+    if not normalized_code:
+        return None
+
+    return next(
+        (
+            series
+            for series in _series_for_vertical(bundle, vertical_code, live_only=True)
+            if series.code == normalized_code
+        ),
+        None,
+    )
+
+
+def build_concept_detail_payload(
+    bundle: DemandStoreBundle,
+    vertical_code: str,
+    concept_code: str,
+    release_items: list[dict[str, object]],
+    *,
+    now: datetime | None = None,
+    history_limit: int = 18,
+    observation_limit: int = 8,
+) -> dict[str, object]:
+    generated_at = now or utcnow()
+    vertical = bundle.verticals_by_code[vertical_code]
+    series = resolve_concept_series(bundle, vertical_code, concept_code)
+    if series is None:
+        raise KeyError(concept_code)
+
+    metrics = _metrics(bundle, series)
+    latest_points = latest_vintage_observations(bundle.observations_by_series_id.get(series.id, []))
+    recent_history = latest_points[-history_limit:]
+    recent_observations = list(reversed(latest_points[-observation_limit:]))
+
+    return {
+        "generated_at": generated_at,
+        "vertical_id": public_vertical_id(vertical_code),
+        "vertical_code": vertical.code,
+        "vertical_label": vertical.name,
+        "vertical_short_label": vertical.short_label or vertical.name,
+        "series_id": series.id,
+        "indicator_id": series.indicator_id,
+        "code": series.code,
+        "title": _clean_series_title(series),
+        "tier": series.tier,
+        "tier_label": TIER_LABELS.get(series.tier, series.tier),
+        "source_label": series.source_name,
+        "source_url": metrics.latest_source_url or series.source_url,
+        "cadence": _cadence_label(series.frequency),
+        "latest_value": metrics.latest_value,
+        "unit_code": metrics.unit_code,
+        "unit_symbol": metrics.unit_symbol,
+        "display_value": _format_value(metrics.latest_value, metrics.unit_code, metrics.unit_symbol),
+        "change_label": _format_abs_change(metrics.change_abs, metrics.unit_code, metrics.unit_symbol),
+        "yoy_label": _format_yoy_label(metrics),
+        "trend": _series_trend(metrics),
+        "freshness": _freshness_label(metrics),
+        "freshness_state": metrics.freshness_state,
+        "latest_period_label": metrics.latest_period_label,
+        "latest_release_date": metrics.latest_release_date,
+        "latest_vintage_at": metrics.latest_vintage_at,
+        "detail": _detail_text(metrics),
+        "history": [
+            {
+                "observation_id": point.id,
+                "period_label": point.period_label,
+                "period_end_at": point.normalized_period_end_at,
+                "release_date": point.release_date,
+                "value": point.value_canonical,
+                "display_value": _format_value(
+                    point.value_canonical,
+                    metrics.unit_code,
+                    metrics.unit_symbol,
+                )
+                or "n/a",
+                "source_url": point.source_url or series.source_url,
+            }
+            for point in recent_history
+        ],
+        "observations": [
+            {
+                "observation_id": point.id,
+                "period_label": point.period_label,
+                "period_end_at": point.normalized_period_end_at,
+                "release_date": point.release_date,
+                "vintage_at": point.vintage_at,
+                "display_value": _format_value(
+                    point.value_canonical,
+                    metrics.unit_code,
+                    metrics.unit_symbol,
+                )
+                or "n/a",
+                "source_label": series.source_name,
+                "source_url": point.source_url or series.source_url,
+                "observation_kind": point.observation_kind,
+            }
+            for point in recent_observations
+        ],
+        "calendar": release_items,
     }
 
 

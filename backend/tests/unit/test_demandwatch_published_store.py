@@ -141,35 +141,6 @@ def _bundle() -> DemandStoreBundle:
             active=False,
             metadata={},
         ),
-        "blocked-series": DemandSeriesDefinition(
-            id="blocked-series",
-            indicator_id="blocked-indicator",
-            code="SPGLOBAL_EUROZONE_MANUFACTURING_PMI_RAW",
-            name="S&P Global Eurozone PMI Raw",
-            description=None,
-            vertical_code="base_metals",
-            tier="t6_macro",
-            coverage_status="blocked",
-            display_order=100,
-            notes="Raw PMI values are off-limits without a licence.",
-            measure_family="signal",
-            frequency="monthly",
-            commodity_code="base_metals",
-            geography_code="EU",
-            source_slug="spglobal_pmi",
-            source_name="S&P Global",
-            source_legal_status="off_limits",
-            source_url=None,
-            source_series_key=None,
-            native_unit_code="index",
-            native_unit_symbol="index",
-            canonical_unit_code="index",
-            canonical_unit_symbol="index",
-            default_observation_kind="signal",
-            visibility_tier="internal",
-            active=False,
-            metadata={},
-        ),
     }
     observations = {
         "live-series": [
@@ -248,7 +219,7 @@ def test_demandwatch_coverage_audit_groups_series_by_status() -> None:
         "live": 1,
         "partial": 1,
         "deferred": 1,
-        "blocked": 1,
+        "blocked": 0,
     }
     crude = next(item for item in audit["verticals"] if item["code"] == "crude_products")
     metals = next(item for item in audit["verticals"] if item["code"] == "base_metals")
@@ -256,12 +227,12 @@ def test_demandwatch_coverage_audit_groups_series_by_status() -> None:
     assert crude["counts"]["live"] == 1
     assert crude["counts"]["deferred"] == 1
     assert metals["counts"]["partial"] == 1
-    assert metals["counts"]["blocked"] == 1
+    assert metals["counts"]["blocked"] == 0
     assert metals["partial"][0]["reasons"]
 
     markdown = demandwatch_coverage_audit_markdown(audit)
     assert "# DemandWatch Coverage Audit" in markdown
-    assert "SPGLOBAL_EUROZONE_MANUFACTURING_PMI_RAW" in markdown
+    assert "Blocked: 0" in markdown
 
 
 def test_demandwatch_published_store_round_trips(tmp_path: Path) -> None:
@@ -272,11 +243,11 @@ def test_demandwatch_published_store_round_trips(tmp_path: Path) -> None:
     repository = PublishedDemandRepository(output_path)
     round_trip_bundle = repository.to_bundle()
 
-    assert summary["series_count"] == 4
+    assert summary["series_count"] == 3
     assert repository.schema_version == 1
     assert repository.published_at == datetime(2026, 4, 1, 14, 30, tzinfo=UTC)
-    assert len(repository._series_by_id) == 4
-    assert len(round_trip_bundle.series_by_id) == 4
+    assert len(repository._series_by_id) == 3
+    assert len(round_trip_bundle.series_by_id) == 3
     assert sum(len(points) for points in repository._observations_by_series_id.values()) == 3
     live_metrics = repository._latest_metrics_by_series_id["live-series"]
     assert live_metrics.latest_period_label == "Week ending 2026-03-27"

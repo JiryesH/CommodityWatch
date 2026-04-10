@@ -604,6 +604,90 @@
   coverage_note: Public-domain leading indicator for metals demand through the construction pipeline.
   metadata:
     source_release: New Residential Construction
+- code: OECD_JAPAN_COMPOSITE_LEADING_INDICATOR
+  name: OECD Japan Composite Leading Indicator
+  description: OECD harmonised amplitude-adjusted composite leading indicator for Japan.
+  measure_family: macro
+  frequency: monthly
+  commodity_code: base_metals
+  geography_code: JAPAN
+  source_slug: oecd
+  source_series_key: JPN
+  native_unit_code: index
+  canonical_unit_code: index
+  default_observation_kind: actual
+  publication_lag_days: 14
+  is_seasonal: false
+  is_derived: false
+  visibility_tier: public
+  active: true
+  modules: [demandwatch]
+  primary_module: demandwatch
+  demand_vertical_code: base_metals
+  demand_tier: t6_macro
+  coverage_status: live
+  display_order: 70
+  release_slug: demand_oecd_cli
+  coverage_note: Official OECD CLI macro context for Japan, stored as attributed published data rather than a proprietary survey derivative.
+  metadata:
+    source_metric: composite_leading_indicator
+    source_methodology: oecd_harmonised_amplitude_adjusted
+- code: OECD_SOUTH_KOREA_COMPOSITE_LEADING_INDICATOR
+  name: OECD South Korea Composite Leading Indicator
+  description: OECD harmonised amplitude-adjusted composite leading indicator for South Korea.
+  measure_family: macro
+  frequency: monthly
+  commodity_code: base_metals
+  geography_code: SOUTH_KOREA
+  source_slug: oecd
+  source_series_key: KOR
+  native_unit_code: index
+  canonical_unit_code: index
+  default_observation_kind: actual
+  publication_lag_days: 14
+  is_seasonal: false
+  is_derived: false
+  visibility_tier: public
+  active: true
+  modules: [demandwatch]
+  primary_module: demandwatch
+  demand_vertical_code: base_metals
+  demand_tier: t6_macro
+  coverage_status: live
+  display_order: 80
+  release_slug: demand_oecd_cli
+  coverage_note: Official OECD CLI macro context for South Korea, used as published release context rather than a PMI substitute.
+  metadata:
+    source_metric: composite_leading_indicator
+    source_methodology: oecd_harmonised_amplitude_adjusted
+- code: OECD_INDIA_COMPOSITE_LEADING_INDICATOR
+  name: OECD India Composite Leading Indicator
+  description: OECD harmonised amplitude-adjusted composite leading indicator for India.
+  measure_family: macro
+  frequency: monthly
+  commodity_code: base_metals
+  geography_code: INDIA
+  source_slug: oecd
+  source_series_key: IND
+  native_unit_code: index
+  canonical_unit_code: index
+  default_observation_kind: actual
+  publication_lag_days: 14
+  is_seasonal: false
+  is_derived: false
+  visibility_tier: public
+  active: true
+  modules: [demandwatch]
+  primary_module: demandwatch
+  demand_vertical_code: base_metals
+  demand_tier: t6_macro
+  coverage_status: live
+  display_order: 90
+  release_slug: demand_oecd_cli
+  coverage_note: Official OECD CLI macro context for India, added conservatively as attributed OECD release data.
+  metadata:
+    source_metric: composite_leading_indicator
+    source_methodology: oecd_harmonised_amplitude_adjusted
 - code: CHINA_CRUDE_IMPORTS_MONTHLY
   name: China Crude Oil Imports
   description: Monthly China crude oil imports placeholder pending republication review.
@@ -650,29 +734,6 @@
   coverage_status: needs_verification
   display_order: 100
   coverage_note: NBS throughput publication terms remain unresolved for commercial republication.
-- code: IEA_GLOBAL_OIL_DEMAND_TABLE
-  name: IEA Global Oil Demand Table
-  description: IEA global oil demand table placeholder blocked from MVP republication.
-  measure_family: macro
-  frequency: monthly
-  commodity_code: crude_products
-  geography_code: WORLD
-  source_slug: iea
-  native_unit_code: kb_d
-  canonical_unit_code: kb_d
-  default_observation_kind: forecast
-  publication_lag_days: 14
-  is_seasonal: false
-  is_derived: false
-  visibility_tier: internal
-  active: false
-  modules: [demandwatch]
-  primary_module: demandwatch
-  demand_vertical_code: crude_products
-  demand_tier: t6_macro
-  coverage_status: blocked
-  display_order: 110
-  coverage_note: IEA data tables are not cleared for MVP republication. Use EIA or qualitative commentary instead.
 - code: WORLDSTEEL_GLOBAL_CRUDE_STEEL_PRODUCTION
   name: Worldsteel Global Crude Steel Production
   description: World Steel Association monthly crude steel production placeholder pending press-release review.
@@ -696,26 +757,3 @@
   coverage_status: needs_verification
   display_order: 90
   coverage_note: Monthly steel-output press releases stay blocked until republication terms are verified.
-- code: SPGLOBAL_EUROZONE_MANUFACTURING_PMI_RAW
-  name: S&P Global Eurozone Manufacturing PMI Raw
-  description: Raw Eurozone manufacturing PMI placeholder blocked from MVP republication.
-  measure_family: signal
-  frequency: monthly
-  commodity_code: base_metals
-  geography_code: EU
-  source_slug: spglobal_pmi
-  native_unit_code: index
-  canonical_unit_code: index
-  default_observation_kind: signal
-  publication_lag_days: 0
-  is_seasonal: false
-  is_derived: false
-  visibility_tier: internal
-  active: false
-  modules: [demandwatch]
-  primary_module: demandwatch
-  demand_vertical_code: base_metals
-  demand_tier: t6_macro
-  coverage_status: blocked
-  display_order: 100
-  coverage_note: Raw S&P Global PMI values are off-limits without a licence; do not ingest for MVP.

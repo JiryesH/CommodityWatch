@@ -68,19 +68,6 @@
           "vertical_code": "base_metals"
         },
         {
-          "code": "SPGLOBAL_EUROZONE_MANUFACTURING_PMI_RAW",
-          "configured_unit_code": "index",
-          "configured_unit_symbol": "index",
-          "expected_unit_code": "index",
-          "frequency": "monthly",
-          "measure_family": "signal",
-          "name": "S&P Global Eurozone Manufacturing PMI Raw",
-          "reasons": [],
-          "series_id": "230e371d-2317-4d80-b614-7149097eef53",
-          "status": "ok",
-          "vertical_code": "base_metals"
-        },
-        {
           "code": "EIA_US_TOTAL_PRODUCT_SUPPLIED",
           "configured_unit_code": "kb_d",
           "configured_unit_symbol": "kb/d",
@@ -168,19 +155,6 @@
           "name": "China Refinery Throughput",
           "reasons": [],
           "series_id": "cd81f6fa-9cc8-4b6d-8c00-3f533eb7ea47",
-          "status": "ok",
-          "vertical_code": "crude_products"
-        },
-        {
-          "code": "IEA_GLOBAL_OIL_DEMAND_TABLE",
-          "configured_unit_code": "kb_d",
-          "configured_unit_symbol": "kb/d",
-          "expected_unit_code": "kb_d",
-          "frequency": "monthly",
-          "measure_family": "macro",
-          "name": "IEA Global Oil Demand Table",
-          "reasons": [],
-          "series_id": "55fe33b9-1fd1-4ed1-89f0-bda9250b3f6b",
           "status": "ok",
           "vertical_code": "crude_products"
         },
@@ -290,7 +264,7 @@
         }
       ],
       "summary": {
-        "ok": 22,
+        "ok": 20,
         "unregistered": 0,
         "violations": 0
       }
@@ -298,9 +272,9 @@
     "coverage": {
       "generated_at": "2026-04-08T20:12:59.680771+00:00",
       "summary": {
-        "series_count": 22,
+        "series_count": 20,
         "status_counts": {
-          "blocked": 2,
+          "blocked": 0,
           "deferred": 3,
           "live": 11,
           "partial": 6
@@ -309,51 +283,11 @@
       },
       "verticals": [
         {
-          "blocked": [
-            {
-              "backfill_complete": true,
-              "code": "IEA_GLOBAL_OIL_DEMAND_TABLE",
-              "commodity_code": "crude_products",
-              "coverage_status": "blocked",
-              "frequency": "monthly",
-              "freshness_state": "unknown",
-              "geography_code": "WORLD",
-              "history_days": 0,
-              "indicator_id": "da73ddd0-150c-4011-8b6a-72a0e69c0bfa",
-              "latest_observation_count": 0,
-              "latest_period_end_at": null,
-              "latest_period_label": null,
-              "latest_release_date": null,
-              "latest_value": null,
-              "latest_vintage_at": null,
-              "moving_average_4w": null,
-              "name": "IEA Global Oil Demand Table",
-              "observation_count": 0,
-              "reasons": [
-                "IEA data tables are not cleared for MVP republication. Use EIA or qualitative commentary instead."
-              ],
-              "series_id": "55fe33b9-1fd1-4ed1-89f0-bda9250b3f6b",
-              "source_legal_status": "needs_verification",
-              "source_name": "International Energy Agency",
-              "source_slug": "iea",
-              "source_url": "https://www.iea.org/",
-              "stale": false,
-              "surprise_flag": false,
-              "surprise_reason": null,
-              "tier": "t6_macro",
-              "trend_3m_direction": "unknown",
-              "trend_3m_pct": null,
-              "unit_code": "kb_d",
-              "unit_symbol": "kb/d",
-              "vintage_count": 0,
-              "yoy_abs": null,
-              "yoy_pct": null
-            }
-          ],
+          "blocked": [],
           "code": "crude_products",
           "commodity_code": "crude_products",
           "counts": {
-            "blocked": 1,
+            "blocked": 0,
             "deferred": 2,
             "live": 5,
             "partial": 0
@@ -976,51 +910,11 @@
           "sector": "agriculture"
         },
         {
-          "blocked": [
-            {
-              "backfill_complete": true,
-              "code": "SPGLOBAL_EUROZONE_MANUFACTURING_PMI_RAW",
-              "commodity_code": "base_metals",
-              "coverage_status": "blocked",
-              "frequency": "monthly",
-              "freshness_state": "unknown",
-              "geography_code": "EU",
-              "history_days": 0,
-              "indicator_id": "d2183f9e-4543-4826-81ed-7628ad215350",
-              "latest_observation_count": 0,
-              "latest_period_end_at": null,
-              "latest_period_label": null,
-              "latest_release_date": null,
-              "latest_value": null,
-              "latest_vintage_at": null,
-              "moving_average_4w": null,
-              "name": "S&P Global Eurozone Manufacturing PMI Raw",
-              "observation_count": 0,
-              "reasons": [
-                "Raw S&P Global PMI values are off-limits without a licence; do not ingest for MVP."
-              ],
-              "series_id": "230e371d-2317-4d80-b614-7149097eef53",
-              "source_legal_status": "off_limits",
-              "source_name": "S&P Global PMI",
-              "source_slug": "spglobal_pmi",
-              "source_url": "https://www.spglobal.com/marketintelligence/en/mi/research-analysis/pmi.html",
-              "stale": false,
-              "surprise_flag": false,
-              "surprise_reason": null,
-              "tier": "t6_macro",
-              "trend_3m_direction": "unknown",
-              "trend_3m_pct": null,
-              "unit_code": "index",
-              "unit_symbol": "index",
-              "vintage_count": 0,
-              "yoy_abs": null,
-              "yoy_pct": null
-            }
-          ],
+          "blocked": [],
           "code": "base_metals",
           "commodity_code": "base_metals",
           "counts": {
-            "blocked": 1,
+            "blocked": 0,
             "deferred": 1,
             "live": 4,
             "partial": 0

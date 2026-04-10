@@ -821,7 +821,7 @@ def test_demand_watch_route_serves_page(tmp_path: Path) -> None:
 
     assert "<title>CommodityWatch | DemandWatch</title>" in html
     assert 'id="demand-root"' in html
-    assert 'src="app.js"' in html
+    assert 'src="/demand-watch/app.js"' in html
     assert_product_nav(html, current_href="/demand-watch/")
 
 
@@ -835,6 +835,18 @@ def test_inventory_watch_nested_route_serves_inventory_shell(tmp_path: Path) -> 
     assert "<title>CommodityWatch | InventoryWatch</title>" in html
     assert "/inventory-watch/styles.css" in html
     assert_product_nav(html, current_href="/inventory-watch/")
+
+
+def test_demand_watch_nested_route_serves_demand_shell(tmp_path: Path) -> None:
+    database_path = tmp_path / "commodities.db"
+    create_fixture_database(database_path)
+
+    with running_server(database_path) as base_url:
+        html = get_text(f"{base_url}/demand-watch/crude-products/EIA_US_TOTAL_PRODUCT_SUPPLIED/")
+
+    assert "<title>CommodityWatch | DemandWatch</title>" in html
+    assert "/demand-watch/styles.css" in html
+    assert_product_nav(html, current_href="/demand-watch/")
 
 
 def test_static_routes_disable_browser_caching(tmp_path: Path) -> None:

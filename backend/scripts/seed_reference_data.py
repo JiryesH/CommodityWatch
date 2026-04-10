@@ -1,26 +1,35 @@
 from __future__ import annotations
 
 import asyncio
+import sys
 from datetime import timedelta, time
 from pathlib import Path
 from typing import Any
 
-import yaml
-from sqlalchemy import delete, select
-from sqlalchemy.dialects.postgresql import insert
-from sqlalchemy.ext.asyncio import AsyncSession
-
-from app.db.models.auth import BillingWebhookEvent, Subscription, User, UserSession
-from app.db.models.content import CalendarEvent, CalendarEventChange, CalendarReviewItem, Headline, HeadlineIndicatorLink
-from app.db.models.demand import DemandSeries, DemandVertical
-from app.db.models.indicators import Indicator, IndicatorDependency, IndicatorModule, ModuleSnapshotCache, SeasonalRange
-from app.db.models.observations import AppEvent, Observation
-from app.db.models.reference import AppModule, Commodity, CommodityUnitConvention, Geography, UnitDefinition
-from app.db.models.sources import IngestArtifact, IngestRun, ReleaseDefinition, Source, SourceRelease
-from app.db.session import get_session_factory
-
-
 BASE_DIR = Path(__file__).resolve().parents[1]
+if str(BASE_DIR) not in sys.path:
+    sys.path.insert(0, str(BASE_DIR))
+
+try:
+    import yaml
+    from sqlalchemy import delete, select
+    from sqlalchemy.dialects.postgresql import insert
+    from sqlalchemy.ext.asyncio import AsyncSession
+
+    from app.db.models.auth import BillingWebhookEvent, Subscription, User, UserSession
+    from app.db.models.content import CalendarEvent, CalendarEventChange, CalendarReviewItem, Headline, HeadlineIndicatorLink
+    from app.db.models.demand import DemandSeries, DemandVertical
+    from app.db.models.indicators import Indicator, IndicatorDependency, IndicatorModule, ModuleSnapshotCache, SeasonalRange
+    from app.db.models.observations import AppEvent, Observation
+    from app.db.models.reference import AppModule, Commodity, CommodityUnitConvention, Geography, UnitDefinition
+    from app.db.models.sources import IngestArtifact, IngestRun, ReleaseDefinition, Source, SourceRelease
+    from app.db.session import get_session_factory
+except ModuleNotFoundError as exc:
+    raise SystemExit(
+        "Backend dependencies are not available in this interpreter. "
+        "Activate the backend virtualenv or run `.venv/bin/python scripts/seed_reference_data.py`."
+    ) from exc
+
 SEED_DIR = BASE_DIR / "seed"
 
 

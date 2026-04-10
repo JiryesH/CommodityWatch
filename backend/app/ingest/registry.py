@@ -16,6 +16,7 @@ from app.ingest.sources.fred.jobs import (
     fetch_demand_fred_new_residential_construction,
     fetch_demand_fred_traffic_volume_trends,
 )
+from app.ingest.sources.oecd.jobs import fetch_demand_oecd_cli
 from app.ingest.sources.ice_certified.jobs import fetch_ice_certified
 from app.ingest.sources.lme_warehouse.jobs import fetch_lme_warehouse
 from app.ingest.sources.usda_export_sales.jobs import fetch_demand_usda_export_sales
@@ -32,6 +33,7 @@ JOB_REGISTRY = {
     "demand_fred_new_residential_construction": fetch_demand_fred_new_residential_construction,
     "demand_fred_motor_vehicle_sales": fetch_demand_fred_motor_vehicle_sales,
     "demand_fred_traffic_volume_trends": fetch_demand_fred_traffic_volume_trends,
+    "demand_oecd_cli": fetch_demand_oecd_cli,
     "demand_usda_wasde": fetch_demand_usda_psd,
     "demand_usda_export_sales": fetch_demand_usda_export_sales,
     "demand_ember_monthly_electricity": fetch_demand_ember_monthly_electricity,

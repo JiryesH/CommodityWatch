@@ -1322,7 +1322,6 @@ Politeness:
 Applies to:
 
 - USDA reports when API tables are incomplete
-- OPEC MOMR summary pages or appendix tables if legally cleared
 - some weather products
 
 Recommendation:
@@ -1365,7 +1364,6 @@ Important: store schedules in source-local timezones. The UTC values below are t
 | ICE certified stocks scrape | Inventory | fixed | daily 17:00 ET | 21:00 UTC in EDT, 22:00 UTC in EST | coffee, cocoa, sugar, cotton |
 | ETF holdings scrape | Inventory | fixed | daily 20:00 ET | 00:00 UTC next day in EDT, 01:00 UTC in EST | GLD, IAU, SLV in one run |
 | SHFE warehouse scrape | Inventory | fixed | Fri 18:00 Asia/Shanghai | 10:00 UTC | weekly China metals job |
-| OPEC MOMR watch | Supply, Headline, Calendar | poll window | weekdays, 10th-18th of month | 07:00 UTC, then hourly until seen | page-watch job because release minute is not dependable |
 | UNICA / MPOB / CONAB watch | Supply, Headline, Calendar | poll window | expected release windows only | 10:00 UTC and 18:00 UTC | attachment-first, not aggressive scraping |
 | CPC 6-10 / 8-14 outlook archiver | Weather, Headline | poll window | daily | every 30 min from 12:00-22:00 UTC until new issue appears | archive images, then compute forecast-shift summary |
 | HDD / CDD daily ingest | Weather, Demand, Inventory | fixed | daily 08:00 ET | 12:00 UTC in EDT, 13:00 UTC in EST | daily actuals feed Weather first, then Demand/Inventory consumers |

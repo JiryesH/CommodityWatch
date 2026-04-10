@@ -273,6 +273,7 @@ function mapDemandMacroStripItem(item) {
     code: item.code,
     label: item.label,
     descriptor: item.descriptor,
+    sourceLabel: firstNonEmpty(item.source_label, item.source_name),
     value: firstNonEmpty(item.display_value, item.latest_period_label, "No live value"),
     change: firstNonEmpty(item.change_label, item.latest_period_label, "Awaiting next release"),
     trend: item.trend || "flat",
@@ -296,6 +297,7 @@ export function mapDemandScorecardItem(item) {
     supportedGroupIds: meta?.supportedGroupIds || [],
     scorecard: {
       label: firstNonEmpty(item.scorecard_label, "Demand signal"),
+      sourceLabel: firstNonEmpty(item.source_label, item.source_name),
       value: firstNonEmpty(item.display_value, "No live value"),
       yoyLabel: firstNonEmpty(item.yoy_label, "YoY unavailable"),
       yoyValue: item.yoy_value ?? null,
@@ -320,8 +322,10 @@ function mapDemandMoverItem(item) {
   return {
     id: `${item.vertical_id}:${item.code}`,
     verticalId: item.vertical_id,
+    tierKey: item.tier || null,
     tier: firstNonEmpty(item.tier_label, item.tier, "Tier"),
     title: item.title,
+    sourceLabel: firstNonEmpty(item.source_label, item.source_name),
     value: firstNonEmpty(item.display_value, "No live value"),
     change: firstNonEmpty(item.change_label, item.latest_period_label, "Awaiting next release"),
     surprise: firstNonEmpty(item.surprise_label, item.latest_period_label, "No active surprise flag"),
@@ -337,7 +341,9 @@ function mapIndicatorCard(indicator) {
   return {
     id: indicator.series_id || indicator.code,
     title: indicator.title,
+    tierKey: indicator.tier || null,
     tier: firstNonEmpty(indicator.tier_label, indicator.tier, "Tier"),
+    sourceLabel: firstNonEmpty(indicator.source_label, indicator.source_name),
     value: firstNonEmpty(indicator.display_value, "No live value"),
     change: firstNonEmpty(indicator.change_label, indicator.latest_period_label, "Awaiting next release"),
     detail: firstNonEmpty(
@@ -363,6 +369,8 @@ function mapIndicatorTableRow(row) {
   return {
     id: row.series_id || row.code,
     label: row.label,
+    tierKey: row.tier || null,
+    sourceLabel: firstNonEmpty(row.source_label, row.source_name),
     latest: firstNonEmpty(row.latest_display, "No live value"),
     change: firstNonEmpty(row.change_display, "-"),
     yoy: firstNonEmpty(row.yoy_display, "-"),
@@ -380,7 +388,9 @@ function mapCoveragePlaceholderCard(item) {
   return {
     id: item.series_id || item.code,
     title: firstNonEmpty(item.name, item.code, "Coverage gap"),
+    tierKey: item.tier || null,
     tier: tierLabel(item.tier || "coverage"),
+    sourceLabel: firstNonEmpty(item.source_label, item.source_name, item.source_slug),
     value: coverageLabel(status),
     change: coverageLabel(status),
     detail: coverageDetail(item),
@@ -403,6 +413,8 @@ function mapCoveragePlaceholderRow(item) {
   return {
     id: item.series_id || item.code,
     label: firstNonEmpty(item.name, item.code, "Coverage gap"),
+    tierKey: item.tier || null,
+    sourceLabel: firstNonEmpty(item.source_label, item.source_name, item.source_slug),
     latest: coverageLabel(status),
     change: "-",
     yoy: "-",
@@ -416,15 +428,71 @@ function mapCoveragePlaceholderRow(item) {
 
 function mapReleaseItem(item) {
   const scheduleLabel = formatReleaseStamp(item.scheduled_for);
+  const visibleNote = asArray(item.notes)
+    .map((note) => String(note || "").trim())
+    .find((note) => note && !/estimated|calendar-driven|confirm against calendarwatch/i.test(note));
 
   return {
+    releaseSlug: item.release_slug || null,
+    releaseName: item.release_name || null,
+    cadence: item.cadence || null,
     label: item.release_name,
-    value: scheduleLabel ? `${item.is_estimated ? "Estimated - " : ""}${scheduleLabel} UTC` : titleCase(item.cadence || "schedule pending"),
-    note: firstNonEmpty(
-      asArray(item.notes)[0],
-      item.source_name ? `${item.source_name} - ${titleCase(item.cadence || "release")}` : null,
-      "Release timing pending"
-    ),
+    value: scheduleLabel ? `${scheduleLabel} UTC` : titleCase(item.cadence || "schedule pending"),
+    note: firstNonEmpty(visibleNote, titleCase(item.cadence || "release")),
+    sourceLabel: firstNonEmpty(item.source_label, item.source_name, item.source_slug),
+    sourceUrl: item.source_url || null,
+    scheduledFor: item.scheduled_for || null,
+    isEstimated: Boolean(item.is_estimated),
+  };
+}
+
+export function mapDemandConceptDetail(detail) {
+  return {
+    generatedAt: detail.generated_at || null,
+    verticalId: detail.vertical_id,
+    verticalCode: detail.vertical_code,
+    verticalLabel: detail.vertical_label,
+    verticalShortLabel: detail.vertical_short_label,
+    seriesId: detail.series_id,
+    indicatorId: detail.indicator_id,
+    code: detail.code,
+    title: detail.title,
+    tierKey: detail.tier || null,
+    tier: firstNonEmpty(detail.tier_label, detail.tier, "Tier"),
+    sourceLabel: firstNonEmpty(detail.source_label),
+    sourceUrl: detail.source_url || null,
+    cadence: firstNonEmpty(detail.cadence, "Unknown"),
+    value: firstNonEmpty(detail.display_value, "No live value"),
+    change: firstNonEmpty(detail.change_label, null),
+    yoy: firstNonEmpty(detail.yoy_label, null),
+    trend: detail.trend || "flat",
+    freshness: firstNonEmpty(detail.freshness, "Unknown"),
+    freshnessState: detail.freshness_state || "unknown",
+    latestPeriodLabel: detail.latest_period_label || null,
+    latestReleaseDate: detail.latest_release_date || null,
+    latestVintageAt: detail.latest_vintage_at || null,
+    detail: firstNonEmpty(detail.detail, null),
+    history: asArray(detail.history).map((point) => ({
+      observationId: point.observation_id,
+      periodLabel: point.period_label,
+      periodEndAt: point.period_end_at,
+      releaseDate: point.release_date || null,
+      value: point.value,
+      displayValue: firstNonEmpty(point.display_value, "n/a"),
+      sourceUrl: point.source_url || null,
+    })),
+    observations: asArray(detail.observations).map((row) => ({
+      observationId: row.observation_id,
+      periodLabel: row.period_label,
+      periodEndAt: row.period_end_at,
+      releaseDate: row.release_date || null,
+      vintageAt: row.vintage_at,
+      displayValue: firstNonEmpty(row.display_value, "n/a"),
+      sourceLabel: firstNonEmpty(row.source_label),
+      sourceUrl: row.source_url || null,
+      observationKind: firstNonEmpty(row.observation_kind, null),
+    })),
+    calendar: asArray(detail.calendar).map(mapReleaseItem),
   };
 }
 
@@ -489,41 +557,6 @@ export function mapDemandVerticalDetail(detail, coverageNotes) {
   };
 }
 
-function buildHeroSummary(scorecardItems, coverageSummary) {
-  const counts = scorecardItems.reduce(
-    (accumulator, item) => {
-      const trend = item?.scorecard?.trend || "flat";
-      accumulator[trend] = (accumulator[trend] || 0) + 1;
-      return accumulator;
-    },
-    { up: 0, down: 0, flat: 0 }
-  );
-
-  let value = "Demand is mixed across the launch set.";
-  if (counts.up > 0 && counts.down === 0) {
-    value = counts.flat > 0 ? "Demand is firm where live coverage is deepest." : "Demand is improving across the launch set.";
-  } else if (counts.down > 0 && counts.up === 0) {
-    value = counts.flat > 0 ? "Demand is softening in part of the launch set." : "Demand is softening across the launch set.";
-  } else if (counts.up === 0 && counts.down === 0) {
-    value = "Demand is stable across the launch set.";
-  }
-
-  const statusCounts = coverageSummary?.status_counts || {};
-  const liveCount = Number.isFinite(statusCounts.live) ? statusCounts.live : 0;
-  const deferredCount = Number.isFinite(statusCounts.deferred) ? statusCounts.deferred : 0;
-  const blockedCount = Number.isFinite(statusCounts.blocked) ? statusCounts.blocked : 0;
-  const explicitGaps = deferredCount + blockedCount;
-
-  return {
-    label: "Current signal",
-    value,
-    copy:
-      liveCount || explicitGaps
-        ? `${liveCount} live series in the launch set, ${explicitGaps} explicit coverage gaps, freshness labelled on every release.`
-        : "Freshness and coverage metadata stay attached to every release.",
-  };
-}
-
 export function buildDemandWatchPageModel({
   macroStrip,
   scorecard,
@@ -542,17 +575,6 @@ export function buildDemandWatchPageModel({
       movers?.generated_at,
       null
     ),
-    hero: {
-      ...buildHeroSummary(mappedScorecard, coverageNotes?.summary),
-      stats: [
-        { label: "verticals", value: String(mappedScorecard.length || DEMAND_VERTICALS.length) },
-        { label: "signal tiers", value: String(DEMAND_TAXONOMY.length) },
-        {
-          label: "tracked series",
-          value: String(coverageNotes?.summary?.series_count || 0),
-        },
-      ],
-    },
     macroStrip: asArray(macroStrip?.items).map(mapDemandMacroStripItem),
     scorecard: mappedScorecard,
     movers: asArray(movers?.items).map(mapDemandMoverItem),

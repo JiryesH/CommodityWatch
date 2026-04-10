@@ -10,6 +10,7 @@ class DemandMacroStripItem(APIModel):
     code: str
     label: str
     descriptor: str | None = None
+    source_label: str | None = None
     latest_value: float | None = None
     unit_code: str | None = None
     unit_symbol: str | None = None
@@ -36,6 +37,7 @@ class DemandScorecardItem(APIModel):
     short_label: str
     sector: str
     scorecard_label: str
+    source_label: str | None = None
     latest_value: float | None = None
     unit_code: str | None = None
     unit_symbol: str | None = None
@@ -63,6 +65,7 @@ class DemandMoverItem(APIModel):
     title: str
     tier: str
     tier_label: str
+    source_label: str | None = None
     latest_value: float | None = None
     unit_code: str | None = None
     unit_symbol: str | None = None
@@ -95,6 +98,7 @@ class DemandIndicatorCard(APIModel):
     title: str
     tier: str
     tier_label: str
+    source_label: str | None = None
     latest_value: float | None = None
     unit_code: str | None = None
     unit_symbol: str | None = None
@@ -120,6 +124,7 @@ class DemandIndicatorTableRow(APIModel):
     label: str
     tier: str
     tier_label: str
+    source_label: str | None = None
     latest_value: float | None = None
     unit_code: str | None = None
     unit_symbol: str | None = None
@@ -175,6 +180,61 @@ class DemandVerticalDetailResponse(APIModel):
     sections: list[DemandVerticalSection]
     calendar: list[DemandNextReleaseItem]
     notes: list[str]
+
+
+class DemandConceptHistoryPoint(APIModel):
+    observation_id: str
+    period_label: str
+    period_end_at: datetime
+    release_date: datetime | None = None
+    value: float
+    display_value: str
+    source_url: str | None = None
+
+
+class DemandConceptObservationRow(APIModel):
+    observation_id: str
+    period_label: str
+    period_end_at: datetime
+    release_date: datetime | None = None
+    vintage_at: datetime
+    display_value: str
+    source_label: str | None = None
+    source_url: str | None = None
+    observation_kind: str
+
+
+class DemandConceptDetailResponse(APIModel):
+    generated_at: datetime
+    vertical_id: str
+    vertical_code: str
+    vertical_label: str
+    vertical_short_label: str
+    series_id: str
+    indicator_id: str
+    code: str
+    title: str
+    tier: str
+    tier_label: str
+    source_label: str | None = None
+    source_url: str | None = None
+    cadence: str
+    latest_value: float | None = None
+    unit_code: str | None = None
+    unit_symbol: str | None = None
+    display_value: str | None = None
+    change_label: str | None = None
+    yoy_label: str | None = None
+    trend: str
+    freshness: str
+    freshness_state: str
+    latest_period_label: str | None = None
+    latest_release_date: datetime | None = None
+    latest_vintage_at: datetime | None = None
+    detail: str | None = None
+    history: list[DemandConceptHistoryPoint]
+    observations: list[DemandConceptObservationRow]
+    calendar: list[DemandNextReleaseItem]
 
 
 class DemandIndicatorTableSection(APIModel):

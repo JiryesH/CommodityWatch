@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 
 import { buildDemandWatchPageModel, mapDemandScorecardItems, mapDemandVerticalDetail } from "../data.js";
 
-test("mapDemandVerticalDetail appends deferred and blocked indicators as placeholders", () => {
+test("mapDemandVerticalDetail appends deferred indicators as placeholders", () => {
   const detail = {
     id: "base-metals",
     code: "base_metals",
@@ -45,6 +45,7 @@ test("mapDemandVerticalDetail appends deferred and blocked indicators as placeho
             title: "Industrial production",
             tier: "t6_macro",
             tier_label: "T6 · Macro",
+            source_label: "Federal Reserve",
             display_value: "103.8",
             change_label: "+1.2% YoY",
             detail: "Latest revision preserved from FRED vintages.",
@@ -62,6 +63,7 @@ test("mapDemandVerticalDetail appends deferred and blocked indicators as placeho
             series_id: "live-series",
             code: "FRED_US_INDUSTRIAL_PRODUCTION",
             label: "Industrial production",
+            source_label: "Federal Reserve",
             latest_display: "103.8",
             change_display: "+0.2",
             yoy_display: "+1.2% YoY",
@@ -74,7 +76,7 @@ test("mapDemandVerticalDetail appends deferred and blocked indicators as placeho
       },
     ],
     calendar: [],
-    notes: ["Raw PMI numbers remain blocked."],
+    notes: ["China metals demand remains deferred pending republication review."],
   };
 
   const coverageNotes = {
@@ -89,7 +91,7 @@ test("mapDemandVerticalDetail appends deferred and blocked indicators as placeho
           live: 1,
           partial: 0,
           deferred: 1,
-          blocked: 1,
+          blocked: 0,
         },
         live: [],
         partial: [],
@@ -106,19 +108,7 @@ test("mapDemandVerticalDetail appends deferred and blocked indicators as placeho
             reasons: ["Direct republication terms remain unresolved."],
           },
         ],
-        blocked: [
-          {
-            series_id: "raw-pmi",
-            code: "SPGLOBAL_EUROZONE_MANUFACTURING_PMI_RAW",
-            name: "Eurozone manufacturing PMI",
-            tier: "t6_macro",
-            coverage_status: "blocked",
-            source_name: "S&P Global",
-            source_slug: "spglobal_pmi",
-            freshness_state: "stale",
-            reasons: ["Raw PMI values are off-limits without a licence."],
-          },
-        ],
+        blocked: [],
       },
     ],
   };
@@ -140,15 +130,10 @@ test("mapDemandVerticalDetail appends deferred and blocked indicators as placeho
         value: "Needs verification",
         placeholder: true,
       },
-      {
-        title: "Eurozone manufacturing PMI",
-        value: "Blocked",
-        placeholder: true,
-      },
     ]
   );
   assert.equal(gapSection.tableRows[0].latest, "Needs verification");
-  assert.equal(mapped.coverageLabel, "1 live / 1 deferred / 1 blocked");
+  assert.equal(mapped.coverageLabel, "1 live / 1 deferred");
 });
 
 test("buildDemandWatchPageModel orders scorecard items by launch vertical metadata", () => {
@@ -200,12 +185,12 @@ test("buildDemandWatchPageModel orders scorecard items by launch vertical metada
     coverageNotes: {
       summary: {
         vertical_count: 2,
-        series_count: 7,
+        series_count: 6,
         status_counts: {
           live: 5,
           partial: 0,
           deferred: 1,
-          blocked: 1,
+          blocked: 0,
         },
       },
       verticals: [],
@@ -215,7 +200,7 @@ test("buildDemandWatchPageModel orders scorecard items by launch vertical metada
 
   assert.deepEqual(pageModel.scorecard.map((item) => item.id), ["crude-products", "grains"]);
   assert.equal(pageModel.scorecard[0].accent, "var(--color-energy)");
-  assert.equal(pageModel.hero.stats[2].value, "7");
+  assert.equal(pageModel.hero, undefined);
 });
 
 test("mapDemandScorecardItems supplies fallback YoY labels when the backend omits them", () => {
@@ -241,4 +226,58 @@ test("mapDemandScorecardItems supplies fallback YoY labels when the backend omit
 
   assert.equal(items[0].scorecard.yoyLabel, "YoY unavailable");
   assert.equal(items[0].accent, "var(--color-natural-gas)");
+});
+
+test("mapDemandVerticalDetail keeps release source labels and strips estimated timing copy", () => {
+  const mapped = mapDemandVerticalDetail(
+    {
+      id: "grains",
+      code: "grains_oilseeds",
+      label: "Grains & Oilseeds",
+      nav_label: "Grains",
+      short_label: "Grains",
+      sector: "agriculture",
+      summary: "USDA demand signals remain current.",
+      scorecard: {
+        id: "grains",
+        code: "grains_oilseeds",
+        label: "Grains & Oilseeds",
+        nav_label: "Grains",
+        short_label: "Grains",
+        sector: "agriculture",
+        scorecard_label: "Corn total use",
+        source_label: "USDA PSD",
+        display_value: "14,890 mbu",
+        yoy_label: "+2.1% YoY",
+        trend: "flat",
+        latest_period_label: "Mar 2026",
+        freshness: "8d ago",
+        freshness_state: "fresh",
+        stale: false,
+        primary_series_code: "USDA_US_CORN_TOTAL_USE_WASDE",
+      },
+      facts: [],
+      sections: [],
+      calendar: [
+        {
+          release_name: "USDA WASDE Monthly Report",
+          source_name: "USDA OCE",
+          cadence: "monthly",
+          scheduled_for: "2026-04-09T16:00:00Z",
+          is_estimated: true,
+          source_url: "https://example.com/wasde",
+          notes: [
+            "Next release time is estimated from cadence or latest observed release.",
+            "Calendar-driven release; confirm against CalendarWatch before publication.",
+          ],
+        },
+      ],
+      notes: [],
+    },
+    { verticals: [] }
+  );
+
+  assert.equal(mapped.calendar[0].value, "Thu 09 Apr 16:00 UTC");
+  assert.equal(mapped.calendar[0].sourceLabel, "USDA OCE");
+  assert.equal(mapped.calendar[0].note, "Monthly");
 });
